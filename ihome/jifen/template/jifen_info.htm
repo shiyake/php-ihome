@@ -1,0 +1,45 @@
+<!--{template header}-->
+	<div class="exchange_" >
+		<h2 class="ex_title" style="text-align:center;width:100%"> 寄送/领取信息 </h2>
+			<ul class="bloglist" style="height:auto;">
+				<li style="width:100%;">
+                	<h3><a href="jifen.php?ac=show&id=$thevalue[id]">$thevalue[name]</a></h3>
+                    <div style="float:left;width:215px;">
+                        <div class="d_avatar" style="border:1px solid gray;padding:5px;"><a href="jifen.php?ac=show&id=$thevalue[id]" title="{$thevalue[name]}"><img src="$thevalue[pic]"  style="width:200px;height:200px;" /></a></div>
+                    </div>
+                    <div style="float:right;width:480px;">
+                    	<div style="float:left;width:50%">
+                            <!--{loop $jslist $key=>$value}-->
+                                <input type="radio" name="jslist" value="$key" onclick="setInfo('$value[name]','$value[tel]','$value[address]')"><b>$value[name]</b>&nbsp;&nbsp;$value[tel]&nbsp;&nbsp;$value[address]<br  />
+                            <!--{/loop}-->
+                            <form action="jifen.php?ac=$ac" method="post">
+                            	<font color="red"><b>请在个人资料或者此处填写您的正确联系信息，谢谢！</b></font><br /><br />
+                                <input type="hidden" name="lpid" value="$lpid" id="lpid" />
+                                <b>姓名：</b><input type="text" name="realname" value="$_SGLOBAL[member][name]" id="realname" /><br /><br />
+                                <b>电话：</b><input type="text" name="tel" value="$space[mobile]" id="tel" /><br /><br />
+                                <center><input type="image" src="jifen/images/dhButton.gif" onclick="return confirm('确认兑换？兑换将消费掉$thevalue[price]积分');" /></center>
+                            </form>
+                        </div>
+                    	<div style="float:right;width:45%;padding-right:10px;">
+                        	<b>所需积分:</b>$thevalue['price']
+                            <br />
+                            <!--{if $thevalue['mprice']}--><b>市场价:</b>$thevalue['mprice']元
+                            <br /><!--{/if}-->
+                            {$thevalue['sdate']}
+                            {$thevalue['edate']}
+                            <b>礼品描述:</b><br />
+                            {$summay}
+                        </div>
+                    </div>
+				</li>
+        </ul>
+	</div>
+
+<script>
+	function setInfo(realname,tel,address){
+		document.getElementById("realname").value=realname;
+		document.getElementById("tel").value=tel;
+		document.getElementById("address").value=address;
+	}
+</script>
+<!--{template footer}-->

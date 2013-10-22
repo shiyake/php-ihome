@@ -1,0 +1,48 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+<title>waplogin</title>
+</head>
+<body>
+<style>
+.header{
+	font-size:30px;
+	color:blue;
+}
+#password{
+	position:relative;
+	left:15px;
+}
+#bsubmit{
+	position:relative;
+	left:0px;
+}
+.footer{
+	font-size:10px;
+	color:grey;
+}
+</style>
+
+<div class="header">
+	<span>i北航墙</span>
+</div>
+
+<form action="wapgo.php" method="post" style="padding:10px 20px;" id="waploginform" name="waploginform">
+	<label for="name">用户名:</label>
+	<input type="text" name="username" id="name" value="" placeholder="name"/><br />
+	<label for="password">密码:</label>
+	<input type="password" name="password" id="password" value="" placeholder="password"/>
+	
+	<input type="hidden" name="refer" value="plugin/wallwap/source/towall.php" />
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<br />
+	<button type="submit" name="waploginsubmit" id="bsubmit">登入</button>
+</form>
+ 
+<div class="footer">
+	<span>i 北航（测试版） V1.3.1 <br /> 北京航空航天大学 网络信息中心 2012年
+	</span>
+</div>
+
+</body>
+</html>

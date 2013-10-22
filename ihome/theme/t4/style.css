@@ -1,0 +1,30 @@
+/*
+[name]菲菲小屋[/name]
+*/
+body { background: url(images/body_bg.gif) fixed repeat left top; color: #666; }
+#WebHead{ width:100%; height:33px; background:none; overflow:hidden;background: url(images/top_bg.jpg) repeat-x left top; }
+
+#wrap { padding: 10px; border: 5px solid #5D422E; border-top: none; border-bottom: none; background: #FFF; }
+#header { margin: auto; color: #CCC; width:990px;}
+.headerwarp { background: none; padding:0;float:left;width:100%;}
+#header a { color: #FFF; }
+#header .logo a { width: 137px; height: 33px;background: url(images/logo.png) no-repeat left center; overflow: hidden; display: block;}
+#header .logo a img { margin: -200px; }
+.login_thumb { background-image: url(images/login_bg.gif); }
+#ubar h2,
+#space_page .feed_header,
+#space_page .sidebox h2.title { padding: 0 10px; height: 30px; border-bottom: 1px solid #EBD8CF; background: #F8F2EF; line-height: 30px; }
+.ulist,
+ .tabs_header,
+ #space_page .feed li,
+ #space_page .comments_list li,
+ #footer { border-color: #EBD8CF; }
+.tabs_header ul.tabs li.active a,
+.tabs_header ul.tabs li.active a span,
+.tabs_header ul.tabs li a,
+.tabs_header ul.tabs li a span { background: none; }
+.ulist { background: #F8F2EF; }
+.tabs_header ul.tabs li a { border: 1px solid #EBD8CF; border-bottom: none; background: #F8F2EF; }
+.tabs_header { height: 31px; }
+.submit{background:none; color:#FF8E00;}
+#bg_pic{background:none;}

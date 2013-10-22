@@ -1,0 +1,615 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+<style>
+img{
+	border:none;
+}
+span{
+	margin-left:10px;	
+}
+#MsgActivatePage{
+	position: absolute;
+    z-index: 999;
+	margin:0 auto;
+	background:#FFF;
+	height: 400px;
+    width: 900px;
+	color: #999999;
+    font-size: 20px;
+}
+</style>
+<div class="active_frame">
+	<div class="active_space" id="inputbg" style="background-image:url(template/default/image/InputBG1.png)">
+		<div id="MsgActivatePage" style="display:none">
+			<img src="template/default/image/ing.jpg" alt="激活中" />
+        </div>
+		<div id="CardActivatePage" class="active_main" style="display:block">
+        	<h1>一卡通激活</h1>
+            此激活方式，非常适合<b>在校学生以及教职工</b>进行快速激活！<br />
+            点击快速激活后，将以<b>注册邮箱</b>为帐号，以<b>一卡通密码</b>为初始密码。</br>
+			<b>激活成功后请尽快修改密码以免账号被盗</b>
+            <div class="active_inputbox">
+            <form id="quickregisterform" name="quickregisterform" action="do.php?ac=$_SCONFIG[quickregister_action]" method="post">
+            	<div class="active_inputlist">
+                	<div class="active_inputtitle">学号/职工号</div>
+                    <input class="active_normal" name="quickcollegeid" type="text" id="quickcollegeid" value="" onblur="checkquickcollegeid()"/>
+                    <span id="checkquickcollegeid" style="width:200px;float:right;"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">一卡通密码</div>
+                    <input class="active_normal" type="password" name="quickpassword" id="quickpassword" value=""  onblur="checkquickpassword()"/>
+                    <span id="checkquickpassword"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">注册邮箱</div>
+                    <input class="active_normal" type="text" id="quickemail" name="quickemail" value="" onblur="checkquickemail()"/>
+                    <span id="checkquickemail"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">验证码</div>
+                    <input class="active_check" type="text" id="quickseccode" name="quickseccode" value="" onBlur="checkquickseccode()" autocomplete="off" />
+                    <script>activeseccode(1);</script>
+                    <span>
+						<a href="javascript:activeupdateseccode(1)">换一张</a>
+                    </span>
+                    <div class="active_checkseccode">
+                    	<span id="checkquickseccode"></span>
+                    </div>
+                </div>
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <input type="hidden" id="quickregistersubmit" name="quickregistersubmit" value="true" />
+                <input class="active_button" type="button" style="background-image:url(template/default/image/ButtonCard.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonCardPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonCard.png)'" id="activate" name="activate" onclick="document.quickregisterform.submit()"/>
+            </form>
+            </div>
+        </div>
+        <div id="MailActivatePage" class="active_main" style="display:none">
+        	<h1>邮箱激活</h1>
+			此激活方式，非常适合<b>有北航邮箱的在校学生以及教职工</b>进行激活！<br />
+            点击发送激活码后，您的北航邮箱将收到一封激活邮件，点击激活邮件完成注册即可。
+            <div class="active_inputbox">
+            <form id="activateform" name="activateform" action="do.php?ac=$_SCONFIG[activate_action]" method="post">
+            	<div class="active_inputlist">
+                	<div class="active_inputtitle">学号/职工号</div>
+                    <input class="active_normal" name="collegeid" type="text" id="collegeid" value="" onblur="checkcollegeid()"/>
+                    <span id="checkcollegeid" style="text-align:center;width:200px;float:right;"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">验证码</div>
+                    <input class="active_check"  type="text" id="emailseccode" name="emailseccode" value="" onBlur="checkemailseccode()" autocomplete="off"/>
+                    <script>activeseccode(2);</script>
+                    <span>
+						<a href="javascript:activeupdateseccode(2)">换一张</a>
+                    </span>
+                    <div class="active_checkseccode">
+                    	<span id="checkemailseccode"></span>
+                    </div>
+                </div>
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <input type="hidden" id="registersubmit" name="registersubmit" value="true" />
+                <input class="active_button" type="button" style="background-image:url(template/default/image/ButtonMail.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonMailPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonMail.png)'" id="quickactivate" name="quickactivate" onclick="document.activateform.submit()"/>
+            </form>
+            </div>
+        </div>
+        <div id="AlumnActivatePage" class="active_main" style="display:none">
+        	<h1>校友激活</h1>
+            其一为以姓名与生日的组合方式进行激活：<br />
+            点击提交后将提醒您接受<b>手机验证码</b>，验证成功之后，将以<b>您的邮箱</b>为帐号，以<b>生日</b>为初始密码。<br />
+			其二以姓名与手机邀请码的组合进行激活：<br />
+			点击提交后，将以<b>您的邮箱</b>为帐号，以<b>邀请码</b>为初始密码。<br />
+			<b>激活成功后请尽快修改密码以免账号被盗</b>
+            <div class="active_inputbox">
+            <form id="mobileregisterform" name="mobileregisterform" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=InviteCreate" method="post" class="activate_form">
+            	<div class="active_inputlist">
+                	<div class="active_inputtitle">您的姓名</div>
+                    <input class="active_normal" type="text" id="realname" name="realname" value="" onblur="checkrealname()"/>
+                    <span id="checkrealname"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">生日/邀请码</div>
+                    <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()"/>
+                    <span id="checkbirthday"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">您的邮箱</div>
+                    <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()"/>
+                    <span id="checkemail"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">校友类型</div>
+                    <input class="active_inputtitle" type="radio" id="alumtype" name="alumtype" value="inland" checked />国内
+                    <input class="active_inputtitle" type="radio" id="alumtype2" name="alumtype" value="overseas"  />国外
+                </div>
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <input type="hidden" name="mobileregajaxsubmit" id="mobileregajaxsubmit" value="ture" />
+                <input class="active_button" type="button" style="background-image:url(template/default/image/ButtonAlumn.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonAlumnPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonAlumn.png)'" id="mobileregistersubmit" name="mobileregistersubmit" onclick="CheckSubmitOrNo()"/>
+            </form>
+            </div>
+        </div>
+        <div id="FreshmanActivatePage" class="active_main" style="display:none">
+        	<h1>新生激活</h1>
+            此激活方式，仅适用于<b>当前年份</b>入学本科生，硕士研究生与博士研究生。<br />
+            激活后，将以<b>邮箱</b>作为帐号，以<b>生日</b>作为初始密码。<br />
+			<b>激活成功后请尽快修改密码以免账号被盗</b>
+            <div class="active_inputbox">
+            <form id="freshmanregisterform" name="freshmanregisterform" action="do.php?ac=$_SCONFIG[FreshmanRegister_Action]" method="post" class="activate_form"> 
+            	<div class="active_inputlist">
+                	<div class="active_inputtitle">姓名</div>
+                    <input class="active_normal" id="freshmanrealname" name="freshmanrealname" value="" onblur="checkfreshmanrealname()"/>
+                    <span id="checkfreshmanrealname"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">生日</div>
+                    <input type="password" class="active_normal" id="freshmanbirthday" name="freshmanbirthday" value="" onblur="checkfreshmanbirthday()"/>
+                    <span id="checkfreshmanbirthday"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">邮箱</div>
+                    <input class="active_normal" id="freshmanemail" name="freshmanemail" value="" onblur="checkfreshmanemail()"/>
+                    <span id="checkfreshmanemail"></span>
+                </div>
+                <div class="active_inputlist">
+                	<div class="active_inputtitle">验证码</div>
+                    <input class="active_check" type="text" id="freshmanseccode" name="freshmanseccode" value="" onBlur="checkfreshmanseccode()" autocomplete="off"/>
+                    <script>activeseccode(4);</script>
+                    <span>
+						<a href="javascript:activeupdateseccode(4)">换一张</a>
+                    </span>
+                    <div class="active_checkseccode">
+                    	<span id="checkfreshmanseccode"></span>
+                    </div>
+                </div>
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <input type="hidden" id="freshmanregistersubmit" name="freshmanregistersubmit" value="true" />
+                <input class="active_button" type="button" style="background-image:url(template/default/image/ButtonFresh.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonFreshPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonFresh.png)'" id="freshregistersubmit" name="freshregistersubmit" onclick="document.freshmanregisterform.submit()"/>
+            </form>
+            </div>
+        </div>
+  		<div id="CardActivateOn" class="active_img" style="display:none">
+        	<a href="javascript:menu(1);">
+        		<img src="template/default/image/CardDisa.png" alt="一卡通激活" width="220" height="94"/>
+            </a>
+        </div>
+        <div id="CardActivateOff" class="active_img" style="display:block">
+        	<img src="template/default/image/Card.png" alt="一卡通激活Activated" width="220" height="94"/>
+        </div>
+		<div class="active_null"></div>
+		<div id="MailActivateOn" class="active_img" style="display:block">
+        	<a href="javascript:menu(2);">
+        		<img src="template/default/image/MailDisa.png" alt="邮箱激活" width="220" height="94"/>
+			</a>
+        </div>
+        <div id="MailActivateOff" class="active_img" style="display:none">
+        	<img src="template/default/image/Mail.png" alt="邮箱激活Activated" width="220" height="94"/>
+        </div>
+		<div class="active_null"></div>
+		<div id="AlumnActivateOn" class="active_img" style="display:block">
+        	<a href="javascript:menu(3)";>
+        		<img src="template/default/image/AlumnDisa.png" alt="校友激活" width="220" height="94"/>
+			</a>
+        </div>
+		<div id="AlumnActivateOff" class="active_img" style="display:none">
+        	<img src="template/default/image/Alumn.png" alt="校友激活Activated" width="220" height="94"/>
+        </div>
+		<div class="active_null"></div>
+		<div id="FreshmanActivateOn" class="active_img" style="display:block">
+        	<a href="javascript:menu(4)";>
+        		<img src="template/default/image/FreshDisa.png" alt="新生激活" width="220" height="94"/>
+			</a>
+        </div>
+        <div id="FreshmanActivateOff" class="active_img" style="display:none">
+        	<img src="template/default/image/Fresh.png" alt="新生激活Activated" width="220" height="94"/>
+        </div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	var lastcollegeid = lastfreshmanseccode = lastalumnseccode = lastemailseccode = lastquickcollegeid = lastquickseccode = lastrealname = lastfreshmanrealname = lastbirthday =lastmobile = lastgetverifycode = lastinputverifycode = lastfreshmanbirthday = '';
+	menu(4);
+
+	function menu(n)
+	{
+		i1a=document.getElementById('CardActivateOn').style;
+		i2a=document.getElementById('MailActivateOn').style;
+		i3a=document.getElementById('AlumnActivateOn').style;
+		i4a=document.getElementById('FreshmanActivateOn').style;
+		i1b=document.getElementById('CardActivateOff').style;
+		i2b=document.getElementById('MailActivateOff').style;
+		i3b=document.getElementById('AlumnActivateOff').style;
+		i4b=document.getElementById('FreshmanActivateOff').style;
+		m1=document.getElementById('CardActivatePage').style;
+		m2=document.getElementById('MailActivatePage').style;
+		m3=document.getElementById('AlumnActivatePage').style;
+		m4=document.getElementById('FreshmanActivatePage').style;
+		m5=document.getElementById('MsgActivatePage').style;
+		ibg=document.getElementById('inputbg').style;
+		if(n==1)
+		{
+			i1b.display=i2a.display=i3a.display=i4a.display=m1.display='block';
+			i1a.display=i2b.display=i3b.display=i4b.display=m2.display=m3.display=m4.display=m5.display='none';
+			ibg.backgroundImage='url(template/default/image/InputBG1.png)';
+			activeupdateseccode(1);
+		}
+		if(n==2)
+		{
+			i1a.display=i2b.display=i3a.display=i4a.display=m2.display='block';
+			i1b.display=i2a.display=i3b.display=i4b.display=m1.display=m3.display=m4.display=m5.display='none';
+			ibg.backgroundImage='url(template/default/image/InputBG2.png)';
+			activeupdateseccode(2);
+		}
+		if(n==3)
+		{
+			i1a.display=i2a.display=i3b.display=i4a.display=m3.display='block';
+			i1b.display=i2b.display=i3a.display=i4b.display=m1.display=m2.display=m4.display=m5.display='none';
+			ibg.backgroundImage='url(template/default/image/InputBG3.png)';
+		}
+		if(n==4)
+		{
+			i1a.display=i2a.display=i3a.display=i4b.display=m4.display='block';
+			i1b.display=i2b.display=i3b.display=i4a.display=m1.display=m2.display=m3.display=m5.display='none';
+			ibg.backgroundImage='url(template/default/image/InputBG4.png)';
+			activeupdateseccode(4);
+		}
+	}
+
+	function checkcollegeid(){
+		var collegeid = $('collegeid').value;
+		if(collegeid == lastcollegeid){
+			return;
+		}else{
+			lastcollegeid = collegeid;
+		}
+		var cc = $('checkcollegeid');
+		var cclen = collegeid.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 3 || cclen > 15){
+			warning(cc, cclen < 3 ? '学号（职工号）小于3个字符' : '学号（职工号）超过 15 个字符');
+			return;
+		}
+		ajaxemailresponse('checkcollegeid', 'op=checkcollegeid&collegeid=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(collegeid) : collegeid));	
+	}
+
+	function checkquickseccode() {
+		var quickseccode = $('quickseccode').value;
+		if(quickseccode == lastquickseccode) {
+			return;
+		} else {
+			lastquickseccode = quickseccode;
+		}
+		ajaxquickresponse('checkquickseccode', 'op=checkquickseccode&quickseccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(quickseccode) : quickseccode));
+	}
+	
+	function checkemailseccode() {
+		var seccodeverify = $('emailseccode').value;
+		if(seccodeverify == lastemailseccode) {
+			return;
+		} else {
+			lastemailseccode = seccodeverify;
+		}
+		ajaxemailresponse('checkemailseccode', 'op=checkseccode&seccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeverify) : seccodeverify));
+	}
+		
+	function checkfreshmanseccode() {
+		var seccodeverify = $('freshmanseccode').value;
+		if(seccodeverify == lastfreshmanseccode) {
+			return;
+		} else {
+			lastfreshmanseccode = seccodeverify;
+		}
+		ajaxfreshmanresponse('checkfreshmanseccode', 'op=checkfreshmanseccode&freshmanseccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeverify) : seccodeverify));
+	}
+	
+	function checkquickcollegeid(){
+		var quickcollegeid = $('quickcollegeid').value;
+		if(quickcollegeid == lastquickcollegeid){
+			return;
+		}else{
+			lastquickcollegeid = quickcollegeid;
+		}
+		var cc = $('checkquickcollegeid');
+		var cclen = quickcollegeid.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 3 || cclen > 15){
+			warning(cc, cclen < 3 ? '学号（职工号）小于3个字符' : '学号（职工号）超过 15 个字符');
+			return;
+		}
+		ajaxquickresponse('checkquickcollegeid', 'op=checkquickcollegeid&quickcollegeid=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(quickcollegeid) : quickcollegeid));		
+	}
+	/*
+	function checkquickcollegeid(){
+		var quickcollegeid = $('quickcollegeid').value;
+		if(quickcollegeid == lastquickcollegeid){
+			return;
+		}else{
+			lastquickcollegeid = quickcollegeid;
+		}
+		var cc = $('checkquickcollegeid');
+		var cclen = quickcollegeid.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 3 || cclen > 15){
+			warning(cc, cclen < 3 ? '学号（职工号）小于3个字符' : '学号（职工号）超过 15 个字符');
+			return;
+		}
+		ajaxquickresponse('checkquickcollegeid', 'op=checkquickcollegeid&quickcollegeid=' + quickcollegeid));	
+	}
+	*/
+
+	function checkrealname(){
+		var realname = $('realname').value;
+		if(realname == lastrealname){
+			return;
+		}else{
+			lastrealname = realname;
+		}
+		var cc = $('checkrealname');
+		var cclen = realname.replace(/[^\x00-\xff]/g, "**").length;
+		//alert(cclen);
+		if(cclen < 4 || cclen > 14){
+			warning(cc, cclen < 4 ? '对不起，输入的名字不能小于2个字' : '对不起，输入名字不能超过7个字');
+			return;
+		}
+		ajaxresponse('checkrealname', 'op=checkrealname&realname=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(realname) : realname));
+	}
+
+	function checkfreshmanrealname(){
+		var freshmanrealname = $('freshmanrealname').value;
+		if(freshmanrealname == lastfreshmanrealname){
+			return;
+		}else{
+			lastfreshmanrealname = freshmanrealname;
+		}
+		var cc = $('checkfreshmanrealname');
+		var cclen = freshmanrealname.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 4 || cclen > 14){
+			warning(cc, cclen < 4 ? '对不起，输入的名字不能小于2个字' : '对不起，输入名字不能超过7个字');
+			return;
+		}
+		ajaxfreshmanresponse('checkfreshmanrealname', 'op=checkfreshmanrealname&freshmanrealname=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(freshmanrealname) : freshmanrealname));
+	}
+
+	function checkbirthday(){
+		var birthday = $('birthday').value;
+		var LengthOfBirthday = birthday.replace(/[^\d]/, "*").length;
+
+		if(LengthOfBirthday == 6)
+			{
+				ajaxresponse('checkbirthday', 'op=checkinvitecode&invitecode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(birthday) : birthday));
+			}
+		else
+			{
+				ajaxresponse('checkbirthday', 'op=checkbirthday&birthday=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(birthday) : birthday));
+			}
+	}
+
+	function checkfreshmanbirthday(){
+		var freshmanbirthday = $('freshmanbirthday').value;
+		if(freshmanbirthday == lastfreshmanbirthday){
+			return;
+		}else{
+			lastfreshmanbirthday = freshmanbirthday;
+		}
+		ajaxfreshmanresponse('checkfreshmanbirthday', 'op=checkfreshmanbirthday&freshmanbirthday=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(freshmanbirthday) : freshmanbirthday));
+	}
+
+	function CheckSubmitOrNo(){
+		var Birthday = $('birthday').value;		
+		var LengthOfBirthday = Birthday.replace(/[^\d]/, "*").length;
+
+		var alum = document.getElementsByName('alumtype');
+		for (var i = 0; i < alum.length; i++) {
+		if (alum[i].checked) {
+			if (alum[i].value == 'overseas') document.mobileregisterform.submit();
+			}
+		}
+
+		if(LengthOfBirthday == 6){
+			document.mobileregisterform.submit();
+		}
+		else{
+			AJAXrealnameANDbirthdayFETCHmobile(event, mobileregistersubmit.id, 1);
+		}
+	}
+
+	function checkemail(){
+		var email = $('email').value;
+		if(email.length!=0)
+		{
+			if (email.charAt(0)=='.' ||        
+				 email.charAt(0)=='@'||       
+				 email.indexOf('@', 0) == -1 || 
+				 email.indexOf('.', 0) == -1 || 
+				 email.lastIndexOf('@')==email.length-1 || 
+				 email.lastIndexOf('.')==email.length-1)
+			 {
+			  alert('Email的格式不正确！');
+			  $('email').focus();
+			  return false;
+			  }
+		   }
+		return false;
+		} 
+
+	function checkfreshmanemail(){
+		var freshmanemail = $('freshmanemail').value;
+		if(freshmanemail.length!=0)
+		{
+			if (freshmanemail.charAt(0)=='.' ||        
+				 freshmanemail.charAt(0)=='@'||       
+				 freshmanemail.indexOf('@', 0) == -1 || 
+				 freshmanemail.indexOf('.', 0) == -1 || 
+				 freshmanemail.lastIndexOf('@')==freshmanemail.length-1 || 
+				 freshmanemail.lastIndexOf('.')==freshmanemail.length-1)
+			 {
+			  alert('Email的格式不正确！');
+			  $('freshmanemail').focus();
+			  return false;
+			  }
+		   }
+		return false;
+		} 
+
+	function checkquickemail(){
+		var email = $('quickemail').value;
+		if(email.length!=0)
+		{
+			if (email.charAt(0)=='.' ||        
+				 email.charAt(0)=='@'||       
+				 email.indexOf('@', 0) == -1 || 
+				 email.indexOf('.', 0) == -1 || 
+				 email.lastIndexOf('@')==email.length-1 || 
+				 email.lastIndexOf('.')==email.length-1)
+			 {
+			  alert('Email的格式不正确！');
+			  $('quickemail').focus();
+			  return false;
+			  }
+		   }
+		return false;
+		} 
+			
+	function checkmobile()
+			{
+				var mobile = $('mobile').value;
+				if(mobile == lastmobile)
+					{
+						return;
+					}
+				else
+					{
+						lastmobile = mobile;
+
+					}
+				ajaxresponse('checkmobile', 'op=checkmobile&mobile=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(mobile) : mobile));
+			}
+
+	function checkgetverifycode()
+			{
+				var getverifycode = $('mobile').value;
+				if(getverifycode == lastgetverifycode)
+					{
+						return;
+					}
+				else
+					{
+						lastgetverifycode = getverifycode;
+					}
+				ajaxresponseformobile('checkgetverifycode', 'op=checkgetverifycode&mobile=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(getverifycode) : getverifycode));
+			}
+
+	function checkinputverifycode()
+			{
+				var inputverifycode = $('inputverifycode').value;
+				if(inputverifycode == lastinputverifycode)
+					{
+						return;
+					}
+				else
+					{
+						lastinputverifycode = inputverifycode;
+					}
+				ajaxresponse('checkinputverifycode', 'op=checkinputverifycode&inputverifycode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(inputverifycode) : inputverifycode));
+			}
+
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[mobileregister_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+
+	function ajaxquickresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		//alert(objname);
+		x.get('do.php?ac=$_SCONFIG[quickregister_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+
+	function ajaxemailresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[activate_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	
+	function ajaxresponseformobile(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[mobileregister_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('successfully') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">' + '验证码已经成功发送！';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+
+
+	function ajaxfreshmanresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[FreshmanRegister_Action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	
+	function warning(obj, msg) {
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+</script>
+<script type="text/javascript">
+jQuery.noConflict();
+(function ($) {
+	$(".active_button").live('click',function(){
+		m5=document.getElementById('MsgActivatePage').style;
+		m5.display='block';
+		/*
+		$('#CardActivatePage').attr("display","none");
+		$('#MailActivatePage').attr("display","none");
+		$('#AlumnActivatePage').attr("display","none");
+		$('#FreshmanActivatePage').attr("display","none");
+		$('#MsgActivatePage').attr("display","block");
+		*/
+		$('.active_button').attr("disabled","disabled");//将按钮设置为disabled
+		setTimeout(function() {
+			m5.display='none';
+			$('.active_button').removeAttr("disabled");//去除按钮的disabled属性
+		},60000);
+		
+
+	});
+})(jQuery)
+</script>
+<!--{template footer}-->

@@ -1,0 +1,197 @@
+<li class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
+	<div class="feed_li_avatar">
+	<a href="space.php?uid=$value[uid]"  title="访问 $_SN[$value[uid]] 的个人主页"><!--{avatar($value[uid],small)}--></a>
+	</div>
+	<div style="padding-left:5px;width:445px;overflow:hidden;font-size:14px;letter-spacing:1px;" {$value[style]}>
+		<!--{if $value[uid] && empty($_TPL[hidden_more])}-->
+		<a href="cp.php?ac=feed&op=menu&feedid=$value[feedid]" class="float_more" id="a_feed_menu_$value[feedid]"  onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);" onclick="ajaxmenu(event, this.id)" title="显示更多选项" style="display:none;">菜单</a>
+		<!--{/if}-->
+		  $value[title_template]
+		
+		<div class="feed_content">
+		
+			<!--{if empty($_TPL[hidden_hot]) && $value[hot]}-->
+			<!-- 热点 -->
+			<div class="hotspot"><a href="cp.php?ac=feed&feedid=$value[feedid]">$value[hot]</a></div>
+			<!--{/if}-->	
+		
+			<!--{if $value['image_1']}-->
+			<!-- 图片 -->
+			<a href="$value[image_1_link]"{$value[target]}><img src="$value[image_1]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $value['image_2']}-->
+			<a href="$value[image_2_link]"{$value[target]}><img src="$value[image_2]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $value['image_3']}-->
+			<a href="$value[image_3_link]"{$value[target]}><img src="$value[image_3]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $value['image_4']}-->
+			<a href="$value[image_4_link]"{$value[target]}><img src="$value[image_4]" class="summaryimg" /></a>
+			<!--{/if}-->
+			
+			<!--{if $value['body_template']}-->
+			<div id="blog_feed" class="detail"<!--{if $value['image_3']}--> style="clear: both;"<!--{/if}-->>
+				$value[body_template]
+			</div>
+			<!--{/if}-->
+			
+			<!--{if $value['body_general']}-->
+			<div class="quote"><span class="q">$value[body_general]</span></div>
+			<!--{/if}-->
+			<!--{if $value['body_data']['videourl']}-->	
+			<div class="feed_li_video">
+
+				<div class="feed_li_video_desc">
+					$value[body_data][desc]
+				</div>
+				<div class="feed_li_video_pic" style="display:block"> 
+					<img <!--{if $value['image_1']}--> src="$value[image_1]" <!--{else}--> src="image/video.png"<!--{/if}--> id="feed_li_pic_$value[id]" /> 
+					<span class="feed_li_video_pic_play"></span>
+				</div> 
+				<div class="feed_li_video_video" id="feed_li_video_video_$value[id]" style="display:none">
+					<div class="feed_li_video_hidden" >
+						<span class="floatleft" ><a href="#" >收起</a><!--<span class="pipe">|</span><a href="##">变量AD</a></span>-->
+					</div>
+				        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="440px" height="330px">
+					<param name="movie" value="ihome.swf">
+					<param name="quality" value="high">
+					<param name="allowFullScreen" value="true">
+					<param name="FlashVars" value="vcastr_file=$value[body_data][videourl]&LogoText=ihome&TextColor=0x0000FF" />
+					<embed src="ihome.swf" allowfullscreen="true" flashvars="vcastr_file=$value[body_data][videourl]&LogoText=ihome&TextColor=0x0000FF" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="440px" height="330px">
+					</embed>
+					</object>
+				</div>
+				<!--{if $value[body_data][video_comment]}-->
+				<div class="quote">
+					<span class="q">
+					$value[body_data][video_comment]
+					</span>
+				</div>
+				<!--{/if}-->
+			</div>
+			<script type="text/javascript">
+/*				jQuery.noConflict();
+				jQuery(function ($) {
+					$(".feed_li_video_pic img").click(function() {
+						$(this).parent().css("display","none");
+						$(this).parent().parent().find(".feed_li_video_video").css("display","block");
+					});
+					$(".feed_li_video_pic span").click(function() {
+						$(this).parent().css("display","none");
+						$(this).parent().parent().find(".feed_li_video_video").css("display","block");
+					});
+					$(".feed_li_video_hidden span a:eq(0)").click(function() {
+						$(this).parent().parent().parent().css("display","none");
+						$(this).parent().parent().parent().parent().find(".feed_li_video_pic").slideDown(500);
+					});
+				});
+*/
+				jQuery.noConflict();
+				jQuery(function ($) {
+					$(".feed_li_video_pic img").click(function() {
+						$(this).parent().css("display","none");
+						$(this).parent().parent().find(".feed_li_video_video").css("display","block");
+						$("html,body").animate({scrollTop:$(this).parent().parent().find(".feed_li_video_video").offset().top-30},1000);
+						$(this).parent().parent().find(".feed_li_video_video param[name=movie]").attr("value","ihome.swf");
+						$(this).parent().parent().find(".feed_li_video_video embed").attr("src","ihome.swf");
+					});
+					$(".feed_li_video_pic span").click(function() {
+						$(this).parent().css("display","none");
+						$(this).parent().parent().find(".feed_li_video_video").css("display","block");
+						$("html,body").animate({scrollTop:$(this).parent().parent().find(".feed_li_video_video").offset().top-30},1000);
+						$(this).parent().parent().find(".feed_li_video_video param[name=movie]").attr("value","ihome.swf");
+						$(this).parent().parent().find(".feed_li_video_video embed").attr("src","ihome.swf");
+					});
+					$(".feed_li_video_hidden span a:eq(0)").click(function() {
+						$(this).parent().parent().parent().css("display","none");
+						$(this).parent().parent().parent().parent().find(".feed_li_video_pic").show();
+						$("html,body").animate({scrollTop:$(this).parent().parent().parent().parent().find(".feed_li_video_pic").offset().top-30},800);
+						$(this).parent().parent().parent().find("param[name=movie]").attr("value","");
+						$(this).parent().parent().parent().find("embed").attr("src","");
+					});
+				});
+			</script>
+			<!--{/if}-->
+
+			<!--{if $value['thisapp'] && !empty($value['body_data']['flashvar'])}-->
+			<div class="media">
+				<img src="image/vd.gif" alt="点击播放" onclick="javascript:showFlash('{$value['body_data']['host']}', '{$value['body_data']['flashvar']}', this, '{$value['feedid']}');" style="cursor:pointer;" />
+			</div>
+			<!--{elseif $value['thisapp'] && !empty($value['body_data']['musicvar'])}-->
+			<div class="media">
+				<img src="image/music.gif" alt="点击播放" onclick="javascript:showFlash('music', '{$value['body_data']['musicvar']}', this, '{$value['feedid']}');" style="cursor:pointer;" />
+			</div>
+			<!--{elseif $value['thisapp'] && !empty($value['body_data']['flashaddr'])}-->
+			<div class="media">
+				<img src="image/flash.gif" alt="点击查看" onclick="javascript:showFlash('flash', '{$value['body_data']['flashaddr']}', this, '{$value['feedid']}');" style="cursor:pointer;" />
+			</div>
+			<!--{/if}-->
+
+		</div>
+		<!--{if empty($_TPL[hidden_time])}-->
+		<span class="gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
+		<!--{/if}-->
+		
+		<!--{if empty($_TPL[hidden_menu])}-->
+				<span class="floatright">		
+			<!--{if $value['idtype']=='doid'}-->
+				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]">回复($value['num'])</a>
+				<span class="pipe">|</span>
+				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]" >分享</a>
+				<!--{elseif $value[body_data][video_origin]}-->
+				<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]">评论($value['num'])</a>
+				<span class="pipe">|</span>
+				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]">分享</a>
+			<!--{elseif in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
+				<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]">评论($value['num'])</a>
+				<!--{if $value['idtype']=='sid'}-->
+				<span class="pipe">|</span>
+				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]" >分享</a>
+				<!--{/if}-->
+			<!--{/if}-->
+				</span>
+		<!--{/if}-->			
+	</div>
+	
+	<!--{if $value['idtype']=='doid'}-->
+	<div id="docomment_$value[id]" style="display:none;"></div>
+	<!--{elseif $value['idtype']}-->
+	<div id="feedcomment_$value[feedid]" style="display:none;"></div>
+	<!--{/if}-->
+	
+	<!--{if !empty($hiddenfeed_num[$value[icon]])}-->
+	
+	<div id="feed_more_$value[feedid]" style="display:none;">
+		<ol>
+		<!--{loop $hiddenfeed_list[$value[icon]] $appvalue}-->
+		<!--{eval $appvalue = mkfeed($appvalue);}-->
+		<li>
+		$appvalue[title_template]
+		<div class="feed_content" style="width:100%;overflow:hidden;">
+			<!--{if $appvalue['image_1']}-->
+			<a href="$appvalue[image_1_link]"{$appvalue[target]}><img src="$appvalue[image_1]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $appvalue['image_2']}-->
+			<a href="$appvalue[image_2_link]"{$appvalue[target]}><img src="$appvalue[image_2]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $appvalue['image_3']}-->
+			<a href="$appvalue[image_3_link]"{$appvalue[target]}><img src="$appvalue[image_3]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $appvalue['image_4']}-->
+			<a href="$appvalue[image_4_link]"{$appvalue[target]}><img src="$appvalue[image_4]" class="summaryimg" /></a>
+			<!--{/if}-->
+			<!--{if $appvalue['body_template']}-->
+			<div class="detail"<!--{if $appvalue['image_3']}--> style="clear: both;"<!--{/if}-->>
+				$appvalue[body_template]
+			</div>
+			<!--{/if}-->
+			<!--{if $appvalue['body_general']}-->
+			<div class="quote"><span class="q">$appvalue[body_general]</span></div>
+			<!--{/if}-->
+		</div>
+		</li>
+		<!--{/loop}-->
+		</ol>
+	</div>
+	<!--{/if}-->
+</li>

@@ -1,0 +1,134 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=jifen_pl"><span>浏览全部评论</span></a></li>
+		</ul>
+	</div>
+
+	<div class="bdrcontent">
+
+<!--{if "add" == $_GET['op'] || "edit" == $_GET['op']}-->
+<script language="javascript" src="image/editor/editor_function.js"></script>
+<script language="javascript" src="source/script_blog.js"></script>
+	<form method="post" action="admincp.php?ac=jifen_pl" enctype="multipart/form-data" onsubmit="return edit_save();">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:15em;">用户</th>
+				<td>$thevalue[username]</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">评分</th>
+				<td><input type="radio" name="score" value="10" <!--{if $thevalue[score]==10}-->checked<!--{/if}-->> 10分
+                <input type="radio" name="score" value="20" <!--{if $thevalue[score]==20}-->checked<!--{/if}-->> 20分
+                <input type="radio" name="score" value="30" <!--{if $thevalue[score]==30}-->checked<!--{/if}-->> 30分
+                <input type="radio" name="score" value="40" <!--{if $thevalue[score]==40}-->checked<!--{/if}-->> 40分
+                <input type="radio" name="score" value="50" <!--{if $thevalue[score]==50}-->checked<!--{/if}-->> 50分
+                <input type="radio" name="score" value="60" <!--{if $thevalue[score]==60}-->checked<!--{/if}-->> 60分
+                <input type="radio" name="score" value="70" <!--{if $thevalue[score]==70}-->checked<!--{/if}-->> 70分
+                <input type="radio" name="score" value="80" <!--{if $thevalue[score]==80}-->checked<!--{/if}-->> 80分
+                <input type="radio" name="score" value="90" <!--{if $thevalue[score]==90}-->checked<!--{/if}-->> 90分
+                <input type="radio" name="score" value="100" <!--{if $thevalue[score]==100}-->checked<!--{/if}-->> 100分</td>
+			</tr>
+			<tr>
+				<th>内容</th>
+				<td>
+                <a id="doodleBox" href="magic.php?mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor" style="display:none"></a>
+                <textarea class="userData" name="content" id="uchome-ttHtmlEditor"  rows="8" cols="80" style="display:none;">$thevalue[content]</textarea>
+				<iframe src="editor.php?charset=$_SC[charset]&allowhtml=$allowhtml&doodle=<!--{if isset($_SGLOBAL[magic][doodle])}-->1<!--{/if}-->" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:90%;border: 1px solid #C5C5C5;" height="200"></iframe>
+				</td>
+			</tr>
+			<tr>
+				<th>时间</th>
+				<td><!--{eval echo(date('Y-m-d H:i:s',$thevalue[time]));}--></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="id" value="$thevalue[id]" />
+		<input type="hidden" name="lpid" value="$thevalue[lpid]" />
+		<input type="submit" name="jifen_plsubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+<!--{else}-->
+<form method="get" action="admincp.php?ac=jifen_pl">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>用户</th><td><input type="text" name="username" value="$_GET[username]"></td>
+			<th>内容</th><td><input type="text" name="content" value="$_GET[content]"></td>
+		</tr>
+		<tr><th>结果排序</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">默认排序</option>
+		<option value="time"$orderby[time]>时间</option>
+		<option value="score"$orderby[score]>评分</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>递减</option>
+		<option value="asc"$ordersc[asc]>递增</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>每页显示20个</option>
+		<option value="50"$perpages[50]>每页显示50个</option>
+		<option value="100"$perpages[100]>每页显示100个</option>
+		</select>
+		<input type="hidden" name="ac" value="$ac">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+<form method="post" action="admincp.php?ac=$ac&perpage=$perpage&page=$page">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th width="10%">用户</th>
+				<th width="20%">礼品</th>
+				<th width="5%">评分</th>
+				<th>内容</th>
+				<th width="10%">时间</th>
+				<th width="80">操作</th>
+			</tr>
+			<!--{loop $list $key=>$value}-->
+			<tr>
+				<th><input type="checkbox" name="ids[]" value="$value[id]">$value[username]</th>
+				<td>$value[pname]</td>
+				<td>$value[score]</td>
+				<td>$value[content]</td>
+				<td><!--{if $value[time]}--><!--{eval echo(date('Y-m-d H:i:s',$value[time]))}--><!--{/if}--></td>
+				<td width="80">
+				<a href="admincp.php?ac=jifen_pl&op=edit&id=$value[id]">编辑</a> |
+				<a onclick="return confirm('确认删除？');" href="admincp.php?ac=jifen_pl&op=delete&id=$value[id]&lpid=$value[lpid]">删除</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选 &nbsp;&nbsp;
+		<input type="radio" name="del" value="1"> 删除
+		<input type="submit" name="listsubmit" value="提交" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

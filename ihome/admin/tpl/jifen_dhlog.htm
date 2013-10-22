@@ -1,0 +1,88 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=jifen_dhlog"><span>浏览全部兑换记录</span></a></li>
+		</ul>
+	</div>
+
+	<div class="bdrcontent">
+<form method="get" action="admincp.php">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>用户</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<tr><th>结果排序</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">默认排序</option>
+		<option value="time"$orderby[time]>时间</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>递减</option>
+		<option value="asc"$ordersc[asc]>递增</option>
+		</select>
+		<select name="perpage">
+		<option value="10"$perpages[10]>每页显示10个</option>
+		<option value="20"$perpages[20]>每页显示20个</option>
+		<option value="50"$perpages[50]>每页显示50个</option>
+		</select>
+		<input type="hidden" name="ac" value="$ac">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+<form method="post" action="admincp.php?ac=$ac">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th>用户名</th>
+				<th>礼品</th>
+				<th>电话</th>
+				<th>姓名</th>
+				<th width="200">兑换时间</th>
+				<th>领取与否</th>
+				<th width="80">操作</th>
+			</tr>
+			<!--{loop $list $key=>$value}-->
+			<tr>
+				<th><input type="checkbox" name="ids[]" value="$value[id]">$value[username]</th>
+				<td>$value[giftname]</td>
+				<td>$value[tel]</td>
+				<td>$value[name]</td>
+				<td width="200"><!--{if $value[time]}--><!--{eval echo(date('Y-m-d H:i:s',$value[time]))}--><!--{/if}--></td>
+				<td>
+				<!--{if $value[get]==0}-->
+				<a href="admincp.php?ac=jifen_dhlog&op=get&id=$value[id]">
+				<!--{/if}-->
+				<!--{eval echo($value[get]?'是':'否')}--></a></td>
+				<td width="80">
+				<a onclick="return confirm('确认删除？');" href="admincp.php?ac=jifen_dhlog&op=delete&id=$value[id]">删除</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选 &nbsp;&nbsp;
+		<input type="radio" name="del" value="1"> 删除
+		<input type="submit" name="listsubmit" value="提交" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

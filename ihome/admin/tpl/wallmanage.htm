@@ -1,0 +1,84 @@
+﻿<!--{template admin/tpl/header}-->
+<!--做的很丑,需要美化,2012年10月19日16:47:08 By Ancon -->
+
+<script language="javascript" type="text/javascript" src="source/script_calendar.js"></script>
+
+<div class="mainarea">
+<div class="maininner">
+	<div style="padding-top:20px;">
+		<div style="text-align:center;font-size:18px;font-weight:bold;letter-spacing:2px;height:30px;">足迹墙管理</div>
+		<form method="post" action="admincp.php?ac=wallmanage" enctype="multipart/form-data">
+			<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<table class="wallapply" align="center">
+				<tr>
+					<th>名称</th><td><input type="text" name="title" size="30" value="$ModWall['wallname']" /><font color=red>(限15字)</font></td>
+					<th>申请人UID</th><td><input type="text" name="uid" size="10" value="$ModWall['uid']" /></td>
+				</tr>
+				<tr>
+					<th>描述</th><td colspan="3" valign="middle"><textarea name="desc" rows="4" cols="80" >$ModWall['content']</textarea><font color=red>(限200字)</font></td>
+				</tr>
+				<tr>
+					<th>起始时间</th><td><input type="text" name="starttime" size="20" value="<!--{eval echo($ModWall[starttime]?date('Y-m-d H:i:s',$ModWall[starttime]):'')}-->" onclick="showcalendar(event, this, 1, '<!--{eval echo($ModWall[starttime]?date('Y-m-d H:i:s',$ModWall[starttime]):date('Y-m-d H:i:s'))}-->')" /></td>
+					<th>结束时间</th><td><input type="text" name="endtime" size="20" value="<!--{eval echo($ModWall[endtime]?date('Y-m-d H:i:s',$ModWall[endtime]):'')}-->" onclick="showcalendar(event, this, 1, '<!--{eval echo($ModWall[endtime]?date('Y-m-d H:i:s',$ModWall[endtime]):date('Y-m-d H:i:s'))}-->')" /></td>
+				</tr>
+				<tr>
+					<th>视频</th><td><input type="text" name="live" size="10" value="$ModWall['live']" /></td>
+					<th></th><td></td>
+				</tr>
+			</table>
+			</div>
+			<div class="footactions">
+				<input type="hidden" name="id" value="$ModWall[id]" />
+				<input type="submit" name="wallsubmit" value="提交" class="submit">
+			</div>
+
+		</form>
+	</div>
+	<div style="margin-top:20px;">
+		<form method="post" action="admincp.php?ac=$ac">
+		<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th>名称</th>
+					<th>描述</th>
+					<th>申请人</th>
+					<th>状态</th>
+					<th>视频</th>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th width="80">操作</th>
+				</tr>
+				<!--{loop $WallList $key=>$value}-->
+				<tr <!--{if !$value[pass]}-->style="background:red;color:#ffffff;"<!--{/if}-->>
+					<th><input type="checkbox" name="ids[]" value="$value[id]">$value[wallname]</th>
+					<td>$value[content]</td>
+					<td>{$_SN[$value[uid]]}</td>
+					<td><!--{if $value[pass]}--><a onclick="return confirm('确认取消通过？');" href="admincp.php?ac=$ac&op=verify&id=$value[id]&pass=0">通过</a><!--{else}--><a onclick="return confirm('确认通过？');" href="admincp.php?ac=$ac&op=verify&id=$value[id]&pass=1">未通过</a><!--{/if}--></td>
+					<td>$value[live]</td>
+					<td><!--{if $value[starttime]}--><!--{eval echo(date('Y-m-d H:i:s',$value[starttime]))}--><!--{/if}--></td>
+					<td><!--{if $value[endtime]}--><!--{eval echo(date('Y-m-d H:i:s',$value[endtime]))}--><!--{/if}--></td>
+					<td width="80">
+					<a href="admincp.php?ac=$ac&op=modwall&id=$value[id]">编辑</a> |
+					<a onclick="return confirm('确认删除？');" href="admincp.php?ac=$ac&op=delete&id=$value[id]">删除</a></td>
+				</tr>
+				<!--{/loop}-->
+			</table>
+		</div>
+		<div class="footactions">
+			<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选 &nbsp;&nbsp;
+			<input type="radio" name="del" value="1"> 删除 &nbsp;&nbsp;
+			<input type="submit" name="listsubmit" value="提交" class="submit">
+		</div>
+
+		</form>
+	</div>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

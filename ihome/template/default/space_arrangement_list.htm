@@ -1,0 +1,128 @@
+<!--{eval $_TPL['titles'] = array('校园日历');}-->
+
+<!--{template header}-->
+
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_blog" class="feed">
+		<h3 class="feed_header">
+			<a href="cp.php?ac=arrangement" class="r_option" target="_blank">发布新安排</a>
+			校园日历(共 $count 篇)
+		</h3>
+		<!--{if $count}-->
+		<ul class="line_list">
+		<!--{loop $list $value}-->
+			<li>
+				<span class="gray r_option"><!--{date('m-d H:i',$value[starttime],0)}--></span>
+				<h4><a href="space.php?uid=$space[uid]&do=arrangement&id=$value[arrangementid]" target="_blank" >$value[subject]</a></h4>
+				<div class="detail">
+					$value[message]
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div class="c_form">还没有相关的校园日历。</div>
+		<!--{/if}-->
+	</div>
+<!--{else}-->
+
+<div class="searchbar floatright">
+<form method="get" action="space.php">
+	<input name="searchkey" value="" size="15" class="t_input" type="text">
+	<input name="searchsubmit" value="搜索校园日历" class="submit" type="submit">
+	<input type="hidden" name="searchmode" value="1" />
+	<input type="hidden" name="do" value="arrangement" />
+	<input type="hidden" name="view" value="all" />
+</form>
+</div>
+<h2 class="title"><img src="image/app/blog.gif" />校园日历</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[all]><a href="space.php?do=$do&view=all"><span>所有校园日历</span></a></li>
+		<li$actives[schoolcalendar]><a href="space.php?do=$do&view=schoolcalendar"><span>校历信息</span></a></li>
+		<li$actives[lecture]><a href="space.php?do=$do&view=lecture"><span>讲座信息</span></a></li>
+		<li$actives[meeting]><a href="space.php?do=$do&view=meeting"><span>会议信息</span></a></li>
+		<li$actives[activity]><a href="space.php?do=$do&view=activity"><span>文体活动</span></a></li>
+		<li class="null"><a href="cp.php?ac=arrangement">发布新安排</a></li>
+	</ul>
+</div>		
+		
+<div id="content" style="width:540px;">
+	<div class="h_status">
+		时间范围：
+		<a href="space.php?do=arrangement&view=$_GET['view']&range=past"{$subactives[past]}>已结束的校园日历</a><span class="pipe">|</span>
+		<a href="space.php?do=arrangement&view=$_GET['view']&range=oneweek"{$subactives[oneweek]}>一周内的校园日历</a><span class="pipe">|</span>
+		<a href="space.php?do=arrangement&view=$_GET['view']&range=future"{$subactives[future]}>一周后的校园日历</a>
+	</div>
+	
+	<!--{if $searchkey}-->
+	<div class="h_status">以下是搜索到的校园日历 <span style="color:red;font-weight:bold;">$searchkey</span> 结果列表</div>
+	<!--{/if}-->
+	<!--{if $getdate}-->
+	<div class="h_status"><span style="color:red;font-weight:bold;">$_GET['date']</span> 的校园日历</div>
+	<!--{/if}-->
+	
+	<!--{if $count}-->
+	<div class="entry_list">
+		<ul>
+		<!--{loop $list $value}-->
+			<li>
+				<div class="avatardiv">
+					<div class="avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}"><!--{avatar($value[uid],small)}--></a></div>
+					<!--{if $value['replynum']}--><div class="digb">$value[replynum]</div><!--{/if}-->
+				</div>
+				
+				<div class="title">
+					<a href="cp.php?ac=share&type=arrangement&id=$value[arrangementid]" id="a_share_$value[arrangementid]" onclick="ajaxmenu(event, this.id, 1)" class="a_share">分享</a>
+					<h4><a href="space.php?do=$do&id=$value[arrangementid]" >$value[subject]</a></h4>
+					<div>
+					<span class="gray"><!--{date('Y-m-d H:i',$value[starttime],0)}--></span>
+					</div>
+				</div>
+				<div class="detail image_right l_text s_clear" id="blog_article_$value[arrangementid]">
+					<!--{if $value[pic]}--><p class="image"><a href="space.php?do=arrangement&id=$value[arrangementid]"><img src="$value[pic]" alt="$value[subject]" /></a></p><!--{/if}-->
+					$value[message]
+				</div>
+				<div class="gray">
+					<!--{if $value[viewnum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[arrangementid]">$value[viewnum] 次阅读</a><span class="pipe">|</span><!--{/if}-->
+					<!--{if $value[replynum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[arrangementid]#comment">$value[replynum] 个评论</a><!--{/if}-->
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	
+	<div class="page">$multi</div>
+	
+	<!--{else}-->
+	<div class="c_form">还没有相关的校园日历。</div>
+	<!--{/if}-->
+
+</div>
+
+<div id="sidebar" style="width:250px;">
+	<div class="sidebox">			
+		<h2 class="title">
+			<p class="r_option">
+				<a href="space.php?do=arrangement&view=$_GET['view']&range=all">全部</a>
+			</p>
+			日历
+		</h2>
+		<div class="calendarbox" id="arrangementcalendar"></div>
+	</div>
+	<script type="text/javascript" charset="$_SC[charset]">
+		function showcalendar(month){
+			var month = month ? "&month="+month : "";
+			ajaxget('cp.php?ac=arrangement&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->', 'arrangementcalendar');
+		}
+		showcalendar();
+	</script>
+
+	
+
+</div>
+
+<!--{/if}-->
+	
+<!--{template footer}-->

@@ -1,0 +1,417 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	<style type="text/css">
+	th {
+		text-align: right;
+	}
+	.listtable th{
+		text-align: center;
+	}
+	.listtable td{
+		text-align: center;
+	}
+	#official_msg,#mobile_msg,#up_uid_msg,#dept_uid_msg{color:#FF0000;padding-left:3px;}
+	</style>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[0]><a href="admincp.php?ac=$ac&type=appslist"><span>应用列表</span></a></li>
+			<li$actives[1]><a href="admincp.php?ac=$ac&type=appslist"><span>应用列表</span></a></li>
+			<li$actives[2]><a href="admincp.php?ac=$ac&type=api"><span>API列表</span></a></li>
+		</ul>
+	</div>
+		
+	<div style="margin-top:20px;">
+	<!--{if $type=='api'}-->
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=complains">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th width="100">用户UID</th>
+				  <td width="250">
+				  <input type="text" name="uid" id="uid" value="" size="10"><span id="dept_uid_msg">用户UID</span></td>
+				  <th width="100">姓名</th>
+				  <td width="300"><input type="text" id="uname" name="uname" value=""><span id="up_uid_msg">姓名</span></td>
+				</tr>
+				<tr>
+				  <th>诉求部门</th>
+				  <td><input type="text" name="message" id="message" value="" size="10"><span id="up_uid_msg">部门名称</span></td>
+				  <th>当前处理阶段</th>
+				  <td><input type="text" name="atuname" id="atuname" value=""><span id="official_msg">部门名称或领导姓名<span></td>
+				</tr>
+				<tr>
+				  <th>处理状况</th>
+				  <td>
+				  <select name="isreply">
+					<option value="3">==所有==</option>
+					<option value="2">未回复</option>
+					<option value="1">已回复</option>
+				  </select>
+				  </td>
+				  <th></th>
+				  <td></td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="complains">
+				  <input type="submit" name="submit" value="搜索" class="submit">
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>ID</th>
+			  <th>API名称</th>
+			  <th>API en name</th>
+			  <th>URL</th>
+			  <th>API简介</th>
+			  <th>当前状态</th>
+			  <th>操作</th>
+			</tr>
+			<!--{loop $apis $key=>$value}-->
+			<tr id="api_$value[id]"<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			  <td style="width:20px;">$value['iauthAPIid']</td>
+			  <td style="width:80px;">$value[name]</td>
+			  <td style="width:160px;">$value[iauthENname]</td>
+			  <td style="width:200px;">$value[url]</td>
+			  <td>$value[intro]</td>
+			  <td style="width:60px;">
+			  <select name="status_$value[id]" id="status_$value[id]" onChange="mod_status($value[id])">
+				<option value="disable" <!--{if $value[status]=='disable'}-->selected="selected"<!--{/if}-->>禁用</option>
+				<option value="debug" <!--{if $value[status]=='debug'}-->selected="selected"<!--{/if}-->>调试</option>
+				<option value="normal" <!--{if $value[status]=='normal'}-->selected="selected"<!--{/if}-->>正常</option>
+			  </select>
+			  </td>
+			  <td style="width:60px;"><a href="javascript:void(0);" onClick="deleteById($value[id])">删除</a></td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+<script type="text/javascript">
+var i = jQuery.noConflict();
+i(function () {
+
+})
+function deleteById(api_id){
+	i.ajax({
+		type: "GET",
+		url: "admincp.php?ac=$ac&type=api&op=delete",
+		data: {id:api_id},
+		success: function(data){
+			if(data != 0)
+				alert("删除成功!");
+				i("#api_" + api_id).remove();
+		}
+	});
+}
+function mod_status(api_id){
+	var status = i("#status_" + api_id).val();
+	i.ajax({
+		type: "GET",
+		url: "admincp.php?ac=$ac&type=api&op=mod",
+		data: {id:api_id ,status:status},
+		success: function(data){
+			if(data != 0){
+				alert("修改成功!");
+			}else{
+				alert("修改失败!");
+			}
+		}
+	});
+}
+</script>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{elseif $type=='appdetail'}-->
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=apps&type=appdetail" enctype="multipart/form-data">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+					<td width="144" align="right">应用中文名称:</td>
+					<td width="565" align="left"><input name="name" value="$name" /></td>
+				</tr>
+				<tr>
+					<td width="144" align="right">应用英文名称:</td>
+					<td width="565" align="left"><input name="iauth_name" value="$iauth_name" />第三方应用必填(数字,字母,下划线组成,小于48字符)</td>
+				</tr>
+				<tr>
+					<td align="right">logo:</td>
+					<td align="left"><img src="$logo" width=100 /></td>
+				</tr>
+				<tr>
+					<td align="right">修改logo:</td>
+					<td align="left"><input type="file" id="logo" name="logo" /></td>
+				</tr>
+				<tr>
+					<td align="right">所属分类:</td>
+					<td align="left">
+					<select name="category">
+					<option value="0" <!--{if $category==0}-->selected="selected"<!--{/if}-->>请选择</option>
+					<option value="1" <!--{if $category==1}-->selected="selected"<!--{/if}-->>校内应用</option>
+					<option value="2" <!--{if $category==2}-->selected="selected"<!--{/if}-->>站内应用</option>
+					<option value="3" <!--{if $category==3}-->selected="selected"<!--{/if}-->>第三方应用</option>
+				    </select>
+					</td>
+				</tr>
+				<!--{if $category==3}-->
+				<tr>
+					<td align="right">使用状态:</td>
+					<td align="left">
+					<label><input name="iauth_type" type="radio" value="WSC" <!--{if $iauth_type=='WSC'}-->checked="checked"<!--{/if}--> />Web Site Client</label>
+					<label><input name="iauth_type" type="radio" value="UAC" <!--{if $iauth_type=='UAC'}-->checked="checked"<!--{/if}--> />User Agent Client</label>
+					<label><input name="iauth_type" type="radio" value="RP" <!--{if $iauth_type=='RP'}-->checked="checked"<!--{/if}--> />Resource Provider</label>
+					</td>
+				</tr>
+				<!--{/if}-->
+				<!--{if $iauth_type!='RP'}-->
+				<tr>
+					<td align="right">应用URL:</td>
+					<td align="left"><textarea name="url" cols="60" rows="1">$url</textarea></td>
+				</tr>
+				<tr>
+					<td align="right">授权回调URL:</td>
+					<td align="left"><textarea name="app_url"  cols="60" rows="1">$app_url</textarea></td>
+				</tr>
+				<tr>
+					<td align="right">登录回调URL:</td>
+					<td align="left"><textarea name="back_url" cols="60" rows="1">$back_url</textarea></td>
+				</tr>
+				<tr>
+					<td align="right">应用描述:</td>
+					<td align="left"><textarea name="desc" cols="60" rows="3">$desc</textarea></td>
+				</tr>
+				<tr>
+					<td align="right">应用类型:</td>
+					<td align="left">
+					<select name="types">
+					<option value="0" <!--{if $types==0}-->selected="selected"<!--{/if}-->>请选择</option>
+					<option value="1" <!--{if $types==1}-->selected="selected"<!--{/if}-->>生活类</option>
+					<option value="2" <!--{if $types==2}-->selected="selected"<!--{/if}-->>科研类</option>
+					<option value="3" <!--{if $types==3}-->selected="selected"<!--{/if}-->>教学类</option>
+					<option value="4" <!--{if $types==4}-->selected="selected"<!--{/if}-->>人力资源类</option>
+					<option value="5" <!--{if $types==5}-->selected="selected"<!--{/if}-->>资产类</option>
+					<option value="6" <!--{if $types==6}-->selected="selected"<!--{/if}-->>生活服务类</option>
+					<option value="7" <!--{if $types==7}-->selected="selected"<!--{/if}-->>其他</option>
+				    </select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">使用对象:</td>
+					<td align="left">
+					<label><input name="undergraduate" type="checkbox" value="1" <!--{if $usertype & 8}-->checked="checked"<!--{/if}--> />本科生</label>
+					<label><input name="postgraduate" type="checkbox" value="1" <!--{if $usertype & 4}-->checked="checked"<!--{/if}--> />研究生</label>
+					<label><input name="teacher" type="checkbox" value="1" <!--{if $usertype & 2}-->checked="checked"<!--{/if}--> />教职工</label>
+					<label><input name="alumnus" type="checkbox" value="1" <!--{if $usertype & 1}-->checked="checked"<!--{/if}--> />校友</label>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">开始时间:</td>
+					<td align="left"><input name="starttime" value="$starttime" /></td>
+				</tr>
+				<tr>
+					<td align="right">结束时间:</td>
+					<td align="left"><input name="endtime" value="$endtime" /></td>
+				</tr>
+				<!--{/if}-->
+				<tr>
+					<td align="right">申请人:</td>
+					<td align="left">$applyuid</td>
+				</tr>
+				<tr>
+					<td align="right">申请时间:</td>
+					<td align="left">$applytime</td>
+				</tr>
+				<tr>
+					<td align="right">使用状态:</td>
+					<td align="left">
+					<label><input name="status" type="radio" value="disable" <!--{if $status=='disable'}-->checked="checked"<!--{/if}--> />disable</label>
+					<label><input name="status" type="radio" value="debug" <!--{if $status=='debug'}-->checked="checked"<!--{/if}--> />debug</label>
+					<label><input name="status" type="radio" value="normal" <!--{if $status=='normal'}-->checked="checked"<!--{/if}--> />normal</label>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">审核状态:</td>
+					<td align="left">
+					<label><input name="applypass" type="radio" value="0" <!--{if $applypass==0}-->checked="checked"<!--{/if}--> />尚未审核</label>
+					<label><input name="applypass" type="radio" value="1" <!--{if $applypass==1}-->checked="checked"<!--{/if}--> />审核通过</label>
+					<label><input name="applypass" type="radio" value="2" <!--{if $applypass==2}-->checked="checked"<!--{/if}--> />审核不通过</label>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">用户可见:</td>
+					<td align="left">
+					<label><input name="ishidden" type="radio" value="0" <!--{if $ishidden==0}-->checked="checked"<!--{/if}--> />可见</label>
+					<label><input name="ishidden" type="radio" value="1" <!--{if $ishidden==1}-->checked="checked"<!--{/if}--> />不可见</label>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">通知:</td>
+					<td align="left"><textarea name="notes" cols="60" rows="3"></textarea></td>
+				</tr>
+				<tr>
+				  <td colspan="2" style="text-align:center;">
+				  <input type="hidden" name="applyuid" value="$applyuid">
+				  <input type="hidden" name="appsid" value="$appsid">
+				  <input type="hidden" name="ac" value="apps">
+				  <input type="hidden" name="verify" value="1">
+				  <input type="hidden" name="type" value="appdetail">
+				  <input type="hidden" name="iauth_id" value="$iauth_id">
+				  <input type="submit" name="submit" value="提交" class="submit">
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+
+	<div class="footactions">
+	</div>
+	<!--{else}-->
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=apps&type=appslist">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th>审核状态</th>
+				  <td>
+				  <select name="applypass">
+					<option value="5">请选择</option>
+					<option value="0">尚未审核</option>
+					<option value="1">审核通过</option>
+					<option value="2">审核未通过</option>
+				  </select>
+				  </td>
+				  <th>所属分类</th>
+				  <td>
+				  <select name="category">
+					<option value="0">请选择</option>
+					<option value="1">校内应用</option>
+					<option value="2">站内应用</option>
+					<option value="3">第三方应用</option>
+				  </select>
+				  </td>
+				  <th>应用类型</th>
+				  <td>
+				  <select name="types">
+					<option value="1">教学类</option>
+					<option value="2">科研类</option>
+					<option value="3">财务类</option>
+					<option value="4">人力资源类</option>
+					<option value="5">资产类</option>
+					<option value="6">生活服务类</option>
+					<option value="7">其他</option>
+				  </select>
+				  </td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="apps">
+				  <input type="hidden" name="type" value="appslist">
+				  <input type="submit" name="submit" value="搜索" class="submit">
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>应用名称</th>
+			  <th>所属分类</th>
+			  <th>应用类型</th>
+			  <th>申请时间</th>
+			  <th>申请人</th>
+			  <th>用户可见</th>
+			  <th>是否审核</th>
+			  <th>操作</th>
+			</tr>
+			<!--{loop $apps $key=>$value}-->
+			<tr id="app_$value[id]"<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			  <td>$value[name]</td>
+			  <td>
+			  <!--{if $value[category]==1}-->
+			  校内应用
+			  <!--{elseif $value[category]==2}-->
+			  站内应用
+			  <!--{else}-->
+			  第三方应用
+			  <!--{/if}-->
+			  </td>
+			  <td>
+			  <!--{if $value[type]==1}-->生活类
+			  <!--{elseif $value[type]==2}-->科研类
+			  <!--{elseif $value[type]==3}-->教学类
+			  <!--{elseif $value[type]==4}-->人力资源类
+			  <!--{elseif $value[type]==5}-->资产类
+			  <!--{elseif $value[type]==6}-->生活服务类
+			  <!--{else}-->其他
+			  <!--{/if}--></td>
+			  <td>$value[applytime]</td>
+			  <td>$_SN[$value[applyuid]]</td>
+			  <td>
+			  <!--{if $value[ishidden]==0}-->
+			  可见
+			  <!--{else}-->
+			  不可见
+			  <!--{/if}-->
+			  </td>
+			  <td>
+			  <!--{if $value[applypass]==0}-->
+			  尚未审核
+			  <!--{elseif $value[applypass]==1}-->
+			  审核通过
+			  <!--{else}-->
+			  审核未通过
+			  <!--{/if}-->
+			  </td>
+			  <td>
+			  <a href="admincp.php?ac=apps&type=appdetail&appsid=$value[id]">详情</a>
+			  <a href="javascript:void(0);" onClick="deleteById($value[id])">删除</a>
+			  </td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+	<!--{/if}-->
+	</div>
+<script type="text/javascript">
+var i = jQuery.noConflict();
+i(function(){})
+function deleteById(app_id){
+	if(!confirm("删除后不可恢复~!确定要删除吗?")){
+		return false;
+	}
+	i.ajax({
+		type: "GET",
+		url: "admincp.php?ac=apps&type=appdetail&op=delete",
+		data: {id:app_id},
+		success: function(data){
+			if(data != 0)
+				alert("删除成功!");
+				i("#app_" + app_id).remove();
+		}
+	});
+}
+</script>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

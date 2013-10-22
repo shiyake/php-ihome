@@ -1,0 +1,149 @@
+<html>
+<head>
+	<title>oauth@ihome</title>
+	<style type="text/css">
+body
+{
+	margin:0px;
+	width:100%;
+	height:700px;
+	background-color:#DFE2E4;
+}
+
+.main
+{
+	width:100%;
+	
+	text-align:center;
+}
+
+.outer
+{
+	width:800px;
+	height:700px;
+	display:inline-block;
+	//background-color:green;
+}
+
+.outer .title .logo
+{
+	float:left;
+	position:relative;
+	left:20px;
+	top:0px;
+}
+
+.outer .title .name
+{
+	//clear:both;
+	position:relative;
+	left:280px;
+	top:5px;
+	color:#7F7F7F;
+}
+
+.outer .content
+{
+	background-color:white;
+	width:750px;
+	height:400px;
+	display:inline-block;
+	border-radius:10px 10px 10px 10px;
+	position:relative;
+	top:20px;
+	-moz-box-shadow:2px 2px 5px #444;             /* For Firefox3.6+ */
+	-webkit-box-shadow:2px 2px 5px #444;          /* For Chrome5+, Safari5+ */
+	box-shadow:2px 2px 5px #444;                  /* For Latest Opera */
+}
+
+.outer .app
+{
+	clear:both;
+	position:relative;
+	top:20px;
+	left:26px;
+	width:700px;
+	height:130px;
+	background-color:#FAFAFA;
+}
+
+.outer .app .applogo
+{
+	position:relative;
+	left:-250px;
+	top:5px;
+}
+
+.outer .app .appname
+{
+	position:relative;
+	top:-80px;
+	left:-130px;
+}
+
+.outer .showprivi
+{
+	clear:both;
+	position:relative;
+	top:40px;
+	text-align:left;
+}
+
+.outer .showprivi .textline
+{
+	position:relative;
+	left:30px;
+}
+
+.outer .showprivi ul
+{
+	position:relative;
+	left:30px;
+}
+
+.outer .content .form
+{
+	position:relative;
+	left:250px;
+	top:50px;
+}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="outer">
+			<div class="title">
+				<div class="logo"><a href="space.php" target="_blank"><img src="template/blue/image/logo.png" width="140" height="33"></a></div>
+				<div class="name">$space[name]</div>
+			</div>
+			<div class="content">
+				<div>
+					<div class="app">
+						<div class="applogo"><a href="$SourceAppUrl" target="_blank"><img src="$SourceAppLogo"></a></div>
+						<div class="appname"><a href="$SourceAppUrl" target="_blank">$SourceAppName</a></div>
+						<div class="friendinapp"></div>
+					</div>
+					<div class="showprivi">
+						<span class="textline">将允许<font color="blue">$SourceAppName</font>进行以下操作：</span>
+						<ul>
+							<!--{loop $Privi $key}-->
+							<li class="li_line">
+								<!--{eval echo $PriviWords[$key];}-->
+							</li>
+							<!--{/loop}-->
+						</ul>
+					</div>
+				</div>
+				<div class="form">
+					<form id="oauthform" name="oauthform" action="plugin/oauth/authorize.php" method="get">
+						<input type="hidden" name="token" value="$req_token" />
+						<input type="hidden" name="uid" value="$uid" />
+						<input type="hidden" name="choice" value="1" />
+						<input type="submit" id="submit" name="submit" value="连接" />
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

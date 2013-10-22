@@ -1,0 +1,139 @@
+<script type="text/javascript">
+	jQuery.noConflict();	
+	jQuery(function ($) {
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var showimg = $('#showimg');
+		var progress = $(".progress");
+		var files = $(".files");
+		var btn = $(".btn span");
+		$("#fileupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+		$("#fileupload").change(function(){
+			$("#myupload").ajaxSubmit({
+				dataType:  'json',
+				/*
+				beforeSend: function() {
+					showimg.empty();
+					progress.show();
+					var percentVal = '0%';
+					bar.width(percentVal);
+					percent.html(percentVal);
+					btn.html("上传中...");
+				},
+				uploadProgress: function(event, position, total, percentComplete) {
+					var percentVal = percentComplete + '%';
+					bar.width(percentVal);
+					percent.html(percentVal);
+				},
+				*/
+				success: function(data) {
+					var img = "$_SC['attachurl']"+data.pic;
+					var num = 12;
+					var name = data.name;
+					var picid = data.picid;
+					name = cut_string(name,num);
+					$("#datapicid").val(picid);
+					$("#datapicpath").val(data.pic);
+					showimg.html("<div class='triangle-isosceles top'><b>"+name+"</b> <img src='"+img+"' ><span class='delimg' rel='"+picid+"'>删除</span></div>");
+					btn.html("图片");
+				},
+				error:function(xhr){
+					btn.html("上传失败");
+					bar.width('0')
+					files.html(xhr.responseText);
+				}
+			});
+		});
+
+	jQuery(".delimg").live('click',function(){
+		var picid = $(this).attr("rel");
+		
+		$.get("cp.php?ac=upload&file=delete&type=pic",{ picid: picid },function(ancon){
+			if(ancon=='ok'){
+				$("#datapicid").val('');
+				$("#datapicpath").val('');				
+				showimg.empty();
+				$("#fileupload").val('');
+			}else{
+				alert("删除失败，刷新即可~");
+			}
+		});
+	});
+	
+	function cut_string(string,num){
+        var str = string.split('.');
+        var s_length = str.length;
+		var str_len = str[0].replace(/[^\x00-\xff]/g, "**").length;
+		if( str_len > num){
+			var content = str[0].substr(0,num);
+			return content+"..."+str[s_length-1];
+		}
+		else{
+			return string;
+		}        
+	}
+	
+	jQuery("#complain_img").live('click',function(){
+		var iscomplain = $("#complain").val();
+		var complain_img = $('#complain_img');
+		if(iscomplain == 0){
+			complain_img.html("<img src=\"image/status/complain2.png\" align=\"absmiddle\" />");
+			$("#complain").val('1');
+		}else{
+			complain_img.html("<img src=\"image/status/complain.png\" align=\"absmiddle\" />");
+			$("#complain").val('0');
+		}
+	});
+	jQuery("#new_function_msg_close").live('click',function(){
+		jQuery("#new_function_msg").css("display","none");
+	});
+});
+
+</script>
+
+<div id="mood_feed">
+	<form method="post" id="doingform" action="cp.php?ac=doing&view=$_GET[view]" >
+		<div class="mood_statement">
+			<div class="mood_say_something">
+				<div class="mood_say_statement">还可输入 <strong id="maxlimit">140</strong> 个字</div>
+			</div>			
+		</div>
+		<textarea class="mood_textarea" id="message" name="message" onkeyup="textCounter(this, 'maxlimit', 140)" onkeydown="ctrlEnter(event, 'add');"></textarea>
+		<div class="demo" >
+			<div class="btn">
+				<a href="#" id="doingface" onclick="showFace(this.id, 'message');return false;"><img src="image/status/face.png" align="absmiddle" title="插入表情"/></a>
+			</div>
+			<div class="btn">
+				<img src="image/status/uploadpic.png" align="absmiddle" />
+				<input id="fileupload" type="file" name="feedfile" title="插入图片">
+			</div>
+			<div class="btn">
+				<div id="complain_img"><img src="image/status/complain.png" /></div>
+				<input type="hidden" id="complain" name="complain" value="0" />
+			</div>
+			<div class="mood_submit">
+				<button type="submit" id="add" name="add" >发布</button>
+			</div>
+			<div class="progress">
+				<span class="bar"></span><span class="percent">0%</span >
+			</div>
+			<div class="files"></div>
+			<div id="showimg"></div>
+			<div id="new_function_msg" style="background:url('image/status/new_function_msg.png') no-repeat scroll;position:relative;padding:7px 4px 4px 4px;height:67px;width:232px;line-height:15px;z-index:999;top:-42px;left:70px;">
+				<div style="text-align:right;"><a href="javascript:void(0)" id="new_function_msg_close">关闭</a></div>
+				<div id="new_function_msg_cn" style="padding:2px;">
+				【温馨提示】发布状态时,如果@了学院或部门处室的公共主页,点击该按钮后再发布.您的状态将作为诉求发布.
+				</div>
+			</div>
+		</div>	
+		
+		<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+		<input type="hidden" name="addsubmit" value="true" />
+		<input type="hidden" name="refer" value="$theurl" />
+		<input type="hidden" name="topicid" value="$topicid" />
+		<input type="hidden" name="datapicid" id="datapicid" value="" />
+		<input type="hidden" name="datapicpath" id="datapicpath" value="" />
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>

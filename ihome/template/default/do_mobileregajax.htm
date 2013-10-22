@@ -1,0 +1,58 @@
+<!--{template header}-->
+	<div id="mobileregajax" name="mobileregajax" class="mobileregajax" >
+		<form id="mobileregajaxform" name="mobileregajax" method="post" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=create" >
+			<table cellspacing="0" cellpadding="3">
+				<tr>
+					<td>
+						<label for="mobile">请输入手机号：</label>
+					</td>
+					<td>
+						<input type="text" id="mobile" name="mobile" value="$bp[mobile]" onblur="checkmobile()">
+						<span id="checkmobile">
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="getverifycode">点击获取验证码：</label>
+					</td>
+					<td>
+						<input type="button" id="getverifycode" name="getverifycode" class="submit" value="点击此处获取" onclick="checkgetverifycode()" >
+						<span id="checkgetverifycode">
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="inputverifycode">请输入6位验证码：</label>
+					</td>
+					<td>
+						<input type="text" id="inputverifycode" name="inputverifycode" onblur="checkinputverifycode()">
+						<span id="checkinputverifycode">
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+						<input type="hidden" name="mobileregajaxsubmit" value="true" />
+						<input type="submit" id="mobileregajax_btn" name="mobileregajaxsubmit_btn" class="submit" value="点我开通">
+					</td>
+					<td>
+						<input type="hidden" name="username" value="$newusername" />
+					</td>
+					<td>
+						<input type="hidden" name="realname" value="$realname" />
+					</td>
+					<td>
+						<input type="hidden" name="password" value="$password" />
+					</td>
+					<td>
+						<input type="hidden" name="email" value="$email" />
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{template footer}-->

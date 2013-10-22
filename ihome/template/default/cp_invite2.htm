@@ -1,0 +1,354 @@
+<!--{template header}-->
+<script language="javascript">
+	var lastrealname = lastbirthday = lastemail = lastacademy = lastcollegeid = lastmobile = lastclass = lastunit = "";
+	//检查姓名，必填信息
+
+	
+	function checkrealname(){
+		
+		var realname = $('realname').value;
+		if(realname == lastrealname){
+			return;
+		}else{
+			lastrealname = realname;
+		}
+		var cc = $('checkrealname');
+		var cclen = realname.replace(/[^x00-\xff]/g,'**').length;
+		if(cclen < 4 || cclen > 14) {
+			warning(cc, cclen < 4? '对不起，名字不能小于2个字':'对不起，名字不能超过7个字');
+			return;
+		} 
+		else {
+			cc.style.display='';
+			cc.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+			cc.className = "warning";
+		}
+	}
+	
+	//检查生日信息
+	function checkbirthday(){
+		var birthday = $('birthday').value;
+		//正则表达式留给后台
+		if(birthday == lastbirthday){
+			return;
+		}else{
+			lastbirthday = birthday;
+		}
+		var cb = $('checkbirthday');
+		var cblen = birthday.replace(/[^0-9]/g,'*').length;
+		if(cblen != 8){
+			warning(cb, '生日信息必须为8位数字信息！');
+			return;
+		}
+		else{
+			cb.style.display = '';
+			cb.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+			cb.className = "warning";
+		}
+	}
+	
+	
+	//检查邮箱信息
+	function checkemail(){
+		
+		var email = $('email').value;
+		var ce = $('checkemail');		
+		if(email.length != 0){			
+			//正则表达式匹配留给后台
+			if (email.indexOf('.') == -1 || email.indexOf('@')== -1){
+				warning(ce, '邮箱格式错误，请重新输入！');
+				return;
+			}
+		}
+		else {
+				ce.style.display='';
+				ce.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				ce.className = "warning";
+			}		
+	}
+	
+	//检查学号信息
+	function checkcollegeid(){
+		var collegeid = $('collegeid').value;
+		//正则表达式交给后台
+		var cc = $('checkcollegeid');
+		var cclen = collegeid.replace(/[^\a-\z\A-\Z0-9]/g,'').length;
+		if(cclen != collegeid.length){
+			warning(cc, '学号格式不正确，请重新输入！');
+			return;
+		}else{
+			if(collegeid.length != 0){
+				cc.style.display = '';
+				cc.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				cc.className = "warning";
+			}
+		}
+	}
+	
+	//检查班号信息
+	function checkclass(){
+		var classes = $('class').value;
+		//正则表达式交给后台
+		var cc = $('checkclass');
+		var cclen = classes.replace(/[^\a-\z\A-\Z0-9]/g,'').length;
+		if(cclen != classes.length){
+			warning(cc, '班别格式不正确，请重新输入！');
+			return;
+		}else{
+			if(classes.length != 0){
+				cc.style.display = '';
+				cc.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				cc.className = "warning";
+			}
+		}
+	}
+	
+	//检查手机信息
+	function checkmobile(){
+		var mobile = $('mobile').value;
+		//正则表达式留给后台
+		var cb = $('checkmobile');
+		var cblen = mobile.replace(/[^0-9]/g,'*').length;
+		if(cblen != 11){
+			warning(cb, '手机信息必须为11位数字信息！');
+			return;
+		}
+		else{
+			cb.style.display = '';
+			cb.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+			cb.className = "warning";
+		}
+	}
+	
+	
+	//检查 单位信息
+	function checkunit(){
+		var unit = $('unit').value;
+		//正则表达式交给后台
+		var cu = $('checkunit');
+		var culen = unit.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.\ \#]/g,'').length;
+		if(culen != unit.length){
+			warning(cu, '单位名称格式不正确，请重新输入！');
+			return;
+		}else{
+			if(unit.length != 0){
+				cu.style.display = '';
+				cu.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				cu.className = "warning";
+			}
+		}
+	}
+	
+	//检查手机号
+	function checktelephone(){
+		var email = $('email').value;
+		var mobile = $('mobile').value;
+		var ce = $('checkemail');
+		var ct = $('checktelephone');
+		if(email.length == 0 && mobile.length == 0){
+			warning(ce, '邮箱或者手机信息至少需要一种联系方式');
+			warning(ct, '邮箱或者手机信息至少需要一种联系方式');
+			return;
+		}
+		if(mobile.length != 0){
+			//检测合法性到后台
+			ajaxresponse('checktelephone', 'op=checktelephone&mobile=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(mobile) : mobile));
+		}
+	}
+	
+	
+	
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		alert('22233');
+		x.get('cp.php?ac=invite2&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	function warning(obj, msg) {
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+</script>
+<!--{if $_GET['op'] == 'resend'}-->
+
+
+<!--{elseif $_GET['op'] == 'delete'}-->
+
+
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+<!--{else}-->
+
+<h2 class="title"><img src="image/icon/friend.gif">好友</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?uid=$space[uid]&do=friend"><span>好友列表</span></a></li>
+		<li><a href="cp.php?ac=friend&op=search"><span>查找好友</span></a></li>
+		<li><a href="cp.php?ac=friend&op=find"><span>好友推荐</span></a></li>
+		<li class="active"><a href="cp.php?ac=invite2"><span>邀请好友</span></a></li>
+		<li><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>
+		<li><a href="space.php?do=top"><span>排行榜</span></a></li>
+	</ul>
+</div>
+
+<div id="content">	
+	<form method="post" action="cp.php?ac=invite2" enctype="multipart/form-data" name="first">
+		
+			批量好友邀请：&nbsp;&nbsp;
+			<a href="http://localhost/ibuaa/ihome/plugin/invite/download/invite_friends.xls" target="_blanket">表格下载</a>
+			<br />
+			<label for="file">文件:</label>
+			<input type="file" name="file" id="file" /> 
+			
+			<input type="submit" id="upload" name="upload" value="上传" />
+			
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+            <br />
+            <br />
+			
+    </form>
+    <form method="post" action="cp.php?ac=invite2" name="invite">
+            下面是在线好友邀请
+		<table cellspacing="1" cellpadding="2" class="formtable" width="250px" border="0" id="myTable">
+
+            <tr>
+            	<td width="80px" bgcolor="#99CC99">名字(必填)</td>
+				<td width="150px" bgcolor="#99CC99"><input type="text" name="realname" id="name" style="width:140px" onblur="checkrealname()"/>
+				<span id="checkrealname">&nbsp;</span></td>
+          	</tr>
+            <tr>
+            	<td>性别</td>
+                <td>
+				<select name="sex" size="1">
+					<option value="男" selected>男</option>
+					<option value="女">女</option>
+				</td>
+            </tr>
+            <tr>
+            	<td bgcolor="#99CC99">生日</td>
+				<td bgcolor="#99CC99"><input type="text" id="birthday" name="birthday" style="width:140px" onblur="checkbirthday()"/>
+				<span id="checkbirthday">&nbsp;</span> &nbsp;19801231</td>
+            </tr>
+			<tr>
+            	<td>邮箱</td>
+                <td><input type="text" id="email" name="email" style="width:140px" onblur="checkemail()"/>
+                <span id="checkemail"></span></td>
+            </tr>
+			<tr>
+            	<td bgcolor="#99CC99">学院</td>
+                <td bgcolor="#99CC99">
+				<select name="academy" size="1">
+					<option value="材料科学与工程学院" selected>材料科学与工程学院</option>
+					<option value="电子信息工程学院">电子信息工程学院</option>
+					<option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+					<option value="能源与动力工程学院">能源与动力工程学院</option>
+					<option value="航空科学与工程学院">航空科学与工程学院</option>
+					<option value="计算机学院">计算机学院</option>
+					<option value="机械工程及自动化学院">机械工程及自动化学院</option>
+					<option value="经济管理学院">经济管理学院</option>
+					<option value="数学与系统科学学院">数学与系统科学学院</option>
+					<option value="生物与医学工程学院">生物与医学工程学院</option>
+					<option value="人文社会科学学院（公共管理学院）">人文社会科学学院（公共管理学院）</option>
+					<option value="外国语学院">外国语学院</option>
+					<option value="交通科学与工程学院">交通科学与工程学院</option>
+					<option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+					<option value="宇航学院">宇航学院</option>
+					<option value="飞行学院">飞行学院</option>
+					<option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+					<option value="软件学院">软件学院</option>
+					<option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+					<option value="法学院">法学院</option>
+					<option value="高等工程学院">高等工程学院</option>
+					<option value="中法工程师学院">中法工程师学院</option>
+					<option value="国际学院">国际学院</option>
+					<option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+					<option value="化学与环境学院">化学与环境学院</option>
+					<option value="思想政治理论学院">思想政治理论学院</option>
+				</select></td>
+            </tr>
+			<tr>
+            	<td bgcolor="#99CC99">入学年份</td>
+                <td bgcolor="#99CC99"><input type="text" id="startyear" name="startyear" style="width:140px" onblur="checkclass()"/>
+                <span id="checkclass"></span>&nbsp;2001</td>
+            </tr>
+            <tr>
+            	<td bgcolor="#FFFFFF">学号</td>
+				<td bgcolor="#FFFFFF"><input type="text" id="collegeid" name="collegeid" style="width:140px" onblur="checkcollegeid()"/>
+              	<span id="checkcollegeid"></span></td>
+            </tr>
+			<tr>
+            	<td bgcolor="#99CC99">班别</td>
+                <td bgcolor="#99CC99"><input type="text" id="class" name="class" style="width:140px" onblur="checkclass()"/>
+                <span id="checkclass"></span></td>
+            </tr>
+			<tr>
+            	<td bgcolor="#FFFFFF">手机</td>
+                <td bgcolor="#FFFFFF"><input type="text" id="mobile" name="mobile" style="width:140px" onblur="checkmobile()"/>
+                <span id="checkmobile"></span></td>
+            </tr>
+			<tr>
+            	<td bgcolor="#99CC99">现所在单位</td>
+                <td bgcolor="#99CC99"><input type="text" id="unit" name="unit" style="width:140px" onblur="checkunit()"/>
+                <span id="checkunit"></span></td>
+            </tr>
+            
+		</table>
+		<table>
+			<tr>
+				<input type="submit" id="all" name="all" value="确定上述信息，并上传"  >                
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td id="__inviteform" style="color:red; font-weight:bold;"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>	
+
+
+	
+  <script type="text/javascript" src="http://widgets.manyou.com/misc/scripts/ab.js" charset="utf-8"></script>
+	
+</div>
+
+<div id="sidebar">
+		
+		<div class="sidebox">
+			<h2 class="title">已邀请好友</h2>
+			<!--{if count($flist) < 24}-->
+			<ul class="avatar_list">
+				<!--{loop $flist $key $value}-->
+				<li>
+					<div class="avatar48"><a href="space.php?uid=$value[fuid]&do=doing"><!--{avatar($value[fuid],small)}--></a></div>
+					<p><a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a></p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<!--{else}-->
+			<div>
+			<!--{eval $mod='';}-->
+			<!--{loop $flist $key $value}-->
+			$mod<a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a>
+			<!--{eval $mod='、';}-->
+			<!--{/loop}-->
+			</div>
+			<!--{/if}-->
+		</div>
+
+		<!--{if $maillist}-->
+		
+		<!--{/if}-->
+</div>
+<!--{/if}-->
+<!--{template footer}-->

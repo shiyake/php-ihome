@@ -1,0 +1,169 @@
+<!--{eval $_TPL['titles'] = array($arrangement['subject'], '校园日历');}-->
+<!--{template header}-->
+<script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
+
+<h2 class="title"><img src="image/app/blog.gif" />校园日历</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有校园日历</span></a></li>
+		<li<!--{if $arrangement['classid']==1}--> class="active"<!--{/if}-->><a href="space.php?uid=$space[uid]&do=$do&view=schoolcalendar"><span>校历信息</span></a></li>
+		<li<!--{if $arrangement['classid']==2}--> class="active"<!--{/if}-->><a href="space.php?uid=$space[uid]&do=$do&view=lecture"><span>讲座信息</span></a></li>
+		<li<!--{if $arrangement['classid']==3}--> class="active"<!--{/if}-->><a href="space.php?uid=$space[uid]&do=$do&view=meeting"><span>会议信息</span></a></li>
+		<li<!--{if $arrangement['classid']==4}--> class="active"<!--{/if}-->><a href="space.php?uid=$space[uid]&do=$do&view=activity"><span>文体活动</span></a></li>
+		<li class="null"><a href="cp.php?ac=arrangement">发表新安排</a></li>
+	</ul>
+	<!--{if $_SGLOBAL[refer]}-->
+	<div class="r_option">
+		<a  href="$_SGLOBAL[refer]">&laquo; 返回上一页</a>
+	</div>
+	<!--{/if}-->
+</div>
+
+<script type="text/javascript" charset="$_SC[charset]" src="source/script_calendar.js"></script>
+
+<div class="entry" style="padding:0 0 10px;">
+
+	<div class="title">
+		<h1 id="blog_title" >$arrangement[subject]</h1>
+		<span class="gray"><!--{date('Y-m-d H:i',$arrangement[starttime],0)}--></span>&nbsp; <!--{if $arrangement[viewnum]}--><span class="gray">已有 $arrangement[viewnum] 次阅读</span><!--{/if}-->
+		
+		
+		
+		<span style="float:right;padding:0px;">
+			<script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+			<a align="right"  name="xn_share" onclick="shareClick()" type="button" href="javascript:;"></a>
+			<script type="text/javascript">
+			function shareClick() {
+				//coding by Lv
+				var rrShareParam = {
+					resourceUrl : document.URL,	//分享的资源Url
+					pic : '',		//分享的主题图片Url
+					title : document.getElementById('blog_title').innerText,		//分享的标题
+					description : document.getElementById('blog_article').innerText	//分享的详细描述
+				};
+
+				rrShareOnclick(rrShareParam);
+			}
+			</script>
+		</span>
+
+
+
+
+	</div>
+
+
+	<div id="blog_article" class="article ">
+		<div class="resizeimg">
+			<div class="resizeimg2">
+			<div class="resizeimg3">
+			<div class="resizeimg4">
+			<!--{if $_SGLOBAL['ad']['rightside']}-->
+			<div style="float: right; padding:5px;"><!--{ad/rightside}--></div>
+			<!--{/if}-->
+			$arrangement[message]
+			</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="padding:0 0 10px;">
+	<div style="text-align: right; padding-top:10px; padding-right:10px;">
+		<a href="cp.php?ac=share&type=arrangement&id=$arrangement[arrangementid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)" class="a_share">分享</a>
+
+		<!--{if $_SGLOBAL[supe_uid] == $arrangement[uid] || checkperm('manageblog')}-->
+		<a href="cp.php?ac=arrangement&arrangementid=$arrangement[arrangementid]&op=edit">编辑</a><span class="pipe">|</span>
+		<a href="cp.php?ac=arrangement&arrangementid=$arrangement[arrangementid]&op=delete" id="arrangement_delete_$arrangement[arrangementid]" onclick="ajaxmenu(event, this.id)">删除</a><span class="pipe">|</span>
+		<!--{/if}-->
+		<a href="cp.php?ac=common&op=report&idtype=arrangementid&id=$arrangement[arrangementid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+	</div>
+
+</div>
+
+<div id="content">
+
+	<div class="comments" id="div_main_content">
+		<h2>
+			<!--{if !$arrangement[noreply]}-->
+			<a href="#quickcommentform_{$id}" class="r_option">发表评论</a>
+			<!--{/if}-->
+			评论 (<span id="comment_replynum">$arrangement[replynum]</span> 个评论)</h2>
+		<div class="page">$multi</div>
+		<div class="comments_list" id="comment">
+			<!--{if $cid}-->
+			<div class="notice">
+				当前只显示与你操作相关的单个评论，<a href="space.php?uid=$arrangement[uid]&do=arrangement&id=$arrangement[arrangementid]">点击此处查看全部评论</a>
+			</div>
+			<!--{/if}-->
+			<ul id="comment_ul">
+			<!--{loop $list $value}-->
+				<!--{template space_comment_li}-->
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<div class="page">$multi</div>
+
+		<!--{if !$arrangement[noreply]}-->
+		<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">
+
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<a href="###" id="comment_face" title="插入表情" onclick="showFace(this.id, 'comment_message');return false;"><img src="image/facelist.gif" align="absmiddle" /></a>
+						<br />
+						<textarea id="comment_message" class="t_input" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="width:500px;" onfocus="at()"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="hidden" name="refer" value="space.php?uid=$arrangement[uid]&do=$do&id=$id" />
+						<input type="hidden" name="id" value="$id">
+						<input type="hidden" name="idtype" value="arrangementid">
+						<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+						<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+						<input type="hidden" name="commentsubmit" value="true" />
+						<input type="button" id="commentsubmit_btn" name="commentsubmit_btn" class="submit" value="评论" onclick="ajaxpost('quickcommentform_{$id}', 'comment_add')" />
+						<div id="__quickcommentform_{$id}"></div>
+					</td>
+				</tr>
+			</table>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
+		<br />
+		<!--{/if}-->
+	</div>
+
+</div>
+
+
+<div id="sidebar" style="padding-top:20px;">
+
+	<!--{if $otherlist}-->
+	<div class="sidebox">
+		<h2 class="title">
+			<a href="space.php?uid=$arrangement[uid]&do=arrangement&view=all" class="r_option">全部</a>
+			作者的其他最新校园日历
+		</h2>
+		<ul class="news_list">
+			<!--{loop $otherlist $value}-->
+			<li style="height:auto;"><a href="space.php?uid=$value[uid]&do=arrangement&id=$value[arrangementid]">$value[subject]</a> <!--{date('Y-m-d H:i',$value[starttime],0)}--></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+
+	<!--{if $hotlist}-->
+	<div class="sidebox">
+	<h2 class="title">热门校园日历</h2>
+		<ul class="news_list">
+			<!--{loop $hotlist $value}-->
+			<li style="height:auto;"><a href="space.php?uid=$value[uid]&do=arrangement&id=$value[arrangementid]">$value[subject]</a> <!--{date('Y-m-d H:i',$value[starttime],0)}--></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+	
+</div>
+
+<!--{template footer}-->

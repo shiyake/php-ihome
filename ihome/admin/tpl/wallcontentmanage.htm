@@ -1,0 +1,50 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	<div style="text-align:center;font-size:18px;font-weight:bold;letter-spacing:2px;height:30px;padding-top:20px;"><font color="blue">$WallTitle</font> 内容管理</div>
+	<div style="float:right;padding-right:20px;font-size:14px;height:30px;overflow:hidden;clear:both;"><a href="plugin.php?pluginid=wall&ac=screen&wallid=$WallId" target="_blank">投影至大屏幕</a></div>
+	<div style="margin-top:20px;clear:both;">
+		<form method="post" action="admincp.php?ac=$ac">
+		<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th width="30"></th>
+					<th width="60" align="right">发布人</th>
+					<th width="580">内容</th>
+					<th>状态</th>
+					<th width="80">操作</th>
+				</tr>
+				<!--{loop $WallRecList $key=>$value}-->
+				<tr <!--{if !$value[pass]}-->style="background:#ccc;color:black;"<!--{/if}-->>
+					<th><input type="checkbox" name="ids[]" value="$value[id]"></th>
+					<td><a href="space.php?uid=$value[uid]" target="_blank"><!--{avatar($value[uid],small)}--></a></td>
+					<td><a href="space.php?uid=$value[uid]" target="_blank">$_SN[$value[uid]]:</a> $value[message]	&nbsp;&nbsp;<span class="gray"><!--{date('m-d H:i',$value[timeline],1)}--></span></td>
+					<td><!--{if $value[pass]}--><a onclick="return confirm('确认取消通过？');" href="admincp.php?ac=$ac&op=verify&id=$value[id]&flag=$value[pass]">通过</a><!--{else}--><a href="admincp.php?ac=$ac&op=verify&id=$value[id]&flag=$value[pass]">未通过</a><!--{/if}--></td>
+					<td width="80">
+					<!--{if !$vlaue[pass]}--><a href="admincp.php?ac=$ac&op=verify&id=$value[id]&flag=0">审核</a> |<!--{/if}-->
+					<a onclick="return confirm('确认删除？');" href="admincp.php?ac=$ac&op=delete&id=$value[id]">删除</a></td>
+				</tr>
+				<!--{/loop}-->
+			</table>
+		</div>
+		<div class="footactions">
+			<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选 &nbsp;&nbsp;
+			<input type="radio" name="rdoption" value="1"> 批量通过 &nbsp;&nbsp;
+			<input type="radio" name="rdoption" value="2"> 批量删除 &nbsp;&nbsp;
+			<input type="submit" name="listsubmit" value="提交" class="submit">
+		</div>
+
+		</form>
+		<div class="page">$multi</div>
+		<br>
+	</div>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,19 @@
+		<div class="sidebox">
+		<h2 class="title">奥运奖牌榜</h2>
+			<table width="240" align="center" class="olympic_medal">
+				<tr>
+				<th>名次</th><th>国家</th><th><img src="image/olym_medal/m1.png" width="20" height="20"></th><th ><img src="image/olym_medal/m2.png" width="20" height="20"></th><th ><img src="image/olym_medal/m3.png" width="20" height="20"></th><th > 合计</th>
+			
+			<!--{eval $count=0;}-->
+			<!--{loop $SubArray $value}-->
+				<!--{if $count%5==0}-->
+					</tr><tr>
+					<td><!--{eval echo (int)(($count/5)+1);}--></td>
+				<!--{/if}-->
+				
+				<td><!--{eval echo $value;}--></td>
+				<!--{eval $count++;}-->
+			<!--{/loop}-->
+				</tr>
+			</table>
+		</div>

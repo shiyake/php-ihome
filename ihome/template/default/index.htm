@@ -1,0 +1,161 @@
+<!--{eval $_TPL['titles'] = array(); $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+
+<div id="network">
+<script type="text/javascript">
+function H$(i) {return document.getElementById(i)}
+function H$$(c, p) {return p.getElementsByTagName(c)}
+var slider = function () {
+ function init (o) {
+  this.id = o.id;
+  this.at = o.auto ? o.auto : 3;
+  this.o = 0;
+  this.pos();
+ }
+ init.prototype = {
+  pos : function () {
+   clearInterval(this.__b);
+   this.o = 0;
+   var el = H$(this.id), li = H$$('li', el), l = li.length;
+   var _t = li[l-1].offsetHeight;
+   var cl = li[l-1].cloneNode(true);
+   cl.style.opacity = 0; cl.style.filter = 'alpha(opacity=0)';
+   el.insertBefore(cl, el.firstChild);
+   el.style.top = -_t + 'px';
+   this.anim();
+  },
+  anim : function () {
+   var _this = this;
+   this.__a = setInterval(function(){_this.animH()}, 20);
+  },
+  animH : function () {
+   var _t = parseInt(H$(this.id).style.top), _this = this;
+   if (_t >= -1) {
+    clearInterval(this.__a);
+    H$(this.id).style.top = 0;
+    var list = H$$('li',H$(this.id));
+    H$(this.id).removeChild(list[list.length-1]);
+    this.__c = setInterval(function(){_this.animO()}, 20);
+    //this.auto();
+   }else {
+    var __t = Math.abs(_t) - Math.ceil(Math.abs(_t)*.07);
+    H$(this.id).style.top = -__t + 'px';
+   }
+  },
+  animO : function () {
+   this.o += 2;
+   if (this.o == 100) {
+    clearInterval(this.__c);
+    H$$('li',H$(this.id))[0].style.opacity = 1;
+    H$$('li',H$(this.id))[0].style.filter = 'alpha(opacity=100)';
+    this.auto();
+   }else {
+    H$$('li',H$(this.id))[0].style.opacity = this.o/100;
+    H$$('li',H$(this.id))[0].style.filter = 'alpha(opacity='+this.o+')';
+   }
+  },
+  auto : function () {
+   var _this = this;
+   this.__b = setInterval(function(){_this.pos()}, this.at*1000);
+  }
+ }
+ return init;
+}();
+</script>
+
+<!---->
+<div id="guestbar" class="nbox">
+	<div class="nbox_c">
+
+		</div>
+	</div>	
+	<div class="nbox_s side_rbox" id="nlogin_box">
+		<h3 class="ntitle">请登录</h3>
+		<div class="side_rbox_c">
+			<form name="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post">
+				<p><label for="username">邮　箱</label> <input type="text" name="username" id="username" class="t_input" value="$membername" onblur="if(this.value=='') {this.value='用户名/邮箱';this.form.username.style.color='#c8c8c8'}" onclick="if(this.value=='用户名/邮箱'){this.value='';this.form.username.style.color='#c8c8c8'}" /></p>
+				<p><label for="password">密　码</label> <input type="password" name="password" id="password" class="t_input" value="$password" /></p>
+				<p class="checkrow"><input type="checkbox" id="cookietime" name="cookietime" value="315360000" $cookiecheck style="margin-bottom: -2px;" /><label for="cookietime">下次自动登录</label></p>
+				<p class="submitrow">
+					<input type="hidden" name="refer" value="space.php?do=home" />
+					<input type="submit" id="loginsubmit" name="loginsubmit" value="登录" class="submit" />
+					<a href="do.php?ac=lostpasswd">忘记密码?</a>
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</p>
+			</form>
+			<p align="center">
+				<a href="do_cas_login.php">使用校园统一认证平台登录</a>
+			</P>
+		</div>
+	</div>
+</div>
+<div id="index_mainpage">
+<!--
+<div class="president_wish">
+	<img src="template/default/image/banner_orange.png" height="150" width="970" />
+	<div class="wish_left"></div>
+	<div><img src="template/default/image/ppgpic.png" width="900" height="140" /></div>-->
+	<!--<div class="wish_content"><img src="template/default/image/from_president.gif" width="740" height="140" /></div>-->
+	<!--<div class="wish_right"><img src="template/default/image/president_pic.jpg"></div>
+</div>
+-->
+<!--{if $myappcount}-->
+<div class="nbox">
+	<div class="nbox_c" style="border: none;">
+		<ul class="applist">
+		<!--{loop $myapplist $value}-->
+			<li>
+				<p class="aimg"><a href="userapp.php?id=$value[appid]" target="_blank"><img src="http://appicon.manyou.com/logos/$value[appid]" alt="$value[appname]" /></a></p>
+				<p><a href="userapp.php?id=$value[appid]" target="_blank">$value[appname]</a></p>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="susb">
+		<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			<div class="appmo">
+				<p>共有 <span>$myappcount</span> 个应用</p>
+				<p class="appmobutton"><a href="cp.php?ac=userapp&my_suffix=%2Fapp%2Flist">查看更多应用</a></p>
+			</div>
+		</div></div></div></div>	
+	</div>
+</div>
+<!--{/if}-->
+
+
+<div id="radomuser" >
+	<div class="nbox_c">
+		<h2 class="ntitle">i北航之星</h2>
+		<ul class="s_clear" style="background:#fff;">
+		<!--{loop $spacelist $value}-->
+			<li>
+				<div class="d_avatar avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" target="_blank">{$_SN[$value[uid]]}</a></p>
+				<p>$value[friendnum] 位好友</p>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+<div id="radomtopic" >
+	<div class="nbox_topic" style="background:#fff;">
+		<h2 class="ntitle">大伙的话题</h2>
+		<div class="topic_list">
+			<ul id="slider">
+			<!--{loop $topic $last_topic}-->
+				<!--{eval $last_topic = mkfeed($last_topic);}-->
+				<!--{template index_feed_li}-->
+			<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	new slider({id:'slider'})
+</script>
+
+</div>
+
+<!--{template footer}-->
