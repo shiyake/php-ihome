@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/do_login|template/new/header|template/new/footer', '1382328252', 'template/new/do_login');?><?php $_TPL['nosidebar']=1; ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/do_login|template/new/header|template/new/footer', '1382538370', 'template/new/do_login');?><?php $_TPL['nosidebar']=1; ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>

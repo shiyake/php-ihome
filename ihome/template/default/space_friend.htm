@@ -47,32 +47,13 @@
 <!--{else}-->
 
 <!--{if $space[self]}-->
-<div class="searchbar floatright">
-<!--{if $_GET[view]=='me'}-->
-<form method="get" action="space.php">
-	<input type="hidden" name="do" value="friend">
-	<input name="searchkey" value="" size="15" class="t_input" type="text">
-	<input name="searchsubmit" value="找好友" class="submit" type="submit">
-	<input type="hidden" name="searchmode" value="1" />
-</form>
-<!--{else}-->
-<form method="get" action="cp.php">
-	<input type="hidden" name="ac" value="friend" />
-	<input type="hidden" name="op" value="search" />
-	<input name="searchkey" value="" size="15" class="t_input" type="text">
-	<input name="searchsubmit" value="找人" class="submit" type="submit">
-	<input type="hidden" name="searchmode" value="1" />
-</form>
-<!--{/if}-->
-</div>
 <h2 class="title"><img src="image/icon/friend.gif" />好友</h2>
 <div class="tabs_header">
 	<ul class="tabs">
-		<li$actives[me]><a href="space.php?uid=$space[uid]&do=friend"><span>好友列表</span></a></li>
-		<li><a href="cp.php?ac=friend&op=search"><span>查找好友</span></a></li>
-		<li><a href="cp.php?ac=friend&op=find"><span>好友推荐</span></a></li>
-		<!--{if empty($_SCONFIG['closeinvite']) &&  $_SGLOBAL['member']['groupid']<4}-->
-		<li><a href="cp.php?ac=invitefriend"><span>邀请好友</span></a></li>
+		<li$actives[me]><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
+		<li><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
+		<!--{if empty($_SCONFIG['closeinvite'])}-->
+		<li><a href="cp.php?ac=invite"><span>邀请好友</span></a></li>
 		<!--{/if}-->
 		<li><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>
 		<li><a href="space.php?do=top"><span>排行榜</span></a></li>

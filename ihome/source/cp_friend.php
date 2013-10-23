@@ -523,6 +523,102 @@ if($op == 'add') {
 
 	realname_get();
 
+} elseif($op == 'search2') {
+    $maxnum = 6;
+    $nouids = $space['friends'];
+    $nouids[] = $space['uid'];
+
+    $list = array(); 
+    @include_once(S_ROOT.'./data/data_profilefield.php');
+    $fields = empty($_SGLOBAL['profilefield'])?array():$_SGLOBAL['profilefield'];
+    if (!empty($_GET['searchsubmit'])) {
+        $_GET['searchsubmit'] = 1;
+
+        $wherearr = $fromarr = $uidjoin = array();
+        $fsql = '';
+        $fromarr['space'] = tname('space').' s';
+        if($searchkey = stripsearchkey($_GET['searchkey'])) {
+            $uid = intval($searchkey);
+            $wherearr[] = "(s.name like '%$searchkey%' OR s.username like '%$searchkey%' OR s.uid = '$uid')";
+        }
+        
+        foreach (array('sex','marry','birthprovince','birthcity',) as $value) {
+            if($_GET[$value]) {
+                $fromarr['spacefield'] = tname('spacefield').' sf';
+                $wherearr['spacefield'] = "sf.uid=s.uid";
+                $wherearr[] = "sf.$value='{$_GET[$value]}'";
+                $fsql .= ", sf.$value";
+            }
+        }
+
+        $agerange = intval($_GET['age']);
+        $startage = $endage = 0;
+        if ($agerange == 1) {
+            $startage = sgmdate('Y') - 15;
+        } elseif ($agerange == 2) {
+            $startage = sgmdate('Y') - 22;
+            $endage = sgmdate('Y') - 16;
+        } elseif ($agerange == 3) {
+            $startage = sgmdate('Y') - 30;
+            $endage = sgmdate('Y') -23;
+        } elseif ($agerange == 4) {
+            $startage = sgmdate('Y') - 40;
+            $endage = sgmdate('Y') - 31;
+        } elseif ($agerange == 5) {
+            $endage = sgmdate('Y') - 41;
+        }
+        if ($startage || $endage) {
+            $fromarr['spacefield'] = tname('spacefield').' sf';
+            $wherearr['spacefield'] = "sf.uid=s.uid";
+        }
+        if($startage && $endage && $endage > $startage) {
+            $wherearr[] = '(sf.birthyear>='.$startage.' AND sf.birthyear<='.$endage.')';
+        } elseif ($startage && empty($endage)) {
+            $wherearr[] = 'sf.birthyear>='.$startage;
+        } else if(empty($startage) && $endage) {
+            $wherearr[] = 'sf.birthyear<='.$endage;
+        }
+
+        foreach (array('subtitle', 'startyear') as $value) {
+            if($_GET[$value]) {
+                $fromarr['spaceinfo'] = tname('spaceinfo').' si';
+                $wherearr['spaceinfo'] = 'si.uid=s.uid';
+                $wherearr[] = "si.$value LIKE '%{$_GET[$value]}%'";
+            }
+        }
+        
+        if($wherearr) {
+            $query = $_SGLOBAL['db']->query("SELECT s.* $fsql FROM ".implode(',', $fromarr)." WHERE ".implode(' AND ', $wherearr)." LIMIT 0,500");
+            while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+                realname_set($value['uid'], $value['username'], $value['name'], $value['namestatus']);
+                $value['isfriend'] = ($value['uid']==$space['uid'] || ($space['friends'] && in_array($value['uid'], $space['friends'])))?1:0;
+                $value['status'] = getfriendstatus($space['uid'], $value['uid']);
+                $list[$value['uid']] = $value;
+            }
+        }
+
+        realname_get();
+    } else {
+        $i = 0;
+        if($space['feedfriend']) {
+            $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid IN (".$space['feedfriend'].") LIMIT 0,200"); 
+            $count = $_SGLOBAL['db']->num_rows($query);
+            $offset = 0;
+            if ($count > 6) {
+                $offset = rand(0, $count-6);
+            }
+            mysql_data_seek($query, $offset);
+            while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+                if(!in_array($value['uid'], $nouids) && $value['username']) {
+                    realname_set($value['uid'], $value['username']);
+                    $value['status'] = getfriendstatus($space['uid'], $value['uid']);
+                    $list[$value['uid']] = $value;
+                    $i++;
+                    if($i>=$maxnum) break;
+                }
+            }
+        }
+    }
 } elseif($op == 'changegroup') {
 
 	if(submitcheck('changegroupsubmit')) {

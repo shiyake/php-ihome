@@ -25,6 +25,9 @@ caption, th { text-align: left; }
 .avatar48 { padding: 5px 0 0 5px; width: 55px; height: 55px; background: url(image/48_avatar_bg.gif) no-repeat; }
   .avatar48 img { width: 48px; height: 48px; }
 
+.avatar160 { width: 160px; height: 160px; background: url(image/200_avatar_bg.gif) no-repeat; }
+  .avatar160 img { width: 160px; height: 160px; }
+
 .threadimg60 { padding: 5px 0 0 5px; width: 67px; height: 67px; background: url(image/60_threadimg_bg.gif) no-repeat; }
     .threadimg60 img { width: 60px; height: 60px; }
 
@@ -545,6 +548,15 @@ a.button { padding: 5px; }
     .bar_text p { line-height: 200%; }
     .bar_text .title { padding: 10px 0 5px 0; font-weight: bold; }
 
+.big_avatar_list { zoom: 1; }
+    .big_avatar_list .gray { font-size: 12px; color: #ffffff; }
+    .big_avatar_list li { float: left; padding: 8px 10px; width: 160px; overflow: hidden; }
+    .big_avatar_list .mark { font-size: 14px; color: #ffffff; background-color: rgba(0,0,0,0.5); line-height: 24px; padding-left: 12px; position: absolute; margin-top: 136px; margin-left: -1px; width: 148px; }
+    .big_avatar_list .card { border: solid 1px #cdcdcd; border-radius: 2px; box-shadow: 0 2px 3px rgba(205, 205, 205, 0.5); }
+    .big_avatar_list .areabtn { line-height: 30px; background-color: #f7f7f7; font-size: 13px; text-align: center; color: #3e91d5; }
+    .big_avatar_list .card .avatar160 img { width: 159px; height: 159px; }
+    .big_avatar_list .reason { line-height: 30px; padding-left: 8px; font-size: 12px; color: #777777; }
+
 .m_box { margin: 0 0 20px; width: 100%; overflow: hidden; }
 
     .news_list, .task { line-height: 190%; }
@@ -570,6 +582,15 @@ a.button { padding: 5px; }
         .pm_list .pm_f { padding: 0 10px 5px; background: url(image/pm_bg.gif) no-repeat -590px 100%; }
         .pm_list .pm_c { padding: 10px; color: #444; line-height: 200%; }
     .pm_list .avatar48 { float: left; margin: 0 5px 0 0; }
+
+/*************************************************SEARCH*/
+.search_header { line-height: 40px; padding-left: 12px; font-size: 14px; color: #000000; background-color: #c4d8e5; }
+.search_fields { background-color: #f7f7f7; padding-bottom: 12px; }
+.search_field { padding: 12px 12px 0 12px; font-size: 12px; font-weight: bold; }
+.search_field label { margin-right: 8px; }
+.search_field .submit { padding: 0px 16px !important; }
+#birthprovince, #birthcity { width: 87px; }
+.icon_change { background: url('./image/icon_change.png') no-repeat; padding-left: 16px; }
 
 /*************************************************FEED***/
 .feed_header { position: relative; padding: 5px 10px 0 15px; height: 30px; background: url(image/c_title.gif) no-repeat; line-height: 20px; }

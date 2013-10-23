@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_profile|template/new/header|template/new/cp_header|template/new/footer', '1381752037', 'template/new/cp_profile');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_profile|template/new/header|template/new/cp_header|template/new/footer', '1382538715', 'template/new/cp_profile');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
 <head>
