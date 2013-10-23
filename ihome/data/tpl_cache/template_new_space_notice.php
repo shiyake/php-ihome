@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_notice|template/new/header|template/new/footer', '1382418662', 'template/new/space_notice');?><?php $_TPL['titles'] = array('通知'); ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_notice|template/new/header|template/new/footer', '1382534908', 'template/new/space_notice');?><?php $_TPL['titles'] = array('通知'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>

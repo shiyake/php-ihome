@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_feed|template/new/header|template/new/space_status_feed|template/new/space_menu|template/new/space_feed_li|template/new/space_feed_li|template/new/space_olym_medal|template/new/footer', '1382065280', 'template/new/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_feed|template/new/header|template/new/space_status_feed|template/new/space_menu|template/new/space_feed_li|template/new/space_feed_li|template/new/space_olym_medal|template/new/footer', '1382534876', 'template/new/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
 <?php $_TPL['titles'] = array('首页'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>

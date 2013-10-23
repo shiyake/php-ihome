@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_index|template/new/header|template/new/space_status_feed|template/new/space_feed_li|template/new/space_comment_li|template/new/footer', '1381979388', 'template/new/space_index');?><?php $_TPL['nosidebar']=1; ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_index|template/new/header|template/new/space_status_feed|template/new/space_feed_li|template/new/space_comment_li|template/new/footer', '1382534920', 'template/new/space_index');?><?php $_TPL['nosidebar']=1; ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
