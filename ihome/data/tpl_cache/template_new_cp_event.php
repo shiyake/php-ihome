@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_event|template/new/header|template/new/cp_topic_menu|template/new/footer|template/new/space_topic_inc', '1382338611', 'template/new/cp_event');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_event|template/new/header|template/new/cp_topic_menu|template/new/footer|template/new/space_topic_inc', '1382618824', 'template/new/cp_event');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
 <head>

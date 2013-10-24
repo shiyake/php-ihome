@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_share_list|template/new/header|template/new/space_share_li|template/new/space_menu|template/new/space_share_li|template/new/footer', '1382406285', 'template/new/space_share_list');?><?php $_TPL['titles'] = array('分享'); ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_share_list|template/new/header|template/new/space_share_li|template/new/space_menu|template/new/space_share_li|template/new/footer', '1382618871', 'template/new/space_share_list');?><?php $_TPL['titles'] = array('分享'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>

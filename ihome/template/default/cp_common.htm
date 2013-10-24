@@ -1,45 +1,72 @@
 <!--{template header}-->
 
 <!--{if $_GET['op'] == 'report'}-->
-
-	<h1>举报违规</h1>
-	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
-	<div class="popupmenu_inner" id="__reportform_{$_GET[id]}">
-	<form method="post" id="reportform_{$_GET[id]}" name="reportform_{$_GET[id]}" action="cp.php?ac=common&op=report&idtype=$_GET[idtype]&id=$_GET[id]">
-	<table>
-	<tr>
-		<td>感谢您能协助我们一起管理站点，我们会对您的举报尽快处理。
-			<br>请填写举报理由(最多150个字符):
-			<img src="image/zoomin.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomTextarea('reason', 1)">
-			<img src="image/zoomout.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomTextarea('reason', 0)"><br />
-			<textarea id="reason" name="reason" cols="72" rows="3" onkeydown="ctrlEnter(event, 'reportsubmit_btn')"></textarea>
-			<!--{if $reason}-->
-			<br />
-			<select name="reportinfo" onchange="$('reason').value=this.value">
-				<option value="" selected>举报理由</option>
-				<!--{loop $reason $key $val}-->
-				<option value="$val">$val</option>
-				<!--{/loop}-->
-			</select>
-			<!--{/if}-->
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<input type="hidden" name="reportsubmit" value="true">
-		<!--{if $_SGLOBAL[inajax]}-->
-		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
-		<button name="reportsubmit_btn" id="reportsubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('reportform_{$_GET[id]}','',2000);">确定</button>
-		<!--{else}-->
-		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
-		<button name="reportsubmit_btn" id="reportsubmit_btn" type="submit" class="submit" value="true">确定</button>
-		<!--{/if}-->
-		</td>
-	</tr>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__reportform_{$_GET[id]}">
+    <p style="font-size:13px;margin-top:8px;"><strong>我要举报“<a href="space.php?uid=$_GET[uid]" target="_blank">$_SN[$_GET[uid]]</a>”
+	<!--{if $_GET[idtype] == 'doid'}-->的足迹
+        <!--{elseif $_GET[idtype] == 'blogid'}-->的日志
+        <!--{elseif $_GET[idtype] == 'picid'}-->的图片
+        <!--{elseif $_GET[idtype] == 'albumid'}-->的相册
+        <!--{elseif $_GET[idtype] == 'tid'}-->的话题
+        <!--{elseif $_GET[idtype] == 'tagid'}-->的群组
+        <!--{elseif $_GET[idtype] == 'sid'}-->的分享
+        <!--{elseif $_GET[idtype] == 'uid'}-->的空间
+        <!--{elseif $_GET[idtype] == 'eventid'}-->的活动
+        <!--{elseif $_GET[idtype] == 'pid'}-->的投票
+        <!--{elseif $_GET[idtype] == 'comment'}-->的评论
+        <!--{elseif $_GET[idtype] == 'post'}-->的话题回复
+        <!--{/if}-->
+    </strong></p>
+    <form style="margin-top:16px;padding:0 16px;" method="post" id="reportform_{$_GET[id]}" name="reportform_{$_GET[id]}" action="cp.php?ac=common&op=report&idtype=$_GET[idtype]&id=$_GET[id]">
+	<p><strong>请选择举报类型:</strong></p>
+	<table style="width:100%;">
+	    <tr>
+		<td><input type="radio" name="rtype" value="ad" id="ad" /><label for="ad">垃圾广告</label></td>
+		<td><input type="radio" name="rtype" value="sex" id="sex" /><label for="sex">淫秽色情</label></td>
+	    </tr>
+	    <tr>
+		<td><input type="radio" name="rtype" value="fake_reward" id="fake_reward" /><label for="fake_reward">虚假中奖</label></td>
+		<td><input type="radio" name="rtype" value="sensitive" id="sensitive" /><label for="sensitive">敏感信息</label></td>
+	    </tr>
+	    <tr>
+		<td><input type="radio" name="rtype" value="fake_info" id="fake_info" /><label for="fake_info">不实信息</label></td>
+		<td><input type="radio" name="rtype" value="private" id="private" /><label for="private">泄漏他人隐私</label></td>
+	    </tr>
+	    <tr>
+		<td><input type="radio" name="rtype" value="attack" id="attack" /><label for="attack">人身攻击</label></td>
+		<td><input type="radio" name="rtype" value="copy" id="copy" /><label for="copy">内容抄袭</label></td>
+	    </tr>
+	    <tr>
+		<td><input type="radio" name="rtype" value="fake_people" id="fake_people" /><label for="fake_people">冒充他人</label></td>
+		<td><input type="radio" name="rtype" value="bother" id="bother" /><label for="bother">骚扰他人</label></td>
+	    </tr>
 	</table>
-	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-	</form>
+        <div style="margin-top:16px;">
+	    <p><strong>请补充举报说明（最多150字）:</strong></p>
+	    <textarea id="reason" name="reason" cols="72" rows="3" onkeydown="ctrlEnter(event, 'reportsubmit_btn')"></textarea>
+	    <!--{if $reason}-->
+	    <select name="reportinfo" onchange="$('reason').value=this.value">
+	        <option value="" selected>举报理由</option>
+	        <!--{loop $reason $key $val}-->
+		    <option value="$val">$val</option>
+	        <!--{/loop}-->
+	    </select>
+	    <!--{/if}-->
+        </div>
+	<div style="margin:16px 0 8px 0;">
+	    <input type="hidden" name="reportsubmit" value="true">
+	    <!--{if $_SGLOBAL[inajax]}-->
+	        <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+	        <button name="reportsubmit_btn" id="reportsubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('reportform_{$_GET[id]}','',2000);">确认举报</button>
+	    <!--{else}-->
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<button name="reportsubmit_btn" id="reportsubmit_btn" type="submit" class="submit" value="true">确认举报</button>
+	    <!--{/if}-->
 	</div>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    </form>
+</div>
 	
 <!--{elseif $_GET['op'] == 'ignore'}-->
 

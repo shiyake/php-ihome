@@ -41,9 +41,57 @@ if($op == 'logout') {
 
 	$_GET['idtype'] = trim($_GET['idtype']);
 	$_GET['id'] = intval($_GET['id']);
+    $query = null;
 	$uidarr = $report = array();
+    switch($_GET['idtype']) {
+        case 'blogid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("blog")." where blogid=$_GET[id]");
+            break;
+        case 'picid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("pic")." where picid=$_GET[id]");
+            break;
+        case 'albumid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("album")." where albumid=$_GET[id]");
+            break;
+        case 'tid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("thread")." where tid=$_GET[id]");
+            break;
+        case 'tagid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("tagspace")." where tagid=$_GET[id]");
+            break;
+        case 'sid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("share")." where sid=$_GET[id]");
+            break;
+        case 'eventid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("event")." where eventid=$_GET[id]");
+            break;
+        case 'pid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("poll")." where pid=$_GET[id]");
+            break;
+        case 'comment':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("comment")." where cid=$_GET[id]");
+            break;
+        case 'post':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("post")." where pid=$_GET[id]");
+            break;
+        case 'doid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("doing")." where doid=$_GET[id]");
+            break;
+        case 'uid':
+            $_GET['uid'] = $_GET['id'];
+            break;
+    }
+    if ($query) {
+        if ($item = $_SGLOBAL['db']->fetch_array($query)) {
+            if ($_GET['idtype'] == 'comment') {
+                $_GET['uid'] = $item['authorid'];
+            } else {
+                $_GET['uid'] = $item['uid'];
+            }
+        }
+    }
 	
-	if(!in_array($_GET['idtype'], array('picid', 'blogid', 'albumid', 'tagid', 'tid', 'sid', 'uid', 'pid', 'eventid', 'comment', 'post', 'arrangementid')) || empty($_GET['id'])) {
+	if(!in_array($_GET['idtype'], array('picid', 'blogid', 'albumid', 'tagid', 'tid', 'sid', 'uid', 'pid', 'eventid', 'comment', 'post', 'doid')) || empty($_GET['id'])) {
 		showmessage('report_error');
 	}
 	//获取举报记录
@@ -54,6 +102,16 @@ if($op == 'logout') {
 			showmessage('repeat_report');
 		}
 	}
+    if ($_GET['uid']) {
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid=$_GET[uid]");
+        if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            if ($value['namestatus']) {
+                $_SN[$_GET['uid']] = $value['name'];
+            } else {
+                $_SN[$_GET['uid']] = $value['username'];
+            }
+        }
+    }
 
 	if(submitcheck('reportsubmit')) {
 		$reason = getstr($_POST['reason'], 150, 1, 1);
@@ -71,6 +129,7 @@ if($op == 'logout') {
 			$setarr = array(
 				'id' => $_GET['id'],
 				'idtype' => $_GET['idtype'],
+				'rtype' => $_POST['rtype'],
 				'num' => 1,
 				'new' => 1,
 				'reason' => $reason,

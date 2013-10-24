@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_event_list|template/new/header|template/new/space_menu|template/new/footer', '1382338609', 'template/new/space_event_list');?><?php $_TPL['titles'] = array('活动'); ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_event_list|template/new/header|template/new/space_menu|template/new/footer', '1382618823', 'template/new/space_event_list');?><?php $_TPL['titles'] = array('活动'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>

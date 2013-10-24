@@ -93,7 +93,8 @@ if($view == 'userapp') {
 		'eventmemberstatus' => lang('event_memberstatus'),
 		'poll' => lang('poll'),
 		'pollcomment' => lang('poll_comment'),
-		'pollinvite' => lang('poll_invite')
+		'pollinvite' => lang('poll_invite'),
+        'report' => lang('report')
 	);
 	
 	$type = trim($_GET['type']);

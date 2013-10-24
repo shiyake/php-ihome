@@ -22,6 +22,9 @@
 							<a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
 							<!--{/if}-->
 							<a href="javascript:;" onclick="docomment_form($doid, 0);">回复($dv['replynum'])</a>
+                        <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                        <a href="cp.php?ac=common&op=report&idtype=doid&id=$dv[doid]" id="a_report_doid_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                        <!--{/if}-->
 
 						</div>
 						
@@ -86,6 +89,9 @@
 						<a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
 					<!--{/if}-->
 					<a href="javascript:;" onclick="docomment_form($doid, 0);">回复($dv['replynum'])</a>
+                    <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                    <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                    <!--{/if}-->
 					<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
 					<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
 					</div>

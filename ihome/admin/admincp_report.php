@@ -21,13 +21,67 @@ if (submitcheck('listsubmit')) {
 			//忽略举报
 			$_SGLOBAL['db']->query("UPDATE ".tname('report')." SET num='0' WHERE rid IN (".simplode($_POST['ids']).")");
 			$createlog = true;
+            //忽略了举报，通知举报人
+            $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid in (".simplode($_POST['ids']).")");
+            while ($report = $_SGLOBAL['db']->fetch_array($query)) {
+                $idtype = $report['idtype'];
+                $id = $report['id'];
+                $report_uids = unserialize($report['uids']);
+                $reported_uid = get_reported_uid($idtype, $id);
+                $reported_name = get_user_name($reported_uid);
+                foreach ($report_uids as $key=>$value) {
+                    $msgs=array();
+                    $msgs[] = $reported_uid;
+                    $msgs[] = $reported_name;
+                    $msgs[] = cplang('report_'.$idtype);
+                    $msgs[] = get_reported_message($idtype, $id);
+                    $msgs[] = cplang('report_type_'.$report['rtype']);
+                    notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_success', $msgs));
+                }
+            }
 
 		} else {
-
 			if($_POST['optype'] == 3) {
+                //通过了举报，通知举报人和非举报人
+                $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid in (".simplode($_POST['ids']).")");
+                while ($report = $_SGLOBAL['db']->fetch_array($query)) {
+                    $idtype = $report['idtype'];
+                    $id = $report['id'];
+                    $report_uids = unserialize($report['uids']);
+                    $reported_uid = get_reported_uid($idtype, $id);
+                    $reported_name = get_user_name($reported_uid);
+                    foreach ($report_uids as $key=>$value) {
+                        $msgs=array();
+                        $msgs[] = $reported_uid;
+                        $msgs[] = $reported_name;
+                        $msgs[] = cplang('report_'.$idtype);
+                        $msgs[] = get_reported_message($idtype, $id);
+                        $msgs[] = cplang('report_type_'.$report['rtype']);
+                        notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_success', $msgs));
+                    }
+                    notice_report($reported_uid, $_SGLOBAL['supe_uid'], cplang('reportee_message', $msgs));
+                }
 				deleteinfo($_POST['ids']);
-			}
-			//删除举报
+			} else {
+                //删除了举报，通知举报人
+                $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid in (".simplode($_POST['ids']).")");
+                while ($report = $_SGLOBAL['db']->fetch_array($query)) {
+                    $idtype = $report['idtype'];
+                    $id = $report['id'];
+                    $report_uids = unserialize($report['uids']);
+                    $reported_uid = get_reported_uid($idtype, $id);
+                    $reported_name = get_user_name($reported_uid);
+                    foreach ($report_uids as $key=>$value) {
+                        $msgs=array();
+                        $msgs[] = $reported_uid;
+                        $msgs[] = $reported_name;
+                        $msgs[] = cplang('report_'.$idtype);
+                        $msgs[] = get_reported_message($idtype, $id);
+                        $msgs[] = cplang('report_type_'.$report['rtype']);
+                        notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_delete', $msgs));
+                    }
+                }
+            }
 			$_SGLOBAL['db']->query("DELETE FROM ".tname('report')." WHERE rid IN (".simplode($_POST['ids']).")");
 			$createlog = true;
 		}
@@ -42,8 +96,48 @@ if($_GET['op'] == 'delete') {
 		cpmessage('the_right_to_report_the_specified_id', 'admincp.php?ac=report');
 	}
 	if($_GET['subop'] == 'delinfo') {
+        //通过了举报，通知举报人和非举报人
+        $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid=$rid");
+        if ($report = $_SGLOBAL['db']->fetch_array($query)) {
+            $idtype = $report['idtype'];
+            $id = $report['id'];
+            $report_uids = unserialize($report['uids']);
+            $reported_uid = get_reported_uid($idtype, $id);
+            $reported_name = get_user_name($reported_uid);
+            foreach ($report_uids as $key=>$value) {
+                $msgs=array();
+                $msgs[] = $reported_uid;
+                $msgs[] = $reported_name;
+                $msgs[] = cplang('report_'.$idtype);
+                $msgs[] = get_reported_message($idtype, $id);
+                $msgs[] = cplang('report_type_'.$report['rtype']);
+                notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_success', $msgs));
+            }
+            
+            notice_report($reported_uid, $_SGLOBAL['supe_uid'], cplang('reportee_message', $msgs));
+        }
 		deleteinfo(array($rid));
-	}
+	} else {
+        //删除了举报，通知举报人
+        $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid=$rid");
+        if ($report = $_SGLOBAL['db']->fetch_array($query)) {
+            $idtype = $report['idtype'];
+            $id = $report['id'];
+            $report_uids = unserialize($report['uids']);
+            $reported_uid = get_reported_uid($idtype, $id);
+            $reported_name = get_user_name($reported_uid);
+            foreach ($report_uids as $key=>$value) {
+                $msgs=array();
+                $msgs[] = $reported_uid;
+                $msgs[] = $reported_name;
+                $msgs[] = cplang('report_'.$idtype);
+                $msgs[] = get_reported_message($idtype, $id);
+                $msgs[] = cplang('report_type_'.$report['rtype']);
+                notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_delete', $msgs));
+            }
+        }
+    }
+
 	//删除举报
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('report')." WHERE rid='$rid'");
 	cpmessage('do_success', 'admincp.php?ac=report');
@@ -54,6 +148,24 @@ if($_GET['op'] == 'delete') {
 	if(!$rid) {
 		cpmessage('the_right_to_report_the_specified_id', 'admincp.php?ac=report');
 	}
+    //忽略了举报，通知举报人
+    $query = $_SGLOBAL['db']->query("select * from ".tname('report')." where rid=$rid");
+    if ($report = $_SGLOBAL['db']->fetch_array($query)) {
+        $idtype = $report['idtype'];
+        $id = $report['id'];
+        $report_uids = unserialize($report['uids']);
+        $reported_uid = get_reported_uid($idtype, $id);
+        $reported_name = get_user_name($reported_uid);
+        foreach ($report_uids as $key=>$value) {
+            $msgs=array();
+            $msgs[] = $reported_uid;
+            $msgs[] = $reported_name;
+            $msgs[] = cplang('report_'.$idtype);
+            $msgs[] = get_reported_message($idtype, $id);
+            $msgs[] = cplang('report_type_'.$report['rtype']);
+            notice_report($key, $_SGLOBAL['supe_uid'], cplang('reporter_message_ignore', $msgs));
+        }
+    }
 	$_SGLOBAL['db']->query("UPDATE ".tname('report')." SET num='0' WHERE rid='$rid'");
 	cpmessage('do_success', 'admincp.php?ac=report');
 }
@@ -172,6 +284,10 @@ if($count) {
 				$posts[$value['id']] = $value['id'];
 				$list['post'][$value['id']] = $value;
 				break;
+            case 'doid':
+                $doids[$value['id']] = $value['id'];
+				$list['do'][$value['id']] = $value;
+                break;
 		}
 	}
 
@@ -280,6 +396,14 @@ if($count) {
 		}
 	}
 	
+    //动态
+    if($doids) {
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." WHERE doid IN (".simplode($doids).")");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$list['do'][$value['doid']]['info'] = $value;
+			unset($emptyids['doid'.$value['doid']]);
+		}
+    }
 	
 	
 	//评论
@@ -338,6 +462,155 @@ if($count) {
 //显示分页
 if($perpage > 100) {
 	$count = count($list);
+}
+
+function notice_report($uid, $authorid, $note) {
+    global $_SGLOBAL;
+    
+    $query = $_SGLOBAL['db']->query("select * from ".tname('space')." where uid = $authorid");
+    $author = '';
+    if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $author = $value['username'];
+    }
+    $note = getstr($note, 500, 0, 1);
+    $setarr = array(
+        'uid' => $uid,
+        'type' => 'report',
+        'new' => 1,
+        'authorid' => $authorid,
+        'author' => $author,
+        'note' => addslashes(sstripslashes($note)),
+        'dateline' => time()
+    );
+    $setarr['note'] = htmlspecialchars_decode($setarr['note']);
+    inserttable('notification', $setarr);
+    $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
+}
+function get_reported_message($idtype, $id) {
+	global $_SGLOBAL;
+    switch($idtype) {
+        case 'blogid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("blog")." where blogid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['subject'];
+        case 'picid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("pic")." where picid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['title'];
+        case 'albumid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("album")." where albumid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['albumname'];
+        case 'tid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("thread")." where tid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['subject'];
+        case 'tagid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("mtag")." where tagid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['tagname'];
+        case 'sid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("share")." where sid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['title_template'];
+        case 'eventid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("event")." where eventid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['title'];
+        case 'pid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("poll")." where pid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['subject'];
+        case 'comment':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("comment")." where cid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['message'];
+        case 'post':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("post")." where pid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['message'];
+        case 'doid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("doing")." where doid=$id");
+            $item = $_SGLOBAL['db']->fetch_array($query);
+            return $item['message'];
+        case 'uid':
+            $item = getspace($id);
+            if ($item['namestatus']) {
+                return $item['name'];
+            } else {
+                return $item['username'];
+            }
+            break;
+    }
+    return '';
+}
+
+function get_user_name($uid) {
+    return '';
+    exit();
+    global $_SGLOBAL;
+    $query = $_SGLOBAL['db']->query("select * from ".tname("space")." where uid=$uid");
+    if ($item = $_SGLOBAL['db']->fetch_array($query)) {
+        if ($item['namestatus']) {
+            return $item['name'];
+        } else {
+            return $item['username'];
+        }
+    }
+    return '';
+}
+
+
+function get_reported_uid($idtype, $id) {
+	global $_SGLOBAL;
+    switch($idtype) {
+        case 'blogid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("blog")." where blogid=$id");
+            break;
+        case 'picid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("pic")." where picid=$id");
+            break;
+        case 'albumid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("album")." where albumid=$id");
+            break;
+        case 'tid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("thread")." where tid=$id");
+            break;
+        case 'tagid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("tagspace")." where tagid=$id");
+            break;
+        case 'sid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("share")." where sid=$id");
+            break;
+        case 'eventid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("event")." where eventid=$id");
+            break;
+        case 'pid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("poll")." where pid=$id");
+            break;
+        case 'comment':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("comment")." where cid=$id");
+            break;
+        case 'post':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("post")." where pid=$id");
+            break;
+        case 'doid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("doing")." where doid=$id");
+            break;
+        case 'uid':
+            return $id;
+            break;
+    }
+    if ($query) {
+        if ($item = $_SGLOBAL['db']->fetch_array($query)) {
+            if ($idtype == 'sid') {
+                return $item['authorid'];
+            } else {
+                return $item['uid'];
+            }
+        }
+    }
+    return 0;
 }
 
 function deleteinfo($ids) {
@@ -409,6 +682,10 @@ function deleteinfo($ids) {
 				$_SGLOBAL['usergroup'][$gid]['managethread'] = 1;
 				deleteposts(0,$value);
 				break;
+            case 'doid':
+				$_SGLOBAL['usergroup'][$gid]['managedoing'] = 1;
+                deletedoings($value);
+                break;
 		}
 		//奖励第一个举报者
 		getreward('report', 1, $reportuser[$i], '', 0);

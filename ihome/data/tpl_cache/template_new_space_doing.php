@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_doing|template/new/header|template/new/space_doing_li|template/new/space_menu|template/new/space_doing_form|template/new/space_doing_li|template/new/footer', '1382346782', 'template/new/space_doing');?><?php $_TPL['titles'] = array('记录'); ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_doing|template/new/header|template/new/space_doing_li|template/new/space_menu|template/new/space_doing_form|template/new/space_doing_li|template/new/footer', '1382617363', 'template/new/space_doing');?><?php $_TPL['titles'] = array('记录'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
@@ -395,6 +395,9 @@ alert("OK2");
 <a href="cp.php?ac=share&type=doing&id=<?=$doid?>&inspace=1" id="doing_share_<?=$doid?>_<?=$dv['id']?>" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
 <?php } ?>
 <a href="javascript:;" onclick="docomment_form(<?=$doid?>, 0);">回复(<?=$dv['replynum']?>)</a>
+                        <?php if($dv['uid']!=$_SGLOBAL['supe_uid']) { ?>
+                        <a href="cp.php?ac=common&op=report&idtype=doid&id=<?=$dv['doid']?>" id="a_report_doid_<?=$dv['doid']?>" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                        <?php } ?>
 
 </div>
 
@@ -502,6 +505,9 @@ alert("OK2");
 <a href="cp.php?ac=share&type=doing&id=<?=$doid?>&inspace=1" id="doing_share_<?=$doid?>_<?=$dv['id']?>" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
 <?php } ?>
 <a href="javascript:;" onclick="docomment_form(<?=$doid?>, 0);">回复(<?=$dv['replynum']?>)</a>
+                    <?php if($dv['uid']!=$_SGLOBAL['supe_uid']) { ?>
+                    <a href="cp.php?ac=common&op=report&idtype=doid&uid=<?=$dv['uid']?>&id=<?=$dv['doid']?>" id="a_report_doit_<?=$dv['doid']?>" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                    <?php } ?>
 <input type="hidden" class="json_friend" id="json_friend" value="<?=$_SGLOBAL['supe_uid']?>" />
 <input type="hidden" class="friendurl_r" id="friendurl_r" value="<?=$friendurl_r?>" />
 </div>

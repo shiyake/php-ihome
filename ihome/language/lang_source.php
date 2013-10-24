@@ -29,6 +29,7 @@ $_SGLOBAL['sourcelang'] = array (
 	'default_albumname' => '默认相册',
 	'systemnote' => '系统通知',
 	'wall' => '留言',
+    'report' => '举报',
 	'atyou' => '好友@你',
 	'pic_comment' => '图片评论',
 	'blog_comment' => '日志评论',

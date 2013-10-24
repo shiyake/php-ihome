@@ -31,6 +31,7 @@
 					<option value="eventid"<!--{if $_GET[idtype] == 'eventid'}--> selected<!--{/if}-->>活动</option>
 					<option value="comment"<!--{if $_GET[idtype] == 'comment'}--> selected<!--{/if}-->>评论</option>
 					<option value="post"<!--{if $_GET[idtype] == 'post'}--> selected<!--{/if}-->>话题回复</option>
+					<option value="post"<!--{if $_GET[idtype] == 'do'}--> selected<!--{/if}-->>足迹</option>
 					</select>
 					</td>
 					<th>举报状态</th><td>
@@ -93,6 +94,7 @@
 				<th width="50"><a href="admincp.php?ac=$ac&perpage=20&orderby=num&ordersc=$scstr&status=$_GET[status]&searchsubmit=1">次数</a></th>
 				<th width="120"><a href="admincp.php?ac=$ac&perpage=20&orderby=dateline&ordersc=$scstr&status=$_GET[status]&searchsubmit=1">时间</a></th>
 				<th width="140">操作</th>
+				<th width="140">举报类型</th>
 			</tr>
 			
 			<!--{loop $list $key $report}-->
@@ -133,6 +135,8 @@
 						<a href="$value[info][url]" target="_blank">$value[info][message](查看详情)</a><br>
 						<!--{elseif $key=='post'}-->
 						<a href="space.php?do=thread&id=$value[info][tid]&pid=$value[info][pid]" target="_blank">$value[info][message](查看详情)</a><br>
+                        <!--{elseif $key=='do'}-->
+                        <p>$value[info][message]</p>
 						<!--{/if}-->
 						<!--{/if}-->
 						<strong>举报理由:</strong><br>
@@ -165,6 +169,8 @@
 						评论
 						<!--{elseif $key=='post'}-->
 						话题回复
+                        <!--{elseif $key=='do'}-->
+                        足迹
 						<!--{/if}-->
 						<br>
 						查阅状态:<!--{if $value[new]}-->未读<!--{else}-->已读<!--{/if}--><br>
@@ -197,9 +203,34 @@
 							评论信息
 							<!--{elseif $key=='post'}-->
 							话题回复信息
+                            <!--{elseif $key=='do'}-->
+                            足迹
 							<!--{/if}-->
 						</a>
 					</td>
+                    <td>
+                    <!--{if $value[rtype] == 'ad'}-->
+                    垃圾广告
+                    <!--{elseif $value[rtype] == 'sex'}-->
+                    淫秽色情
+                    <!--{elseif $value[rtype] == 'fake_reward'}-->
+                    虚假中奖
+                    <!--{elseif $value[rtype] == 'sensitive'}-->
+                    敏感信息
+                    <!--{elseif $value[rtype] == 'fake_info'}-->
+                    不实信息
+                    <!--{elseif $value[rtype] == 'private'}-->
+                    泄漏他人隐私
+                    <!--{elseif $value[rtype] == 'attack'}-->
+                    人身攻击
+                    <!--{elseif $value[rtype] == 'copy'}-->
+                    内容抄袭
+                    <!--{elseif $value[rtype] == 'fake_people'}-->
+                    冒充他人
+                    <!--{elseif $value[rtype] == 'bother'}-->
+                    骚扰他人
+                    <!--{/if}-->
+                    </td>
 				</tr>
 				<!--{/loop}-->
 			<!--{/loop}-->

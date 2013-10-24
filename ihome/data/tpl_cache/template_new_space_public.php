@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_public|template/new/header|template/new/footer', '1382425520', 'template/new/space_public');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_public|template/new/header|template/new/footer', '1382618796', 'template/new/space_public');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
 <head>
