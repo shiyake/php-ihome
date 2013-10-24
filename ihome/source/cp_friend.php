@@ -593,6 +593,9 @@ if($op == 'add') {
                 realname_set($value['uid'], $value['username'], $value['name'], $value['namestatus']);
                 $value['isfriend'] = ($value['uid']==$space['uid'] || ($space['friends'] && in_array($value['uid'], $space['friends'])))?1:0;
                 $value['status'] = getfriendstatus($space['uid'], $value['uid']);
+                $value['commonfriends'] = getcommonfriend($value['uid'], $space['uid']);
+                $value['commonfriendcount'] = count($value['commonfriends']);
+                $value['commonfriendstr'] = cplang('common_friends', array(implode(',', array_slice(array_values($value['commonfriends']), 0, 6)), $value['commonfriendcount']));
                 $list[$value['uid']] = $value;
             }
         }
@@ -601,7 +604,7 @@ if($op == 'add') {
     } else {
         $i = 0;
         if($space['feedfriend']) {
-            $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid IN (".$space['feedfriend'].") LIMIT 0,200"); 
+            $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid IN (".$space['feedfriend'].") AND status = 1 LIMIT 0,200"); 
             $count = $_SGLOBAL['db']->num_rows($query);
             $offset = 0;
             if ($count > 6) {
@@ -612,8 +615,14 @@ if($op == 'add') {
                 if(!in_array($value['uid'], $nouids) && $value['username']) {
                     realname_set($value['uid'], $value['username']);
                     $value['status'] = getfriendstatus($space['uid'], $value['uid']);
-                    $list[$value['uid']] = $value;
-                    $i++;
+                    $value['commonfriends'] = getcommonfriend($space['uid'], $value['uid']);
+                    $value['commonfriendcount'] = count($value['commonfriends']);
+                    if ($value['commonfriendcount'] > 0) {
+                        $value['commonfriendstr'] = cplang('common_friends', array(implode(',', array_slice(array_values($value['commonfriends']), 0, 6)), $value['commonfriendcount']));
+                        $list[$value['uid']] = $value;
+                        $i++;
+                    }
+
                     if($i>=$maxnum) break;
                 }
             }

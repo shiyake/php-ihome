@@ -2289,21 +2289,14 @@ function getaliasemail($defaultemail){
 
 
 function getcommonfriendarray($uid) {
-		$list = array();
-		$array = array();
-		global $_SGLOBAL;
-		$query = $_SGLOBAL['db']->query("SELECT friend  FROM ".tname('spacefield')." WHERE uid='".$uid."'");	
-		$value = $_SGLOBAL['db']->fetch_array($query);
-		$list = explode(",",$value['friend']);
-		foreach ($list as $key) {
-			$query = $_SGLOBAL['db']->query("SELECT uid,realname  FROM ".tname('spacefield')." WHERE uid='".$key."'");
-			$value = $_SGLOBAL['db']->fetch_array($query);	
-			$array[$value['uid']] = $value['realname'];	
-		}
-		
-		return $array;
+        $list = array();
+        global $_SGLOBAL;
+        $query = $_SGLOBAL['db']->query("SELECT fuid, fusername FROM ".tname('friend')." WHERE uid=".$uid." AND status=1 AND fusername != '' LIMIT 0,200");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $list[$value['fuid']] = $value['fusername'];
+        }
+        return $list;
 }
-
 
 /*function getcommonfriendcount($recommenduid,$recommendeduid) {
 

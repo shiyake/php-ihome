@@ -318,6 +318,9 @@ $_SGLOBAL['cplang'] = array(
 	'do_stat_poke' => '打招呼',
 	//plugin
 	'mobile_addtrack' => '{actor}：{message}',
+
+    //search
+    'common_friends' => '\\1等\\2位共同好友。',
 );
 
 ?>

@@ -552,7 +552,7 @@ a.button { padding: 5px; }
     .big_avatar_list .gray { font-size: 12px; color: #ffffff; }
     .big_avatar_list li { float: left; padding: 8px 10px; width: 160px; overflow: hidden; }
     .big_avatar_list .mark { font-size: 14px; color: #ffffff; background-color: rgba(0,0,0,0.5); line-height: 24px; padding-left: 12px; position: absolute; margin-top: 136px; margin-left: -1px; width: 148px; }
-    .big_avatar_list .card { border: solid 1px #cdcdcd; border-radius: 2px; box-shadow: 0 2px 3px rgba(205, 205, 205, 0.5); }
+    .big_avatar_list .card { border: solid 1px #cdcdcd; border-radius: 2px; box-shadow: 0 2px 3px rgba(205, 205, 205, 0.5); background-color: #ffffff;}
     .big_avatar_list .areabtn { line-height: 30px; background-color: #f7f7f7; font-size: 13px; text-align: center; color: #3e91d5; }
     .big_avatar_list .card .avatar160 img { width: 159px; height: 159px; }
     .big_avatar_list .reason { line-height: 30px; padding-left: 8px; font-size: 12px; color: #777777; }

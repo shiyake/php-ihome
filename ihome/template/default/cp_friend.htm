@@ -69,7 +69,11 @@
                      <div class="card">
                         <div class="mark">{$_SN[$value[uid]]}</div>
                         <div class="avatar160"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid], big)}--></a></div>
-                        <p class="reason">2个共同好友</a>
+                        <!--{if $value['commonfriendcount'] > 0}-->
+                        <p class="reason" title="{$value['commonfriendstr']}">$value['commonfriendcount']个共同好友</a>
+                        <!--{else}-->
+                        <p class="reason">&nbsp;</a>
+                        <!--{/if}-->
                         <!--{if $value['status'] == -1}-->
                         <div id='addform_$value['uid']_callback' class="areabtn"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">+加为好友</a></div>
                         <!--{elseif $value['status'] == 0}-->
