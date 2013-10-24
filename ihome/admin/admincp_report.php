@@ -546,8 +546,6 @@ function get_reported_message($idtype, $id) {
 }
 
 function get_user_name($uid) {
-    return '';
-    exit();
     global $_SGLOBAL;
     $query = $_SGLOBAL['db']->query("select * from ".tname("space")." where uid=$uid");
     if ($item = $_SGLOBAL['db']->fetch_array($query)) {

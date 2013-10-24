@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/sendmail', '1381909757', 'template/new/sendmail');?><table cellspacing="0" cellpadding="20">
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/sendmail', '1382619151', 'template/new/sendmail');?><table cellspacing="0" cellpadding="20">
 <tr><td>
 <table width="500" cellspacing="0" cellpadding="1">
 <tr><td bgcolor="#FF8E00" align="left" style="font-family:'lucida grande',tahoma,'bitstream vera sans',helvetica,sans-serif;line-height:150%;color:#FFF;font-size:24px;font-weight:bold;padding:4px">&nbsp; <?=$_SCONFIG['sitename']?></th></tr>
