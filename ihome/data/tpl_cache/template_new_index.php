@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/index|template/new/header|template/new/index_feed_li|template/new/footer', '1382535218', 'template/new/index');?><?php $_TPL['titles'] = array(); $_TPL['nosidebar']=1; ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/index|template/new/header|template/new/index_feed_li|template/new/footer', '1382620602', 'template/new/index');?><?php $_TPL['titles'] = array(); $_TPL['nosidebar']=1; ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
