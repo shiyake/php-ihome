@@ -1,0 +1,60 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<div class="tabs_header">
+	<ul class="tabs">
+        <li class="active"><a href="#"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+    </ul>
+</div>
+<!--{if $list}-->
+<div id="content" style="width:640px;">
+    <div class="entry_list">
+    <ul>
+    <!--{loop $list $value}-->
+        <li>
+            <div class="avatardiv">
+                <div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+                <!--{if $value['hot']}--><div class="digb">$value[hot]</div><!--{/if}-->
+            </div>
+            
+            <div class="title">
+                <a href="cp.php?ac=share&type=blog&id=$value[blogid]" id="a_share_$value[blogid]" onclick="ajaxmenu(event, this.id, 1)" class="a_share">分享</a>
+                <h4><a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]" <!--{if $value[magiccolor]}--> class="magiccolor$value[magiccolor]"<!--{/if}-->>$value[subject]</a></h4>
+                <div>
+                <!--{if $value['friend']}-->
+                <span class="r_option locked gray"><a href="$theurl&friend=$value[friend]" class="gray">{$friendsname[$value[friend]]}</a></span>
+                <!--{/if}-->
+                <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a> <span class="gray"><!--{date('Y-m-d H:i',$value[dateline],1)}--></span>
+                </div>
+            </div>
+            <div class="detail image_right l_text s_clear" id="blog_article_$value[blogid]">
+                <!--{if $value[pic]}--><p class="image"><a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]"><img src="$value[pic]" alt="$value[subject]" /></a></p><!--{/if}-->
+                $value[message]
+            </div>
+            <div class="gray">
+                <!--{if $classarr[$value[classid]]}-->分类: <a href="space.php?uid=$value[uid]&do=blog&classid=$value[classid]">{$classarr[$value[classid]]}</a><span class="pipe">|</span><!--{/if}-->
+                <!--{if $value[viewnum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[blogid]">$value[viewnum] 次阅读</a><span class="pipe">|</span><!--{/if}-->
+                <!--{if $value[replynum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[blogid]#comment">$value[replynum] 个评论</a><!--{else}-->没有评论<!--{/if}-->
+            </div>
+        </li>
+    <!--{/loop}-->
+    <!--{if $pricount}-->
+        <li>
+            <div class="title">本页有 $pricount 篇日志因作者的隐私设置而隐藏</div>
+        </li>
+    <!--{/if}-->
+    </ul>
+    </div>
+</div>
+
+<!--{else}-->
+<div class="c_form">还没有相关的日志。</div>
+<!--{/if}-->
+<!--{/if}-->
+
+

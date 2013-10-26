@@ -278,13 +278,11 @@ $_SGLOBAL[space_css]
 		</ul>
 		<ul class="head_search">
 			<li>
-				<form method="get" action="cp.php" >
-					<input id="search_input" class="head_search_input" name="searchkey" value="找人" type="text" onblur="if(this.value=='') {this.value='找人';this.form.keywords.style.color='#666666'}" onclick="if(this.value=='找人'){this.value='';this.form.keywords.style.color='#000'}" frame="void" />
-					<input type="image" class="head_search_submit" src="template/default/image/head_search_submit.png" width="25" height="23" value="go" />
-					<input type="hidden" name="searchmode" value="1" />
-					<input type="hidden" name="ac" value="friend" />
-					<input type="hidden" name="op" value="search" />
-				</form>
+                <form method="get" action="space.php" >
+                    <input id="search_input" class="head_search_input" name="query" value="找人、搜内容" type="text" onblur="if(this.value=='') {this.value='找人、搜内容';this.form.keywords.style.color='#666666'}" onclick="if(this.value=='找人、搜内容'){this.value='';this.form.keywords.style.color='#000'}" frame="void" />
+                   <input type="image" class="head_search_submit" src="template/default/image/head_search_submit.png" width="25" height="23" value="go" />
+                   <input type="hidden" name="do" value="search" />
+                </form>
 			</li>		
 		</ul>
 	</div>

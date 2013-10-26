@@ -1,0 +1,46 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<div class="tabs_header">
+	<ul class="tabs">
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=blog"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li class="active"><a href="#"><span>群组</span></a></li>
+    </ul>
+</div>
+<!--{if $list}-->
+	<div>
+		<!--{if $rlist}-->
+		<h3 class="l_status">
+			我的群组
+		</h3>
+		<!--{/if}-->
+		<table cellspacing="5" cellpadding="5"><tr>
+		<!--{loop $list $key $value}-->
+			<td width="80">
+				<div class="threadimg60"><a href="space.php?do=mtag&tagid=$value[tagid]"><img src="$value[pic]" style="width:60px;"></a></div>
+			</td>
+			<td width="200">
+				<a href="space.php?do=mtag&tagid=$value[tagid]" style="font-weight:bold;">$value[tagname]</a>
+				<div class="gray">$value[title]</div>
+				已有 <span class="num">$value[membernum]</span> 人加入
+				<div class="gray">
+					话题: $value[threadnum], 回帖: $value[postnum]
+				</div>
+			</td>
+		<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+		<!--{/loop}-->
+		</tr></table>
+	</div>
+	
+	<div class="page">$multi</div>
+
+<!--{else}-->
+	<div class="c_form">还没有群组。</div>
+<!--{/if}-->
+
+
+<!--{/if}-->

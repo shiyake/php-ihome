@@ -1,0 +1,35 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<div class="tabs_header">
+	<ul class="tabs">
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=blog"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li class="active"><a href="#"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+    </ul>
+</div>
+<!--{if $list}-->
+<table cellspacing="4" cellpadding="4" width="100%">
+<tr>
+    <!--{loop $list $key $value}-->
+    <td width="85" align="center"><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]"><img src="$value[pic]" alt="$value[albumname]" width="70" /></a></td>
+    <td width="165">
+        <h6><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" title="$value[albumname]">$value[albumname]</a></h6>
+        <p class="gray">$value[picnum] 张照片</p>
+        <p class="gray">更新于 <!--{date('m-d',$value[dateline],1)}--></p>
+    </td>
+    <!--{if $key%2==1}--></tr><tr><!--{/if}-->
+    <!--{/loop}-->
+</tr>
+</table>
+<!--{if $pricount}-->
+<div class="c_form">本页有 $pricount 个相册因作者的隐私设置而隐藏</div>
+<!--{/if}-->
+<div class="page">$multi</div>
+<!--{else}-->
+<div class="c_form">没有可浏览的列表。</div>
+<!--{/if}-->
+<!--{/if}-->
