@@ -239,6 +239,19 @@ if(submitcheck('threadsubmit')) {
 		}
 	}
 
+    if (empty($_POST['tid'])) {
+        $arr = array();
+        $arr[] = $tid;
+        $arr[] = $subject;
+        $arr[] = $tagid;
+        $arr[] = $mtag['tagname'];
+        $content = cplang('mtag_add_thread', $arr);
+        $query = $_SGLOBAL['db']->query("select * from ".tname('tagspace')." where tagid='$tagid'");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            notification_add($value['uid'], 'mtag_add_thread', $content);
+        }
+    }
+
 	showmessage('do_success', $tourl, 0);
 
 } elseif(submitcheck('postsubmit')) {

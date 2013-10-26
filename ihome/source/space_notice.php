@@ -94,7 +94,8 @@ if($view == 'userapp') {
 		'poll' => lang('poll'),
 		'pollcomment' => lang('poll_comment'),
 		'pollinvite' => lang('poll_invite'),
-        'report' => lang('report')
+        'report' => lang('report'),
+        'mtag_add_thread' => lang('mtag_add_thread'),
 	);
 	
 	$type = trim($_GET['type']);

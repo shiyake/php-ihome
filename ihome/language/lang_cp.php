@@ -349,6 +349,8 @@ $_SGLOBAL['cplang'] = array(
 
     //search
     'common_friends' => '\\1等\\2位共同好友。',
+
+    'mtag_add_thread' => '发起了新话题<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>群组:<a href="space.php?do=mtag&tagid=\\3">\\4</a>',
 );
 
 ?>
