@@ -599,23 +599,43 @@ if($op == 'add') {
                 $wherearr[] = "si.$value LIKE '%{$_GET[$value]}%'";
             }
         }
-        
+
+        $page = intval($_GET['p']);
+	$prev_page = -1;
+	$next_page = -1;
+	$total = 0;
         if($wherearr) {
             $query = $_SGLOBAL['db']->query("SELECT s.* $fsql FROM ".implode(',', $fromarr)." WHERE ".implode(' AND ', $wherearr)." LIMIT 0,500");
-            while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $total = $_SGLOBAL['db']->num_rows($query);
+	    
+	    $offset = 0;
+	    if ($total > $page*6) {
+		$offset = $page*6;
+	    } else {
+		$page = floor($total/6);
+		$offset = $page*6;
+	    }
+	
+	    $prev_page = $page - 1;
+	    $next_page = floor($total/6) > $page ? ($page + 1) : -1;
+	    mysql_data_seek($query, $offset);
+	    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
                 realname_set($value['uid'], $value['username'], $value['name'], $value['namestatus']);
                 $value['isfriend'] = ($value['uid']==$space['uid'] || ($space['friends'] && in_array($value['uid'], $space['friends'])))?1:0;
                 $value['status'] = getfriendstatus($space['uid'], $value['uid']);
                 $value['commonfriends'] = getcommonfriend($value['uid'], $space['uid']);
-                $value['commonfriendcount'] = count($value['commonfriends']);
-                $value['commonfriendstr'] = cplang('common_friends', array(implode(',', array_slice(array_values($value['commonfriends']), 0, 6)), $value['commonfriendcount']));
-                $list[$value['uid']] = $value;
+		if ($value['commonfriends']) {
+                    $value['commonfriendcount'] = count($value['commonfriends']);
+                    $value['commonfriendstr'] = cplang('common_friends', array(implode(',', array_slice(array_values($value['commonfriends']), 0, 6)), $value['commonfriendcount']));
+                }
+		$list[$value['uid']] = $value;
+	        
+		if(count($list)>=$maxnum) break;
             }
         }
 
         realname_get();
     } else {
-        $i = 0;
         if($space['feedfriend']) {
             $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid IN (".$space['feedfriend'].") AND status = 1 LIMIT 0,200"); 
             $count = $_SGLOBAL['db']->num_rows($query);
@@ -633,12 +653,13 @@ if($op == 'add') {
                     if ($value['commonfriendcount'] > 0) {
                         $value['commonfriendstr'] = cplang('common_friends', array(implode(',', array_slice(array_values($value['commonfriends']), 0, 6)), $value['commonfriendcount']));
                         $list[$value['uid']] = $value;
-                        $i++;
                     }
 
-                    if($i>=$maxnum) break;
+                    if(count($list)>=$maxnum) break;
                 }
             }
+	
+           realname_get();
         }
     }
 } elseif($op == 'changegroup') {

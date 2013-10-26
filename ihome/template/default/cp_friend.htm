@@ -86,6 +86,20 @@
             <!--{/loop}-->
         </ul>
     </div>
+    <div style="clear:both; padding-left:16px; padding-right:24px;">
+	<!--{if !empty($_GET['searchsubmit']) && $total > 6}-->
+	    <!--{if $prev_page >= 0}-->
+		<a  style="float:left;" href="/cp.php?ac=friend&op=search2&sex=$_GET['sex']&age=$_GET['age']&marry=$_GET['marry']&birthprovince=$_GET['birthprovince']&birthcity=$_GET['birthcity']&subtitle=$_GET['subtitle']&startyear=$_GET['startyear']&searchsubmit=$_GET['searchsubmit']&p=$prev_page">上一页</a>
+	    <!--{else}-->
+		<a style="float:left;color:gray;" href="javascript:void(0);">上一页</a>
+	    <!--{/if}-->
+	    <!--{if $next_page >= 0}-->
+		<a style="float:right" href="/cp.php?ac=friend&op=search2&sex=$_GET['sex']&age=$_GET['age']&marry=$_GET['marry']&birthprovince=$_GET['birthprovince']&birthcity=$_GET['birthcity']&subtitle=$_GET['subtitle']&startyear=$_GET['startyear']&searchsubmit=$_GET['searchsubmit']&p=$next_page">下一页</a>
+	    <!--{else}-->
+		<a style="float:right;color:gray; href="javascript:void(0);">下一页</a>
+	    <!--{/if}-->
+	<!--{/if}-->
+    </div>
 <!--{/if}-->
 </div>
 <div id="sidebar" style="width:240px;margin-top: 26px;">
@@ -93,17 +107,17 @@
         查找好友
     </div>
     <div>
-        <form class="search_fields" action="cp.php" method="get">
-            <div class="search_field"><label for="searchkey">找谁</label><input id="searchkey" type='text' style="margin-left:6px; width:172px;" name="searchkey" placeholder="用户名/真实姓名/UID" value="{$_GET['searchkey']}"/></div>
+	<form class="search_fields" action="cp.php" method="get">
+            <div class="search_field"><label for="searchkey">找谁</label><input id="searchkey" type='text' style="margin-left:6px; width:164px;" name="searchkey" placeholder="用户名/真实姓名/UID" value="{$_GET['searchkey']}"/></div>
             <div class="search_field" style="border-top: solid 1px #cdcdcd; margin-top: 12px;"><label for="sex">性别</label>
-                <select id="sex" name="sex" style="width:178px;">
+                <select id="sex" name="sex" style="width:170px;">
                     <option value=0>选择性别</option>
                     <option value=1>男</option>
                     <option value=2>女</option>
                 </select>
             </div>
             <div class="search_field"><label for="age">年龄</label>
-                <select id="age" name="age" style="margin-left:-1px; width:178px;">
+                <select id="age" name="age" style="margin-left:-1px; width:170px;">
                     <option value=0>选择年龄段</option>
                     <option value=1>小于15岁</option>
                     <option value=2>16-22岁</option>
@@ -113,7 +127,7 @@
                 </select>
             </div>
             <div class="search_field"><label for="marry">婚恋状态</label>
-                <select id="marry" name="marry" style="width:152px;">
+                <select id="marry" name="marry" style="width:144px;">
                     <option value=0>选择婚恋状态</option>
                     <option value=1>单身</option>
                     <option value=2>非单身</option>
@@ -127,7 +141,7 @@
                 showcity('birthcity', "{$_GET['birthcity']}", 'birthprovince', 'search_birthplace');
             </script>
             <div class="search_field" style="border-top:solid 1px #cdcdcd; margin-top: 12px;"><label for="subtitle">院系</label>
-                <select id="subtitle" name="subtitle">
+                <select id="subtitle" name="subtitle" style="width:170px;">
                     <option value=0>选择院系</option>
                     <option value="材料科学与工程学院">材料科学与工程学院</option>
                     <option value="电子信息工程学院">电子信息工程学院</option>
@@ -159,7 +173,7 @@
                 </select>
             </div>
             <div class="search_field"><label for="startyear">入学年份</label>
-                <select id="startyear" name="startyear" style="margin-left:-2px; width:154px">
+                <select id="startyear" name="startyear" style="margin-left:-2px; width:146px">
                     <option value=0>选择入学年份</option>
                 </select>
             </div>
@@ -184,7 +198,7 @@
             <div class="search_field" style="text-align:center">
                 <input type="submit" name="searchsubmit" value="查找" class="submit" />
             </div>
-        </form>
+	</form>
     </div>
 </div>
 <!--{elseif $op == 'recommend'}-->
@@ -1170,6 +1184,13 @@ function showtbody(id) {
 <div class="popupmenu_inner" id="__addform_{$tospace[uid]}">
 <form method="post" id="addform_{$tospace[uid]}" name="addform_{$tospace[uid]}" action="cp.php?ac=friend&op=add&uid=$tospace[uid]">
 	<table cellspacing="0" cellpadding="3">
+		<tr>
+			<th width="52"><a href="space.php?uid=$tospace[uid]"><!--{avatar($tospace[uid],small)}--></th>
+			<td>加 <strong>{$_SN[$tospace[uid]]}</strong> 为好友，附言：<br />
+				<input type="text" name="note" value="" size="20" class="t_input" style="width: 300px;"  onkeydown="ctrlEnter(event, 'addsubmit_btn', 1);" />
+				<p class="gray">(附言为可选，{$_SN[$tospace[uid]]} 会看到这条附言，最多50个字符)</p>
+			</td>
+		</tr>
         <!--{if $_SGLOBAL[check_bot]}-->
         <tr>
             <th style="vertical-align: top;">请填写验证码</th>
@@ -1180,13 +1201,7 @@ function showtbody(id) {
             </td>
         </tr>
         <!--{/if}-->
-		<tr>
-			<th width="52"><a href="space.php?uid=$tospace[uid]"><!--{avatar($tospace[uid],small)}--></th>
-			<td>加 <strong>{$_SN[$tospace[uid]]}</strong> 为好友，附言：<br />
-				<input type="text" name="note" value="" size="20" class="t_input" style="width: 300px;"  onkeydown="ctrlEnter(event, 'addsubmit_btn', 1);" />
-				<p class="gray">(附言为可选，{$_SN[$tospace[uid]]} 会看到这条附言，最多50个字符)</p>
-			</td>
-		</tr>
+
 		<tr>
 			<th>&nbsp;</th>
 			<td>
