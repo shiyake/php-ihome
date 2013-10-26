@@ -3,15 +3,17 @@
 <!--{else}-->
 <div class="tabs_header">
 	<ul class="tabs">
-        <li class="active"><a href="#"><span>日志</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
-        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
+        <li class="active"><a href="#"><span>日志</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
     </ul>
 </div>
 <!--{if $list}-->
+<div class="c_form">共找到{$all_item_count}个相关的日志</div>
 <div id="content" style="width:640px;">
     <div class="entry_list">
     <ul>
@@ -50,11 +52,12 @@
     <!--{/if}-->
     </ul>
     </div>
+    <div class="page">$multi</div>
 </div>
-
 <!--{else}-->
 <div class="c_form">还没有相关的日志。</div>
 <!--{/if}-->
 <!--{/if}-->
 
 
+<!--{template footer}-->
