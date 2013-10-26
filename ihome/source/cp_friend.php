@@ -158,9 +158,22 @@ if($op == 'add') {
 				if($tospace['videostatus']) {
 					ckvideophoto('friend', $tospace);
 				}
+                if (empty($_SGLOBAL['check_bot'])) {
+                    $before_time = $_SGLOBAL['timestamp'] - 10 * 60;
+                    $query = $_SGLOBAL['db']->query("select count(*) from ".tname('friend')." where status = 0 and dateline > $before_time");
+                    if ($item = $_SGLOBAL['db']->fetch_array($query)) {
+                        if ($item['count(*)'] >= 10) {
+                            $_SGLOBAL['check_bot'] = 1;
+                        }
+                    }
+                }
 
 
 				if(submitcheck('addsubmit')) {
+                    if ($_SGLOBAL['check_bot'] && !ckseccode($_POST['seccode'])) {
+                        showmessage('incorrect_code');
+                    }
+
 					$setarr = array(
 						'uid' => $_SGLOBAL['supe_uid'],
 						'fuid' => $uid,

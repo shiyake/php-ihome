@@ -1170,6 +1170,16 @@ function showtbody(id) {
 <div class="popupmenu_inner" id="__addform_{$tospace[uid]}">
 <form method="post" id="addform_{$tospace[uid]}" name="addform_{$tospace[uid]}" action="cp.php?ac=friend&op=add&uid=$tospace[uid]">
 	<table cellspacing="0" cellpadding="3">
+        <!--{if $_SGLOBAL[check_bot]}-->
+        <tr>
+            <th style="vertical-align: top;">请填写验证码</th>
+            <td>
+                <img height="35px" id="img_seccode" src="do.php?ac=seccode&rand=1" align="absmidle">
+                <p>请输入上面的4位字母或数字，看不清可<a href="javascript:updateseccode()">更换一张</a></p>
+                <input type="text" id="seccode" name="seccode" value="" size="15" class="t_input" />
+            </td>
+        </tr>
+        <!--{/if}-->
 		<tr>
 			<th width="52"><a href="space.php?uid=$tospace[uid]"><!--{avatar($tospace[uid],small)}--></th>
 			<td>加 <strong>{$_SN[$tospace[uid]]}</strong> 为好友，附言：<br />
