@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_feed|template/new/header|template/new/space_status_feed|template/new/space_menu|template/new/space_feed_li|template/new/space_feed_li|template/new/space_olym_medal|template/new/footer', '1382687402', 'template/new/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_feed|template/new/header|template/new/space_status_feed|template/new/space_menu|template/new/space_feed_li|template/new/space_feed_li|template/new/space_olym_medal|template/new/footer', '1382771247', 'template/new/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
 <?php $_TPL['titles'] = array('首页'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
@@ -17,6 +17,7 @@
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.caret.js" ></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.at.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
 <script type="text/javascript">
 
@@ -192,6 +193,7 @@ alert("OK2");
 </script>
 <style type="text/css">
 @import url(template/default/style.css);
+@import url(template/default/jqcloud.css);
 <?php if(!empty($_SGLOBAL['space_theme'])) { ?>
 @import url(theme/<?=$_SGLOBAL['space_theme']?>/style.css);
 <?php } elseif($_SCONFIG['template'] != 'default') { ?>
@@ -373,6 +375,7 @@ alert("OK2");
 <?php } ?>
 
 <?php } ?>
+
 
 
 <div id="content">
@@ -1041,6 +1044,23 @@ $(this).parent().parent().parent().find("embed").attr("src","");
 <?php } ?>
 -->
 
+<div class="sidebox">
+    <h2 class="title">热门标签</h2>
+    <div id="tagcloud" style="width:230px;height:230px;">
+    </div>
+</div>
+<script type="text/javascript" charset="<?=$_SC['charset']?>">
+    var words = [
+    <?php if($tags) { ?>
+        <?php if(is_array($tags)) { foreach($tags as $key => $value) { ?>
+            {text: "<?=$value['text']?>", weight:<?=$value['weight']?>, link:"/space.php?do=search&query=<?=$value['text']?>"},
+        <?php } } ?>
+    <?php } ?>
+    ];
+    jq(function(){
+        jq('#tagcloud').jQCloud(words);
+    });
+</script>
 <div class="sidebox">			
 <h2 class="title">
 <p class="r_option">

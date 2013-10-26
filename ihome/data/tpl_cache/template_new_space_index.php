@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_index|template/new/header|template/new/space_status_feed|template/new/space_feed_li|template/new/space_comment_li|template/new/footer', '1382534920', 'template/new/space_index');?><?php $_TPL['nosidebar']=1; ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/space_index|template/new/header|template/new/space_status_feed|template/new/space_feed_li|template/new/space_comment_li|template/new/footer', '1382773813', 'template/new/space_index');?><?php $_TPL['nosidebar']=1; ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
@@ -16,6 +16,7 @@
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.caret.js" ></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.at.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
 <script type="text/javascript">
 
@@ -191,6 +192,7 @@ alert("OK2");
 </script>
 <style type="text/css">
 @import url(template/default/style.css);
+@import url(template/default/jqcloud.css);
 <?php if(!empty($_SGLOBAL['space_theme'])) { ?>
 @import url(theme/<?=$_SGLOBAL['space_theme']?>/style.css);
 <?php } elseif($_SCONFIG['template'] != 'default') { ?>

@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_arrangement|template/new/header|template/new/footer', '1382687405', 'template/new/cp_arrangement');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/cp_arrangement|template/new/header|template/new/footer', '1382771248', 'template/new/cp_arrangement');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
 <head>
@@ -15,6 +15,7 @@
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.caret.js" ></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.at.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
 <script type="text/javascript">
 
@@ -190,6 +191,7 @@ alert("OK2");
 </script>
 <style type="text/css">
 @import url(template/default/style.css);
+@import url(template/default/jqcloud.css);
 <?php if(!empty($_SGLOBAL['space_theme'])) { ?>
 @import url(theme/<?=$_SGLOBAL['space_theme']?>/style.css);
 <?php } elseif($_SCONFIG['template'] != 'default') { ?>

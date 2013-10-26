@@ -3,7 +3,7 @@ if(!defined('iBUAA')) exit('Access Denied');
 $_SCONFIG=Array
 	(
 	'sitename' => 'i 北航（开发环境）',
-	'template' => 'new',
+	'template' => 'default',
 	'adminemail' => 'dev@ihome.buaa.edu.cn',
 	'onlinehold' => 1800,
 	'timeoffset' => 8,
@@ -96,7 +96,7 @@ $_SCONFIG=Array
 			'click' => 1
 			)
 		),
-	'cronnextrun' => 1382695200,
+	'cronnextrun' => 1382775000,
 	'my_status' => 1,
 	'uniqueemail' => 1,
 	'updatestat' => 1,

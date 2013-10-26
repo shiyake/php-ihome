@@ -1,4 +1,4 @@
-<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/do_login|template/new/header|template/new/footer', '1382538370', 'template/new/do_login');?><?php $_TPL['nosidebar']=1; ?>
+<?php if(!defined('iBUAA')) exit('Access Denied');?><?php subtplcheck('template/new/do_login|template/new/header|template/new/footer', '1382769066', 'template/new/do_login');?><?php $_TPL['nosidebar']=1; ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE>
 <html>
@@ -16,6 +16,7 @@
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.caret.js" ></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.at.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
 <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
 <script type="text/javascript">
 

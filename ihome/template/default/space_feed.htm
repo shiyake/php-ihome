@@ -2,6 +2,7 @@
 <!--{eval $_TPL['titles'] = array('首页');}-->
 <!--{template header}-->
 
+
 <div id="content">
 
 <!--{if $space['uid'] && $space[self]}-->
@@ -108,6 +109,23 @@
 	<!--{/if}-->
 -->
 
+<div class="sidebox">
+    <h2 class="title">热门标签</h2>
+    <div id="tagcloud" style="width:230px;height:230px;">
+    </div>
+</div>
+<script type="text/javascript" charset="$_SC[charset]">
+    var words = [
+    <!--{if $tags}-->
+        <!--{loop $tags $key $value}-->
+            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']"},
+        <!--{/loop}-->
+    <!--{/if}-->
+    ];
+    jq(function(){
+        jq('#tagcloud').jQCloud(words);
+    });
+</script>
 <div class="sidebox">			
 	<h2 class="title">
 		<p class="r_option">
