@@ -62,8 +62,15 @@ if __name__ == '__main__':
 
     cursor = conn.cursor()
     lastid = -1
+    results = []
     while len(h) > 0:
         num, word = heapq.heappop(h)
+        results.append( (num, word.decode('utf8')) )
+    for num, word in results[::-1]:
+        if word[0] == '@':
+            word = word[1:]
+        if len(word) == 1:
+            continue
         cursor.execute("INSERT INTO ihome_tagcloud(tag_word, tag_count) values (%s, %s)", (word, num))
         print cursor._executed
         if lastid < 0:
