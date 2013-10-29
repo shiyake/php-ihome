@@ -53,6 +53,24 @@ if(!in_array($ac, array('common', 'pm'))) {
 	}
 }
 
+$_SGLOBAL['space_theme'] = $space['theme'];
+$_SGLOBAL['space_css'] = $space['css'];
+
+$theme = empty($_GET['theme'])?'':preg_replace("/[^0-9a-z]/i", '', $_GET['theme']);
+if($theme == 'uchomedefault') {
+	$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = '';
+} elseif($theme) {
+	$cssfile = S_ROOT.'./theme/'.$theme.'/style.css';
+	if(file_exists($cssfile)) {
+		$_SGLOBAL['space_theme'] = $theme;
+		$_SGLOBAL['space_css'] = '';
+	}
+} else {
+	if(!$space['self'] && $_SGLOBAL['member']['nocss']) {
+		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = '';
+	}
+}
+
 //菜单
 $actives = array($ac => ' class="active"');
 //showmessage($ac);//2013年3月11日10:48:31--for find bug of friend··!@Ancon

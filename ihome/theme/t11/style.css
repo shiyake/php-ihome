@@ -8,6 +8,7 @@ body { padding: 0 0 50px; background: #5778A1; color: #666; }
 #WebHead{ width:100%; background:none; height:auto;}
 #header { margin: 0; background: url(images/top_bg.jpg) repeat-x; color: #CCC; width:100%;}
 .headerwarp { height: 40px; width:996px; background:none;}
+#diy {top:40px;}
 #header a { color: #2C629E; }
 #header .logo{margin-top:4px;}
 #header .logo a { width: 137px; height: 33px; background: url(images/logo.png) no-repeat left center; overflow: hidden; display: block; }

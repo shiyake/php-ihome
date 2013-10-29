@@ -4,7 +4,6 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-
 $user = $_SGLOBAL['db']->query("select usertype from ".tname(baseprofile)." WHERE uid = ".$space[uid]."  and collegeid like '0%' LIMIT 1 ");
 $usertype = $_SGLOBAL['db']->result($user);
 

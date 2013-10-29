@@ -217,13 +217,14 @@ $_SGLOBAL[space_css]
 </head>
 <body onload="bodyonload()">
 <!--<div id="count" style="position: fixed; top: 200px;  text-align:left;">测试</div>-->
+<a href="/cp.php?ac=theme"><div id="diy"></div></a>
 <div id="append_parent"></div>
 <div id="ajaxwaitid"></div>
 <div id="bg_pic_repeat">
 <div id="Container">
     <div id="WebHead">
 	<div id="header">
-	<!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->
+    <!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->
 	<div class="headerwarp">
 		<h1 class="logo"><a href="index.php"><img src="template/$_SCONFIG[template]/image/logo.png" alt="$_SCONFIG[sitename]" /></a></h1>
 		<ul class="menu">
@@ -289,11 +290,12 @@ $_SGLOBAL[space_css]
 	</div>
 	</div>
 	</div>
-	<div id="bg_pic">
+    
+	
+    <div id="bg_pic">
 	<div id="blank_pic"></div>
 	<div id="wrap" >
-
-	<!--{if empty($_TPL['nosidebar'])}-->
+    <!--{if empty($_TPL['nosidebar'])}-->
 
 	<div id="mainbg">
 	<div id="main">

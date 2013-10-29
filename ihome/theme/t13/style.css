@@ -11,6 +11,7 @@ body { padding: 0 0 50px; background: #6A8FA1; color: #666; }
 #header { margin: 0; background: url(images/top_bg.jpg) repeat-x; color: #CCC; width:100%;}
 #header a { color: #6A8FA1; }
 .headerwarp { height: 50px; color: #5A7B8C; width:996px;background:none;}
+#diy {top:50px;}
 #header .logo a { margin-top:3px;width: 137px; height: 33px; background: url(images/logo.png) no-repeat left center; overflow: hidden; display: block; }
 #header .logo a img { margin: -200px; }
 .login_thumb { background-image: url(images/login_bg.gif); }

@@ -236,6 +236,24 @@ if(!empty($_SCONFIG['cronnextrun']) && $_SCONFIG['cronnextrun'] <= $_SGLOBAL['ti
 	runcron();
 }
 
+$_SGLOBAL['space_theme'] = $space['theme'];
+$_SGLOBAL['space_css'] = $space['css'];
+
+$theme = empty($_GET['theme'])?'':preg_replace("/[^0-9a-z]/i", '', $_GET['theme']);
+if($theme == 'uchomedefault') {
+	$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = '';
+} elseif($theme) {
+	$cssfile = S_ROOT.'./theme/'.$theme.'/style.css';
+	if(file_exists($cssfile)) {
+		$_SGLOBAL['space_theme'] = $theme;
+		$_SGLOBAL['space_css'] = '';
+	}
+} else {
+	if(!$space['self'] && $_SGLOBAL['member']['nocss']) {
+		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = '';
+	}
+}
+
 //处理
 include_once(S_ROOT."./source/space_{$do}.php");
 
