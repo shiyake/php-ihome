@@ -156,6 +156,11 @@ if($space) {
 	if($space['flag'] == -1) {
 		showmessage('space_has_been_locked');
 	}
+	//验证空间是否被锁定
+	if($space['flag'] == -2) {
+        include_once template("space_check_bot");
+        exit();
+	}
 	
 	//隐私检查
 	if(empty($isinvite) || ($isinvite<0 && $code != space_key($space, $_GET['app']))) {

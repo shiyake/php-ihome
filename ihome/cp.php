@@ -10,7 +10,7 @@ $acs = array('space', 'doing', 'upload', 'video', 'comment', 'blog', 'album', 'r
 	'swfupload', 'thread', 'mtag', 'poke', 'friend',
 	'avatar', 'profile', 'theme', 'import', 'feed', 'privacy', 'pm', 'share', 'advance', 'invite', 'invitefriend', 'invite2', 'sendmail',
 	'userapp', 'task', 'credit', 'password', 'domain', 'event', 'poll', 'topic',
-	'click','magic', 'top', 'videophoto','publicapply', 'arrangement','namecard');
+	'click','magic', 'top', 'videophoto','publicapply', 'arrangement','namecard', 'check_bot');
 $ac = (empty($_GET['ac']) || !in_array($_GET['ac'], $acs))?'profile':$_GET['ac'];
 $op = empty($_GET['op'])?'':$_GET['op'];
 //showmessage('bb');//2013年3月11日10:52:45 for find BUG of friend·· @Ancon！
@@ -37,6 +37,11 @@ if(!in_array($ac, array('common', 'pm'))) {
 	if($space['flag'] == -1) {
 		showmessage('space_has_been_locked');
 	}
+    if ($space['flag'] == -2 && $ac != 'check_bot') {
+        include_once template("space_check_bot");
+        exit();
+    }
+
 	//禁止访问
 	if(checkperm('banvisit')) {
 		ckspacelog();

@@ -98,6 +98,8 @@ if(submitcheck('loginsubmit')) {
 	if(!$space = $_SGLOBAL['db']->fetch_array($query)) {
 		$space = space_open($setarr['uid'], $setarr['username'], 0, $passport['email']);
 	}
+
+
 	
 	$_SGLOBAL['member'] = $space;
 	
@@ -175,7 +177,21 @@ if(submitcheck('loginsubmit')) {
 	echo $POST['refer'];
 	print_r(array($ucsynlogin));
 	exit;*/
-	showmessage('login_success', $app?"userapp.php?id=$app":$_POST['refer'], 0, array($ucsynlogin));
+    //get recent login request
+    $before_time = $_SGLOBAL['timestamp'] - 10*60;
+    $query = $_SGLOBAL['db']->query("select count(*) as num from ".tname("actionlog")." where uid=$space[uid] and dateline > $before_time and action='login'");
+    $item = $_SGLOBAL['db']->fetch_array($query);
+    if ($item['num'] >= 10) {
+        if ($space['flag'] == 0) {
+            $space['flag'] = -2;
+            updatetable('space', array('flag'=>-2), array('uid'=>$space['uid']));
+            include_once template("space_check_bot");
+            exit();
+        }
+    } else {
+        inserttable('actionlog', array('uid'=>"$space[uid]", 'dateline'=>"$_SGLOBAL[timestamp]", 'action'=>'login'));
+	    showmessage('login_success', $app?"userapp.php?id=$app":$_POST['refer'], 0, array($ucsynlogin));
+    }
 }
 
 $membername = empty($_SCOOKIE['loginuser'])?'':sstripslashes($_SCOOKIE['loginuser']);
