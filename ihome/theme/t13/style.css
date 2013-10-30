@@ -37,6 +37,7 @@ body { padding: 0 0 50px; background: #6A8FA1; color: #666; }
 #space_page .comments_list li,
 #footer { border-color: #ECF1F3; }
 .tabs_header{ position: absolute; margin:-44px 0 0 170px; width: 600px; border: none;}
+#search_vertical{ position: static; margin: 0 0 15px 0; }
 
 .tabs_header ul.tabs li a, .tabs_header ul.tabs li a span{ background-image: url(images/tab_bg.gif); color: #FFF; }
 .tabs_header ul.tabs li.active a, .tabs_header ul.tabs li.active a span{ background-image: url(images/active_tab_bg.gif); color: #5778A1; }

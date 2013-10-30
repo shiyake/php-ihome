@@ -22,6 +22,7 @@ a { color: #999; }
 .tabs_header, #space_page .comments_list li, #footer { border-color: #222; }
 .tabs_header ul.tabs li a, .tabs_header ul.tabs li a span { background: none; color:#FC0; }
 .tabs_header ul.tabs li.active a, .tabs_header ul.tabs li.active a span { background-image: url(images/tab_bg.gif); color: #FFF; }
+#search_vertical{ position: static; margin: 0 0 15px 0; }
 a#i_rss { background-image: url(images/rss_icon.gif); color:#FC0; }
 .index_name { color: #FFF; }
 .online_icon { background-image: url(images/online_icon.gif); }

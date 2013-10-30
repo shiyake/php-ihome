@@ -18,6 +18,8 @@ body { padding: 0 0 50px; background: url(images/body_bg.gif) fixed repeat left 
 #space_page .comments_list li,
 #footer { border-color: #ECF1F3; }
 .tabs_header{ position: absolute; margin: -57px 0 0 -210px; width: 950px; border: none;}
+#search_vertical{ position: static; margin: 0 0 15px 0; }
+#search_vertical span {color: inherit;}
 .tabs_header ul.tabs{ margin: 7px 0 0; }
 .tabs_header ul.tabs li{ margin: 0 20px 0 0; }
 .tabs_header ul.tabs li.active a,

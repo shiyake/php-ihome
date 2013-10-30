@@ -1,7 +1,7 @@
 <!--{template header}-->
 <!--{if !empty($_SGLOBAL[inajax])}-->
 <!--{else}-->
-<div class="tabs_header">
+<div id="search_vertical" class="tabs_header">
 	<ul class="tabs">
         <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
@@ -75,7 +75,6 @@
     <!--{if $view == "me"}-->
     现在还没有相关的活动
     <!--{else}-->
-    <br/>
     还没有相关的活动。您可以 <a href="cp.php?ac=event">发起一个新活动</a>		
     <!--{/if}-->
 </div>
