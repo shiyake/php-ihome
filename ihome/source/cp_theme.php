@@ -40,7 +40,7 @@ if ($op == 'use') {
 		$setarr = array('theme'=>$dir, 'css'=>'');
 	}
 	updatetable('spacefield', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
-	showmessage('do_success', 'space.php', 0);
+    showmessage('do_success', 'space.php', 1);
 	
 } elseif ($op == 'diy') {
 	//×Ô¶¨Òå

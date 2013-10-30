@@ -957,7 +957,7 @@ a{color:#780002;}
 #footer { background-image:url(image/footer-orange.png);}
 .nbox {width:740px;float:left;}
 #siderbar .submit { color:white; }
-#diy {width:41px; height:41px; z-index:30000; background: url('image/dressup_normal.png') no-repeat; position:absolute; top:33px; right: 0;}
+#diy {width:41px; height:41px; z-index:30000; background: url('image/dressup_normal.png') no-repeat; position:fixed; top:33px; right: 0;}
 #diy:hover {width:41px; height:41px; background: url('image/dressup_hover.png') no-repeat;}
 
 /********Ê×Ò³ÈÕÀú******/
