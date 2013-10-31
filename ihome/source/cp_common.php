@@ -155,7 +155,7 @@ if($op == 'logout') {
 
 	$type = empty($_GET['type'])?'':preg_replace("/[^0-9a-zA-Z\_\-\.]/", '', $_GET['type']);
 	if(submitcheck('ignoresubmit')) {
-		$authorid = empty($_POST['authorid']) ? 0 : intval($_POST['authorid']);
+		$authorid = $_POST['notice_uid'];
 		if($type) {
 			$type_uid = $type.'|'.$authorid;
 			if(empty($space['privacy']['filter_note']) || !is_array($space['privacy']['filter_note'])) {
@@ -164,6 +164,15 @@ if($op == 'logout') {
 			$space['privacy']['filter_note'][$type_uid] = $type_uid;
 			privacy_update();
 		}
+        $ignore_type = $_POST['ignore_type'];
+        if ($ignore_type == 'black') {
+            //É¾³ýºÃÓÑ
+            if($space['friends'] && in_array($authorid, $space['friends'])) {
+                friend_update($_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username'], $authorid, '', 'ignore');
+            }
+            inserttable('blacklist', array('uid'=>$_SGLOBAL['supe_uid'], 'buid'=>$authorid, 'dateline'=>$_SGLOBAL['timestamp']), 0, true);
+		}
+
 		showmessage('do_success', $_POST['refer']);
 	}
 	$formid = random(8);

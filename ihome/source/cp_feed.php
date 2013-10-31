@@ -47,16 +47,21 @@ if($_GET['op'] == 'delete') {
 	}
 } elseif($_GET['op'] == 'ignore') {
 	
-	$icon = empty($_GET['icon'])?'':preg_replace("/[^0-9a-zA-Z\_\-\.]/", '', $_GET['icon']);
 	if(submitcheck('feedignoresubmit')) {
-		$uid = empty($_POST['uid'])?0:intval($_POST['uid']);
-		if($icon) {
-			$icon_uid = $icon.'|'.$uid;
-			if(empty($space['privacy']['filter_icon']) || !is_array($space['privacy']['filter_icon'])) {
-				$space['privacy']['filter_icon'] = array();
+		$uid = empty($_POST['feed_uid'])?0:$_POST['feed_uid'];
+        $ignore_type = $_POST['ignore_type'];
+		if($ignore_type == 'black_feed') {
+			if(empty($space['privacy']['black_feed']) || !is_array($space['privacy']['black_feed'])) {
+				$space['privacy']['black_feed'] = array();
 			}
-			$space['privacy']['filter_icon'][$icon_uid] = $icon_uid;
+			$space['privacy']['black_feed'][$uid] = $uid;
 			privacy_update();
+		} elseif($ignore_type == 'black_all') {
+            //É¾³ýºÃÓÑ
+            if($space['friends'] && in_array($uid, $space['friends'])) {
+                friend_update($_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username'], $uid, '', 'ignore');
+            }
+            inserttable('blacklist', array('uid'=>$_SGLOBAL['supe_uid'], 'buid'=>$uid, 'dateline'=>$_SGLOBAL['timestamp']), 0, true);
 		}
 		showmessage('do_success', $_POST['refer']);
 	}

@@ -74,12 +74,12 @@
 	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 	<div class="popupmenu_inner" id="__ignoreform_{$formid}">
 		<form method="post" id="ignoreform_{$formid}" name="ignoreform_{$formid}" action="cp.php?ac=common&op=ignore&type=$type">
-			<p>在下次浏览时不再显示此类通知</p>
 			<p class="btn_line">
-				<input type="radio" name="authorid" id="authorid1" value="$_GET[authorid]" checked> <label for="uid1">仅屏蔽该好友的</label>
+				<input type="radio" name="ignore_type" id="authorid1" value="ignore_notice" checked> <label for="uid1">屏蔽该好友的通知</label>
 				<br>
-				<input type="radio" name="authorid" id="authorid0" value="0"> <label for="uid0">屏蔽所有好友的</label>
+				<input type="radio" name="ignore_type" id="authorid0" value="black"> <label for="uid0">拉黑该好友</label>
 				<br><br>
+				<input type="hidden" name="notice_uid" value="$_GET[authorid]">
 				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
 				<!--{if $_SGLOBAL[inajax]}-->
 				<input type="hidden" name="ignoresubmit" value="true" />

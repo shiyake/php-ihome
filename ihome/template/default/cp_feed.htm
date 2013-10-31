@@ -69,13 +69,13 @@
 	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 	<div class="popupmenu_inner" id="__feedform_{$feedid}">
 		<form method="post" id="feedform_{$feedid}" name="feedform_{$feedid}" action="cp.php?ac=feed&op=ignore&icon=$feed[icon]">
-		<p>在下次浏览时不再显示此类动态</p>
 		<p class="btn_line">
-			<input type="radio" name="uid" id="uid1" value="$feed[uid]" checked> <label for="uid1">仅屏蔽该好友的</label>
+			<input type="radio" name="ignore_type" id="uid1" value="black_feed" checked> <label for="uid1">屏蔽该好友的动态</label>
 			<br>
-			<input type="radio" name="uid" id="uid0" value="0"> <label for="uid0">屏蔽所有好友的</label>
+			<input type="radio" name="ignore_type" id="uid0" value="black_all"> <label for="uid0">拉黑该好友</label>
 			<br><br>
-			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<input type="hidden" name="feed_uid" value="$feed[uid]"/>
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
 			<!--{if $_SGLOBAL[inajax]}-->
 			<input type="hidden" name="feedignoresubmit" value="true" />
 			<button name="feedignoresubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('feedform_{$feedid}','',2000)">确定</button>

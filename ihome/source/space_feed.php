@@ -175,6 +175,12 @@ if($_GET['view'] == 'me' || $_GET['view'] == 'hot') {
 		$hidden_icons = explode(',', $_SCONFIG['feedhiddenicon']);
 	}
 	$space['filter_icon'] = empty($space['privacy']['filter_icon'])?array():array_keys($space['privacy']['filter_icon']);
+	$space['black_feed'] = empty($space['privacy']['black_feed'])?array():array_keys($space['privacy']['black_feed']);
+    $blackquery = $_SGLOBAL['db']->query("select buid from ".tname('blacklist')." where uid=$_SGLOBAL[supe_uid]");
+    $space['blacklist'] = array();
+    while ($item = $_SGLOBAL['db']->fetch_array($blackquery)) {
+        $space['blacklist'][]=$item['buid'];
+    }
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(empty($feed_list[$value['hash_data']][$value['uid']])) {
@@ -513,6 +519,17 @@ function ckicon_uid($feed) {
 			}
 		}
 	}
+    if($space['black_feed']) {
+        $key = $feed['uid'];
+        if(in_array($key, $space['black_feed'])) {
+            return false;
+        }
+	}
+    if ($space['blacklist']) {
+        if (in_array($feed['uid'], $space['blacklist'])) {
+            return false;
+        }
+    }
 	return true;
 }
 

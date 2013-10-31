@@ -802,6 +802,10 @@ function notification_add($uid, $type, $note, $returnid=0) {
 
 	//获取对方的筛选条件
 	$tospace = getspace($uid);
+
+    if (isblacklist($uid)) {
+        return;
+    }
 	
 	//更新我的好友关系热度
 	if($_SGLOBAL['supe_uid']) {
@@ -1027,11 +1031,12 @@ function friend_cache($uid,$puid=0) {
 	//$friendurl_r = "data/assets/data_".$uid.".json";
 	$atfriends = array();
 	$count = 0;
-		
-	$query = $_SGLOBAL['db']->query("SELECT uid,name,username FROM ".tname('space')." WHERE uid in ($friendlist) ");
-	while($value = $_SGLOBAL['db']->fetch_array($query)){
-		$friendat[] = $value; 
-	}
+	if ($count > 0) {	
+        $query = $_SGLOBAL['db']->query("SELECT uid,name,username FROM ".tname('space')." WHERE uid in ($friendlist) ");
+        while($value = $_SGLOBAL['db']->fetch_array($query)){
+            $friendat[] = $value; 
+        }
+    }
 	
 	foreach($friendat as $value){
 		if(empty($value['name'])) $value['name'] = $value['username'];

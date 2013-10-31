@@ -146,6 +146,7 @@
 					<a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)">加为好友</a>
 					<!--{else}-->
 					<a href="cp.php?ac=friend&op=changegroup&uid=$value[uid]" id="friend_group_$value[uid]" onclick="ajaxmenu(event, this.id)">分组</a><span class="pipe">|</span>
+					<a href="cp.php?ac=friend&op=blacklist&username=$value[username]" id="a_blacklist_$key" onclick="ajaxmenu(event, this.id)">拉黑</a><span class="pipe">|</span>
 					<a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_ignore_$key" onclick="ajaxmenu(event, this.id)">删除</a>
 					<!--{/if}-->
 					</div>
