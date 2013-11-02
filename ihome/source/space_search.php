@@ -21,7 +21,7 @@ if (strlen($query) > 0) {
     } else {
         $order_url = "";
     }
-    $search_url = 'http://jianfei.bestgames7.com/solr/select/?q=' . urlencode("search_text:".$query." AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
+    $search_url = $_SC['search_host'].'/solr/select/?q=' . urlencode("search_text:".$query." AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $search_url);

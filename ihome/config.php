@@ -24,6 +24,7 @@ $_SC['tplrefresh']		= 1;
 
 $_SC['founder'] 		= '1'; 
 $_SC['allowedittpl']	= 0;
+$_SC['search_host'] = 'http://jianfei.bestgames7.com';
 
 define('UC_CONNECT', 'mysql'); 
 define('UC_DBHOST', 'localhost');
