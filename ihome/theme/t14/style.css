@@ -18,7 +18,7 @@ a { color: #999; }
 .login_thumb { background-image: url(images/login_bg.gif); }
 #space_page { margin: 60px 0 0; padding: 10px; width: 970px; background: #000 url(images/ybg.gif) no-repeat left top; }
 #ubar h2 { background: url(images/title.gif) no-repeat 0 -100px; }
-.tabs_header{ position: absolute; margin: -39px 0 0 150px; width: 600px; border: none; }
+.tabs_header{ position: absolute; margin: -39px 0 0 100px; width: 700px; border: none; }
 .tabs_header, #space_page .comments_list li, #footer { border-color: #222; }
 .tabs_header ul.tabs li a, .tabs_header ul.tabs li a span { background: none; color:#FC0; }
 .tabs_header ul.tabs li.active a, .tabs_header ul.tabs li.active a span { background-image: url(images/tab_bg.gif); color: #FFF; }

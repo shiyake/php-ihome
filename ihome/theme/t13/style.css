@@ -36,7 +36,7 @@ body { padding: 0 0 50px; background: #6A8FA1; color: #666; }
 #space_page .feed li,
 #space_page .comments_list li,
 #footer { border-color: #ECF1F3; }
-.tabs_header{ position: absolute; margin:-44px 0 0 170px; width: 600px; border: none;}
+.tabs_header{ position: absolute; margin:-44px 0 0 120px; width: 700px; border: none;}
 #search_vertical{ position: static; margin: 0 0 15px 0; }
 
 .tabs_header ul.tabs li a, .tabs_header ul.tabs li a span{ background-image: url(images/tab_bg.gif); color: #FFF; }
