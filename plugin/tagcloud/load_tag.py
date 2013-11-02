@@ -20,8 +20,9 @@ def load_blog(conn):
         for p in parts:
             if p[1] == 'ns' or p[1] == 'nr' or p[1] == 'nt' or p[1] == 'n':
                 if p[0] not in tags:
-                    tags[p[0]] = 0
-                tags[p[0]] += 1
+                    tags[p[0]] = [0, 0, 0]
+                tags[p[0]][0] += 1
+                tags[p[0]][1] += 1
 
     cursor.close()
 
@@ -36,8 +37,9 @@ def load_doing(conn):
         for p in parts:
             if p[1] == 'ns' or p[1] == 'nr' or p[1] == 'nt' or p[1] == 'n':
                 if p[0] not in tags:
-                    tags[p[0]] = 0
-                tags[p[0]] += 1
+                    tags[p[0]] = [0, 0, 0]
+                tags[p[0]][0] += 1
+                tags[p[0]][2] += 1
 
 
     cursor.close()
@@ -67,11 +69,16 @@ if __name__ == '__main__':
         num, word = heapq.heappop(h)
         results.append( (num, word.decode('utf8')) )
     for num, word in results[::-1]:
+        print word
         if word[0] == '@':
             word = word[1:]
         if len(word) == 1:
             continue
-        cursor.execute("INSERT INTO ihome_tagcloud(tag_word, tag_count) values (%s, %s)", (word, num))
+        if num[1] > num[2]:
+            word_type = 'blog'
+        else:
+            word_type = 'doing'
+        cursor.execute("INSERT INTO ihome_tagcloud(tag_word, tag_count, max_type) values (%s, %s, %s)", (word, num[0], word_type))
         print cursor._executed
         if lastid < 0:
             lastid = cursor.lastrowid

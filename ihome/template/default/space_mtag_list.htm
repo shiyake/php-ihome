@@ -1,15 +1,5 @@
 <!--{eval $_TPL['titles'] = array($mtag['tagname'], $mtag['title'], '讨论区');}-->
 <!--{template header}-->
-<div class="searchbar floatright">
-<form method="get" action="space.php">
-	<input name="searchkey" value="" size="15" class="t_input" type="text">
-	<input name="searchsubmit" value="搜索话题" class="submit" type="submit">
-	<input type="hidden" name="searchmode" value="1" />
-	<input type="hidden" name="tagid" value="$mtag[tagid]" />
-	<input type="hidden" name="do" value="mtag" />
-	<input type="hidden" name="view" value="$_GET[view]" />
-</form>
-</div>
 <h2 class="title">
 	<img src="image/app/mtag.gif"><a href="space.php?do=mtag&id=$mtag[fieldid]">$mtag[title]</a> -
 	<a href="space.php?do=mtag&tagid=$mtag[tagid]">$mtag[tagname]</a>

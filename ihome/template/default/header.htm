@@ -283,6 +283,19 @@ $_SGLOBAL[space_css]
                     <input id="search_input" class="head_search_input" name="query" value="找人、搜内容" type="text" onblur="if(this.value=='') {this.value='找人、搜内容';this.form.keywords.style.color='#666666'}" onclick="if(this.value=='找人、搜内容'){this.value='';this.form.keywords.style.color='#000'}" frame="void" />
                    <input type="image" class="head_search_submit" src="template/default/image/head_search_submit.png" width="25" height="23" value="go" />
                    <input type="hidden" name="do" value="search" />
+                   <!--{if $do=='doing'}-->
+                   <input type="hidden" name="type" value="doing"/>
+                   <!--{elseif $do=='blog'}-->
+                   <input type="hidden" name="type" value="blog"/>
+                   <!--{elseif $do=='album'}-->
+                   <input type="hidden" name="type" value="album"/>
+                   <!--{elseif $do=='poll'}-->
+                   <input type="hidden" name="type" value="poll"/>
+                   <!--{elseif $do=='event'}-->
+                   <input type="hidden" name="type" value="event"/>
+                   <!--{elseif $do=='mtag'}-->
+                   <input type="hidden" name="type" value="mtag"/>
+                   <!--{/if}-->
                 </form>
 			</li>		
 		</ul>
