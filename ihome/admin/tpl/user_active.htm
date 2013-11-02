@@ -1,0 +1,33 @@
+<!--{template admin/tpl/header}-->
+	
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'days');
+        data.addColumn('number', 'num');
+        data.addRows([
+            <!--{loop $items $value}-->
+            <!--{eval echo "[\"$value[item_tag]\", $value[num]],"}-->
+            <!--{/loop}-->
+            ]);
+        var options = {
+            title: '用户的活跃情况'
+            };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+<div class="mainarea">
+	<div class="maininner">
+        <div id="piechart"></div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+
+<!--{template admin/tpl/footer}-->
