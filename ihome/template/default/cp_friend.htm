@@ -1213,7 +1213,7 @@ function showtbody(id) {
 				<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
 				<input type="hidden" name="addsubmit" value="true" />
 				<!--{if $_SGLOBAL[inajax]}-->
-				<input type="button" name="addsubmit_btn" id="addsubmit_btn" value="确定" class="submit" onclick="ajaxpost('addform_{$tospace[uid]}','',2000)" />
+				<input type="button" name="addsubmit_btn" id="addsubmit_btn" value="确定" class="submit" onclick="ajaxpost('addform_{$tospace[uid]}','friend_request_sent',2000)" />
 				<!--{else}-->
 				<input type="submit" name="addsubmit_btn" id="addsubmit_btn" value="确定" class="submit" />
 				<!--{/if}-->

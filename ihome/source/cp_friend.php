@@ -550,6 +550,7 @@ if($op == 'add') {
         $wherearr = $fromarr = $uidjoin = array();
         $fsql = '';
         $fromarr['space'] = tname('space').' s';
+        $wherearr[] = "s.groupid != 3";
         if($searchkey = stripsearchkey($_GET['searchkey'])) {
             $uid = intval($searchkey);
             $wherearr[] = "(s.name like '%$searchkey%' OR s.username like '%$searchkey%' OR s.uid = '$uid')";
@@ -637,7 +638,7 @@ if($op == 'add') {
         realname_get();
     } else {
         if($space['feedfriend']) {
-            $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid IN (".$space['feedfriend'].") AND status = 1 LIMIT 0,200"); 
+            $query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." f, ".tname('space')." s WHERE f.fuid = s.uid AND s.groupid != 3 AND  f.uid IN (".$space['feedfriend'].") AND f.status = 1 LIMIT 0,200"); 
             $count = $_SGLOBAL['db']->num_rows($query);
             $offset = 0;
             if ($count > 6) {
