@@ -118,7 +118,7 @@
     var words = [
     <!--{if $tags}-->
         <!--{loop $tags $key $value}-->
-            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']"},
+            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=$value['intend']"},
         <!--{/loop}-->
     <!--{/if}-->
     ];

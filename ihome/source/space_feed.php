@@ -100,7 +100,7 @@ $feed_list = $appfeed_list = $hiddenfeed_list = $filter_list = $hiddenfeed_num =
 $count = $filtercount = 0;
 
 // tagcloud
-$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, tag_count as weight FROM '.tname('tagcloud')." LIMIT 0,60");
+$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, tag_count as weight, max_type as intend FROM '.tname('tagcloud')." LIMIT 0,60");
 $tags = array();
 while($value = $_SGLOBAL['db']->fetch_array($tags_query)) {
     $tags[$value['id']] = $value;
