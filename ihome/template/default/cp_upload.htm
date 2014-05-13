@@ -78,8 +78,7 @@
 		<tr>
 			<td>
 				<form method="post" id="upload" action="cp.php?ac=upload<!--{if $eventid}-->&eventid=$eventid<!--{/if}-->" enctype="multipart/form-data" target="uploadframe">
-                    <a href="javascript:;" class="chosefile">选择文件</a>
-                    <input type="file" style="display:none;" class="attach_file" name="attach" size="25"/>
+                    <input type="file"  class="attach_file" name="attach" size="25"/>
                     <span id="localfile"></span>					
 					<input type="hidden" name="uploadsubmit" id="uploadsubmit" value="true" />
 					<input type="hidden" name="albumid" id="albumid" value="0" />
