@@ -2,9 +2,9 @@ ihome
 =====
 ihome的php版本代码
 
-提交
+这是生产分支
 ----
-个人开发请将自己fork的ihome项目pull request到master分支中
+上线master代码请发起pull request: base:product compare:master
 
 除非hotfix,请勿直接将提交加入该库中！
 
