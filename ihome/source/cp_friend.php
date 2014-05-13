@@ -18,13 +18,13 @@ $tmpuid = $_SGLOBAL['supe_uid'] ? $_SGLOBAL['supe_uid'] : $uid;
 if($tmpuid){
 	$querygroupid = $_SGLOBAL['db']->query("SELECT pptype,caninvite FROM ".tname('space')." WHERE uid='$tmpuid'");
 	$valuegroupid = $_SGLOBAL['db']->fetch_array($querygroupid);
-	if($valuegroupid['pptype']==1 ||$valuegroupid['pptype']==2||$valuegroupid['caninvite']==1 ){//显示邀请功能
-		$_SCONFIG['closeinvite'] = 0;
-	}else{//不显示邀请功能
+	if(isDepartMent($_SGLOBAL['supe_uid'],0)||$valuegroupid['pptype']==1 ||$valuegroupid['pptype']==2||$valuegroupid['caninvite']==1 ){//显示邀请功能
 		$_SCONFIG['closeinvite'] = 1;
+	}else{//不显示邀请功能
+		$_SCONFIG['closeinvite'] = 0;
 	}
 }else{
-	$_SCONFIG['closeinvite'] = 1;
+	$_SCONFIG['closeinvite'] = 0;
 }
 /***********************************martin 修改*******************************************************/
 
