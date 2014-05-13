@@ -1,0 +1,64 @@
+<h5>表态</h5>
+
+<div class="digc">
+	<table>
+		<tr>
+		<!--{eval $clicknum = 0;}-->
+		<!--{loop $clicks $value}-->
+		<!--{eval $clicknum = $clicknum + $value['clicknum'];}-->
+		<!--{eval $value['height'] = $maxclicknum?intval($value['clicknum']*50/$maxclicknum):0;}-->
+        <td>
+            <a href="cp.php?ac=click&op=add&clickid=$value[clickid]&idtype=$idtype&id=$id&hash=$hash" id="click_{$idtype}_{$id}_{$value[clickid]}">
+                <!--{if $value[clicknum]}-->
+                <div class="digface">
+                    <img src="image/click/$value[icon]" alt="" />
+                    $value[name]({$value[clicknum]})
+                </div>
+                <!--{else}-->
+                <style>
+                    .digface img {
+                        -webkit-transition:all 0.2s ease-in-out;
+                    }
+                    .digface img:hover {
+                        -webkit-transform:rotate(30deg);
+                    }
+                </style>
+                <div class="digface">
+                    <img src="image/click/$value[icon]" alt="" />
+                    $value[name]
+                </div>
+                <!--{/if}-->
+            </a>
+        </td>
+		<!--{/loop}-->
+		</tr>
+	</table>
+    <!--{if $clickuserlist}-->
+    <style>
+        .avatar_list li p {
+            overflow:initial;
+            white-space:initial;
+        }
+        .avatar_list li {
+            overflow:initial;
+        }
+    </style>
+<div class="trace" style="padding-bottom: 10px;">
+	<div id="trace_div">
+		<ul class="avatar_list" style="margin-left:30px;" id="trace_ul">
+		<!--{loop $clickuserlist $value}-->
+		<li>
+			<!--{if $value[username]}-->
+			<div class="avatar48"><a href="space.php?uid=$value[uid]" target="_blank" title="$_SN[$value[uid]]"><!--{avatar($value[uid], 'small')}--></a></div>
+			<!--{else}-->
+			<div class="avatar48"><img src="image/magic/hidden.gif" alt="$value[clickname]" class="avatar" /></div>
+			<p>匿名</p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+<!--{/if}-->
+<!--{if $click_multi}--><div class="page">$click_multi</div><!--{/if}-->
+</div>

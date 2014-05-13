@@ -1,0 +1,23 @@
+{
+  "name": "ihome_yangchen",
+  "version": "0.0.0",
+  "description": "ihome =====",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jarvys/ihome.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarvys/ihome/issues"
+  },
+  "homepage": "https://github.com/jarvys/ihome",
+  "devDependencies": {
+    "gulp": "~3.5.2",
+    "gulp-less": "~1.2.1"
+  }
+}

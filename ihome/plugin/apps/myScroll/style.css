@@ -1,0 +1,81 @@
+@charset "utf-8";
+/*-插件样式*/
+.myScroll {
+	overflow:hidden;
+	zoom:1;
+	*position:relative;
+}
+.myScroll p {
+	width:25px;
+	height:22px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	margin: 0 2px;
+}
+.myPrevBtn {
+	background-image:url(arrow_left.png);
+	background-position:center center;
+	float:left;
+	display:inline
+}
+.myNextBtn {
+	background-image:url(arrow_right.png);
+	background-position:center center;
+	float:right;
+	display:inline
+}
+.myBlock {
+	overflow:hidden;
+	float:left;
+	display:inline
+}
+.myBlock .mainul{
+	width:100%;
+	overflow:hidden;
+	zoom:1;
+	list-style:none
+}
+.myBlock .mainul .mainli {
+	width:278px;
+	float:left;
+	padding: 0;
+	display:inline
+}
+/*
+.myBlock ul li:hover {
+	background-color:#FFC
+}
+*/
+.myBlock dl {
+	width:160px;
+	margin:0 auto;
+	list-style:none;
+}
+.myBlock dl dt {
+	width:160px;
+	height:160px;
+	overflow:hidden;
+	background-color:#FFF
+}
+.myBlock dl dt img {
+	width:160px;
+        border:0;
+}
+.myBlock dl dd {
+	line-height:18px;
+	list-style:none;
+	text-align:center
+}
+.myBlock dl dd a {
+	display:inline-block;
+	padding:3px 0;
+	width:100%;
+}
+.myClone {
+	overflow:hidden;
+	zoom:1
+}
+.myClone ul {
+	float:left;
+	display:inline
+}

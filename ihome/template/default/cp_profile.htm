@@ -1,0 +1,885 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<style>
+.sub_tab.l_status.c_form {
+    padding: 0px 0px 0px 23px; 
+    border-bottom: none;
+}
+
+.sub_tab.l_status.c_form > span.pipe {
+    display: none;
+}
+
+.sub_tab.l_status.c_form > a{
+    padding-right: 15px;
+}
+</style>
+
+<div class="sub_tab l_status c_form">
+	<a href="cp.php?ac=profile&op=base"$cat_actives[base]>基本资料</a>
+	<a href="cp.php?ac=profile&op=contact"$cat_actives[contact]>联系方式</a>
+	<a href="cp.php?ac=profile&op=edu"$cat_actives[edu]>教育情况</a>
+	<a href="cp.php?ac=profile&op=work"$cat_actives[work]>工作情况</a>
+	<a href="cp.php?ac=profile&op=info"$cat_actives[info]>个人信息</a>
+	<a href="cp.php?ac=profile&op=cour"$cat_actives[cour]>课程备忘录</a>
+	<!--{if $_SGLOBAL['member']['groupid']==3}-->
+	<a href="cp.php?ac=profile&op=flink"$cat_actives[flink]>友情链接</a>
+	<!--{/if}-->
+</div>
+
+<!--{eval $farr = array(0=>'全用户','1'=>'仅好友','3'=>'仅自己');}-->
+<form method="post" action="$theurl&ref" class="c_form" id="person-config-form">
+<input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash"/>
+<!--{if $_GET['op'] == 'base'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<tr>
+	<th style="width:10em;">您的登录用户名:</th>
+	<td>
+		<!--{eval echo stripslashes($space['username']);}--> (<a href="cp.php?ac=password">修改登录密码</a>)
+	</td>
+	<td></td>
+</tr>
+<!--{if !$_SCONFIG['realname']}-->
+<tr>
+	<th style="width:10em;">真实姓名:</th>
+	<td>
+		<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" />
+	</td>
+	<td>&nbsp;</td>
+</tr>
+<!--{else}-->
+<tr>
+	<th style="width:10em;">真实姓名:</th>
+	<td>
+	<!--{if $space[name] && empty($_GET['namechange'])}-->
+	<span style="font-weight:bold;"><!--{eval echo stripslashes($space['name']);}--></span>
+	<!--{if $_SCONFIG['namechange']}-->[<a href="$theurl&namechange=1">修改</a>]<!--{/if}-->
+	<!--{if $space[namestatus]}-->[<font color="red">认证通过</font>]<!--{else}--><br>等待验证中，您目前将只能使用用户名，并且一些操作可能会受到限制<!--{/if}-->
+	<input type="hidden" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" />
+	<!--{else}-->
+	<!--{if $rncredit && $_GET['namechange']}--><img src="image/credit.gif" align="absmiddle"> 本操作需要支付积分 $rncredit 个，您现在的积分 $space[credit] 个。<br><!--{/if}-->
+	<!--{if empty($_SCONFIG['namechange'])}-->您的真实姓名一经确认，将不再允许再次修改，请真实填写。<br><!--{/if}-->
+	<!--{if $_SCONFIG['namecheck']}-->您填写/修改真实姓名后，需要等待我们认证后才能有效，在认证通过之前，您将只能使用用户名，并且一些操作可能会受到限制。<br><!--{/if}-->
+	<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" /> (请输入2～20个汉字)
+	<!--{/if}-->
+	</td>
+	<td>&nbsp;</td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;">性别:</th>
+	<td id="sex-config-sell">
+
+	<!--{if empty($space[sex])}-->
+		<label for="sexm"><input id="sexm" type="radio" value="1" name="sex"$sexarr[1] />男</label> 
+		<label for="sexw"><input id="sexw" type="radio" value="2" name="sex"$sexarr[2] />女</label>
+		<span style="font-weight:bold;color:red;">(性别选择确定后，将不能再次修改)</span>
+	<!--{else}-->
+		<!--{if $space[sex]==1}-->男<!--{else}-->女<!--{/if}-->
+	<!--{/if}-->
+    	</td>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<th style="width:10em;">婚恋状态:</th>
+	<td>
+		<select id="marry" name="marry">
+			<option value="0">&nbsp;</option>
+			<option value="1"$marryarr[1]>单身</option>
+			<option value="2"$marryarr[2]>非单身</option>
+		</select>
+		<a id="search-for-sex" target="_blank">&raquo; 查找男女朋友</a>
+        <script>
+        (function() {
+            var jq = jQuery.noConflict();
+            jq(function() {
+                var _sell = jq("#sex-config-sell");
+                var _sexw = jq("#sexw");
+                var _sexm = jq("#sexm");
+                var _search = jq("#search-for-sex");
+                if(_sexw.length === 0) {
+                    var sex = _sell.html().replace(/\s+/, "") === "男" ? 1 : 2;
+                    return _search.attr("href", "/cp.php?searchkey=&sex=" + sex + "&age=0" + 
+                        "&marry=0&birthprovince=&birthcity=&subtitle=0&startyear=0" +
+                        "&ac=friend&op=search2&searchsubmit=%E6%9F%A5%E6%89%BE");
+                }
+
+                _sexm.click(ensureSex);
+                _sexw.click(ensureSex);
+
+                function ensureSex() {
+                    var sex = _sexm.attr("checked") ? 1 : 2;
+                    _search.attr("href", "/cp.php?searchkey=&sex=" + sex + "&age=0" + 
+                        "&marry=0&birthprovince=&birthcity=&subtitle=0&startyear=0" +
+                        "&ac=friend&op=search2&searchsubmit=%E6%9F%A5%E6%89%BE");
+                }
+
+                ensureSex();
+            });
+        })();
+        </script>
+	</td>
+	<td>
+		<select name="friend[marry]">
+			<option value="0"{$friendarr[marry][0]}>全用户可见</option>
+			<option value="1"{$friendarr[marry][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[marry][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>生日:</th>
+	<td>
+		<select id="birthyear" name="birthyear" onchange="showbirthday();">
+			<option value="0">&nbsp;</option>
+			$birthyeayhtml
+		</select> 年 
+		<select id="birthmonth" name="birthmonth" onchange="showbirthday();">
+			<option value="0">&nbsp;</option>
+			$birthmonthhtml
+		</select> 月 
+		<select id="birthday" name="birthday">
+			<option value="0">&nbsp;</option>
+			$birthdayhtml
+		</select> 日
+		<a id="search-for-birthday" target="_blank">&raquo; 查找同年龄段朋友</a>
+        <script>
+        (function() {
+            var jq = jQuery.noConflict();
+            jq(function() {
+                var _search = jq("#search-for-birthday");
+                var _year = jq("#birthyear");
+                var _month = jq("#birthmonth");
+                var _day = jq("#birthday");
+
+                function ensureSearchLink() {
+                    var date = new Date();
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    var day = date.getDay();
+
+                    var age = year - parseInt(_year.val()) - 1;
+                    if(month < _month.val()) {
+                        age++;
+                    } else if(month === parseInt(_month.val())) {
+                        if (day <= parseInt(_day.val())) {
+                            age++;
+                        }
+                    }
+
+                    var value;
+                    if(age < 15) {
+                        value = 1;
+                    } else if(age < 23) {
+                        value = 2;
+                    } else if(age < 31) {
+                        value = 3;
+                    } else if(age < 41) {
+                        value = 4;
+                    } else {
+                        value = 5;
+                    }
+
+                    _search.attr("href", "/cp.php?searchkey=&sex=0&age=" + value + 
+                        "&marry=0&birthprovince=&birthcity=&subtitle=0&startyear=0" +
+                        "&ac=friend&op=search2&searchsubmit=%E6%9F%A5%E6%89%BE");
+                }
+
+                jq("#birthyear, #birthmonth, #birthday").change(ensureSearchLink);
+                ensureSearchLink();
+            });
+        })();
+        </script>
+	</td>
+	<td>
+		<select name="friend[birth]">
+			<option value="0"{$friendarr[birth][0]}>全用户可见</option>
+			<option value="1"{$friendarr[birth][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[birth][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>血型:</th>
+	<td>
+		<select id="blood" name="blood">
+			<option value="">&nbsp;</option>
+			$bloodhtml
+		</select>
+	</td>
+	<td>
+		<select name="friend[blood]">
+			<option value="0"{$friendarr[blood][0]}>全用户可见</option>
+			<option value="1"{$friendarr[blood][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[blood][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>家乡:</th>
+	<td id="birthcitybox">
+		<script type="text/javascript" src="source/script_city.js"></script>
+		<script type="text/javascript">
+		showprovince('birthprovince', 'birthcity', '$space[birthprovince]', 'birthcitybox');
+		showcity('birthcity', '$space[birthcity]', 'birthprovince', 'birthcitybox');
+		</script>
+		<a id="search-for-birthcity" href="javascript:void(0);" target="_blank">&raquo; 查找老乡</a>
+        <script>
+        (function() {
+            var jq = jQuery.noConflict();
+            jq(function() {
+                var _search = jq("#search-for-birthcity");
+                _search.click(function(e) {
+                    e.preventDefault();
+                    window.location = "/cp.php?searchkey=&sex=0&age=0" + 
+                        "&marry=0&birthprovince=" + jq("#birthprovince").val() + 
+                        "&birthcity=" + jq("#birthcity").val() + "&subtitle=0&startyear=0" +
+                        "&ac=friend&op=search2&searchsubmit=%E6%9F%A5%E6%89%BE";
+                });
+            });
+        })();
+        </script>
+	</td>
+	<td>
+		<select name="friend[birthcity]">
+			<option value="0"{$friendarr[birthcity][0]}>全用户可见</option>
+			<option value="1"{$friendarr[birthcity][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[birthcity][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<style>
+#residecitybox select {
+	width: 83px;
+}
+</style>
+<tr>
+	<th>居住地:</th>
+	<td id="residecitybox">
+		<script type="text/javascript">
+		showprovince('resideprovince', 'residecity', '$space[resideprovince]', 'residecitybox');
+		showcity('residecity', '$space[residecity]', 'resideprovince', 'residecitybox');
+		</script>
+		<!--<a id="search-for-reside" href="javascript:void(0);" target="_blank">&raquo; 查找同城</a>-->
+        <script>
+        (function() {
+            var jq = jQuery.noConflict();
+            jq(function() {
+                var _search = jq("#search-for-reside");
+                _search.click(function(e) {
+                    e.preventDefault();
+                    window.location = "/cp.php?searchkey=&sex=0&age=0" + 
+                        "&marry=0&birthprovince=" + jq("#resideprovince").val() + 
+                        "&birthcity=" + jq("#residecity").val() + "&subtitle=0&startyear=0" +
+                        "&ac=friend&op=search2&searchsubmit=%E6%9F%A5%E6%89%BE";
+                });
+            });
+        })();
+        </script>
+
+	</td>
+	<td>
+		<select name="friend[residecity]">
+			<option value="0"{$friendarr[residecity][0]}>全用户可见</option>
+			<option value="1"{$friendarr[residecity][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[residecity][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<!--{loop $profilefields $value}-->
+<tr>
+	<th>$value[title]<!--{if $value[required]}-->*<!--{/if}-->:</th>
+	<td>
+		$value[formhtml]
+		<!--{if $value[note]}--> <span class="gray">$value[note]</span><!--{/if}-->
+	</td>
+	<td>
+		<select name="friend[field_{$value[fieldid]}]">
+		<!--{eval $field_friendarr = $friendarr["field_$value[fieldid]"];}-->
+			<option value="0"{$field_friendarr[0]}>全用户可见</option>
+			<option value="1"{$field_friendarr[1]}>仅好友可见</option>
+			<option value="3"{$field_friendarr[3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<!--{/loop}-->
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+	<input type="submit" name="nextsubmit" value="继续下一项" class="btn btn-comments submit" />
+	<input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" />
+    
+</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'contact'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+
+<!--{if $_GET[editemail]}-->
+</table>
+
+<div class="borderbox">
+<table cellspacing="0" cellpadding="0" class="formtable">
+<tbody>
+<tr>
+	<th style="width:10em;">本网站的登录密码:</th>
+	<td>
+		<input type="password" id="password" name="password" value="" class="t_input" />
+		<br>为了您的账号安全，更换新邮箱的时候，需要输入您在本网站的密码。
+	</td>
+	<td></td>
+</tr>
+<tr>
+	<th style="width:10em;">新邮箱:</th>
+	<td>
+		<input type="text" id="email" class="t_input" name="email" value="$space[email]" />
+		<!--{if $space['emailcheck']}-->
+		<br>注意：新填写的邮箱只有在验证激活之后，才可以生效。
+		<!--{/if}-->
+	</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div><br>
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{else}-->
+<!--{if !$space[email]}-->
+<tr>
+	<th style="width:10em;">本网站的登录密码:</th>
+	<td>
+		<input type="password" id="password" name="password" value="" class="t_input" />
+		<br>为了您的账号安全，填写邮箱的时候，需要输入您在本网站的密码。
+	</td>
+	<td></td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;">常用邮箱:</th>
+	<td>
+		<!--{if $space[email]}-->
+			$space[email]<br>
+			<!--{if $space['emailcheck']}-->
+				当前邮箱已经验证激活 (<a href="$theurl&editemail=1">更换</a>)
+			<!--{else}-->
+				邮箱等待验证中...<br>
+				系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。<br>
+				如果没有收到验证邮件，您可以<a href="$theurl&editemail=1">更换一个邮箱</a>，或者<a href="$theurl&resend=1">重新接收验证邮件</a>
+			<!--{/if}-->
+		<!--{else}-->
+			<input type="text" id="email" class="t_input" name="email" value="" />
+			<br>请准确填写，取回密码、获取通知的时候都会发送到该邮箱。
+			<br>系统同时会向该邮箱发送一封验证激活邮件，请注意查收。<br>
+		<!--{/if}-->
+		<!--{if $space[newemail]}-->
+			<p>您要更换的新邮箱：<strong>$space[newemail]</strong> 需要激活后才能替换当前邮箱并生效。<br>
+			如果没有收到验证邮件，您可以<a href="$theurl&resend=1">重新接收验证邮件</a></p>
+		<!--{/if}-->
+	</td>
+	<td></td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;">手机:</th>
+	<td>
+		<input id="mobile" type="text" class="t_input" name="mobile" value="$space[mobile]" />  
+	</td>
+	<td>
+		<select name="friend[mobile]">
+			<option value="0"{$friendarr[mobile][0]}>全用户可见</option>
+			<option value="1"{$friendarr[mobile][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[mobile][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">QQ:</th>
+	<td>
+		<input type="text" class="t_input" name="qq" value="$space[qq]" /> 
+	</td>
+	<td>
+		<select name="friend[qq]">
+			<option value="0"{$friendarr[qq][0]}>全用户可见</option>
+			<option value="1"{$friendarr[qq][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[qq][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>MSN:</th>
+	<td>
+		<input type="text" class="t_input" name="msn" value="$space[msn]" /> 
+	</td>
+	<td>
+		<select name="friend[msn]">
+			<option value="0"{$friendarr[msn][0]}>全用户可见</option>
+			<option value="1"{$friendarr[msn][1]}>仅好友可见</option>
+			<option value="3"{$friendarr[msn][3]}>仅自己可见</option>
+		</select>
+	</td>
+</tr>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+	<input type="submit" name="nextsubmit" value="继续下一项" class="btn btn-comments submit" />
+	<input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" />
+	</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'edu'}-->
+
+<!--{if $list}-->
+<table cellspacing="0" cellpadding="0" class="listtable">
+<tr class="title">
+	<td>学校</td>
+	<td>入学年份</td>
+	<td>隐私设置</td>
+	<td>操作</td>
+</tr>
+<!--{loop $list $key $value}-->
+<!--{if $key%2==1}--><tr class="line"><!--{else}--><tr><!--{/if}-->
+	<td>$value[title]<br>$value[subtitle]<br>$value[class]</td>
+	<td>$value[startyear]</td>
+	<td>{$farr[$value[friend]]}</td>
+	<td><a href="$theurl&subop=delete&infoid=$value[infoid]">删除信息</a><br><a href="cp.php?ac=friend&op=search&searchmode=1&type=edu&title=$value[title_s]" target="_blank">寻找同学</a></td>
+</tr>
+<!--{/loop}-->
+</table>
+<br>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{if $list}-->
+<caption>
+	<h2>添加新学校</h2>
+</caption>
+<!--{/if}-->
+<tbody id="oldtbody">
+<tr>
+	<th style="width:10em;">学校名称:</th>
+	<td>
+		<input type="text" name="title[]" value="北京航空航天大学" class="t_input" >
+	</td>
+</tr>
+<tr>
+	<th>院系:</th>
+		<td>
+			<select name="subtitle[]" class="t_input" >
+					<option value="材料科学与工程学院">材料科学与工程学院（1系）</option>
+					<option value="电子信息工程学院" selected>电子信息工程学院（2系）</option>
+					<option value="自动化科学与电气工程学院">自动化科学与电气工程学院（3系）</option>
+					<option value="能源与动力工程学院">能源与动力工程学院（4系）</option>
+					<option value="航空科学与工程学院">航空科学与工程学院（5系）</option>
+					<option value="计算机学院">计算机学院（6系）</option>
+					<option value="机械工程及自动化学院">机械工程及自动化学院（7系）</option>
+					<option value="经济管理学院">经济管理学院（8系）</option>
+					<option value="数学与系统科学学院">数学与系统科学学院（9系）</option>
+					<option value="生物与医学工程学院">生物与医学工程学院（10系）</option>
+					<option value="人文社会科学学院（公共管理学院）">人文社会科学学院（公共管理学院）（11系）</option>
+					<option value="外国语学院">外国语学院（12系）</option>
+					<option value="交通科学与工程学院">交通科学与工程学院（13系）</option>
+					<option value="可靠性与系统工程学院">可靠性与系统工程学院（14系）</option>
+					<option value="宇航学院">宇航学院（15系）</option>
+					<option value="飞行学院">飞行学院（16系）</option>
+					<option value="仪器科学与光电工程学院">仪器科学与光电工程学院（17系）</option>
+					<option value="物理科学与核能工程学院">物理科学与核能工程学院（19系）</option>
+					<option value="法学院">法学院（20系）</option>
+					<option value="软件学院">软件学院（21系）</option>
+					<option value="继续教育学院">继续教育学院（22系）</option>
+					<option value="高等工程学院">高等工程学院（23系）</option>
+					<option value="中法工程师学院">中法工程师学院（24系）</option>
+					<option value="国际学院">国际学院（25系）</option>
+					<option value="新媒体艺术与设计学院">新媒体艺术与设计学院（26系）</option>
+					<option value="化学与环境学院">化学与环境学院（27系）</option>
+					<option value="思想政治理论学院">思想政治理论学院（28系）</option>
+				</select>
+			</td>
+</tr>
+<tr>
+	<th>入学年份:</th>
+	<td>
+		<select name="startyear[]">
+		$yearhtml
+		</select> 年
+	</td>
+</tr>
+<tr>
+	<th>班别:</th>
+	<td>
+		<input type="text" name="class[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>隐私设置:</th>
+	<td>
+		<select name="friend[]">
+			<option value="0">全用户可见</option>
+			<option value="1">仅好友可见</option>
+			<option value="3">仅自己可见</option>
+		</select>
+	</td>
+</tr>
+</tbody>
+
+<tbody id="newtbody"></tbody>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td><a href="javascript:;" onclick="add_tbody();">添加新的学校信息</a></td>
+</tr>
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+		<input type="submit" name="nextsubmit" value="继续下一项" class="btn btn-comments submit" />
+		<input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" /></td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'work'}-->
+
+<!--{if $list}-->
+<table cellspacing="0" cellpadding="0" class="listtable">
+<tr class="title">
+	<td>公司或机构/部门</td>
+	<td>公司所在省/市</td>
+	<td>工作时间</td>
+	<td>隐私设置</td>
+	<td>操作</td>
+</tr>
+<!--{loop $list $key $value}-->
+<!--{if $key%2==1}--><tr class="line"><!--{else}--><tr><!--{/if}-->
+	<td>$value[title]<br>$value[subtitle]</td>
+	<td>$value[province]<br>$value[city]</td>
+	<td>
+		{$value[startyear]}年{$value[startmonth]}月 ~ 
+		<!--{if $value[endyear]}-->{$value[endyear]}年<!--{/if}-->
+		<!--{if $value[endmonth]}-->{$value[endmonth]}月<!--{/if}-->
+		<!--{if !$value[endyear] && !$value[endmonth]}-->现在<!--{/if}-->
+	</td>
+	<td>{$farr[$value[friend]]}</td>
+	<td><a href="$theurl&subop=delete&infoid=$value[infoid]">删除信息</a><br><a href="cp.php?ac=friend&op=search&searchmode=1&type=work&title=$value[title_s]" target="_blank">寻找同事</a></td>
+</tr>
+<!--{/loop}-->
+</table>
+<br>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{if $list}-->
+<caption>
+	<h2>添加新公司或机构</h2>
+</caption>
+<!--{/if}-->
+<tbody id="oldtbody">
+<tr>
+	<th style="width:10em;">公司或机构:</th>
+	<td>
+		<input type="text" name="title[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>部门:</th>
+	<td>
+		<input type="text" name="subtitle[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+<script type="text/javascript" language="javascript">
+	function select()
+		{
+				   var x = [35]; 
+	　　　　　　　 x[0]="" ;
+	　　　　　　　 x[1]="北京,东城,西城,崇文,宣武,朝阳,丰台,石景山,海淀,门头沟,房山,通州,顺义,昌平,大兴,平谷,怀柔,密云,延庆" ;
+	　　　　　　　 x[2]="上海,黄浦,卢湾,徐汇,长宁,静安,普陀,闸北,虹口,杨浦,闵行,宝山,嘉定,浦东,金山,松江,青浦,南汇,奉贤,崇明" ;
+	　　　　　　　 x[3]="天津,和平,东丽,河东,西青,河西,津南,南开,北辰,河北,武清,红挢,塘沽,汉沽,大港,宁河,静海,宝坻,蓟县,大邱庄"; 
+	　　　　　　　 x[4]="重庆,万州,涪陵,渝中,大渡口,江北,沙坪坝,九龙坡,南岸,北碚,万盛,双挢,渝北,巴南,黔江,长寿,綦江,潼南,铜梁,大足,荣昌,壁		山,梁平,城口,丰都,垫江,武隆,忠县,开县,云阳,奉节,巫山,巫溪,石柱,秀山,酉阳,彭水,江津,合川,永川,南川"; 
+	　　　　　　　 x[5]="石家庄,邯郸,邢台,保定,张家口,承德,廊坊,唐山,秦皇岛,沧州,衡水"; 
+	　　　　　　　 x[6]="太原,大同,阳泉,长治,晋城,朔州,吕梁,忻州,晋中,临汾,运城"; 
+	　　　　　　　 x[7]="呼和浩特,包头,乌海,赤峰,呼伦贝尔盟,阿拉善盟,哲里木盟,兴安盟,乌兰察布盟,锡林郭勒盟,巴彦淖尔盟,伊克昭盟" ;
+	　　　　　　　 x[8]="沈阳,大连,鞍山,抚顺,本溪,丹东,锦州,营口,阜新,辽阳,盘锦,铁岭,朝阳,葫芦岛" ;
+	　　　　　　　 x[9]="长春,吉林,四平,辽源,通化,白山,松原,白城,延边" ;
+	　　　　　　　 x[10]="哈尔滨,齐齐哈尔,牡丹江,佳木斯,大庆,绥化,鹤岗,鸡西,黑河,双鸭山,伊春,七台河,大兴安岭" ;
+	　　　　　　　 x[11]="南京,镇江,苏州,南通,扬州,盐城,徐州,连云港,常州,无锡,宿迁,泰州,淮安" ;
+	　　　　　　　 x[12]="杭州,宁波,温州,嘉兴,湖州,绍兴,金华,衢州,舟山,台州,丽水" ;
+	　　　　　　　 x[13]="合肥,芜湖,蚌埠,马鞍山,淮北,铜陵,安庆,黄山,滁州,宿州,池州,淮南,巢湖,阜阳,六安,宣城,亳州" ;
+	　　　　　　　 x[14]="福州,厦门,莆田,三明,泉州,漳州,南平,龙岩,宁德" ;
+	　　　　　　　 x[15]="南昌市,景德镇,九江,鹰潭,萍乡,新馀,赣州,吉安,宜春,抚州,上饶" ;
+	　　　　　　　 x[16]="济南,青岛,淄博,枣庄,东营,烟台,潍坊,济宁,泰安,威海,日照,莱芜,临沂,德州,聊城,滨州,菏泽,博兴" ;
+	　　　　　　　 x[17]="郑州,开封,洛阳,平顶山,安阳,鹤壁,新乡,焦作,濮阳,许昌,漯河,三门峡,南阳,商丘,信阳,周口,驻马店,济源" ;
+	　　　　　　　 x[18]="武汉,宜昌,荆州,襄樊,黄石,荆门,黄冈,十堰,恩施,潜江,天门,仙桃,随州,咸宁,孝感,鄂州" ;
+	　　　　　　　 x[19]="长沙,常德,株洲,湘潭,衡阳,岳阳,邵阳,益阳,娄底,怀化,郴州,永州,湘西,张家界" ;
+	　　　　　　　 x[20]="广州,深圳,珠海,汕头,东莞,中山,佛山,韶关,江门,湛江,茂名,肇庆,惠州,梅州,汕尾,河源,阳江,清远,潮州,揭阳,云浮" ;
+	　　　　　　　 x[21]="南宁,柳州,桂林,梧州,北海,防城港,钦州,贵港,玉林,南宁地区,柳州地区,贺州,百色,河池" ;
+	　　　　　　　 x[22]="海口,三亚" ;
+	　　　　　　　 x[23]="成都,绵阳,德阳,自贡,攀枝花,广元,内江,乐山,南充,宜宾,广安,达川,雅安,眉山,甘孜,凉山,泸州" ;
+	　　　　　　　 x[24]="贵阳,六盘水,遵义,安顺,铜仁,黔西南,毕节,黔东南,黔南" ;
+	　　　　　　　 x[25]="昆明,大理,曲靖,玉溪,昭通,楚雄,红河,文山,思茅,西双版纳,保山,德宏,丽江,怒江,迪庆,临沧" ;
+	　　　　　　　 x[26]="拉萨,日喀则,山南,林芝,昌都,阿里,那曲" ;
+	　　　　　　　 x[27]="西安,宝鸡,咸阳,铜川,渭南,延安,榆林,汉中,安康,商洛" ;
+	　　　　　　　 x[28]="兰州,嘉峪关,金昌,白银,天水,酒泉,张掖,武威,定西,陇南,平凉,庆阳,临夏,甘南" ;
+	　　　　　　　 x[29]="银川,石嘴山,吴忠,固原" ;
+	　　　　　　　 x[30]="西宁,海东,海南,海北,黄南,玉树,果洛,海西" ;
+	　　　　　　　 x[31]="乌鲁木齐,石河子,克拉玛依,伊犁,巴音郭勒,昌吉,克孜勒苏柯尔克孜,博 尔塔拉,吐鲁番,哈密,喀什,和田,阿克苏" ;
+	　　　　　　　 x[32]="香港," ;
+	　　　　　　　 x[33]="澳门," ;
+	　　　　　　　 x[34]="台北,高雄,台中,台南,屏东,南投,云林,新竹,彰化,苗栗,嘉义,花莲,桃园,宜兰,基隆,台东,金门,马祖,澎湖" ;
+	　　　　　　　 var citys=x[province.value].split(",");
+	　　　　　　　 for(var i=0;i<citys.length;i++)
+	　　　　　　　 city.options[i]=new Option(citys[i],citys[i]);
+		}
+		function result()
+		{
+			var provinces=",北京,上海,天津,重庆, 河北,山西,内蒙古,辽宁,吉林,黑龙江,江苏,浙江,安徽,福建,江西,山东,河南,湖北,湖南,广东,广西,海南,四川,贵州,云南,西藏,陕西,甘肃,宁夏,青海,新疆,香港,澳门,台湾";
+			var province=provinces.split(",");
+		}
+	</script>
+	<th style="width:10em;">公司所在省市:</th>
+	<td>
+		 <select id="province" name="province[]" onchange="return select();" >
+　　　		 <option selected="selected"></option>
+　　　　　　 <option value="1">北京</option>
+　　　　　　 <option value="2">上海</option>
+　　　　　　 <option value="3">天津</option>
+　　　　　　 <option value="4">重庆</option>
+　　　　　　 <option value="5">河北</option>
+　　　　　　 <option value="6">山西</option>
+　　　　　　 <option value="7">内蒙古</option>
+　　　　　　 <option value="8">辽宁</option>
+　　　　　　 <option value="9">吉林</option>
+　　　　　　 <option value="10">黑龙江</option>
+　　　　　　 <option value="11">江苏</option>
+　　　　　　 <option value="12">浙江</option>
+　　　　　　 <option value="13">安徽</option>
+　　　　　　 <option value="14">福建</option>
+　　　　　　 <option value="15">江西</option>
+　　　　　　 <option value="16">山东</option>
+　　　　　　 <option value="17">河南</option>
+　　　　　　 <option value="18">湖北</option>
+　　　　　　 <option value="19">湖南</option>
+　　　　　　 <option value="20">广东</option>
+　　　　　　 <option value="21">广西</option>
+　　　　　　 <option value="22">海南</option>
+　　　　　　 <option value="23">四川</option>
+　　　　　　 <option value="24">贵州</option>
+　　　　　　 <option value="25">云南</option>
+　　　　　　 <option value="26">西藏</option>
+　　　　　　 <option value="27">陕西</option>
+　　　　　　 <option value="28">甘肃</option>
+　　　　　　 <option value="29">宁夏</option>
+　　　　　　 <option value="30">青海</option>
+　　　　　　 <option value="31">新疆</option>
+　　　　　　 <option value="32">香港</option>
+　　　　　　 <option value="33">澳门</option>
+　　　　　　 <option value="34">台湾</option>
+	　　　</select>省
+	　　　<select id="city"  name="city[]" onchange="return result();" >
+	　　　　　<option selected="selected"></option>
+	　　 </select>市
+	</td>
+</tr>
+<tr>
+	<th>工作时间:</th>
+	<td>
+		<select name="startyear[]">
+		$yearhtml
+		</select> 年
+		<select name="startmonth[]">
+		$monthhtml
+		</select> 月 ~ 
+		<select name="endyear[]">
+		<option value="">现在</option>
+		$yearhtml
+		</select> 年
+		<select name="endmonth[]">
+		<option value=""></option>
+		$monthhtml
+		</select>月
+	</td>
+</tr>
+<tr>
+	<th>隐私设置:</th>
+	<td>
+		<select name="friend[]">
+			<option value="0">全用户可见</option>
+			<option value="1">仅好友可见</option>
+			<option value="3">仅自己可见</option>
+		</select>
+	</td>
+</tr>
+</tbody>
+
+<tbody id="newtbody"></tbody>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td><a href="javascript:;" onclick="add_tbody();">添加新的公司或机构</a></td>
+</tr>
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+		<input type="submit" name="nextsubmit" value="继续下一项" class="btn btn-comments submit" />
+		<input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" /></td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'info'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+	
+<!--{eval 
+$infoarr = array(
+	'trainwith' => '我想结交',
+	'interest' => '兴趣爱好',
+	'book' => '喜欢的书籍',
+	'movie' => '喜欢的电影',
+	'tv' => '喜欢的电视',
+	'music' => '喜欢的音乐',
+	'game' => '喜欢的游戏',
+	'sport' => '喜欢的运动',
+	'idol' => '偶像',
+	'motto' => '座右铭',
+	'wish' => '最近心愿',
+	'intro' => '我的简介'
+);
+}-->
+<tr>
+	<th>栏目</th>
+	<td>内容</td>
+	<td>隐私设置</td>
+</tr>
+	<!--{loop $infoarr $key $value}-->
+	<tr>
+		<th style="width: 15%">{$value}:</th>
+		<td style="width: 55%">
+			<textarea name="info[$key]" rows="3" style="width: 100%">{$list[$key][title]}</textarea>
+		</td>
+		<td style="width: 30%">
+			<select name="info_friend[$key]">
+				<option value="0">全用户可见</option>
+				<option value="1">仅好友可见</option>
+				<option value="3">仅自己可见</option>
+			</select>
+		</td>
+	</tr>
+	<!--{/loop}-->
+
+	<tr>
+		<th style="width:10em;">&nbsp;</th>
+		<td><input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" /></td>
+	</tr>
+</table>
+
+<!--修改-->
+<!--{elseif $_GET['op'] == 'cour'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<td> 星期（如周一）</td>
+		<td> 时间（如9-11）</td>
+		<td> 课程名（如高等计算机网络）</td>
+	</tr>
+
+
+
+	<tr>
+		<td> 周 <input type="text" name="day" size="7"></td>
+		<td><input type="text" name="times" size="3">-<input type="text" name="timef" size="3"></td>
+		<td><input type="text" name="coursename" size="20"></td>
+		<td><input type="submit" name="profilesubmit" value="保存" class="btn btn-comments submit" /></td>
+	</tr>
+	<!--{if $list}-->
+	<!--{loop $list $key $value}-->
+	<tr>
+		<td> 周 {$value[day]} </td>
+		<td> 第 {$value[times]} 到 {$value[timef]} 节 </td>
+		<td>  {$value[coursename]} </td>
+		<td><a href="$theurl&subop=delete&courseid=$value[courseid]">删除信息</a><br>
+			<a href="{$value[fpath]}">查询学友</a><br>
+			<a href="{$value[gpath]}">查看学习本课小组</a></td>
+	</tr>
+	<!--{/loop}-->
+	<!--{/if}-->
+
+</table>
+
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+<!--修改-->
+<!--{elseif $_GET['op'] == 'flink'}-->
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<td><b>链接名称</b>(如 iHome)</td>
+		<td><b>URL</b>(如 http://i.buaa.edu.cn)</td>
+	</tr>
+	<!--{eval for($num=0;$num<6;$num++){}-->
+	<tr>
+		<td style="width:22%"><input name="fname[]" value="{$flink[$num]['fname']}" size="20" /></td>
+		<td><input name="flink[]" type="url" value="{$flink[$num]['flink']}" size="80" /></td>
+	</tr>
+	<!--{eval }}-->
+	<tr>
+		<td>&nbsp;</td>
+		<td><input type="submit" name="flinksubmit" value="保存" class="btn btn-comments submit" /></td>
+	</tr>
+</table>
+</form>
+<!--{if isset($msg)}-->
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(function ($) {
+	
+	var msg = <!--{eval echo $msg;}-->;
+	if(msg==1){
+		var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>保存成功</div>";
+		Message_out(message);
+	}else{
+		var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>保存失败,请重试~!</div>";
+		Message_out(message);
+	}
+	
+	function Message_out(message) {
+        $(".message").html(message);
+        $(".showMessage").css({"display":"block"});
+        $(".message").css({"display":"block"});    
+        $(".showMessage").stop().animate({"opacity":"0.6"},700);
+		$(".showMessage").delay(1500).animate({
+			"opacity":"0"
+		},700,function(){
+			$(".showMessage").css({
+				"display":"none" 
+			});
+			$(".message").css({
+				"display":"none"
+			});
+		}); 
+    }
+	
+});
+</script>
+<!--{/if}-->
+<!--修改-->
+<!--{/if}-->
+
+
+
+
+<script>
+	function add_tbody() {
+		for(i=0; i<$("oldtbody").rows.length; i++) {
+			newnode = $("oldtbody").rows[i].cloneNode(true);
+			$("newtbody").appendChild(newnode);
+		}
+	}
+</script>
+
+<!--{template footer}-->

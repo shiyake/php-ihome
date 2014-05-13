@@ -1,0 +1,197 @@
+<!--{eval $_TPL['titles'] = array('通知');}-->
+<!--{template header}-->
+<style>
+    #content {
+        min-height:992px;
+    }
+    .title30 {
+        margin-left:0px;    
+    }
+    .tabs_header {
+        margin-left:0px;
+        margin-bottom:5px;
+    }
+    .h_status {
+        margin-left:0;
+        border-color:#dcdcdc;
+        margin-bottom:0;
+    }
+    .float_cancel {
+        position:absolute;
+        left:529px;
+        margin-top:25px;
+    }
+    .h_status {
+        margin-bottom:10px;
+        border-bottom:none;
+        margin-left:0px;
+        padding-left:0;
+    }
+    .topic_list tr td{
+        padding-left:0;
+    }
+    .title30 {
+        margin-left:0px !important;
+    }
+</style>
+    
+<div id="content">
+ <h4 class="title title30"><img class="pic10" style="width:27px;"src="/image/icons/icon-soundnotice-black.png"></img>通知</h4>
+    <!--<div class="tabs_header">
+        <ul class="tabs">
+                       <li><a href="space.php?do=pm"><span>消息</span></a></li>-->
+                       <!--            <li$actives[notice]><a href="space.php?do=notice"><span>通知</span></a></li>-->
+<!--            <!--{if $_SCONFIG['my_status']}-->
+            <!--<li$actives[userapp]><a href="space.php?do=notice&view=userapp"><span>应用</span></a></li>
+            <!--{/if}-->
+        </ul>
+    </div>-->
+   <!--{if $view=='userapp'}-->
+    <script type="text/javascript">
+        function manyou_add_userapp(hash, url) {
+            if(isUndefined(url)) {
+                $(hash).innerHTML = "<tr><td colspan=\"2\">成功忽略了该条应用消息</td></tr>";
+            } else {
+                $(hash).innerHTML = "<tr><td colspan=\"2\">正在引导您进入...</td></tr>";
+            }
+            var x = new Ajax();
+            x.get('do.php?ac=ajax&op=deluserapp&hash='+hash, function(s){
+                    if(!isUndefined(url)) {
+                    location.href = url;
+                    }
+                    });
+        }
+</script>
+<style>
+    .topicList table{width:100%;margin:10px 0 5px 0;}
+    .topicList td{color:#333;}
+</style>
+<!--{if $list}-->
+<div class="m_box">
+    <!--{loop $list $key $invite}-->
+    <h3 class="feed_header">
+        <a href="space.php?do=notice&view=userapp&op=del&appid=$invite[0][appid]" class="r_option">忽略该应用的所有邀请</a>
+        <a href="userapp.php?id=$invite[0][appid]&uid=$space[uid]" title="$apparr[$invite[0][appid]]"><img src="http://appicon.manyou.com/icons/$invite[0][appid]" alt="$apparr[$invite[0][appid]]" align="absmiddle" /></a> 
+        您有 <!--{eval echo count($invite);}--> 个 $invite[0][typename] <!--{if $invite[0][type]}-->请求<!--{else}-->邀请<!--{/if}-->
+    </h3>
+    <table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+        <!--{loop $invite $value}-->
+        <tbody>
+            <tr>
+                <td width="60" valign="top">
+                    <div class="avatar48">
+                        <a href="space.php?uid=$value[fromuid]" class="avatarlink"><!--{avatar($value[fromuid],small)}--></a>
+                    </div>
+                </td>
+                <td id="$value[hash]">
+                    $value[myml]
+                </td>
+            </tr>
+        </tbody>
+        <!--{/loop}-->
+    </table>
+    <!--{/loop}-->
+</div>
+<div class="page">$multi</div>
+<!--{else}-->
+<div class="c_form" style="text-align:center;">
+    <img style="margin-top:75px;"src="image/icons/no_status.png"/>
+    <br>
+    <span style="color:grey">没有新的应用请求或邀请</span>
+</div>
+<!--{/if}-->
+    </div>
+    <div id="sidebar" style="padding-left:30px;">
+        <div class="sidebox side_notice">
+            <h4 class="title notice_title">应用分类</h>
+            <ul class="line_list">
+                <li><a href="space.php?do=notice&view=userapp">查看全部应用消息</a></li>
+                <!--{loop $apparr $type $val}-->
+                <li><a href="userapp.php?id=$val[0][appid]&uid=$space[uid]" title="$val[0][typename]"><img src="http://appicon.manyou.com/icons/$val[0][appid]" alt="$val[0][typename]" /></a><a href="space.php?do=notice&view=userapp&type=$val[0][appid]"> <!--{eval echo count($val);}--> 个 $val[0][typename] <!--{if $val[0][type]}-->请求<!--{else}-->邀请<!--{/if}--></a></li>
+                <!--{/loop}-->
+            </ul>
+        </div>
+    </div>
+    <!--{else}-->
+    <!--<!--{if $newnum}-->
+    <div class="mgs_list">
+        <!--{if $space[notenum]}--><div><img src="image/icon/notice.gif"><a href="space.php?do=notice"><strong>$space[notenum]</strong> 条新通知</a></div><!--{/if}-->
+        <!--{if $space[addfriendnum]}--><div><img src="image/icon/friend.gif" alt="" /><a href="cp.php?ac=friend&op=request"><strong>$space[addfriendnum]</strong> 个好友请求</a></div><!--{/if}-->
+        <!--{if $space[mtaginvitenum]}--><div><img src="image/icon/mtag.gif" alt="" /><a href="cp.php?ac=mtag&op=mtaginvite"><strong>$space[mtaginvitenum]</strong> 个小组邀请</a></div><!--{/if}-->
+        <!--{if $space[eventinvitenum]}--><div><img src="image/icon/event.gif" alt="" /><a href="cp.php?ac=event&op=eventinvite"><strong>$space[eventinvitenum]</strong> 个活动邀请</a></div><!--{/if}-->
+        <!--{if $space[myinvitenum]}--><div><img src="image/icon/userapp.gif" alt="" /><a href="space.php?do=notice&view=userapp"><strong>$space[myinvitenum]</strong> 个应用消息</a></div><!--{/if}-->
+        <!--{if $space[pokenum]}--><div><img src="image/icon/poke.gif" alt="" /><a href="cp.php?ac=poke"><strong> $space[pokenum]</strong> 个新招呼</a></div><!--{/if}-->
+    </div>
+    <!--{/if}-->-->
+    <!--{if $list}-->
+    <script>
+        jQuery(function(){
+            jQuery(".topic_list").children().last("tbody").children("tr").children("td").css({"border":"none"});
+        });
+    </script>
+    <table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+        
+        <!--{if $view!='userapp' && $space[notenum]}-->
+        <a href="space.php?do=notice&ignore=all">
+            &raquo; 将全部未读新通知视为已读
+        </a>
+        <!--{/if}-->
+        <!--{loop $list $key $value}-->
+        <tbody>
+            <tr>
+                <td width="60" valign="top">
+                    <!--{if $value[authorid]}-->
+                    
+                    <div class="avatar48">
+                        <!--{if !empty($value[style])}-->
+                    <span class="news_badge" style="top:initial;left:57px;"></span>
+                    <!--{/if}-->
+                        <a href="space.php?uid=$value[authorid]" class="avatarlink"><!--{avatar($value[authorid],'small')}--></a>
+                    </div>
+                    <!--{else}-->
+                    <div class="avatar48"><img src="image/system_default.png"  class="img-circle"width="48" height="48" /></div>
+                    <!--{/if}-->
+                </td>
+                <td>
+                    <a href="cp.php?ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]" id="a_note_$value[id]" onclick="ajaxmenu(event, this.id)" class="float_cancel">屏蔽</a>
+                    <div class="notice_feed" style="padding:10px 0 5px 0;$value[style]">
+                        <!--{if $value[authorid]}-->
+                        <a href="space.php?uid=$value[authorid]">{$_SN[$value[authorid]]}</a>
+                        <!--{/if}-->
+                        $value[note]
+                        <p class="time">&nbsp;<!--{date('m-d H:i',$value[dateline],1)}--></p>
+                    </div>
+                    <!--{if $value[authorid] && !$value[isfriend]}-->
+                    <p>
+                    <a href="cp.php?ac=friend&op=add&uid=$value[authorid]" id="add_note_friend_$value[authorid]" onclick="ajaxmenu(event, this.id, 1)">加为好友</a>
+                    <span class="pipe">|</span>
+                    <a href="cp.php?ac=poke&op=send&uid=$value[authorid]" id="a_poke_$value[authorid]" onclick="ajaxmenu(event, this.id, 1)">打个招呼</a>
+                    </p>
+                    <!--{/if}-->
+                </td>
+            </tr>
+        </tbody>
+        <!--{/loop}-->
+       
+    </table>
+    <div class="page">$multi</div>
+    <!--{else}-->
+    <div class="c_form" style="text-align:center;">
+        <img style="margin-top:75px;" src="image/icons/no_status.png"><br>
+        <span style="color:grey;">没有新的通知。</span>
+    </div>
+    <!--{/if}-->
+</div>
+<div id="sidebar" style="padding-left:30px;">		
+    <div class="sidebox side_notice sidebox_noborder">
+        <h4 class="title notice_title">通知分类</h4>
+        <ul class="line_list">
+            <li><a href="space.php?do=notice">查看全部通知</a></li>
+            <!--{loop $noticetypes $type $name}-->
+            <li><a href="space.php?do=notice&type=$type">$name</a></li>
+            <!--{/loop}-->
+        </ul>
+    </div>
+</div>
+<!--{/if}-->
+<!--{template footer}-->

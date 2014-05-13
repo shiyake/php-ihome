@@ -1,0 +1,27 @@
+body{background-color:#000;}
+a { color: #2C629E; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.face{margin: 0px 5px 5px 2px; vertical-align: middle; }
+
+#mainarea{overflow:hidden;font-family:"微软雅黑"}
+#workarea{margin:auto;width:1024px;height:768px;background:url(../image/bg.png) ;}
+	#wall_head {width:964px;height:168px;margin:auto;}
+		.wall_logo {width:304px;height:80px;position:absolute;margin-top:30px;background:url(../image/ihomelogo.png);}
+		.wall_brief {width:650px;height:110px;background:url(../image/oneword.png) no-repeat ;position:relative;float:right;top:20px;}
+			.wall_title{font-size:54px;font-weight:bold;color:rgb(20, 39, 141);text-align:center;word-spacing:10px;position:relative; left:12px; width:650px;}
+			.wall_statement {font-size:30px;position:relative; left:20px;position:relative; left:0px; width:600px;text-align:center;top:-8px;}
+			.wall_oneword {}
+	#wall_content{height:600px;}
+		#wall_li{width:964px;height:200px;margin:0 auto;background:url(../image/msg.png) no-repeat top;}
+			#wall_poster {width:180px;height:180px;float:left;}
+				.poster_avatar {padding:15px}
+					#wall_poster img {width:150px;height:150px;}
+				.poster_name{font-size:32px;width:150px;font-weight:bold;position:relative;bottom:30px;background:rgba(7,22,131,0.25);color:white;text-align:center;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+			#wall_message {width:784px;height:180px;float:right;overflow:hidden;}
+			.text{font-size:48px;position:relative;}
+			.posttextouter{height: 100%; position: relative;width: 100%; }
+			.posttextouter[class]{display: table; position: static;}
+				.posttextmiddle{position: absolute; top: 50%;}
+				.posttextmiddle[class]{display: table-cell; vertical-align: middle; position: static;}
+					.posttextinner{position: relative; top: -50%;margin: 0 0 0 20px;overflow:hidden;word-break:break-all;Letter-spacing:2px; color:#fff200;}
+#footer { padding: 10px 0 10px 0; margin-top:5px;border-top: 1px solid #EBE6C9; color: #333; text-align: center; font-size:12px;}

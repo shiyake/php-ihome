@@ -1,0 +1,135 @@
+<!--{template header}-->
+<form id="sendsms" name="sendsms" method="post" action="">
+	<div class="sendsms">
+		<div class="title" name="statement">
+			发送说明：
+		</div>
+		<div class="content">
+			选择对象——>发送
+		</div>
+		<div class="title" name="object">
+			选择发送对象：
+		</div>
+		<div class="content" name="fetch">
+			<p>
+				<select id="control_6" name="control_6[]" multiple="multiple" size="5" style="width:100px;">
+					<option value="option_1">2013</option>
+					<option value="option_2">2012</option>
+					<option value="option_3">2011</option>
+					<option value="option_4">2010</option>
+					<option value="option_5">2009</option>
+					<option value="option_6">2008</option>
+					<option value="option_7">2007</option>
+					<option value="option_8">2006</option>
+					<option value="option_9">2005</option>
+					<option value="option_10">2004</option>
+					<option value="option_11">2003</option>
+					<option value="option_12">2002</option>
+					<option value="option_13">2001</option>
+					<option value="option_14">1999</option>
+					<option value="option_15">1998</option>
+					<option value="option_16">1997</option>
+					<option value="option_17">1996</option>
+					<option value="option_18">1995</option>
+					<option value="option_19">1994</option>
+					<option value="option_20">1993</option>
+					<option value="option_21">1992</option>
+					<option value="option_22">1991</option>
+					<option value="option_23">1990</option>
+					<option value="option_24">1989</option>
+					<option value="option_25">1988</option>
+					<option value="option_26">1987</option>
+					<option value="option_27">1986</option>
+					<option value="option_28">1985</option>
+					<option value="option_29">1984</option>
+					<option value="option_30">1983</option>
+					<option value="option_31">1982</option>
+					<option value="option_32">1981</option>
+					<option value="option_33">1980</option>
+					<option value="option_34">1979</option>
+					<option value="option_35">1978</option>
+					<option value="option_36">1977</option>
+					<option value="option_37">1976</option>
+					<option value="option_38">1975</option>
+					<option value="option_39">1974</option>
+					<option value="option_40">1973</option>
+					<option value="option_41">1972</option>
+					<option value="option_42">1971</option>
+					<option value="option_43">1970</option>
+					<option value="option_44">1969</option>
+					<option value="option_45">1968</option>
+					<option value="option_46">1967</option>
+					<option value="option_47">1966</option>
+					<option value="option_48">1965</option>
+					<option value="option_49">1964</option>
+					<option value="option_50">1963</option>
+					<option value="option_51">1962</option>
+					<option value="option_52">1961</option>
+					<option value="option_53">1960</option>
+					<option value="option_54">1959</option>
+					<option value="option_55">1958</option>
+					<option value="option_56">1957</option>
+					<option value="option_57">1956</option>
+					<option value="option_58">1955</option>
+					<option value="option_59">1954</option>
+					<option value="option_60">1953</option>
+					<option value="option_61">1952</option>
+				</select>
+
+			</p>
+		</div>
+		
+		<div class="table" name="table">
+			<table cellspacing="0" cellpadding="0">
+				<tbody id="oldtbody">
+					<tr>
+						<th style="width:10em;">姓名:</th>
+							<td>
+								<input type="text" name="realname[]" value="" />
+							</td>
+					</tr>
+					<tr>
+						<th>手机:</th>
+							<td>
+								<input type="text" name="mobile[]" value="" />
+							</td>
+					</tr>
+					<tr>
+						<th>入学年份:</th>
+							<td>
+								<input type="text" name="startyear[]" value="" />
+							</td>
+					</tr>
+				</tbody>
+				<tbody id="newtbody"></tbody>
+				<tr>
+					<th style="width:10em;">&nbsp;</th>
+						<td>
+							<img src="image/new/sms/button_2.jpg"    onclick="addreceiver();" value="添加手机"/>
+							
+						</td>
+				</tr>
+			</table>
+		</div>
+		<div class="title">
+			还可输入 <strong id="maxlimit">60</strong> 个字
+		</div>
+		<textarea id="smsmessage" name="smsmessage" onkeyup="textCounter(this, 'maxlimit', 60)" onkeydown="ctrlEnter(event, 'add');" rows="3" style="width:438px; height: 72px;">
+		</textarea>
+		<div class="title">
+			<input type="image" src="image/new/sms/button_1.jpg" name="sendsms" class="submit1" value="发送" />
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<input type="hidden" name="sendsmssubmit" value="sendsmssubmit" />			
+		</div>		
+	</div>
+</form>	
+<script>
+function addreceiver() {
+var table =document.getElementById("oldtbody")
+     for(i=0; i<table.rows.length; i++) {
+        newnode = table.rows[i].cloneNode(true);
+		document.getElementById("newtbody").appendChild(newnode);
+   }
+}
+</script>
+<!--{template footer}-->

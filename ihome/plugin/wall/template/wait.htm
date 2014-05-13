@@ -1,0 +1,22 @@
+<!--{loop $WallRecList $key=>$value}-->
+<div id="number" style="display:none">
+					<div id="wall_li">
+						<div id="wall_poster">
+							<div class="poster_avatar"><!--{avatar($value[uid],big)}-->
+								<div class="poster_name">$_SN[$value[uid]]</div>
+							</div>
+						</div>
+						<div id="wall_message">
+							<div class="text" name="contenttext">
+								<div class="posttextouter">
+									<div class="posttextmiddle">
+										<div class="posttextinner">
+											$value[message]
+										</div>
+									</div>
+								</div>
+							</div>						
+						</div>
+					</div>
+				</div>
+<!--{/loop}-->

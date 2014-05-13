@@ -1,0 +1,9 @@
+<li id="dl{$doid}">
+	<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+	<div class="doing">
+		<div class="doingcontent"><span>$value[title_template]</span>
+		<span>(<!--{date('m-d H:i',$value[dateline],1)}-->)</span>
+		<a href="cp.php?ac=doing&op=delete&doid=$doid&id=$value[id]" id="doing_delete_{$doid}_{$value[id]}" onclick="ajaxmenu(event, this.id)" class="re" style="color:#777">删除</a> &nbsp;
+		</div>
+	</div>
+</li>

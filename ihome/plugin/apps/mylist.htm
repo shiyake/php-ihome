@@ -1,0 +1,76 @@
+<!--{template plugin/apps/header}-->
+  <div class="main">
+    
+	<!--{template plugin/apps/left}-->
+	
+    <div class="yingyong_right">
+	
+      <!--{template plugin/apps/right_nav}-->
+	  
+      <div class="clear"></div>
+      <div class="yingyong_c">
+        <!--{if $list}-->
+		<div class="mylist">
+			<span class="name">服务名称</span>
+			<span class="duixiang">服务对象</span>
+			<span class="score">总体评价</span>
+			<span class="score">易用性</span>
+			<span class="score">服务质量</span>
+			<span class="score">响应速度</span>
+			<span class="usernum">使用/评价人数</span>
+			<span class="status">审核状态</span>
+			<span class="operation">操作</span>
+        </div>
+		<!--{loop $list $app}-->
+		<div class="mylist">
+			<span class="name">$app[name]</span>
+			<span class="duixiang">
+			<!--{if $app[usertype] & 8}-->
+			<span class="yy_green" title="本科生"></span>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 4}-->
+			<span class="yy_yellow" title="研究生"></span>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 2}-->
+			<span class="yy_red" title="教职工"></span>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 1}-->
+			<span class="yy_blue" title="校友"></span>
+			<!--{/if}-->
+			</span>
+			<span class="score">$app[score]分</span>
+			<span class="score">$app[score_easy]分</span>
+			<span class="score">$app[score_service]分</span>
+			<span class="score">$app[score_speed]分</span>
+			<span class="usernum">$app[usernumber]/$app[comment]</span>
+			<span class="status">
+			<!--{if $app[applypass]==0}-->
+			  尚未审核
+			  <!--{elseif $app[applypass]==1}-->
+			  审核通过
+			  <!--{else}-->
+			  审核未通过
+			  <!--{/if}-->
+			</span>
+			<span class="operation"><a href="plugin.php?pluginid=apps&ac=apply&id=$app[id]" onclick="return confirm('修改后需要管理员重新审核,确定要修改吗?')" target="_blank">修改</a></span>
+        </div>
+        <!-- end mylist -->
+		<!--{/loop}-->
+		<!--{/if}-->
+        <div class="clear"></div>
+        <div class="page">
+          $multi
+        </div>
+        <!-- end page -->
+        <div class="clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+        <div class="solid_666 clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+    </div>
+    <!-- end yingyong_right -->
+  </div>
+  <!-- end main -->
+  
+<!--{template plugin/apps/footer}-->

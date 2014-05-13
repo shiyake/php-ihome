@@ -1,0 +1,958 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+<style>
+	/*
+	.feed_li_avatar {
+		margin-left:-17px;
+	}
+	*/
+	.feed_li_inner {
+		width:468px !important;
+	}
+    .sub_doing {
+        width:471px;
+        margin-left:81px;
+    }
+    .sub_doing .form-control {
+        width:81% !important;
+    }
+    #content {
+        border-left:1px solid #dcdcdc;
+    }
+</style>
+
+
+<!--{if $narrowlist || $widelist}-->
+<!--
+<script type="text/javascript" src="source/script_swfobject.js"></script>
+-->
+<!--{/if}-->
+<link rel="stylesheet" href="template/default/personality.css">
+
+<div id="space_page">
+    <!--{if strcmp($_SGLOBAL[index_bg],'default')}-->
+    <style>
+        .profile-header {
+            background:url("$_SGLOBAL[index_bg]");
+            background-position:center;
+            background-size:cover;
+            background-position-y:0;
+        }
+    </style>
+    <!--{/if}-->
+    <div class="profile-header"></div>
+    <div id="ubar">
+		<div class="profile-avatar">
+			<!--{avatar($space[uid],big)}-->
+		</div>
+		<div id="spaceindex_name">
+				<p style="font-size: 18px;">
+					$space[name]
+					<!--{if $_SCONFIG[realname]}-->
+					<!--{if $space[namestatus]}-->
+					<span class="icon-certificated" style="margin-left: 3px"></span>
+					<!--{/if}-->
+					<!--{/if}-->
+				</p>
+
+				<p style="font-size: 12px">$space[viewnum]次访问</p>
+		</div>
+
+		<ul class='infolist'>
+		 	<li>组别：<a href="cp.php?ac=credit&op=usergroup">{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}</a></li>
+			<li>创建：<!--{date('Y-m-d',$space[dateline],1)}--></li>
+            <li>登录：<!--{if $space[lastlogin]}--><!--{date('Y-m-d',$space[lastlogin],1)}--><!--{/if}-->
+
+            </li>
+            <!--{if $isonline}-->
+            <li>活跃：$isonline</li>
+            <!--{/if}-->
+			<!--{if $space[sex]}-->
+				<li>性别：$space[sex]</li>
+			<!--{/if}-->
+			
+			<!--{if $space[residecity]}-->
+				<li>居住：$space[residecity]</li>
+			<!--{/if}-->
+
+			<!--{if $space[birthcity]}-->
+				<li>家乡：$space[birthcity]</li>
+			<!--{/if}-->
+
+			<!--{if $space[college]}-->
+				<li>院系：$space[college]</li>
+			<!--{/if}-->
+		</ul>
+
+		<!--{if $space[self]}-->
+		<p style="padding-left: 4px; font-size: 12px; width: 130px; margin: 0 auto;">
+			<a href="cp.php?ac=profile" target="_blank">
+				<span class="edit_profile"></span>编辑个人资料
+			</a>
+		</p>
+		<!--{else}-->
+		<ul class='infolist operlist clearfix' style="text-align: center">
+            <li><a href="#comment" onclick="space_activate_comment();return false;">给我留言</a></li>
+            <li><a href="cp.php?ac=poke&op=send&uid=$space[uid]" id="a_poke" onclick="ajaxmenu(event, this.id, 1)">打个招呼</a></li>
+            <li><a href="cp.php?ac=pm&uid=$space[uid]" id="a_pm" onclick="ajaxmenu(event, this.id, 1)">发送消息</a></li>
+
+            <!--{if $space[groupid]!=3 && $space['isfriend']}-->
+            <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">解除好友</a></li>
+            <!--{elseif $followflag}-->
+            <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">取消关注</a></li>
+            <!--{/if}-->
+
+            <li><a href="cp.php?ac=common&op=report&idtype=uid&id=$space[uid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">违规举报</a></li>
+
+            <!--{if checkperm('managename')||checkperm('managespacegroup')||checkperm('managespaceinfo')||checkperm('managespacecredit')||checkperm('managespacenote')}-->
+           <li><a href="admincp.php?ac=space&op=manage&uid=$space[uid]" id="a_manage">管理用户</a></li>
+           <!--{/if}-->
+		<!--
+           <li>
+           		<a href="cp.php?ac=share&type=space&id=$space[uid]" 
+           			onclick="ajaxmenu(event, this.id, 1)">分享用户</a></li>
+		-->
+           <li>
+            	<a href="rss.php?uid=$space[uid]" title="订阅 RSS">订阅用户</a>
+           </li>
+		</ul>
+		<p style="font-size: 14px; width: 130px; margin: 0 auto; text-align: center">
+        	<!--{if $space[groupid]!=3 && !$space['isfriend']}-->
+            <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
+            	class="btn btn-follow btn-large" 
+            	id="a_friend_li" onclick="ajaxmenu(event, this.id, 1)">
+            	加为好友
+            </a>
+            <!--{elseif $space[groupid]==3 && !$followflag}-->
+		<script>
+		function space_refresh_page() {
+			window.location = window.location;
+		}
+		</script>
+            <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
+            	class="btn btn-follow btn-large" 
+            	id="a_friend_li" onclick="ajaxmenu(event, this.id, 1, 1000, 'space_refresh_page')">
+            	添加关注
+            </a>
+            <!--{/if}-->
+        </p>
+        <!--{/if}-->
+
+		<!-- comment starts
+		<div id="space_avatar">
+			<!--{if $space[magicstar] && $space[magicexpire]>$_SGLOBAL[timestamp]}-->
+			<div class="magicstar">
+				<object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,45,0" width="200" height="250">
+					<param name="movie" value="image/magic/star/{$space[magicstar]}.swf" />
+					<param name="quality" value="high" />
+					<param NAME="wmode" value="transparent">
+					<embed src="image/magic/star/{$space[magicstar]}.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash"  wmode="transparent" width="200" height="250"></embed>
+				</object>
+			</div>
+			
+			<div class="magicavatar">
+			<!--{else}-->
+			<div>
+			<!--{/if}-->
+
+			<!--{avatar($space[uid],big)}-->
+			</div>
+			
+		</div>
+		comment ends
+		-->
+
+		<!--{if $space[self] && $_SGLOBAL[magic][superstar]}-->
+		<!-- comment starts
+		<div class="borderbox">
+			<div style="width:100%; overflow:hidden;">
+			<img src="ige/magic/superstar.small.gif" class="magicicon" />
+			<!--{if $space[magicstar] && $space[magicexpire]>$_SGLOBAL[timestamp]}-->
+			<a id="a_magic_superstar" href="cp.php?ac=magic&op=cancelsuperstar" onclick="ajaxmenu(event, this.id)">取消超级明星</a>
+			<!--{else}-->
+			<a id="a_magic_superstar" href="magic.php?mid=superstar" onclick="ajaxmenu(event, this.id, 1)">我要变超级明星</a>
+			<!--{/if}-->
+			</div>
+		</div><br />
+		comment ends
+		-->
+		<!--{/if}-->
+
+		<!-- comment starts
+		<div id="space_mymenu">
+			<h4>个人菜单</h2>
+			<ul class="line_list">
+				<li>
+					<!--{if $space[self]}-->
+					<a href="cp.php?ac=profile" class="r_option" target="_blank">完善</a>
+					<!--{/if}-->
+					<img src="image/icon/profile.gif"><a href="javascript:;" onclick="getindex('info');">个人资料</a>
+				</li>
+				<li>
+					<!--{if $space[self]}-->
+					<a href="space.php?do=doing&view=me" class="r_option" target="_blank">我踩</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_zuji.png"><a href="javascript:;" onclick="getindex('doing');">足迹</a><!--{if $space[doingnum]}--><em>($space[doingnum])</em><!--{/if}-->
+				</li>
+				<li>
+					<!--{if $space[self]}-->
+					<a href="cp.php?ac=blog" class="r_option" target="_blank">发表</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_article.png"><a href="javascript:;" onclick="getindex('blog');">日志</a><!--{if $space[blognum]}--><em>($space[blognum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=upload" class="r_option" target="_blank">上传</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_album.png"><a href="javascript:;" onclick="getindex('album');">相册</a><!--{if $space[albumnum]}--><em>($space[albumnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=thread" class="r_option" target="_blank">发表</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_group.png"><a href="javascript:;" onclick="getindex('thread');">话题</a><!--{if $space[threadnum]}--><em>($space[threadnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=poll" class="r_option" target="_blank">发起</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_vote.png"><a href="javascript:;" onclick="getindex('poll');">投票</a><!--{if $space[pollnum]}--><em>($space[pollnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=event" class="r_option" target="_blank">发起</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_activity.png"><a href="javascript:;" onclick="getindex('event');">活动</a><!--{if $space[eventnum]}--><em>($space[eventnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="space.php?do=share&view=me" class="r_option" target="_blank">添加</a>
+					<!--{/if}-->
+					<img src="image/icons/icon_share.png"><a href="javascript:;" onclick="getindex('share');">分享</a><!--{if $space[sharenum]}--><em>($space[sharenum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=friend&op=search" class="r_option" target="_blank">寻找</a>
+					<!--{/if}-->
+					<img src="image/icons/icon-friend-black.png"><a href="javascript:;" onclick="getindex('friend');">好友</a><!--{if $space[friendnum]}--><em>($space[friendnum])</em><!--{/if}--></li>
+				<li><!--{if $space[groupid]==3}-->
+					<img src="image/icons/icon-friend-black.png"><a href="javascript:;" onclick="getindex('aud');">粉丝</a><em>($space[audnum])</em><!--{/if}--></li>
+			</ul>
+		</div>
+		comment ends -->
+
+		<!-- comment starts
+		<!--{if $guidelist}-->
+		<div id="space_app_guide">
+			<h4>应用菜单</h2>
+			<ul class="line_list">
+			<!--{loop $guidelist $value}-->
+			<li id="space_app_profilelink_$value[appid]">
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]&type=profilelink" id="user_app_profile_$value[appid]" class="r_option float_del" style="position: static;" onclick="ajaxmenu(event, this.id)" title="删除">删除</a>
+				<!--{/if}-->
+				<img src="http://appicon.manyou.com/icons/$value[appid]"><!--{eval eval($value[profilelink]);}-->
+			</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+		<!--{loop $narrowlist $value}-->
+		<div id="space_app_$value[appid]">
+			<h4>
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]" id="user_app_$value[appid]" class="r_option float_del" onclick="ajaxmenu(event, this.id)" title="删除">删除</a>
+				<!--{/if}-->
+				<a href="$value[appurl]">$value[appname]</a>
+			</h4>
+			<!--{if $value[myml]}-->
+			<div class="box">
+			<!--{eval eval($value[myml]);}-->
+			</div>
+			<!--{/if}-->
+		</div>
+		<!--{/loop}-->
+		comment ends-->
+
+	</div>
+	<div id="mainarea" class="clearfix">
+		<div id="content" class="clearfix">
+			
+		<!--
+		<div id="spaceindex_note">
+			<div>
+				<a href="cp.php?ac=share&type=space&id=$space[uid]" 
+					onclick="ajaxmenu(event, this.id, 1)">
+					分享
+				</a>
+				<a href="rss.php?uid=$space[uid]" title="订阅 RSS">
+					订阅
+				</a>
+			</div>
+			
+			<ul class="note_list">
+				<li>已有 $space[viewnum] 人次访问, $space[credit] 个积分, $space[experience] 个经验 $space[star]</li>
+				<li>用户组别：
+					<a href="cp.php?ac=credit&op=usergroup">
+						{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}
+					</a> 
+				</li>
+				<li>主页地址：
+					<a href="$space[domainurl]" 
+						onclick="javascript:setCopy('$space[domainurl]');return false;" 
+						class="spacelink domainurl">
+						$space[domainurl]
+					</a>
+				</li>
+			
+				<!--{if !$space[self] && $space[note]}-->
+				<li>$space[note] <a href="space.php?uid=$space[uid]&do=doing">&raquo;</a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+		-->
+
+		<div id="maincontent" style="margin-bottom: 10px;">
+
+		<ul class="tabs">
+			<li class='active'><a href="#space_feed" id="space_feed_tab">动态</a></li>
+			<li><a href="#space_info">个人资料</a></li>
+			<li><a href="#space_photo">相册</a></li>
+			<!--{if $space[self]}-->
+			<li class="comment">
+				<a href="javascript:;" onclick="return false;">留言</a>
+				<ul class="comment-menu">
+					<li style="border-top-left-radius: inherit;border-top-right-radius: inherit" class="comment-to-who">
+						<a href="#comment" id="tab_content_doing_tab">别人给我的</a>
+					</li>
+					<li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit" class="comment-to-who">
+						<a href="#mycomment">我给别人的</a>
+					</li>
+				</ul>
+			</li>
+			<!--{else}-->
+			<li><a id="tab_trigger_comment" href="#comment">留言</a></li>
+			<!--{/if}-->
+			<li class="more">
+				<a href="#">更多</a>
+				<ul class="more-menu">
+					<li style="border-top-left-radius: inherit;border-top-right-radius: inherit">
+						<a href="#tab_content_doing" id="tab_content_doing_tab">足迹</a>
+					</li>
+					<li><a href="#space_blog">日志</a></li>
+					<li><a href="#tab_content_thread">话题</a></li>
+					<li><a href="#tab_content_poll">投票</a></li>
+					<li><a href="#tab_content_event">活动</a></li>
+					
+					<!--{if $space[groupid]==3}-->
+					<!--
+					<li><a href="#tab_content_aud">粉丝($space[audnum])</a></li>
+					-->
+					<!--{/if}-->
+
+					<li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit">
+						<a href="#tab_content_share">分享</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!--{if !$space['isfriend']}-->
+		<!--
+		<div class="borderbox">
+			<p style="padding-bottom:10px;">如果您认识{$_SN[$space[uid]]}，可以给TA留个言，或者打个招呼，或者添加为好友。<br />成为好友后，您就可以第一时间关注到TA的更新动态。</p>
+			<a href="cp.php?ac=friend&op=add&uid=$space[uid]" id="a_friend_notice" onclick="ajaxmenu(event, this.id, 1)" class="submit">加为好友</a></p>
+		</div><br>
+		-->
+		<!--{/if}-->
+
+		<div id="space_info" style="display: none">
+			<table class="infotable">
+			<!--{if $space[profile_base]}-->
+				<tr>
+					<td class="td_title" colspan="2">基本资料</td>
+				</tr>
+			<!--{/if}-->
+			<!--{if $space[sex]}-->
+				<tr><td>性别：$space[sex]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[birth]}-->
+				<tr><td>生日：$space[birth]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[blood]}-->
+				<tr><td>血型：$space[blood]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[marry]}-->
+				<tr><td>婚恋：$space[marry]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[residecity]}-->
+				<tr><td>居住：$space[residecity]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[birthcity]}-->
+				<tr><td>家乡：$space[birthcity]</td></tr>
+			<!--{/if}-->
+
+			<!--{loop $fields $fieldid $value}-->
+			<!--{if $space["field_$fieldid"] && empty($value['invisible'])}-->
+			<!--{eval $fieldvalue = $space["field_$fieldid"]; $urlvalue = rawurlencode($fieldvalue);}-->
+				<tr><td>$value[title]：
+				<!--{if $value[allowsearch]}-->
+				<a href="cp.php?ac=friend&op=search&field_$fieldid=$urlvalue&searchmode=1">$fieldvalue</a>
+				<!--{else}-->
+				$fieldvalue
+				<!--{/if}--></td></tr>
+			<!--{/if}-->
+			<!--{/loop}-->
+
+			<!--{if $space[profile_contact]}-->
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">联系方式</td>
+				</tr>
+			<!--{/if}-->
+			<!--{if $space[mobile]}-->
+				<tr><td>手机：$space[mobile]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[qq]}-->
+				<tr><td>QQ：$space[qq]</td></tr>
+			<!--{/if}-->
+			<!--{if $space[msn]}-->
+				<tr><td>MSN：$space[msn]</td></tr>
+			<!--{/if}-->
+
+			<!--{if $space[edu]}-->
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">教育情况</td>
+				</tr>
+				<tr><td><span style="display: inline-block; vertical-align: top">学校：</span>
+					<ul style="display: inline-block;margin-bottom: 0px;">
+					<!--{loop $space[edu] $value}-->
+					<li style="padding-top: 0px;">
+					<!--{eval $title_url = urlencode($value[title]);$subtitle_url = urlencode($value[subtitle]);}-->
+					<a href="space.php?do=mtag&tagname=$title_url">$value[title]</a> <a href="space.php?do=mtag&tagname=$subtitle_url">$value[subtitle]</a> <span class="gray">($value[startyear] 年)</span>
+					</li>
+					<!--{/loop}-->
+					</ul>
+				</td></tr>
+			<!--{/if}-->
+
+			<!--{if $space[work]}-->
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">工作情况</td>
+				</tr>
+				<tr><td>公司或机构：
+				<!--{loop $space[work] $value}-->
+				<!--{eval $title_url = urlencode($value[title]);$subtitle_url = urlencode($value[subtitle]);}-->
+					<a href="space.php?do=mtag&tagname=$title_url">$value[title]</a> <a href="space.php?do=mtag&tagname=$subtitle_url">$value[subtitle]</a> <span class="gray">({$value[startyear]}年{$value[startmonth]}月 ~ 
+						<!--{if $value[endyear]}-->{$value[endyear]}年<!--{/if}-->
+						<!--{if $value[endmonth]}-->{$value[endmonth]}月<!--{/if}-->
+						<!--{if !$value[endyear] && !$value[endmonth]}-->现在<!--{/if}-->)</span>
+				<!--{/loop}-->
+			</td></tr>
+			<!--{/if}-->
+
+			<!--{if $space[info]}-->
+			<!--{eval 
+			$infoarr = array(
+				'trainwith' => '我想结交',
+				'interest' => '兴趣爱好',
+				'book' => '喜欢的书籍',
+				'movie' => '喜欢的电影',
+				'tv' => '喜欢的电视',
+				'music' => '喜欢的音乐',
+				'game' => '喜欢的游戏',
+				'sport' => '喜欢的运动',
+				'idol' => '偶像',
+				'motto' => '座右铭',
+				'wish' => '最近心愿',
+				'intro' => '我的简介'
+			);
+			}-->
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">个人介绍</td>
+				</tr>
+			<!--{loop $space[info] $value}-->
+			<!--{if $value[title]}-->
+				<tr><td>{$infoarr[$value[subtype]]}：$value[title]
+					</td>
+				</tr>
+			<!--{/if}-->
+			<!--{/loop}-->
+			<!--{/if}-->
+			</table>
+		</div>
+
+
+		<div id="space_photo" style="display: none">
+			<!--{if $space[self]}-->
+			<!--{if $albumlist}-->
+			<a href="cp.php?ac=upload" class='upload-photo-link' style="margin-left: 10px">
+				<span class="icon-upload-photo"></span>上传图片
+			</a>
+			<a href="space.php?uid=$space[uid]&do=album&view=me" class='upload-photo-link' style="margin-left: 10px">
+				<span class="icon-manage-photo"></span>管理相册
+			</a>
+			<!--{/if}-->
+			<!--{/if}-->
+
+			<!--{if $albumlist}-->
+			<table class="photo-grid">
+				<tr>
+				<!--{loop $albumlist $key $value}-->
+				<!--{if $key%2==0}-->
+				<td class="left">
+				<!--{else}-->
+				<td>
+				<!--{/if}-->
+					<div class="cell">
+						<div class="back"></div>
+						<div class="front">
+							<a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" 
+								target="_blank" 
+								class="img_wrap">
+								<img src="<!--{eval echo substr($value[pic], 0, strlen($value[pic])-10);}-->"
+									onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'>
+
+								<!--
+                                <img src="<!--{eval echo resize_img(substr($value[pic], 0, strlen($value[pic])-10));}-->" 
+									onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'/>
+								-->
+							</a>
+							<p style="text-align: center;margin: 5px 0px;text-overflow: ellipsis;white-space: nowrap; overflow: hidden;">
+								<a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank">$value[albumname]
+								</a>
+							</p>
+							<p class="count">$value[picnum]</p>
+						</div>
+					</div>
+				</td>
+				<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+				<!--{/loop}-->
+				</tr>
+			</table>
+			<!--{else}-->
+			<p class="no-content-tip">
+				<img src="image/icons/no_status.png">
+				<br>
+				暂无相册
+			</p>
+			<!--{/if}-->
+		</div>
+
+		<div id="space_feed" class="feed">
+		<!--{if $feedlist}-->
+			<!--{eval $_TPL['hidden_hot']=1;}-->
+			<div class="box_content">
+				<ul>
+				<!--{loop $feedlist $value}-->
+					<!--{template space_feed_li}-->
+				<!--{/loop}-->
+				</ul>
+				<!--{if $space[self]}-->
+				<a href="space.php?uid=$space[uid]&do=feed&view=me" style="margin-bottom: 18px" class="pull-right">»&nbsp;查看全部动态</a>
+				<!--{/if}-->
+			</div>
+		<!--{else}-->
+		<p class="no-content-tip">
+			<img src="image/icons/no_status.png">
+            <br>
+            <!--{if !ckprivacy('feed')}-->
+            由于对方隐私设置，您无法查看对方动态
+            <!--{else}-->
+            暂无动态
+            <!--{/if}-->
+		</p>
+		<!--{/if}-->
+		</div>
+
+		<div id="tab_content_doing" style="display: none"></div>
+		<div id="tab_content_thread" style="display: none"></div>
+		<div id="tab_content_poll" style="display: none"></div>
+		<div id="tab_content_event" style="display: none">
+		</div>
+		<div id="tab_content_share" style="display: none"></div>
+		<div id="tab_content_aud" style="display: none"></div>
+
+		<div id="space_blog" class="feed" style="display: none">
+			<!--{if $space[self]}-->
+			<div class="space_section_header">
+				<a href="cp.php?ac=blog">
+					<span class="space-icon-publish-blog"></span>
+					添加新日志
+				</a>
+				<span class="count">
+					（ 共<!--{eval echo count($bloglist);}-->篇 ）
+				</span>
+			</div>
+			<!--{/if}-->
+
+			<!--{if $bloglist}-->
+			<ul>
+			<!--{loop $bloglist $key $value}-->
+				<!--{if $key == count($bloglist) - 1}-->
+				<li style="border-bottom: none">
+				<!--{else}-->
+				<li>
+				<!--{/if}-->
+					<h4 style="font-size: 14px;">
+						<a href="space.php?uid=$space[uid]&do=blog&id=$value[blogid]" target="_blank">$value[subject]</a>
+						<span style="padding-left: 10px;" class="gray r_option"><!--{date('m-d H:i',$value[dateline],1)}--></span>
+					</h4>
+					<div class="detail">
+						$value[message]
+					</div>
+				</li>
+			<!--{/loop}-->
+			</ul>
+			<a href="space.php?uid=$space[uid]&do=blog&view=me" class="pull-right">»&nbsp;查看全部日志</a>
+			<!--{else}-->
+			<p class="no-content-tip">
+				<img src="image/icons/no_status.png">
+				<br>
+				暂无日志
+			</p>
+			<!--{/if}-->
+		</div>
+
+
+		<!--{loop $widelist $value}-->
+		<!--{if $value[myml]}-->
+		<div id="space_app_$value[appid]" class="appbox">
+			<h3 class="feed_header">
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]" id="user_app_$value[appid]" class="r_option float_del" onclick="ajaxmenu(event, this.id)" title="删除">删除</a>
+				<!--{/if}-->
+				<a href="$value[appurl]">$value[appname]</a>
+			</h3>
+			<div class="box" style="margin: 0 0 20px;">
+			<!--{eval eval($value[myml]);}-->
+			</div>
+		</div>
+		<!--{/if}-->
+		<!--{/loop}-->
+		</div>
+
+		<div id="comment" class="comments_list" style="display: none">
+		<div style="position: relative;">
+<script language="javascript" src="plugin/at/jquery.form.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+
+function clearShowPic() {
+	jQuery('#showimg').empty();
+	jQuery('#showimg').hide();
+	jQuery("#datapicid").val('');
+	jQuery("#datapicpath").val('');				
+	jQuery("#fileupload").val('');
+}	
+
+jQuery(function ($) {
+	
+	var showimg = $('#showimg');
+	var files = $(".files");
+	$("#fileupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+	$("#fileupload").change(function(){
+		$("#myupload").ajaxSubmit({
+			dataType:  'json',
+			success: function(data) {
+				var img = "$_SC['attachurl']"+data.pic;
+				var num = 12;
+				var name = data.name;
+				var picid = data.picid;
+				name = cut_string(name,num);
+				$("#datapicid").val(picid);
+				$("#datapicpath").val(data.pic);
+				showimg.html("<div class='triangle-isosceles'><p><b>"+name+"</b></p> <img src='"+img+"' ><p><span class='delimg' rel='"+picid+"'>删除</span></p></div>");
+			},
+			error:function(xhr){
+				files.html(xhr.responseText);
+			}
+		});
+	});
+	jQuery(".delimg").live('click',function(){
+		var picid = $(this).attr("rel");
+	
+		$.get("cp.php?ac=upload&file=delete&type=pic",{ picid: picid },function(ancon){
+			if(ancon=='ok'){
+				$("#datapicid").val('');
+				$("#datapicpath").val('');				
+				showimg.empty();
+				$("#fileupload").val('');
+			}else{
+				alert("删除失败，刷新即可~");
+			}
+		});
+	});
+	
+	function cut_string(string,num){
+        var str = string.split('.');
+        var s_length = str.length;
+		var str_len = str[0].replace(/[^\x00-\xff]/g, "**").length;
+		if( str_len > num){
+			var content = str[0].substr(0,num);
+			return content+"..."+str[s_length-1];
+		}
+		else{
+			return string;
+		}        
+	}
+	
+	
+
+});
+</script>
+				<form class="clearfix" action="cp.php?ac=comment" id="quick_commentform_{$space[uid]}" name="quick_commentform_{$space[uid]}" method="post" style="padding: 0px 0px 20px;">
+				
+					<!--{if $_SGLOBAL['magic']['doodle']}-->
+					<!--{/if}-->
+					<br />
+					<textarea name="message" class="mood_textarea" id="comment_message" 
+							rows="4" cols="60" style="margin-left: 0px; margin-bottom: 10px; width:100%;" 
+							onkeydown="ctrlEnter(event, 'commentsubmit_btn');"></textarea>
+					<input type="hidden" name="refer" value="space.php?uid=$space[uid]" />
+					<input type="hidden" name="id" value="$space[uid]" />
+					<input type="hidden" name="idtype" value="uid" />
+					<input type="hidden" name="commentsubmit" value="true" />
+					<input type="hidden" name="datapicid" id="datapicid" value="" />
+					<input type="hidden" name="datapicpath" id="datapicpath" value="" />
+
+					<input type="button" id="commentsubmit_btn" 
+						name="commentsubmit_btn" 
+						class="submit btn btn-lg btn-comments" 
+						style="padding: 6px 24px; float: right; border-radius: 20px"
+						value="留言" onclick="ajaxpost('quick_commentform_{$space[uid]}', 'wall_add' ,'' ,clearShowPic)" />
+					<style type="text/css">
+					.face_reply {
+						display: inline-block;
+						width: 30px;
+						height: 30px;
+						background: url(image/icons/statues_face_normal.png) center center no-repeat;
+						vertical-align: middle;
+						margin-right: 10px;
+					}
+					.face_reply:hover {
+						text-decoration: none;
+						background: url(image/icons/statues_face_pressed.png) center center no-repeat;
+					}
+					</style>
+					<a href="javascript:;" class="drop_face face_reply"></a>
+					<div class="drop_face_menu" data-target="comment_message"></div>
+					<div class="btn" id="face_pictor">
+						<img src="image/icons/statues_image_normal.png" width="30" height="30" align="absmiddle" />
+						<input id="fileupload" type="file" name="feedfile" title="插入图片">
+					</div>
+					<div class="files"></div>
+					<div id="showimg" style="left:45px;position: relative;top: -230px;"></div>
+                    <script>
+                        jq(function(){
+                        jq("#face_pictor").hover(function(){
+                            jq("#face_pictor").find("img").attr({"src":"image/icons/statues_image_pressed.png"});
+                        });
+                        jq("#face_pictor").mouseleave(function(){
+                        jq("#face_pictor").find("img").attr({"src":"image/icons/statues_image_normal.png"});
+                    });
+                });
+                    </script>
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</form>
+			</div>
+
+			<style type="text/css">
+				#comment_ul li {
+					margin-top: 10px;
+					border-bottom:1px solid #dcdcdc;
+				}
+			</style>
+			<div class="box_content" style="margin-top:-40px;">
+				<ul class="post_list a_list justify_list" id="comment_ul">
+					<!--{loop $walllist $value}-->
+					<!--{template space_comment_li}-->
+					<!--{/loop}-->
+				</ul>
+				<!--{if $walllist}-->
+				<!--{if $space[self]}-->
+				<a href="space.php?uid=$space[uid]&do=wall&view=me" class="pull-right">»&nbsp;查看更多留言</a>
+				<!--{/if}-->
+				<!--
+				<p class="r_option" style="padding:5px 0 10px 0;"><a href="space.php?uid=$space[uid]&do=wall&view=me">&raquo; 更多留言</a></p>
+				-->
+				<!--{/if}-->
+			</div>
+		</div>
+		
+		
+		<div id="mycomment" class="comments_list" style="display: none">
+			<style type="text/css">
+				#comment_ul li {
+					margin-top: 10px;	
+				}
+			</style>
+			<div class="box_content" style="margin-top: :;">
+				<ul class="post_list a_list justify_list" id="comment_ul">
+					<!--{loop $mywalllist $value}-->
+					<!--{template space_comment_li_mine}-->
+					<!--{/loop}-->
+				</ul>
+				<!--{if $mywalllist}-->
+				<!--{if $space[self]}-->
+				<a href="space.php?uid=$space[uid]&do=wall&view=mine" class="pull-right">»&nbsp;查看更多留言</a>
+				<!--{/if}-->
+				<!--{/if}-->
+			</div>
+		</div>
+		
+		
+	</div>
+
+	<div id="obar">
+		<!--{if !$space['self']}-->
+
+			<!--{if $space['magiccredit']}-->
+			<div class="magichongbao" id="div_magic_gift">
+				<a id="a_magic_gift" href="cp.php?&ac=magic&op=receive&uid=$space[uid]" onclick="ajaxmenu(event, this.id)">送你 <span>$space[magiccredit]</span> 积分大红包</a>
+			</div>
+			<!--{/if}-->
+
+			<!--{if $_SGLOBAL[magic][viewmagiclog] || $_SGLOBAL[magic][viewmagic] || $_SGLOBAL[magic][viewvisitor]}-->
+			<div class="indexmagic">
+			<!--{loop array('viewmagiclog','viewmagic','viewvisitor') $mid}-->
+				<!--{if $_SGLOBAL[magic][$mid]}-->
+				<a id="a_magic_{$mid}" href="magic.php?mid=$mid&idtype=uid&id=$space[uid]" onclick="ajaxmenu(event,this.id,1)">
+				<img src="image/magic/{$mid}.small.gif" title="{$_SGLOBAL[magic][$mid]}" alt="{$_SGLOBAL[magic][$mid]}">
+				</a>
+				<!--{/if}-->
+			<!--{/loop}-->
+			</div>
+			<!--{/if}-->
+		<!--{else}-->
+			<!--{if $_SGLOBAL[magic][gift]}-->
+			<div class="magichongbao" id="div_magic_gift">				
+				<!--{if $space['magiccredit']}-->
+				<a id="a_magic_retrieve" href="cp.php?ac=magic&op=retrieve" onclick="ajaxmenu(event,this.id)">回收埋下的积分</a>
+				<!--{else}-->
+				<a id="a_magic_gift" href="magic.php?mid=gift" onclick="ajaxmenu(event,this.id,1)">给来访者埋个红包</a>
+				<!--{/if}-->				
+			</div>
+			<!--{/if}-->
+		<!--{/if}-->
+
+
+		<!--{if $visitorlist}-->
+		<div class="sidebox">
+			<h4 class="title">
+				<a href="space.php?uid=$space[uid]&do=friend&view=visitor" class="r_option">
+					查看全部
+				</a>
+				最近来访
+				<!--{if !$space[self] && $_SGLOBAL[magic][anonymous]}-->
+				<span class="gray"><img title="$_SGLOBAL[magic][anonymous]" src="image/magic/anonymous.small.gif"/><a id="a_magic_anonymous" href="magic.php?mid=anonymous&idtype=uid&id=$space[uid]" onclick="ajaxmenu(event,this.id,1)">匿名</a></span>
+				<!--{/if}-->
+			</h4>
+			<ul class="avatar_list">
+				<!--{loop $visitorlist $key $value}-->
+				<li>
+					<div>
+						<!--{if $value[vusername] == ''}-->
+						<a href="#">
+							<img src="image/magic/hidden.gif" alt="匿名" />
+						</a>
+						<!--{else}-->
+						<a href="space.php?uid=$value[vuid]">
+							<!--{avatar($value[vuid],small)}-->
+						</a>
+						<!--{/if}-->
+					</div>
+					<p>
+						<!--{if $value[vusername] == ''}-->
+						<a href="#">匿名</a>
+						<!--{else}-->
+						<a href="space.php?uid=$value[vuid]" 
+							title="{$_SN[$value[vuid]]}">
+							{$_SN[$value[vuid]]}
+						</a>
+						<!--{/if}-->
+					</p>
+					<p class="gray"><!--{date('n月j日',$value[dateline],1)}--></p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+
+		<!--{if $friendlist}-->
+		<div class="sidebox border-bottom-none">
+			<h4 class="title">
+			<span class="r_option">
+				<a href="space.php?uid=$space[uid]&do=friend&view=me" class="action">查看全部($space[friendnum])</a>
+			</span>
+			好友
+			</h4>
+			<ul class="avatar_list">
+				<!--{loop $friendlist $value}-->
+				<li>
+				<div class="avatar48"><a href="space.php?uid=$value[fuid]"><!--{avatar($value[fuid],small)}--></a></div>
+				<p<!--{if $ols[$value[fuid]]}--> class="online_icon_p"<!--{/if}-->><a href="space.php?uid=$value[fuid]">{$_SN[$value[fuid]]}</a></p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+		
+		
+		<!--{if !empty($flink)}-->
+		<div class="sidebox border-bottom-none" id="flink-box">
+			<h4 class="title">
+			友情链接
+			</h4>
+			<ul id="flink">
+				<!--{eval $isShow=1}-->
+				<!--{loop $flink $value}-->
+				<!--{if $value[flink]&&$value[fname]}-->
+				<li><a href="{$value[flink]}" target="_blank">{$value[fname]}</a></li>
+				<!--{eval $isShow=0}-->
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+		<script type="text/javascript">
+			jQuery.noConflict();
+			jQuery(function ($) {
+				var isShow = {$isShow};
+				if(isShow==1){
+					$("#flink-box").hide();
+				}
+			});
+		</script>
+		</div>
+		<!--{/if}-->
+
+	</div>
+</div>
+</div>
+</div>
+
+<!--{if $_GET['theme']}-->
+<div class="nn">
+	您是否想使用这款个性风格?<br />
+	<a href="cp.php?ac=theme&op=use&dir=<!--{$_GET['theme']}-->">[应用]</a>
+	<a href="cp.php?ac=theme">[取消]</a>
+</div>
+<!--{/if}-->
+
+<input type="hidden" name="global_space_uid" value="$space[uid]">
+<script type="text/javascript" src="source/space_tabs.js">
+</script>
+<script type="text/javascript" src="source/space_comment.js"></script>
+<script type="text/javascript" src="source/space_feed.js"></script>
+<script type="text/javascript" src="source/face.js"></script>
+
+
+
+
+<script type="text/javascript">
+function getindex(type) {
+	var plus = '';
+	if(type == 'event') plus = '&type=self';
+	ajaxget('space.php?uid=$space[uid]&do='+type+'&view=me'+plus+'&ajaxdiv=maincontent', 'maincontent');
+}
+
+//彩虹炫
+var elems = selector('div[class~=magicflicker]'); 
+for(var i=0; i<elems.length; i++){
+	magicColor(elems[i]);
+}
+
+</script>
+<!--{template footer}-->

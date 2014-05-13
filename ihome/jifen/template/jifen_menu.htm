@@ -1,0 +1,32 @@
+
+	<div class="nbox_s side_rbox side_rbox_w" style="height:auto;">
+		<h2 class="ntitle">积分商品类别 &raquo;</h2>
+		<div class="side_rbox_c">
+			<ul class="side_rbox_c doinglist" style="height:auto;">
+				<li>
+					<p>
+						<a href="jifen.php" class="gray r_option dot" style="margin:0;background-position-y: 0;">数量：{$allnumber}</a>
+						<img src="jifen/images/zoomin.gif" width="16" height="16" />
+						<a href="jifen.php">所有类别</a>
+					</p>
+				</li>
+				<li>
+					<p>
+						<a href="jifen.php?type=cj" class="gray r_option dot" style="margin:0;background-position-y: 0;">数量：{$cjcount}</a>
+						<img src="jifen/images/zoomin.gif" width="16" height="16" />
+						<a href="jifen.php?type=cj">积分抽奖</a>
+					</p>
+				</li>
+				<!--{loop $lblist $value}-->
+				<li>
+					<p>
+						<a href="jifen.php?lbid=$value[id]" class="gray r_option dot" style="margin:0;background-position-y: 0;">数量：{$value[nums]}</a>
+						<img src="$value[pic]" width="16" height="16" />
+						<a href="jifen.php?lbid=$value[id]">{$value[name]}</a>
+					</p>
+					<p class="message" title="$value[des]">$value[des]</p>
+				</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+	</div>

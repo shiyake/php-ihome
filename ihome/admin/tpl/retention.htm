@@ -1,0 +1,74 @@
+<!--{template admin/tpl/header}-->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    jQuery(function() {
+        jq('#columnchart').highcharts({
+            title: {
+                text:'用户留存情况分析'
+            },
+            xAxis: {
+                categories: [
+                <!--{eval $sep = ''}-->
+                <!--{loop $items $key $value}-->
+                <!--{eval echo "$sep'$key'"}-->
+                <!--{eval $sep = ','}-->
+                <!--{/loop}-->
+                ]
+            },
+            yAxis: {
+                title: {
+                    text: '留存百分比',
+                }
+            },
+            series: [{
+                name: '一天',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[one_day]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '半周',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[half_week]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '一周',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[one_week]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '一个月',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[one_month]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }]
+        });
+    });
+</script>
+
+<div class="mainarea">
+	<div class="maininner">
+        <div id="columnchart"></div>
+        <div class="bdrcontent">
+            <p>x天的留存率定义是：今天注册的人在，今天之后的（不包括今天）的x天内有登录的人数的比率。
+            此图统计的是最近一段时间，每天的一天，半周，一周和一个月的留存率
+            </p>
+        </div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,34 @@
+<!--{template admin/tpl/header}-->
+<div class="mainarea">
+	<div class="maininner">
+        <div class="bdrcontent">
+            <table cellspacing="0" cellpadding="0" class="listtable">
+            <caption>
+            <h2>用户注册情况</h2>
+            </caption>
+            <thread>
+                <th class="title">用户类型</th>
+                <th class="title">总数</th>
+                <th class="title">注册数</th>
+            </thread>
+            <tbody>
+                <!--{loop $items $value}-->
+                <tr class="line">
+                    <td class="center">$value['user_type']</td>
+                    <td class="center">$value['all_num']</td>
+                    <td class="center">$value['register_num']</td>
+                </tr>
+                <!--{/loop}-->
+            </tbody>
+            </table>
+        </div>
+        <div class="bdrcontent">
+            <p>计算方法：统计所有排重后的所有学生，教师和校友的激活数和总数</p>
+        </div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->
+

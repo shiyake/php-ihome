@@ -1,0 +1,38 @@
+
+<!--{if $op==''}-->
+<!--{template admin/tpl/header}-->
+
+	<h2 class="l_status title">最新公共主页申请</h2>	
+	<!--{loop $applist $key $value}-->	
+	主页名：$value[name]	登录名：$value[username]	申请时间：$value[apptime]<br>
+	<li><a href="admincp.php?ac=publicapply&op=details&appid=$value[appid]" target= "_blank">详情</a></li>
+	<li><a href="admincp.php?ac=publicapply&op=approval&appid=$value[appid]" >同意</a></li>
+	<li><a href="admincp.php?ac=publicapply&op=negate&appid=$value[appid]&appuid=$value[appuid]" >拒绝</a></li><br>
+	---------------------------------------------------------------------------------------------------<br>
+	<!--{/loop}-->
+
+	<h2 class="l_status title">最新公共主页处理</h2>	
+	<!--{loop $deallog $key $value}-->	
+	主页名：$value[name]	登录名：$value[username]	申请时间：$value[apptime]<br>
+	<li><a href="admincp.php?ac=publicapply&op=details&appid=$value[appid]" target= "_blank">详情</a></li>
+	处理者：$value[adminuid]号管理员
+		<!--{if $value[ruthed]>0}-->
+		批准
+		<!--{/if}-->
+		<!--{if $value[ruthed]==-1}-->
+		拒绝
+		<!--{/if}-->
+		<!--{if $value[ruthed]==-2}-->
+		申请用户名错误
+		<!--{/if}-->
+		<!--{if $value[ruthed]==-3}-->
+		申请邮箱错误
+		<!--{/if}-->
+		<!--{if $value[ruthed]==-4}-->
+		其他原因注册失败
+		<!--{/if}-->
+	<br>
+	---------------------------------------------------------------------------------------------------<br>
+	<!--{/loop}-->
+<!--{template admin/tpl/footer}-->
+<!--{/if}-->	

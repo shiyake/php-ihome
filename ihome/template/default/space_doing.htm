@@ -1,0 +1,54 @@
+<!--{eval $_TPL['titles'] = array('记录');}-->
+<!--{template header}-->
+
+<div id="space_doing">
+	<!--{if $dolist}-->
+	<div class="doing_list">
+		<ol>
+			<!--{loop $dolist $dv}-->
+			<!--{eval $doid = $dv[doid];}-->
+            <li id="dl{$doid}" class="s_clear">
+                <div class="feed_li_avatar" style="float:left !important">
+                    <div class="round_border head">
+                        <a href="space.php?uid=$value[uid]"><!--{avatar($dv[uid],big,false,0,'feed')}--></a>
+                     </div>
+                </div>    
+        <script src="source/docomment.js"></script>
+                <div class="feed_li_inner" style="overflow:hidden;letter-spacing:0.5px;">
+                    <a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+                    <div class="feed_content clearfix"></div>
+                    <div id="reply_content">
+                        <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
+                        <span class="floatright">
+                            <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
+                            <span class="pipe">|</span>
+                            <!--{else}-->
+                            <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
+                            <span class="pipe">|</span>
+                            <!--{/if}-->
+                            <a href="javascript:;" data-doid="{$doid}" class="do_a_op_"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                            <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                            <span class="pipe">|</span>
+                            <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)"><img style="margin-bottom:2px;"src="image/icons/icon-report.png"/>&nbsp;举报</a>
+                            <!--{/if}-->
+                        </span>
+                    </div>
+                </div>
+            <!--{eval $list = $clist[$doid];}-->
+                <div class="sub_doing fcomment do_document" id="docomment_$doid" style="display:none;">
+                    <span id="docomment_form_{$doid}_0"></span>
+                    <!--{template space_doing_li_index}-->
+                </div>
+            </li>
+			<!--{/loop}-->
+		</ol>
+		<div class="page">$multi</div>
+	</div>
+	<!--{else}-->
+    <p class="no-content-tip">
+    <img src="image/icons/no_status.png">
+    <br>
+    现在还没有足迹
+    </p>
+	<!--{/if}-->
+</div>

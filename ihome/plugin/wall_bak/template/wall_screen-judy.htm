@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=$_SC[charset]" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" >
+<style type="text/css">
+body{margin:auto;background-color:black;text-align:center}
+a { color: #2C629E; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#mainarea{margin:auto; width:960px; height:auto;overflow:hidden;font-family:"微软雅黑"}
+#workarea{margin:5px auto;clear:both;width:auto;height:auto;overflow:hidden;background-color:#0D2F41;}
+	.title{font-size:54px;font-weight:bold;color:lightblue;height:60px;text-align:center;margin-top:5px;word-spacing:10px;}
+	.wallcontent{margin:5px auto;padding:0 30px;height:auto;width:auto;clear:both;text-align:left;}
+		.wallcontent ul{margin:0;padding:0;;height:660px;overflow:hidden;position:relative;}
+		.wallcontent li{padding:0;float:left;margin:0;clear:both; padding:5px 0;list-style:none;overflow:hidden;position:absolute;}
+		.posted{width:900px;height:150px;}
+		.avatar{padding:0;float:left;width:150px;height:150px;overflow:hidden;display:inline;text-align:center;}
+			.posteravatar {height:150px;position:relative;}
+			.posteravatar img { border: none; height:150px;width:150px;}
+			.poster{font-size:32px;width:150px;font-weight:bold;position:absolute;bottom:0;background:rgba(0,0,0,0.6);color:white;}
+		.wallcontent .text{padding:0;float:left;margin-left:10px;font-size:52px;height:150px;display:inline; width:740px;overflow:hidden;position:relative;background-color:#F8DC23;}
+					 .face{margin: 0px 5px 5px 2px; vertical-align: middle; }
+			.posttextouter{height: 100%; overflow: hidden; position: relative;width: 100%; }
+			.posttextouter[class]{display: table; position: static;}
+				.posttextmiddle{position: absolute; top: 50%;}
+				.posttextmiddle[class]{display: table-cell; vertical-align: middle; position: static;}
+					.posttextinner{position: relative; top: -50%;margin: 0 20px;}
+			.posttime{width:730px;color:#999;font-weight: normal; font-size:14px;text-align:right;position:absolute;bottom:0;}
+#footer { padding: 10px 0 10px 0; margin-top:5px;border-top: 1px solid #EBE6C9; color: #333; text-align: center; font-size:12px;}
+</style>
+<script language="javascript" type="text/javascript" src="./plugin/at/jquery-1.8.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="source/script_cookie.js"></script>
+<script language="javascript" type="text/javascript" src="source/script_common.js"></script>
+<script language="javascript" type="text/javascript" src="source/script_menu.js"></script>
+<script language="javascript" type="text/javascript" src="source/script_ajax.js"></script>
+		<script language=javascript>
+		var jq=jQuery.noConflict();
+		jq(document).ready(function(){
+			var int=self.setInterval("refresh()",2000);
+			var ref=self.setInterval("fetchOne()",2000);
+		});
+		function wallonload(){
+			jq(".content:eq(1)").animate({top:"+=161px"},2000);
+			jq(".content:eq(2)").animate({top:"+=322px"},2000);
+			jq(".content:eq(3)").animate({top:"+=483px"},2000);
+		}
+		function fetchOne() {
+				var x = new Ajax('XML', 'fetchOne');
+				x.get('plugin.php?pluginid=wall&wallid=$WallId&ac=screen&op=fetchOne', function(s){
+					jq(".content:eq(0)").before(s);
+				});
+		}
+		function insert(){
+		jq(".content:eq(0)").before(s);
+		}
+		function refresh(){
+		if(jq(".content:eq(0)").is(":hidden")){
+			jq(".content:eq(0)").fadeIn(10);
+			jq(".content:eq(1)").animate({top:"+=161px"},10);
+			jq(".content:eq(2)").animate({top:"+=161px"},10);
+			jq(".content:eq(3)").animate({top:"+=161px"},10);
+			jq(".content:eq(4)").fadeOut(10);
+			jq(".content:eq(5)").remove();
+			}
+		}
+</script>
+</head>
+<body onload="wallonload()">
+<div id="mainarea">
+	<div id="workarea">
+		<div class="title">$WallTitle</div>
+		<div id="WallId" value="$WallId"></div>
+		<div class="wallcontent">
+			<ul id="wall_list">
+			<!--{loop $WallRecList $key=>$value}-->
+			<li class="content">
+				<div class="posted">
+					<div class="avatar">
+						<div class="posteravatar"><!--{avatar($value[uid],big)}-->
+							<div class="poster">$_SN[$value[uid]]</div>
+						</div>
+					</div>
+					<div class="text" name="contenttext">
+						<div class="posttextouter">
+							<div class="posttextmiddle">
+								<div class="posttextinner">
+									$value[message]
+								</div>
+							</div>
+						</div>
+						<div class="posttime"><!--{eval echo sgmdate('m/d H:i:s', $value[timeline])}--> #$value[floorid]#</div>
+					</div>
+				<div>
+			</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

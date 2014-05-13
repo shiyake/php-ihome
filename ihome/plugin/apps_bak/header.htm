@@ -1,0 +1,57 @@
+<!--{if empty($_SGLOBAL['inajax'])}-->
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="i北航">
+<link rel="shortcut icon" href="favicon.ico">
+<title>i 北航</title>
+<link href="plugin/apps/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/color.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/style.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/yingyong.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="plugin/apps/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="plugin/apps/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="plugin/apps/js/ihome_dialog.js"></script>
+<script type="text/javascript" src="plugin/apps/js/touming.js"></script>
+<script type="text/javascript" src="plugin/apps/js/pie.js"></script>
+<script>
+$(function() {
+    if (window.PIE) {
+        $('.rounded').each(function() {
+            PIE.attach(this);
+        });
+    }
+});
+</script>
+<!--[if lte IE 6]>
+	<script src="touming.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('div, ul, img, li, img , a, png');
+    </script>
+<![endif]-->
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header_c">
+      <div class="logo"></div>
+      <!-- end logo -->
+      <div class="nav">
+        <ul class="nav_ul">
+          <li class="nav_li"><a href="space.php?do=home">我的首页</a></li>
+          <li class="nav_li"><a href="space.php">个人主页</a></li>
+          <li class="nav_li"><a href="space.php?do=friend">好友</a></li>
+          <li class="nav_li"><a href="plugin.php?pluginid=apps">服务大厅</a></li>
+          <li class="nav_li"><a href="cp.php">设置</a></li>
+          <li class="nav_li"><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]">退出</a></li>
+        </ul>
+      </div>
+      <!-- end nav -->
+      <div class="setup"></div>
+      <!-- end setup -->
+    </div>
+    <!-- end header_c -->
+  </div>
+  <!-- end head -->
+<!--{/if}-->

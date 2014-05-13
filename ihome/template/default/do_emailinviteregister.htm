@@ -1,0 +1,85 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+
+<div>
+<form id="emailinviteregisterform" name="emailinviteregisterform" action="do.php?ac=$_SCONFIG[EmailInviteRegister]" method="post" class="c_form">
+<table cellpadding="0" cellspacing="0" class="formtable">
+	<caption>
+		<h2>邀请激活</h2>
+	</caption>
+	<tr>
+		<th width="100">
+			填写您的用户名：
+		</th>
+		<td>
+			<input type="text" id="username" name="username" value="" class="t_input" onblur="checkusername()" tabindex="1" />
+			<span id="checkusername">
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			填写您的密码：
+		</th>
+		<td>
+			<input type="password" id="password" name="password" value="" class="t_input" onblur="checkpassword()" tabindex="2" />
+			<span id="checkpassword">
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>
+		</th>
+		<td>
+			<input type="submit" id="emailinviteregistersubmit" name="emailinviteregistersubmit" value="点我开通" class="submit" tabindex="3" />
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="hash" value="$hash" />
+<input type="hidden" name="emailinvitesubmit" value="go" />
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<script type="text/javascript">
+
+	function checkusername(){
+		var username = $('username').value;
+		if(username == lastusername){
+			return;
+		}else{
+			lastusername = username;
+		}
+		var cc = $('checkusername');
+		var cclen = username.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 4 || cclen > 14){
+			warning(cc, cclen < 4 ? '对不起，输入的用户名不能小于2个字' : '对不起，输入名字不能超过7个字');
+			return;
+		}
+		ajaxresponse('checkusername', 'op=checkusername&username=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username));
+	}
+
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[EmailInviteRegister]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	
+	function warning(obj, msg) {
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+
+</script>
+
+<!--{template footer}-->

@@ -1,0 +1,60 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li class="active"><a href="javascript:void(0)"><span>导入用户数据</span></a></li>
+		</ul>
+	</div>
+	<form id="addform" action="admincp.php?ac=userimport" method="post" enctype="multipart/form-data">
+	<div class="block style4">
+	<table cellspacing="3" cellpadding="3" style="width:100%;">
+		<tr>
+			<th style="width:200px;">选择文件(仅支持03版xls哦)</th>
+			<th><input type="file" name="file"></th>
+		</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input type="submit" name="importsubmit" value="导入XLS" class="submit">(导入失败的数据将会列出在下面)
+			</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+	<div class="bdrcontent" style="text-align:center;font-size:18px">
+		$msg
+	</div>
+	<!--{if $data}-->
+	<div class="bdrcontent">
+	<table width="100%">
+		<tr>
+			<th>用户</th>
+			<th>方式</th>
+			<th>道具</th>
+			<th>数量</th>
+			<th>时间</th>
+		</tr>
+		<!--{loop $data $value}-->
+		<tr>
+			<td>$value[collegeid]</td>
+			<td>$value[longid]</td>
+			<td>$value[realname]</td>
+			<td>$value[collegeid]</td>
+			<td>$value[realname]</td>
+		</tr>
+		<!--{/loop}-->	
+	</table>
+	</div>	
+	<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,72 @@
+<!--{template plugin/apps/header}-->
+  <div class="main">
+    
+	<!--{template plugin/apps/left}-->
+	
+    <div class="yingyong_right">
+	
+      <!--{template plugin/apps/right_nav}-->
+	  
+      <div class="clear"></div>
+      <div class="yingyong_c">
+        <!--{if $list}-->
+		<!--{loop $list $app}-->
+		<div class="yy_list">
+          <div class="gezi">
+			<!--{if $app[usertype] & 8}-->
+			<div class="yy_green" title="本科生"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 4}-->
+			<div class="yy_yellow" title="研究生"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 2}-->
+			<div class="yy_red" title="教职工"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 1}-->
+			<div class="yy_blue" title="校友"></div>
+			<!--{/if}-->
+        </div>
+		  <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
+          <div class="yy_list_c_2">
+            <h1><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a></h1>
+            <div class="yy_list_c_x"><span class="score_star" id="app_$app[id]"></span><span class="score_num">$app[score]</span></div>
+            <div class="yy_info_2">使用次数:$app[clicktime]次<br />
+              使用人数:$app[usernumber]人<br />
+			  评价人数:$app[comment]人</div>
+            <!-- end yy_info -->
+          </div>
+          <!-- end yy_list_c -->
+        </div>
+        <!-- end yy_list -->
+		<!--{/loop}-->
+		<!--{/if}-->
+		<link href="plugin/apps/css/star.css" rel="stylesheet">
+		<script language="javascript" type="text/javascript" src="plugin/apps/js/star_small.js"></script>
+		<script type="text/javascript">
+		<!--{if $list}-->
+		<!--{loop $list $key=>$app}-->
+		var options_$app[id] = {
+			value : $app[score],
+			enabled : false
+		}
+		$('#app_$app[id]').rater(options_$app[id]);
+		<!--{/loop}-->
+		<!--{/if}-->
+		</script>
+        <div class="clear"></div>
+        <div class="page">
+          $multi
+        </div>
+        <!-- end page -->
+        <div class="clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+        <div class="solid_666 clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+    </div>
+    <!-- end yingyong_right -->
+  </div>
+  <!-- end main -->
+  
+<!--{template plugin/apps/footer}-->

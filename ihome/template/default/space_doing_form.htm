@@ -1,0 +1,178 @@
+<script language="javascript" type="text/javascript" src="source/face.js"></script>
+<script language="javascript" src="plugin/at/jquery.form.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+function atfriend(uid,name) {
+	var messageContent = jQuery("#message").val();
+	messageContent = messageContent + '@'+name+'('+uid+')'+' ';
+	jQuery("#message").val(messageContent);
+}	
+jQuery(function ($) {
+	var jqSubmit = jQuery("#add");
+	//ajax异步发布状态
+	jqSubmit.click(function(){
+		var jqMessage = $("#message").val();
+        if(jqMessage.indexOf("[em:")!=-1) {
+            alert("亲，请不要尝试使用就表情，新表情很可耐不是吗^_^");
+			return false;           
+        }
+        var jqDoingForm = $("#doingform");
+		jqDoingForm.ajaxSubmit({
+			dataType:  'html',
+			success: function(data) {
+				switch(data){
+					case 'weibo_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>微博同步错误</div>";
+						Message_out(message);
+						break;
+					case 'code_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>验证码错误</div>";
+						Message_out(message);
+						break;
+					case 'fast_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>操作太快</div>";
+						Message_out(message);
+						break;
+					case 'num_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>字数太少</div>";
+						Message_out(message);
+						break;
+					case 'privilege_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>没有权限</div>";
+						Message_out(message);
+						break;
+					default:
+						//$("#feed_div > ul").prepend(data);
+						Status_show(data);
+						$("#maxlimit").text("140");
+				}
+				//$("#feed_div > ul").prepend(data);
+			},
+			error:function(xhr){
+				alert(xhr.responseText);
+			}
+		});
+		jqDoingForm.clearForm();
+		var jqShowimg = $('#showimg');
+		jqShowimg.empty();
+		return false;
+	});
+	/*
+	function Message_show(message) {
+		var showStatusMessage = $("#showStatusMessage");
+		var messageContent = $("#messageContent");
+		messageContent.html(message);
+		showStatusMessage.fadeIn(1000);
+		//messageContent.empty();
+    }*/
+	function Status_show(status){
+		var newHtml = '<ol class="newStatus" style="display:none">'+status+'</ol>';
+		$(".doing_list").prepend(newHtml);
+		var newStatus = $(".newStatus");
+		newStatus.fadeToggle(2200);
+		newStatus.removeClass("newStatus");
+    }
+	function Message_out(message) {
+        $(".message").html(message);
+        $(".showMessage").css({"display":"block"});
+        $(".message").css({"display":"block"});    
+        $(".showMessage").stop().animate({"opacity":"0.6"},700);
+		$(".showMessage").delay(1500).animate({
+			"opacity":"0"
+		},700,function(){
+			$(".showMessage").css({
+				"display":"none" 
+			});
+			$(".message").css({
+				"display":"none"
+			});
+		}); 
+    }
+	$("#at_friends").click(function(){
+		$("#at_friends_doing_box").fadeToggle("fast");
+		var getUrl = "data/assets/data_<!--{$_SGLOBAL[supe_uid]}-->.json";
+		$.getJSON(getUrl,
+			function(data){
+				$("#friends_list_box").empty();
+				$.each(data, function(idx, friend){
+					var atHtml = '<div class="friends_list"><a href="javascript:void(0)" onclick="javascript:atfriend(\''+friend.uid+'\',\''+friend.name+'\')" class="click_at_friends">'+friend.name+'('+friend.uid+')</a></div>';
+					$("#friends_list_box").append(atHtml);
+				});
+		});
+	});
+	jQuery("#friends_list_box > .click_at_friends").click(function(){
+		var messageContent = jQuery("#message");
+		var name = jQuery(this).text();
+		messageContent = messageContent + '@'+name+' ';
+	});
+	function atfriend(uid,name) {
+		var messageContent = jQuery("#message");
+		messageContent = messageContent + '@'+name+'('+uid+')'+' ';
+    }
+	$("#close_at_box").click(function(){
+		$("#at_friends_doing_box").fadeOut("fast");
+		$("#input_friends_name").val('搜索要@的好友');
+	});
+	$("#doingform").keypress(function(e){  
+		if(e.keyCode == 13 && $("#input_friends_name").is(":focus")) {  
+			$("#search_friends_submit").click();
+			e.preventDefault();
+		}
+	});  
+	$("#search_friends_submit").click(function(){
+		var uname = $("#input_friends_name").val();
+		$.getJSON("plugin.php?pluginid=atfriends",
+		{ name:uname,uid: <!--{$_SGLOBAL[supe_uid]}--> },
+		function(data){
+			$("#friends_list_box").empty();
+			$.each(data, function(idx, friend){
+				var atHtml = '<div class="friends_list"><a href="javascript:void(0)" onclick="javascript:atfriend(\''+friend.uid+'\',\''+friend.name+'\')" class="click_at_friends">'+friend.name+'('+friend.uid+')</a></div>';
+				$("#friends_list_box").append(atHtml);
+			});
+		});
+	});
+});
+</script>
+<form method="post" id="doingform" action="cp.php?ac=doing&view=$_GET[view]" class="post_doing">
+<div class="r_option" style="margin-bottom:10px;margin-right:20px;color:#777">还可输入 <strong id="maxlimit">140</strong> 个字</div>
+<!--<a href="###" id="doingface" onclick="showFace(this.id, 'message');return false;"><img src="image/facelist.gif" align="absmiddle" /></a>-->
+</td>
+<!--{if checkperm('seccode')}-->
+	<!--{if $_SCONFIG['questionmode']}-->
+	回答提问：<!--{eval question();}--> 
+	<!--{else}-->
+	输入验证码：<script>seccode();</script> 
+	<!--{/if}-->
+	<input type="text" id="seccode" name="seccode" value="" size="10" class="t_input">
+<!--{/if}-->
+<br>
+<!--<textarea id="message" name="message" onkeyup="textCounter(this, 'maxlimit', 140)" onkeydown="ctrlEnter(event, 'add');" rows="4" style="width:438px; height: 72px;"></textarea>-->
+<textarea class="mood_textarea" id="message" name="message" onkeyup="textCounter(this, 'maxlimit', 140)" onkeydown="ctrlEnter(event, 'add');"></textarea>
+<!--<a href="javascript:;" class="drop_face" style="margin-left:20px;float:left;margin-top:5px;"><div></div></a>-->
+<div class="btn drop_face" id="face_smell">
+    <a href="javascript:;"><img src="image/icons/statues_face_normal.png" 
+        width="30" height="30"
+        align="absmiddle" title="插入表情" />
+    </a>
+</div>
+<div class="drop_face_menu" data-target="message"></div>
+<!--功能细节有待完善，先注掉<div class="btn" id="at_friends">
+	<img src="image/icons/at-icon.png" width="30" height="30" align="absmiddle" />
+  </div>-->
+<div id="at_friends_doing_box">
+	<div id="search_at_friends">
+		<input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
+		<a href="javascript:" id="search_friends_submit"><img src="image/icons/at-search-icon.png" id="search_friends_bt" /></a>
+		<span id="close_at_box"><a href="javascript:void(0)">×</a></span>
+	</div>
+	<div id="friends_list_box"></div>
+</div>
+<div class="drop_face_menu" data-target="message"></div>
+<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+<input type="hidden" name="addsubmit" value="true" />
+<button type="submit" id="add" name="add" class="post_button">发布</button>
+<input type="hidden" name="refer" value="$theurl" />
+<input type="hidden" name="topicid" value="$topicid" />
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>

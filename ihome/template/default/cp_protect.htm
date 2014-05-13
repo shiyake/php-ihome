@@ -1,0 +1,393 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<style>
+.sub_tab.l_status.c_form {
+    padding: 0px 0px 0px 23px; 
+    border-bottom: none;
+}
+
+.sub_tab.l_status.c_form > span.pipe {
+    display: none;
+}
+
+.sub_tab.l_status.c_form > a{
+    padding-right: 15px;
+}
+</style>
+
+
+
+<div class="sub_tab l_status c_form">
+	<a href="cp.php?ac=protect&op=mobile"$cat_actives[mobile]>手机绑定</a><span class="pipe">|</span>
+	<a href="cp.php?ac=protect&op=question"$cat_actives[question]>密保问题</a><span class="pipe">|</span>
+	<a href="cp.php?ac=protect&op=email"$cat_actives[email]>密保邮箱</a>
+</div>
+
+<!--{if $_GET['op'] == 'question'}-->
+    <!--{if submitcheck('checkagain')}-->
+    <form action="cp.php?ac=protect&op=question" method="POST" class="c_form">
+    <table cellspacing="0" cellpadding="0" class="formtable">
+	    <tr>
+		    <th></th>
+        <td>
+		<p><font color="red">请再次输入密保问题答案完成密保问题设置。</font></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题1:</th>
+        <td>
+            <p>$questions[$protect_info[question1_1]]</p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input type="text" name="answer1" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题2:</th>
+        <td>
+            <p>$questions[$protect_info[question2_1]]</p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input type="text" name="answer2" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题3:</th>
+        <td>
+            <p>$questions[$protect_info[question3_1]]</p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input type="text" name="answer3" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" name="submit_question" value="确定并下一步" 
+            class="btn btn-comments submit" /></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+    </form>
+    <!--{elseif !empty($_GET['edit']) or empty($protect_info) or empty($protect_info['answer1'])}-->
+    <form action="cp.php?ac=protect&op=question" method="POST" class="c_form">
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+		<p><font color="red">所设置的3个密保问题必须全部填写答案，以便进行确认！</font></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">登录密码:</th>
+        <td>
+            <input type="password" id="password" name="password" value="" class="t_input" />
+	    <span>为了您的账户安全，设置密保问题的时候，需要输入您在本网站的密码。</span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题1:</th>
+        <td>
+		<select name="question1">
+			<option value="">------</option>
+                <option value="0"$selected[question1][0]>母亲的姓名</option>
+                <option value="1"$selected[question1][1]>父亲的姓名</option>
+                <option value="2"$selected[question1][2]>母亲的生日</option>
+                <option value="3"$selected[question1][3]>父亲的生日</option>
+                <option value="4"$selected[question1][4]>您的出生地是哪里</option>
+                <option value="5"$selected[question1][5]>您的身份证后6位数字</option>
+                <option value="6"$selected[question1][6]>您就职的第一家公司的名称</option>
+                <option value="7"$selected[question1][7]>您的车牌号是</option>
+                <option value="8"$selected[question1][8]>外婆的名字</option>
+                <option value="9"$selected[question1][9]>配偶的姓名</option>
+                <option value="10"$selected[question1][10]>配偶的生日</option>
+                <option value="11"$selected[question1][11]>初中英语老师的名字</option>
+                <option value="12"$selected[question1][12]>高中班主任的姓名</option>
+            </select>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input autoComplete="Off" type="text" name="answer1" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题2:</th>
+        <td>
+		<select name="question2">
+			<option value="">------</option>
+                <option value="0"$selected[question2][0]>母亲的姓名</option>
+                <option value="1"$selected[question2][1]>父亲的姓名</option>
+                <option value="2"$selected[question2][2]>母亲的生日</option>
+                <option value="3"$selected[question2][3]>父亲的生日</option>
+                <option value="4"$selected[question2][4]>您的出生地是哪里</option>
+                <option value="5"$selected[question2][5]>您的身份证后6位数字</option>
+                <option value="6"$selected[question2][6]>您就职的第一家公司的名称</option>
+                <option value="7"$selected[question2][7]>您的车牌号是</option>
+                <option value="8"$selected[question2][8]>外婆的名字</option>
+                <option value="9"$selected[question2][9]>配偶的姓名</option>
+                <option value="10"$selected[question2][10]>配偶的生日</option>
+                <option value="11"$selected[question2][11]>初中英语老师的名字</option>
+                <option value="12"$selected[question2][12]>高中班主任的姓名</option>
+            </select>
+        </td>
+        <td></td>
+    </tr>       
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input autoComplete="Off" type="text" name="answer2" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保问题3:</th>
+        <td>
+		<select name="question3">
+			<option value="">------</option>
+                <option value="0"$selected[question3][0]>母亲的姓名</option>
+                <option value="1"$selected[question3][1]>父亲的姓名</option>
+                <option value="2"$selected[question3][2]>母亲的生日</option>
+                <option value="3"$selected[question3][3]>父亲的生日</option>
+                <option value="4"$selected[question3][4]>您的出生地是哪里</option>
+                <option value="5"$selected[question3][5]>您的身份证后6位数字</option>
+                <option value="6"$selected[question3][6]>您就职的第一家公司的名称</option>
+                <option value="7"$selected[question3][7]>您的车牌号是</option>
+                <option value="8"$selected[question3][8]>外婆的名字</option>
+                <option value="9"$selected[question3][9]>配偶的姓名</option>
+                <option value="10"$selected[question3][10]>配偶的生日</option>
+                <option value="11"$selected[question3][11]>初中英语老师的名字</option>
+                <option value="12"$selected[question3][12]>高中班主任的姓名</option>
+            </select>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input autoComplete="Off" type="text" name="answer3" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" name="checkagain" value="确定并下一步" class="btn btn-comments submit" /></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    </form>
+    <!--{else}-->
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <span>已设置密保问题。</span><a href="cp.php?ac=protect&op=question&edit=1">修改</a>
+        </td>
+        <td></td>
+    </tr>
+    </table>
+    <!--{/if}-->
+<!--{elseif $_GET['op'] == 'mobile'}-->
+    <!--{if !empty($_GET['edit']) or empty($protect_info) or empty($protect_info['mobile'])}-->
+    <form action="cp.php?ac=protect&op=mobile" method="POST" class="c_form">
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">登录密码:</th>
+        <td>
+            <input type="password" id="password" name="password" value="" class="t_input" />
+	    <span>为了您的账户安全，设置手机绑定的时候，需要输入您在本网站的密码。</span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">手机号码:</th>
+        <td>
+            <input  type="text" id="mobile_num" name="mobile_num" value="" class="t_input" />
+            &nbsp;
+            <input href="cp.php?ac=protect&op=mobile&get_code=1" type="button" id="mobile_code_button" class="btn btn-sm btn-comments" 
+                    value="发送验证码" onclick="mobile_code_send(event)" disabled='disabled' />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">手机验证码:</th>
+        <td>
+            <input type="text" id="mobile_code" name="mobile_code" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" name="submit_mobile" value="确定并下一步" class="btn btn-comments submit" /></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    </form>
+    <script>
+        var jq = jQuery.noConflict();
+	var left_seconds = 0;
+	var flag = false;//表示是否正在倒计时true表示正在
+        function mobile_code_check(event) {
+            if (left_seconds > 0) {
+                jq("#mobile_code_button").attr("value", left_seconds+"秒后可重新发送");
+                jq("#mobile_code_button").attr("disabled", "disabled");
+                left_seconds -= 1;
+		setTimeout("mobile_code_check();", 1000);
+		flag = true;
+            } else {
+                //jq("#mobile_code_button").removeAttr("disabled");
+		jq("#mobile_code_button").attr("value", "重新发送");
+		flag = false;
+            }
+        }
+	jq('#mobile_num').bind('input propertychange', function() {
+	    mobile = jq('#mobile_num').val();
+	    checkMobile(mobile);
+	});
+	function checkMobile(mobile){
+	if(/^13\d{9}$/g.test(mobile)||(/^15[0-9]\d{8}$/g.test(mobile))||(/^18[0-9]\d{8}$/g.test(mobile))){  
+            if(flag == false){
+		jq("#mobile_code_button").removeAttr("disabled");
+	    }
+		return true;  
+	}else{ 
+		jq("#mobile_code_button").attr("disabled", "disabled");
+		return false;  
+	    }  
+	}
+        function mobile_code_send() {
+            left_seconds=$send_interval;
+            jq('#mobile_code_button').attr('href', 'cp.php?ac=protect&op=mobile&get_code=1&mobile='+mobile);
+            mobile_code_check();
+            ajaxmenu(event, 'mobile_code_button');
+        }
+    <!--{if $left_seconds > 0}-->
+        left_seconds = $left_seconds;
+        mobile_code_check();
+    <!--{/if}-->
+    </script>
+
+    <!--{else}-->
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <span>已设置密保手机<!--{eval echo substr($protect_info['mobile'], 0, 2)}-->*******<!--{eval echo substr($protect_info['mobile'], 9, 2)}-->。</span><a href="cp.php?ac=protect&op=mobile&edit=1">修改</a>
+        </td>
+        <td></td>
+    </tr>
+    </table>
+    <!--{/if}-->
+<!--{elseif $_GET['op'] == 'email'}-->
+    <!--{if empty($space_field['emailcheck']) or !empty($_GET['edit'])}-->
+    <form action="cp.php?ac=protect&op=email" method="POST" class="c_form">
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">登录密码:</th>
+        <td>
+            <input type="password" id="password" name="password" value="" class="t_input" />
+	    <span>为了您的账户安全，设置密保邮箱的时候，需要输入您在本网站的密码。</span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">密保邮箱:</th>
+        <td>
+            <input type="text" id="email" name="email" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">确认密保邮箱:</th>
+        <td>
+            <input type="text" id="email_1" name="email_1" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" name="submit_email" value="确定并下一步" class="btn btn-comments submit" /></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    </form>
+    <!--{else}-->
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th></th>
+        <td>
+            <p></p>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <!--{eval $atpos = strpos($space_field['email'], '@')}-->
+            <span>已设置密保邮箱<!--{eval echo substr($space_field['email'], 0, 2)}-->*******<!--{eval echo substr($space_field['email'], $atpos)}-->。</span><a href="cp.php?ac=protect&op=email&edit=1">修改</a>
+        </td>
+        <td></td>
+    </tr>
+    </table>
+    <!--{/if}-->
+<!--{/if}-->
+
+<!--{template footer}-->

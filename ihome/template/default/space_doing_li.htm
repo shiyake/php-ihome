@@ -1,0 +1,38 @@
+<!--{if !empty($list)}-->
+	<ol class="list-unstyled">
+<!--{else}-->
+	<div>
+<!--{/if}-->
+
+<!--{eval $i=0;}-->
+<!--{eval $l=count($list);}-->
+
+<!--{loop $list $value}-->
+
+<!--{if $value[uid]}-->
+
+<!--{eval $i=$i+1;}-->
+<!--{if $i==$l}-->
+<li class="comment_last">
+<!--{else}-->
+<li> 
+<!--{/if}-->
+	<div>
+	    <div style="display:inline-block;width:446px;">
+            <a href="space.php?uid=$value[uid]"><!--{eval echo avatar($_SN[$value[uid]],"small",false,1);}-->&nbsp;{$_SN[$value[uid]]}</a>: $value[message] <span class="doingtime">(<!--{date('m-d H:i',$value[dateline],1)}-->)</span> 
+	<!--{if $value[uid]==$_SGLOBAL[supe_uid] || $dv['uid']==$_SGLOBAL[supe_uid]}--> <a style="margin-left:10px;float:right;" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)">删除</a><!--{/if}-->
+        <!--<script language="javascript" src="source/comment_goback.js"></script>
+        <a href="javascript:;" onclick="jq1('#do_message_{$value[doid]}_0').css({'color':'#333'});document.getElementById('do_message_{$value[doid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re" style="float:right;">回复</a>-->
+	        <span id="docomment_form_{$value[doid]}_{$value[id]}"></span>
+	    </div>
+	</div>
+</li>
+
+<!--{/if}-->
+<!--{/loop}-->
+
+<!--{if !empty($list)}-->
+</ol>
+<!--{else}-->
+</div>
+<!--{/if}-->

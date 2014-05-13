@@ -1,0 +1,174 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<style>
+.c_form {
+    padding: 0px 10px;
+}
+
+#mainareafg {
+    min-height: 970px;
+    border-left: 1px solid #dcdcdc;
+    padding-left: 20px;
+    margin: 0px;
+    padding-top: 0px;
+}
+
+#search_vertical {
+    margin-left: 0px;
+}
+
+#content {
+    border: none;
+    padding: 0px;
+}
+
+.entry_list .title {
+    background: #EBEBEB;
+    border: none;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.entry_list li {
+    padding-left: 0px;
+}
+
+.entry_list .image_right .image {
+    margin: 0px;
+}
+.entry_list .image_right img {
+    float: left;
+    padding: 2px;
+    margin: 0px 5px 5px 0px;
+}
+
+.entry_list li h4 {
+    display: block;
+    margin: 5px 0px;
+}
+
+.entry_list li .title {
+    margin-top: 3px;
+    margin-left: 32px;
+    padding-left: 42px;
+}
+
+.entry_list li .detail {
+    margin-left: 64px;
+    font-size: 12px;
+    width: auto;
+    color: gray;
+}
+
+.entry_list .avatar,
+.entry_list .avatar > a {
+    display: block;
+    width: 64px;
+    height: 64px;
+}
+
+.entry_list .avatar img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+}
+
+.pipe {
+    padding: 0px 0px 0px 2px;
+}
+</style>
+<div id="search_vertical" class="tabs_header">
+	<ul class="tabs">
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
+        <li class="active"><a href="#"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+    </ul>
+</div>
+<div style="width:700px;padding: 0px; 10px; 8px;">
+<!--{if $list}-->
+<div style="padding: 0px; color: gray;">共找到{$all_item_count}个相关的日志</div>
+    <div class="entry_list">
+    <ul>
+    <!--{loop $list $key $value}-->
+        <li class="clearfix"
+            <!--{if $key != count($list) - 1}-->
+            style="border-bottom: 1px solid #dcdcdc; margin: 0px; padding: 8px 0px;"
+            <!--{else}-->
+            style="margin-bottom: 1px solid #fff; margin: 0px; padding: 8px 0px;"
+            <!--{/if}-->>
+
+            <!--{if $value['hot']}-->
+                <!--<div class="digb">$value[hot]</div>-->
+            <!--{/if}-->
+            <div class="avatar pull-left">
+                <a href="space.php?uid=$value[uid]">
+                <!--{avatar($value[uid],big)}-->
+                </a>
+            </div>
+
+            <div class="title">
+                <h4 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                    <a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]" 
+                        <!--{if $value[magiccolor]}-->
+                        class="magiccolor$value[magiccolor]"
+                        <!--{/if}-->>
+                        $value[subject]
+                    </a>
+                </h4>
+
+                <div>
+                    <span style="color: gray">
+                    <!--{date('Y-m-d H:i',$value[dateline],1)}-->
+                    </span>
+                    &nbsp;
+                    &nbsp;
+                    <!--{if $value['friend']}-->
+                    <span class="r_option locked gray">
+                        <a href="$theurl&friend=$value[friend]">
+                        {$friendsname[$value[friend]]}</a>
+                    </span>
+                    <!--{/if}-->
+                </div>
+            </div>
+            <div class="detail image_right l_text s_clear" id="blog_article_$value[blogid]">
+                <!--{if $value[pic]}--><p class="image"><a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]"><img src="$value[pic]" alt="$value[subject]" /></a></p><!--{/if}-->
+                $value[message]
+            </div>
+            <div style="color: gray;" class="pull-right">
+                <!--{if $classarr[$value[classid]]}-->
+                    <!--
+                    分类: <a href="space.php?uid=$value[uid]&do=blog&classid=$value[classid]">{$classarr[$value[classid]]}</a>
+                    <span class="pipe">|</span>
+                    -->
+                <!--{/if}-->
+
+                <a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]">阅读($value[viewnum])</a><span class="pipe">|</span>
+                <a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]#comment">评论($value[replynum])</a><span class="pipe">|</span>
+                <a href="cp.php?ac=share&type=blog&id=$value[blogid]" 
+                    id="a_share_$value[blogid]" 
+                    onclick="ajaxmenu(event, this.id, 1)">分享</a>
+            </div>
+        </li>
+    <!--{/loop}-->
+    </ul>
+    </div>
+    <div class="page" style="margin: 0px 0px 10px;">$multi</div>
+<!--{else}-->
+<p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+		还没有相关的日志
+</p>
+<!--{/if}-->
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

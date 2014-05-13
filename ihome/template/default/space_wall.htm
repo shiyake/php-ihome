@@ -1,0 +1,70 @@
+<!--{eval $_TPL['titles'] = array('留言');}-->
+<!--{template header}-->
+
+<!--{if $space[self]}-->
+<div id="content" style="border-right:none">
+<h4 class="title">留言板</h4>
+<!--{else}-->
+<!--{eval
+	$_TPL['spacetitle'] = "留言";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=wall&view=me\">TA的所有留言</a>";
+}-->
+<!--{template space_menu}-->
+<!--{/if}-->
+<div class="h_status" style="margin-left:0px;">
+	别人给你的留言
+</div>
+
+<div class="space_wall_post">
+	<form action="cp.php?ac=comment" id="commentform_{$space[uid]}" name="commentform_{$space[uid]}" method="post">
+	<script language="javascript" src="source/face.js"></script>
+                    
+		<!--{if $_SGLOBAL['magic']['doodle']}-->
+		<a id="a_magic_doodle" href="magic.php?mid=doodle&showid=comment_doodle&target=comment_message" onclick="ajaxmenu(event, this.id, 1)"><img src="image/magic/doodle.small.gif" class="magicicon" />涂鸦板</a>
+		<!--{/if}-->
+		<textarea name="message"class="t_input form-control" style="margin-top:5px;"id="comment_message" rows="5" cols="60" onkeydown="ctrlEnter(event, 'commentsubmit_btn');"></textarea>
+	<a href="javascript:;" class="drop_face comment_face"><div></div></a>
+                    <div class="drop_face_menu" data-target="comment_message"></div>	<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+		<input type="hidden" name="refer" value="space.php?uid=$space[uid]" />
+		<input type="hidden" name="id" value="$space[uid]" />
+		<input type="hidden" name="idtype" value="uid" />
+		<input type="hidden" name="commentsubmit" value="true" />
+		<input type="button" id="commentsubmit_btn" style="margin-left:10px;"name="commentsubmit_btn" class="btn btn-comments submit" value="留言" onclick="ajaxpost('commentform_{$space[uid]}', 'wall_add')" />
+		<span id="__commentform_{$space[uid]}"></span>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+<br>
+
+<div class="comments_list" id="comment">
+	<!--{if $cid}-->
+	<div class="notice">
+		当前只显示与你操作相关的单个留言，<a href="space.php?uid=$space[uid]&do=wall">点击此处查看全部留言</a>
+	</div>
+	<!--{/if}-->
+	<style>
+		#comment_ul li {
+			border-bottom:1px solid #dcdcdc;
+		}
+		.info_comment {
+			width:88%;
+		}
+	</style>
+	<ul id="comment_ul">
+	<!--{loop $list $value}-->
+		<!--{template space_comment_li_wall}-->
+	<!--{/loop}-->
+	</ul>
+</div>
+<div class="page">$multi</div>
+
+<script type="text/javascript">
+//彩虹炫
+var elems = selector('div[class~=magicflicker]'); 
+for(var i=0; i<elems.length; i++){
+	magicColor(elems[i]);
+}
+</script>
+</div>
+<!--{template footer}-->

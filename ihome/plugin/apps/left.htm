@@ -1,0 +1,32 @@
+<div class="yingyong_left">
+	<div style="text-align:center !important;color:#FF6700 !important;font-size:16px">
+	测试版
+	</div>
+	<!--{if $_SGLOBAL['member']['groupid'] != 3}-->
+	  <div class="yingyong_left_list_t" id="list_1"><a href="plugin.php?pluginid=apps&ac=list">全部服务</a></div>
+      <!-- end yingyong_left_list_t -->
+      <div class="yingyong_left_list_c">
+        <ul>
+		  <!--{if $collegeid_len != 0}-->
+		  <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=list&category=1">校内服务</a></li>
+          <!--{/if}-->
+		  <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=list&category=3">第三方服务</a></li>
+		  <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=list&category=2">站内服务</a></li>
+        </ul>
+      </div>
+      <!-- end yingyong_left_list_c -->
+	  <!--{/if}-->
+      <div class="yingyong_left_list_t" id="list_3"><a href="#">管理</a></div>
+      <!-- end yingyong_left_list_t -->
+      <div class="yingyong_left_list_c">
+        <ul>
+          <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=mine">我授权的服务</a></li>
+		  <!--{if $_SGLOBAL['member']['groupid'] == 3}-->
+		  <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=apply">服务申请</a></li>
+		  <li class="yingyong_left_list_li"><a href="plugin.php?pluginid=apps&ac=mylist">我提交的服务</a></li>
+		  <!--{/if}-->
+        </ul>
+      </div>
+      <!-- end yingyong_left_list_c -->
+    </div>
+    <!-- end yingyong_left -->

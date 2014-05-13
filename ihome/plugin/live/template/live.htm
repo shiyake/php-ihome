@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	
+	<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8">
+	<title>i北航视频直播中心</title>
+	<script language="JavaScript">
+		var L_LAUNCHSAP_TEXT = "启动独立的 Windows Media Player";
+		var g_bNetscape = ( -1 != navigator.appName.indexOf( "Netscape" ) );
+	</script>
+
+	<style>
+	BODY
+	{
+		font-size : medium;
+		font-family : 宋体, Tahoma, Arial, Sans Serif;
+		font-weight : normal;
+		font-style : normal;
+		color : #FFFFFF;
+		background-color : #3366CC;
+		border-style : none;
+	}
+	A
+	{
+		color : #66CCFF;
+		font-weight : bold;
+	}
+	</style>
+	<script language="JavaScript">
+	<!--
+		if ( navigator.appName == "Netscape" )
+		{         	//-- This next line ensures that any plugins just installed are updated in the Browser
+					//-- without quitting the browser.
+					navigator.plugins.refresh();
+					// We don't need the APPLET within IE
+					// ***Please note that if you do not need to script events, you can safely remove the next two lines
+					document.write("\x3C" + "applet MAYSCRIPT Code=NPDS.npDSEvtObsProxy.class")
+					document.writeln(" width=5 height=5 name=appObs\x3E \x3C/applet\x3E")
+		} //-->
+	</script>
+
+	<script LANGUAGE="VBSCRIPT">
+		Sub cmdStandAlone_onclick
+			If isobject(WMP) Then
+				If WMP.playstate > 0 Then
+					WMP.Close()
+				End If
+				location.href = "mms://202.112.137.220/buaa_live"
+			End If
+		End Sub
+	</script>
+
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0">
+<div align="center">
+	<center>
+	<table border="0" width="100%" height="80%">
+		<tr>
+			<td width="100%">
+				<p align="center"><b>视频直播中心是基于WINDOWS系统进行发布，视频源为MS格式，为了享有更好的效果，请大家使用IE浏览器进行观看。</b>
+			</td>
+		</tr>
+		<tr>
+			<td width="100%">
+			<p align="center"><b></b></td>
+		</tr>
+		<tr>
+			<td width="100%">
+			<p align="center">
+			<script language="Javascript">
+				if( g_bNetscape )
+				{
+					document.writeln( "<APPLET mayscript code=WMPNS.WMP name=WMP1 width=800 height=480 MAYSCRIPT >" );
+				}
+			</script>
+			<OBJECT CLASSID="clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6" ID="WMP">
+			<PARAM NAME="Name" VALUE="WMP1">
+			<PARAM NAME="URL" VALUE="mms://202.112.137.220/buaa_live">
+			</OBJECT>
+			</APPLET>
+			</td>
+		</tr>
+		<tr>
+			<td width="100%"><p align="center">&nbsp;
+			<script language="Javascript">
+				if( !g_bNetscape )
+				{
+					document.writeln( "<input type=\"button\" id=\"cmdStandAlone\" value=\"" + L_LAUNCHSAP_TEXT + "\">" );
+				}
+			</script>
+		</tr>
+	</table>
+	</center>
+</div>
+
+<div id="ihome_user_id" style="display:none">$_SGLOBAL['supe_uid']</div>
+<div id="ihome_user_name" style="display:none">$_SGLOBAL[username]</div>
+<div id="ihome_account_name" style="display:none">$_SN[$_SGLOBAL[supe_uid]]</div>
+<div class="hehe-div"></div>
+<script type="text/javascript">
+	var _hehe = _hehe || {};
+	_hehe['ihome_user_id'] = parseInt(document.getElementById('ihome_user_id').innerHTML);//用户uid
+	_hehe['ihome_user_name'] = document.getElementById('ihome_user_name').innerHTML;//用户中文名
+	_hehe['ihome_account_name'] = document.getElementById('ihome_account_name').innerHTML;//用户登录名
+</script>
+<script type="text/javascript" src="http://static.heheim.com/script/hehe-ihome.js" async="true"></script>
+
+</body>
+
+</html>

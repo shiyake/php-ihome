@@ -1,0 +1,115 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+
+<style>
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+    min-height: 970px;
+    padding-left: 20px;
+}
+
+#search_vertical {
+    margin-left: 0px;
+}
+</style>
+
+<div id="search_vertical" class="tabs_header">
+	<ul class="tabs">
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=blog"><span>日志</span></a></li>
+        <li class="active"><a href="#"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+    </ul>
+</div>
+
+<style>
+    .album {
+        border: 1px solid #dcdcdc;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+        margin-bottom: 25px;
+        width: 250px;
+    }
+
+    .album .album-inner {
+        border: 1px solid #dcdcdc;
+        background: #fff;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+        position: relative;
+        box-sizing: border-box;
+        left: -15px;
+        width: 100%;
+        bottom: -15px;
+        padding-top: 15px;
+    }
+
+    .album .album-inner > a {
+        display: block;
+        width: 250px;
+        position: relative;
+        padding: 0px 20px;
+        height: 158px;
+    }
+
+    .album .album-inner img {
+        min-width: 210px;
+        min-height: 158px;
+        position: absolute;
+        left: 20px;
+        clip: rect(0px 210px 158px 0px);
+    }
+
+    .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div style="width:700px;padding: 0px; 10px; 8px;">
+
+<!--{if $list}-->
+    <div style="padding: 0px; color: gray;">
+        共找到{$all_item_count}个相关的相册
+    </div>
+
+    <table cellspacing="4" cellpadding="4" width="100%" style="margin-top: 15px;"><tr>
+        <!--{loop $list $key $value}-->
+        <td style="width: 250px; padding: 0px 47px 5px 53px; text-align: center;">
+            <div class="album">
+                <div class="album-inner">
+                    <a href="space.php?uid=$value[uid]&do=album&id=$value[albumid]">
+                        <img src="<!--{eval echo substr($value[pic], 0, strlen($value[pic])-10);}-->"
+                            onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'>
+                    </a>
+                    <div class="text-overflow" style="padding: 0px 20px;">
+                        <a href="space.php?uid=$value[uid]&do=album&id=$value[albumid]" 
+                            title="$value[albumname]">$value[albumname]</a>
+                    </div>
+                </div>
+            </div>
+            <p style="color: gray; position: relative; left: -15px;">
+                $value[picnum]张照片
+                更新于<!--{date('m-d',$value[dateline],1)}-->
+            </p>
+        </td>
+        <!--{if $key%2==1}--></tr><tr><!--{/if}-->
+        <!--{/loop}-->
+    </tr></table>
+    <div style="margin: 10px;" class="page">$multi</div>
+<!--{else}-->
+    <p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+		没有可浏览的相册
+	</p>
+<!--{/if}-->
+
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

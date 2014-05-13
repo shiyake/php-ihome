@@ -1,0 +1,21 @@
+分析脚本合集使用说明
+几乎所有需要定时跑的脚本作业集中在此
+
+1.分析好友推荐的hadoop脚本
+首先需要在一台机器上使用py脚本 load_db.py
+load_db 需要 config.py 中的数据库配置
+并且按照配置中的设定导出五种python持久化文件(各种dump结尾变量)
+还会导出一种output_uid_seq的文件，里面是用户uid序列
+
+执行完此脚本后，将dump文件scp到其他节点上，output_uid_seq放到hdfs中
+
+启动hadoop进行分析，分析文件是hdfs上的output_uid_seq，map reduce脚本分别是
+friend_recommand_map.py 和  friend_recommand_reduce.py
+
+分析完成后会产生一个包含sql的结果文件，将此文件执行到mysql中
+
+2.用户留存，用户激活，用户活跃，用户注册的脚本
+这四个脚本基本不变，只是统一了配置数据库的设置
+
+3.标签云脚本
+未作任何变化

@@ -1,0 +1,465 @@
+<!--{eval $_TPL['titles'] = array('相册');}-->
+<!--{eval $friendsname = array(1 => '仅好友可见',2 => '指定好友可见',3 => '仅自己可见',4 => '凭密码可见');}-->
+
+<!--{template header}-->
+<style>
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+}
+
+#content {
+    border-left: none;
+}
+
+</style>
+
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_photo">
+		<h4 class="feed_header">
+			<a href="cp.php?ac=upload" class="r_option">上传图片</a>
+			相册(共 $count 个)</h4>
+		<!--{if $count}-->
+		<table cellspacing="4" cellpadding="4" width="100%">
+		<tr>
+			<!--{loop $list $key $value}-->
+			<td width="85" align="center"><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank"><img src="$value[pic]" alt="$value[albumname]" width="70" /></a></td>
+			<td width="165">
+				<h6><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank" title="$value[albumname]">$value[albumname]</a></h6>
+				<p class="gray">$value[picnum] 张照片</p>
+				<p class="gray">更新于 <!--{date('m-d',$value[dateline],1)}--></p>
+			</td>
+			<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+			<!--{/loop}-->
+		</tr>
+		</table>
+		<!--{if $pricount}-->
+		<div class="c_form">本页有 $pricount 个相册因作者的隐私设置而隐藏</div>
+		<!--{/if}-->
+		<div class="page" style="padding-bottom:20px;">$multi</div>
+		<!--{else}-->
+		<div class="c_form">没有可浏览的列表。</div>
+		<!--{/if}-->
+	</div><br>
+<!--{else}-->
+
+
+
+<style>
+    .album-list {
+        margin-left: -35px;
+    }
+    .album-list > .album {
+        width: 250px;
+        margin: 20px 0px 10px 60px;
+    }
+
+    .album-list > .album > .cover {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+        margin-bottom: 25px;
+        width: 250px;
+    }
+
+
+    .album-list > .album > .cover > .cover-inner {
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+        left: -20px;
+        bottom: -20px;
+        padding: 15px 19px 0px;
+        width: 100%;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+        border: 1px solid #ccc;
+    }
+
+    .album-list > .album > .cover > .cover-inner > a {
+        display: block;
+        height: 158px;
+        position:relative;
+        overflow:hidden;
+    }
+
+    .album-list > .album > .cover > .cover-inner img {
+        position: absolute;
+        min-height: 158px;
+        min-width: 210px;
+        max-height:210px;
+        clip: rect(0px 210px 158px 0px);
+        -webkit-transition:all 1s ease-in-out;
+    }
+    .album-list > .album >.cover > .cover-inner img:hover {
+        -webkit-transform: scale(1.2);
+    }
+    .album-list > .album p {
+        line-height: 1.42;
+        padding: 2px 0px;
+        margin: 0px;
+        text-align: center;
+        color: gray;
+    }
+
+    .album-list > .album > p {
+        padding-right: 40px;
+    }
+
+    .album-list > .album p.name {
+        padding: 5px 0px;
+    }
+
+    .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .album_sub_tab {
+        padding-left: 11px;
+        margin-left: 20px;
+        margin-bottom: 0px;
+    }
+
+    .album_sub_tab li {
+        float: left;
+        padding: 8px 12px;
+        line-height: 20px;
+    }
+
+    .album_sub_tab li a {
+        color: gray;
+    }
+
+    .album_sub_tab li.current a {
+        color: #01B6F9;
+    }
+
+    .rank-list li {
+        line-height: 20px;
+    }
+    .icon-upload-photo {
+        display:inline-block;
+        zoom:1;
+        width:31px;
+        height:29px;
+        background:url("template/default/image/upload_photo.png") center center no-repeat;
+    }
+</style>
+
+<!--{if $space[self]}-->
+<h4 class="title title30">
+    <img class="pic10"src="image/icons/icon_album.png">相册
+    <a class="pull-right" style="font-size: 14px; padding-top: 13px;" href="cp.php?ac=upload">上传新图片</a><span class="icon-upload-photo pull-right"></span>
+</h4>
+<div class="tabs_header">
+	<ul class="tabs">
+		<!--{if $space[friendnum]}--><li$actives[we] style="width:130px;"><a href="space.php?uid=$space[uid]&do=$do&view=we"><span>好友最新相册</span></a></li><!--{/if}-->
+		<li$actives[all] style="width:130px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>大家的相册</span></a></li>
+		<li$actives[me] style="width:130px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的相册</span></a></li>
+		<li$actives[click] style="width:130px;"><a href="space.php?uid=$space[uid]&do=$do&view=click"><span>我表态过的图片</span></a></li>
+		<li class="null" style="width:130px;"></li>
+	</ul>
+</div>
+<!--{if $_GET['view'] == 'all'}-->
+<style>
+.tabs_header {
+    margin-bottom: 0px;
+}
+
+</style>
+<ul class="list-unstyled clearfix album_sub_tab">
+    <li$all_actives[all]><a href="space.php?do=album&view=all">热图推荐</a></li>
+	<li$all_actives[dateline]><a href="space.php?do=album&view=all&orderby=dateline">最新更新</a></li>
+	<li$all_actives[hot]><a href="space.php?do=album&view=all&orderby=hot&day=$_GET[hotday]">人气排行</a></li>
+	<!--{loop $clicks $value}-->
+	<li{$all_actives['click_'.$value[clickid]]}><a href="space.php?do=album&view=all&orderby=click_$value[clickid]&day=$_GET[hotday]">{$value[name]}排行</a></li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+
+<!--{else}-->
+
+<!--{eval 
+	$_TPL['spacetitle'] = "相册";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&view=me\">TA的所有相册</a>";
+}-->
+<!--{template space_menu}-->
+<!--{/if}-->
+
+<!--{if $_GET['view'] == 'me'}-->
+<div id="content" style="width:640px;border-right:none;">
+<!--{else}-->
+<div id="content" style="width:640px;border-right:none;">
+<!--{/if}-->
+
+
+
+<!--{if $space[self] && $_GET['view']=='me'}-->
+<div class="h_status" style="border-bottom: none; margin: 0px;">
+下面列出的是你自行创建相册列表。<br>
+你在日志、话题等里面上传的图片附件，全部存放在<a href="space.php?uid=$space[uid]&do=album&id=-1">系统默认相册</a>里面。
+</div>
+<!--{/if}-->
+	
+<!--{if $picmode}-->
+
+	<!--{if $pricount}-->
+	<div class="h_status">本页有 $pricount 张图片因作者的隐私设置而隐藏</div>
+	<!--{/if}-->
+	
+	<!--{if $count}-->
+    <!--
+	<table cellspacing="0" cellpadding="0" width="100%" class="pic_list">
+		<tr>
+		<!--{loop $list $key $value}-->
+		<td align="center">
+			<div class="pic_bg"><a href="space.php?uid=$value[uid]&do=album&picid=$value[picid]"><img src="$value[pic]" alt="" /></a></div>
+			<a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]">$value[albumname]</a><br>
+			<a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>
+		</td>
+		<!--{if $key%4==3}--></tr><tr><!--{/if}-->
+		<!--{/loop}-->
+		</tr>
+	</table>
+	<div style="margin: 10px 0px 0px 0px;" class="page">$multi</div>
+    -->
+
+    <!--{if $_GET['view'] != 'click'}-->
+    <div class="album-list clearfix">
+	    <!--{loop $list $key $value}-->
+        <div class="album pull-left">
+            <div class="cover">
+                <!--{eval 
+                    $image_path = $value['pic'];
+                    if (strpos($image_path, 'thumb.jpg') > 0) {
+                        $image_path = substr($image_path, 0, strlen($image_path)-10);
+                    }
+                }-->
+                <div class="cover-inner">
+                    <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                        <img src="$image_path" 
+                            onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'
+                            alt="$value[albumname]" />
+                    </a>
+                    <p class="name text-overflow">
+                        <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                            <!--{if $value[albumname]}-->
+                            $value[albumname]
+                            <!--{else}-->
+                            默认相册
+                            <!--{/if}-->
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+	    <!--{/loop}-->
+    </div>
+    <!--{else}-->
+    <div style="width: 600px;">
+        <ul class="list-unstyled" style="line-height: 189px;">
+	    <!--{loop $list $key $value}-->
+            <li style="display: inline-block; vertical-align: middle; text-align: center; width: 195px; max-height: 150px; line-height: 1.42">
+                <!--{eval 
+                    $image_path = $value['pic'];
+                    if (strpos($image_path, 'thumb.jpg') > 0) {
+                        $image_path = substr($image_path, 0, strlen($image_path)-10);
+                    }
+                }-->
+                <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                    <img style="border-radius: 3px; max-width: 150px; max-height: 135px; padding: 4px; border: 1px solid #ccc" 
+                        onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'
+                        data-origin="$value[pic]"
+                        src="$image_path"
+                        alt="$value[albumname]" />
+                </a>
+                <p class="name text-overflow" style="margin-bottom: 0px; margin-top: 5px; text-align: center;">
+                    <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                        <!--{if $value[albumname]}-->
+                        $value[albumname]
+                        <!--{else}-->
+                        默认相册
+                        <!--{/if}-->
+                    </a>
+                </p>
+                <p class="text-overflow" style="margin-bottom: 5px; text-align: center;">
+                    <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>
+                </p>
+            </li>
+            <!--{if $key % 3 == 2}-->
+            </ul>
+            <ul class="list-unstyled" style="line-height: 189px">
+            <!--{/if}-->
+        <!--{/loop}-->
+        </ul>
+    </div>
+    <!--{/if}-->
+
+	<div style="padding-bottom:20px;" class="page">$multi</div>
+	<!--{else}-->
+    <p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+        没有可浏览的列表
+	</p>
+	<!--{/if}-->
+	
+<!--{else}-->
+
+	<!--{if $searchkey}-->
+	<div class="h_status">以下是搜索相册 <span style="color:red;font-weight:bold;">$searchkey</span> 结果列表</div>
+	<!--{/if}-->
+	
+	<!--{if $pricount}-->
+    <!--
+	<div class="h_status">提示：本页有 $pricount 个相册因作者的隐私设置而隐藏</div>
+    -->
+	<!--{/if}-->
+
+	<!--{if $count}-->
+    <div class="album-list clearfix">
+	<!--{loop $list $key $value}-->
+        <div class="album pull-left">
+            <div class="cover">
+                <!--{eval 
+                    $image_path = $value['pic'];
+                    if (strpos($image_path, 'thumb.jpg') > 0) {
+                        $image_path = substr($image_path, 0, strlen($image_path)-10);
+                    }
+                }-->
+                <div class="cover-inner">
+                    <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                        <img src="<!--{eval echo substr($value[pic], 0, strlen($value[pic])-10);}-->" onerror='this.src="image/alt_album_cover.png";this.onerrror=null;' alt="$value[albumname]" />
+                    </a>
+                    <p class="name text-overflow">
+                        <a href="space.php?uid=$value[uid]&do=$do&id=$value[albumid]" target="_blank">
+                            <!--{if $value[albumname]}-->
+                            $value[albumname]
+                            <!--{else}-->
+                            默认相册
+                            <!--{/if}-->
+                        </a>
+                                            </p>
+                </div>
+            </div>
+
+            <!--{if $_GET[view]!='me'}-->
+            <p>
+                更新于<!--{date('m-d H:i', $value[updatetime], 1)}-->
+                <!--{if $value[picnum]}-->
+                ($value[picnum])
+                <!--{/if}-->
+            </p>
+            <p class="text-overflow">
+                来自于<a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>
+            </p>
+            <!--{/if}-->
+        </div>
+	<!--{/loop}-->
+    </div>
+	<div style="margin: 20px 0px;" class="page">$multi</div>
+	<!--{else}-->
+    <p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+        没有可浏览的列表
+	</p>
+	<!--{/if}-->
+	
+<!--{/if}-->
+</div>
+
+<!--{if $_GET['view'] != 'me'}-->
+<div id="sidebar" style="width:159px;padding-left:13px;">
+	
+    <!--{if $userlist}-->
+	<div class="cat" style="padding-top: 0px;">
+    <h4 style="margin-top: 20px; font-size: 14px; padding-left:10px;">按好友查看</h4>
+	<ul class="post_list line_list">
+		<li>
+			<select name="fuidsel" onchange="fuidgoto(this.value);">
+			<option value="">全部好友</option>
+			<!--{loop $userlist $value}-->
+			<option value="$value[fuid]"{$fuid_actives[$value[fuid]]}>{$_SN[$value[fuid]]}</option>
+			<!--{/loop}-->
+			</select>
+		</li>
+	</ul>
+	</div>
+    <!--{/if}-->
+    <!--{if $_GET['orderby'] && $_GET['orderby'] != 'dateline'}-->
+    <div>
+        <h4 style="margin-top:20px;">排行时间范围</h4>
+        <style>
+            .rank-list .active a{
+                color:#017ead;
+            }
+        </style>
+
+        <ul class="rank-list">
+            <li {$day_actives[0]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]">全部</a>
+            </li>
+	        <li {$day_actives[1]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=1">最近一天</a>
+            </li>
+            <li {$day_actives[2]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=2">最近两天</a>
+            </li>
+            <li {$day_actives[7]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=7">最近七天</a>
+            </li>
+            <li {$day_actives[30]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=30">最近三十天</a>
+            </li>
+            <li {$day_actives[90]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=90">最近三个月</a>
+            </li>
+            <li {$day_actives[120]}>
+                <a href="space.php?do=album&view=all&orderby=$_GET[orderby]&day=120">最近六个月</a>
+            </li>
+        </ul>
+    </div>
+    <!--{/if}-->
+
+
+    <!--{if $_GET['view'] == 'click'}-->
+	<div class="cat">
+	<h4 style="padding-left:10px;">表态动作</h4>
+	<ul class="post_list line_list">
+		<li$click_actives[all]><a href="space.php?do=album&view=click">全部动作</a></li>
+		<!--{loop $clicks $value}-->
+		<li{$click_actives[$value[clickid]]}>
+			<a href="space.php?do=album&view=click&clickid=$value[clickid]">$value[name]</a>
+		</li>
+		<!--{/loop}-->
+	</ul>
+	</div>
+    <!--{elseif $_GET['view'] == 'all'}-->
+    <!--
+	<div class="cat">
+	<h4 style="padding-left:10px;">排行榜</h4>
+	<ul class="post_list line_list">
+		<li$all_actives[all]><a href="space.php?do=album&view=all">热图推荐</a></li>
+		<li$all_actives[dateline]><a href="space.php?do=album&view=all&orderby=dateline">最新更新</a></li>
+		<li$all_actives[hot]><a href="space.php?do=album&view=all&orderby=hot&day=$_GET[hotday]">人气排行</a></li>
+		<!--{loop $clicks $value}-->
+		<li{$all_actives['click_'.$value[clickid]]}><a href="space.php?do=album&view=all&orderby=click_$value[clickid]&day=$_GET[hotday]">{$value[name]}排行</a></li>
+		<!--{/loop}-->
+	</ul>
+	</div>
+    -->
+    <!--{/if}-->
+</div>
+<!--{/if}-->
+
+
+<script>
+function fuidgoto(fuid) {
+	window.location.href = "space.php?do=album&view=we&fuid="+fuid;
+}
+</script>
+<!--{/if}-->
+
+<!--{template footer}-->

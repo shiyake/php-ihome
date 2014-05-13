@@ -1,0 +1,64 @@
+<!--{eval $_TPL['titles'] = array('足迹');}-->
+<!--{template header}-->
+
+
+<h2 class="title"><img src="image/app/doing.gif">ｉ北航墙</h2>
+<div id="content" style="width:550px;float:left;" >
+	<!--{template plugin/wall/template/wall_tracking_form}-->
+	<br>
+	<!--{if $TrackList}-->
+	<div class="doing_list">
+		<ol>
+		<!--{loop $TrackList $dv}-->
+		<!--{eval $doid = $dv[doid];}-->
+			<li id="dl{$doid}">
+				<div class="avatar48">
+					<a href="space.php?uid=$dv[uid]"><!--{avatar($dv[uid],small)}--></a>
+				</div>
+				<div class="doing">
+					<div class="doingcontent">
+					<a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+					<span class="gray">(<!--{eval echo sgmdate("m-d H:i:s", $dv[timeline])}-->)</span>
+					</div>
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ol>
+		<div class="page">$multi</div>
+	</div>
+	
+	<!--{else}-->
+	<div class="c_form">抢个沙发吧...</div>
+	<!--{/if}-->
+	
+</div>
+<!--{if $Wall[live] >=1 }-->
+<div style="width:240px;float:right;margin-right:10px;">
+	<div style="margin-bottom:20px;">
+		<OBJECT CLASSID="clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6" ID="WMP" width="230" height="230">
+		<PARAM NAME="Name" VALUE="WMP1">
+		<PARAM NAME="URL" VALUE="mms://202.112.137.220/buaa_live">
+		</OBJECT>
+	</div>
+	<script language="Javascript">
+	var L_LAUNCHSAP_TEXT = "启动 Windows Media Player";
+	document.writeln( "<input align=\"center\" type=\"button\" id=\"cmdStandAlone\" value=\"" + L_LAUNCHSAP_TEXT + "\">" );
+	</script>
+
+	<script LANGUAGE="VBSCRIPT">
+		Sub cmdStandAlone_onclick
+			If isobject(WMP) Then
+				If WMP.playstate > 0 Then
+					WMP.Close()
+				End If
+				location.href = "mms://202.112.137.220/buaa_live"
+			End If
+		End Sub
+	</script>
+	<div style="margin-top:20px;text-align:center;">
+		今日累计访问人次： <!--{eval echo $total['num'];}--> 次<br>累计用户访问量：<!--{eval echo $total_once['num'];}-->人
+	</div>
+</div>
+<!--{/if}-->
+
+<!--{template footer}-->

@@ -1,0 +1,17 @@
+body {background: #000 url(index.png) no-repeat center 230px;}
+#div1 {position:relative; width:450px; height:450px; margin: 20px auto 0; }
+#div1 a {position:absolute; top:0px; left:0px; font-family: Microsoft YaHei; color:#fff; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+#div1 a:hover {border: 1px solid #eee; background: #000; }
+#div1 .a {color:#FF0000;}
+#div1 .b {color:#FF34B3;}
+#div1 .c {color:#FF6347;}
+#div1 .e {color:#FF7256;}
+#div1 .f {color:#FF8247;}
+#div1 .g {color:#FF8C69;}
+#div1 .h {color:#FFAEB9;}
+#div1 .i {color:#FFBBFF;}
+#div1 .j {color:#FFD39B;}
+
+p { font: 16px Microsoft YaHei; text-align: center; color: #ba0c0c; }
+p a { font-size: 14px; color: #ba0c0c; }
+p a:hover { color: red; }

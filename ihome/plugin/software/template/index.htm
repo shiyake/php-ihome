@@ -1,0 +1,17 @@
+<!--{template header}-->
+
+<div class= "exchange_all">
+	<div class= "exchange_all_sort">
+		<div class= "exchange_all_sort_title"><a href="plugin.php?pluginid=software">软件中心</a></div>
+			<!--{loop $Software $key $value}-->
+			<div class= "exchange_all_sort_list">
+			<a href="plugin.php?pluginid=software&ac=show&id=$value[id]" title="{$value[name]}"><img src="$value[pic]" /></a>
+			<dt>名称：<a href="plugin.php?pluginid=software&ac=show&id=$value[id]">$value[name]</a></dt><dt>大小：$value[size]MB</dt>
+                        <dt>下载：$value[nums]人次</dt><dt>浏览：$value[views]人次</dt><dt>评论：$value[modders]</dt>
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

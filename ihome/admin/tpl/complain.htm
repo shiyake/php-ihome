@@ -1,0 +1,460 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	<style type="text/css">
+	th {
+		text-align: right;
+	}
+	.listtable th{
+		text-align: center;
+	}
+	.listtable td{
+		text-align: center;
+	}
+	#official_msg,#mobile_msg,#up_uid_msg,#dept_uid_msg{color:#FF0000;padding-left:3px;}
+	</style>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[0]><a href="admincp.php?ac=$ac&type=baseinfo"><span>基本信息</span></a></li>
+			<li$actives[1]><a href="admincp.php?ac=$ac&type=complains"><span>诉求记录</span></a></li>
+			<li$actives[2]><a href="admincp.php?ac=$ac&type=setting"><span>管理设置</span></a></li>
+			<li$actives[3]><a href="admincp.php?ac=$ac&type=forleaders"><span>For leaders</span></a></li>
+		</ul>
+	</div>
+		
+	<div style="margin-top:20px;">
+	<!--{if $type=='complains'}-->
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=complains">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th width="100">用户UID</th>
+				  <td width="250">
+				  <input type="text" name="uid" id="uid" value="" size="10"><span id="dept_uid_msg">用户UID</span></td>
+				  <th width="100">姓名</th>
+				  <td width="300"><input type="text" id="uname" name="uname" value=""><span id="up_uid_msg">姓名</span></td>
+				</tr>
+				<tr>
+				  <th>诉求部门</th>
+				  <td><input type="text" name="message" id="message" value="" size="10"><span id="up_uid_msg">部门名称</span></td>
+				  <th>当前处理阶段</th>
+				  <td><input type="text" name="atuname" id="atuname" value=""><span id="official_msg">部门名称或领导姓名<span></td>
+				</tr>
+				<tr>
+				  <th>处理状况</th>
+				  <td>
+				  <select name="isreply">
+					<option value="3">==所有==</option>
+					<option value="2">未回复</option>
+					<option value="1">已回复</option>
+				  </select>
+				  </td>
+				  <th></th>
+				  <td></td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="complains">
+				  <input type="submit" name="submit" value="搜索" class="submit">
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>姓名</th>
+			  <th>诉求信息</th>
+			  <th>发起时间</th>
+			  <th>处理阶段</th>
+			  <th>处理状况</th>
+			</tr>
+			<!--{loop $Complains $key=>$value}-->
+			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			  <td style="width:110px;"><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
+			  <td style="">$value[message]</td>
+			  <td style="width:125px;">$value[addtime]</td>
+			  <td style="width:160px;"><a href=space.php?uid=$value[atuid]>$value[atuname]</a></td>
+			  <td style="width:60px;"><a href="space.php?do=doing&doid=$value[doid]" target="_blank"><!--{if $value[isreply] == '0'}-->未回复<!--{else}-->已回复<!--{/if}--></a></td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{elseif $type=='setting'}-->
+<script type="text/javascript">
+jQuery.noConflict();	
+(function ($) {
+	$("#dept_uid").live('blur',function(){
+		var dept_uid = $("#dept_uid").val();
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=deptexist",
+			data: {uid:dept_uid},
+			success: function(data){
+				if(data == 1){
+					$("#dept_uid_msg").html("该用户已存在于列表中!!");
+				}else{
+					$("#dept_uid_msg").html("");
+					getuname(dept_uid);
+				}
+			}
+		});
+	});
+	$("#get_up_uid").live('click',function(){
+		var up_uid = $("#up_uid").val();
+		var dept_uid = $("#dept_uid").val();
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=official",
+			data: {uid:up_uid,dept:dept_uid},
+			success: function(data){
+				if(data == 0){
+					$("#up_uid_msg").html("不存在该用户");
+					$("#official").val('');
+				}
+				else $("#official").val(data);
+			}
+		});
+	});
+	$("#leader").live('click',function(){
+		$("#mobile_msg").html("领导电话必填");
+	});
+	$(".submit").live('click',function(){
+		if($("#dept_uid").val() == ''){alert("用户UID不能为空");return false;}
+		if($("#department").val() == '') {alert("用户名不能为空");return false;}
+		if($("#up_uid").val() == '') {alert("上级领导UID不能为空");return false;}
+		if($("#official").val() == '') {alert("官方代表UID不能为空");return false;}
+		if($("#leader").attr("checked")=="checked"){
+			if($("#mobile").val() == '') {alert("领导电话不能为空");return false;}
+		}
+		$("from").submit();
+	});
+	
+	function getmobile(dept_uid){
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=mobile",
+			data: {uid:dept_uid},
+			success: function(data){
+				if(data != 0)
+					$("#mobile").val(data);
+			}
+		});
+	}
+	function getuname(dept_uid){
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=uname",
+			data: {uid:dept_uid},
+			success: function(data){
+				if(data != 0){
+					$("#department").val(data);
+					getmobile(dept_uid);
+				}else{
+					$("#dept_uid_msg").html("ihome中不存在该用户!");
+				}
+			}
+		});
+	}
+})(jQuery)
+</script>
+
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=setting">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th width="100">用户UID</th>
+				  <td width="250">
+				  <input type="text" name="dept_uid" id="dept_uid" value="$dept_uid" size="10"><span id="dept_uid_msg"></span></td>
+				  <th width="100">用户名</th>
+				  <td width="300"><input type="text" id="department" name="department" value="$department"></td>
+				</tr>
+				<tr>
+				  <th>上级领导UID</th>
+				  <td><input type="text" name="up_uid" id="up_uid" value="$up_uid" size="10"><span id="up_uid_msg"></span></td>
+				  <th>官方代表UID</th>
+				  <td><input type="text" name="official" id="official" value="$official"><span id="official_msg"><a href="javascript:void(0)" id="get_up_uid">获取官方代表UID</a><span></td>
+				</tr>
+				<tr>
+				  <th>类型</th>
+				  <td><label><input name="isdept" id="dept" type="radio" value="1" <!--{if $isdept==1}-->checked="checked"<!--{/if}--> />部门</label>&nbsp;&nbsp;
+				  <label><input name="isdept" id="leader" type="radio" value="0" <!--{if $isdept==0}-->checked="checked"<!--{/if}--> />领导</label></td>
+				  <th>电话号码</th>
+				  <td><input type="text" name="mobile" id="mobile" value="$mobile"><span id="mobile_msg">领导电话必填<span></td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="setting">
+				  <!--{if $op=='edit'}-->
+				  <input type="hidden" name="pid" value="$pid">
+				  <input type="submit" name="submit" value="修改" class="submit">
+				  <!--{else}-->
+				  <input type="submit" name="submit" value="添加" class="submit">
+				  <!--{/if}-->
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>用户UID</th>
+			  <th>用户名</th>
+			  <th>上级领导UID</th>
+			  <th>官方代表UID</th>
+			  <th>类型</th>
+			  <th>电话号码</th>
+			  <th>操作</th>
+			</tr>
+			<!--{loop $Powerlevel $key=>$value}-->
+			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			  <td>$value[dept_uid]</td>
+			  <td>$value[department]</td>
+			  <td>$value[up_uid]</td>
+			  <td>$value[official]</td>
+			  <td><!--{if $value[isdept] == '1'}-->部门<!--{else}-->领导<!--{/if}--></td>
+			  <td><!--{if $value[mobile] == '0'}-->无<!--{else}-->$value[mobile]<!--{/if}--></td>
+			  <td>
+			  <a href="admincp.php?ac=complain&type=setting&op=edit&pid=$value[pid]&dept_uid=$value[dept_uid]&department=$value[department]&up_uid=$value[up_uid]&official=$value[official]&isdept=$value[isdept]&mobile=$value[mobile]">编辑</a>/
+			  <a href="admincp.php?ac=complain&type=setting&pid=$value[pid]&op=delete" onclick="return confirm('删除后无法恢复,确定要删除吗?')">删除</a></td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{elseif $type=='forleaders'}-->
+<script type="text/javascript">
+
+jQuery.noConflict();	
+(function ($) {
+	
+	$("#uid").live('blur',function(){
+		var uid = $("#uid").val();
+		getuname(uid);
+	});
+	$("#foruid").live('blur',function(){
+		var uid = $("#foruid").val();
+		getleader(uid);
+	});
+/*
+	$("#get_up_uid").live('click',function(){
+		var up_uid = $("#up_uid").val();
+		var dept_uid = $("#dept_uid").val();
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=official",
+			data: {uid:up_uid,dept:dept_uid},
+			success: function(data){
+				if(data == 0){
+					$("#up_uid_msg").html("不存在该用户");
+					$("#official").val('');
+				}
+				else $("#official").val(data);
+			}
+		});
+	});
+	$("#leader").live('click',function(){
+		$("#mobile_msg").html("领导电话必填");
+	});
+	$(".submit").live('click',function(){
+		if($("#dept_uid").val() == ''){alert("用户UID不能为空");return false;}
+		if($("#department").val() == '') {alert("用户名不能为空");return false;}
+		if($("#up_uid").val() == '') {alert("上级领导UID不能为空");return false;}
+		if($("#official").val() == '') {alert("官方代表UID不能为空");return false;}
+		if($("#leader").attr("checked")=="checked"){
+			if($("#mobile").val() == '') {alert("领导电话不能为空");return false;}
+		}
+		$("from").submit();
+	});
+	
+	function getmobile(dept_uid){
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=setting&ajax=true&return=mobile",
+			data: {uid:dept_uid},
+			success: function(data){
+				if(data != 0)
+					$("#mobile").val(data);
+			}
+		});
+	
+	*/
+	function getuname(uid){
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=forleaders&ajax=true&return=uname",
+			data: {uid:uid},
+			success: function(data){
+				if(data != 0){
+					$("#name").val(data);
+				}else{
+					$("#uid_msg").html("ihome中不存在该用户!");
+				}
+			}
+		});
+	}
+	function getleader(uid){
+		$.ajax({
+			type: "GET",
+			url: "admincp.php?ac=complain&type=forleaders&ajax=true&return=leader",
+			data: {uid:uid},
+			success: function(data){
+				if(data != 0){
+					$("#leader").val(data);
+				}else{
+					$("#leader_msg").html("诉求设置中不存在该用户!");
+				}
+			}
+		});
+	}
+})(jQuery)
+
+</script>
+
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=forleaders">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th width="100">用户真实UID</th>
+				  <td width="250">
+				  <input type="text" name="uid" id="uid" value="$uid" size="10"><span id="uid_msg"></span></td>
+				  <th width="100">用户名</th>
+				  <td width="300"><input type="text" id="name" name="name" value=""></td>
+				</tr>
+				<tr>
+				  <th>对应领导UID</th>
+				  <td><input type="text" name="foruid" id="foruid" value="$foruid" size="10"><span id="leader_msg"></span></td>
+				  <th width="100">对应领导姓名</th>
+				  <td width="300"><input type="text" id="leader" name="leader" value=""></td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="forleaders">
+				  <!--{if $op=='edit'}-->
+				  <input type="hidden" name="id" value="$id">
+				  <input type="submit" name="submit" value="修改" class="submit">
+				  <!--{else}-->
+				  <input type="submit" name="submit" value="添加" class="submit">
+				  <!--{/if}-->
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>用户真实UID</th>
+			  <th>用户名</th>
+			  <th>对应领导UID</th>
+			  <th>对应领导姓名</th>
+			  <th>操作</th>
+			</tr>
+			<!--{loop $Complain $key=>$value}-->
+			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			  <td>$value[uid]</td>
+			  <td>$_SN[$value[uid]]</td>
+			  <td>$value[foruid]</td>
+			  <td>$value[leader]</td>
+			  <td>
+			  <a href="admincp.php?ac=complain&type=forleaders&op=edit&id=$value[id]&uid=$value[uid]&foruid=$value[foruid]">编辑</a>/
+			  <a href="admincp.php?ac=complain&type=forleaders&id=$value[id]&op=delete" onclick="return confirm('删除后无法恢复,确定要删除吗?')">删除</a></td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{else}-->
+	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=baseinfo">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th>处理阶段</th>
+				  <td>
+				  <select name="times">
+					<option value="0">请选择</option>
+					<option value="1">部处</option>
+					<option value="3">处长</option>
+					<option value="7">副校长</option>
+					<option value="10">校长</option>
+				  </select>
+				  </td>
+				  <th>起止时间</th>
+				  <td><input type="text" name="starttime" id="starttime" value="$startDay" size="10"> ~ 
+				  <input type="text" name="endtime" id="endtime" value="$endDay" size="10"> (YYYY-MM-DD)</td>
+				</tr>
+				<tr>
+				  <td colspan="4" style="text-align:center;">
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="baseinfo">
+				  <input type="submit" name="submit" value="搜索" class="submit">
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>从 $startDay 到 $endDay ，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
+		</div>
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		  <tbody>
+			<tr class="line">
+			  <th>单位UID</th>
+			  <th>单位名称</th>
+			  <th>诉求总数</th>
+			  <th>已处理数量</th>
+			  <th>操作</th>
+			</tr>
+			<!--{loop $complains $value}-->
+			<tr>
+			  <td>$value[atdeptuid]</td>
+			  <td>$value[department]</td>
+			  <td>$value[total]</td>
+			  <td>$value[isreply]</td>
+			  <td>
+			  <a href="admincp.php?message=$value[department]&isreply=3&ac=complain&type=complains">详情</a>
+			  </td>
+			</tr>
+			<!--{/loop}-->
+		  </tbody>
+		</table>
+	</div>
+	<!--{/if}-->
+	</div>
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

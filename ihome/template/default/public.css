@@ -1,0 +1,135 @@
+#bg_pic {
+    height: 100%;
+    min-height: 700px;
+}
+#apply_for_public {
+    position: absolute;
+    top: 44px;
+    left: 50%;
+    margin-left: 290px;
+}
+.tabs {
+	margin: 20px 0px 20px;
+}
+
+.tabs li a {
+	line-height: 25px;
+}
+.tabs li.active > a {
+	font-size: 14px;
+	color: #333;
+}
+.tabs li.comment {
+	position: relative;
+}
+.tabs li.comment .comment-menu {
+	display: none;
+	position: absolute;
+	width: 110px;
+	right: -5px;
+	top: 43px;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	background: #fff;
+	z-index: 2;
+}
+.tabs li.comment .comment-menu li {
+	width: 100%;
+}
+.tabs li.comment .comment-menu li:hover {
+	background-color: #f0f6ff;
+}
+.tabs li.comment .comment-menu a {
+	display: block;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+.tabs li.more {
+	position: relative;
+}
+.tabs li.more .more-menu {
+	display: none;
+	position: absolute;
+	width: 110px;
+	right: -5px;
+	top: 43px;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	background: #fff;
+	z-index: 2;
+}
+.tabs li.more .more-menu li {
+	width: 100%;
+}
+.tabs li.more .more-menu li:hover {
+	background-color: #f0f6ff;
+}
+.tabs li.more .more-menu a {
+	display: block;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+.big_avatar_list li {
+    padding: 8px 0px;
+    margin: 0px;
+    margin-left: 30px;
+}
+.big_avatar_list .card {
+    border: none;
+    width: 160px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+}
+
+.big_avatar_list .card .name {
+    padding: 6px 6px 0px; 
+    line-height: 1.42;
+    color: #01B6F9;
+    text-align: center;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.big_avatar_list .card .ops,
+.big_avatar_list .card .ops-reverse {
+    text-align: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.big_avatar_list .card .ops-reverse {
+    font-size: 12px;
+}
+.big_avatar_list .card .ops-reverse {
+    background: #ebebeb;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+}
+
+.big_avatar_list .card .ops span {
+    color: #888;
+}
+
+.big_avatar_list .card .avatar160 {
+    width: 158px;
+    height: 158px;
+}
+
+.big_avatar_list .card .avatar160 img {
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    width: 158px;
+    height: 158px;
+}
+
+.big_avatar_list .card .mark {
+    width: 160px;
+    margin-left: 0px;
+}
+.no-content-tip {
+	text-align: center;
+	margin-top: 75px;
+	color: #888;
+}

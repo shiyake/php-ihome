@@ -1,0 +1,84 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=$_SC[charset]" />
+		<script language="javascript" type="text/javascript" src="./plugin/at/jquery-1.8.2.min.js"></script>
+		<script language="javascript" type="text/javascript" src="source/script_cookie.js"></script>
+		<script language="javascript" type="text/javascript" src="source/script_common.js"></script>
+		<script language="javascript" type="text/javascript" src="source/script_menu.js"></script>
+		<script language="javascript" type="text/javascript" src="source/script_ajax.js"></script>
+		<script type="text/javascript">
+		var jq=jQuery.noConflict();
+		jq(document).ready(function(){
+			var int=self.setInterval("refresh()",2000);
+			var ref=self.setInterval("fetchOne()",2000);
+		});
+		function wallonload(){
+			jq("#number:eq(1)").animate({top:"+=200px"},2000);
+			jq("#number:eq(2)").animate({top:"+=400px"},2000);
+		}
+		function fetchOne() {
+				var x = new Ajax('XML', 'fetchOne');
+				x.get('plugin.php?pluginid=wall&wallid=$WallId&ac=screen&op=fetchOne', function(s){
+					jq("#numberone").after(s);
+				});
+		}
+		function insert(){
+		jq("#number:eq(0)").before(s);
+		}
+		function refresh(){
+			jq("#number:eq(0)").slideDown(1000);
+			jq("#number:eq(1)").animate({top:"+=200px"},1000);
+			jq("#number:eq(2)").animate({top:"+=200px"},1000);
+			jq("#number:eq(3)").fadeOut(1000);
+			jq("#number:eq(4)").remove();
+		}
+		</script>
+		<link rel="stylesheet" type="text/css" href="plugin/wall/template/wall.css" />
+	</head>
+	<body onload="wallonload()">
+	<div id="mainarea">
+		<div id="workarea">
+			<div id="wall_head">
+				<div class="wall_logo">
+				</div>
+				<div class="wall_brief">
+					<div class="wall_title">$WallTitle
+					</div>
+					<div class="wall_statement">$WallUrl
+					</div>
+					<div class="wall_oneword">
+					</div>
+				</div>
+			</div>
+			<div id="WallId" value="$WallId"></div>
+			<div id="wall_content">
+			<div id="numberone" style="display:none">
+			</div>
+				<!--{loop $WallRecList $key=>$value}-->
+				<div id="number">
+					<div id="wall_li">
+						<div id="wall_poster">
+							<div class="poster_avatar"><!--{avatar($value[uid],big)}-->
+								<div class="poster_name">$_SN[$value[uid]]</div>
+							</div>
+						</div>
+						<div id="wall_message">
+							<div class="text" name="contenttext">
+								<div class="posttextouter">
+									<div class="posttextmiddle">
+										<div class="posttextinner">
+											$value[message]
+										</div>
+									</div>
+								</div>
+							</div>						
+						</div>
+					</div>
+				</div>
+				<!--{/loop}-->
+			</div>
+		</div>
+	</div>
+	</body>
+</html>

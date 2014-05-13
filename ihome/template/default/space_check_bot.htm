@@ -1,0 +1,28 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+<form action="cp.php?ac=check_bot" method="post">
+<table>
+<tr><th></th><td>你短时间内登陆了太多次了，请允许我们检查一下你是否是人类！</td></tr>
+<!--{if $_SCONFIG['questionmode']}-->
+	<tr>
+		<th width="100" style="vertical-align: top;">请先回答问题</th>
+		<td>
+			<p><!--{eval question();}--></p>
+			<input type="text" id="seccode" name="seccode" value="" tabindex="1" class="t_input"<!--{if empty($_SGLOBAL['input_seccode'])}--> onBlur="checkSeccode()"<!--{/if}--> />&nbsp;<span id="checkseccode">&nbsp;</span>
+		</td>
+	</tr>
+	<!--{else}-->
+	<tr>
+		<th width="100" style="vertical-align: top;">验证码</th>
+		<td>
+			<script>seccode();</script>
+			<p>请输入上面的4位字母或数字，看不清可<a href="javascript:updateseccode()">更换一张</a></p>
+			<input type="text" id="seccode" name="seccode" value="" tabindex="1" class="t_input"<!--{if empty($_SGLOBAL['input_seccode'])}--> onBlur="checkSeccode()"<!--{/if}--> />&nbsp;<span id="checkseccode">&nbsp;</span>
+		</td>
+	</tr>
+	<!--{/if}-->
+    <tr><th></th><td>
+    <input type="submit" value="提交"/>
+    </td></tr>
+</table>
+</form>
