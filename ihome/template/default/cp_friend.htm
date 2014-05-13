@@ -60,7 +60,7 @@ var myfriend_post = __reloadAfter(myfriend_post);
 	<ul class="tabs">
 		<li><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
 		<li$actives[search2]><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
-		<!--{if empty($_SCONFIG['closeinvite'])}-->
+		<!--{if $_SCONFIG['closeinvite']==1  }-->
 		<li><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
 		<!--{/if}--> 
 		<!--<li$actives[request]><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->

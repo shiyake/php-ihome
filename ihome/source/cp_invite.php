@@ -3,8 +3,21 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-if(!isDepartment($_SGLOBAL['supe_uid'] ,0)&&!$valuegroupid['pptype']==1 &&!$valuegroupid['pptype']==2&&!$valuegroupid['caninvite']==1 )	{
-	showmessage('您没有邀请权限','space.php',3);
+$flag=0;
+$tmpuid = $_SGLOBAL['supe_uid'] ? $_SGLOBAL['supe_uid'] : $uid;
+if($tmpuid){
+	$querygroupid = $_SGLOBAL['db']->query("SELECT pptype,caninvite FROM ".tname('space')." WHERE uid='$tmpuid'");
+	$valuegroupid = $_SGLOBAL['db']->fetch_array($querygroupid);
+	if(isDepartMent($_SGLOBAL['supe_uid'],0)||$valuegroupid['pptype']==1 ||$valuegroupid['pptype']==2||$valuegroupid['caninvite']==1 ){//显示邀请功能
+		$flag=1;	
+	}else{//不显示邀请功能
+		$flag=0;
+	}
+}else{
+	$flag=0;
+}
+if(!$flag)	{
+	showmessage("您没有邀请权限",'space.php',3);
 }
 $siteurl = getsiteurl();
 $maxcount = 50;//×î¶àºÃÓÑÑûÇë

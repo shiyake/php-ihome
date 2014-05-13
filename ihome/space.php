@@ -131,11 +131,11 @@ if($_SGLOBAL['supe_uid']){
 	
 	if(isDepartment($_SGLOBAL['supe_uid'] ,0)||$valuegroupid['pptype']==1 ||$valuegroupid['pptype']==2 ||$valuegroupid['caninvite']==1)
 	{//显示邀请功能
-		$_SCONFIG['closeinvite'] = 0;
+		$_SCONFIG['closeinvite'] = 1;
 	}
 	else
 	{//不显示邀请功能
-		$_SCONFIG['closeinvite'] = 1;
+		$_SCONFIG['closeinvite'] = 0;
 	}
 }
 
