@@ -3,7 +3,9 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-
+if(!isDepartment($_SGLOBAL['supe_uid'] ,0)&&!$valuegroupid['pptype']==1 &&!$valuegroupid['pptype']==2&&!$valuegroupid['caninvite']==1 )	{
+	showmessage('您没有邀请权限','space.php',3);
+}
 $siteurl = getsiteurl();
 $maxcount = 50;//×î¶àºÃÓÑÑûÇë
 $reward = getreward('invitecode', 0);
