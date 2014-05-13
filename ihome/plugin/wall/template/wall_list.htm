@@ -1,0 +1,17 @@
+<!--{template header}-->
+
+<div class= "exchange_all">
+	<div class= "exchange_all_sort">
+		<div style="padding:5px 20px;float:right;font-size:14px;"><a href="plugin.php?pluginid=wall&ac=apply" style="color:red;text-decoration:none;">申请足迹墙</a></div>
+		<div class= "exchange_all_sort_title"><a href="wall.php">足迹墙</a></div>
+			<!--{loop $WallList $key $value}-->
+			<div class= "exchange_all_sort_list" style="width:350px; margin:10px;">
+			<a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track" title="{$value[wallname]}"><!--{if $value[picture] != 'image/nopic.gif'}--><img src="$value[picture]" width=100 height=100 /><!--{else}--><img src="plugin/wall/image/default_wall.gif" /><!--{/if}--></a>
+			<dt>名称：<a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track">$value[wallname]</a></dt><dt>说明：$value[content]</dt><dt>开始时间：<!--{eval echo date('Y-m-d H:i',$value[starttime])}--></dt><dt>结束时间：<!--{eval echo date("Y-m-d H:i", $value[endtime])}--></dt>
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div>
+</div>
+
+<!--<!--{template footer}-->-->

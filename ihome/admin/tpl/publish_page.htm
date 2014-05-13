@@ -1,0 +1,41 @@
+<!--{template admin/tpl/header}-->
+<div class="mainarea">
+	<div class="maininner">
+        <div class="bdrcontent">
+            <table cellspacing="0" cellpadding="0" class="listtable">
+            <caption>
+            <h2>公共主页情况</h2>
+            </caption>
+            <thread>
+                <th class="title">公共主页</th>
+                <th class="title">总粉丝数</th>
+                <th class="title">月评论数</th>
+                <th class="title">月日志数</th>
+                <th class="title">月动态数</th>
+                <th class="title">月反馈数</th>
+                <th class="title">月反馈回复数</th>
+            </thread>
+            <tbody>
+                <!--{loop $results $value}-->
+                <tr class="line">
+                    <td class="center">$value['name']</td>
+                    <td class="center">$value['audnum']</td>
+                    <td class="center">$value['commentnum']</td>
+                    <td class="center">$value['blognum']</td>
+                    <td class="center">$value['doingnum']</td>
+                    <td class="center">$value['complainnum']</td>
+                    <td class="center">$value['complain_reply_num']</td>
+                </tr>
+                <!--{/loop}-->
+            </tbody>
+            </table>
+        </div>
+        <div class="bdrcontent">
+            <p>计算方法：此表统计的是公共账号全量粉丝数，最近一个月的评论数，日志数，动态数，反馈数，反馈回复数</p>
+        </div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

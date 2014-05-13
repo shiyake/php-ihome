@@ -1,0 +1,256 @@
+<!--{template plugin/apps/header}-->
+  <div class="main">
+    
+	<!--{template plugin/apps/left}-->
+	
+    <div class="yingyong_right">
+	
+      <!--{template plugin/apps/right_nav}-->
+	  
+      <div class="clear"></div>
+      <div class="yingyong_c">
+        <div class="yingyong_text">
+          <div class="yingyong_img"><img src="$app[logo]" title="$app[name]" width="120" height="120" /></div>
+          <!-- end yingyong_img -->
+          <div class="yingyong_intr">
+            <h1>$app[name]</h1>
+            使用次数：$app[clicktime]次<br />
+			使用人数：$app[usernumber]人<br />
+            评价人数：$app[comment]人<br />
+            <span class="left">适用对象：</span>
+			<!--{if $app[usertype] & 8}-->
+			<div class="yy_green left inline" title="本科生"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 4}-->
+			<div class="yy_yellow left inline" title="研究生"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 2}-->
+			<div class="yy_red left inline" title="教职工"></div>
+			<!--{/if}-->
+			<!--{if $app[usertype] & 1}-->
+			<div class="yy_blue left inline" title="校友"></div>
+			<!--{/if}-->
+          </div>
+          <!-- end yingyong_intr -->
+          <div class="yingyong_eva"> <span class="left">总体评价：</span><span class="left" id="all_score"></span><span class="score_num">$app[score]</span>
+            <div class="clear"></div>
+            <span class="left">易&nbsp;用&nbsp;&nbsp;性：</span><span class="left" id="all_score_easy"></span><span class="score_num">$app[score_easy]</span>
+            <div class="clear"></div>
+            <span class="left">服务质量：</span><span class="left" id="all_score_service"></span><span class="score_num">$app[score_service]</span>
+            <div class="clear"></div>
+            <span class="left">响应速度：</span><span class="left" id="all_score_speed"></span><span class="score_num">$app[score_speed]</span>
+            <div class="clear"></div>
+          </div>
+          <!-- end yingyong_eva -->
+          <div class="quanli">
+            <!--{if $isAuthorized}-->
+			<!--{if $app[iauth_type]}-->
+			<div class="shiyong"><a onclick="gourl();" href="javascript:void(0)">立即使用</a></div>
+			<!--{else}-->
+			<div class="shiyong"><a onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
+			<!--{/if}-->
+            <div class="jiechu"><a onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
+			<!--{else}-->
+			<!--{if $app[iauth_type]}-->
+			<div class="shouquan"><a onclick="gourl();" href="javascript:void(0)">授权使用</a></div>
+			<!--{else}-->
+			<div class="shouquan"><a onclick="authiAuth('$appsid');" href="javascript:void(0)">授权使用</a></div>
+			<!--{/if}-->
+			<!--{/if}-->
+          <script type="text/javascript">
+			$(function() {
+				var isconfirm = location.hash;
+				if(isconfirm == '#confirm'){
+					$("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
+					showDialog();
+					});
+				}
+			});
+			function gourl(){
+				var iauth_type = '$app[iauth_type]';
+				if(iauth_type == 'UAC'){
+					$("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
+					showDialog();
+					});
+				}
+				else
+					location = '$app[url]';
+			}
+			function authiAuth(appid){
+				$.get("plugin.php?pluginid=apps&ac=detail&authorize=1&appsid=" + appid,
+				{appsid:appid},
+				function(data){
+					if(data != 0)
+						location=data;
+					else
+						alert('授权失败~!');
+				});
+			}
+			function useApp(appid){
+				$.get("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appid,
+				{appsid:appid},
+				function(data){
+					if(data != 0)
+						location=data;
+					else
+						alert('跳转失败~!');
+				});
+			}
+			function removeiAuth(appid){
+				$.get("plugin.php?pluginid=apps&ac=detail&resetauthorize=1&appsid=" + appid,
+				{appsid:appid},
+				function(data){
+					if(data != 0){
+						alert('已解除授权~!');
+						location=data;
+					}
+					else
+						alert('解除授权失败~!');
+				});
+			}
+		  </script>
+		  </div>
+          <!-- end quanli -->
+          <div class="clear"></div>
+          <div class="yy_jieshao">
+            <h2 class="block">应用介绍</h2>
+            <div class="yy_jieshao_c"> $app[desc] </div>
+            <!-- end yy_jieshao_c -->
+          </div>
+          <!-- end yy_jieshao -->
+		  
+		  <!--{if $isAuthorized}-->
+		  <!--{if !$isGrade}-->
+          <div class="yy_eva">
+            <h2 class="block">应用评价</h2>
+            <div class="yy_eva_c">
+			<span class="left margin_left_40">总体评价：</span><span class="left" id="add_score"></span>
+			<span class="left margin_left_80">易&nbsp;&nbsp;用&nbsp;&nbsp;性：</span><span class="left" id="add_score_easy"></span>
+              <div class="clear"></div>
+              <span class="left margin_left_40">服务质量：</span><span class="left" id="add_score_service"></span>
+			  <span class="left margin_left_80">响应速度：</span><span class="left" id="add_score_speed"></span>
+              <div class="clear"></div>
+			  <form action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
+              <div class="shuru">
+                <textarea rows="2" class="width_95" name="content"></textarea>
+				<input name="score" id="score" type="hidden" value="5" />
+				<input name="score_easy" id="score_easy" type="hidden" value="5" />
+				<input name="score_service" id="score_service" type="hidden" value="5" />
+				<input name="score_speed" id="score_speed" type="hidden" value="5" />
+              </div>
+              <!-- end shuru -->
+              <div class="anniu">
+                <label><input type="checkbox" value="1" name="anonymous">匿名</label><br />
+				<input type="hidden" name="comment_submit" value="true" />
+				<input type="hidden" name="appsid" value="$appsid" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <button type="submit" class="pinf">评分</button>
+              </div>
+			  </form>
+              <!-- end anniu -->
+            </div>
+            <!-- end yy_eva_c -->
+            <div class="clear"></div>
+          </div>
+		  <!--{/if}-->
+		  <!--{/if}-->
+				
+          <!-- end yy_eva -->
+          <div class="user_com">
+            <h2 class="block padding_bottom_10">用户评价</h2>
+            <!--{if $comments}-->
+			<!--{loop $comments $comment}-->
+			<div class="user_com_c">
+              <div class="user_img">
+				<!--{if $comment[anonymous]}-->
+				<a href="javascript:void(0)" target="_blank"><!--{avatar(0,small)}--></a>
+				(匿名)
+				<!--{else}-->
+				<a href="space.php?uid=$comment[uid]" target="_blank"><!--{avatar($comment[uid],small)}--></a>
+				<a href="space.php?uid=$comment[uid]" target="_blank">$_SN[$comment[uid]]</a>
+				<!--{/if}-->
+			  </div>
+              <div class="user_com_c_c">
+                <div class="user_c_neirong">$comment[content]</div>
+                <span class="left">总体评价：</span><span class="score_num">$comment[score]&nbsp;&nbsp;&nbsp;</span>
+				<span class="left">易用性：</span><span class="score_num">$comment[score_easy]&nbsp;&nbsp;&nbsp;</span>
+				<span class="left">服务质量：</span><span class="score_num">$comment[score_service]&nbsp;&nbsp;&nbsp;</span>
+				<span class="left">响应速度：</span><span class="score_num">$comment[score_speed]&nbsp;&nbsp;&nbsp;</span>
+			  </div>
+              <div class="com_c_time">$comment[time]</div>
+            </div>
+            <!-- end user_com_c -->
+            <div class="clear dashed"></div>
+			<!--{/loop}-->
+			<!--{/if}-->
+			<link href="plugin/apps/css/star.css" rel="stylesheet">
+			<script language="javascript" type="text/javascript" src="plugin/apps/js/star_big.js"></script>
+			<script type="text/javascript">
+			/******************************以下显示现有总分***********************************/
+			var options_score = {
+				value : $app[score],
+				 enabled : false
+			}
+			$('#all_score').rater(options_score);
+			var options_score_easy = {
+				value : $app[score_easy],
+				 enabled : false
+			}
+			$('#all_score_easy').rater(options_score_easy);
+			var options_score_service = {
+				value : $app[score_service],
+				 enabled : false
+			}
+			$('#all_score_service').rater(options_score_service);
+			var options_score_speed = {
+				value : $app[score_speed],
+				 enabled : false
+			}
+			$('#all_score_speed').rater(options_score_speed);
+			/******************************以下显示将输入的分数***********************************/
+			var options_add_score = {
+				value : 5,
+				after_click : function(ret) {  
+					$('#score').val(ret.number);  
+				}  
+			}
+			$('#add_score').rater(options_add_score);
+			var options_add_score_easy = {
+				value : 5,
+				after_click : function(ret) {  
+					$('#score_easy').val(ret.number);  
+				}
+			}
+			$('#add_score_easy').rater(options_add_score_easy);
+			var options_add_score_service = {
+				value : 5,
+				after_click : function(ret) {  
+					$('#score_service').val(ret.number);  
+				}
+			}
+			$('#add_score_service').rater(options_add_score_service);
+			var options_add_score_speed = {
+				value : 5,
+				after_click : function(ret) {  
+					$('#score_speed').val(ret.number);  
+				}
+			}
+			$('#add_score_speed').rater(options_add_score_speed);
+			</script>
+            <div class="clear dashed margin_bottom_10"></div>
+            <!--<div class="more"> <a href="#">显示更多</a> </div>-->
+          </div>
+          <!-- end user_com -->
+        </div>
+        <!-- end yingyong_text -->
+      </div>
+      <!-- end yingyong_c -->
+        <div class="solid_666 clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+    </div>
+    <!-- end yingyong_right -->
+  </div>
+  <!-- end main -->
+  
+<!--{template plugin/apps/footer}-->

@@ -1,0 +1,259 @@
+<!--{template header}-->
+
+<h4 class="title title30"><img class="pic10" src="image/icons/icon_public.png" />公共主页</h4>
+
+<div class="c_form">
+	<span style="float:right;margin-right:15px;"><a href="cp.php?ac=publicapply" style="color:#f00;">申请公共主页</a></span>
+	<h4 class="l_status title">热门公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $topplist $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+
+<div class="c_form">
+	<h4 class="l_status title">我关注的公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $addedplist $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>			
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_addedpublics_$key" onclick="ajaxmenu(event, this.id, 1)" >关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_addedpublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+			
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+
+
+<!--<h4 class="l_status title">全部公共主页</h4>-->
+<div class="c_form">
+	<h4 class="l_status title">名人堂</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_3 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">学院公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_1 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">部处公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_2 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">学生组织公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_4 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">兴趣社团公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_5 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">学生党组织公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_6 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">活动公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_7 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">品牌推广公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_8 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">班级公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_20 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">航路研语公共主页</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_100 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<div class="c_form">
+	<h4 class="l_status title">其他</h4>
+	<ul class="avatar_list">
+		<!--{loop $sublist_0 $key $value}-->
+		<li style="margin-bottom:0;width:90px;">
+			<div class="avatar48" style="padding-left:17px;"><a href="space.php?uid=$value[uid]" title="{$value[name]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$value[name]}">{$value[name]}</a></p>
+			<p>$value[audnum]人关注</p>
+			<!--{if $value['a'] =='0'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_0_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a></p>
+			<!--{/if}-->
+			<!--{if $value['a'] =='1'}-->
+			<p class="gray"><a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_0_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a></p>
+			<!--{/if}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<!--{template footer}-->

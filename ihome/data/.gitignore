@@ -1,0 +1,5 @@
+tpl_cache
+data_config.php
+*.txt
+*.lock
+assets/

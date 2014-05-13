@@ -1,0 +1,155 @@
+<!--{eval $_TPL['titles'] = array('足迹');}-->
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_doing">
+		<!--
+		<h3 class="feed_header">
+			<a href="space.php?do=doing&view=me" class="r_option" target="_blank">一句话足迹</a>
+			足迹(共 $count 条)
+		</h3>
+		<br>
+		-->
+		<!--{if $dolist}-->
+		<div class="doing_list">
+			<ol>
+			<!--{loop $dolist $dv}-->
+			<!--{eval $doid = $dv[doid];}-->
+				<li id="dl{$doid}">
+					<div class="doing">
+						<div class="doingcontent"><a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+							<span>(<!--{date('m-d H:i',$dv[dateline],1)}-->)</span>
+                            				<a href="javascript:;" onclick="docomment_form($doid, 0);" style="float:right;padding-left:10px;">回复($dv['replynum'])</a>
+                            				<!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> 
+							<a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" style="float:right;" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)">删除</a> &nbsp;
+							<!--{else}-->
+							<a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" style="float:right;"id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
+							<!--{/if}-->
+							
+                        				<!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                        				<a href="cp.php?ac=common&op=report&idtype=doid&id=$dv[doid]" style="float:right" id="a_report_doid_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                        				<!--{/if}-->
+						</div>
+						<!--{eval $list = $clist[$doid];}-->
+						<div class="sub_doing fcomment" id="docomment_$doid" style="<!--{if !$list}-->display:none;<!--{/if}-->">
+							<span id="docomment_form_{$doid}_0"></span>
+							<!--{template space_doing_li_index}-->
+						</div>
+					</div>
+                    </li>
+			<!--{/loop}-->
+			</ol>
+			<div class="page" >$multi</div>
+		</div>
+		<!--{else}-->
+		<div class="c_form">现在还没有足迹</div>
+		<!--{/if}-->
+	</div><br>
+<!--{else}-->
+<!--{if $space[self]}-->
+<div id="content" style="border-right: none;">
+<h4 class="title" style="margin-left:15px;margin-top:30px;"><img src="image/icons/icon_zuji.png">足迹</h4>
+<div class="tabs_header">
+	<ul class="tabs">
+		<!--{if $space[friendnum]}--><li$actives[we] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=we"><span>最新好友足迹</span></a></li><!--{/if}-->
+		<li$actives[all] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>大家的足迹</span></a></li>
+		<li$actives[me] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的足迹</span></a></li>
+		<li$actives[mood] style="width:110px;"><a href="space.php?uid=$space[uid]&do=mood"><span>同心情的朋友</span></a></li>
+	</ul>
+</div>
+<!--{else}-->
+<!--{eval 
+	$_TPL['spacetitle'] = "足迹";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=doing&view=me\">TA的所有足迹</a>";
+}-->
+<!--{template space_menu}-->
+<div class="h_status">按照发布时间排序</div>
+<!--{/if}-->
+	<!--{if $space[self]}-->
+	<!--{/if}-->
+	<!--{if $dolist}-->
+	<div class="doing_list">
+		<ol>
+		<!--{loop $dolist $dv}-->
+		<!--{eval $doid = $dv[doid];}-->
+            <li id="dl{$doid}" class="s_clear">
+                <div class="feed_li_avatar">
+                    <div class="round_border head">
+                        <a href="space.php?uid=$value[uid]"><!--{avatar($dv[uid],big,false,0,'feed')}--></a>
+                     </div>
+                </div>    
+                <div class="feed_li_inner" style="overflow:hidden;letter-spacing:0.5px;">
+                    <a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+                    <div class="feed_content clearfix"></div>
+                    <div id="reply_content">
+                        <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
+                        <span class="floatright">
+                            <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> &nbsp;
+                            <!--{else}-->
+                                <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
+                            <!--{/if}-->
+                            <!--<a href="javascript:;" onclick="docomment_form($doid, 0);">回复($dv['replynum'])</a>-->
+                            <a href="javascript:;" onclick="docomment_form($doid, 0);" id="do_a_op_$dv[id]"><!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                            <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                            <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+            </div>
+                            <!--{/if}-->
+                        </span>
+                    </div>
+                </div>
+                        
+            </li>
+			<!--wangnan0328<li id="dl{$doid}">
+           <!--{avatar($dv[uid],big,false,0,'feed')}--> 
+            <div class="doing">
+					<div class="doingcontent"><a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+					<span>(<!--{date('m-d H:i',$dv[dateline],1)}-->)</span>
+<div class="comments-link">
+                    <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> &nbsp;
+					<!--{else}-->
+						<a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>&nbsp;
+					<!--{/if}-->
+                    <!--<a href="javascript:;" onclick="docomment_form($doid, 0);">回复($dv['replynum'])</a>-->
+                    <a href="javascript:;" onclick="docomment_form($doid, 0);" id="do_a_op_$dv[id]"><!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                    <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                    <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+    </div>
+                    <!--{/if}-->
+	<!--				<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+    <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />-->
+					</div>
+					<!--{eval $list = $clist[$doid];}-->
+                    <div class="sub_doing fcomment do_document " id="docomment_$doid"<!--{if !$list}--><!--{/if}--> style="display:none;">
+						<span id="docomment_form_{$doid}_0"></span>
+						<!--{template space_doing_li_index}-->
+					</div>
+				</div>
+                </li>-->
+		<!--{/loop}-->
+		</ol>
+		<div class="page" style="margin-bottom: 10px;">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="c_form">现在还没有足迹。<!--{if $space[self]}-->你可以用一句话足迹下这一刻在做什么。<!--{/if}--></div>
+	<!--{/if}-->
+</div>
+<!--<div id="sidebar">
+	<!--{if $moodlist}-->
+	<div class="sidebox">
+		<h4 class="title">
+			<p class="r_option"><a href="space.php?uid=$space[uid]&do=mood">全部</a></p>
+			跟<!--{if $space[self]}-->我<!--{else}-->{$_SN[$space[uid]]}<!--{/if}-->同心情的朋友
+		</h4>
+		<ul class="avatar_list">
+			<!--{loop $moodlist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]&do=doing"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><!--{date('n月j日',$value[updatetime],1)}--></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+  </div>-->
+<!--{/if}-->
+<!--{template footer}-->

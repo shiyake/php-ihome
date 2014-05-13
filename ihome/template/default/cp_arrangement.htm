@@ -1,0 +1,236 @@
+<!--{template header}-->
+<!--{if $op == 'delete'}-->
+<h1>删除校园日历</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner">
+<form method="post" action="cp.php?ac=arrangement&op=delete&arrangementid=$arrangementid">
+	<p>确定删除指定的安排吗？</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+		<input type="hidden" name="deletesubmit" value="true" />
+		<input type="submit" name="btnsubmit" value="确定" class="submit btn btn-sm btn-comments" />
+	</p>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+<!--{elseif $op == "calendar"}-->	
+	<div class="calendar">
+        <a href="#" onclick="showcalendar('$premonth'); this.blur(); return false;">
+		    <div id="calendar_pre" class="floatleft goleft">
+            </div>
+        </a>
+        <a href="#" onclick="showcalendar('$nextmonth'); this.blur(); return false;">
+		    <div id="calendar_next" class="floatright goright">
+            </div>
+        </a>
+		<span id="thecalendar_year">$year</span>年 <span id="thecalendar_month">$month</span>月
+		<ul>
+			<li class="calendarli calendarweek">日</li>
+			<li class="calendarli calendarweek">一</li>
+			<li class="calendarli calendarweek">二</li>
+			<li class="calendarli calendarweek">三</li>
+			<li class="calendarli calendarweek">四</li>
+			<li class="calendarli calendarweek">五</li>
+			<li class="calendarli calendarweek">六</li>	
+			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
+			<!--{loop $days $key $value}-->		
+            <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
+            <li class="calendarli on_today">$key</li>
+            <!--{elseif $value[count]}-->		
+            <!--{if $value[class]=="on_today"}-->
+            <!--{eval $class="on_today onlink"}-->
+            <!--{else}-->
+            <!--{eval $class="onlink"}-->
+            <!--{/if}-->
+            <li class="calendarli $class" onmouseover="$('day_$key').style.display='block';" onmouseout="$('day_$key').style.display='none';">
+            <!--wangnan<img class="calendar_red_point" src="template/default/image/red_point.png"></img>-->
+            <a href="$url&date=$year-$month-$key">$key</a>
+				<div class="dayevents" id="day_$key" style="display:none;">
+					<ul class="news_list">
+                        <!--{eval $num=0}-->    
+                        <!--{loop $value[arrangement] $arrangement}-->
+                        <!--{eval $num++}-->
+                        <li class="dayeventsli">
+                        <div class="dayeventstitle"><img style="width:18px;margin-top:-5px;" src="image/alert.png"></img>&nbsp;&nbsp;事件&nbsp;{$num}</div>
+                        <a href="space.php?do=arrangement&id=$arrangement[arrangementid]">$arrangement[subject]</a>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                </li>
+                <!--{else}-->
+                <li class="calendarli">$key</li>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </ol>
+        </div>
+        <!--{else}-->
+        <script language="javascript" src="image/editor/editor_function.js"></script>
+        <script language="javascript" src="source/script_blog.js"></script>
+        <script language="javascript" type="text/javascript" src="source/script_calendar.js"></script>
+        <h4 class="title title30">校园日历
+            <div class="r_option">
+                <a href="space.php?do=arrangement&view=all" style="line-height:30px;"><span>返回校园日历</span></a>
+            </div>
+        </h4>
+        <div class="c_form">
+            <style type="text/css">
+                .userData {behavior:url(#default#userdata);}
+            </style>
+            <form method="post" action="cp.php?ac=arrangement&arrangementid=$arrangement[arrangementid]" enctype="multipart/form-data" >
+                <table cellspacing="4" cellpadding="4" width="100%" style="margin-left:5px;"class="infotable">
+                    <tr>
+                        <td>
+                            <font color="red" size="3"><strong>请诚信发布，切勿在此发布刷分测试或非全校范围的重要信息，违者必删并多倍扣分！</strong></font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            标题：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:357px;" name="subject" value="$arrangement[subject]" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            分类：<select name="arrangementclass" id="arrangementclass">
+                                <!--{if $arrangement['classid'] == 0}-->
+                                <option value="0" selected>选择分类</option>
+                                <!--{else}-->
+                                <option value="0">选择分类</option>
+                                <!--{/if}-->
+                                <!--{if $arrangement['classid'] == 1}-->
+                                <option value="1" selected>校历信息</option>
+                                <!--{else}-->
+                                <option value="1">校历信息</option>
+                                <!--{/if}-->
+                                <!--{if $arrangement['classid'] == 2}-->
+                                <option value="2" selected>讲座信息</option>
+                                <!--{else}-->
+                                <option value="2">讲座信息</option>
+                                <!--{/if}-->
+                                <!--{if $arrangement['classid'] == 3}-->
+                                <option value="3" selected>会议安排</option>
+                                <!--{else}-->
+                                <option value="3">会议安排</option>
+                                <!--{/if}-->
+                                <!--{if $arrangement['classid'] == 4}-->
+                                <option value="4" selected>文体活动</option>
+                                <!--{else}-->
+                                <option value="4">文体活动</option>
+                                <!--{/if}-->
+                            </select>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            开始时间：<input id="starttime" type="text" name="starttime" value="<!--{eval echo($arrangement[starttime]?date('Y-m-d H:i:s',$arrangement[starttime]):'')}-->"style="width:187px;display:inline;" class="form-control input-sm" onclick="showcalendar(event, this, 1, '<!--{eval echo($arrangement[starttime]?date('Y-m-d H:i:s',$arrangement[starttime]):date('Y-m-d H:i:s'))}-->')" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a id="doodleBox" href="magic.php?mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor" style="display:none"></a>
+                            <textarea class="userData" name="message" id="uchome-ttHtmlEditor" style="height:100%;width:100%;display:none;border:0px">$arrangement[message]</textarea>
+                            <iframe src="editor.php?charset=$_SC[charset]&allowhtml=$allowhtml&doodle=<!--{if isset($_SGLOBAL[magic][doodle])}-->1<!--{/if}-->" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:100%;border: 1px solid #C5C5C5;" height="400"></iframe>
+                        </td>
+                    </tr>
+                </table>
+                <table cellspacing="4" cellpadding="4" width="100%" style="margin-left:5px;" class="infotable">
+                    <!--{if $arrangement['uid'] && $arrangement['uid']!=$_SGLOBAL['supe_uid']}-->
+                    <!--{eval $selectgroupstyle='display:none';}-->
+                    <tbody style="display:none;">
+                        <!--{/if}-->
+                        <tr>
+                            <th width="70" style="text-align:left;">隐私设置</th>
+                            <td>
+                                <div class="checkbox checkbox-inline">
+                                    <label for="noreply">
+                                        <input type="checkbox" id="noreply" name="noreply" value="1"<!--{if $arrangement[noreply]}--> checked<!--{/if}-->> 不允许评论
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{if $arrangement['uid'] && $arrangement['uid']!=$_SGLOBAL['supe_uid']}--></tbody><!--{/if}-->
+                </table>
+                <input type="hidden" name="makefeed1" id="makefeed1" value="1">
+                <input type="hidden" name="arrangementsubmit" value="true" />
+                <input type="button" id="arrangementbutton" name="arrangementbutton" value="提交发布" onclick="validate(this);" style="display: none;" />
+                <input type="hidden" name="topicid" value="$_GET[topicid]" />
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+            </form>
+            <!--{if !$_SGLOBAL[inajax] && (!$arrangement['uid'] || $arrangement['uid']==$_SGLOBAL['supe_uid'])}-->
+            <table cellspacing="4" cellpadding="4" width="100%"style="margin-left:5px;margin-top:-10px;" class="infotable">
+                <tr><th style="text-align:left;"width="70">图片</th><td>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="checkupload" name="clickbutton[]" value="上传图片" class="button" onclick="edit_album_show('pic')">
+                            <label for="checkupload" style="line-height:34px;">上传图片</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="checkinsert" name="clickbutton[]" value="插入图片" class="button" onclick="edit_album_show('album')">
+                            <label for="checkinsert" style="line-height:34px;">插入图片</label>
+                        </div>
+                </td></tr>
+            </table>
+            <!--{/if}-->
+            <table cellspacing="4" cellpadding="4" width="100%" id="uchome-edit-pic" class="infotable" style="display:none;">
+                <tr>
+                    <th width="70">&nbsp;</th>
+                    <td>
+                        <strong>选择图片</strong>: 
+                        <table summary="Upload" cellspacing="2" cellpadding="0">
+                            <tbody id="attachbodyhidden" style="display:none">
+                                <tr>
+                                    <td>
+                                        <form method="post" id="upload" action="cp.php?ac=upload" enctype="multipart/form-data" target="uploadframe" style="background: transparent;">
+                                            <a href="javascrip:;" style="margin-left:-5px;"onclick="jQuery('#attach').click();">选择文件</a>
+                                            <input id="attach" type="file" name="attach" style="border: 1px solid #dcdcdc;display:none;" />
+                                            <span id="localfile"></span>
+                                            <input type="hidden" name="uploadsubmit" id="uploadsubmit" value="true" />
+                                            <input type="hidden" name="albumid" id="albumid" value="0" />
+                                            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody id="attachbody"></tbody>
+                        </table>
+                        <strong>存储相册</strong>: 
+                        <table cellspacing="2" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <select style="margin-left:-5px;"name="albumid" id="uploadalbum" onchange="addSort(this)">
+                                        <option value="-1">请选择相册</option>
+                                        <option value="-1">默认相册</option>
+                                        <!--{loop $albums $value}-->
+                                        <option value="$value[albumid]">$value[albumname]</option>
+                                        <!--{/loop}-->
+                                        <option value="addoption" style="color:red;">+新建相册</option>
+                                    </select>
+                                    <script src="source/script_upload.js" type="text/javascript"></script>
+                                    <iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="4" cellpadding="4" width="100%" class="infotable" id="uchome-edit-album" style="display:none;">
+                <tr>
+                    <th width="70">&nbsp;</th>
+                    <td>
+                        选择相册: <select name="view_albumid" onchange="picView(this.value)">
+                            <option value="none">选择一个相册</option>
+                            <option value="0">默认相册</option>
+                            <!--{loop $albums $value}-->
+                            <option value="$value[albumid]">$value[albumname]</option>
+                            <!--{/loop}-->
+                        </select> (点击图片可以插入到内容中)
+                        <div id="albumpic_body"></div>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="4" cellpadding="4" width="100%" style="margin-left:5px;" class="infotable">
+                <tr>
+                    <th width="70">&nbsp;</th>
+                    <td>
+                        <input type="button" id="issuance" onclick="document.getElementById('arrangementbutton').click();" value="保存发布" class="submit btn btn-sm btn-comments" /></td>
+                </tr>
+            </table>
+        </div>
+        <!--{/if}-->
+        <!--{template footer}-->

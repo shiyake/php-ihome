@@ -1,0 +1,534 @@
+<!--{if empty($_TPL['getmore'])}-->	
+<!--{eval $_TPL['titles'] = array('首页');}-->
+<!--{template header}-->
+
+
+<div id="content">
+	<!--{if $space['uid'] && $space[self]}-->
+	<!--{template space_status_feed}-->
+	<!--{if empty($_SCOOKIE['closefeedbox']) && $_SGLOBAL['ad']['feedbox']}-->
+	<div id="feed_box">
+		<div class="task_notice">
+			<a title="忽略" class="float_cancel" href="javascript:;" onclick="close_feedbox();">忽略</a>
+			<div class="task_notice_body">
+				<!--{ad/feedbox}-->
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+
+	<!--{elseif $space[uid]}-->
+	<!--{eval
+	$_TPL['spacetitle'] = "动态";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=feed&view=me\">TA的近期动态</a>";
+	}-->
+	<!--{template space_menu}-->
+	<!--{/if}-->
+	<script>
+		var jq1=jQuery.noConflict();
+		jq1(document).ready(function(){
+			jq1("#ours").click(function(){
+				var ajaxvar=new XMLHttpRequest();
+				ajaxvar.onreadystatechange=function()	{
+					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+					jq1(".alert").css({"display":"none"});
+					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+						jq1(".alert").css({"display":"block"});
+						jq1("#feed_div").html(ajaxvar.responseText);
+						jq1("#blue_solid").animate({left:"0px"},400);
+					}
+				}
+				ajaxvar.open("POST","space.php?do=home&view=ours&show=1",true);
+				ajaxvar.send();
+				if(jq1("#public").hasClass("active"))	{
+					jq1("#public").removeClass("active");
+				}
+				if(jq1("#work").hasClass("active"))	{
+					jq1("#work").removeClass("active");
+				}
+				if(!jq1("#ours").hasClass("active"))	{
+					jq1("#ours").addClass("active");
+				}
+			});
+			jq1("#public").click(function(){
+				var ajaxvar=new XMLHttpRequest();
+				ajaxvar.onreadystatechange=function()	{
+					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+					jq1(".alert").css({"display":"none"});
+					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+						jq1(".alert").css({"display":"block"});
+						jq1("#feed_div").html(ajaxvar.responseText);
+						jq1("#blue_solid").animate({left:"102px"},400);
+					}
+				}
+				ajaxvar.open("POST","space.php?do=home&view=all&show=1",true);
+				ajaxvar.send();
+				if(jq1("#work").hasClass("active"))	{
+					jq1("#work").removeClass("active");
+				}
+				if(jq1("#ours").hasClass("active"))	{
+					jq1("#ours").removeClass("active");
+				}
+				if(!jq1("#public").hasClass("active"))	{
+					jq1("#public").addClass("active");
+
+				}
+			});
+			jq1("#work").click(function(){
+				var ajaxvar=new XMLHttpRequest();
+				ajaxvar.onreadystatechange=function()	{
+					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+					jq1(".alert").css({"display":"none"});
+					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+						jq1(".alert").css({"display":"block"});
+						jq1("#feed_div").html(ajaxvar.responseText);
+						jq1("#blue_solid").animate({left:"204px"},400);
+					}
+				}
+				ajaxvar.open("POST","space.php?do=home&view=work&show=1",true);
+				ajaxvar.send();
+				if(jq1("#public").hasClass("active"))	{
+					jq1("#public").removeClass("active");
+				}
+				if(jq1("#ours").hasClass("active"))	{
+					jq1("#ours").removeClass("active");
+				}
+				if(jq1("#work").hasClass("active"))	{
+					jq1("#work").addClass("active");
+				}
+			});
+		});
+
+	</script>
+	<ul id="new_feed" class="nav nav-tabs <!--{if !strstr($_SERVER["HTTP_USER_AGENT"],'MSIE')}-->nav-justified<!--{/if}-->" 
+		style="overflow: hidden;margin-top:18px;height:32px;" >
+		<li id="ours" style="width:102px;text-align:center;" class="active">
+		<a href="javascript:;">新鲜事</a>
+		</li>
+		<li id="public" style="width:102px;text-align:center;">
+		<a href="javascript:;">公开新鲜事</a>
+		</li>
+		<li id="work" style="width:102px;text-align:center;">
+		<a href="javascript:;">思政新鲜事</a>
+		</li>
+	</ul>
+	<div style="border-bottom:1px solid #dcdcdc;">
+		<div id="blue_solid"></div>
+	</div>
+	<div id="feed_div" class="enter-content">	
+		<!--{/if}-->
+		<!--{template cp_feed_news}-->
+		<!--{if $filtercount == -9527}-->
+		<div class="alert alert-info" style="margin-top:10px;text-align:center;" id="feed_filter_notice_{$start}">
+			根据您的<a href="cp.php?ac=privacy&op=view">筛选设置</a>，有 $filtercount 条动态被屏蔽 (<a href="javascript:;" onclick="filter_more($start);" id="a_feed_privacy_more">点击查看</a>)
+		</div>
+		<div id="feed_filter_div_{$start}" class="enter-content" style="display:none;">
+			<!--                <h4 class="feedtime">以下是被屏蔽的动态</h4>-->
+			<ul>
+				<!--{loop $filter_list $value}-->
+				<!--{eval $value = mkfeed($value);}-->
+				<!--{template space_feed_li}-->
+
+				<!--{/loop}-->
+				<li><a href="javascript:;" onclick="filter_more($start);">&laquo; 收起</a></li>
+			</ul>
+		</div>
+		<!--{/if}-->
+		<!--{if empty($_TPL['getmore'])}-->	
+	</div>
+	<!--{if $count%$perpage==0}-->
+	<div class="alert alert-info feed_more_btn" style="width:550px;text-align:center;padding-top:20px;">
+		<a href="javascript:;" onclick="feed_more(this);"> 加载更多动态</a>
+	</div>
+	<!--{/if}-->
+	<div id="ajax_wait"></div>
+</div>
+<!--/content-->
+<div id="sidebarbox">
+	<div id="sidebar">
+
+
+		<!--{if $SubArray}-->
+		<!--{template space_olym_medal}-->
+		<!--{/if}-->
+
+
+		<div class="sidebox">
+			<h4 class="title">热门标签</h4>
+			<div id="tagcloud" style="width:186px;height:186px;">
+			</div>
+		</div>
+		<script type="text/javascript" charset="$_SC[charset]">
+			var words = [
+			<!--{if $tags}-->
+			<!--{loop $tags $key $value}-->
+				{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=$value['intend']"}
+				<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+					<!--{/loop}-->
+				<!--{/if}-->];
+				jq(function(){
+					jq('#tagcloud').jQCloud(words,{
+						delayedMode:true
+					});
+				});
+		</script>
+	<div class="sidebox">
+
+		<h4 class="title" style="margin-bottom:12px">
+			<p class="r_option" style="margin-top:2px;">
+			<a href="space.php?do=arrangement&view=all&range=oneweek">查看全部</a>
+			</p>
+			校园日历
+		</h4>
+		<div> 
+			<div class="calendarbox" id="arrangementcalendar"></div>
+		</div>
+	</div>
+	<script type="text/javascript" charset="$_SC[charset]">
+		function showcalendar(month){
+			var month = month ? "&month="+month : "";
+			ajaxget('cp.php?ac=arrangement&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->', 'arrangementcalendar');
+		}
+showcalendar();
+</script>
+<div class="sidebox">
+	<h4 class="title" style="margin-bottom:12px">
+		<p class="r_option" style="padding-right:10px;margin-top:2px;">
+		<!--{if $isLeader}-->
+		<a href="plugin.php?pluginid=complain" style="margin-right:-12px;line-height:25px;" target="_blank">我管理的</a>
+		<!--{else}-->
+		<a style="margin-right:-10px;line-height:25px;" href="space.php?uid=$space[uid]&do=feed&view=complain">我的</a>
+		<!--{/if}-->
+		</p>
+		诉求信息
+	</h4>
+	<ul class="complain" id="show_complain">
+		<div id="reply_bag">
+			<div id="scroll_top">
+				<!--{loop $Complains $key=>$value}-->
+				<li><p><a href="space.php?uid=$value[atdeptuid]">$value[atdepartment]</a> 回复了<a href="space.php?do=doing&doid=$value[doid]" target="_blank">一条用户诉求</a></p><p class="bag_replytime">$value[replytime]</p></li>
+				<!--{/loop}-->
+			</div>
+		</div>
+		<script>
+
+			var max_height=jq1("#reply_bag").height();
+			var height=max_height;
+			function scroll_totop()  {
+				jq1("#scroll_top").css({"top":height+"px"});
+				if(jq1("#scroll_top").css("top")=="-"+3*max_height+"px") {
+					jq1("#scroll_top").css({"top":max_height});
+					height=max_height;
+				}
+				height--;
+			}
+			jq1(function(){
+				scroll_totop();
+				var speed;
+				speed=setInterval(scroll_totop,40);
+				jq1("#scroll_top").hover(function(){
+					clearInterval(speed);
+				});
+				jq1("#scroll_top").mouseleave(function(){
+					scroll_totop();
+					speed=setInterval(scroll_totop,40);
+				});
+			});
+	</script>
+</ul>
+</div>
+
+<!--{if $reclist}-->
+<div class="sidebox">
+	<h4 class="title" style="margin-bottom:12px">
+		<p class="r_option" style="margin-top:2px;">
+		<a href="cp.php?ac=friend&op=find">更多推荐</a>
+		</p>
+		好友推荐 
+	</h4>
+	<ul class="avatar_list">
+		<!--{eval $count=1;}-->
+		<!--{loop $reclist $key $value}-->
+		<li>
+		<div class="avatar48">
+			<a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a>
+		</div>
+		<p>
+		<a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a>
+		</p>
+		<p>
+		<a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="friend_recommend_add_$key" class="submit" onclick="ajaxmenu(event, this.id, 1)">+ 加我</a>
+		</p>
+		</li>
+		<!--{if $count==6}-->
+		<!--{eval $count=1;}-->
+		<!--{eval break;}-->
+		<!--{/if}-->
+		<!--{eval $count++;}-->
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{/if}-->
+<!--{if $birthlist}-->
+<div class="sidebox">
+	<h4 class="title" style="margin-bottom:12px">好友生日提醒</h4>
+	<table cellpadding="2" cellspacing="4">
+		<!--{loop $birthlist $key $values}-->
+		<tr>
+			<td align="right" valign="top">
+				<!--{if $values[0]['istoday']}-->今天<!--{else}-->{$values[0][birthmonth]}-{$values[0][birthday]}<!--{/if}-->
+			</td>
+			<td style="padding-left:10px;">
+				<ul>
+					<!--{loop $values $value}-->
+					<li><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></li>
+					<!--{/loop}-->
+				</ul>
+			</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+</div>
+<!--{/if}-->
+
+<!--{if $hotpoll}-->
+<div class="sidebox">
+	<h4 class="title" style="margin-bottom:12px">
+		<p class="r_option" style="margin-top:2px;">
+		<a href="space.php?uid=$space[uid]&do=poll&view=hot">查看全部</a>
+		</p>热门投票
+	</h4>
+	<ul class="feed_news_list poll_new">
+		<!--{loop $hotpoll $key $value}-->
+		<li style="height:auto;"><a href="space.php?uid=$value[uid]&do=poll&pid=$value[pid]">$value[subject]</a></li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{/if}-->
+
+
+<!--{if $hotevents}-->
+<div class="sidebox">
+	<h4 class="title" style="margin-bottom:12px">
+		<p class="r_option" style="margin-top:2px;">
+		<a href="space.php?uid=$space[uid]&do=event&view=all">查看全部</a>
+		</p>
+		热门活动
+	</h4>
+	<ul class="attention">
+		<!--{loop $hotevents $value}-->
+		<li style="height: auto;">
+		<p style="width:190px;">
+		<a href="space.php?do=event&id=$value[eventid]">$value[title]</a>					
+		</p>
+		<p class="grey_content" style="text-align:left;">
+		<!--{if $_SGLOBAL[timestamp] > $value[endtime]}-->
+		已结束
+		<!--{else}-->
+		<!--{eval echo sgmdate("n月j日",$value[starttime])}-->
+		<!--{/if}-->&nbsp;		
+		$value[membernum] 人参加 /				
+		$value[follownum] 人关注
+		</p>
+		<p>
+		<!--{if $value[threadnum]}-->
+		<a href="space.php?do=event&id=$value[eventid]&view=thread">
+			$value[threadnum] 个话题
+		</a> &nbsp;
+		<!--{/if}-->
+		<!--{if $value[picnum]}-->
+		<a href="space.php?do=event&id=$value[eventid]&view=pic">
+			$value[picnum] 张照片
+		</a>
+		<!--{/if}-->
+		</p>
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{/if}-->
+<!--{if $hotlist}-->
+<div id="hotDoc" class="sidebox" style="border-bottom:none;">
+	<h4 class="title" style="margin-bottom:12px">		
+		<p class="r_option" style="margin-top:2px;">
+		<a href="space.php?uid=$space[uid]&do=blog&view=all&orderby=hot">查看全部</a>
+		</p>热门日志
+	</h4>
+	<ul class="news_list">
+		<!--{loop $hotlist $value}-->
+		<li style="height:auto;"><a href="space.php?uid=$value[uid]" style="font-weight:bold;">{$_SN[$value[uid]]}</a>: <a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]">$value[subject]</a></li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{/if}-->
+<!--{if $hotlist}-->
+<ul id="toFlyright" style="display:none;margin-top:-261px;">
+	<div class="sidebox" style="border-bottom:none;">
+		<h4 class="title" style="margin-bottom:12px">		
+			<p class="r_option" style="margin-top:2px;">
+			<a href="space.php?uid=$space[uid]&do=blog&view=all&orderby=hot">查看全部</a></p>
+			热门日志</h4>
+		<ul class="news_list">
+			<!--{loop $hotlist $value}-->
+			<li style="height:auto;"><a href="space.php?uid=$value[uid]" style="font-weight:bold;">{$_SN[$value[uid]]}</a>: <a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]">$value[subject]</a></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+
+</ul>
+</div>
+<!--{/if}-->
+<!--/sidebar-->    </div>
+	<!--/sidebarbox-->
+
+	<!--<script language='javascript' src="source/ajax_feed.js"></script>王楠注释27/2不知道有什么用-->
+	<script type="text/javascript">
+		jq1(function(){
+				jq1("#feed_div").children().children().last("li").addClass("feed_last");
+				if(jq1("#feed_div").html().indexOf("没有相关动态")!=-1) {
+				jq1(".feed_more_btn").css({"display":"none"});
+				}
+				});
+var next = $start;
+function feed_more(el) {
+	var x = new Ajax('XML', 'ajax_wait', 'noEffect');
+	var html = '';
+	el.innerHTML = '<img style="height:7px;" src="image/icons/loadinfo.gif"></img>';
+	var view;
+	if(jq1("#blue_solid").css("left")=="0px") {
+		view="ours";
+	}
+	else if(jq1("#blue_solid").css("left")=="102px") {
+		view="all";
+	}
+	else {
+		view="work";
+	}
+	next = next + $perpage;
+	x.get('cp.php?ac=feed&op=get&start='+next+'&view='+view+'&appid=$_GET[appid]&icon=$_GET[icon]&filter=$_GET[filter]&day=$_GET[day]', function(s){
+			html = s;
+			if(html.indexOf("没有相关动态")!=-1) {
+			el.parentNode.style.display="none";
+			el.innerHTML = '加载更多动态'; }
+			else {
+			$('feed_div').innerHTML += html;
+			jq1("#feed_div").find(".feed_last").removeClass("feed_last"); 
+			el.innerHTML = '加载更多动态';
+			jq1("#feed_div").children().children().last("li").addClass("feed_last");    
+			}
+			});
+}
+
+function filter_more(id) {
+	if($('feed_filter_div_'+id).style.display == '') {
+		$('feed_filter_div_'+id).style.display = 'none';
+		$('feed_filter_notice_'+id).style.display = '';
+	} else {
+		$('feed_filter_div_'+id).style.display = '';
+		$('feed_filter_notice_'+id).style.display = 'none';
+	}
+}
+
+function close_feedbox() {
+	var x = new Ajax();
+	x.get('cp.php?ac=common&op=closefeedbox', function(s){
+			$('feed_box').style.display = 'none';
+			});
+}
+
+var elems = selector('li[class~=magicthunder]', $('feed_div')); 
+for(var i=0; i<elems.length; i++){		
+	magicColor(elems[i]); 
+}
+
+
+</script>
+<script language="javascript"> 
+	var showInfo = new function () { 
+		this.showLayer = function (e, id) { 
+			var p = window.event ? [event.clientX, event.clientY] : [e.pageX, e.pageY]; 
+			with (document.getElementById(id).style) { 
+				display = "block"; 
+				left = p[0] + 20 + "px"; 
+				top = p[1] + 20 + "px"; 
+			} 
+
+		}; 
+		this.hideLayer = function (e, id) { 
+			with (document.getElementById(id).style) { 
+				display = "none"; 
+			} 
+		}; 
+	}; 
+
+	function showdetailinfo(irecommendedid,iusername,irecommendid,icause,irealname)
+	{
+
+		var xmlHttp;
+		function createXMLHttpRequest() {
+			var xmlreq = false;  
+			if (window.XMLHttpRequest) {  
+				xmlreq = new XMLHttpRequest();
+				} else if (window.ActiveXObject) {
+				try { 
+					xmlreq = new ActiveXObject("Msxml2.XMLHTTP"); 
+					} catch (e1) {
+					try {
+						xmlreq = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e2) {}
+				}
+			}
+
+			return xmlreq;
+		}
+
+		var url="./source/recommend.php";
+		var recommendedid=irecommendedid;
+		var recommendid=irecommendid;
+
+		var cause=encodeURIComponent(icause);
+		var realname=encodeURIComponent(irealname);
+		var postStr;
+		postStr="recommendid="+recommendid+"&recommendedid="+recommendedid+"&cause="+cause+"&realname="+realname;
+		url=url+"?"+postStr;
+		xmlHttp=createXMLHttpRequest();
+		xmlHttp.onreadystatechange=function() {
+
+			if(xmlHttp.readyState==4 && xmlHttp.status==200) {
+				//alert(document.getElementById(y));
+				document.getElementById(iusername).innerHTML=xmlHttp.responseText;
+			}
+		}
+		//alert(url);
+		xmlHttp.open("GET",url,true);
+		xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		xmlHttp.send();
+
+		var oli = document.getElementById(irecommendedid);
+		var ospan = document.getElementById(iusername);
+		oli.onmouseover = function() {
+			ospan.style.display = "block";
+		}
+
+		oli.onmouseout = function() {
+			ospan.style.display = "none";
+		}	
+
+		ospan.onmouseover = function() {
+			this.style.display = "block";
+		}
+
+		ospan.onmouseout = function() {
+			this.style.display = "none";
+		}
+
+	}
+</script>
+
+
+<!--{eval my_checkupdate();}-->
+<!--{eval my_showgift();}-->
+<!--{template footer}-->
+<!--{/if}-->
+
+<div class="name_card"></div>

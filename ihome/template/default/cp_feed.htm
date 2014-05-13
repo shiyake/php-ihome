@@ -1,0 +1,125 @@
+<!--{template header}-->
+<script language="javascript" src="source/do_comment.js" charset="utf-8"></script>
+<!--{if $_GET['op'] == 'getcomment'}-->
+<div class="fc">
+	<form id="feedform_{$feedid}" method="post" action="cp.php?ac=feed&feedid=$feedid" class="form form-comment">
+		<input type="text" id="feedmessage_{$feedid}" 
+				class="form-control t_input input-sm" value="评论..." 
+				style="width:81%;" name="message" 
+				onclick="jQuery('#feedmessage_{$feedid}').css({'color':'#333'});if(this.value=='评论...'){ this.value='';}" 
+				onfocus="at()"/>
+                <a href="javascript:;" id="face_{$feedid}" class="drop_face comment_face"><div></div></a>
+        <div class="drop_face_menu" data-target="feedmessage_{$feedid}"></div>
+       	<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+        <input type="hidden" name="commentsubmit" value="true" />
+		<input type="button" name="feedbutton" 
+        id="feedbtn_{$feedid}"			class="comment_click_btn btn submit btn-comments"		value="评论">
+		<div style="position:relative;left:314px;top:-90px;display:none;" id="turn_post"><span id="note_{$feedid}"></span><label><input type="checkbox" name="withshare" value="true" />同时转发</label>
+		</div>
+        <span id="__feedform_{$feedid}" style="display:none"></span>
+        		<input type="hidden" name="refer" class="referform" value="space.php?do=hot&id=$feedid">
+		<input type="hidden" name="formhash" class="hashform" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<div class="comments_list">
+	<!--{if !empty($list)}-->
+	<ul id="comment_ol_$feedid">
+		<!--{else}-->
+		<ul id="comment_ol_$feedid">
+            <!--{/if}-->
+            <!--{eval $i=0;}-->
+            <!--{eval $l=count($list);}-->
+            <!--{loop $list $value}-->
+            <!--{eval $i=$i+1}-->
+			<!--{template space_comment_li}-->
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{if $multi}--><div class="page">$multi</div><!--{/if}-->
+	<!--{elseif $_GET['op'] == 'getfeed'}-->
+	<div class="feed">
+		<div id="feed_div">
+			<ul>
+				<!--{eval $_TPL['hidden_menu']=1;$_TPL['hidden_hot']=1;$_TPL['hidden_time']=1;$_TPL['hidden_more']=1;}-->
+				<!--{loop $feedlist $value}-->
+				<!--{eval $value=mkfeed($value);}-->
+				<!--{template space_feed_li}-->
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<!--{if $feed_multi}--><div class="page">$feed_multi</div><!--{/if}-->
+	<!--{elseif $_GET['op'] == 'menu'}-->
+	<!--{if $feed[uid]==$_SGLOBAL[supe_uid]}-->
+	<!--<h1 style="margin:0;">删除动态</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+	<div class="popupmenu_inner" id="__feedform_{$feedid}" style="margin-bottom:-13px;">
+		<form method="post" id="feedform_{$feedid}" name="feedform_{$feedid}" action="cp.php?ac=feed&op=delete&feedid=$feedid">
+			<p style="margin-top: 0px">确定删除该动态吗？</p>
+			<div class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<!--{if $_SGLOBAL[inajax]}-->
+			<input type="hidden" name="feedsubmit" value="true" />
+			<button name="feedsubmit_btn" type="button" class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('feedform_{$feedid}', 'feed_delete', 2000)">确定</button>
+			<!--{else}-->
+			<button name="feedsubmit" type="submit" value="true"
+					class="btn btn-sm btn-comments" >确定</button>
+			<!--{/if}-->
+			<!--{if checkperm('managefeed')}-->
+			<a href="admincp.php?ac=feed&op=edit&feedid=$feedid" target="_blank">编辑</a>
+			<!--{/if}-->
+			</div>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>-->
+	<h1 style="margin:0;">删除动态</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+	<div class="popupmenu_inner" id="__feedform_{$feedid}">
+		<form method="post" id="feedform_{$feedid}" name="feedform_{$feedid}" action="cp.php?ac=feed&op=delete&feedid=$feedid">
+			<p style="margin-top: 0px;">确定删除该动态吗？</p>
+			<div class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<!--{if $_SGLOBAL[inajax]}-->
+			<input type="hidden" name="feedsubmit" value="true" />
+			<button name="feedsubmit_btn" type="button" 
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('feedform_{$feedid}', 'feed_delete', 2000)">确定</button>
+			<!--{else}-->
+			<button name="feedsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
+			<!--{/if}-->
+			<!--{if checkperm('managefeed')}-->
+			<a href="admincp.php?ac=feed&op=edit&feedid=$feedid" target="_blank">编辑</a>
+			<!--{/if}-->
+			</div>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<!--{else}-->
+	<h1 style="margin:0;">屏蔽动态</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+	<div class="popupmenu_inner" id="__feedform_{$feedid}">
+		<form method="post" id="feedform_{$feedid}" name="feedform_{$feedid}" action="cp.php?ac=feed&op=ignore&icon=$feed[icon]">
+			<div class="btn_line">
+			<input type="radio" name="ignore_type" id="uid1" value="black_feed" checked> <label for="uid1">屏蔽该好友的动态</label>
+			<br>
+			<input type="radio" name="ignore_type" id="uid0" value="black_all"> <label for="uid0">拉黑该好友</label>
+			<br>
+			<input type="hidden" name="feed_uid" value="$feed[uid]"/>
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+			<!--{if $_SGLOBAL[inajax]}-->
+			<input type="hidden" name="feedignoresubmit" value="true" />
+			<button name="feedignoresubmit_btn" type="button" class="btn btn-sm btn-comments submit" value="true" onclick="ajaxpost('feedform_{$feedid}','__ihome_ajax_reload',2000)">确定</button>
+			<!--{else}-->
+			<button name="feedignoresubmit" type="submit" class="btn btn-sm btn-comments submit" value="true">确定</button>
+			<!--{/if}-->
+			<!--{if checkperm('managefeed')}-->
+			<a href="admincp.php?ac=feed&op=edit&feedid=$feedid" target="_blank">编辑</a>
+			<!--{/if}-->
+			</div>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<!--{/if}-->
+	<!--{/if}-->
+	<!--{template footer}-->

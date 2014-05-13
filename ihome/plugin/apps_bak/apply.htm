@@ -1,0 +1,225 @@
+<!--{template plugin/apps/header}-->  	
+    <div class="main">
+    	<!--{template plugin/apps/left}-->
+        <div class="yingyong_right">
+        	<!--{template plugin/apps/right_nav}-->
+            <div class="clear"></div>
+            <script type="text/javascript">
+			$(function(){
+				$(".yingyong_c span>a:first").addClass("tabActive");
+				$(".yingyong_c ul").not(":first").hide();
+				$(".yingyong_c span>a").unbind("click").bind("click", function(){
+					$(this).siblings("a").removeClass("tabActive").end().addClass("tabActive");
+					var index = $(".yingyong_c span>a").index( $(this) );
+					$(".yingyong_c ul").eq(index).siblings(".yingyong_c ul").hide().end().fadeIn("fast");
+			   });
+			   
+			   
+			   $("#WSC").click(function(){
+					$("#for_rp").show();
+					$("#for_wsc").show();
+				});
+				$("#UAC").click(function(){
+					$("#for_rp").show();
+					$("#for_wsc").hide();
+				});
+				$("#RP").click(function(){
+					$("#for_rp").hide();
+				});
+				
+				
+			});
+			function isexist(id){
+				var names = $("#"+id).val();
+				$.post("plugin.php?pluginid=apps&ac=apply&ajax=1",{name:names},
+				function(data){
+					if(data!=0){
+						alert('该名称已存在~!');
+						$("#"+id).focus();
+					}
+				});
+			}
+			</script>
+
+            <div class="yingyong_c">
+            
+				<span class="yingyong_tab clear">
+					<a href="javascript:" class="margin_left_100">校内应用</a>
+                    <a href="javascript:">第三方应用</a>
+                </span><!-- end yingyong_tab -->
+
+                <ul>
+                    <div class="yingyong_req">
+					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
+                        <div class="yingyong_t">校内应用</div><!-- end yingyong_t -->
+                        <div class="clear height_10"></div>
+                        
+                        <div class="left inline width_100 text_align_right">应用名称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="name1" onblur="isexist('name1')" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;少于20字</div>
+                        <div class="clear height_10"></div>
+                        
+                        <div class="left inline width_100 text_align_right">应用LOGO&nbsp;&nbsp;</div>
+                        <div class="left"><input  type="file" name="logo" id="logo" style="border:none;" >120*120像素的图片</div>
+                        <div class="clear height_10"></div>
+                        
+						<div class="left inline width_100 text_align_right">应用网址&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="url" name="url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">所属类别&nbsp;&nbsp;</div>
+                        <div class="left">
+							<select name="type">
+							  <option selected="selected" value="0">请选择</option>
+							  <option value="1">教学类</option>
+							  <option value="2">科研类</option>
+							  <option value="3">财务类</option>
+							  <option value="4">人力资源类</option>
+							  <option value="5">资产类</option>
+							  <option value="6">生活服务类</option>
+							  <option value="7">其他</option>
+							</select>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">适用对象&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <label><input type="checkbox" name="undergraduate" value ="1" >本科生</label>
+							<label><input type="checkbox" name="postgraduate" value ="1" >研究生</label>
+							<label><input type="checkbox" name="teacher" value ="1" >教职工</label>
+							<label><input type="checkbox" name="alumnus" value ="1" >校友</label>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">应用描述&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="desc"  name="desc" style="width:220px;" rows="4" class="border_input"></textarea>
+                            &nbsp;&nbsp;&nbsp;不超过220字
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                        <div class="neirong_5">
+                            <input type="hidden" name="category" value="1" />
+							<input type="hidden" name="appsapply" value="true" />
+							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                     </form>  
+                    </div><!-- end yingyong_req -->
+                </ul>
+                <ul>
+                    <div class="yingyong_req">
+					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
+                        <div class="yingyong_t">第三方应用</div><!-- end yingyong_t -->
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">接入类型&nbsp;&nbsp;</div>
+                        <div class="left">
+						<label>
+						<input type="radio" name="iauthtype" id="WSC" checked class="iauthtype-bt" action-for="for_WSC" value="WSC" />
+						Web Site Client</label>
+						<label>
+						<input type="radio" name="iauthtype" id="UAC" class="iauthtype-bt" action-for="for_UAC" value="UAC" />
+						User Agent Client</label>
+						<label>
+						<input type="radio" name="iauthtype" id="RP" class="iauthtype-bt" action-for="for_RP" value="RP" />
+						Resource Provider</label>
+						</div>
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">应用中文名称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="name3" onblur="isexist('name3')" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;不超过20字</div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">应用英文简称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="iauth_name" onblur="isexist('iauth_name')" name="iauth_name" style="width:220px;" class="border_input">数字,字母,下划线组成,少于48字符</div>
+                        <div class="clear height_10"></div>
+						
+                        <div id="for_rp">
+                        <div class="left inline width_100 text_align_right">应用LOGO&nbsp;&nbsp;</div>
+                        <div class="left"><input  type="file" name="logo" id="logo" style="border:none;" >120*120像素的图片</div>
+                        <div class="clear height_10"></div>
+                        
+						<div id="for_wsc">
+						<div class="left inline width_100 text_align_right">会话初始化网址</div>
+                        <div class="left"><input type="text" id="url" name="url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">授权回调网址&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="back_url" name="back_url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">登录回调网址 &nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="app_url" name="app_url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						</div>
+						
+						<div class="left inline width_100 text_align_right">所属类别&nbsp;&nbsp;</div>
+                        <div class="left">
+							<select name="type">
+							  <option selected="selected" value="0">请选择</option>
+							  <option value="1">教学类</option>
+							  <option value="2">科研类</option>
+							  <option value="3">财务类</option>
+							  <option value="4">人力资源类</option>
+							  <option value="5">资产类</option>
+							  <option value="6">生活服务类</option>
+							  <option value="7">其他</option>
+							</select>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">适用对象&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <label><input type="checkbox" name="undergraduate" value ="1" >本科生</label>
+							<label><input type="checkbox" name="postgraduate" value ="1" >研究生</label>
+							<label><input type="checkbox" name="teacher" value ="1" >教职工</label>
+							<label><input type="checkbox" name="alumnus" value ="1" >校友</label>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">所需API&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <!--{if $apis}-->
+							<!--{loop $apis $api}-->
+							<label><input type="checkbox" name="apis" onclick="getapi()" value="$api[id]" />$api[name]</label><br />
+							<!--{/loop}-->
+							<!--{/if}-->
+							<input type="hidden" name="api" id="api" value="" />
+							<script>
+							function getapi(){
+								var api_value = '0';    
+								$('input[name="apis"]:checked').each(function(){    
+									api_value += ',' + $(this).val();    
+								});
+								$("#api").val(api_value);
+							}
+							</script>
+                        </div>
+                        <div class="clear height_10"></div>
+						</div>
+                        <div class="left inline width_100 text_align_right">应用描述&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="desc"  name="desc" style="width:220px;" rows="4" class="border_input"></textarea>
+                            &nbsp;&nbsp;&nbsp;不超过220字
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                        <div class="neirong_5">
+                            <input type="hidden" name="category" value="3" />
+							<input type="hidden" name="appsapply" value="true" />
+							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                     </form>  
+                    </div><!-- end yingyong_req -->
+                </ul>                
+            </div><!-- end yingyong_c -->
+            
+        </div><!-- end yingyong_right -->
+    </div><!-- end main -->
+
+<!--{template plugin/apps/footer}-->

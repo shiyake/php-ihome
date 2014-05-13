@@ -1,0 +1,71 @@
+<!--{eval $_TPL['titles'] = array($mtag['tagname'], $mtag['title'], '讨论区');}-->
+<!--{template header}-->
+<h4 class="title title10" style="margin-left:20px;">
+	<img class='pic10'src="image/icons/icon_group.png">$mtag[title] - $mtag[tagname]
+</h4>
+
+<div class="tabs_header"style="margin-right:20px;">
+	<ul class="tabs">
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]"><span>首页</span></a></li>
+		<li$actives[list]><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=list"><span>讨论区</span></a></li>
+		<li$actives[digest]><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=digest"><span>精华区</span></a></li>
+		<!--{if $eventnum}-->
+		<li$actives[event]><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=event"><span>小组活动</span></a></li>
+		<!--{/if}-->
+		<li$actives[member]><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=member"><span>成员列表</span></a></li>
+		<!--<!--{if empty($mtag['ismember']) && $mtag['joinperm'] < 2}-->
+		<li class="null"><a href="cp.php?ac=mtag&op=join&tagid=$mtag[tagid]" id="mtag_join_$mtag[tagid]" onclick="ajaxmenu(event, this.id)">加入该小组</a></li>	
+		<!--{elseif $mtag['allowpost']}-->
+		<li class="null"><a href="cp.php?ac=thread&tagid=$mtag[tagid]">发起新话题</a></li>
+        <!--{/if}-->-->
+	</ul>
+</div>
+
+<!--{if $searchkey}-->
+<div class="h_status">以下是搜索话题 <span style="color:red;font-weight:bold;">$searchkey</span> 结果列表</div>
+<!--{/if}-->
+
+<!--{if $list}-->
+<div class="topic_list" style="margin-left:30px;margin-right:30px;">
+	<table cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<td class="subject">主题</td>
+				<!--{if !$mtag}--><td class="mtag">小组</td><!--{/if}-->
+				<td class="author">作者 (回应/阅读)</td>
+				<td class="lastpost">最后更新</td>
+			</tr>
+		</thead>
+		<tbody>
+			<!--{loop $list $key $value}-->
+				<!--{eval $magicegg = ""}-->							
+				<!--{eval if($value[magicegg]) for($i=0; $i<$value[magicegg]; $i++) $magicegg .= '<img src="image/magic/egg/'.mt_rand(1,6).'.gif" />';}-->
+			<tr<!--{if $key%2==1}--> class="alt"<!--{/if}-->>
+				<td class="subject">
+				<!--{if $value[displayorder]}--> [顶] <!--{/if}-->
+				<!--{if $value[digest]}--> [精] <!--{/if}-->
+				<!--{if $value[eventid]}--> [活] <!--{/if}-->
+				$magicegg
+				<a href="space.php?uid=$value[uid]&do=thread&id=$value[tid]" <!--{if $value[magiccolor]}--> class="magiccolor$value[magiccolor]"<!--{/if}-->>$value[subject]</a>
+				<!--{if $value[hot]}-->
+				<br><span class="gray">$value[hot] 人推荐</span>
+				<!--{/if}-->
+				</td>
+				<!--{if !$mtag}--><td class="mtag"><a href="space.php?do=mtag&tagid=$value[tagid]">$value[tagname]</a></td><!--{/if}-->
+				<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br><em>$value[replynum]/$value[viewnum]</em></td>
+				<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+			</tr>
+			<!--{/loop}-->
+		</tbody>
+	</table>
+</div>	
+<div class="page">$multi</div>
+<!--{else}-->
+<p class="no-content-tip">
+    <img src="image/icons/no_status.png">
+    <br>
+    暂无话题
+</p>
+<!--{/if}-->
+
+<!--{template footer}-->

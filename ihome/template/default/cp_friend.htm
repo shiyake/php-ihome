@@ -1,0 +1,1578 @@
+<!--{template header}-->
+
+<style>
+#content {
+    min-height: 0px;
+}
+
+#mainareafg {
+    min-height: 970px;
+}
+</style>
+
+<!--{if $op == 'request'}-->
+<script>
+function __reloadAfter(f) {
+    return function() {
+        f.call(window, arguments);
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+}
+var friend_delete = __reloadAfter(friend_delete);
+var myfriend_post = __reloadAfter(myfriend_post);
+</script>
+<!--{/if}-->
+
+<!--{if $op == 'syn' || $op == 'find' || $op == 'search' || $op == 'search2' || $op == 'group' || $op == 'request' || $op == 'recommend' }-->
+
+<h4 style="margin-left: 20px;" class="title title30">
+    <!--{if $op == 'request'}-->
+        <img class="pic10" src="image/icons/icon-friend-request-black.png">好友请求
+        <!--{if $list}-->
+        <div style="padding-top: 12px;" class="r_option">
+		    <a href="cp.php?ac=friend&op=ignore&confirm=1&key=$space[key]" 
+                onclick="return confirm('您确定要忽略所有的好友申请吗？');">忽略所有好友申请(慎用)</a>
+		    | <a href="cp.php?ac=friend&op=addconfirm&key=$space[key]">批准全部申请</a>
+	    </div>
+        <!--{/if}-->
+    <!--{else}-->
+        <img class="pic10" src="image/icons/icon-addfriend-black.png">好友
+    <!--{/if}-->
+</h4>
+
+<script type="text/javascript">
+    var friend_request_sent = function(element, result) {
+        if (result == 0) {
+            var friendObj = document.getElementById(element + '_callback');
+            friendObj.innerHTML = '好友请求已发送';
+            friendObj.style['color'] = '#777777';
+        }
+    };
+</script>
+
+<!--{if $op != 'request'}-->
+<script>
+
+</script>
+<div style="margin-left: 20px;" class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
+		<li$actives[search2]><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
+		<!--{if empty($_SCONFIG['closeinvite'])}-->
+		<li><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
+		<!--{/if}--> 
+		<!--<li$actives[request]><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->
+		<!--<li><a href="space.php?do=top"><span>排行榜</span></a></li>-->
+		<!--{if $op=='group'}-->
+		<li$actives[group]><a href="cp.php?ac=friend&op=group"><span>好友分组</span></a></li>
+		<!--{/if}-->
+	</ul>
+</div>
+<!--{/if}-->
+
+<!--{/if}-->
+
+<style>
+    #mainareafg {
+        border-left: 1px solid #dcdcdc;
+        min-height: 980px;
+    }
+</style>
+
+<!--{if $op == 'search2'}-->
+<style>
+    #content {
+        border-left: none;
+    }
+
+    .search_field {
+        padding-left: 0px;
+    }
+</style>
+<!--{/if}-->
+
+<!--{if $op =='ignore'}-->
+
+<h1>删除好友</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__friendform_{$uid}">
+<form method="post" id="friendform_{$uid}" name="friendform_{$uid}" action="cp.php?ac=friend&op=ignore&uid=$uid&confirm=1">
+	<p>确定删除好友关系吗？</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="friendsubmit" value="true" />
+		<button name="friendsubmit_btn" type="button" class="btn btn-comments btn-sm submit" value="true" onclick="ajaxpost('friendform_{$uid}', 'friend_delete', 2000)">确定</button>
+		<!--{else}-->
+		<button name="friendsubmit" type="submit" class="btn btn-comments btn-sm submit" value="true">确定</button>
+		<!--{/if}-->
+	</p>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $op == 'search2'}-->
+<div id="content" style="width:620px;margin:0px;border-right:none">
+<!--{if !empty($_GET['searchsubmit'])}-->
+    <!--{if empty($list)}-->
+        <div style="text-align:center; color: #888;">
+            <img src="image/icons/no_status.png">
+            <br>
+            没有找到符合条件的用户。
+        </div>
+    <!--{/if}-->
+<!--{else}-->
+    <!--{if empty($list)}-->
+        <div style="text-align:center; color: #888;">
+            <img src="image/icons/no_status.png">
+            <br>
+            没有合适的用户推荐给您了。
+        </div>
+    <!--{/if}-->
+<!--{/if}-->
+<!--{if $list}-->
+    <style>
+        .big_avatar_list {
+            padding: 0px;
+            margin-left: -45px;
+            width: 625px;
+        }
+
+        .big_avatar_list li {
+            padding: 8px 0px;
+            margin-left: 45px;
+            width: 160px;
+            box-sizing: content-box;
+        }
+
+        .big_avatar_list li .card {
+            border-radius: 15px;
+            width: 160px;
+        }
+
+        .big_avatar_list li .card .avatar160 img {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            width: 158px;
+            height: 158px;
+        }
+
+        .big_avatar_list li .card .avatar160 {
+            width: auto;
+        }
+
+        .big_avatar_list li .card .name{
+	        line-height: 1.42;
+	        color: #01B6F9;
+            text-align: center;
+            font-size: 14px;
+            padding: 6px 6px 0px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .big_avatar_list li .card p {
+            margin-bottom: 0px;
+            text-align: center;
+        }
+
+        .big_avatar_list li .card .areabtn {
+            background: #ebebeb;
+            font-size: 12px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    </style>
+
+    <div>
+        <ul class="big_avatar_list clearfix">
+             <!--{loop $list $key $value}-->                     
+                 <li>
+                     <div class="card">
+                        <div class="avatar160"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid], big)}--></a></div>
+                        <div class="name">
+						    <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>
+                        </div>
+                        <!--{if strcmp($value['res'],'many_same_friend')==0 }-->
+                        <p class="reason" title="{$value['commonfriendstr']}">$value['commonfriendcount']个共同好友</a>
+                        <!--{elseif strcmp($value['res'],'same_class_edu')==0 }-->
+                        <p class="reason" title="$value['commonclassnum']">你们可能是同学</p>
+                        <!--{elseif strcmp($value['res'],'same_class_work')==0 }-->
+                        <p class="reason" title="$value['commonclassnum']">你们可能是同事</p>
+                        <!--{elseif strcmp($value['res'],'same_hometown')==0 }-->
+                        <p class="reason" title="$value['commonhometown']">你们可能是老乡</p>
+                        <!--{else}--> 
+                        <p class="reason">0个共同好友</p>
+                        <!--{/if}-->
+                        <!--{if $value['status'] == -1}-->
+                        <div id='addform_$value['uid']_callback' class="areabtn"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></div>
+                        <!--{elseif $value['status'] == 0}-->
+                        <div class="areabtn" style="color:#888;">好友请求已发送</div>
+                        <!--{else}-->
+                        <div class="areabtn" style="color:#888;">已加为好友</div>
+                        <!--{/if}-->
+                    </div>
+                </li>
+            <!--{/loop}-->
+        </ul>
+        <!--{if empty($_GET['searchsubmit'])}-->
+        <div style="padding-right:20px; text-align:center;">
+            <a class="icon_change" href="cp.php?ac=friend&op=search2">换一批</a>
+        </div>
+        <!--{/if}-->
+    </div>
+    <div class="friend-pagination" style="clear:both; padding-left:16px; padding-right:24px;">
+    <style>
+    .friend-pagination a.disabled:hover {
+        text-decoration: none;
+        cursor: default;
+    }
+    </style>
+	<div class="page">$multi</div>
+
+    <!--
+	<!--{if !empty($_GET['searchsubmit']) && $total > 9}-->
+	    <!--{if $prev_page >= 0}-->
+		<a  style="float:left;" href="/cp.php?ac=friend&op=search2&sex=$_GET['sex']&age=$_GET['age']&marry=$_GET['marry']&birthprovince=$_GET['birthprovince']&birthcity=$_GET['birthcity']&subtitle=$_GET['subtitle']&startyear=$_GET['startyear']&searchsubmit=$_GET['searchsubmit']&p=$prev_page">上一页</a>
+	    <!--{else}-->
+		<a class="disabled" style="float:left;color:gray;" href="javascript:void(0);">上一页</a>
+	    <!--{/if}-->
+	    <!--{if $next_page >= 0}-->
+		<a style="float:right" href="/cp.php?ac=friend&op=search2&sex=$_GET['sex']&age=$_GET['age']&marry=$_GET['marry']&birthprovince=$_GET['birthprovince']&birthcity=$_GET['birthcity']&subtitle=$_GET['subtitle']&startyear=$_GET['startyear']&searchsubmit=$_GET['searchsubmit']&p=$next_page">下一页</a>
+	    <!--{else}-->
+		<a class="disabled" style="float:right;color:gray;" href="javascript:void(0);">下一页</a>
+	    <!--{/if}-->
+	<!--{/if}-->
+    -->
+    </div>
+<!--{/if}-->
+</div>
+<div id="sidebar" style="width:179px;">
+    <style>
+    #sidebar select {
+        margin-right: 0px;
+    }
+    </style>
+    <h4 style="margin-bottom: 0px;">
+        查找好友
+    </h4>
+    <div>
+	<form class="search_fields" action="cp.php" method="get" 
+        style="background: transparent">
+            <div class="search_field">
+                <label for="searchkey">找谁</label>
+            </div>
+            <div>
+                <input id="searchkey" type='text' 
+                    style="width: 150px;" name="searchkey"
+                    placeholder="用户名/真实姓名/UID" 
+                    value="{$_GET['searchkey']}"/>
+            </div>
+            <div class="search_field" ><label for="sex">性别</label>
+            </div>
+            <div>
+                <select id="sex" name="sex" style="width:150px;">
+                    <option value=0>选择性别</option>
+                    <option value=1>男</option>
+                    <option value=2>女</option>
+                </select>
+            </div>
+            <div class="search_field"><label for="age">年龄</label>
+            </div>
+            <div>
+                <select id="age" name="age" style="width:150px;">
+                    <option value=0>选择年龄段</option>
+                    <option value=1>小于15岁</option>
+                    <option value=2>16-22岁</option>
+                    <option value=3>23-30岁</option>
+                    <option value=4>31-40岁</option>
+                    <option value=5>大于40岁</option>
+                </select>
+            </div>
+            <div class="search_field"><label for="marry">婚恋状态</label>
+            </div>
+            <div>
+                <select id="marry" name="marry" style="width:150px;;">
+                    <option value=0>选择婚恋状态</option>
+                    <option value=1>单身</option>
+                    <option value=2>非单身</option>
+                </select>
+            </div>
+            <div class="search_field">
+                <label for="search_birthprovince">家乡</label>
+            </div>
+            <div id="search_birthplace">
+                <style>
+                    #birthprovince {
+                        width: 150px;
+                        display: block;
+                        margin-bottom: 8px;
+                    }
+
+                    #birthcity {
+                        width: 150px;
+                        display: block;
+                    }
+                </style>
+            </div>
+            <script type="text/javascript" src="source/script_city.js"></script>
+            <script type="text/javascript">
+                showprovince('birthprovince', 'birthcity', "{$_GET['birthprovince']}", 'search_birthplace');
+                showcity('birthcity', "{$_GET['birthcity']}", 'birthprovince', 'search_birthplace');
+            </script>
+            <div class="search_field">
+                <label for="subtitle">院系</label>
+            </div>
+            <div>
+                <select id="subtitle" name="subtitle" style="width:150px;">
+                    <option value=0>选择院系</option>
+                    <option value="材料科学与工程学院">材料科学与工程学院</option>
+                    <option value="电子信息工程学院">电子信息工程学院</option>
+                    <option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+                    <option value="能源与动力工程学院">能源与动力工程学院</option>
+                    <option value="航空科学与工程学院">航空科学与工程学院</option>
+                    <option value="计算机学院">计算机学院</option>
+                    <option value="机械工程及自动化学院">机械工程及自动化学院</option>
+                    <option value="经济管理学院">经济管理学院</option>
+                    <option value="数学与系统科学学院">数学与系统科学学院</option>
+                    <option value="生物与医学工程学院">生物与医学工程学院</option>
+                    <option value="人文社会科学学院（公共管理学院）">人文社会科学学院</option>
+                    <option value="外国语学院">外国语学院</option>
+                    <option value="交通科学与工程学院">交通科学与工程学院</option>
+                    <option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+                    <option value="宇航学院">宇航学院</option>
+                    <option value="飞行学院">飞行学院</option>
+                    <option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+                    <option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+                    <option value="法学院">法学院</option>
+                    <option value="软件学院">软件学院</option>
+                    <option value="继续教育学院">继续教育学院</option>
+                    <option value="高等工程学院">高等工程学院</option>
+                    <option value="中法工程师学院">中法工程师学院</option>
+                    <option value="国际学院">国际学院</option>
+                    <option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+                    <option value="化学与环境学院">化学与环境学院</option>
+                    <option value="思想政治理论学院">思想政治理论学院</option>
+                </select>
+            </div>
+            <div class="search_field"><label for="startyear">入学年份</label>
+            </div>
+            <div>
+                <select id="startyear" name="startyear" style="width:150px;">
+                    <option value=0>选择入学年份</option>
+                </select>
+            </div>
+            <script type="text/javascript">
+                var selObj = document.getElementById('startyear');
+                var index = 1;
+                for (year=2013;year >= 1953; year--) {
+                    selObj.options[index] = new Option(year, year);
+                    index++;
+                }
+                
+                if ("{$_GET['searchsubmit']}") {
+                    document.getElementById('sex').value="{$_GET['sex']}";
+                    document.getElementById('age').value="{$_GET['age']}";
+                    document.getElementById('marry').value="{$_GET['marry']}";
+                    document.getElementById('subtitle').value="{$_GET['subtitle']}";
+                    document.getElementById('startyear').value="{$_GET['startyear']}";
+                }
+            </script>
+            <input type="hidden" name="ac" value="friend">
+            <input type="hidden" name="op" value="search2">
+            <div style="margin-top: 10px;">
+                <input type="submit" name="searchsubmit" 
+                    style="padding-left: 16px; padding-right: 16px;"
+                    value="查找" class="btn btn-comments submit" />
+            </div>
+	</form>
+    </div>
+</div>
+<!--{elseif $op == 'recommend'}-->
+
+	<!--{if empty($list)}-->
+		<div class="c_form">没有找到相关用户。
+		<!--{else}-->
+		<div style="padding:0 0 20px 0;">以下是查找到的用户列表(最多显示500个)，您还可以<a href="cp.php?ac=friend&op=search">换个搜索条件试试</a>。</div>
+		<!--{template space_list}-->
+	<!--{/if}-->
+
+
+<!--{elseif $op == 'find'}-->
+<!-- 修改-->
+
+
+
+
+
+<!--{if $friendlist}-->
+<div>
+	
+	<div>
+		<div><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('zaixiao');">好友的好友</a></div>
+	</div>
+	<div id="s_zaixiao" style="display:none;">
+
+	
+		<ul class="avatar_list">
+			<!--{loop $friendlist $key $value}-->
+			<li>
+				<div id="friend_$value[uid]" style="text-align:center;">
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('friend_$value[uid]','friend_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="friend_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+
+
+		</div>	
+	</div>
+	<!--{/if}-->
+	
+	
+<!--{if $sameclasslist}-->
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('sameclass');">同一班级</a></div>
+	</div>
+	<div id="s_sameclass" style="display:none;">
+		<ul class="avatar_list">
+			<!--{loop $sameclasslist $key $value}-->
+			<li>
+				<div id="sameclass_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('sameclass_$value[uid]','sameclass_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$value[username]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="sameclass_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+			 </span>
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+	
+	<!--{if $recommendcolleaguelist}-->
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('samecompany');">同一个单位</a></div>
+	</div>
+	<div id="s_samecompany" style="display:none;">
+
+		<ul class="avatar_list">
+			<!--{loop $recommendcolleaguelist $key $value}-->
+			<li>
+				<div id="recommendcolleague_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('recommendcolleague_$value[uid]','recommendcolleague_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="recommendcolleague_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+	<!--{if $samecitylist}-->	
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('samecity');">同一个城市</a></div>
+	</div>
+	<div id="s_samecity" style="display:none;">
+		<ul class="avatar_list">
+			<!--{loop $samecitylist $key $value}-->
+			<li>
+				<div id="samecity_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('samecity_$value[uid]','samecity_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="samecity_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>	
+	<!--{/if}-->
+	
+	<!--{if $villagerlist}-->
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('villager');">老乡</a></div>
+	</div>
+	<div id="s_villager" style="display:none;">
+		<ul class="avatar_list">
+			<!--{loop $villagerlist $key $value}-->
+			<li>
+				<div id="villager_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('villager_$value[uid]','villager_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="villager_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+	
+	
+	<!--{if $nearlist}-->	
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('near');">在附近的人</a></div>
+	</div>
+	<div id="s_near" style="display:none;">
+		<ul class="avatar_list">
+			<!--{loop $nearlist $key $value}-->
+			<li>
+				<div id="near_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('near_$value[uid]','near_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="near_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+	<!--{if $onlinelist}-->	
+	<div>
+	<div>
+	<div><img src="image/search.gif" align="absmiddle">
+		<a href="javascript:;" onclick="showtbody('online');">当前在线</a></div>
+	</div>
+	<div id="s_online" style="display:none;">
+		<ul class="avatar_list">
+			<!--{loop $onlinelist $key $value}-->
+			<li>
+				<div id="online_$value[uid]" >
+			 	<a href="space.php?uid=$value[uid]" 
+				onmouseover ="showdetailinfo('online_$value[uid]','online_$_SN[$value[uid]]','$space[uid]','$value[cause]','$value[realname]')" style="margin:auto;"><!--{avatar($value[uid],small)}--></a>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">加为好友</a></p>
+				
+					<span id="online_$_SN[$value[uid]]"  style="display:none;border:1px solid #999;background-color:#ffffff;width:225px;">
+			  		
+			 </span>
+			
+			</div>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+
+	
+	
+
+
+
+
+
+<script>
+function showtbody(id) {
+	var obj = $('s_'+id);
+	if(obj.style.display == 'none') {
+		obj.style.display = 'block';
+	} else {
+		obj.style.display = 'none';
+	}
+}
+</script>
+
+<script> 
+function showdetailinfo(irecommendedid,iusername,irecommendid,icause,irealname)
+{
+	
+	var xmlHttp;
+	function createXMLHttpRequest() {
+		 var xmlreq = false;  
+		 if (window.XMLHttpRequest) {  
+		     xmlreq = new XMLHttpRequest();
+		  } else if (window.ActiveXObject) {
+		    try { 
+		      xmlreq = new ActiveXObject("Msxml2.XMLHTTP"); 
+		    } catch (e1) {
+		      try {
+		        xmlreq = new ActiveXObject("Microsoft.XMLHTTP");
+		      } catch (e2) {}
+		    }
+		  }
+		
+		  return xmlreq;
+		}
+
+	
+
+
+	//alert('+++++++++++++=================');
+	var url="./source/recommend.php";
+	var index = irecommendedid.indexOf('_')+1;
+	
+	var recommendedid=irecommendedid.substring(index);
+	var recommendid=irecommendid;
+	var cause=encodeURIComponent(icause);
+	var realname=encodeURIComponent(irealname);
+	var postStr;
+	postStr="recommendid="+recommendid+"&recommendedid="+recommendedid+"&cause="+cause+"&realname="+realname;
+	url=url+"?"+postStr;
+	xmlHttp=createXMLHttpRequest();
+	xmlHttp.onreadystatechange=function() {
+		 
+			if(xmlHttp.readyState==4 && xmlHttp.status==200) {
+					document.getElementById(iusername).innerHTML=xmlHttp.responseText;
+				}
+		}
+	//alert(url);
+	xmlHttp.open("GET",url,true);
+	xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttp.send();
+
+
+
+
+	var oli = document.getElementById(irecommendedid);
+	var ospan = document.getElementById(iusername);
+
+	
+	oli.onmouseover = function() {
+		ospan.style.position = "absolute"
+		ospan.style.left = event.clientX + 10;
+		ospan.style.top = event.clientY + 10;
+		ospan.style.display = "block";
+	}
+	
+	oli.onmouseout = function() {
+		ospan.style.display = "none";
+	}	
+	
+	ospan.onmouseover = function() {
+		ospan.style.position = "absolute"
+		ospan.style.left = event.clientX + 10;
+		ospan.style.top = event.clientY + 10;
+		this.style.display = "block";
+	}
+	
+	ospan.onmouseout = function() {
+		this.style.display = "none";
+	}
+		
+}
+</script>
+
+<!-- 修改-->
+
+<!--{elseif $op == 'search'}-->
+
+<div class="c_form">
+
+	<!--{if !empty($_GET['searchsubmit'])}-->	
+	<!--{if empty($list)}-->
+		<div class="c_form">没有找到相关用户。<a href="cp.php?ac=friend&op=search">换个搜索条件试试</a></div>
+	<!--{else}-->
+		<div style="padding:0 0 20px 0;">以下是查找到的用户列表(最多显示500个)，您还可以<a href="cp.php?ac=friend&op=search">换个搜索条件试试</a>。</div>
+		<!--{template space_list}-->
+	<!--{/if}-->
+	
+	<!--{else}-->
+	<table cellspacing="2" cellpadding="2" class="search_table">
+
+<!--{if $_GET['all']}-->
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户UID：</td><td><input type="text" name="uid" value="" class="t_input"></td></tr>
+		<tr>
+			<td align="right" width="100">性别：</td>
+			<td>
+				<select id="sex" name="sex">
+					<option value="0">任意</option>
+					<option value="1">男</option>
+					<option value="2">女</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">婚恋：</td>
+			<td>
+				<select id="marry" name="marry">
+					<option value="0">任意</option>
+					<option value="1">单身</option>
+					<option value="2">非单身</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">年龄段：</td>
+			<td>
+				<input type="text" name="startage" value="" size="10" class="t_input" /> ~ <input type="text" name="endage" value="" size="10" class="t_input" />
+			</td>
+		</tr>
+		<!--{if $_SCONFIG['videophoto']}-->
+		<tr>
+			<td align="right">视频认证：</td>
+			<td>
+				<input type="checkbox" name="videostatus" value="1">通过视频认证
+			</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<td align="right">上传头像：</td>
+			<td>
+				<input type="checkbox" name="avatar" value="1">已经上传头像
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="right">居住地：</td>
+			<td id="residecitybox"></td>
+		</tr>
+		
+		<tr>
+			<td align="right">出生地：</td>
+			<td id="birthcitybox"></td>
+		</tr>
+		
+		<script type="text/javascript" src="source/script_city.js"></script>
+		<script type="text/javascript">
+		<!--
+		showprovince('resideprovince', 'residecity', '', 'residecitybox');
+		showcity('residecity', '', 'resideprovince', 'residecitybox');
+		showprovince('birthprovince', 'birthcity', '', 'birthcitybox');
+		showcity('birthcity', '', 'birthprovince', 'birthcitybox');
+		//-->
+		</script>	
+		
+		<tr>
+			<td align="right">生日：</td>
+			<td>
+			<select id="birthyear" name="birthyear" onchange="showbirthday();">
+				<option value="0">&nbsp;</option>
+				$birthyeayhtml
+			</select> 年 
+			<select id="birthmonth" name="birthmonth" onchange="showbirthday();">
+				<option value="0">&nbsp;</option>
+				$birthmonthhtml
+			</select> 月 
+			<select id="birthday" name="birthday">
+				<option value="0">&nbsp;</option>
+				$birthdayhtml
+			</select> 日
+			</td>
+		</tr>
+		
+		<tr><td align="right">学校：</td><td><input type="text" name="title" value="" class="t_input"> <select name="startyear">
+			<option value="">入学年份</option>
+			$yearhtml
+			</select></td></tr>
+		<tr><td align="right">班级或院系：</td><td><input type="text" name="subtitle" value="" class="t_input"></td></tr>
+	
+		<tr><td align="right">公司或机构：</td><td><input type="text" name="title" value="" class="t_input"></td></tr>
+		<tr><td align="right">部门：</td><td><input type="text" name="subtitle" value="" class="t_input"></td></tr>
+			
+		
+		<tr>
+			<td align="right">血型：</td>
+			<td>
+				<select id="blood" name="blood">
+					<option value="">任意</option>
+					$bloodhtml
+				</select>
+			</td>
+		</tr>
+	
+		
+		<tr>
+			<td align="right">QQ：</td>
+			<td>
+				<input type="text" name="qq" value="" class="t_input" />
+			</td>
+		</tr>
+		<tr>
+			<td align="right">MSN：</td>
+			<td>
+				<input type="text" name="msn" value="" class="t_input" />
+			</td>
+		</tr>
+	
+		<!--{loop $fields $fkey $fvalue}-->
+		<!--{if $fvalue[allowsearch]}-->
+		<tr>
+			<td align="right">{$fvalue[title]}：</td>
+			<td>
+				$fvalue[html]
+			</td>
+		</tr>
+		<!--{/if}-->
+		<!--{/loop}-->
+		
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="all">
+		</form>	
+	</td></tr>
+<!--{else}-->
+	<tr>
+		<th style="border-top: none;"><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('sex');">查找男女朋友</a></th>
+	</tr>
+	<tbody id="s_sex" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr>
+			<td align="right" width="100">性别：</td>
+			<td>
+				<select id="sex" name="sex">
+					<option value="0">任意</option>
+					<option value="1"$sexarr[1]>男</option>
+					<option value="2"$sexarr[2]>女</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">婚恋：</td>
+			<td>
+				<select id="marry" name="marry">
+					<option value="0">任意</option>
+					<option value="1"$marryarr[1]>单身</option>
+					<option value="2"$marryarr[2]>非单身</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">年龄段：</td>
+			<td>
+				<input type="text" name="startage" value="" size="10" class="t_input" /> ~ <input type="text" name="endage" value="" size="10" class="t_input" />
+			</td>
+		</tr>
+		<!--{if $_SCONFIG['videophoto']}-->
+		<tr>
+			<td align="right" width="100">视频认证：</td>
+			<td>
+				<input type="checkbox" name="videostatus" value="1">通过视频认证
+			</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<td align="right" width="100">上传头像：</td>
+			<td>
+				<input type="checkbox" name="avatar" value="1">已经上传头像
+			</td>
+		</tr>
+		<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="base">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+
+	
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('reside');">查找同城的人</a></th>
+	</tr>
+	<tbody id="s_reside" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr>
+			<td align="right" width="150">居住地：</td>
+			<td id="residecitybox"></td>
+		</tr>
+		<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<script type="text/javascript" src="source/script_city.js"></script>
+		<script type="text/javascript">
+		<!--
+		showprovince('resideprovince', 'residecity', '$space[resideprovince]', 'residecitybox');
+		showcity('residecity', '$space[residecity]', 'resideprovince', 'residecitybox');
+		//-->
+		</script>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="base">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+	
+
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('birth');">查找老乡</a></th>
+	</tr>
+	<tbody id="s_birth" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr>
+			<td align="right" width="150">出生地：</td>
+			<td id="birthcitybox"></td>
+		</tr>
+		<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<script type="text/javascript" src="source/script_city.js"></script>
+		<script type="text/javascript">
+		<!--
+		showprovince('birthprovince', 'birthcity', '$space[birthprovince]', 'birthcitybox');
+		showcity('birthcity', '$space[birthcity]', 'birthprovince', 'birthcitybox');
+		//-->
+		</script>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="base">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+
+	
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('birthyear');">查找同年同月同日生的人</a></th>
+	</tr>
+	<tbody id="s_birthyear" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr>
+			<td align="right" width="150">生日：</td>
+			<td>
+			<select id="birthyear" name="birthyear" onchange="showbirthday();">
+				<option value="0">&nbsp;</option>
+				$birthyeayhtml
+			</select> 年 
+			<select id="birthmonth" name="birthmonth" onchange="showbirthday();">
+				<option value="0">&nbsp;</option>
+				$birthmonthhtml
+			</select> 月 
+			<select id="birthday" name="birthday">
+				<option value="0">&nbsp;</option>
+				$birthdayhtml
+			</select> 日
+			</td>
+		</tr>
+		<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="base">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+	
+	<tr>
+		<th>
+			<img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('edu');">查找你的同学</a>
+		</th>
+	</tr>
+	<tbody id="s_edu" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+			<tr><td align="right" width="150">学校：</td><td><input type="text" name="title" value="" class="t_input"> <select name="startyear">
+				<option value="">入学年份</option>
+				$yearhtml
+				</select></td></tr>
+			<tr><td align="right">班级或院系：</td><td><input type="text" name="subtitle" value="" class="t_input"></td></tr>
+			<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+			<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+			<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="edu">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+	
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('work');">查找你的同事</a></th>
+	</tr>
+	<tbody id="s_work" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+			<tr><td align="right" width="150">公司或机构：</td><td><input type="text" name="title" value="" class="t_input"></td></tr>
+			<tr><td align="right">部门：</td><td><input type="text" name="subtitle" value="" class="t_input"></td></tr>
+			<tr><td align="right">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+			<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+			<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="work">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+	
+	
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="javascript:;" onclick="showtbody('name');">精确查找</a></th>
+	</tr>
+	<tbody id="s_name" style="display:none;">
+	<tr>
+		<td>
+		<form action="cp.php" method="get">
+		<table>
+		<tr><td align="right" width="150">姓名：</td><td><input type="text" name="name" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户名：</td><td><input type="text" name="username" value="" class="t_input"></td></tr>
+		<tr><td align="right">用户UID：</td><td><input type="text" name="uid" value="" class="t_input"></td></tr>
+		<tr><td></td><td><input type="submit" name="searchsubmit" value="查找" class="submit"></td></tr>
+		</table>
+		<input type="hidden" name="ac" value="friend">
+		<input type="hidden" name="op" value="search">
+		<input type="hidden" name="type" value="base">
+		</form>
+		</td>
+	</tr>
+	</tbody>
+	
+	<tr>
+		<th><img src="image/search.gif" align="absmiddle">
+			<a href="cp.php?ac=friend&op=search&all=yes">高级方式查找</a></th>
+	</tr>
+<!--{/if}-->
+
+	</table>
+	<!--{/if}-->
+</div>
+
+<script>
+function showtbody(id) {
+	var obj = $('s_'+id);
+	if(obj.style.display == 'none') {
+		obj.style.display = '';
+	} else {
+		obj.style.display = 'none';
+	}
+}
+<!--{if $_GET['view']}-->showtbody('$_GET[view]');<!--{/if}-->
+</script>
+
+<!--{elseif $op=='changenum'}-->
+
+<h1>好友热度</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__changenumform_{$uid}">
+<form method="post" id="changenumform_{$uid}" name="changenumform_{$uid}" action="cp.php?ac=friend&op=changenum&uid=$uid">
+	<p>调整好友的热度</p>
+	<p>
+		新的热度：<input type="text" name="num" value="$friend[num]" size="5"> (0~9999之间的一个数字）
+	</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<button name="changenumsubmit" type=" submit" class="submit btn btn-sm btn-comments" value="true">确定</button>
+	</p>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $op=='changegroup'}-->
+
+<h1>好友分组</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__changegroupform_{$uid}">
+<form method="post" id="changegroupform_{$uid}" name="changegroupform_{$uid}" action="cp.php?ac=friend&op=changegroup&uid=$uid">
+	<p>设置好友分组</p>
+	<table cellspacing="2" cellpadding="2"><tr>
+	<!--{eval $i=0;}-->
+	<!--{loop $groups $key $value}-->
+	<td><input type="radio" name="group" value="$key"$groupselect[$key]> $value</td>
+	<!--{if $i%2==1}--></tr><tr><!--{/if}-->
+	<!--{eval $i++;}-->
+	<!--{/loop}-->
+	</tr></table>
+
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="changegroupsubmit" value="true" />
+		<button name="changegroupsubmit_btn" type="button" class="submit btn btn-comments btn-sm" value="true" onclick="ajaxpost('changegroupform_{$uid}', 'friend_changegroup', 2000)">确定</button>
+		<!--{else}-->
+		<button name="changegroupsubmit" type="submit" class="submit btn btn-comments btn-sm" value="true">确定</button>
+		<!--{/if}-->
+	</p>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $op=='group'}-->
+
+<div class="h_status">
+对选定的好友进行分组，热度表示的是你跟好友互动的次数。
+</div>
+
+<div id="content" style="width: 640px;">
+	<form method="post" action="cp.php?ac=friend&op=group&ref">
+<!--{if $list}-->
+	<div class="thumb_list" id="friend_ul">
+		<ul>
+		<!--{loop $list $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<div class="thumbTitle"><input type="checkbox" name="fuids[]" value="$value[uid]" /><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></div>
+				<div class="gray">热度：$value[num]</div>
+				<div class="gray">$value[group]</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="page">$multi</div>
+	<div style="padding:20px 0 0 0;">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'fuids')" /><label for="chkall">全选</label></td>
+		设置用户组：<select name="group">
+			<!--{loop $groups $key $value}-->
+				<option value="$key">$value</option>
+			<!--{/loop}-->
+			</select>
+			<input type="submit" name="btnsubmit" value="确定" class="submit" />
+	</div>
+<!--{else}-->
+	<div class="c_form">
+		没有相关用户列表。
+	</div>
+<!--{/if}-->
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="groupsubmin" value="true" />
+	</form>
+</div>
+
+<div id="sidebar" style="width: 150px;">
+	<div class="cat">
+	<h3>好友分组</h3>
+	<ul class="post_list line_list">
+		<li<!--{if !isset($_GET[group])}--> class="current"<!--{/if}-->><a href="cp.php?ac=friend&op=group">全部好友</a></li>
+		<!--{loop $groups $key $value}-->
+		<li<!--{if isset($_GET[group]) && $_GET[group]==$key}--> class="current"<!--{/if}-->><a href="cp.php?ac=friend&op=group&group=$key">$value</a></li>
+		<!--{/loop}-->
+	</ul>
+	</div>
+</div>
+
+<!--{elseif $op=='groupname'}-->
+
+<h1>编辑好友分组名称</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__groupnameform_{$group}">
+<form method="post" id="groupnameform_{$group}" name="groupnameform_{$group}" action="cp.php?ac=friend&op=groupname&group=$group">
+	<p>编辑好友分组名称</p>
+	<div class="c_form" style="padding: 0px;">
+		新名称：<input type="text" name="groupname" value="$groups[$group]" size="15" class="t_input">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="groupnamesubmit" value="true" />
+		<input type="button" name="groupnamesubmit_btn" value="确定" 
+            class="submit btn btn-comments btn-sm" 
+            onclick="ajaxpost('groupnameform_{$group}', 'friend_changegroupname', 2000)" />
+		<!--{else}-->
+		<input type="submit" name="groupnamesubmit" value="确定" class="submit" />
+		<!--{/if}-->
+	</div>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+
+<!--{elseif $op=='groupignore'}-->
+
+<h1>
+    <!--{if !isset($space['privacy']['filter_gid'][$group])}-->
+	屏蔽用户组动态
+	<!--{else}-->
+	取消屏蔽用户组动态
+	<!--{/if}-->
+</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="$group">
+<form method="post" id="groupignoreform" name="groupignoreform" action="cp.php?ac=friend&op=groupignore&group=$group">
+	<!--{if !isset($space['privacy']['filter_gid'][$group])}-->
+	<p>在首页不显示该用户组的好友动态</p>
+	<!--{else}-->
+	<p>在首页显示该用户组的好友动态</p>
+	<!--{/if}-->
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="groupignoresubmit" value="true" />
+		<button name="groupignoresubmit_btn" type="submit" 
+            class="submit btn btn-comments btn-sm" value="true">确定</button>
+		<!--{else}-->
+		<button name="groupignoresubmit" type="submit" 
+            class="submit btn-comments btn btn-sm" value="true">确定</button>
+		<!--{/if}-->
+	</p>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $op=='request'}-->
+
+<style>
+.c_form {
+    padding-left: 20px;
+}
+
+.popupmenu_inner form p {
+    margin-top: 0px;
+}
+
+.popupmenu_inner .btn_line {
+    margin: 0px;
+}
+</style>
+
+<!--
+<div style="margin-top: 20px; margin-left: 20px; border-bottom: none" class="l_status">
+	
+	<span id="add_friend_div">请选定好友的申请进行批准或忽略</span>
+	<!--{if $maxfriendnum}-->
+	(最多可以添加 $maxfriendnum 个好友)
+		<!--{if $_SGLOBAL[magic][friendnum]}-->
+	    <p>
+		    <img src="image/magic/friendnum.small.gif" class="magicicon" />
+		    <a id="a_magic_friendnum" href="magic.php?mid=friendnum" onclick="ajaxmenu(event, this.id, 1)">我要扩容好友数</a>
+		    (您可以购买道具“{$_SGLOBAL[magic][friendnum]}”来扩容，让自己可以添加更多的好友。)
+	    </p>
+		<!--{/if}-->
+	<!--{/if}-->
+</div>
+-->
+<!--{if $list}-->
+<style>
+.thumb_list .image img {
+    width: 90px;
+}
+
+td.image {
+    box-sizing: content-box;
+}
+td.image img {
+    width: 90px;
+    height: 90px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 3px 5px 4px -2px #dcdcdc;
+}
+
+#friend_ul {
+    margin-top: 20px; 
+}
+
+#cfriend .avatar_list {
+    margin-bottom: 0px;
+}
+
+#cfriend .avatar_list li {
+    margin-bottom: 0px;
+}
+
+#cfriend .h_status {
+    padding: 0px;
+    margin-left: 0px;
+}
+#cfriend .avatar_list li p {
+    margin-bottom: 0px;
+}
+
+#cfriend .avatar_list li .avatar48 {
+    text-align: center;
+    width: auto;
+}
+</style>
+
+
+<div style="margin-left: 20px;" class="thumb_list" id="friend_ul">
+<table cellspacing="6" cellpadding="0">
+<!--{eval $friend_count = 0;}-->
+<!--{loop $list $key $value}-->
+<tbody id="friend_tbody_$value[uid]" 
+    <!--{if $friend_count != 0}-->
+    style="border-top: 1px solid #dcdcdc"
+    <!--{/if}-->>
+
+<!--{eval $friend_count++;}-->
+<tr>
+	<td class="thumb <!--{if $ols[$value[uid]]}-->online<!--{/if}-->">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="image" style="width: 100px;">
+				    <a href="space.php?uid=$value[uid]" class="avatarlink">
+                        <!--{avatar($value[uid],middle)}--></a>
+				</td>
+				<td>
+					<div style="padding-top: 16px; color: #888">
+						<a style="font-size: 14px;" 
+                            href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>
+						<!--{if $value['videostatus']}-->
+						<img src="image/videophoto.gif" align="absmiddle"> <span class="gray">已通过视频认证</span>
+						<!--{/if}-->
+                        <!--{date('m-d H:i',$value[dateline],1)}-->
+					</div>
+					<div id="friend_$value[uid]">
+					    <!--{if $value[note]}-->
+                        <div style="color: #888; padding: 8px;">
+                            <span id="quote" class="q">$value[note]</span>
+                        </div>
+                        <!--{/if}-->
+
+					    <!--{if $value['cfcount']}-->
+                        <div>
+                            <a href="cp.php?ac=friend&op=getcfriend&fuid=$value[cfriend]" 
+                                id="a_cfriend_$key" onclick="ajaxmenu(event, this.id, 1)">
+                                你们有 $value[cfcount] 个共同好友
+                            </a>
+                        </div>
+                        <!--{else}-->
+                        <div style="padding-top: 8px; color: #888;">你们有0个共同好友</div>
+                        <!--{/if}-->
+					</div>
+				</td>
+                <td width="200" style="padding-top: 34px;">
+                    <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="afr_$value[uid]"  
+                        onclick="ajaxmenu(event, this.id, 1)" 
+                        class="btn btn-comments">批准申请</a>
+                    &nbsp;&nbsp;&nbsp;
+					<a href="cp.php?ac=friend&op=ignore&uid=$value[uid]&confirm=1" id="afi_$value[uid]" 
+                        onclick="ajaxmenu(event, this.id, 1)" 
+                        style="background: #AAA; width: 80px;"
+                        class="btn btn-comments">忽略</a>
+                </td>
+			</tr>
+			<tbody id="cf_$value[uid]"></tbody>
+		</table>
+	</td>
+</tr>
+</tbody>
+<!--{/loop}-->
+</table>
+</div>
+<div class="page">$multi</div>
+<!--{else}-->
+<div class="c_form" style="padding: 8px 0px;">
+        <p style="text-align: center; color: #888;">
+			<img src="image/icons/no_status.png">
+			<br>
+	        没有新的好友请求。
+		</p>
+</div>
+<!--{/if}-->
+
+<!--{elseif $op=='getcfriend'}-->
+
+
+<h1>共同好友</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="cfriend">
+	<div class="h_status">最多显示15位共同的好友</div>
+	<ul class="avatar_list">
+		<!--{loop $list $key $value}-->
+		<li>
+			<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+
+<!--{elseif $op=='add'}-->
+
+<h1>加好友</h1>
+<a href="javascript:hideMenu();" title="关闭" class="float_del">关闭</a>
+<div class="popupmenu_inner" id="__addform_{$tospace[uid]}">
+<form method="post" id="addform_{$tospace[uid]}" name="addform_{$tospace[uid]}" action="cp.php?ac=friend&op=add&uid=$tospace[uid]">
+	<table cellspacing="0" cellpadding="3">
+		<tr>
+			<th width="52">
+				<a style="display: block; margin-top: -40px;" 
+					href="space.php?uid=$tospace[uid]">
+				<!--{avatar($tospace[uid],small)}-->
+				</a>
+			</th>
+			<td style="width: 300px;">
+				加 <strong>{$_SN[$tospace[uid]]}</strong> 为好友，附言：<br />
+				<input type="text" name="note" value="" size="20" class="t_input" style="width: 300px;"  onkeydown="ctrlEnter(event, 'addsubmit_btn', 1);" />
+				<p class="gray">(附言为可选，{$_SN[$tospace[uid]]} 会看到这条附言，最多50个字符)</p>
+			</td>
+		</tr>
+        <!--{if $_SGLOBAL[check_bot]}-->
+        <tr>
+            <th style="vertical-align: top;">请填写验证码</th>
+            <td style="width: 300px;">
+                <img height="35px" id="img_seccode" src="do.php?ac=seccode&rand=1" align="absmidle">
+                <p>请输入上面的4位字母或数字，看不清可<a href="javascript:updateseccode()">更换一张</a></p>
+                <input type="text" id="seccode" name="seccode" value="" size="15" class="t_input" />
+            </td>
+        </tr>
+        <!--{/if}-->
+
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				分组: <select name="gid">
+				<!--{loop $groups $key $value}-->
+				<option value="$key">$value</option>
+				<!--{/loop}-->
+				</select>
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+				<input type="hidden" name="addsubmit" value="true" />
+				<!--{if $_SGLOBAL[inajax]}-->
+				<input type="button" name="addsubmit_btn" id="addsubmit_btn" value="确定" class="btn btn-sm btn-comments submit" onclick="ajaxpost('addform_{$tospace[uid]}','friend_request_sent',2000)" />
+				<!--{else}-->
+				<input type="submit" name="btn btn-sm btn-comments addsubmit_btn" id="addsubmit_btn" value="确定" class="submit" />
+				<!--{/if}-->
+			</td>
+	</table>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+
+<!--{elseif $op=='add2'}-->
+
+<h1>批准请求</h1>
+<a href="javascript:hideMenu();" title="关闭" class="float_del">关闭</a>
+<div class="popupmenu_inner" id="__addratifyform_{$tospace[uid]}">
+<form method="post" id="addratifyform_{$tospace[uid]}" name="addratifyform_{$tospace[uid]}" action="cp.php?ac=friend&op=add&uid=$tospace[uid]">
+	<table cellspacing="0" cellpadding="3">
+		<tr>
+			<th width="52"><a href="space.php?uid=$tospace[uid]"><!--{avatar($tospace[uid],small)}--></th>
+			<td>
+			<div class="l_status">批准 <strong>{$_SN[$tospace[uid]]}</strong> 的好友请求，并分组：</div>
+				<table cellspacing="2" cellpadding="2"><tr>
+				<!--{eval $i=0;}-->
+				<!--{loop $groups $key $value}-->
+				<td><input type="radio" name="gid" id="group_$key" value="$key"$groupselect[$key]> <label for="group_$key">$value</label></td>
+				<!--{if $i%2==1}--></tr><tr><!--{/if}-->
+				<!--{eval $i++;}-->
+				<!--{/loop}-->
+				</tr></table>
+				
+				<p>
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+				<!--{if $_SGLOBAL[inajax]}-->
+				<input type="hidden" name="add2submit" value="true" />
+				<input type="button" name="add2submit_btn" value="批准" 
+                    class="btn btn-comments" 
+                    onclick="ajaxpost('addratifyform_{$tospace[uid]}', 'myfriend_post', 2000)" />
+				<!--{else}-->
+				<input type="submit" name="add2submit" value="批准" 
+                    class="btn btn-comments" />
+				<!--{/if}-->
+				</p>
+			</td>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+<!--{elseif $op=='blacklist'}-->
+<h1>拉黑好友</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__friendform_{$uid}">
+<form method="post" id="friendform_{$uid}" name="friendform_{$uid}" action="cp.php?ac=friend&op=blacklist">
+	<p>确定拉黑好友吗？</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+        <input type="hidden" name="username" value="$_GET[username]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="blacklistsubmit" value="true" />
+		<button name="blacklistsubmit_btn" type="button" class="submit btn btn-sm btn-comments" value="true" onclick="ajaxpost('friendform_{$uid}', 'friend_delete', 2000)">确定</button>
+		<!--{else}-->
+		<button name="blacklistsubmit" type="submit" class="submit btn btn-sm btn-comments" value="true">确定</button>
+		<!--{/if}-->
+	</p>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+<!--{/if}-->
+
+<!--{template footer}-->

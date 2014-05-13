@@ -1,0 +1,407 @@
+<!--<html xmlns:wb="http://open.weibo.com/wb">-->
+<!--<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=632731976&debug=true" type="text/javascript" charset="utf-8"></script>
+-->
+<html>
+<script language="javascript" src="source/face.js"></script>
+<style>
+    .tooltip-inner{
+        width: 196px;
+        text-align: left;
+    }
+</style>
+<script language="javascript" src="plugin/at/jquery.form.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+
+
+function atfriend(uid,name) {
+	var messageContent = jQuery("#message").val();
+	messageContent = messageContent + '@'+name+'('+uid+')'+' ';
+	jQuery("#message").val(messageContent);
+}	
+	
+jQuery(function ($) {
+
+	var bar = $('.bar');
+	var percent = $('.percent');
+	var showimg = $('#showimg');
+	var progress = $(".progress");
+	var files = $(".files");
+	var btn = $(".btn span");
+	$("#fileupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+	$("#fileupload").change(function(){
+		$("#myupload").ajaxSubmit({
+			dataType:  'json',
+			success: function(data) {
+				var img = "$_SC['attachurl']"+data.pic;
+				var num = 12;
+				var name = data.name;
+				var picid = data.picid;
+				name = cut_string(name,num);
+				$("#datapicid").val(picid);
+				$("#datapicpath").val(data.pic);
+				showimg.html("<div class='triangle-isosceles'><p><b>"+name+"</b></p> <img src='"+img+"' ><p><span class='delimg' rel='"+picid+"'>删除</span></p></div>");
+				btn.html("图片");
+			},
+			error:function(xhr){
+				btn.html("上传失败");
+				bar.width('0')
+				files.html(xhr.responseText);
+			}
+		});
+	});
+	jQuery(".delimg").live('click',function(){
+		var picid = $(this).attr("rel");
+	
+		$.get("cp.php?ac=upload&file=delete&type=pic",{ picid: picid },function(ancon){
+			if(ancon=='ok'){
+				$("#datapicid").val('');
+				$("#datapicpath").val('');				
+				showimg.empty();
+				$("#fileupload").val('');
+			}else{
+				alert("删除失败，刷新即可~");
+			}
+		});
+	});
+	
+	function cut_string(string,num){
+        var str = string.split('.');
+        var s_length = str.length;
+		var str_len = str[0].replace(/[^\x00-\xff]/g, "**").length;
+		if( str_len > num){
+			var content = str[0].substr(0,num);
+			return content+"..."+str[s_length-1];
+		}
+		else{
+			return string;
+		}        
+	}
+	
+
+	var moodSwitch = jQuery("#mood-switch");
+	var jqSubmit = jQuery("#add");
+	var jqComplain = jQuery("#complain");
+	jQuery("#complain_help").tooltip();
+	moodSwitch.on("click", "a", function() {
+		moodSwitch.find("li").removeClass("active");
+
+        var type = jQuery(this.parentNode).addClass("active");
+        jqSubmit.html(type.hasClass("status") ? '发布' : '诉求');
+
+        if (type.hasClass('status')) {
+            jQuery("#add").removeClass("askbag");
+        } else {
+            jQuery("#add").addClass("askbag");
+        }
+
+		jqComplain.val(type.hasClass("status") ? '0' : '1');
+	});
+	
+	jQuery("#message").focus(function() {
+		$("#mood_feed").removeClass("invalid");
+	});
+
+	//ajax异步发布状态
+	jqSubmit.click(function(e){
+		e.preventDefault();
+
+		var jqMessage = $("#message").val();
+		if(jqMessage === "") {
+			$("#mood_feed").addClass("invalid");
+			return;
+		}
+
+        if(jqMessage.indexOf("[em:")!=-1) {
+            alert("亲，请不要尝试使用旧表情，新表情很可耐不是吗^_^");
+			return false;           
+        }
+        var jqDoingForm = $("#doingform");
+		var jqShowimg = $('#showimg');
+		jqDoingForm.ajaxSubmit({
+			dataType:  'html',
+			success: function(data) {
+				jqDoingForm.clearForm();
+				jqShowimg.empty();
+				
+				switch(data){
+					case 'weibo_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>微博同步错误</div>";
+						Message_out(message);
+						break;
+					case 'code_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>验证码错误</div>";
+						Message_out(message);
+						break;
+					case 'fast_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>操作太快</div>";
+						Message_out(message);
+						break;
+					case 'num_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>字数太少</div>";
+						Message_out(message);
+						break;
+					case 'privilege_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>没有权限</div>";
+						Message_out(message);
+						break;
+					default:
+						//$("#feed_div > ul").prepend(data);
+						Status_show(data);
+						$("#maxlimit").text("140");
+						$('#datapicpath').val('');
+						$('#datapicid').val('');
+				}
+				//$("#feed_div > ul").prepend(data);
+			},
+			error:function(xhr){
+				alert(xhr.responseText);
+			}
+		});
+		
+		return false;
+	});
+	/*
+	function Message_show(message) {
+		var showStatusMessage = $("#showStatusMessage");
+		var messageContent = $("#messageContent");
+		messageContent.html(message);
+		showStatusMessage.fadeIn(1000);
+		//messageContent.empty();
+    }*/
+	function Status_show(status){
+		var newHtml = '<ul class="newStatus" style="display:none">'+status+'</ul>';
+		$("#feed_div").prepend(newHtml);
+		var newStatus = $(".newStatus");
+		newStatus.fadeToggle(2200);
+		newStatus.removeClass("newStatus");
+    }
+	function Message_out(message) {
+        $(".message").html(message);
+        $(".showMessage").css({"display":"block"});
+        $(".message").css({"display":"block"});    
+        $(".showMessage").stop().animate({"opacity":"0.6"},700);
+		$(".showMessage").delay(1500).animate({
+			"opacity":"0"
+		},700,function(){
+			$(".showMessage").css({
+				"display":"none" 
+			});
+			$(".message").css({
+				"display":"none"
+			});
+		}); 
+    }
+	
+	$("#at_friends").click(function(){
+		$("#at_friends_box").fadeToggle("fast");
+		var isComplain = $("#complain").val();
+		var getUrl = "data/assets/data_<!--{$_SGLOBAL[supe_uid]}-->.json";
+		if(isComplain == 1){
+			getUrl = "data/powerlevel/powerlevel.json";
+		}
+		$.getJSON(getUrl,
+			function(data){
+				$("#friends_list_box").empty();
+				$.each(data, function(idx, friend){
+					var atHtml = '<div class="friends_list"><a href="javascript:void(0)" onclick="javascript:atfriend(\''+friend.uid+'\',\''+friend.name+'\')" class="click_at_friends">'+friend.name+'('+friend.uid+')</a></div>';
+					$("#friends_list_box").append(atHtml);
+				});
+		});
+	});
+	jQuery("#friends_list_box > .click_at_friends").click(function(){
+		var messageContent = jQuery("#message");
+		var name = jQuery(this).text();
+		messageContent = messageContent + '@'+name+' ';
+	});
+	function atfriend(uid,name) {
+		var messageContent = jQuery("#message");
+		messageContent = messageContent + '@'+name+'('+uid+')'+' ';
+    }
+	$("#close_at_box").click(function(){
+		$("#at_friends_box").fadeOut("fast");
+		$("#input_friends_name").val('搜索要@的好友');
+	});
+	$("#doingform").keypress(function(e){  
+		if(e.keyCode == 13 && $("#input_friends_name").is(":focus")) {  
+			$("#search_friends_submit").click();
+			e.preventDefault();
+		}
+	});
+	$("#search_friends_submit").click(function(){
+		var uname = $("#input_friends_name").val();
+		$.getJSON("plugin.php?pluginid=atfriends",
+		{ name:uname,uid: <!--{$_SGLOBAL[supe_uid]}--> },
+		function(data){
+			$("#friends_list_box").empty();
+			$.each(data, function(idx, friend){
+				var atHtml = '<div class="friends_list"><a href="javascript:void(0)" onclick="javascript:atfriend(\''+friend.uid+'\',\''+friend.name+'\')" class="click_at_friends">'+friend.name+'('+friend.uid+')</a></div>';
+				$("#friends_list_box").append(atHtml);
+			});
+		});
+	});
+	/*
+	jQuery("#complain_img").live('click',function(){
+		var iscomplain = ;
+		var complain_img = $('#complain_img');
+		if(iscomplain == 0){
+			complain_img.html("<img src=\"image/statues_su_pressed.png\" align=\"absmiddle\" />");
+			$("#complain").val('1');
+			$("#add").html('诉求');
+		}else{
+			complain_img.html("<img src=\"image/statues_su_normal.png\" align=\"absmiddle\" />");
+			$("#complain").val('0');
+			$("#add").html('发布');
+		}
+	});
+
+	*/
+
+	
+	/*
+	jQuery("#sina_img").live('click',function(){
+		var issina = $("#sina").val();
+		var sina_img = $('#sina_img');
+		if(issina == 0){
+			var token = $("#valsina").val();
+			if(!token)
+			{	if(!confirm("您还没有绑定微博帐号，请问现在绑定吗？"))
+					return false;
+				if(!WB2.checkLogin()){
+					WB2.login(function(){
+						token = WB2.oauthData.access_token;
+						$("#valsina").val(token);
+					});
+				}else{
+					if(confirm("您要用现有账号登陆吗？")){
+						token = WB2.oauthData.access_token;	
+						$("#valsina").val(token);
+					}else{
+						WB2.logout();
+						WB2.login(function(){
+							token = WB2.oauthData.access_token;
+							$("#valsina").val(token);
+						});				
+					}
+				}
+			}
+			sina_img.html("<img src=\"image/status/sina2.png\" align=\"absmiddle\" />");
+			$("#sina").val('1');
+		}else{
+			sina_img.html("<img src=\"image/status/sina1.png\" align=\"absmiddle\" />");
+			$("#sina").val('0');
+		}
+	});
+	*/	
+	jQuery("#new_function_msg_close").live('click',function(){
+		jQuery("#new_function_msg").css("display","none");
+	});
+	
+});
+</script>
+<!--status message start
+<div class="showStatusMessage">
+<script language="javascript" src="plugin/at/jquery-1.8.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="template/default/style.css"/> 
+    <div class="statusMessage">
+        <p id="messageContent"></p>
+    </div>
+</div>
+status message end-->
+<div id="mood_feed">
+	<form method="post" id="doingform" action="cp.php?ac=doing&view=$_GET[view]" >
+		<div class="mood_statement">
+			<div class="mood_say_something">
+				<!--
+				<div class="btn" id="face_saybag">
+					<a id="complain_help" data-container="body" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-title="发布状态时，如果@了学院或部门处室的公共主页，点击该按钮后再发布。您的状态将作为诉求发布。">
+						<div id="complain_img"> 
+							<img src="image/statues_su_normal.png" />
+						</div>
+					</a>
+				</div>
+				-->
+				<input type="hidden" id="complain" name="complain" value="0" />
+				<ul id="mood-switch" class="nav nav-mood pull-left">
+					<li class="active status">
+						<a href="#">发状态</a>
+					</li>
+					<li class="complain">
+						<a href="#">提诉求</a>
+					</li>
+				</ul>
+                <a style="color:black;position:absolute;top:13px;margin-left:-85px;left:50%;z-index:100"id="complain_help" data-container="body" data-trigger="hover" data-toggle="tooltip" data-placement="bottom" data-title="提诉求时，需要先点击提诉求按钮，然后在输入框内@学院或部门处室的公共主页并输入诉求内容，最后点击诉求按钮，您的状态将作为诉求发布。"><span class="glyphicon glyphicon-question-sign"></span></a>
+                <div class="mood_say_statement">还可输入 <strong id="maxlimit">140</strong> 个字</div>
+			</div>			
+		</div>
+		<textarea class="mood_textarea" id="message" name="message" oninput="textCounter(this, 'maxlimit', 140)" onpropertychange="textCounter(this, 'maxlimit', 140)"onkeydown="ctrlEnter(event, 'add');"></textarea>
+		<div class="arrow-left">
+		</div>
+		<div class="demo">
+			<div class="btn drop_face" id="face_smell">
+				<!--
+					<a href="#" id="doingface" onclick="showFace(this.id, 'message');return false;"><img src="image/icons/statues_face_normal.png" align="absmiddle" title="插入表情"/></a>
+				-->
+	<!--			<a href="javascript:;" class="facein" 
+					data-html="true" data-original-title title 
+					data-placement="bottom" 
+					data-trigger="click"  data-toggle="popover" 
+					data-container="body" >
+                    -->
+                    <a href="javascript:;"><img src="image/icons/statues_face_normal.png" 
+						width="30" height="30"
+						align="absmiddle" title="插入表情" />
+                    </a>
+                    
+                </div>
+                <div class="drop_face_menu" data-target="message"></div>
+			<div class="btn" id="face_pictor">
+				<img src="image/icons/statues_image_normal.png" width="30" height="30" align="absmiddle" />
+				<input id="fileupload" type="file" name="feedfile" title="插入图片">
+			</div>
+			<!--功能细节有待完善，先注掉<div class="btn" id="at_friends">
+				<img src="image/icons/at-icon.png" width="30" height="30" align="absmiddle" />
+              </div>-->
+			<!--	
+			<div class="btn">
+				<div id="sina_img"><img src="image/status/sina1.png" /></div>
+				<input type="hidden" id="sina" name="sina" value="0" />
+				<input type="hidden" name="valsina" id="valsina" value="$space[sina_token]">
+			</div>
+			-->
+			<div id="at_friends_box">
+				<div id="search_at_friends">
+					<input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
+					<a href="javascript:" id="search_friends_submit"><img src="image/icons/at-search-icon.png" id="search_friends_bt" /></a>
+					<span id="close_at_box"><a href="javascript:void(0)">×</a></span>
+				</div>
+				<div id="friends_list_box"></div>
+			</div>
+			<div class="mood_submit">
+				<button type="submit" id="add" name="add" >发布</button>
+			</div>
+			<div class="progress">
+				<span class="bar"></span><span class="percent">0%</span >
+			</div>
+			<div class="files"></div>
+			<div id="showimg"></div>
+			<!-- wangnan 2013.12.27
+			<div id="new_function_msg" style="background:url('image/status/new_function_msg.png') no-repeat scroll;position:relative;padding:7px 4px 4px 4px;height:67px;width:232px;line-height:15px;z-index:999;top:-42px;left:70px;">
+				<div style="text-align:right;"><a href="javascript:void(0)" id="new_function_msg_close">关闭</a></div>
+				<div id="new_function_msg_cn" style="padding:2px;">
+				【温馨提示】发布状态时,如果@了学院或部门处室的公共主页,点击该按钮后再发布.您的状态将作为诉求发布.
+				</div>
+			</div>
+			-->
+		</div>	
+		
+		<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+		<input type="hidden" name="addsubmit" value="true" />
+		<input type="hidden" name="refer" value="$theurl" />
+		<input type="hidden" name="topicid" value="$topicid" />
+		<input type="hidden" name="datapicid" id="datapicid" value="" />
+		<input type="hidden" name="datapicpath" id="datapicpath" value="" />
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>

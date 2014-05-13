@@ -1,0 +1,191 @@
+<!--{template admin/tpl/header}-->
+<style type="text/css">
+	.poster{
+	max-width: 200px; max-height: 200px;}
+	.pic{
+	max-width: 80px; max-height: 60px;}
+	
+		.userData {behavior:url(#default#userdata);}
+</style>
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=jifen_lp"><span>浏览全部礼品</span></a></li>
+			<li class="null"><a href="admincp.php?ac=jifen_lp&op=add">添加新礼品</a></li>
+		</ul>
+	</div>
+
+	<div class="bdrcontent">
+
+<!--{if "add" == $_GET['op'] || "edit" == $_GET['op']}-->
+<script language="javascript" src="image/editor/editor_function.js"></script>
+<script language="javascript" src="source/script_blog.js"></script>
+		
+	<form method="post" action="admincp.php?ac=jifen_lp" enctype="multipart/form-data" onsubmit="return edit_save();">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:15em;">名称</th>
+				<td><input type="text" name="name" value="$thevalue[name]"></td>
+			</tr>
+			<tr>
+				<th>类别</th>
+				<td>
+				<select name="lbid" style="width:100px;">
+				<!--{loop $list_lbss $key $value}-->
+					<!--{if $value}-->
+					<option value="$key" <!--{if $key==$thevalue[lbid] || $key==$_GET[lbid]}-->selected<!--{/if}-->>$value</option>
+					<!--{/if}-->
+				<!--{/loop}-->
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th>图片</th>
+				<td>
+					<img id="posterview" class="poster" src="$thevalue[pic]?v=$_SGLOBAL[timestamp]" alt="默认海报" onerror="this.src='jifen/images/default.jpg'" />
+					<a href="#" onclick="$('posterview').src='jifen/images/default.jpg'; $('delposter').value='1'; return false;">删除</a>
+					<br />
+					<input type="hidden" id="delposter" name="delposter" value="0" />
+					<input type="file" name="pic" value="">
+				</td>
+			</tr>
+			<tr>
+				<th>描述</th>
+				<td>
+				<a id="doodleBox" href="magic.php?mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor" style="display:none"></a>
+                <textarea class="userData" name="des" id="uchome-ttHtmlEditor"  rows="8" cols="80" style="display:none;">$thevalue[des]</textarea>
+				<iframe src="editor.php?charset=$_SC[charset]&allowhtml=$allowhtml&doodle=<!--{if isset($_SGLOBAL[magic][doodle])}-->1<!--{/if}-->" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:90%;border: 1px solid #C5C5C5;" height="200"></iframe>
+				</td>
+			</tr>
+			<tr>
+				<th>礼品总数</th>
+				<td><input type="text" name="total" value="$thevalue[total]"  onkeyup="value=value.replace(/[^\d]/g,'') " 
+      onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" >只能输入正整数</td>
+			</tr>
+			<tr>
+				<th>积分价格</th>
+				<td><input type="text" name="price" value="$thevalue[price]"  onkeyup="value=value.replace(/[^\d]/g,'') " 
+      onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" >只能输入正整数</td>
+			</tr>
+			<tr>
+				<th>市场价格</th>
+				<td><input type="text" name="mprice" value="$thevalue[mprice]"  onkeyup="value=value.replace(/[^\d]/g,'') " 
+      onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" >只能输入正整数</td>
+			</tr>
+			<tr>
+				<th>开始时间</th>
+				<td><input type="text" name="sdate" value="<!--{eval echo($thevalue[sdate]?date('Y-m-d H:i:s',$thevalue[sdate]):'')}-->">(<!--{eval echo(date('Y-m-d'));}--> 或者 <!--{eval echo(date('Y-m-d H:i:s'));}-->)</td>
+			</tr>
+			<tr>
+				<th>结束时间</th>
+				<td><input type="text" name="edate" value="<!--{eval echo($thevalue[edate]?date('Y-m-d H:i:s',$thevalue[edate]):'')}-->">(<!--{eval echo(date('Y-m-d'));}--> 或者 <!--{eval echo(date('Y-m-d H:i:s'));}-->)</td>
+			</tr>
+			<tr>
+				<th>是否多次兑换</th>
+				<td><input type="checkbox" name="flag" value="1" <!--{if $thevalue[flag]}-->checked<!--{/if}-->></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="id" value="$thevalue[id]" />
+		<input type="submit" name="jifen_lpsubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+<!--{else}-->
+<form method="get" action="admincp.php">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>名称</th><td><input type="text" name="name" value="$_GET[name]"></td>
+			<th>描述</th><td><input type="text" name="des" value="$_GET[des]"></td>
+		</tr>
+		<tr><th>结果排序</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">默认排序</option>
+		<option value="time"$orderby[time]>加入时间</option>
+		<option value="total"$orderby[total]>总数</option>
+		<option value="nums"$orderby[viewnum]>兑换数</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>递减</option>
+		<option value="asc"$ordersc[asc]>递增</option>
+		</select>
+		<select name="perpage">
+		<option value="10"$perpages[10]>每页显示10个</option>
+		<option value="20"$perpages[20]>每页显示20个</option>
+		<option value="50"$perpages[50]>每页显示50个</option>
+		</select>
+		<input type="hidden" name="ac" value="$ac">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+<form method="post" action="admincp.php?ac=$ac&perpage=$perpage&page=$page">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th>名称</th>
+				<th>类别</th>
+				<th>数量</th>
+				<th>积分</th>
+				<th>描述</th>
+				<th>浏览</th>
+				<th>兑换</th>
+				<th>评论</th>
+				<th>得分</th>
+				<th>多次兑换</th>
+				<th>开始时间</th>
+				<th>结束时间</th>
+				<th width="80">操作</th>
+			</tr>
+			<!--{loop $list $key=>$value}-->
+			<tr <!--{if !$value[total]}-->style="background:red;color:#ffffff;"<!--{/if}-->>
+				<th><input type="checkbox" name="ids[]" value="$value[id]"><img class="pic" src="$value[pic]" width="40" height="30" /><br />$value[name]</th>
+				<td>$list_lbss[$value[lbid]]</td>
+				<td>$value[total]</td>
+				<td>$value[price]</td>
+				<td>$value[des]</td>
+				<td>$value[views]</td>
+				<td>$value[nums]</td>
+				<td>$value[modders]</td>
+				<td>$value[score]</td>
+				<td><!--{if $value[flag]}-->可以<br /><!--{else}-->不可以<br /><!--{/if}--></td>
+				<td><!--{if $value[sdate]}--><!--{eval echo(date('m-d',$value[sdate]))}--><!--{/if}--></td>
+				<td><!--{if $value[edate]}--><!--{eval echo(date('m-d',$value[edate]))}--><!--{/if}--></td>
+				<td width="80">
+				<a href="admincp.php?ac=jifen_lp&op=edit&id=$value[id]">编辑</a> |
+				<a onclick="return confirm('确认删除？');" href="admincp.php?ac=jifen_lp&op=delete&id=$value[id]&lbid=$value[lbid]">删除</a> |
+				<a onclick="return confirm('确认加入抽奖？');" href="admincp.php?ac=jifen_cj&op=add&lpid=$value[id]&name=$value[name]&total=$value[total]">抽奖</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选 &nbsp;&nbsp;
+		<input type="radio" name="del" value="1"> 删除
+		<input type="submit" name="listsubmit" value="提交" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

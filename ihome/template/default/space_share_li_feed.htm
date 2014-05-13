@@ -1,0 +1,37 @@
+<!--{if empty($ajax_edit)}--><li id="share_$value[sid]_li"><!--{/if}-->
+	<div class="title">
+    </div>
+	<div class="feed" style="margin-top:5px;">
+	<div style="width:100%;overflow:hidden;">
+    <!--{if $value['image']}-->
+    <!--{eval $value[image]=substr($value[image],0,-10);}-->
+    <div class="share_image_div">
+        <a href="$value[image_link]"><img src="$value[image]" class="summaryimg" alt="" style="width:140px;" /></a>
+        </div>
+        <!--{/if}-->
+	<!--{if $value[body_data][videourl]}-->
+    <div class="detail">
+		$value[body_data][author]
+		$value[body_data][desc]
+	</div>
+    <!--{else}-->
+	<div class="detail">
+	$value[body_template]
+	</div>
+	<!--{/if}-->
+	<!--{if 'video' == $value['type']}-->
+	<div class="media">
+	<img src="image/vd.gif" alt="点击播放" onclick="javascript:showFlash('{$value['body_data']['host']}', '{$value['body_data']['flashvar']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+	<!--{elseif 'music' == $value['type']}-->
+	<div class="media">
+	<img src="image/music.gif" alt="点击播放" onclick="javascript:showFlash('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+	<!--{elseif 'flash' == $value['type']}-->
+	<div class="media">
+	<img src="image/flash.gif" alt="点击查看" onclick="javascript:showFlash('flash', '{$value['body_data']['flashaddr']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+	<!--{/if}-->
+	</div>
+	</div>
+<!--{if empty($ajax_edit)}--></li><!--{/if}-->

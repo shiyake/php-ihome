@@ -1,0 +1,86 @@
+<!--{if empty($ajax_edit)}-->
+<style>
+.round_avatar_share {
+             border-radius:50%;
+             display:inline-block;
+             box-shadow:3px 2px 3px -3px #c9c9c9;
+             border:3px solid #fff;
+         }
+         .round_avatar_share img {
+             height:70px;
+             width:70px;
+             border-radius:50%;
+         }
+         #share_ul .title {
+             border:none;
+             background:transparent;
+         }
+         .feed {
+             padding:10px;
+             background:#f5f5f5;
+             border-radius:5px;
+         }
+         .feed .detail {
+             margin-top:0 !important;
+             margin-bottom:0 !important;
+         }
+    </style>
+    
+<li id="share_$value[sid]_li" style="padding-bottom:5px;border-bottom:1px solid #dcdcdc;"><!--{/if}-->
+	<div class="title">
+		
+    <div class="round_avatar_share"><!--{avatar($value[uid],'big')}--></div>
+</div>
+<div style="margin-left:84px;margin-top:-59px;"><a style="margin-left:10px;" href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a> <a href="space.php?uid=$value[uid]&do=share&id=$value[sid]">$value[title_template]</a>
+&nbsp;
+    </div>
+    <div class="feed" style="border:1px solid #dcdcdc;margin-left:93px;margin-top:14px;width:449px;">
+        <div class="little_arrow">
+            <em class="la_line">◆</em>
+            <span class="la_bg">◆</span>
+        </div>
+	<div style="width:100%;overflow:hidden;">
+    <!--{if $value['image']}-->
+    <!--{eval $value[image]=substr($value[image],0,-10);}-->
+    <div class="share_image_div">
+        <a href="$value[image_link]"><img src="$value[image]" class="summaryimg" alt="" style="width:140px;" /></a>
+        </div>
+        <!--{/if}-->
+	<!--{if $value[body_data][videourl]}-->
+    <div class="detail">
+		$value[body_data][author]
+		$value[body_data][desc]
+	</div>
+    <!--{else}-->
+	<div class="detail">
+	$value[body_template]
+	</div>
+	<!--{/if}-->
+	<!--{if 'video' == $value['type']}-->
+	<div class="media">
+	<img src="image/vd.gif" alt="点击播放" onclick="javascript:showFlash('{$value['body_data']['host']}', '{$value['body_data']['flashvar']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+	<!--{elseif 'music' == $value['type']}-->
+	<div class="media">
+	<img src="image/music.gif" alt="点击播放" onclick="javascript:showFlash('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+	<!--{elseif 'flash' == $value['type']}-->
+	<div class="media">
+	<img src="image/flash.gif" alt="点击查看" onclick="javascript:showFlash('flash', '{$value['body_data']['flashaddr']}', this, '{$value['sid']}');" style="cursor:pointer;" />
+	</div>
+    <!--{/if}-->
+    </div>
+    <div class="r_option" style="margin-top:18px;margin-right:-10px;">
+		<!--{if $value[sid] && ($_SGLOBAL[supe_uid] == $value[uid] || checkperm('manageshare'))}-->
+		<!--{/if}-->
+	<!--	<!--{if $value[sid]}-->
+			<a href="space.php?uid=$value[uid]&do=share&id=$value[sid]">评论</a>&nbsp;
+            <!--{/if}-->-->
+        <!--{if $value[uid]==$_SGLOBAL[supe_uid]}-->
+        <!--{if $value['type']=='link' || 'video' == $value['type'] || 'music' == $value['type']}-->
+        <!--{/if}-->
+        <!--<span class="pipe">|</span>--><a href="cp.php?ac=share&op=delete&sid=$value[sid]" id="s_$value[sid]_delete" onclick="ajaxmenu(event, this.id)">删除</a><!--{/if}-->
+    </div>
+</div>
+<div style="margin-top:5px;color:#777;margin-left:93px;"><!--{date('Y-m-d H:i',$value[dateline],1)}--></div>
+<!--{if empty($ajax_edit)}--></li><!--{/if}-->

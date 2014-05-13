@@ -1,0 +1,54 @@
+<!--{template admin/tpl/header}-->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    jQuery(function() {
+        jq('#piechart').highcharts({
+            title: {
+                text: '用户30天内登录的天数的分布'
+            },
+            series: [{
+                type: 'pie',
+                name: '登录分布',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $value}-->
+                    <!--{eval echo "$sep [\"$value[item_tag]\", $value[num]]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->
+                ]}]
+        });
+    });
+</script>
+
+<div class="mainarea">
+	<div class="maininner">
+        <div id="piechart"></div>
+        <div class="bdrcontent">
+            <table cellspacing="0" cellpadding="0" class="listtable">
+            <caption>
+            <h2>活跃用户登录天数</h2>
+            </caption>
+            <thread>
+                <th class="title">登录天数</th>
+                <th class="title">人数</th>
+            </thread>
+            <tbody>
+                <!--{loop $items $value}-->
+                <tr class="line">
+                    <td class="center">$value['item_tag']</td>
+                    <td class="center">$value['num']</td>
+                </tr>
+                <!--{/loop}-->
+            </tbody>
+            </table>
+        </div>
+        <div class="bdrcontent">
+            <p>计算方法：统计最近30天内，登录0~5，6~10，11~20，21~30的人数</p>
+        </div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

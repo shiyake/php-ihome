@@ -1,0 +1,124 @@
+<!--{eval $_TPL['titles'] = array('群组');}-->
+<!--{template header}-->
+<div id="content" style="border-right:none;width:800px;">
+<h4 class="title title10"><img class="pic10" src="image/icons/icon_group.png">群组</h4>
+<a href="cp.php?ac=thread" style="position:absolute;top:35px;left:50%;margin-left:190px;font-size:14px;"><img src="image/icon_newtopic.png"/>发起新话题</a>
+<a href="cp.php?ac=mtag" style="position:absolute;top:35px;left:50%;margin-left:300px;font-size:14px;"><img src="image/icon_newgroup.png"/>创建群组</a>
+<div class="tabs_header" style="margin-left:0;margin-bottom:5px;">
+	<ul class="tabs">
+		<li style="width:110px;"><a href="space.php?uid=$space[uid]&do=thread"><span>群组话题</span></a></li>
+		<li$actives[me] style="width:110px;"><a href="space.php?do=mtag&view=me"><span>我参与的群组</span></a></li>
+		<li$actives[manage] style="width:110px;"><a href="space.php?do=mtag&view=manage"><span>我管理的群组</span></a></li>
+		<li$actives[hot] style="width:110px;"><a href="space.php?do=mtag&view=hot"><span>热门群组</span></a></li>
+		<li$actives[recommend] style="width:110px;"><a href="space.php?do=mtag&view=recommend"><span>推荐群组</span></a></li>
+	</ul>
+</div>
+
+<div class="h_status" style="border-bottom:none;padding:0;margin-left:25px;">
+	<a href="space.php?do=mtag&view=$_GET[view]&fieldid=$_GET[fieldid]&orderby=threadnum"$orderbyarr[threadnum]>话题数排行</a>
+	<a href="space.php?do=mtag&view=$_GET[view]&fieldid=$_GET[fieldid]&orderby=postnum"$orderbyarr[postnum]>&nbsp;&nbsp;回帖数排行</a>
+	<a href="space.php?do=mtag&view=$_GET[view]&fieldid=$_GET[fieldid]&orderby=membernum"$orderbyarr[membernum]>&nbsp;&nbsp;成员数排行</a>
+  </div>
+<!--{if $searchkey}-->
+<div class="h_status">以下是搜索群组 <span style="color:red;font-weight:bold;">$searchkey</span> 结果列表</div>
+<!--{/if}-->
+	
+
+<!--{if $rlist}-->
+	<div>
+		<h3 class="l_status">
+			<div class="r_option"><a href="space.php?do=mtag&view=recommend">更多推荐</a></div>
+			群组推荐
+		</h3>
+		<table cellspacing="5" cellpadding="5"><tr>
+		<!--{loop $rlist $key $value}-->
+			<td width="80">
+				<div class="threadimg60"><a href="space.php?do=mtag&tagid=$value[tagid]"><img src="$value[pic]" style="width:60px;"></a></div>
+			</td>
+			<td width="200" style="padding-left:5px;">
+				<a href="space.php?do=mtag&tagid=$value[tagid]" style="font-weight:bold;">$value[tagname]</a>
+				<div>$value[title]</div>
+				已有 <span class="num">$value[membernum]</span> 人加入
+				<div>
+					话题: $value[threadnum], 回帖: $value[postnum]
+				</div>
+			</td>
+		<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+		<!--{/loop}-->
+		</tr></table>
+	</div>
+<!--{/if}-->
+
+<!--{if $list}-->
+
+	<div style="float:left;width:585px;padding-left:5px;">
+		<!--{if $rlist}-->
+		<h3 class="l_status">
+			我的群组
+		</h3>
+		<!--{/if}-->
+		<table cellspacing="5" cellpadding="5"><tr>
+		<!--{loop $list $key $value}-->
+			<td width="80">
+				<div class="threadimg60"><a href="space.php?do=mtag&tagid=$value[tagid]"><img src="$value[pic]" ></a></div>
+			</td>
+			<td width="200" style="padding-left:5px;">
+				<a href="space.php?do=mtag&tagid=$value[tagid]" style="font-weight:bold;">$value[tagname]</a>
+				<div>$value[title]</div>
+				已有 <span class="num">$value[membernum]</span> 人加入
+				<div>
+					话题: $value[threadnum], 回帖: $value[postnum]
+				</div>
+			</td>
+		<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+		<!--{/loop}-->
+		</tr></table>
+	<div class="page" style="margin-top:35px;">$multi</div>
+	</div>
+	
+
+
+<!--{else}-->
+<p class="no-content-tip-group">
+    <img src="image/icons/no_status.png">
+    <br>
+    暂无群组
+</p>
+<!--{/if}-->
+
+
+<div id="sidebar" style="float:right;width:174px;">
+
+	<div class="sidebox" style="border-bottom:none;padding-left:10px;padding-top:0">
+	<h4 class="title" style="margin-top:0">群组分类</h4>
+	<ul class="post_list line_list">
+		<li$pro_actives[all]><a href="space.php?do=mtag&view=$_GET[view]&orderby=$_GET[orderby]">全部</a>
+		<!--{loop $_SGLOBAL['profield'] $value}-->
+		<li{$pro_actives[$value[fieldid]]}><a href="space.php?do=mtag&view=$_GET[view]&fieldid=$value[fieldid]&orderby=$_GET[orderby]">$value[title]</a></li>
+		<!--{/loop}-->
+	</ul>
+	</div>
+	
+	
+	<!--{if $threadlist}-->
+	<div class="sidebox" style="padding-left:10px;border-bottom:none;">
+	<h4 class="title">这些群组的话题更新</h4>
+	<ul class="line_list">
+		<!--{loop $threadlist $key $value}-->
+			<li>
+				<a href="space.php?uid=$value[uid]&do=thread&id=$value[tid]" <!--{if $value[magiccolor]}--> class="magiccolor$value[magiccolor]"<!--{/if}-->>$value[subject]</a>
+				<!--{if $value[hot]}-->
+				<br><span style="font-size:12px;color:#777">$value[hot] 人推荐</span>
+				<!--{/if}-->
+			</li>
+		<!--{/loop}-->
+	</ul>
+	</div>
+	<!--{/if}-->
+
+</div>
+
+
+<!--/sidebar-->
+</div>
+<!--{template footer}-->

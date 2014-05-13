@@ -1,0 +1,185 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<div id="search_vertical" class="tabs_header">
+	<ul class="tabs">
+        <li class="active"><a href="#"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=blog"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+    </ul>
+</div>
+
+<style>
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+    min-height: 970px;
+    padding-left: 20px;
+}
+
+#search_vertical {
+    margin-left: 0px;
+}
+
+.space_list {
+    width: 700px;
+    margin-left: 0px;
+}
+
+.space_list table {
+    border-collapse: separate;
+    border: none;
+}
+
+.space_list td {
+    padding: 0px;
+}
+.space_list .head {
+    width: 115px;
+    height: 115px;
+}
+
+.space_list .head img {
+    width: 115px; 
+    height: 115px;
+}
+
+.space_list td.profile {
+    padding: 8px 12px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.space_list td.head-outer {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.space_list td.links {
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.space_list td.profile p {
+    margin-bottom: 8px;
+    line-height: 20px;
+    padding: 0px;
+}
+
+.space_list td.profile p.note {
+    height: 40px;
+    margin-bottom: 0px;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+}
+
+.space_list td.profile p.note img {
+    height: 20px;
+    width: 20px;
+}
+
+.line_list {
+    margin-bottom: 0px;
+}
+
+.line_list li {
+    text-align: center;
+    padding: 5px 0px;
+}
+
+</style>
+<div class="space_list">
+	<!--{if $list}-->
+    <div style="padding: 0px; color: gray;">
+        共找到{$all_item_count}个相关的用户
+    </div>
+
+	<!--{loop $list $key $value}-->
+	<table cellspacing="0" cellpadding="0" width="100%" style="margin-bottom: 20px;">
+	<tr>
+		<td class="head-outer" width="65">
+            <div class="head">
+                <a href="space.php?uid=$value[uid]"><!--{avatar($value[uid], big)}--></a>
+            </div>
+        </td>
+		<td class="profile">
+			<p style="font-size: 14px;">
+				<!--{if $ols[$value[uid]]}-->
+                <img src="image/online_icon.png" align="absmiddle">
+                <!--{/if}-->
+				<a href="space.php?uid=$value[uid]" 
+                    title="{$_SN[$value[uid]]}">
+                    {$_SN[$value[uid]]}
+                </a>
+                <!--{if $value['username'] && $_SN[$value[uid]]!=$value['username']}-->
+                    <!--<span class="gray">($value[username])</span>-->
+                <!--{/if}-->
+
+				<!--{eval g_icon($value[groupid]);}-->
+
+                <!--{if $value[sex]==2}-->
+                    <img src="image/icon_girl.png">
+                <!--{elseif $value[sex]==1}-->
+                    <img src="image/icon_boy.png">
+                <!--{/if}-->
+
+				<!--{if $value['videostatus']}-->
+                <!--
+				<img src="image/videophoto.gif" align="absmiddle">
+                -->
+				<!--{/if}-->
+			</p>
+			<p>
+				<!--{if $_GET['view']=='show'}--><!--竞价--><!--{/if}-->
+                积分：$value[credit] /
+                <!--{if $value[experience]}-->
+                经验：$value[experience] /
+                <!--{/if}-->
+                人气：$value[viewnum] / 好友：$value[friendnum]
+            </p>
+            <p class="note">
+			    <!--{if $value[note]}-->$value[note]<!--{else}-->&nbsp;<!--{/if}-->
+            </p>
+		</td>
+		<td class="links" width="90">
+			<ul class="line_list">
+				<li><a href="space.php?uid=$value[uid]">去串个门</a></li>
+				<li><a href="cp.php?ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="ajaxmenu(event, this.id, 1)" title="打招呼">打个招呼</a></li>
+				<!--{if isset($value['isfriend']) && !$value['isfriend']}-->
+                <li>
+                    <a href="cp.php?ac=friend&op=add&uid=$value[uid]" 
+                        id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)" title="加好友">
+                        加为好友
+                    </a>
+                </li>
+                <!--{/if}-->	
+			</ul>
+		</td>
+	</tr>
+	</table>
+	<!--{/loop}-->
+    <div style="margin: 0px 0px 10px;" class="page">$multi</div>
+    <!--{else}-->
+    <p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+		没有相关好友
+	</p>
+    <!--{/if}-->
+</div>
+<!--{/if}-->
+<!--{template footer}-->

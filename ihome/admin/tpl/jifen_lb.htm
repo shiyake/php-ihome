@@ -1,0 +1,127 @@
+<!--{template admin/tpl/header}-->
+<style type="text/css">
+	.poster{
+	max-width: 240px; max-height: 180px;}
+</style>
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=jifen_lb"><span>浏览全部类别</span></a></li>
+			<li class="null"><a href="admincp.php?ac=jifen_lb&op=add">添加新类别</a></li>
+		</ul>
+	</div>
+		
+	<form method="post" action="admincp.php?ac=jifen_lb" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+
+<!--{if "add" == $_GET['op'] || "edit" == $_GET['op']}-->
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:15em;">名称</th>
+				<td><input type="text" name="name" value="$thevalue[name]"></td>
+			</tr>
+			<tr>
+				<th>图标</th>
+				<td>
+					<img id="posterview" class="pic" src="$thevalue[pic]?v=$_SGLOBAL[timestamp]" alt="默认图标" onerror="this.src='jifen/images/default.gif'" />
+					<input type="text" name="pic" value="$thevalue[pic]" style="width:200px;">相对于uchome的根目录
+				</td>
+			</tr>
+			<tr>
+				<th>描述</th>
+				<td>
+					对礼品类别进行介绍 <br />
+					<textarea name="des" rows="8" cols="80">$thevalue[des]</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>显示顺序</th>
+				<td>
+					<input type="text" name="displayorder" value="$thevalue[displayorder]" />
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="id" value="$thevalue[id]" />
+		<input type="submit" name="jifen_lbsubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+
+<!--{elseif "delete" == $_GET['op']}-->
+
+		<div class="topactions">
+			该礼品类别删除后，请选择该礼品类别下面已有的活动会归类到那个新礼品类别。
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th width="150">礼品类别下的新归类</th>
+				<td>
+				<select name="newclassid">
+				<!--{loop $list $key $value}-->
+					<!--{if $value}-->
+					<option value="$value[id]">$value[name]</option>
+					<!--{/if}-->
+				<!--{/loop}-->
+				</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="id" value="$thevalue[id]" />
+		<input type="submit" name="deletesubmit" value="确认" class="submit">
+	</div>
+
+	</form>
+
+<!--{else}-->
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th>名称</th>
+				<th>礼品总数</th>
+				<th>描述</th>
+				<th>显示顺序</th>
+				<th width="80">操作</th>
+			</tr>
+			<!--{loop $list $key=>$value}-->
+			<tr>
+				<th><img class="pic" src="$value[pic]?v=$_SGLOBAL[timestamp]" alt="默认图标" onerror="this.src='jifen/images/default.gif'" />$value[name]</th>
+				<td>$value[nums]</td>
+				<td>$value[des]</td>
+				<td><input type="text" name="displayorder[$key]" value="$value[displayorder]" size="5"></td>
+				<td width="80">
+				<a href="admincp.php?ac=jifen_lb&op=edit&id=$value[id]">编辑</a> |
+				<a onclick="return confirm('确认删除？');" href="admincp.php?ac=jifen_lb&op=delete&id=$value[id]">删除</a> |
+				<a href="admincp.php?ac=jifen_lp&op=add&lbid=$value[id]">添加礼品</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="submit" name="ordersubmit" value="更新排序" class="submit">
+	</div>
+
+	</form>
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

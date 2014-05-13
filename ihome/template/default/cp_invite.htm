@@ -1,0 +1,136 @@
+<!--{template header}-->
+<h4 class="title" style="margin: 30px 0px 10px 20px;">
+    <img class="pic10" src="image/icons/icon-addfriend-black.png" />好友</h4>
+<div style="margin-left: 20px;" class="tabs_header">
+    <ul class="tabs">
+        <li><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
+        <li><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
+        <li class="active"><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
+        <!--<li><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->
+        <!--<li><a href="space.php?do=top"><span>排行榜</span></a></li>-->
+    </ul>
+</div>
+
+<style>
+#content {
+    border-left: none;
+}
+input[type="radio"] {
+    margin:0;
+}
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+}
+</style>
+
+<div id="content" style="width:540px;border-right:none;">
+
+<!--{if empty($space['already_input']) }-->
+<form action="cp.php?ac=invite&find=invitename" method="post" id="toinviteinput">
+
+		<table>
+			<!--{if $_SCONFIG['isgranted']==1 }-->
+			<tr>
+				<td>
+					授权者：
+				</td>
+				<td>
+					<select id="grant" name="grant" class="t_input form-control input-sm" style="width:147px;display:block;">
+					<option>
+						--请选择--	
+					</option>
+					<!--{loop $space['grantlist'] $value}-->
+						<option>
+							{$value['name']}({$value['uid']})
+						</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+	
+			<!--{/if}-->
+            <tr>
+                <td>
+		    被邀请人姓名：
+                </td>
+                <td>
+                    <input type="text" name="invite_name" id="invite_name" class="t_input form-control input-sm"/>
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" class="btn btn-comments btn-sm invitebuttom" onclick="addaction()" value="邀请"/></td>
+            </tr>
+         </table>
+	 </form>
+	 <!--{if $_SCONFIG['isgranted']==0}-->
+	 <script>
+		 function addaction() {
+		 	document.getElementById('toinviteinput').action=document.getElementById('toinviteinput').action+"&inviteuser="+document.getElementById('invite_name').value;
+		 }
+	 </script>
+	 <!--{else}-->
+	 <script>
+		 function addaction() {
+		 	document.getElementById('toinviteinput').action=document.getElementById('toinviteinput').action+"&inviteuser="+document.getElementById('invite_name').value+"&grant="+document.getElementById('grant').value;
+		 }
+	 </script>
+	 <!--{/if}-->
+	 
+<!--{else}-->
+<form method="post" id="subform" action="cp.php?ac=invite&work=goinvite&method=school&inviteuser={$space['already_input'][0]['realname']}&grant={$_GET[grant]}" class="c_form">
+    <p><h4 style="margin-left:3px;">您要邀请的是？</h4></p>
+    <table>
+        <tbody>
+        <!--{loop $space['already_input'] $key $value}-->
+        <tr>
+            <td>
+		    <input type="radio" name="to_select" value="{$space['already_input'][$key]['userid']}"/>
+			</td>
+	        <td>
+		    {$space['already_input'][$key]['realname']}，{$space['already_input'][$key]['usertype']}，
+		    <!--{if strcmp($space['already_input'][$key]['usertype'],"学生") && strcmp($space['already_input'][$key]['usertype'],"校友")}-->
+		    职工号:
+		    <!--{else}-->
+		    学号:
+		    <!--{/if}-->
+		    {$space['already_input'][$key]['collegeid']}
+            </td>
+        </tr>
+	    <!--{/loop}-->
+	    <tr>
+		    <td>
+			    <input id="other" type="radio" name="to_select" value="other" checked="true"/>
+		    </td>
+		    <td>
+			    都不是
+		    </td>
+	    </tr>
+        </tbody>
+    </table>
+	<input type="submit" style="margin-top:10px;margin-left:3px;" class="btn btn-sm btn-comments submit" value="确认" style="margin-left:0px;"/></td>
+
+</form>
+<!--{/if}-->
+</div>
+
+<div id="sidebar">
+	<!--{if $_SCONFIG['isgranted']==0 }-->
+		<form action="cp.php?ac=invite&op=grant" method="post">		
+            <div class="granttoinvite">
+               <h4>授权i北航用户邀请站外好友</h4>
+				<p>通过@来选择站内好友</p>
+				<h4>要授权的用户：</h4>
+				<input type="text" id="invite_inputarea" class="t_input form-control input-sm" style="width:95%;" name="invite_inputarea" 
+                    onkeyup="textConter(this,'maxlimit',140)" 
+                    onkeydown="ctrlEnter(event,'add');" onfocus="at()"/>
+				<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+				<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+				<p style="margin-top:10px;">系统会自动向被授权用户发送站内消息，被授权用户可以点击某公共主页下的“邀请站外好友”进行邀请。</p>
+				<input type="submit" value="授权" style="width:80px;" class="btn btn-sm btn-comments submit"/>
+            </div>    
+        </form>
+    <!--{/if}-->
+</div>
+<!--{template footer}-->

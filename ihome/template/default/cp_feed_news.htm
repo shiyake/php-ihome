@@ -1,0 +1,97 @@
+<script language="javascript" src="source/feed_more.js"></script>
+<!--{if $list}-->
+<!--{loop $list $day $values}-->
+
+<ul>
+    <!--{loop $values $value}-->
+<!--{template space_feed_li}-->
+<!--{/loop}-->
+</ul>
+<!--{/loop}-->
+
+<!--{else}-->
+
+<ul>
+    <li style="font-size:12px;text-align:center;margin-top:150px;"><p><img src="image/icons/no_status.png"></img>&nbsp;&nbsp;抱歉！没有相关动态~</p></li>
+</ul>
+<!--{/if}-->
+
+<!--
+<script language="javascript" type="text/javascript">
+	jQuery.noConflict();
+	jQuery(function ($) {
+		var show_nc,hide_nc,uid;
+		$('.avatar48, .feed_li_avatar').hover(function() {
+			var _this = $(this);
+			var top= _this.offset().top + _this.outerHeight() / 2;
+			var left = _this.offset().left - 20;
+			if (_this.hasClass('feed_li_avatar')) {
+				left += 'px';
+				top += 'px';
+				$('.name_card').addClass('name_card_l');
+				$('.name_card').css({'top':top,'left':left});
+			} else {
+				top += 5;
+				left += 'px';
+				$('.name_card').addClass('name_card_r');
+				$('.name_card').css({'top':top,'left':left});
+			}
+			uid = _this.find('a').attr('href');
+			var uid_num = uid.indexOf('?')+1;
+			uid = uid.substr(uid_num);
+			uid = uid.split('=');
+			uid = uid[1];
+			var imgsrc = _this.find('img').attr('src');
+			imgsrc = imgsrc.replace(/small/,"big")
+			show_nc = setTimeout(function(){cn_p(uid,imgsrc);},300);
+		},
+		function() {
+			clearTimeout(show_nc);
+			//hide_nc = setTimeout(function(){cn_h();},500);
+		});
+
+		$('.name_card').hover(function(){
+			clearTimeout(hide_nc);
+		}, function(){
+			//hide_nc = setTimeout(function(){cn_h();},500);
+		});
+
+		$('.nc_sm').live('click',function(){
+			$.get("cp.php",{'ac':'pm','uid':uid},function(data){},'json');
+		});
+
+		function cn_p(uid, imgsrc) {
+			$.get("cp.php",{'ac':'namecard','uid':uid},function(data){
+				var name = data.name || data.username;
+
+				var edu = data.edu || data.edu.split(' ')[1];
+				var work = data.work;
+
+				var html = [];
+				html.push("<p style='text-align:right;font-size:14px;'><a style='color:#428bca' href='#'>"+name+"</a></p>");
+				
+				if(edu){
+					html.push("<p>" + edu + "</p>");
+				}
+
+				if (work) {
+					html.push("<p>单位：" +work + "</p>");
+				}
+				
+				html.push("<p style='margin-top: 20px; text-align:center;'><button href='cp.php?ac=pm&uid=" + uid + "' class='btn btn-danger' id='a_pm' onclick='ajaxmenu(event,this.id, 1)'><span class='icon-comments'></span>&nbsp;发消息</button></p>");
+
+				html.push("</div>");
+				$('.name_card').html(html.join("")).show();
+			},'json');
+		};
+		function cn_h(){
+			$('.name_card').hide();
+			$('.name_card').removeClass('name_card_r');
+			$('.name_card').removeClass('name_card_l');
+			$('.name_card').empty();
+		};
+	});
+
+
+</script>
+-->

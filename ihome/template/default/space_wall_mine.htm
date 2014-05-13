@@ -1,0 +1,44 @@
+<!--{eval $_TPL['titles'] = array('留言');}-->
+<!--{template header}-->
+
+<!--{if $space[self]}-->
+<div id="content" style="border-right:none">
+<h4 class="title">留言板</h4>
+<!--{else}-->
+<!--{eval
+	$_TPL['spacetitle'] = "留言";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=wall&view=me\">TA的所有留言</a>";
+}-->
+<!--{template space_menu}-->
+<!--{/if}-->
+
+<div class="h_status" style="margin-left:0px;">
+	你给别人的留言
+</div>
+<style>
+		#comment_ul li {
+			border-bottom:1px solid #dcdcdc;
+		}
+		.info_comment {
+			width:88%;
+		}
+	</style>
+
+<div class="comments_list" id="comment">
+	<ul id="comment_ul">
+	<!--{loop $list $value}-->
+		<!--{template space_comment_li_mine}-->
+	<!--{/loop}-->
+	</ul>
+</div>
+<div class="page">$multi</div>
+
+<script type="text/javascript">
+//彩虹炫
+var elems = selector('div[class~=magicflicker]'); 
+for(var i=0; i<elems.length; i++){
+	magicColor(elems[i]);
+}
+</script>
+</div>
+<!--{template footer}-->

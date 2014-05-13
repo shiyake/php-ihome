@@ -1,0 +1,28 @@
+/*
+[name]淡淡清香[/name]
+*/
+body { padding: 0 0 50px; background: url(images/body_bg.gif) fixed repeat left top; color: #666; }
+#WebHead{ width:100%; height:33px; background:none; overflow:hidden;}
+#wrap { background: #FFF; }
+#header { margin: auto; color: #CCC; width:1002px;}
+.headerwarp { background: none; width:100%;padding:0;float:left;}
+#header a { color: #2C629E; }
+#header .logo a { width: 137px; height: 33px; background: url(images/logo.png) no-repeat left center; overflow: hidden; display: block; margin-top:1px;}
+#header .logo a img { margin: -200px; }
+.login_thumb { background-image: url(images/login_bg.gif); }
+#ubar h2,
+#space_page .feed_header,
+#space_page .sidebox h2.title { padding: 0 10px; height: 30px; border-bottom: 1px solid #DDE5D9; background: #EFF3ED; line-height: 30px; }
+.ulist,
+ #space_page .feed li,
+ #space_page .comments_list li,
+ #footer { border-color: #DDE5D9; }
+.tabs_header ul.tabs li.active a,
+.tabs_header ul.tabs li.active a span,
+.tabs_header ul.tabs li a,
+.tabs_header ul.tabs li a span { background: none; }
+.ulist { background: #EFF3ED; }
+.tabs_header ul.tabs li a { border: 1px solid #DDE5D9; border-bottom: none; background: #EFF3ED; }
+.tabs_header { height: 31px; }
+.submit{color:#2C629E;}
+#bg_pic{background:none;}

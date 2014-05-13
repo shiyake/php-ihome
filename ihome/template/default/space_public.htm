@@ -1,0 +1,462 @@
+<!--{template header}-->
+ 
+<link rel="stylesheet" href="template/default/public.css"/>
+<style>
+    .popupmenu_centerbox h1 {
+        background: #f5f5f5;
+    }
+    .popupmenu_centerbox {
+        font-size: 14px;
+        margin: 0;
+    }
+    .popupmenu_centerbox .popupmenu_inner {
+        color: #666;
+        padding: 6px;
+    }
+</style>
+<script type="text/javascript" src="source/public_tabs.js"/>
+</script>
+<script>
+    jQuery(document).ready(function() {
+      jQuery("img.lazy").lazyload({
+          effect: "fadeIn"
+        });
+    });
+</script>
+<div id="content" style="width:800px;border-right:none">
+    <h4 class="title title30" style="margin-left:0 !important;"><img class="pic10" src="image/icons/icon_public.png" />公共主页</h4>
+    <span id="apply_for_public"><a href="cp.php?ac=publicapply">申请公共主页</a></span>
+    <div class="tabs_header" style="margin-left:0 !important;">
+        <ul class="tabs">
+            <li class="active"><a href="#public_hot"><span>热门</span></a></li>
+            <li><a href="#public_my"><span>我关注的</span></a></li>
+            <li><a href="#public_college"><span>学院</span></a></li>
+            <li><a href="#public_department"><span>部处</span></a></li>
+        
+            <li><a href="#public_student"><span>学生组织</span></a></li>
+            <li><a href="#public_interest"><span>兴趣社团</span></a></li>
+            <li class="more">
+                <a href="#">更多</a>
+                <ul class="more-menu" style="display:none">
+                    <li style="border-top-left-radius: inherit;border-top-right-radius: inherit">
+                        <a href="#public_event">活动</a>
+                    </li>
+                    <li><a href="#public_popular">名人堂</a></li>
+                    <li><a href="#public_class">班级</a></li>
+                    <li><a href="#public_brand">品牌推广</a></li>
+                    <li><a href="#public_english">航路研语</a></li>
+                    <li><a href="#public_student_party">学生党组织</a></li>
+
+                    <li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit">
+                        <a href="#public_others">其他</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div id="public_hot">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $topplist}-->
+            <!--{loop $topplist $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_college" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_1}-->
+            <!--{loop $sublist_1 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_my" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $addedplist}-->
+            <!--{loop $addedplist $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_addedpublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_addedpublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_department" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_2}-->
+            <!--{loop $sublist_2 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_student" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_4}-->
+            <!--{loop $sublist_4 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_interest" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_5}-->
+            <!--{loop $sublist_5 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_student_party" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_6}-->
+            <!--{loop $sublist_6 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_event" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_7}-->
+            <!--{loop $sublist_7 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_brand" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_8}-->
+            <!--{loop $sublist_8 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_class" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_20}-->
+            <!--{loop $sublist_20 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_english" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_100}-->
+            <!--{loop $sublist_100 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_others" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_0}-->
+            <!--{loop $sublist_0 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_0_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_0_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div id="public_popular" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_3}-->
+            <!--{loop $sublist_3 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+
+</div>
+<!--{template footer}-->

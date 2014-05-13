@@ -1,0 +1,221 @@
+<!--{template header}-->
+
+
+<div id="register_public">
+<div id="content" style="border-right:none;width:800px">
+  <h4 class="title title30"><img class="pic10" src="image/icons/icon_public.png">公共主页</h4>
+  <form id="publicapplyform" name="publicapplyform" action="cp.php?ac=publicapply" method="post" class="c_form"  onsubmit="return checkSubmit();">
+  <table cellpadding="0" cellspacing="0" class="formtable">
+  	<p style="margin-left:10px;">欢迎申请ihome公共主页！请如实填写以下信息，目前只对学校<font color="red">各单位、学生社团等组织</font>开放，为方便班内、班级党/团支部同学交流，请各班辅导员创建或加入相应的班级、班级党/团支部小组。管理员审核后您将一条系统消息与一封验证EMAIL，请注意查收。</p>
+	<tr><th width="150">登录账号</th><td><input type="text" id="username" name="username" value="" class="t_input"  onBlur="checkUserName()"  tabindex="1" />&nbsp;<span id="checkusername">&nbsp;</span></td></tr>
+	<tr><th>主页名称</th><td><input type="text" id="fullname" name="fullname" value="" class="t_input"  onBlur="checkName()" tabindex="2" />&nbsp;<span id="checkname">&nbsp;</span></td></tr>
+	
+	<tr><th valign="top">邮箱</th><td><input type="text" id="email" name="email" value="" class="t_input" onBlur="checkEmail()" tabindex="3" />&nbsp;<span id="checkemail">&nbsp;</span>
+		<br>请准确填入您的邮箱，<font color="red">不能使用ihome系统中已注册的邮箱</font><br>
+		管理员处理后将以邮件方式联系您</td></tr>
+	<tr><th>联系人姓名</th><td><input type="text"  id="contact" name="contact" value="<!--{$_SN[$_SGLOBAL['supe_uid']]}-->" readonly="true" />&nbsp;<span id="checkcontact">&nbsp;</span></td></tr>
+	<tr><th>联系电话</th><td><input type="text"  id="phone" name="phone" value="<!--{$_SGLOBAL['member']['mobile']}-->" class="t_input" onBlur="checkPhone()" tabindex="4" />&nbsp;<span id="checkphone">&nbsp;</span></td></tr>
+	<tr><th>联系人学号/教工号</th><td><input type="text"  id="contactid" name="contactid" value="" class="t_input" onBlur="checkContactid()" tabindex="5" />&nbsp;<span id="checkcontactid">&nbsp;</span></td></tr>
+	<tr><th>申请理由</th><td><textarea  id="reason" name="reason" value="" rows="3" style="width:300px;" class="t_input" onBlur="checkReason()" tabindex="6" /></textarea>&nbsp;<span id="checkreason">&nbsp;</span></td></tr>
+	<tr><th>公共主页类型</th><td><select name="publictype" id="publictype" style="width :100px ; text-align:center;" onchange="checkType()"><option value="">请选择</option><option value="1">教学院系</option> <option value="2">职能部处</option> <option value="4">学生组织</option><option value="5">兴趣社团</option><option value="6">学生党组织</option><option value="7">活动主页</option><option value="8">品牌主页</option><option value="20">班级主页</option><option value="0">其他</option> </select><span id="checkpublictype">&nbsp;</span></td></tr>
+	<tr><th>&nbsp;</th>
+		<td>
+		<input type="hidden" name="appuid" value="$_SGLOBAL['supe_uid']" />
+		<input type="submit" id="applysubmit" name="applysubmit" value="提交申请" class="submit" tabindex="7" />
+
+		</td>
+	</tr>
+	<tr><th>&nbsp;</th><td id="__registerform" style="color:red; font-weight:bold;"></td></tr>
+</table>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
+
+<script type="text/javascript">
+
+	$('username').focus();
+
+	function checkUserName() {
+		var userName = $('username').value;
+		var cu = $('checkusername');
+		var unLen = userName.length;
+
+		if(userName == "") {
+			warning(cu, '登录用户名不能为空');
+			return false;
+		}else if(unLen < 3 || unLen > 15) {
+			warning(cu, unLen < 3 ? '用户名小于3个字符' : '用户名超过 15 个字符');
+			return false;
+		}else{
+			ajaxresponse('checkusername', 'op=checkusername&username=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(userName) : userName));
+		}
+	}
+	
+	function checkReason() {   
+		var Reason = $('reason').value;
+		var cu = $('checkreason');
+		var unLen = Reason.replace(/[^\x00-\xff]/g, "**").length;
+		unLen = Math.ceil(unLen / 2);
+		if(Reason == "") {
+			warning(cu, '申请理由不能为空');
+			return false;
+		}else if(unLen < 3 || unLen >200) {
+			warning(cu, unLen < 3 ? '申请理由不能小于3个文字' : '申请理由不能超过200个文字');
+			return false;
+		}else{
+			checkpass(cu,'');
+			return true;
+		}
+	}
+	function checkContact() {  
+		var Contact = $('contact').value;
+		var cu = $('checkcontact');
+		if(Contact == "") {
+			warning(cu, '联系人不能为空');
+		    return false;
+		} else {
+			var unLen = Contact.replace(/[^\x00-\xff]/g, "**").length;
+			unLen = Math.ceil(unLen / 2);
+			if(unLen >15 ) {
+				warning(cu, '联系人姓名不能超过15个文字');
+				return false;
+			}
+			
+		}
+		checkpass(cu,'');
+			return true;
+	}
+	function checkPhone() {
+		var Phone = $('phone').value;
+		var cu = $('checkphone');
+		if(Phone == "") {
+			warning(cu, '联系电话不能为空');
+			return false;
+		} else {
+		   var unLen = Phone.length;
+			if(unLen < 4 || unLen > 18 ) {
+				warning(cu, unLen < 4 ? '电话不能小于4位数字' : '电话不能超过18位');
+				return false;
+			}else{
+			   for(var i=0;i<unLen;i++) 
+			   { 
+					var tempchar=Phone.substring(i,i+1); 
+					if(!(tempchar==0||tempchar==1||tempchar==2||tempchar==3||tempchar==4||tempchar==5||tempchar==6||tempchar==7||tempchar==8||tempchar==9||tempchar=='-')) 
+					{ 
+					warning(cu, '电话号码只能输入数字和中划线'); 
+					return false; 
+					}    
+				}
+				checkpass(cu,'');
+				return true;
+			}
+		}
+	}
+	function checkType() {
+		var Type = $('publictype').value;
+		var cu = $('checkpublictype');
+		if(Type == "") {
+			warning(cu, '请选择类型');
+			return false;
+		}else{
+		    checkpass(cu,'');
+			return true;
+		}
+	}
+	function checkContactid() {
+		var Contactid = $('contactid').value;
+		var cu = $('checkcontactid');
+		if(Contactid == "") {
+			warning(cu, '联系人教工号/学号不能为空');
+			return false;
+		}else{
+		    checkpass(cu,'');
+			return true;
+		}
+	}
+	function checkName() {  
+		var Fullname = $('fullname').value;
+		var cu = $('checkname');
+		var unLen = Fullname.replace(/[^\x00-\xff]/g, "**").length;
+		unLen = Math.ceil(unLen / 2);
+		if(Fullname == "") {
+			warning(cu, '公共主页名称不能为空');
+			return false;
+		}else if(unLen < 2 || unLen > 20) {
+			warning(cu, unLen < 2 ? '名称小于2个文字' : '名称超过 20 个文字');
+			return false;
+		}else{
+		    ajaxresponse('checkname', 'op=checkname&fullname=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(Fullname) : Fullname));
+		}
+	}
+	function checkEmail(){
+		var email = $('email').value;
+		var cu = $('checkemail');
+		if(email.length!=0){
+			if (email.charAt(0)=='.' ||        
+				 email.charAt(0)=='@'||       
+				 email.indexOf('@', 0) == -1 || 
+				 email.indexOf('.', 0) == -1 || 
+				 email.lastIndexOf('@')==email.length-1 || 
+				 email.lastIndexOf('.')==email.length-1)
+			 {
+			  warning(cu,'Email的格式不正确');
+			  return false;
+			  }else{
+				ajaxresponse('checkemail', 'op=checkemail&email=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(email) : email));
+			}
+		   }else{
+				warning(cu, 'Email地址不能为空');
+				return false;
+		}
+	} 
+
+	function checkSubmit() {
+		//var usernamereturn = checkUserName();
+		//var fullnamereturn = checkName();
+		//var emailreturn = checkEmail();
+		var phonereturn = checkPhone();
+		var contactreturn = checkContact();
+		var reasonreturn = checkReason();
+		var contactidreturn = checkContactid();
+		var typereturn = checkType();
+
+		
+		if(phonereturn && contactreturn && reasonreturn && contactidreturn && typereturn){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('cp.php?ac=publicapply&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+				return true;
+			} else {
+				warning(obj, s);
+				return false;
+			}
+		});
+	}
+		
+	
+	function warning(obj, msg) {
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+    function checkpass(obj, msg){
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+		obj.className = "warning";
+	}
+</script>
+</div>
+</div>
+
+<!--{template footer}-->

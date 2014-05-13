@@ -1,0 +1,24 @@
+<!--{eval $_TPL['titles'] = array('同心情');}-->
+<!--{template header}-->
+
+<div id="content" style="border-right:none;">
+<h4 class="title" style="margin-left:15px;margin-top:30px;"><img src="image/icons/icon_zuji.png">足迹</h4>
+<div class="tabs_header">
+	<ul class="tabs">
+		<!--{if $space[self]}-->
+		<!--{if $space[friendnum]}--><li style="width:110px;"><a href="space.php?uid=$space[uid]&do=doing&view=we"><span>最新好友足迹</span></a></li><!--{/if}-->
+		<li style="width:110px;"><a href="space.php?uid=$space[uid]&do=doing&view=all"><span>大家的足迹</span></a></li>
+		<li style="width:110px;"><a href="space.php?uid=$space[uid]&do=doing&view=me"><span>我的足迹</span></a></li>
+		<!--{/if}-->
+		<li class="active" style="width:110px;"><a href="space.php?uid=$space[uid]&do=mood&view=all"><span>同心情的朋友</span></a></li>
+	</ul>
+</div>
+
+<div class="h_status">
+	他们现在与你有着同样的心情
+</div>
+
+<!--{template space_list}-->
+
+</div>
+<!--{template footer}-->

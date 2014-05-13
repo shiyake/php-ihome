@@ -1,0 +1,18 @@
+<div class="c_form">
+	<h2 class="l_status title">ะกื้ะกื้ต</h2>
+	<ul class="avatar_list">
+		<!--{loop $publiclist $key $value}-->
+
+
+
+
+
+		<li>
+			<div class="avatar48"><a href="../space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+			<p><a href="../space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+			<p class="gray"><a href="../cp.php?ac=friend&op=add&uid=$value[uid]" id="a_online_friend_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">ะกื้ณ?/a></p>
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+ 

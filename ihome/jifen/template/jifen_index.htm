@@ -1,0 +1,16 @@
+<!--{template header}-->
+
+<div class= "exchange_all">
+	<div class= "exchange_all_sort">
+		<div class= "exchange_all_sort_title"><a href="jifen.php?lbid=1">热门礼品</a></div>
+			<!--{loop $lplist $key $value}-->
+			<div class= "exchange_all_sort_list">
+			<a href="jifen.php?ac=show&id=$value[id]" title="{$value[name]}"><img src="$value[pic]" /></a>
+			<dt>名称：<a href="jifen.php?ac=show&id=$value[id]">$value[name]</a></dt><dt>价格：$value[price]积分</dt><dt>兑换：$value[nums]人次</dt><dt>浏览：$value[views]人次</dt><dt>评论：$value[modders]</dt>
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div>
+</div>
+
+<!--<!--{template footer}-->-->

@@ -1,0 +1,358 @@
+<!--{template plugin/apps/header}-->  	
+    <div class="main">
+    	<!--{template plugin/apps/left}-->
+        <div class="yingyong_right">
+        	<!--{template plugin/apps/right_nav}-->
+            <div class="clear"></div>
+            <script type="text/javascript">
+			$(function(){
+			   $("#WSC").click(function(){
+					$("#for_rp").show();
+					$("#for_wsc").show();
+				});
+				$("#UAC").click(function(){
+					$("#for_rp").show();
+					$("#for_wsc").hide();
+				});
+				$("#RP").click(function(){
+					$("#for_rp").hide();
+				});
+				
+				
+			});
+			function isexist(id){
+				<!--{if !$id}-->
+				var names = $("#"+id).val();
+				if(names == '' || strlen(names)<12){
+					$("#"+id).focus();
+					alert('请输入服务名称~!');
+					return false;
+				}
+				$.post("plugin.php?pluginid=apps&ac=apply&ajax=1",{name:names},
+				function(data){
+					if(data!=0){
+						alert('该名称已存在~!');
+						$("#"+id).focus();
+					}
+				});
+				<!--{/if}-->
+			}
+			function strlen(str){  
+				var len = 0;  
+				for (var i=0; i<str.length; i++) {   
+				 var c = str.charCodeAt(i);   
+				//单字节加1   
+				 if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {   
+				   len++;   
+				 }   
+				 else {   
+				  len+=2;   
+				 }   
+				}   
+				return len;  
+			}  
+			</script>
+			<script type="text/javascript" src="plugin/apps/ueditor/ueditor.config.js"></script>
+			<script type="text/javascript" src="plugin/apps/ueditor/ueditor.all.min.js"></script>
+
+            <div class="yingyong_c">
+				
+				<span class="yingyong_tab clear">
+					<a href="javascript:void(0)" class="margin_left_100<!--{if $appdetail[category]==1}--> tabActive<!--{/if}-->">校内服务</a>
+                    <a href="javascript:void(0)"<!--{if $appdetail[category]==3}--> class="tabActive"<!--{/if}-->>第三方服务</a>
+                </span><!-- end yingyong_tab -->
+
+                <ul style="display:<!--{if $appdetail[category]==1}-->block;<!--{else}-->none;<!--{/if}-->">
+                    <div class="yingyong_req">
+					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
+                        <div class="yingyong_t">校内服务</div><!-- end yingyong_t -->
+                        <div class="clear height_10"></div>
+                        
+                        <div class="left inline width_100 text_align_right">服务名称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="name1" value="$appdetail[name]" onblur="isexist('name1')" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;少于12字</div>
+                        <div class="clear height_10"></div>
+                        
+                        <div class="left inline width_100 text_align_right">服务LOGO&nbsp;&nbsp;</div>
+                        <div class="left"><input  type="file" name="logo" id="logo1" style="border:none;" ><img src="$_SC['attachurl'].$appdetail[logo]" height=60 /></div>
+                        <div class="clear height_10"></div>
+                        
+						<div class="left inline width_100 text_align_right">服务网址&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="url1" name="url" value="$appdetail[url]" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">所属类别&nbsp;&nbsp;</div>
+                        <div class="left">
+							<select name="type" id="type1">
+							  <option selected="selected" value="0">请选择</option>
+							  <option<!--{if $appdetail[type]==1}--> selected="selected"<!--{/if}--> value="1">教学类</option>
+							  <option<!--{if $appdetail[type]==2}--> selected="selected"<!--{/if}--> value="2">科研类</option>
+							  <option<!--{if $appdetail[type]==3}--> selected="selected"<!--{/if}--> value="3">财务类</option>
+							  <option<!--{if $appdetail[type]==4}--> selected="selected"<!--{/if}--> value="4">人力资源类</option>
+							  <option<!--{if $appdetail[type]==5}--> selected="selected"<!--{/if}--> value="5">资产类</option>
+							  <option<!--{if $appdetail[type]==6}--> selected="selected"<!--{/if}--> value="6">生活服务类</option>
+							  <option<!--{if $appdetail[type]==7}--> selected="selected"<!--{/if}--> value="7">其他</option>
+							</select>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">适用对象&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <label><input type="checkbox" name="undergraduate" value ="1" <!--{if $appdetail[usertype] & 8}-->checked <!--{/if}-->/>本科生</label>
+							<label><input type="checkbox" name="postgraduate" value ="1" <!--{if $appdetail[usertype] & 4}-->checked <!--{/if}-->/>研究生</label>
+							<label><input type="checkbox" name="teacher" value ="1" <!--{if $appdetail[usertype] & 2}-->checked <!--{/if}-->/>教职工</label>
+							<label><input type="checkbox" name="alumnus" value ="1" <!--{if $appdetail[usertype] & 1}-->checked <!--{/if}-->/>校友</label>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">含线下服务&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <label><input type="checkbox" name="offline" value ="1" <!--{if $appdetail[offline]}-->checked <!--{/if}-->/>另需线下办理(请在服务描述中做明确说明)</label>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">服务描述&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="desc" name="desc" style="width:590px;padding:0;height:300px;" rows="4" class="border_input">$appdetail[desc]</textarea>
+							<script type="text/javascript">
+								var editor = new UE.ui.Editor();
+								editor.render("desc");
+							</script>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">上传图片&nbsp;&nbsp;</div>
+                        <div class="left">
+							<input  type="file" name="feedfile" id="pics" style="border:none;" >(上传成功后保存在您的默认相册中,点击下方的缩略图即可插入到"服务描述"中)
+							<script type="text/javascript" src="plugin/apps/js/jquery.form.js"></script>
+							<script type="text/javascript">
+								$(function($) {
+									$("#pics").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+									$("#pics").change(function(){
+										$("#myupload").ajaxSubmit({
+											dataType:  'json',
+											success: function(data) {
+												var img = "$_SC['attachurl']"+data.pic;
+												var num = 12;
+												var name = data.name;
+												var picid = data.picid;
+												name = cut_string(name,num);
+												
+												var htmls = '<div class="pics"><a href="javascript:" onclick="insertHtml(\''+img+'\')" title="点击插入到服务描述中"><img src="'+img+'" height="60" width="60" /></a></div>';
+												$("#cpics").append(htmls);
+												
+												$("#pics").val('');
+											},
+											error:function(xhr){
+												alert(xhr.responseText);
+											}
+										});
+									});
+								});
+								function cut_string(string,num){
+									var str = string.split('.');
+									var s_length = str.length;
+									var str_len = str[0].replace(/[^\x00-\xff]/g, "**").length;
+									if( str_len > num){
+										var content = str[0].substr(0,num);
+										return content+"..."+str[s_length-1];
+									}
+									else{
+										return string;
+									}        
+								}
+								function insertHtml(img) {
+									var imgs = '<img src="'+img+'" />';
+									var ue = UE.getEditor('desc');
+									ue.execCommand('insertHtml', imgs)
+								}
+							</script>
+							<div id="cpics">
+								
+							</div>
+						</div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">修改说明&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="log"  name="log" style="width:220px;" rows="4" class="border_input"></textarea>
+							<input type="hidden" name="logs" value="$appdetail[log]" />
+                        </div>
+                        <div class="clear height_10"></div>
+						
+                        <div class="neirong_5">
+                            <input type="hidden" name="id" value="$appdetail[id]" />
+                            <input type="hidden" name="category" value="1" />
+							<input type="hidden" name="appsapply" value="true" />
+							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                     </form>  
+                    </div><!-- end yingyong_req -->
+                </ul>
+                <ul style="display:<!--{if $appdetail[category]==3}-->block;<!--{else}-->none;<!--{/if}-->">
+                    <div class="yingyong_req">
+					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
+                        <div class="yingyong_t">第三方服务</div><!-- end yingyong_t -->
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">接入类型&nbsp;&nbsp;</div>
+                        <div class="left">
+						<label>
+						<input type="radio" name="iauthtype"<!--{if $appdetail[iauthtype]=='WSC'}--> checked <!--{/if}--> id="WSC" checked class="iauthtype-bt" action-for="for_WSC" value="WSC" />
+						Web Site Client</label>
+						<label>
+						<input type="radio" name="iauthtype"<!--{if $appdetail[iauthtype]=='UAC'}--> checked <!--{/if}--> id="UAC" class="iauthtype-bt" action-for="for_UAC" value="UAC" />
+						User Agent Client</label>
+						<label>
+						<input type="radio" name="iauthtype"<!--{if $appdetail[iauthtype]=='RP'}--> checked <!--{/if}--> id="RP" class="iauthtype-bt" action-for="for_RP" value="RP" />
+						Resource Provider</label>
+						</div>
+                        <div class="clear height_10"></div>
+						
+                        <div class="left inline width_100 text_align_right">服务中文名称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="name3" onblur="isexist('name3')" value="$appdetail[name]" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;不超过20字</div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">服务英文简称&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="iauth_name" onblur="isexist('iauth_name')" value="$appdetail[iauth_name]" name="iauth_name" style="width:220px;" class="border_input">数字,字母,下划线组成,少于48字符</div>
+                        <div class="clear height_10"></div>
+						
+                        <div id="for_rp">
+                        <div class="left inline width_100 text_align_right">服务LOGO&nbsp;&nbsp;</div>
+                        <div class="left"><input  type="file" name="logo" id="logo" style="border:none;" ><img src="$_SC['attachurl'].$appdetail[logo]" height=60 /></div>
+                        <div class="clear height_10"></div>
+                        
+						<div id="for_wsc">
+						<div class="left inline width_100 text_align_right">会话初始化网址</div>
+                        <div class="left"><input type="text" id="url" value="$appdetail[url]" name="url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">授权回调网址&nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="back_url" value="$appdetail[back_url]" name="back_url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">登录回调网址 &nbsp;&nbsp;</div>
+                        <div class="left"><input type="text" id="app_url" value="$appdetail[app_url]" name="app_url" style="width:220px;" class="border_input"></div>
+                        <div class="clear height_10"></div>
+						</div>
+						
+						<div class="left inline width_100 text_align_right">所属类别&nbsp;&nbsp;</div>
+                        <div class="left">
+							<select name="type">
+							  <option selected="selected" value="0">请选择</option>
+							  <option<!--{if $appdetail[type]==1}--> selected="selected"<!--{/if}--> value="1">教学类</option>
+							  <option<!--{if $appdetail[type]==2}--> selected="selected"<!--{/if}--> value="2">科研类</option>
+							  <option<!--{if $appdetail[type]==3}--> selected="selected"<!--{/if}--> value="3">财务类</option>
+							  <option<!--{if $appdetail[type]==4}--> selected="selected"<!--{/if}--> value="4">人力资源类</option>
+							  <option<!--{if $appdetail[type]==5}--> selected="selected"<!--{/if}--> value="5">资产类</option>
+							  <option<!--{if $appdetail[type]==6}--> selected="selected"<!--{/if}--> value="6">生活服务类</option>
+							  <option<!--{if $appdetail[type]==7}--> selected="selected"<!--{/if}--> value="7">其他</option>
+							</select>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">适用对象&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <label><input type="checkbox" name="undergraduate" value ="1" <!--{if $appdetail[usertype] & 8}-->checked <!--{/if}-->/>本科生</label>
+							<label><input type="checkbox" name="postgraduate" value ="1" <!--{if $appdetail[usertype] & 4}-->checked <!--{/if}-->/>研究生</label>
+							<label><input type="checkbox" name="teacher" value ="1" <!--{if $appdetail[usertype] & 2}-->checked <!--{/if}-->/>教职工</label>
+							<label><input type="checkbox" name="alumnus" value ="1" <!--{if $appdetail[usertype] & 1}-->checked <!--{/if}-->/>校友</label>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">所需API&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <!--{if $apis}-->
+							<!--{loop $apis $api}-->
+							<label><input type="checkbox" name="apis" onclick="getapi()" value="$api[id]" />$api[name]</label><br />
+							<!--{/loop}-->
+							<!--{/if}-->
+							<input type="hidden" name="api" id="api" value="" />
+							<script>
+							function getapi(){
+								var api_value = '0';    
+								$('input[name="apis"]:checked').each(function(){    
+									api_value += ',' + $(this).val();    
+								});
+								$("#api").val(api_value);
+							}
+							</script>
+                        </div>
+                        <div class="clear height_10"></div>
+						</div>
+                        <div class="left inline width_100 text_align_right">服务描述&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="desc2" name="desc" style="width:590px;padding:0;height:300px;" rows="4" class="border_input">$appdetail[desc]</textarea>
+							<script type="text/javascript">
+								var editor = new UE.ui.Editor();
+								editor.render("desc2");
+							</script>
+                        </div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">上传图片&nbsp;&nbsp;</div>
+                        <div class="left">
+							<input  type="file" name="feedfile" id="pics2" style="border:none;" >(上传成功后保存在您的默认相册中,点击下方的缩略图即可插入到"服务描述"中)
+							<script type="text/javascript">
+								$(function($) {
+									$("#pics2").wrap("<form id='myupload2' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+									$("#pics2").change(function(){
+										$("#myupload2").ajaxSubmit({
+											dataType:  'json',
+											success: function(data) {
+												var img = "$_SC['attachurl']"+data.pic;
+												var num = 12;
+												var name = data.name;
+												var picid = data.picid;
+												name = cut_string(name,num);
+												
+												var htmls = '<div class="pics"><a href="javascript:" onclick="insertHtml2(\''+img+'\')" title="点击插入到服务描述中"><img src="'+img+'" height="60" width="60" /></a></div>';
+												$("#cpics2").append(htmls);
+												
+												$("#pics2").val('');
+											},
+											error:function(xhr){
+												alert(xhr.responseText);
+											}
+										});
+									});
+								});
+								function insertHtml2(img) {
+									var imgs = '<img src="'+img+'" />';
+									var ue = UE.getEditor('desc2');
+									ue.execCommand('insertHtml', imgs)
+								}
+							</script>
+							<div id="cpics2">
+								
+							</div>
+						</div>
+                        <div class="clear height_10"></div>
+						
+						<div class="left inline width_100 text_align_right">修改说明&nbsp;&nbsp;</div>
+                        <div class="left">
+                            <textarea id="log"  name="log" style="width:220px;" rows="4" class="border_input"></textarea>
+							<input type="hidden" name="logs" value="$appdetail[log]" />
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                        <div class="neirong_5">
+                            <input type="hidden" name="id" value="$appdetail[id]" />
+							<input type="hidden" name="category" value="3" />
+							<input type="hidden" name="appsapply" value="true" />
+							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+                        </div>
+                        <div class="clear height_10"></div>
+                        
+                     </form>  
+                    </div><!-- end yingyong_req -->
+                </ul>                
+            </div><!-- end yingyong_c -->
+            
+        </div><!-- end yingyong_right -->
+    </div><!-- end main -->
+
+<!--{template plugin/apps/footer}-->

@@ -1,0 +1,32 @@
+.navbar-fixed-top { background-color: #0a90c4 !important;}
+body { background-color:#a4dcf9 !important; color:#333333 !important; }
+a { color:#2b96e1; }
+#mainareafg a { color:#2b96e1;}
+.header_resident,.header_score { color:#333333;}
+body,div, th, td, input, select, button { border-color:#D1E3AB; }
+#app_sidebar { background-color:transparent;  }
+#main { background-color:#eef7fb; }
+.menu li a { color:#ffffff !important;}
+#mainareafg { background-color:rgb(255,255,255);}
+.navbar-ihome .navbar-nav > .open > a, .navbar-ihome .navbar-nav > .open > a:hover, .navbar-ihome .navbar-nav > .open > a:focus {
+     background:#087aa7;
+}
+#app_sidebar {
+    margin-left:10px;
+}
+#sidebar {
+    padding-right:10px;
+}
+#sidebarbox {
+    width:200px;
+    margin-left:10px;
+}
+.calendarbox li.calendarli, .calendarbox li.calendarblank {
+    width:27px;
+}
+.calendarbox {
+    width:190px;
+}
+#obar {
+    margin-left:10px;
+}

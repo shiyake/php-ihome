@@ -1,0 +1,148 @@
+<!--{template plugin/apps/header}-->
+  <div class="main">
+    
+	<!--{template plugin/apps/left}-->
+	
+    <div class="yingyong_right">
+	
+      <!--{template plugin/apps/right_nav}-->
+	  
+      <div class="clear"></div>
+      <div class="yingyong_c">
+        <div class="yingyong_req">
+          <div class="yingyong_t"> i北航应用接入申请 </div>
+          <!-- end yingyong_t -->
+          <div class="xiangmu">
+			<script>
+			$(function() {
+				$(".for_category").hide();
+				$("#iauthtype").hide();
+				$("#for_WSC").show();
+				$(".category").change(function(){
+					var category = $(this).val();
+					if(category==3){
+						$("#iauthtype").show();
+					}else{
+						$(".for_category").hide();
+						$("#iauthtype").hide();
+						$("#for_WSC").show();
+					}
+				});
+				$(".iauthtype-bt").click(function(){
+					var ids = $(this).attr("action-for");
+					$(".for_category").hide();
+					$("#" + ids).show();
+				});
+			});
+			</script>
+            <form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
+              <div class="neirong"><span class="xiangmu_span">应用名称</span>
+                <input type="text" id="name" name="name" />
+                <span class="neirong_span">2~12个字</span></div>
+              <div class="neirong"><span class="xiangmu_span">应用LOGO</span>
+                <input type="file" id="logo" name="logo" />
+                <span class="neirong_span">120*120像素的图片</span></div>
+			  <div class="neirong"><span class="xiangmu_span">应用类型</span>
+                <select name="category" class="category">
+                  <option selected="selected" value="1">校内应用</option>
+				  <option value="2">站内应用</option>
+				  <option value="3">第三方应用</option>
+                </select>
+              </div>
+			  <div class="neirong_3" id="iauthtype"><span class="xiangmu_span">接入类型</span>
+                <label>
+                <input type="radio" name="iauthtype" id="WSC" checked="checked" class="iauthtype-bt" action-for="for_WSC" value="WSC" />
+                Web Site Client</label>
+                <label>
+                <input type="radio" name="iauthtype" id="UAC" class="iauthtype-bt" action-for="for_UAC" value="UAC" />
+                User Agent Client</label>
+                <label>
+                <input type="radio" name="iauthtype" id="RP" class="iauthtype-bt" action-for="for_RP" value="RP" />
+                Resource Provider</label>
+              </div>
+			  <div id="for_WSC" class="for_category">
+			  <div class="neirong"><span class="xiangmu_span">应用网址</span>
+                <input type="text" id="url" name="url" />
+                <span class="neirong_span"></span></div>
+			  <div class="neirong"><span class="xiangmu_span">授权回调网址</span>
+                <input type="text" id="back_url" name="back_url" />
+                <span class="neirong_span">校内应用不填</span></div>
+              <div class="neirong"><span class="xiangmu_span">登录回调网址</span>
+                <input type="text" id="app_url" name="app_url" />
+                <span class="neirong_span">校内应用不填</span></div>
+              <div class="neirong"><span class="xiangmu_span">所属类别</span>
+                <select name="type">
+                  <option selected="selected" value="0">请选择</option>
+				  <option value="1">教学类</option>
+                  <option value="2">科研类</option>
+                  <option value="3">财务类</option>
+                  <option value="4">人力资源类</option>
+                  <option value="5">资产类</option>
+                  <option value="6">生活服务类</option>
+                  <option value="7">其他</option>
+                </select>
+              </div>
+              <div class="neirong_4"><span class="xiangmu_span">适用对象</span>
+                <label>
+                <input type="checkbox" name="undergraduate" value ="1" >
+                本科生</label>
+                <label>
+                <input type="checkbox" name="postgraduate" value ="1" >
+                研究生</label>
+                <label>
+                <input type="checkbox" name="teacher" value ="1" >
+                教职工</label>
+                <label>
+                <input type="checkbox" name="alumnus" value ="1" >
+                校友</label>
+              </div>
+              <div class="neirong_2" style="height:auto"><span class="xiangmu_span">应用描述</span>
+                <textarea name="desc" id="desc"></textarea>
+              </div>
+              <div class="neirong"><span class="xiangmu_span">开始时间</span>
+                <input type="text" id="starttime" name="starttime" value="<!--{eval echo date("Y-m-d");}-->" />
+                <span class="neirong_span">yyyy-mm-dd</span></div>
+              <div class="neirong"><span class="xiangmu_span">截止时间</span>
+                <input type="text" id="endtime" name="endtime" value="<!--{eval echo date("Y-m-d");}-->" />
+                <span class="neirong_span">yyyy-mm-dd</span></div>
+              </div>
+			  <div id="for_UAC" class="for_category">
+              </div>
+			  <div id="for_RP" class="for_category">
+			  <div class="neirong"><span class="xiangmu_span">API简称</span>
+                <input type="text" id="api_name" name="api_name" />
+                <span class="neirong_span"></span></div>
+              <div class="neirong"><span class="xiangmu_span">API简全称</span>
+                <input type="text" id="fullname" name="fullname" />
+                <span class="neirong_span"></span></div>
+              <div class="neirong"><span class="xiangmu_span">API网址</span>
+                <input type="text" id="api_url" name="api_url" />
+                <span class="neirong_span"></span></div>
+			  <div class="neirong_2"><span class="xiangmu_span">API简介</span>
+                <textarea name="intro" id="intro"></textarea>
+                <span class="neirong_span"></span> </div>
+              <div class="neirong_2"><span class="xiangmu_span">API使用说明</span>
+                <textarea name="explain" id="explain"></textarea>
+                <span class="neirong_span"></span> </div>
+              </div>
+			  </div>
+			  <div class="neirong_5">
+                <input type="hidden" name="appsapply" value="true" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+              </div>
+            </form>
+          </div>
+          <!-- end xaingmu -->
+          <div class="clear"></div>
+        </div>
+        <!-- end yingyong_req -->
+        <div class="solid_666 clear"></div>
+      </div>
+      <!-- end yingyong_c -->
+    </div>
+    <!-- end yingyong_right -->
+  </div>
+  <!-- end main -->
+  
+<!--{template plugin/apps/footer}-->

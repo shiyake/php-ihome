@@ -1,0 +1,123 @@
+<li>
+    <div class="card clearfix">
+        <div class="avatar160">
+            <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+        </div>
+        <div class="name">
+            <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+        </div>
+        <div class="ops">
+            <span>$value[audnum]人关注</span>
+        </div>
+        
+        <!--{if topplist}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $addedplist}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_addedpublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_addedpulics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_3}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_3_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_1}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_1_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_2}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_2_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_4}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_4_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_5}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_5_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_6}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_6_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_7}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_7_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_8}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_8_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_20}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_20_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{elseif $sublist_100}-->
+        <div class="ops-reverse">
+            <!--{if $value['a'] =='0'}-->
+            <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+            <!--{/if}-->
+            <!--{if $value['a'] =='1'}-->
+            <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_100_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+            <!--{/if}-->
+        </div>
+        <!--{/if}-->    
+    </div>
+</li>

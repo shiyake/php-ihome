@@ -1,0 +1,23 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+
+    <form action="cp.php?ac=thirdparty" method="POST" class="c_form">
+    <table cellspacing="0" cellpadding="0" class="formtable">
+    <tr>
+        <th style="width:10em;">您绑定的新浪微博名:</th>
+        <td>
+            <!--{if $space[sina_token]}--> <!--{eval echo stripslashes($weiboname);}--> &nbsp;&nbsp;&nbsp;&nbsp;解除绑定<input type="checkbox" name="sdel" value="sdel"> <!--{else}-->无<!--{/if}-->
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" name="submit" value="提交" class="submit" /></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    </form>
+
+<!--{template footer}-->

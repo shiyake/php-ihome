@@ -1,0 +1,38 @@
+<!--{eval $_TPL['titles'] = array('记录');}-->
+<!--{template header}-->
+<div id="space_doing">
+	<!--{if $dolist}-->
+	<div class="doing_list">
+		<ol>
+			<!--{loop $dolist $dv}-->
+			<!--{eval $doid = $dv[doid];}-->
+			<li id="dl{$doid}">
+				<div class="doing">
+					<div class="doingcontent"><a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
+						<span>(<!--{date('m-d H:i',$dv[dateline],1)}-->)</span>
+                            			<!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> 
+						<a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" style="float:right;" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)">删除</a>
+						<!--{else}-->
+						<a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" style="float:right;"id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" >分享</a>
+						<!--{/if}-->
+							
+                        			<!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
+                        			<span style="width: 5px;height: 5px;float: right"></span>
+                        			<a href="cp.php?ac=common&op=report&idtype=doid&id=$dv[doid]" style="float:right" id="a_report_doid_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+                        			<!--{/if}-->
+					</div>
+					<!--{eval $list = $clist[$doid];}-->
+					<div class="sub_doing fcomment" id="docomment_$doid" style="<!--{if !$list}-->display:none;<!--{/if}-->">
+						<span id="docomment_form_{$doid}_0"></span>
+						<!--{template space_doing_li}-->
+					</div>
+				</div>
+			</li>
+			<!--{/loop}-->
+		</ol>
+		<div class="page">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="c_form">现在还没有足迹</div>
+	<!--{/if}-->
+</div>

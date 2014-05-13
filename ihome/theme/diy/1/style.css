@@ -1,0 +1,30 @@
+.navbar-fixed-top { background-color: #2d6800 !important;}
+body { background-color:#8AB52D !important; color:#33463F !important; }
+a { color:#49976B; }
+#mainareafg a { color:#49976B !important;}
+div, th, td, input, select,  button { border-color:#fafafa; }
+#app_sidebar { background-color:transparent; }
+#main {background-color:#D1E3AB;}
+#mainareafg { background-color:#FFFFFF;}
+.navbar-ihome .navbar-nav > .open > a, .navbar-ihome .navbar-nav > .open > a:hover, .navbar-ihome .navbar-nav > .open > a:focus {
+    background:#265800;
+}
+#app_sidebar {
+    margin-left:10px;
+}
+#sidebar {
+    padding-right:10px;
+}
+#sidebarbox {
+    width:200px;
+    margin-left:10px;
+}
+.calendarbox li.calendarli, .calendarbox li.calendarblank {
+    width:27px;
+}
+.calendarbox {
+    width:190px;
+}
+#obar {
+    margin-left:10px;
+}

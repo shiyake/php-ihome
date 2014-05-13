@@ -1,0 +1,21 @@
+<!--{loop $WallRecList $key=>$value}-->
+			<li class="content" style="display:none;">
+				<div class="posted">
+					<div class="avatar">
+						<div class="posteravatar"><!--{avatar($value[uid],big)}-->
+							<div class="poster">$_SN[$value[uid]]</div>
+						</div>
+					</div>
+					<div class="text" name="contenttext">
+						<div class="posttextouter">
+							<div class="posttextmiddle">
+								<div class="posttextinner">
+									$value[message]
+								</div>
+							</div>
+						</div>
+						<div class="posttime"><!--{eval echo sgmdate('m/d H:i:s', $value[timeline])}--> #$value[floorid]#</div>
+					</div>
+				<div>
+			</li>
+<!--{/loop}-->

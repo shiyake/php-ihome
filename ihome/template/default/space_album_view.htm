@@ -1,0 +1,88 @@
+<!--{eval $_TPL['titles'] = array($album['albumname'], '相册');}-->
+<!--{eval $friendsname = array(1 => '仅好友可见',2 => '指定好友可见',3 => '仅自己可见',4 => '凭密码可见');}-->
+<!--{template header}-->
+
+<style>
+#content {
+    border-left: none;
+}
+
+.tabs_header {
+    padding-left: 10px;
+
+}
+
+h4.title.title30 {
+    margin-left: 20px;
+}
+.R_option {
+        float:right;
+        position:absolute;
+        right:0;
+        margin-top:-32px;
+    }
+.pipe {
+    color: #dcdcdc;
+    padding: 0px 0px 0px 4px;
+}
+</style>
+
+<h4 class="title title30">
+    <img class="pic10" src="image/icons/icon_album.png">相册
+</h4>
+<!--{if $_SGLOBAL[supe_uid]==$album[uid]}-->
+<div class="R_option clearfix">
+    <img style="margin-top:-18px;" src="template/default/image/upload_photo.png"></img>
+    <a style="font-size:14px;" href="cp.php?ac=upload&albumid=$pic[albumid]">上传新图片</a>
+</div>
+<!--{/if}-->
+<h4 class="title title30" style="font-size: 14px;margin-top: 30px; margin-bottom: 15px;">
+    <div class="avatar48" style="display: inline;">
+        <a href="space.php?uid=$space[uid]"><!--{avatar($space[uid],'small')}--></a>
+    </div>
+    <div style="display:inline;margin-top:15px;">{$_SN[$space[uid]]}的相册 - $album[albumname]</div>
+</h4>
+
+<div class="h_status" style="margin-left:20px;">
+	<div class="r_option">
+		<!--{if $_SGLOBAL[supe_uid] == $album[uid] || checkperm('managealbum')}-->
+        <a href="admincp.php?ac=album&albumid=$album[albumid]" target="_blank">删除</a><span class="pipe">|</span>
+        <!--{/if}-->
+		<a href="cp.php?ac=common&op=report&idtype=albumid&id=$album[albumid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">举报</a><span class="pipe">|</span>
+	    <a style="float: none" href="cp.php?ac=share&type=album&id=$album[albumid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">分享</a>
+	</div>
+	$album[albumname] - 
+	<!--{if $album[picnum]}-->共 $album[picnum] 张图片<!--{/if}-->
+	<!--{if $album['friend']}-->
+	<span class="locked gray">{$friendsname[$value[friend]]}</span>
+	<!--{/if}-->
+</div>
+
+<!--{if $list}-->
+<div style="width: 780px; margin: 0px 0px 0px 20px;"> 
+    <ul class="list-unstyled" style="margin: 5px 0px 0px; line-height: 190px">
+    <!--{loop $list $key $value}-->
+	<li style="width: 190px; text-align: center; max-height: 180px;zoom:1; display: inline-block; vertical-align: middle">
+    <!--{if stripos($value[pic],".thumb")}-->
+    <!--{eval $value[pic]=substr($value[pic],0,strlen($value[pic])-10);}-->
+    <!--{/if}-->
+        <a href="space.php?uid=$value[uid]&do=$do&picid=$value[picid]" target="_blank">
+            <img style="box-sizing: content-box; padding: 4px; border-radius: 4px; border: 1px solid #ccc; max-width: 150px; max-height: 150px;" src="$value[pic]" onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'
+            />
+        </a>
+	</li>
+    <!--{if $key % 4 == 3}-->
+    </ul>
+    <ul class="list-unstyled" style="margin: 5px 0px 0px; line-height: 190px">
+    <!--{/if}-->
+	<!--{/loop}-->
+    </ul>
+</div>
+	</tr>
+</table>
+<div style="padding-bottom:20px;" class="page">$multi</div>
+<!--{else}-->
+<div class="c_form" style="margin-top:75px;text-align:center;"><p><img src="image/icons/no_status.png"/></p><p style="color:#777;">该相册下还没有图片。</p></div>
+<!--{/if}-->
+
+<!--{template footer}-->

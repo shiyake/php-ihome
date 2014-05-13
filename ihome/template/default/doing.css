@@ -1,0 +1,97 @@
+.post_doing {
+    margin: 0 ;
+}
+.post_doing textarea {
+    margin-left:10px ;
+}
+.post_doing button.post_button {
+    overflow: hidden ;
+    cursor: pointer;
+    display:inline-block;
+    vertical-align:middle;
+    -webkit-border-radius:20px; -moz-border-radius:20px; border-radius:20px; font-size: 20px; background-color: #65d8bb; color: #fff; border:none; padding: 1px 25px; line-height:36px; float:right; margin-top: 10px; margin-right: 30px;
+}
+.doing_list ol {
+    margin: 0 ;
+    padding: 0;
+    list-style: none;
+}
+.doing_list ol li {
+    padding:10px;
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+}
+.doing_list .doingcontent {
+    color: #444;
+    font-size: 12px; line-height: 150%; 
+}
+.doingcontent a.re {
+    font-size: 10px ;
+}
+.doingcontent span {
+    color: #666 ;
+}
+.doing_list .doingtime {
+    color: #999 ;
+}
+.doingre {
+    margin: 5px 0 ;
+    padding: 6px 0 0;
+    background: url(image/dore_bg.gif) no-repeat 15px 0;
+}
+.doingre form {
+    padding: 10px ;
+    width: 350px;
+    background: #FCF9E6;
+}
+.doingre img {
+    float: left ;
+    margin: 0 5px 0 0;
+}
+.doingre .t_input {
+    width: 200px ;
+    border: 1px solid #EBE6CA;
+}
+.sub_doing {
+}
+/***************************wall_post***********************************/
+.post_doing2 {
+    width:540px ;
+    margin:0;
+}
+.post_doing2 textarea {
+    float: left ;
+    margin: 5px 10px 0 0;
+    padding: 3px;
+    border: 1px solid #DDD;
+    background: #F0F0F0; 
+}
+.post_doing2 submit {
+    margin: 5px 0 0 ;
+    width: 80px;
+    height: 80px;
+    border: none;
+    background: url(image/post_button.jpg); text-indent: -300px; overflow: hidden; cursor: pointer; 
+}
+.comments-link {
+    float:right;
+}
+.fcomment {
+    left:0;
+    width:463px;
+}
+.feed_li_avatar {
+    float:initial !important;
+    width:76px;
+    display:inline-block;
+}
+.doing_list .doing {
+    width:442px !important;
+    vertical-align:top;
+    margin-top:10px;
+    margin-left:7px;
+    display:inline-block;
+}
+.fcomment ol li div div {
+    width:433px !important;
+}

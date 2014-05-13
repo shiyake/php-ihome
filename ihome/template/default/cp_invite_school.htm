@@ -1,0 +1,364 @@
+<!--{template header}-->
+<!--{if $_GET['op'] == 'resend'}-->
+
+<h1>重发邮件</h1>
+<form method="post" id="resendform_{$id}" name="resendform_{$id}" action="cp.php?ac=invite&op=resend&id=$id">
+	<p>确定重新发送邀请邮件吗？</p>
+	<p class="btn_line">
+	<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+	<!--{if $_SGLOBAL[inajax]}-->
+	<input type="hidden" name="resendsubmit" value="true" />
+	<button name="resendsubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('resendform_{$id}', 'resend_mail', 2000)">重发</button>
+	<!--{else}-->
+	<button name="resendsubmit" type="submit" class="submit" value="true">确定</button>
+	<!--{/if}-->
+	</p>
+
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $_GET['op'] == 'delete'}-->
+
+<h1>删除记录</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__deleteform_{$id}">
+	<form method="post" id="deleteform_{$id}" name="deleteform_{$id}" action="cp.php?ac=invite&op=delete&id=$id">
+		<p>确定要删除该邀请记录吗？</p>
+		<p>删除该邀请记录后,您的好友将不能通过<br/>原邀请记录链接注册成为您的好友!</p>
+		<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="deletesubmit" value="true" />
+		<button name="deletesubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('deleteform_{$id}', 'resend_mail', 2000)">删除</button>
+		<!--{else}-->
+		<button name="deletesubmit" type="submit" class="submit" value="true">删除</button>
+		<!--{/if}-->
+		</p>
+
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{else}-->
+<h4 class="title title30" style="margin: 30px 0px 10px 20px;">
+    <img class="pic10" src="image/icons/icon-addfriend-black.png">好友
+</h4>
+<div style="margin-left: 20px;" class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
+		<li><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
+		<li class="active"><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
+		<!--<li><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->
+		<!--<li><a href="space.php?do=top"><span>排行榜</span></a></li>-->
+	</ul>
+</div>
+<style>
+    #mainareafg {
+        border-left:1px solid #dcdcdc;
+    }
+    .composer_header {
+        padding-bottom:20px;
+    }
+    .composer_header table tr td {
+        padding-left:0;
+        padding-top:5px;
+        padding-bottom:5px;
+    }
+    input[type="radio"] {
+        margin:0;    
+    }
+</style>
+
+<div id="content" style="border:none;width:670px;margin:0px;">
+	<form method="post" action="cp.php?ac=invite&appid=$appid&ref&method=school">
+		<table cellspacing="0" cellpadding="0" class="formtable" width="100%">
+			<caption>
+				<p style="color:#777;">请正确填写被邀请者信息，发送邀请的同时自动将此信息存入激活库，用于被邀请者开通账号信息验证。</p>
+				<div class="composer_header">
+					<input type="hidden" name="to_select" value="{$_POST['to_select']}"/>
+					<input type="hidden" name="grant" value={$_GET['grant']}/>	
+					<table cellspacing="0" cellpadding="0"> 
+						<tr>
+							<td style="font-size:12px;width=40px" align="left">被邀请人姓名:</td>
+							<td><input type="text" name="invited_name" id="invited_name" class="t_input form-control input-sm" readonly="true" value="{$_GET['inviteuser']}"/></td>
+						</tr>
+						<tr>
+                            <td style="font-size:12px;width=40px" align="left">被邀请人类别:</td>
+                            <td>
+                                <label class="radio-inline"><input type="radio" value="student" id="usertype_student" name="invite_usertype" checked/>在校生</label>
+                                <label class="radio-inline">
+                                    <input type="radio" value="worker" id="usertype_worker" name="invite_usertype"/>职工
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" value="friend" id="usertype_friend" name="invite_usertype"/>校友
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:12px;" align="left" id="num_to_invite" >被邀请人学号:</td><td><input type="text" name="invited_num" id="invited_num" class="t_input form-control input-sm"/></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:12px;" align="left" style="display:block;" id="coll">院系:</td>
+                            <td id="college" style="display:block;">
+
+                                <select id="subtitle" name="subtitle" class="t_input form-control input-sm" style="width:180px;display:block;">
+                                    <option value=0>选择院系</option>
+                                    <option value="材料科学与工程学院">材料科学与工程学院</option>
+                                    <option value="电子信息工程学院">电子信息工程学院</option>
+                                    <option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+                                    <option value="能源与动力工程学院">能源与动力工程学院</option>
+                                    <option value="航空科学与工程学院">航空科学与工程学院</option>
+                                    <option value="计算机学院">计算机学院</option>
+                                    <option value="机械工程及自动化学院">机械工程及自动化学院</option>
+                                    <option value="经济管理学院">经济管理学院</option>
+                                    <option value="数学与系统科学学院">数学与系统科学学院</option>
+                                    <option value="生物与医学工程学院">生物与医学工程学院</option>
+                                    <option value="人文社会科学学院（公共管理学院）">人文社会科学学院</option>
+                                    <option value="外国语学院">外国语学院</option>
+                                    <option value="交通科学与工程学院">交通科学与工程学院</option>
+                                    <option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+                                    <option value="宇航学院">宇航学院</option>
+                                    <option value="飞行学院">飞行学院</option>
+                                    <option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+                                    <option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+                                    <option value="法学院">法学院</option>
+                                    <option value="软件学院">软件学院</option>
+                                    <option value="继续教育学院">继续教育学院</option>
+                                    <option value="高等工程学院">高等工程学院</option>
+                                    <option value="中法工程师学院">中法工程师学院</option>
+                                    <option value="国际学院">国际学院</option>
+                                    <option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+                                    <option value="化学与环境学院">化学与环境学院</option>
+                                    <option value="思想政治理论学院">思想政治理论学院</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:12px;" align="left" style="display:block;" id="when_year">入学年份:
+                            </td>
+                            <td id="year_when" style="display:block;">
+                                <select id="startyear" name="startyear" class="t_input form-control input-sm" style="width:180px;display:block;">
+                                    <option value=0>选择入学年份</option>
+                                </select>
+                                <script type="text/javascript">
+
+                                    var selObj = document.getElementById('startyear');
+                                    var index = 1;
+                                    for (year=2013;year >= 1953; year--) {
+                                        selObj.options[index] = new Option(year, year);
+                                        index++;
+                                    }
+if ("{$_GET['searchsubmit']}") {
+    document.getElementById('sex').value="{$_GET['sex']}";
+    document.getElementById('age').value="{$_GET['age']}";
+    document.getElementById('marry').value="{$_GET['marry']}";
+    document.getElementById('subtitle').value="{$_GET['subtitle']}";
+    document.getElementById('startyear').value="{$_GET['startyear']}";
+}
+
+</script>		
+<input type="hidden" name="ac" value="friend">
+<input type="hidden" name="op" value="search4">
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td style="font-size:12px;" align="left">
+                                发送邀请方式:
+                            </td>
+                            <td style="font-size:12px;">
+                                <label class="radio-inline">
+                                <input type="radio" id="invite_type_id1" name="invite_type" value="email" checked="true"/>
+                                邮件
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="invite_type_id2" name="invite_type" value="message" />
+                                手机短信
+                            </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:12px;" align="left" id="email_or_message">
+                                被邀请人邮箱:
+                                <!--{if !strcmp($space['result']['usertype'],"学生")}-->
+                                <script>
+                                    jQuery(function(){
+                                        jQuery("#invited_num").val("{$space['result']['collegeid']}");
+                                        jQuery("#usertype_student").attr("checked","checked");
+                                        jQuery("#subtitle").val("{$space['result']['academy']}");
+                                        jQuery("#startyear").val("{$space['result']['startyear']}");
+                                        jQuery("#usertype_worker").attr({"disabled":"true");
+                                            jQuery("#usertype_friend").attr({"disabled":"true"});
+                                        });
+                                    </script>
+                                    <!--{elseif !strcmp($space['result']['usertype'],"校友")}-->
+                                    <script>
+                                        jQuery(function(){
+                                            jQuery("#invited_num").val("{$space['result']['collegeid']}");
+                                            jQuery("#usertype_friend").attr("checked","checked");
+                                            jQuery("#year_when").html("");	
+                                            jQuery("#college").html("");
+                                            jQuery("#coll").html("");
+                                            jQuery("#when_year").html("");
+                                            jQuery("#year_when").css({"display":"none"});
+                                            jQuery("#when_year").css({"display":"none"});
+                                            jQuery("#coll").css({"display":"none"});
+                                            jQuery("#college").css({"display":"none"});
+                                            jQuery("#usertype_worker").attr({"disabled":"true"});
+                                            jQuery("#usertype_student").attr({"disabled":"true"});
+                                        });
+                                    </script>
+                                    <!--{elseif !empty($space['result'])}-->
+                                    <script>
+                                        jQuery(function(){
+                                            jQuery("#usertype_worker").attr("checked","checked");
+                                            jQuery("#invited_num").val("{$space['result']['collegeid']}");
+                                            jQuery("#invited_num").css({"display":"block"});
+                                            jQuery("#num_to_invite").html("被邀请人职工号:");
+                                            jQuery("#year_when").html("");	
+                                            jQuery("#college").html("");
+                                            jQuery("#when_year").html("");
+                                            jQuery("#coll").html("");
+                                            jQuery("#year_when").css({"display":"none"});
+                                            jQuery("#when_year").css({"display":"none"});
+                                            jQuery("#coll").css({"display":"none"});
+                                            jQuery("#college").css({"display":"none"});
+                                            jQuery("#usertype_student").attr({"disabled":"true"});
+                                            jQuery("#usertype_friend").attr({"disabled":"true"});
+                                        });
+                                    </script>
+
+                                    <!--{/if}-->
+                                    <script>
+                                        jQuery(function(){
+                                            jQuery("#invite_type_id1").change(function(){
+                                                jQuery("#email_or_message").html("被邀请人邮箱:");
+                                                jQuery("#show_email").css({"display":"block"});
+                                                jQuery("#email_div").css({"display":"block"});
+                                                jQuery("#show_message").css({"display":"none"});
+                                                jQuery("#message_div").css({"display":"none"});
+                                                jQuery("#sendinvite").attr({"name":"emailinvite"});
+
+                                            });
+                                            jQuery("#invite_type_id2").change(function(){
+                                                jQuery("#email_or_message").html("被邀请人手机号:");
+                                                jQuery("#show_email").css({"display":"none"});
+                                                jQuery("#email_div").css({"display":"none"});
+                                                jQuery("#show_message").css({"display":"block"});
+                                                jQuery("#message_div").css({"display":"block"});
+                                                jQuery("#sendinvite").attr({"name":"messageinvite"});
+
+                                            });
+                                            jQuery("#usertype_student").change(function(){
+                                                window.location.href = window.location.href;
+                                            });
+                                            jQuery("#usertype_worker").change(function(){
+                                                jQuery("#num_to_invite").html("被邀请人职工号:");
+                                                jQuery("#year_when").html("");	
+                                                jQuery("#college").html("");
+                                                jQuery("#when_year").html("");
+                                                jQuery("#coll").html("");
+                                                jQuery("#year_when").css({"display":"none"});
+                                                jQuery("#when_year").css({"display":"none"});
+                                                jQuery("#coll").css({"display":"none"});
+                                                jQuery("#college").css({"display":"none"});
+                                            });
+                                            jQuery("#usertype_friend").change(function(){
+                                                jQuery("#year_when").html("");	
+                                                jQuery("#college").html("");
+                                                jQuery("#num_to_invite").html("被邀请人学号:");
+                                                jQuery("#coll").html("");
+                                                jQuery("#when_year").html("");
+                                                jQuery("#year_when").css({"display":"none"});
+                                                jQuery("#when_year").css({"display":"none"});
+                                                jQuery("#coll").css({"display":"none"});
+                                                jQuery("#college").css({"display":"none"});
+                                            });
+                                        });
+                                    </script>
+                                </td>
+                                <td id="email_or_message_input">
+                                    <input type="text" name="invite_num" id="invite_num" class="t_input form-control input-sm"/>
+                                    <td> 
+                                    </tr>
+                                </table>
+                            </tr>
+                        </table>
+                        <div id="page"></div>
+                        <div class="title" id="show_email" style="margin: 10px 0; display:block;"><h4>预览邀请函</h4></div>
+                        <div id="email_div" style="background-color:rgba(255,255,255,0.8);display:block;height:341px;">
+                            <img src="template/default/image/email_bg.png" style="position:absolute;margin-left:-16px;"/>
+                            <table style="position:relative;top:65px;left:19px;height:251px;width:584px;">
+                                <tr>
+                                    <td valign="top">
+                                        $mailvar[0]
+                                    </td>
+                                    <td valign="top" style="padding-left:20px;">
+                                        <h5 style="margin-bottom:25px;">Hi，我是{$mailvar[1]}，在{$mailvar[2]}上建立了个人主页，邀请你也加入并成为我的好友。</h3>
+                                        <p>
+                                        你可以通过我的公共主页了解到最新的信息，分享我的照片，随时与我保持联系。
+                                        </p>
+                                        <p> 
+                                        请你点击以下链接，接受好友邀请：
+                                        </p>
+                                        <p style="color:rgb(1, 182, 249)">
+                                        {$mailvar[4]}
+                                        </p>
+                                        <p>
+                                        如果你拥有{$mailvar[2]}上面的账号，请点击以下链接查看我的个人主页：
+                                        </p>
+                                        <p style="color:rgb(1, 182, 249);">
+                                        {$mailvar[5]}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="title" id="show_message" style="margin: 10px 0; display:none;"><h4>预览短信</h4></div>
+                        <div id="message_div" style="display:none;">
+                            <img src="template/default/image/bg_mobile.png"></img>
+                            <div id="message_divinfo"> 
+                                Hi,我是{$mailvar[1]}，在i北航上建立了主页，邀请你也加入并关注我的主页！请访问链接http://i.buaa.edu.cn/invite.php。你的邀请码是：888888，快来体验吧！
+                            </div>
+                        </div> 
+
+
+
+                        <script>
+                            jQuery(function(){
+                                if(jQuery("#show_email").css("display")=="block"){
+                                    jQuery("#sendinvite").attr({"name":"emailinvite"});
+                                }
+                                else {
+                                    jQuery("#sendinvite").attr({"name":"messageinvite"});
+                                }
+                            });
+                        </script>
+                        <input type="hidden" name="Method" value="{$_GET['inviteuser']}"/>
+                        <input style="margin-top:10px;" type="submit" id="sendinvite" name="" value="发送邀请" class="btn btn-comments">
+                        <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                    </table>
+                </caption>
+            </form>
+        </div>
+        <div id="sidebar">
+            <!--			
+            <div class="sidebox">
+                <div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+                                <h4>授权i北航用户邀请站外好友</h4>
+                                <p>通过@来选择站内好友</p>
+                                <h4>要授权的用户：</h4>
+                                <textarea id="invite_inputarea" style="width:95%;" onfocus="at()"></textarea>
+                                系统会自动向被授权用户发送站内消息，被授权用户可以点击某公共主页下的“邀请站外好友”进行邀请。
+                                <br><br>
+                                <p><input type="submit" value="授权" class="submit"/></p>
+
+                </div></div></div></div>
+            </div>
+            -->
+        </div>
+
+        <!--{/if}-->
+        <!--{template footer}-->

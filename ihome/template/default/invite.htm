@@ -1,0 +1,146 @@
+<!--{template header}-->
+
+<!--<h4 class="title"><img src="image/icon/friend.gif">好友邀请<!--{if $userapp}-->一起玩 $userapp[appname]<!--{/if}--></h4>-->
+<!--<div class="tabs_header">
+    <ul class="tabs">
+        <li class="active"><a href="$theurl"><span>好友邀请</span></a></li>
+    </ul>
+</div>
+-->
+<style>
+    #mainarea {
+        margin:0;
+        width:100%;
+    }
+     #mainareafg {
+         border:none;
+     
+     }
+     .inner_message {
+         display:inline;
+     }
+     .invite_avatar {
+         border:10px solid #fff;
+         border-radius:50%;
+         display:inline;
+         z-index:1; 
+         position:absolute;
+         left:118px;
+         top:137px;
+     }
+     .invite_avatar img {
+         border-radius:50%;
+         width:80px;
+         height:80px;
+         z-index:1;
+     }
+     .left_part {
+         position:absolute;
+         width:400px;
+         top:70px;
+         left:50px;
+     }
+     .left_part span {
+         position:absolute;     
+     }
+     .right_part {
+         position:absolute;
+         top:155px;
+         left:480px;
+     }
+     .left_part .left_icon{
+         position:absolute;
+         z-index:0;
+     }
+     #foot_step {
+         left:14px;
+         top:48px;
+     }
+     #friend {
+         left:325px;
+         top:26px;
+     }
+     #pic {
+        left:274px;
+        top:341px;
+    }
+    #blog {
+        left:27px;
+        top:307px;
+    }
+    #thread {
+        left:317px;
+        top:168px;
+    }
+    #mainarea {
+       min-height:624px;
+    }
+</style>
+                    <!--
+<!--{if $userapp}--><td><img src="http://appicon.manyou.com/logos/{$userapp[appid]}" alt="{$userapp[appname]}" /></td><!--{/if}-->-->
+      <div class="left_part">
+          <img class="left_icon" src="image/invite_icon.png"/>
+          <div class="invite_avatar"><!--{avatar($space[uid],big,False,0)}--></div>
+          <!--     {$_SN[$space[uid]]}-->
+          <span id="friend">$space[friendnum] 个好友</span>
+          <span id="pic">$space[albumnum] 个相册</span>
+          <span id="foot_step">$space[doingnum] 条记录</span>
+          <span id="blog">$space[blognum] 篇日志</span>
+          <span id="thread">$space[threadnum] 个话题</span>
+          </div>
+      <div class="right_part">
+                <!--<p>来自 $space[resideprovince] $space[residecity]</p>-->
+
+                
+                <!-- <!--{if $space[note]}--><div class="quote"><span id="quote" class="q">$space[note]</span></div><!--{/if}-->-->
+                <p style="padding-top:1em;">
+                <!--{if $_SGLOBAL['supe_uid']}-->
+                <!--{eval showmessage("请先退出登录再接受邀请","space.php",3);}-->   
+                <form method="post" name="commentform" action="$theurl">
+                    <input type="hidden" name="invitesubmit" value="1">
+                    <input type="hidden" name="inviter" value="{$space['uid']}"/>
+                    <input type="submit" name="invitesubmit_submit" value="接受邀请" class="btn btn-comments btn-sm submit" />
+                    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <!--{else}-->
+                <div class="inner_message" style="line-height:25px;">
+                欢迎您，<span style="color:#1dc1fe;font-size:16px;"><b>{$_SN[$space[uid]]}</b></span>&nbsp;热情邀请您加入i北航<br>
+                        开通账号后，您会与本班同学自动成为好友，可以一起讨论话题，<br>
+                        及时关注对方更新...<br>
+                    您也可以发布日志，上传图片... <br>记录生活点滴并与好友分享。<br>
+                    还等什么呢？赶快加入我们吧！<br>
+                </div>
+
+                <!--{if empty($_GET['c'])}-->
+                <form method="post" class="form-horizontal" action="invite.php?type=mobile&uid={$space[uid]}" role="form"> 
+                    <div style="margin-top:20px;">
+                    <label for="mobilenum" style="float:left;" class="control-label">受邀手机号：</label>
+                    <div><input id="mobilenum" placeholder="这里输入手机号" style="width:214px;float:left;"type="text" name="mobile" class="form-control input-sm"/></div>
+                    <label for="varcode" style="float:left;margin-top:5px;" class="control-label">受邀验证码：</label>
+                    <div><input type="text" name="var" id="varcode" style="margin-top:5px;width:214px;float:left;" placeholder="这里输入验证码" class="form-control input-sm"/></div>
+                    </div>
+                    <input type="submit" class="btn btn-comments submit" style="margin-top:40px;"name="acceptinvite" value="接受邀请，开通帐号"/>
+                        <!--{else}-->
+                        <form method="post" action="invite.php?type=email&u={$space[uid]}&c={$_GET['c']}">
+                            <input type="submit" class="btn btn-comments submit" name="acceptinvite" style="margin-top:40px;" value="接受邀请，开通账号"/>
+                            <!--{/if}-->
+                            <!--{/if}-->
+                            <a href="do.php?ac=$_SCONFIG[login_action]&$url_plus" style="vertical-align:bottom;font-size:14px;"  class="submit">马上登录</a>
+
+                        </form>
+                        </p>
+                    </div>
+                    
+        <!--
+        <div id="sidebar">
+            <h4 class="title">{$_SN[$space[uid]]}的好友们</h4>
+            <ul class="avatar_list">
+                <!--{loop $flist $key $value}-->
+                <li>
+                <div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+                <p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+                </li>
+                <!--{/loop}-->
+            </ul>
+        </div>
+        -->
+        <!--{template footer}-->

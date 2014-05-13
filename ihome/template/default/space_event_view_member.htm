@@ -1,0 +1,151 @@
+<style>
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+    min-height: 970px;
+    padding-left: 20px;
+}
+
+#search_vertical {
+    margin-left: 0px;
+}
+
+.space_list {
+    width: 700px;
+    margin-left: 20px; 
+}
+
+.space_list table {
+    border-collapse: separate;
+    border: none;
+}
+
+.space_list td {
+    padding: 0px;
+}
+.space_list .head {
+    width: 115px;
+    height: 115px;
+}
+
+.space_list .head img {
+    width: 115px; 
+    height: 115px;
+}
+
+.space_list td.profile {
+    padding: 8px 12px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.space_list td.head-outer {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.space_list td.links {
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.space_list td.profile p {
+    margin-bottom: 8px;
+    line-height: 20px;
+    padding: 0px;
+}
+
+.space_list td.profile p.note {
+    height: 40px;
+    margin-bottom: 0px;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+}
+
+.space_list td.profile p.note img {
+    height: 20px;
+    width: 20px;
+}
+
+.line_list {
+    margin-bottom: 0px;
+}
+
+.line_list li {
+    text-align: center;
+    padding: 5px 0px;
+}
+
+</style>
+<div class="space_list">
+	<!--{if $members}-->
+	<!--{loop $members $key $value}-->
+	<table cellspacing="0" cellpadding="0" width="100%" style="margin-bottom: 20px;">
+	<tr>
+		<td class="head-outer" width="65">
+            <div class="head">
+                <a href="space.php?uid=$value[uid]"><!--{avatar($value[uid], big)}--></a>
+            </div>
+        </td>
+		<td class="profile">
+			<p style="font-size: 14px;">
+				<!--{if $ols[$value[uid]]}-->
+                <img src="image/online_icon.png" align="absmiddle">
+                <!--{/if}-->
+                <a href="space.php?uid=$value[uid]">
+                  {$_SN[$value[uid]]}
+                </a>
+			</p>
+			<p style="color:black">
+            <!--{if $value[status]==4}-->发起人
+            <!--{elseif $value[status]==3}-->组织者
+            <!--{elseif $value[status]==2}-->成员
+            <!--{elseif $value[status]==0}-->待审核
+            <!--{/if}--> 
+            <!--{if $ols[$value[uid]]}-->
+            <span style="margin-left:15px;">在线：</span><span style="color:#999"><!--{date('m-dH:i',$ols[$value[uid]],1)}--></span>
+            <!--{/if}-->
+            <!--{if $value[resideprovince] || $value[residecity]}-->
+            <span style="margin-left:15px;"> 性别：</span><span style="color:#999"><!--{if $value[sex]==2}-->美女<!--{elseif $value[sex]==1}-->帅哥<!--{else}-->保密<!--{/if}--></span>
+            <span style="margin-left:15px;">地区：</span><a href="cp.php?ac=friend&op=search&resideprovince=$value[p]&residecity=&searchmode=1">$value[resideprovince]</a> <a href="cp.php?ac=friend&op=search&resideprovince=$value[p]&residecity=$value[c]&searchmode=1">$value[residecity]</a>
+            <!--{/if}-->
+            <!--{if $value[fellow]}-->
+            <span style="margin-left:15px;">携带好友数：</span><span style="color:#999">$value[fellow]</span>
+            <!--{/if}-->
+            </p>
+            <!--{if $value[note]}-->
+            <p style="width:470px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis"><spa    n style="color:black"><span class="gray">状态：</span>$value[note]</p>
+            <!--{/if}-->
+		</td>
+		<td class="links" width="90">
+			<ul class="line_list">
+              <!--{if $value['status'] != 1 && $_SGLOBAL[supe_userevent][status]>=3 && $event[uid]!= $value[uid]}-->
+              <li><a href="cp.php?ac=event&id=$eventid&op=member&uid=$value[uid]" id="a_mod_$key" onclick="ajaxmenu(event, this.id)" >管理成员</a></li>
+              <!--{/if}-->
+              <li><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)">加为好友</a></li>
+              <li><a href="cp.php?ac=pm&uid=$value[uid]" id="a_pm_$key" onclick="ajaxmenu(event, this.id, 1)">发短消息</a></li>
+              <li><a href="cp.php?ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="ajaxmenu(event, this.id, 1)">打个招呼</a></li>
+			</ul>
+		</td>
+	</tr>
+	</table>
+	<!--{/loop}-->
+    <div style="margin: 0px 0px 10px;" class="page">$multi</div>
+    <!--{else}-->
+    <p style="text-align: center; color: gray; margin-top: 75px;">
+		<img src="image/icons/no_status.png">
+		<br>
+		没有成员
+	</p>
+    <!--{/if}-->
+</div>

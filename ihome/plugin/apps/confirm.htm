@@ -1,0 +1,53 @@
+<div class="fx_c" id="msg">
+  <div class="fx_c_t" id="handel">
+    <div class="fx_c_t_l">确认授权</div>
+    <div class="delete_2"><a href="javascript:void(0);" onclick="closeDialog()"></a></div>
+  </div>
+  <!-- end fx_c_t -->
+  <div class="fx_img left inline margin_top_10 margin_left_10"></div>
+  <!-- end fx_img -->
+  <div class="fx_neirong left margin_left_5 margin_top_10" id="iauth_content">
+    <div class="fx_t_h1">授权该应用使用您的以下信息</div>
+      <div class="fx_neirong_c_c left margin_left_4">
+	  <table>
+	  <!--{if $apis}-->
+	  <!--{loop $apis $api}-->
+	  <tr><td>
+	  <label><input type="checkbox" disabled="true" checked="true" name="api" value="$api['iauthAPIid']" />$api[name]</label>
+	  </tr></td>
+	  <!--{/loop}-->
+	  <!--{/if}-->
+	  </table>
+	  <input name='state' type='hidden' value='$state' /><br />
+	  <button onclick="iauth()">授权</button>
+      <!-- end fx_neirong_c_c -->
+      <div class="clear"></div>
+    </div>
+    <!-- end fx_neirong_c -->
+    <!-- end fx_eva -->
+    <div class="fx_eva_img"></div>
+  <!-- end fx_neirong -->
+</div>
+<script>
+function iauth(){
+	var api_value =[];    
+	$('input[name="api"]:checked').each(function(){    
+		api_value.push($(this).val());    
+	});
+	if(api_value.length==0){
+		alert('您还没有选择任何api~!');
+		return;
+	}
+	var states = '$state';
+	$.post("plugin.php?pluginid=apps&ac=detail&authorize=1&appsid=$appsid&gotoapp=1",
+	{api:api_value ,state:states},
+	function(data){
+		if(data.length==16){
+			alert('授权验证码: ' + data);
+			location="plugin.php?pluginid=apps&ac=detail&appsid=$appsid";
+		}else{
+			location=data;
+		}
+	});
+}
+</script>

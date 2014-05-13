@@ -1,0 +1,63 @@
+<!--{template header}-->
+
+<!--{if $_GET['op'] == 'delete'}-->
+
+<h1>删除记录</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__doingform_{$doid}_{$id}">
+	<form method="post" id="doingform_{$doid}_{$id}" name="doingform" action="cp.php?ac=doing&op=delete&doid=$doid&id=$_GET[id]">
+		<p>确定删除该记录吗？</p>
+		<div class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<button name="deletesubmit" type="submit" 
+					class="btn btn-sm btn-comments" 
+					value="true">确定</button>
+		</div>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{elseif $_GET['op'] == 'getmood'}-->
+
+$space[spacenote]
+
+<!--{elseif $_GET['op'] == 'docomment' || $_GET['op'] == 'getcomment'}-->
+    <script language"javascript" src="source/face.js"></script>
+    <script language="javascript" src="source/do_comment.js" charset="utf-8"></script>
+	<form  method="post" 
+			class="form form-comment" 
+			style="padding: 5px;height:50px;"
+			action="cp.php?ac=doing&op=comment&doid=$doid&id=$id" >
+		<input type="text" id="do_message_{$doid}_{$id}" 
+				name="message" value="评论..."
+				size="35" style="width:81%;" 
+				class="form-control t_input input-sm" 
+				onclick="jQuery('#do_message_{$doid}_{$id}').css({'color':'#333'});if(this.value=='评论...') this.value='';" 
+				onkeydown="return ctrlEnter(event, 'docommform_btn_{$doid}_{$id}', 1);" 
+				onfocus="at()">
+	<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+		<input type="hidden" name="commentsubmit" value="true" />
+        <a href="javascript:;" id="do_face_{$doid}_{$id}" class="drop_face comment_face"><div></div></a>
+        <div class="drop_face_menu" data-target="do_message_{$doid}_{$id}"></div>
+        <!--onclick="_ihome_func_wrap_comment(ajaxpost, '.do_facein', 'docommform_{$doid}_{$id}', 'docomment_get', 1)()"--> 
+		<input type="button" name="do_button" class="comment_click_btn submit btn btn-comments" id="docommform_btn_{$doid}_{$id}" 
+				value="评论">
+		<br>
+	<!--	<button type="button" name="btncancel" class="button" onclick="docomment_form_close($doid, $id);">取消</button>-->
+    
+    <input type="hidden" name="formhash" class="hashform" value="<!--{eval echo formhash();}-->" />
+	</form>
+    <div id="__docommform_{$doid}_{$id}" style="display:none;"></div>
+<!--{if $_GET['op'] == 'getcomment'}-->
+<!--{template space_doing_li_index}-->
+<!--{/if}-->
+
+<!--{else}-->
+<div id="content">
+    <!--{template space_doing_form}-->
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

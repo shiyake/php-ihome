@@ -1,0 +1,91 @@
+<!--{template admin/tpl/header}-->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    jQuery(function() {
+        jq('#columnchart').highcharts({
+            title: {
+                text:'用户激活情况分析',
+            },
+            xAxis: {
+                categories: [
+                <!--{eval $sep = ''}-->
+                <!--{loop $items $key $value}-->
+                <!--{eval echo "$sep'$key'"}-->
+                <!--{eval $sep = ','}-->
+                <!--{/loop}-->
+                ]
+            },
+            yAxis: {
+                title: {
+                    text:'激活数',
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                }
+            },
+            series: [{
+                name: '邮箱',
+                type: 'column',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[email]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '一卡通',
+                type: 'column',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[quick]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '校友',
+                type: 'column',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[mobile]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '新生',
+                type: 'column',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval echo "$sep$value[freshman]"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }, {
+                name: '当天激活总量',
+                type: 'spline',
+                data: [
+                    <!--{eval $sep = ''}-->
+                    <!--{loop $items $key $value}-->
+                    <!--{eval $t=$value['freshman']+$value['mobile']+$value['quick']+$value['email']}-->
+                    <!--{eval echo "$sep$t"}-->
+                    <!--{eval $sep = ','}-->
+                    <!--{/loop}-->]
+            }]
+        });
+    });
+</script>
+
+<div class="mainarea">
+	<div class="maininner">
+        <div class="hdrcontent" id="columnchart"></div>
+        <div class="bdrcontent">
+            <p>计算方法：统计最近一段时间的每天使用四种方法激活的人数</p>
+        </div>
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

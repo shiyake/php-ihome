@@ -1,0 +1,231 @@
+<!--{template header}-->
+<!--{if submitcheck("submit_username")}-->
+<style>
+    .radio {
+        line-height:24px;
+    }
+    .formtable tr td{
+        padding:0;
+    }
+    .formtable .radio {
+        margin:0;
+        margin-left:2px;
+    }
+</style>
+<form id="theform" action="do.php?ac=lostpasswd&uid=$uid" method="POST" class="c_form">
+	<table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>找回密码</h2>
+		</caption>
+        <tr><td><p style="float:left;">请选择找回密码的方式</p></td><td></td></tr>
+        <!--{if !empty($protect_info) and !empty($protect_info['mobile'])}-->
+		<tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="1" class="t_input"/>密保手机</label></div></td></tr>
+        <!--{else}-->
+        <tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="1" class="t_input" disabled="true"/>密保手机</label></div></td></tr>
+        <!--{/if}-->
+        <!--{if !empty($protect_info) and strlen($protect_info['question1']) > 0}-->
+        <tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="2" class="t_input"/>密保问题</label></div></td></tr>
+        <!--{else}-->
+		<tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="2" class="t_input" disabled="true"/>密保问题</label></div></td></tr>
+        <!--{/if}-->
+        <!--{if !empty($space_field['email'])}-->
+        <tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="3" class="t_input"/>密保邮箱</label></div></td></tr>
+        <!--{else}-->
+        <tr><td><div class="radio"><label><input type="radio" id="username" name="type" value="3" class="t_input" disabled='true'/>密保邮箱</label></div></td></tr>
+        <!--{/if}-->
+        <tr><td><input type="submit" id="submit_type" style="margin-top:10px;" name="submit_type" value="确定" class="submit btn btn-sm btn-comments" /></td></tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+<!--{elseif submitcheck("submit_type")}-->
+<!--{if $_POST['type'] == 1}-->
+<style>
+    .formtable tr td,th {
+        padding:5px !important;
+        padding-left:0px !important;
+    }
+</style>
+<form id="theform" action="do.php?ac=lostpasswd&uid=$uid" method="POST" class="c_form">
+    <table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>找回密码</h2>
+		</caption>
+		<tr>
+            <th width="122" style="text-align:left;"><span>发送验证码到手机:</span></th>
+            <td><!--{eval echo substr($protect_info['mobile'], 0, 2)}-->*******<!--{eval echo substr($protect_info['mobile'], 9, 2)}-->。
+            <input href="do.php?ac=lostpasswd&op=get_code&uid=$uid" class="btn btn-sm btn-comments" type="button" id="mobile_code_button" value="发送验证码" onclick="mobile_code_send(event)"/></td></tr>
+        <tr><th style="text-align:left;"><span>手机验证码:</span></th><td><input class="form-control input-sm" style="width:200px;" type="text" name="verify_code"/></td></tr>
+        <tr><th></th><td><input type="submit" id="submit_mobile" name="submit_mobile" value="确定" class="submit btn btn-sm btn-comments" /></td></tr>
+    </table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+    <script>
+        var jq = jQuery.noConflict();
+        var left_seconds = 0;
+        function mobile_code_check(event) {
+            if (left_seconds > 0) {
+                jq("#mobile_code_button").attr("value", left_seconds+"秒后可重新发送");
+                jq("#mobile_code_button").attr("disabled", "disabled");
+                left_seconds -= 1;
+                setTimeout("mobile_code_check();", 1000);
+            } else {
+                jq("#mobile_code_button").removeAttr("disabled");
+                jq("#mobile_code_button").attr("value", "重新发送");
+            }
+        }
+        function mobile_code_send() {
+            left_seconds=$send_interval;
+            mobile = jq('#mobile_num').val();
+            mobile_code_check();
+            ajaxmenu(event, 'mobile_code_button');
+        }
+    <!--{if $left_seconds > 0}-->
+        left_seconds = $left_seconds;
+        mobile_code_check();
+    <!--{/if}-->
+    </script>
+    <!--{elseif $_POST['type'] == 2}-->
+    <style>
+        .formtable tr td,th {
+            padding:5px !important;
+            padding-left:0 !important;
+            text-align:left !important;
+        }
+        .formtable tr td .t_input{
+            width:300px;
+        }
+    </style>
+<form id="theform" action="do.php?ac=lostpasswd&uid=$uid" method="POST">
+    <table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>找回密码</h2>
+		</caption>
+        <tr><th width="89">密保问题1：</th><td><span>$ques1</span></td></tr>
+        <tr><th>问题1答案：</th><td><input type="text" id="answer1" name="answer1" class="t_input form-control input-sm"/></td></tr>
+        <tr><th>密保问题2：</th><td><span>$ques2</span></td></tr>
+        <tr><th>问题2答案：</th><td><input type="text" id="answer2" name="answer2" class="t_input form-control input-sm"/></td></tr>
+        <tr><th>密保问题3：</th><td><span>$ques3</span></td></tr>
+        <tr><th>问题3答案：</th><td><input type="text" id="answer3" name="answer3" class="t_input form-control input-sm"/></td></tr>
+		<tr><th>&nbsp;</th><td><input type="submit" id="submit_question" name="submit_question" value="提交" class="submit btn btn-sm btn-comments" /></td></tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="uid" value="$uid" />
+</form>
+<!--{elseif $_POST['type'] == 3}-->
+<form id="theform" action="do.php?ac=lostpasswd" method="POST" class="c_form">
+	<table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>找回密码</h2>
+			<p>请正确输入您在本站注册的邮箱。</p>
+		</caption>
+	</table>
+	<span style="margin-right:10px;">邮箱：</span><input type="text" id="email" name="email" style="display:inline-block;zoom:1;width:200px;" value="" class="t_input form-control input-sm"> <span id="s_email"></span>
+	<input type="submit" style="margin-top:10px;display:block;margin-left:48px;" id="emailsubmit" name="emailsubmit" value="取回密码" class="submit btn btn-sm btn-comments" />
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+    <!--{/if}-->
+<!--{elseif (submitcheck("submit_mobile") or submitcheck("submit_question")) and $check_success}-->
+<form id="theform" action="do.php?ac=lostpasswd&uid=$uid" method="POST" class="c_form">
+	<table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>重设密码</h2>
+        </caption>
+        <style>
+            .formtable tr th,td {
+                padding:5px !important;
+                padding-left:0 !important;
+            }
+            .formtable tr td .t_input {
+                width:200px;
+            }
+        </style>
+        <tr><th width="85" style="text-align:left;">用户名：</th><td><span>$spaceinfo['username']</span></td></tr>
+        <tr><th width="85" style="text-align:left;">新密码：</th><td><input type="password" id="password" name="newpasswd1" class="t_input form-control input-sm"/></td></tr>
+        <tr><th width="85" style="text-align:left;">确认新密码：</th><td><input type="password" id="password2" name="newpasswd2" class="t_input form-control input-sm"/></td></tr>
+		<tr><th>&nbsp;</th><td><input type="submit" id="resetsubmit" name="resetsubmit" value="确定" class="submit btn btn-sm btn-comments" /></td></tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="uid" value="$uid" />
+	<input type="hidden" name="id" value="$idstring" />
+
+</form>
+<!--{elseif empty($op)}-->
+<form id="theform" action="do.php?ac=lostpasswd" method="POST" class="c_form">
+	<table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>找回密码</h2>
+        </caption>
+        
+        <script>
+            (function(){
+                jQuery(function(){
+                    jQuery("#check_username_lost").click(function(){
+                        jQuery("#num_check").css({"display":"none"});
+                        jQuery("#num_check .t_input").val("");
+                        jQuery("#userName_check").css({"display":""});
+                    });
+                    jQuery("#check_num_lost").click(function(){
+                        jQuery("#num_check").css({"display":""});
+                        jQuery("#userName_check .t_input").val("");
+                        jQuery("#userName_check").css({"display":"none"});
+                    })
+                });
+            })();
+        </script>
+    </table>
+    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+    <style>
+        .radio label {
+            line-height:24px;
+        }
+        .radio {
+            margin-top:0;
+        }
+    </style>
+   <span>密码找回方式：</span>
+            <div class="radio radio-inline">
+                <label for="check_username_lost"><input type="radio" name="find_method" id="check_username_lost" checked/><span>登录用户名</span></label>
+            </div>
+            <div class="radio radio-inline">
+                <label for="check_num_lost"><input type="radio" name="find_method" id="check_num_lost"/><span>学号/职工号</span></label>
+                </div> 
+    <div id="userName_check" style="margin-top:10px;">
+		<span style="margin-right:10px;">登录用户名：</span><input type="text" style="margin-right:10px;width:200px;display:inline-block;" id="username" name="username" value="" class="t_input form-control input-sm"> <span id="s_email"></span>
+        <input type="submit" style="display:block;margin-top:10px;margin-left:82px;" id="submit_username" name="submit_username" value="确定" class="submit btn btn-sm btn-comments" />
+    </div>
+    <div id="num_check" style="display:none;margin-top:10px;">
+        <span style="margin-right:10px;">学号/职工号：</span><input type="text" style="width:200px;margin-right:10px;display:inline-block;" id="num" name="num" value="" class="t_input form-control input-sm"><span id="s_email"></span>
+       <input type="submit" style="margin-top:10px;margin-left:82px;display:block;" id="submit_username" name="submit_username" value="确定" class="submit btn btn-sm btn-comments" />
+    </div>
+</form>
+<!--{elseif $op=='reset'}-->
+
+<form id="theform" action="do.php?ac=lostpasswd&op=reset" method="POST" class="c_form">
+    <style>
+        .formtable tr th{
+            text-align:left;
+        }
+        .formtable tr td .t_input {
+            width:300px;
+        }
+    </style>
+    <table cellpadding="0" cellspacing="0" class="formtable">
+		<caption>
+			<h2>重设密码</h2>
+		</caption>
+        <tr><th width="83">用户名</th><td><!--{eval echo stripslashes($space['username']);}--></td></tr>
+        <tr><th>邮箱</th><td><!--{eval echo stripslashes($space['email']);}--></td></tr>
+		<tr><th>新密码</th><td><input type="password" id="newpasswd1" name="newpasswd1" value="" class="t_input form-control input-sm"> <span id="s_newpasswd1"></span></td></tr>
+		<tr><th>确认新密码</th><td><input type="password" id="newpasswd2" name="newpasswd2" value="" class="t_input form-control input-sm"> <span id="s_newpasswd2"></span></td></tr>
+		<tr><th>&nbsp;</th><td><input type="submit" id="resetsubmit" name="resetsubmit" value="确定" class="submit btn btn-sm btn-comments" /></td></tr>
+	</table>
+	<input type="hidden" name="uid" value="$_GET[uid]" />
+	<input type="hidden" name="id" value="$_GET[id]" />
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+<!--{/if}-->
+
+<!--{template footer}-->
