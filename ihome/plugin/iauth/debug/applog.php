@@ -50,29 +50,26 @@ if ($uid==5633){
     echo '
     <table border="1">
       <tr>
-        <th>app_key</th>
-        <th>app_secret</th>
         <th>app_name</th>
-        <th>call_back</th>
-       <th>app_login_url</th>
-       <th>app_uid</th>
-       <th>app_ren</th>
-       <th>app_email</th>
-       <th>app_logo</th>
-       <th>app_des</th>
+       <th>type</th>
+        <th>app_id</th>
+       <th>status</th>
+       <th>ip_check</th>
+        <th>app_secret</th>
+        <th>auth_call_back_url</th>
+       <th>login_call_back_url</th>
       </tr>';
     $sql="SELECT * FROM app_info WHERE app_id='$key' ";
     $res=mysql_query($sql);
     echo mysql_error();
-    while ($row = mysql_fetch_array($res))
-        {
+    while ($row = mysql_fetch_array($res)){
         echo "<tr onmouseover=\"this.style.backgroundColor='#f0f0f0'\" onmouseout=\"this.style.backgroundColor='#ffffff'\">";
-        echo "<td>" . $row['app_id'] . "</td>";
-        echo "<td>" . $row['app_key'] . "</td>";
-        echo "<td>" . $row['status'] . "</td>";
-        echo "<td>" . $row['app_type'] . "</td>";
-        echo "<td>" . $row['app_secret'] . "</td>";
         echo "<td>" . $row['app_name'] . "</td>";
+        echo "<td>" . $row['app_type'] . "</td>";
+        echo "<td>" . $row['app_id'] . "</td>";
+        echo "<td>" . $row['status'] . "</td>";
+        echo "<td>" . $row['ip_check'] . "</td>";
+        echo "<td>" . $row['app_secret'] . "</td>";
         echo "<td>" . $row['call_back'] . "</td>";
         echo "<td>" . $row['login_url'] . "</td>";
         echo "</tr>";
@@ -96,7 +93,7 @@ $w = $res[0];
 <?php
 echo "
     <table onclick=\"toggole();\" border='1'>
-        <tr><td colspan='6' bgcolor='#f0f0ff'><p><b>已授权的用户信息</b></p></td></tr>
+        <tr><td colspan='6' bgcolor='#f0f0ff'><p><b>已授权的用户信息</b>,共($w)条记录</p>,点击展开</td></tr>
     </table>
     <table id='user' border='1' style='display:none'>
       <tr>
@@ -104,7 +101,7 @@ echo "
         <th>faile_t</th>
         <th>create_t</th>
         <th>rights</th>
-        <th>access_token($w)</th>
+        <th>access_token</th>
         <th>access_secret</th>
       </tr>
 ";
@@ -118,7 +115,7 @@ echo mysql_error();
    echo "<td>" . $row['rights'] . "</td>";
    echo "<td>" . $row['access_token'] . "</td>";
    echo "<td>" . ManageMask($row['access_secret']) . "</td>";
-   echo "<td>" . '<a href="auth.php?appid='.$key.'&uid='.$row['user_id'].'&op=rm">移除授权</a>'. "</td>";
+   //echo "<td>" . '<a href="auth.php?appid='.$key.'&uid='.$row['user_id'].'&op=rm">移除授权</a>'. "</td>";
    echo "</tr>";
 }
 
