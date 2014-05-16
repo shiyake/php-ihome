@@ -93,7 +93,7 @@ $w = $res[0];
 <?php
 echo "
     <table onclick=\"toggole();\" border='1'>
-        <tr><td colspan='6' bgcolor='#f0f0ff'><p><b>已授权的用户信息</b>,共($w)条记录</p>,点击展开</td></tr>
+        <tr><td bgcolor='#f0f0ff'><p><b>已授权的用户信息</b>,共($w)条记录</p>,点击展开</td></tr>
     </table>
     <table id='user' border='1' style='display:none'>
       <tr>
@@ -153,7 +153,9 @@ while ($row = mysql_fetch_array($res)) {
     echo "<td><p>" . $row['ip'] . "</p></td>";
     echo "<td><p>" . $row['content'] . "</p></td>";
     echo "<td><p>" . $row['rtype'] . "</p></td>";
-    echo "<td><p>" . $row['status'] . "</p></td>";
+if ($row['rtype']=='verify'){echo "<td><p></p></td>";}
+else{
+    echo "<td><p>" . $row['status'] . "</p></td>";}
     echo "<td><p>" . ManageMask($row['nonce'])."</p></td>";
     echo "<td><p>" . ManageMask($row['state'])."</p></td>";
     echo "<td><p>" . $row['create_t'] . "</p></td>";
