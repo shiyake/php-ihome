@@ -47,6 +47,11 @@ if($ac == $_SCONFIG['FreshmanRegister_Action']) {
 } elseif($ac == 'freshmanregister') {
 	$ac = '';
 }
+if($ac == $_SCONFIG['QuickMarkRegister_Action']) {
+	$ac = 'quickmarkregister';
+} elseif($ac == 'quickmarkregister') {
+	$ac = '';
+}
 if($ac == $_SCONFIG['mobileaccess']) {
 	$ac = 'mobileaccess';
 } elseif($ac == 'mobileaccess') {
@@ -54,7 +59,7 @@ if($ac == $_SCONFIG['mobileaccess']) {
 }
 
 
-$acs = array('login', 'register', 'activate', 'buaaregister', 'quickregister', 'mobileregister','lostpasswd', 'swfupload', 'inputpwd', 'emailinviteregister', 'freshmanregister',
+$acs = array('login', 'register', 'activate', 'buaaregister', 'quickregister', 'mobileregister','lostpasswd', 'swfupload', 'inputpwd', 'emailinviteregister', 'freshmanregister','quickmarkregister',
 	'ajax', 'seccode', 'sendmail', 'stat', 'emailcheck','mobileaccess');
 
 	
