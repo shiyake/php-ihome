@@ -16,7 +16,7 @@ function inject_check($sql_str) {
 
 if($_SERVER['REQUEST_METHOD'] != "POST")
 {
-	echo '{"state":"error","desc":"fields invaild"}';
+	echo "{'errcode':40003,'errmsg':'method is not correct'}";
 }
 else
 {
@@ -26,21 +26,20 @@ else
 		$json = json_decode($content);
 
 		$uid = $json->uid;
-		$name = $json->name;
+		$name = $json->realname;
 		$startyear = $json->startyear;
-		$collage = $json->collage;
+		$collage = $json->academy;
 		$brithday = $json->birthday;
 		$username = $json->username;
 		$password = $json->password;
 		if(inject_check($uid) || inject_check($name) || inject_check($startyear) || inject_check($collage) || inject_check($birthday) ||
 			inject_check($username) || inject_check($password))
 		{
-			echo '{"state":"error","desc":"fields invaild"}';
+			echo "{'errcode':40002，'errmsg':'system is busy'}";
 		}
 		else
 		{
 			$count = 0;
-			//dbconnect();
 			$q = $_SGLOBAL['db']->query("SELECT invite_remain FROM ".tname('space')." WHERE uid='$uid'");
 			$count = $_SGLOBAL['db']->fetch_array($q);
 			$count = $count['invite_remain'];
@@ -51,17 +50,17 @@ else
 				//
 				$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET invite_remain = invite_remain - 1 WHERE uid='$uid'");
 				$_SGLOBAL['db']->fetch_array($q);
-				echo '{"state":"ok"}';
+				echo "{'errcode':0,'errmsg':'ok'}";
 			}
 			else
 			{
-				echo '{"state":"error","desc":"fields invaild"}';
+				echo "{'errcode':40001,'errmsg':'no invitation number ok'}";
 			}
 		}
 	}
 	catch(Exception $e)
 	{
-		echo '{"state":"error","desc":"fields invaild"}';
+		echo "{'errcode':40002，'errmsg':'system is busy'}";
 	}
 }
 ?>
