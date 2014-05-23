@@ -3,6 +3,7 @@
      getuserinfo.php用于获得用户或公共主页的具体信息
      Add by am@ihome.2012-09-26  15:35
 	 Modify by am@ihome.2012-10-08 10:48 添加日志回复数
+     Modify by wangnan@limijiaoyin.2014-05-20 添加实名认证字段 namestatus
 
 
 */
@@ -20,7 +21,7 @@
 	}else{
 	   $id = $uid;
 	}
-	$query = $_SGLOBAL['db']->query("SELECT s.uid,s.name,ug.grouptitle,sf.note,sf.sex,s.friendnum ,s.threadnum,s.blognum,s.albumnum,sf.privacy FROM ".tname('space')." s 
+	$query = $_SGLOBAL['db']->query("SELECT s.uid,s.name,s.namestatus,ug.grouptitle,sf.note,sf.sex,s.friendnum ,s.threadnum,s.blognum,s.albumnum,sf.privacy FROM ".tname('space')." s 
 				, ".tname('spacefield')." sf ,".tname('usergroup')." ug where s.uid=sf.uid and s.groupid=ug.gid
                 and s.uid =$id");
 				while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -122,6 +123,7 @@
 		'user_name'=>$_SN[$value[uid]],
 		'user_degree'=>$value[grouptitle],
 		'user_lastfeed'=>$value[note],
+        'user_namestatus'=>$value[namestatus],
 		'user_friendcount'=>$value[friendnum],
 		'user_topiccount'=>$value[threadnum],
 		'user_blogcount'=>$value[blognum],

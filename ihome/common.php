@@ -90,7 +90,10 @@ if(empty($_SCONFIG['EmailInviteRegister'])) $_SCONFIG['EmailInviteRegister'] = m
 
 if(empty($_SCONFIG['FreshmanRegister_Action'])) $_SCONFIG['FreshmanRegister_Action'] = md5('FreshmanRegister_Action'.md5('ancon'));
 
+if(empty($_SCONFIG['QuickMarkRegister_Action'])) $_SCONFIG['QuickMarkRegister_Action'] = md5('QuickMarkRegister_Action'.md5('ancon'));
+
 if(empty($_SCONFIG['mobileaccess'])) $_SCONFIG['mobileaccess'] = md5('mobileaccess'.md5('mobile'));
+
 
 $_SGLOBAL['collegeid'] = '';
 
