@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-//��ҳ
+//·ÖÒ³
 $perpage = 9;
 $perpage = mob_perpage($perpage);
 
@@ -14,7 +14,7 @@ $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) $page = 1;
 $start = ($page-1)*$perpage;
 
-//��鿪ʼ��
+//¼ì²é¿ªÊ¼Êý
 ckstart($start, $perpage);
 
 if($_GET['view'] == 'online') {
@@ -69,7 +69,7 @@ if($_GET['view'] == 'online') {
 	$theurl = "space.php?uid=$space[uid]&do=friend&view=$_GET[view]";
 	$actives = array('me'=>' class="active"');
 
-	if($_GET['view'] == 'visitor') {//�ÿ�
+	if($_GET['view'] == 'visitor') {//·Ã¿Í
 		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('visitor')." main WHERE main.uid='$space[uid]'"), 0);
 		$query = $_SGLOBAL['db']->query("SELECT f.resideprovince, f.residecity, f.note, f.spacenote, f.sex, main.vuid AS uid, main.vusername AS username, main.dateline
 			FROM ".tname('visitor')." main
@@ -77,7 +77,7 @@ if($_GET['view'] == 'online') {
 			WHERE main.uid='$space[uid]'
 			ORDER BY main.dateline DESC
 			LIMIT $start,$perpage");
-	} else {//�㼣
+	} else {//×ã¼£
 		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('visitor')." main WHERE main.vuid='$space[uid]'"), 0);
 		$query = $_SGLOBAL['db']->query("SELECT s.username, s.name, s.namestatus, s.groupid, f.resideprovince, f.residecity, f.note, f.spacenote, f.sex, main.uid AS uid, main.dateline
 			FROM ".tname('visitor')." main
@@ -122,15 +122,37 @@ if($_GET['view'] == 'online') {
 	}
 	$multi = multi($count, $perpage, $page, $theurl);
 
-} else {
+} elseif($_GET['view']=="confirm"){
+	$uid = $_GET['uid'];
+	$uid = substr($uid, 2, strlen($uid)-4);
+	//找到baseprofile
+	$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'");
+	$bp = $_SGLOBAL['db']->fetch_array($q);
+	if($bp)
+	{
+		//改成认证过的
+		$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='1' WHERE uid='$bp[uid]'");
+		$_SGLOBAL['db']->fetch_array($q);
+		//拿出来学院跟入学年份
+		$academy = $bp['academy'];
+		$startyear = $bp['startyear'];
+		//加入群组
+		if($academy && $startyear)
+		{
+			$gid = tagGrade3($startyear, $academy, $_SGLOBAL['db']);
+			jointag($bp['uid'], $gid, $_SGLOBAL['db']);
+		}
+		showmessage('do_success',"/",2);
+	}
+}else {
 
-	//������ѯ
+	//´¦Àí²éÑ¯
 	$theurl = "space.php?uid=$space[uid]&do=$do";
 	$actives = array('me'=>' class="active"');
 	
 	$_GET['view'] = 'me';
 
-	//���ѷ���
+	//ºÃÓÑ·Ö×é
 	$wheresql = '';
 	if($space['self']) {
 		$groups = getfriendgroup();
@@ -171,10 +193,10 @@ if($_GET['view'] == 'online') {
 			}
 		}
 
-		//��ҳ
+		//·ÖÒ³
 		$multi = multi($count, $perpage, $page, $theurl);
 		$friends = array();
-		//ȡ100�����û���
+		//È¡100ºÃÓÑÓÃ»§Ãû
 		$query = $_SGLOBAL['db']->query("SELECT f.fusername, s.name, s.namestatus, s.groupid FROM ".tname('friend')." f
 			LEFT JOIN ".tname('space')." s ON s.uid=f.fuid
 			WHERE f.uid=$_SGLOBAL[supe_uid] AND f.status='1' ORDER BY f.num DESC, f.dateline DESC LIMIT 0,100");
@@ -188,7 +210,7 @@ if($_GET['view'] == 'online') {
 	if($space['self']) {
 		$groupselect = array($group => ' class="current"');
 
-		//���Ѹ���
+		//ºÃÓÑ¸öÊý
 		$maxfriendnum = checkperm('maxfriendnum');
 		if($maxfriendnum) {
 			$maxfriendnum = checkperm('maxfriendnum') + $space['addfriend'];
@@ -196,7 +218,7 @@ if($_GET['view'] == 'online') {
 	}
 }
 
-//����״̬
+//ÔÚÏß×´Ì¬
 if($fuids) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('session')." WHERE uid IN (".simplode($fuids).")");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
