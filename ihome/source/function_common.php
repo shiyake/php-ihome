@@ -2496,6 +2496,39 @@ function runlog($file, $log, $halt=0) {
 			return $tagid;
 		}
 	}
+
+	/*用入学年份跟学院找群*/
+	function tagGrade3 ($startyear, $academy ,$db) {
+		$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE startyear='$startyear' AND academy='$academy'");
+		$r=($db->fetch_array($query));
+		if ($r) {
+			return $r['tagid'];
+		}else{
+			$mtagname = $academy.$startyear."级";
+			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
+			$setarr = array(  
+				'tagname' => $mtagname, 
+				'fieldid' => 7, 
+				'announcement' => $announcement ,
+				'joinperm' => 1 , 
+				'viewperm' => 1 ,
+				'threadperm' => 0 , 
+				'postperm' => 0,
+				'startyear'=>$startyear,
+				'academy'=>$academy
+				);
+			$tagspaceid=inserttable('mtag',$setarr,1);
+			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
+			$r=($db->fetch_array($query));
+			if ($r) {
+				$tagid = $r['tagid'];
+			}else{
+				$tagid = -1;
+			}
+			return $tagid;
+		}
+	}
+
 	//已知群组名，查找群组，如果不存在，建立新群组，返回群组号//群组为区域群组,
 	function tagArea ($mtagname ,$db) {
 
