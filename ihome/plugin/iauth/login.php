@@ -27,21 +27,25 @@ exit();
 function SSOlogin( $appid, $state, $uid ){
     Check( $appid,'appid' );
     if (!empty($state)){
-	Check( $state,'state' );
-	Check( $uid, 'uid' );
-	$authed = CheckUserAuthed( $appid, $uid );
-	if ($authed==false){
-	    header('Location:'.IAUTH_APP_INFO_PAGE.'&appsid='.$appid.'&state='.$state.'#confirm');
-	    exit();
-	    }
-	$appType = GetAppInfo( $appid, 'app_type' );
+        Check( $state,'state' );
+        Check( $uid, 'uid' );
+        $authed = CheckUserAuthed( $appid, $uid );
+        if ($authed==false){
+            if ((!empty($_GET['s'])) && ($_GET['s']=='1')){
+                header('Location: '.IAUTH_SIMPLE_AUTH_CONFIRM_PAGE.'&appsid='.$appid.'&state='.$state);
+                exit();
+            }
+            header('Location:'.IAUTH_APP_INFO_PAGE.'&appsid='.$appid.'&state='.$state.'#confirm');
+            exit();
+            }
+        $appType = GetAppInfo( $appid, 'app_type' );
 
-	if ( $appType =='WSC' ){
-	    $loginCallBack = GetAppInfo( $appid, 'login_url' );
-	    $verifier = newVerifier('login', $appid, $uid, 'FROM_CLIENT','','','', $state );
-	    return $loginCallBack .'?verifier='. $verifier.'&state='.$state;
-	    }
-	}
+        if ( $appType =='WSC' ){
+            $loginCallBack = GetAppInfo( $appid, 'login_url' );
+            $verifier = newVerifier('login', $appid, $uid, 'FROM_CLIENT','','','', $state );
+            return $loginCallBack .'?verifier='. $verifier.'&state='.$state;
+            }
+        }
     header('Location:'.IAUTH_APP_INFO_PAGE.'&appsid='.$appid);
     exit();
     }
