@@ -259,10 +259,35 @@ jq(function(){
 		});
 });
 </script>
+<script language="javascript" type="text/javascript">
+    var jq2=jQuery.noConflict();
+    jq2(function(){
+        if (sessionStorage.getItem('ad') != 'yes'){
+            var height = jq2('.ad_for_2years').height();
+            jq2('.ad_for_2years').css({marginTop:-(height)});
+            jq2('.ad_for_2years').css({display:'block'});
+            jq2('#erase').css({display:'block'});
+            jq2('.ad_for_2years').animate({marginTop : 0},2000,function(){
+                sessionStorage.setItem('ad','yes');
+                setTimeout(function(){
+                    jq2('.ad_for_2years').animate({marginTop : -(height)},2000);
+                    jq2('#erase').css({display:'none'});
+                },20000);
+            
+            });
+        }
+        jq2('#erase').click(function(){
+            jq2('#erase').css({display:'none'});
+            jq2('.ad_for_2years').css({display:'none'});
+            });
+    });
+</script>
 
 
 </head>
 <body style="padding-top:55px;">
+    <img class='ad_for_2years'  style="display:none" src="template/default/image/twoyears_small.gif"/>
+    <a href="javascript:void(0)"><img style="display:none;position:fixed;top:90px;right:50px;z-index:10000;width:50px;" id='erase' src="template/default/image/erase.png"/></a>
     <!--{if !empty($_SGLOBAL['space_diy'])}-->
     <!--{if $_SGLOBAL['space_diy']['bg_enabled'] && !empty($_SGLOBAL['space_diy']['bg'])}-->
     <!--{if $_SGLOBAL['space_diy']['bg_style'] == 2}-->
@@ -446,7 +471,7 @@ jq(function(){
                             <ul class="app_list topline" id="my_defaultapp" style="display:block;height:322px;">
                                 <li class="first_show_next"><img src="image/icons/icon_bt.png"/></img><a href="buaasso.php?m=sso&to=buaabt" target= "_blank" title="去往BT" style="height:auto;">未来花园BT</a></li>
                                 <li><img src="image/icons/icon_score.png"/><a href="jifen.php" title="积分商城">积分商城</a></li>
-                                <li><img src="image/icons/icon_wall.png"/><a href="plugin.php?pluginid=wall&ac=list">ｉ北航墙</a></li>
+                                 <li><img src="image/icons/icon_wall.png"/><a href="plugin.php?pluginid=wall&ac=list">ｉ北航墙</a></li>
                                 <!--{if $usertype == '4' || $usertype == '教师' || $_SGLOBAL['member']['groupid'] ==1}-->
                                 <li><img src="image/icons/icon_software.png"/><a href="plugin.php?pluginid=software&usertype=$usertype">软件中心</a></li>
                                 <!--{/if}-->
