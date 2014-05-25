@@ -864,3 +864,12 @@ div #tagcloud span.w1 {
     color:#777;
     font-size:12px;
 }
+
+/* ad for 2years*/
+.ad_for_2years {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:9999;
+    width: 100%;
+}
