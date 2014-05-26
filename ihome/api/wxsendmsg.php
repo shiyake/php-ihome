@@ -40,6 +40,7 @@ else
 		{
             $setarr = array(
                 'uid' => $uid,
+                'pass' =>1,
                 'username' => $username,
                 'message' => $message,
                 'wallid' => $wallid,
