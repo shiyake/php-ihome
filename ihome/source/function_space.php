@@ -75,7 +75,7 @@ function space_open($uid, $username, $gid=0, $email='') {
 
 	$_SGLOBAL['supe_uid'] = $_uid;
 	$_SGLOBAL['supe_username'] = $_username;
-		
+
 	return $space;
 }
 

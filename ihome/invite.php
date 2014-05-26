@@ -11,25 +11,24 @@ if(empty($_GET['type'])&&!empty($_GET['uid']))
 				showmessage('space_does_not_exist');
 			}
 			include template("invite");
-            return ;
-        }
-	}
-}else {
-	if(empty($_GET['type'])&&!empty($_GET['u']))
-	{	
-		$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('emailinvite')." where uid='".$_GET['u']."'");
-		while($row=$_SGLOBAL['db']->fetch_array($query)) {
-			if(!strcmp($row['uid'],$_GET['u']))	{
-				$space = getspace($_GET['u']);
-				if(empty($space)) {
-					showmessage('space_does_not_exist');
-				}
-                include template("invite");
-                return ;
-			}
+			return ;
 		}
-    }
+	}
+}else if(empty($_GET['type'])&&!empty($_GET['u']))
+{	
+	$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('emailinvite')." where uid='".$_GET['u']."'");
+	while($row=$_SGLOBAL['db']->fetch_array($query)) {
+		if(!strcmp($row['uid'],$_GET['u']))	{
+			$space = getspace($_GET['u']);
+			if(empty($space)) {
+				showmessage('space_does_not_exist');
+			}
+			include template("invite");
+			return ;
+		}
+	}
 }
+
 if(!empty($_GET['type'])&&!strcmp($_GET['type'],'mobile'))	{
 	$var=$_POST['var'];
 	$mobile=$_POST['mobile'];
@@ -55,10 +54,11 @@ if(!empty($_GET['type'])&&!strcmp($_GET['type'],'mobile'))	{
 	if($flag==false)	{
 		showmessage("您没有被邀请，或者验证码、手机号错误，请验证后输入！");
 	}
-
+	return ;
 }
-elseif(!empty($_GET['type'])&&!strcmp($_GET['type'],'email'))	{	
-	$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('emailinvite')." WHERE uid=".$_GET['u']." and md5='".$_GET['c']."'");
+else if(!empty($_GET['type'])&&$_GET['type']=='email')	{
+	$sql="SELECT * FROM ".tname('emailinvite')." WHERE uid=$_GET[u] and md5='$_GET[c]'";
+	$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('emailinvite')." WHERE uid=$_GET[u] and md5='$_GET[c]'");
 	while($row=$_SGLOBAL['db']->fetch_array($query))	{
 		$flag=true;
 		$space['getresult']=$row;
@@ -70,7 +70,7 @@ elseif(!empty($_GET['type'])&&!strcmp($_GET['type'],'email'))	{
 		}
 		$_SGLOBAL['db']->query("UPDATE ".tname('emailinvite')." SET already_invite=1 where md5='".$_GET['c']."'");
 		echo "<script>window.location.href='do.php?ac=".$_SCONFIG[register_action]."&".$url_plus."&type=email&uid=".$row['uid']."&profile_uid=".$row['profile_id']."&realname={$row['name']}&email={$row['email']}';</script>";	
-
 	}
+	return ;
 }
- ?>
+?>
