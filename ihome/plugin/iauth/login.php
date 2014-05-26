@@ -36,7 +36,7 @@ function SSOlogin( $appid, $state, $uid ){
 
 	if ($appType=='WSC'){
 
-	    if (($authed==FALSE) && ($authAuth==FALSE)){ //用户没有授权，且应用不是自动授权，跳转到应用大厅
+	    if (($authed==FALSE) && ($autoAuth==FALSE)){ //用户没有授权，且应用不是自动授权，跳转到应用大厅
 		if ((!empty($_GET['s'])) && ($_GET['s']=='1')){ /* 加参数跳转到精简版界面 */
 		    return IAUTH_SIMPLE_AUTH_CONFIRM_PAGE.'&appsid='.$appid.'&state='.$state ;
 		    }
@@ -44,7 +44,7 @@ function SSOlogin( $appid, $state, $uid ){
 		}
 
 
-	    if (($authed==FALSE) && ($authAuth==TRUE)){ //用户没有授权，但是应用是自动授权，直接跳回应用的auth_call_back
+	    if (($authed==FALSE) && ($autoAuth==TRUE)){ //用户没有授权，但是应用是自动授权，直接跳回应用的auth_call_back
 		$authCallBack = GetAppInfo( $appid, 'call_back' );
 		$rights = Check( '2:3:7:11', 'rights' ); /* 由于没有应用大厅，权限被写死 */
 		$faile_t='2036-12-31 23:59:59';
