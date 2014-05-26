@@ -2,15 +2,15 @@
 require_once(dirname(__FILE__).'/iauth_config.php');
 function iauth_verify( $url ='' ){
     if ($url==''){
-	switch( $_SERVER['SERVER_PORT'] ){
-	case '80':
-	    $url = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];break;
-	case '443':
-	    $url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];break;
-	default:
-	    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['SCRIPT_NAME'];break;
-	    }
-	}
+        switch( $_SERVER['SERVER_PORT'] ){
+        case '80':
+            $url = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];break;
+        case '443':
+            $url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];break;
+        default:
+            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['SCRIPT_NAME'];break;
+            }
+        }
     /*################ 检查hash ################*/
     $pTmp = array_merge( $_GET, $_POST );
     $hash = md5(CoString($pTmp));
@@ -18,7 +18,7 @@ function iauth_verify( $url ='' ){
     /*################ 生成header ################*/
     $params = GetHeaderParams();
     if (empty($params['hash']) || ($params['hash']!=$hash))
-	die('hash not match');
+        die('hash not match: '.print_r(CoString($pTmp)));
     $params['url']= $url;
     $params['ip']= $_SERVER['REMOTE_ADDR'];
     $header = array('Authorization:'.CoString( $params, ',', '"'));
@@ -38,12 +38,12 @@ function iauth_verify( $url ='' ){
     $html = curl_exec($curl);
     curl_close($curl);
     if ($html===false){
-	header('Content-Type: text/plain; charset=utf-8');
-	var_dump(curl_error($curl));
-	print_r($header);
-	print_r(curl_getinfo($curl));
-	die('请求失败 ');
-	}
+        header('Content-Type: text/plain; charset=utf-8');
+        var_dump(curl_error($curl));
+        print_r($header);
+        print_r(curl_getinfo($curl));
+        die('请求失败 ');
+        }
     /* echo $html . '<br />'; */
     /* print_r($_SERVER); */
     /* exit(); */
@@ -61,22 +61,22 @@ function iauth_verify( $url ='' ){
 
 function GetHeaderParams(){
     if (function_exists('apache_request_headers')){
-	$headers=getallheaders();
-	if (empty($headers['Authorization'])) die('need header Authorization');
-	$iauthParams=$headers['Authorization'];
-	}
+        $headers=getallheaders();
+        if (empty($headers['Authorization'])) die('need header Authorization');
+        $iauthParams=$headers['Authorization'];
+        }
     else{
-	if (empty($_SERVER['HTTP_AUTHORIZATION'])) die('need header Authorization');
-	$iauthParams=$_SERVER['HTTP_AUTHORIZATION'];
-	}
+        if (empty($_SERVER['HTTP_AUTHORIZATION'])) die('need header Authorization');
+        $iauthParams=$_SERVER['HTTP_AUTHORIZATION'];
+        }
     $pTmp=explode(',',$iauthParams);
     $iauthArray=array();
     foreach ($pTmp as $strTmp){
-	$tmp=preg_match('/(.+)="([^"]+)"/',$strTmp,$match);
-	$key = $match[1];
-	$val = $match[2];
-	$iauthArray[$key]=rawurldecode( $val );
-	}
+        $tmp=preg_match('/(.+)="([^"]+)"/',$strTmp,$match);
+        $key = $match[1];
+        $val = $match[2];
+        $iauthArray[$key]=rawurldecode( $val );
+        }
     return $iauthArray;
     }
 
@@ -84,8 +84,8 @@ function CoString( $params, $split='&', $fp='' ){
     ksort ( $params );
     $strTmp='';
     foreach ( $params as $key => $val ) {
-	$strTmp .=  $key.'='.$fp.rawurlencode( $val ).$fp.$split ;
-	}
+        $strTmp .=  $key.'='.$fp.rawurlencode( $val ).$fp.$split ;
+        }
     return substr( $strTmp, 0, strlen( $strTmp ) -1 );
     }
 
