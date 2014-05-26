@@ -504,11 +504,6 @@
 								class="img_wrap">
 								<img src="<!--{eval echo substr($value[pic], 0, strlen($value[pic])-10);}-->"
 									onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'>
-
-								<!--
-                                <img src="<!--{eval echo resize_img(substr($value[pic], 0, strlen($value[pic])-10));}-->" 
-									onerror='this.src="image/alt_album_cover.png";this.onerrror=null;'/>
-								-->
 							</a>
 							<p style="text-align: center;margin: 5px 0px;text-overflow: ellipsis;white-space: nowrap; overflow: hidden;">
 								<a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank">$value[albumname]
