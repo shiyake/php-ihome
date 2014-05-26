@@ -389,9 +389,12 @@ if(submitcheck('addsubmit')) {
     if(preg_match("/\[em:(\d+):]/is")) {
         showmessage("亲，原谅我们不鼓励您继续使用旧表情，^_^","location.href=-1");
     }
-    $message = preg_replace("/\[nm:(\d+):]/is", "<img src=\"image/face_new/\\1.gif\" class=\"face\">", $message);
+    $message = preg_replace("/\[am:(\d+):]/is", "<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
-    if(strlen($message) < 1) {
+	
+	$message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
+	$message = preg_replace("/\<br.*?\>/is", ' ', $message);  
+	if(strlen($message) < 1) {
         showmessage('should_write_that');
     }
     $updo = array();

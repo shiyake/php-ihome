@@ -390,7 +390,6 @@ if($space['self'] && empty($start)) {
 		$space['allnum'] = $space['allnum'] + $space[$value];
 	}
 }
-
 //exit('1');
 //引入一个月热门投票--仅取3个!
 $timerange = $_SGLOBAL['timestamp']-2592000;
@@ -435,7 +434,6 @@ realname_get();
 
 //feed合并
 $list = array();
-
 if($_GET['view'] == 'hot') {
 	//热点
 	foreach ($feed_list as $value) {
@@ -541,9 +539,6 @@ $my_actives = array(in_array($_GET['filter'], array('site','myapp'))?$_GET['filt
 $actives = array(in_array($_GET['view'], array('me','all','hot'))?$_GET['view']:'we' => ' class="active"');
 
 if(empty($cp_mode)) include_once template("space_feed");
-
-
-
 //筛选
 function ckicon_uid($feed) {
 	global $_SGLOBAL, $space, $_SCONFIG;

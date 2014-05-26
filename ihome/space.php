@@ -24,6 +24,12 @@ include_once(S_ROOT.'./data/data_magic.php');
 //是否关闭站点
 checkclose();
 
+
+/******************************************************************************
+ *
+update_usertype(246);
+ *
+ * ***************************************************************************/
 //处理rewrite
 if($_SCONFIG['allowrewrite'] && isset($_GET['rewrite'])) {
 	$rws = explode('-', $_GET['rewrite']);
@@ -52,7 +58,6 @@ $domain = empty($_GET['domain'])?'':$_GET['domain'];
 $do = (!empty($_GET['do']) && in_array($_GET['do'], $dos))?$_GET['do']:'index';
 $admissionid = empty($_GET['admid'])?0:intval($_GET['admid']);
 $collegeid = empty($_GET['collid'])?0:$_GET['collid'];
-
 if($admissionid){
 	$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('baseprofile')." WHERE admissionid=$admissionid and uid>0 limit 1");
 	$value = $_SGLOBAL['db']->fetch_array($query);
@@ -277,7 +282,6 @@ if($theme == 'uchomedefault') {
 		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
 	}
 }
-
 //处理
 include_once(S_ROOT."./source/space_{$do}.php");
 
