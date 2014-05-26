@@ -45,7 +45,6 @@ else
                 'wallid' => $wallid,
                 'ip' => 'weixin',
                 'timeline' => $_SGLOBAL['timestamp'],
-                'realname' => $realname,
             );
             //入库
             $newwallid = inserttable('wallfield', $setarr, 1);
