@@ -4,16 +4,18 @@
     }
 
     var jq = jQuery.noConflict();
-
-    function pop_info() {
-        var arrow = '<div class="arrow"></div>';
-        var FACE_TPL = arrow + "<table>";
-        var COLS = 14;
-        var num = 57;
+	face_num = [57,15];
+    function pop_info(cols,num,th) {
+        
+		var arrow = '<div class="arrow"></div>';
+		arrow += '<input type="hidden" id="getNum" value="'+th+'"/>'; 
+		arrow += '<div class="face_header"><a class="face_header_a"data-num="1" href="javascript:;">默认</a><a class="face_header_a" data-num="2" href="javascript:;">小i</a></div>';
+		var FACE_TPL = arrow + "<table>";
+        var COLS = cols;
         FACE_TPL += "<tr>"
         for (var i = 1; i <= num; i++) {
             if (i % COLS != 0) {
-                FACE_TPL += '<td class="face_cell"><img data-index="' + i + '" src="image/face_new/' + i + '.gif"></img></td>';
+                FACE_TPL += '<td class="face_cell"><img data-index="' + i + '" src="image/face_new/face_'+th+'/' + i + '.gif"></img></td>';
             } else {
                 FACE_TPL += '</tr><tr>'
             }
@@ -37,8 +39,10 @@
         return pos;
     }
 
-    function insertface(id, target) {
-        var faceText = '[nm:' + id + ':]';
+    function insertface(id, num ,target) {
+        if(num==1)	ch='a';
+		if(num==2)	ch='b';
+		var faceText = '['+ch+'m:' + id + ':]';
         var pos = getPos(target);
         var strHead = '',
             strEnd = '';
@@ -69,7 +73,7 @@
     }
 
     function close_menu(target) {
-        if (!jq(target).hasClass("drop_face") && !jq(target).hasClass("drop_face_menu") && !jq(target).parents().hasClass("drop_face_menu")) {
+        if (!jq(target).hasClass("drop_face") && !jq(target).hasClass("drop_face_menu")&&!jq(target).hasClass("face_header_a") && !jq(target).parents().hasClass("drop_face_menu")) {
             jq(".drop_face_menu").each(function() {
                 obj = jq(this);
                 if (obj.hasClass("face_menu_opened")) {
@@ -89,15 +93,37 @@
         var obj = jq(this).closest(".drop_face_menu");
         target = "#" + obj.data("target");
         document.getElementById(obj.data("target")).focus();
-        insertface(img_id, target);
+		var num=jq("#getNum").val();
+		insertface(img_id, num ,target);
+
     });
     jq(document).on("click", ".drop_face", function(e) {
         e.preventDefault();
-        popover_menu(jq(this), 152, 374, pop_info());
+        popover_menu(jq(this), 208, 398, pop_info(14,57,1));
     });
-    jq(document).on("click", function(e) {
+    
+	jq(document).on("click",".face_header_a",function(e){
+		e.preventDefault();
+		var num = jq(this).data("num");
+		if(num!=jq("#getNum").val())	{
+			jq(this).parents(".drop_face_menu").find("table").animate({
+			"margin-left":"-400px"
+			},400,function(){
+			
+				jq(this).parents(".drop_face_menu").html(pop_info(14,face_num[num-1],num));
+				jq(".drop_face_menu").find("table").css({
+					"margin-left":"400px"	
+				});
+			
+				jq(".drop_face_menu").find("table").animate({
+					"margin-left":"0px"	
+				},400);	
+			});
+		}
+	});
+  
+	jq(document).on("click", function(e) {
         close_menu(e.target);
     });
-
-    root.bailin_face = {};
+	root.bailin_face = {};
 })(window);

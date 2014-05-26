@@ -57,7 +57,10 @@
     #mainareafg {
         border-left:1px solid #dcdcdc;
     }
-    .composer_header {
+	label {
+		line-height:17px !important;	
+	}
+	.composer_header {
         padding-bottom:20px;
     }
     .composer_header table tr td {
@@ -197,16 +200,12 @@ if ("{$_GET['searchsubmit']}") {
                                         jQuery(function(){
                                             jQuery("#invited_num").val("{$space['result']['collegeid']}");
                                             jQuery("#usertype_friend").attr("checked","checked");
-                                            jQuery("#year_when").html("");	
-                                            jQuery("#college").html("");
-                                            jQuery("#coll").html("");
-                                            jQuery("#when_year").html("");
-                                            jQuery("#year_when").css({"display":"none"});
-                                            jQuery("#when_year").css({"display":"none"});
-                                            jQuery("#coll").css({"display":"none"});
-                                            jQuery("#college").css({"display":"none"});
-                                            jQuery("#usertype_worker").attr({"disabled":"true"});
-                                            jQuery("#usertype_student").attr({"disabled":"true"});
+                                            jQuery("#year_when").css({"display":"block"});
+                                            jQuery("#when_year").css({"display":"block"});
+                                            jQuery("#coll").css({"display":"block"});
+                                            jQuery("#college").css({"display":"block"});
+                                            jQuery("#usertype_worker").attr({"disabled":"block"});
+                                            jQuery("#usertype_student").attr({"disabled":""});
                                         });
                                     </script>
                                     <!--{elseif !empty($space['result'])}-->
@@ -216,10 +215,6 @@ if ("{$_GET['searchsubmit']}") {
                                             jQuery("#invited_num").val("{$space['result']['collegeid']}");
                                             jQuery("#invited_num").css({"display":"block"});
                                             jQuery("#num_to_invite").html("被邀请人职工号:");
-                                            jQuery("#year_when").html("");	
-                                            jQuery("#college").html("");
-                                            jQuery("#when_year").html("");
-                                            jQuery("#coll").html("");
                                             jQuery("#year_when").css({"display":"none"});
                                             jQuery("#when_year").css({"display":"none"});
                                             jQuery("#coll").css({"display":"none"});
@@ -255,25 +250,17 @@ if ("{$_GET['searchsubmit']}") {
                                             });
                                             jQuery("#usertype_worker").change(function(){
                                                 jQuery("#num_to_invite").html("被邀请人职工号:");
-                                                jQuery("#year_when").html("");	
-                                                jQuery("#college").html("");
-                                                jQuery("#when_year").html("");
-                                                jQuery("#coll").html("");
                                                 jQuery("#year_when").css({"display":"none"});
                                                 jQuery("#when_year").css({"display":"none"});
                                                 jQuery("#coll").css({"display":"none"});
                                                 jQuery("#college").css({"display":"none"});
                                             });
                                             jQuery("#usertype_friend").change(function(){
-                                                jQuery("#year_when").html("");	
-                                                jQuery("#college").html("");
                                                 jQuery("#num_to_invite").html("被邀请人学号:");
-                                                jQuery("#coll").html("");
-                                                jQuery("#when_year").html("");
-                                                jQuery("#year_when").css({"display":"none"});
-                                                jQuery("#when_year").css({"display":"none"});
-                                                jQuery("#coll").css({"display":"none"});
-                                                jQuery("#college").css({"display":"none"});
+                                                jQuery("#year_when").css({"display":""});
+                                                jQuery("#when_year").css({"display":""});
+                                                jQuery("#coll").css({"display":""});
+                                                jQuery("#college").css({"display":""});
                                             });
                                         });
                                     </script>
@@ -344,20 +331,6 @@ if ("{$_GET['searchsubmit']}") {
             </form>
         </div>
         <div id="sidebar">
-            <!--			
-            <div class="sidebox">
-                <div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
-                                <h4>授权i北航用户邀请站外好友</h4>
-                                <p>通过@来选择站内好友</p>
-                                <h4>要授权的用户：</h4>
-                                <textarea id="invite_inputarea" style="width:95%;" onfocus="at()"></textarea>
-                                系统会自动向被授权用户发送站内消息，被授权用户可以点击某公共主页下的“邀请站外好友”进行邀请。
-                                <br><br>
-                                <p><input type="submit" value="授权" class="submit"/></p>
-
-                </div></div></div></div>
-            </div>
-            -->
         </div>
 
         <!--{/if}-->

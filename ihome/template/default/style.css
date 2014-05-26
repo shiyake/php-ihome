@@ -208,6 +208,7 @@ div #tagcloud span.w1 {
     cursor: pointer;
     width: 23px;
     height: 23px;
+	border:1px solid #dcdcdc;
     line-height: 23px;
 }
 .face_cell img {
@@ -489,19 +490,26 @@ div #tagcloud span.w1 {
 
 .drop_face_menu {
     position:absolute;
-    border:1px solid #dcdcdc;
+    border:5px solid rgba(70,70,70,0.1);
     width:0px;
     height:0px;
     display:none;
+	box-shadow:0px 0px 2px 0px #dcdcdc;
     background:#ffffff;
     border-radius:5px;
     z-index:1000000;
     padding:5px;
 }
 .face_menu_opened {
-    box-shadow:0px 0px 2px 0px #c9c9c9;
     display:block;
     z-index:1000000;
+}
+.face_header {
+
+}
+.face_header a {
+	padding-right:15px;
+	padding-left:5px;
 }
 .little_arrow {
     position:absolute;

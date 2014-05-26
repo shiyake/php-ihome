@@ -175,7 +175,6 @@ if(submitcheck('emailinvite')) {
 				if(empty($_GET['grant']))	{
 					$str=getGrantNum($_POST['grant']);
 					$mailvar[4] = "{$siteurl}invite.php?u={$str}&amp;c=".md5($email.strval($verifycode));
-
 				}
 				else {
 					$mailvar[4] = "{$siteurl}invite.php?u={$space[uid]}&amp;c=".md5($email.strval($verifycode));
@@ -199,9 +198,13 @@ if(submitcheck('emailinvite')) {
 			createmail($value, $mailvar);
 		}
 	}
-	if(!empty($_POST['grant']))	
+	$now_uid=0;
+	if(!empty($_POST['grant'])&&intval($_POST['grant']))	{	
 		$now_uid=getGrantNum($_POST['grant']);
-	else $now_uid=$_SGLOBAL['uid'];
+	}
+	else {
+	   	$now_uid=$_SGLOBAL['supe_uid'];
+	}
 	if($reward['credit'] && $invitenum) {
 		$credit = intval($reward['credit'])*$invitenum;
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit-$credit WHERE uid='$now_uid'");
@@ -224,7 +227,7 @@ if(submitcheck('emailinvite')) {
 		else{
 			inserttable('emailinvite',array('uid'=>$now_uid,'email'=>$_POST['invite_num'],'var'=>$verifycode,'already_invite'=>0,'name'=>$_POST['invited_name'],'usertype'=>$_POST['invite_usertype'],'md5'=>md5($_POST['invite_num']+strval($verifycode))));
 			if(!strcmp($_POST['to_select'],'other')||!strcmp($_POST['to_select'],'')) 
-				inserttable('baseprofile',array('invite_or_not'=>1,'realname'=>$_POST['invited_name'],'collegeid'=>$_POST['invited_num'],'usertype'=>$map[$_POST['invite_usertype']]));
+				inserttable('baseprofile',array('invite_or_not'=>1,'realname'=>$_POST['invited_name'],'collegeid'=>$_POST['invited_num'],'academy'=>$_POST['subtitle'],'startyear'=>$_POST['startyear'],'usertype'=>$map[$_POST['invite_usertype']]));
 		}
 		$query=$_SGLOBAL['db']->query("SELECT max(userid) FROM ".tname('baseprofile'));
 		$res=$_SGLOBAL['db']->fetch_array($query);
@@ -254,7 +257,8 @@ elseif(submitcheck("messageinvite")) {
 
 
 	$verifycode = rand(100000,999999);
-	if(!empty($_POST['grant']))
+	$now_uid=0;
+	if(!empty($_POST['grant'])&&intval($_POST['grant']))
 		$now_uid=getGrantNum($_POST['grant']);
 	else $now_uid=$_SGLOBAL['supe_uid'];
 	$str="?uid=".$now_uid;
@@ -281,7 +285,7 @@ elseif(submitcheck("messageinvite")) {
 		}
 	}
 	else	{
-		inserttable('mobileinvite',array('uid'=>$now_uid,'collegeid'=>$_POST['invited_num'],'mobile'=>$_POST['invite_num'],'already_invite'=>0,'name'=>$_POST['invited_name'],'usertype'=>$_POST['invite_usertype'],'var'=>$verifycode));
+		inserttable('mobileinvite',array('uid'=>$now_uid,'collegeid'=>$_POST['invited_num'],'mobile'=>$_POST['invite_num'],'already_invite'=>0,'name'=>$_POST['invited_name'],'academy'=>$_POST['subtitle'],'startyear'=>$_POST['startyear'],'usertype'=>$_POST['invite_usertype'],'var'=>$verifycode));
 
 	}
 	//获取baseprofile这项的userid

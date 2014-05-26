@@ -1,12 +1,8 @@
 <?php
-//
-
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-
 $op = $_GET['op'] ? trim($_GET['op']) : '';
-
 if($_SGLOBAL['supe_uid']) {
 	showmessage('do_success', 'space.php', 0);
 }
@@ -150,6 +146,7 @@ if(empty($op)) {
 					notification_add($row1['uid'], 'friend', cplang('note_friend_add'));
 				}
 			}
+			
 			include_once(S_ROOT.'./source/function_space.php');
 			$space = space_open($newuid, $username, 0, $email);
 
@@ -170,10 +167,8 @@ if(empty($op)) {
 				$_SGLOBAL['db']->query("REPLACE INTO ".tname('poke')." (uid,fromuid,fromusername,note,dateline) VALUES ".implode(',', $pokes));
 				$_SGLOBAL['db']->query("REPLACE INTO ".tname('friendlog')." (uid,fuid,action,dateline) VALUES ".implode(',', $flog));
 
-				//Ìí¼Óµ½¸½¼Ó±í
 				$friendstr = empty($fuids)?'':implode(',', $fuids);
 
-				//¸üÐÂÄ¬ÈÏÓÃ»§ºÃÓÑ»º´æ
 				include_once(S_ROOT.'./source/function_cp.php');
 				foreach ($fuids as $fuid) {
 					friend_cache($fuid);
@@ -201,7 +196,6 @@ if(empty($op)) {
 		}	
 		//设置隐私
 		$_SGLOBAL['db']->query("INSERT INTO ".tname('spaceinfo')." (type,subtype,uid,friend) VALUES ('contact','mobile',".$newuid.",1)");
-
 		//更新用户手机绑定字段
 		updatetable('spacefield', array('mobile'=>$mobile,'mobiletask'=>1), array('uid'=>$newuid));
 		//变更记录--用户登录时间
@@ -209,6 +203,12 @@ if(empty($op)) {
 		//add action log
 		inserttable('actionlog', array('uid'=>"$newuid", 'dateline'=>"$_SGLOBAL[timestamp]", 'action'=>'register', 'value'=>'mobile'));
 		if($_SCONFIG['my_status']) inserttable('userlog', array('uid'=>$newuid, 'action'=>'add', 'dateline'=>$_SGLOBAL['timestamp']), 0, true);
+		$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid=".$newuid);
+		if($row=$_SGLOBAL['db']->fetch_array($query)){
+			if(!strcmp($row['usertype'],"校友"))	{
+				update_usertype($_SGLOBAL['db'],$newuid);
+			}	
+		}
 		showmessage('registered', $jumpurl);
 
 	}
