@@ -250,25 +250,25 @@ jq(function(){
                 });
 		
 		
-		/*jq.getJSON("cp.php?ac=public&op=checkpublic", function(json){
+		jq.getJSON("cp.php?ac=public&op=checkpublic", function(json){
 			var html = '';
 			jq.each(json, function(i,item){
 				html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype='+item.type+'&touid='+item.uid+'"><i class="icon-user" style="margin-right:11px"></i>'+item.name+'</a></li>';
 			});
 			jq("#for-public").before(html);
-            });*/
+            });
 });
 </script>
 <script language="javascript" type="text/javascript">
     var jq2=jQuery.noConflict();
     jq2(function(){
-        if (sessionStorage.getItem('ad') != 'yes' && $_SGLOBAL[supe_uid]){
+        if (localStorage.getItem('ad') != 'yes' && $_SGLOBAL[supe_uid]){
             var height = jq2('.ad_for_2years').height();
             jq2('.ad_for_2years').css({marginTop:-(height)});
             jq2('.ad_for_2years').css({display:'block'});
             jq2('#erase').css({display:'block'});
             jq2('.ad_for_2years').animate({marginTop : 0},2000,function(){
-                sessionStorage.setItem('ad','yes');
+                localStorage.setItem('ad','yes');
                 setTimeout(function(){
                     jq2('.ad_for_2years').animate({marginTop : -(height)},2000);
                     jq2('#erase').css({display:'none'});
