@@ -32,9 +32,9 @@ else
 		$message = $json->message;
 		$wallid = $json->wallid;
 
-		if(inject_check($uid) || inject_check($username) || inject_check($message) || inject_check($wallid))
+		if(inject_check($uid) || inject_check($message) || inject_check($wallid))
 		{
-			returnResponse(40001, "system is busy");
+			returnResponse(40001, "system is busy 05");
 		}
 		else
 		{
@@ -45,6 +45,7 @@ else
                 'wallid' => $wallid,
                 'ip' => 'weixin',
                 'timeline' => $_SGLOBAL['timestamp'],
+                'realname' => $realname,
             );
             //入库
             $newwallid = inserttable('wallfield', $setarr, 1);
@@ -53,7 +54,7 @@ else
 	}
 	catch(Exception $e)
 	{
-		returnResponse(40001, "system is busy");
+		returnResponse(40001, "system is busy 28");
 	}
 }
 ?>
