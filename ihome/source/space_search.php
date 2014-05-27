@@ -27,7 +27,7 @@ if ($search_type == 'mtag') {
 $start = ($page - 1) * $perpage;
 
 if (strlen($query) > 0) {
-    if ($search_type == 'blog' || $search_type == 'event' || $search_type == 'poll' || $search_type == 'doing') {
+    if ($search_type == 'blog' || $search_type == 'event' || $search_type == 'poll' || $search_type == 'doing' || $search_type == 'complain') {
         $order_url = "&sort=".urlencode("score desc, dateline desc");
     } else {
         $order_url = "";
@@ -234,6 +234,55 @@ if ($search_type == 'blog') {
             WHERE doid in ($idstr)");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
             realname_set($value['uid'], $value['username']);
+            $doids[] = $value['doid'];
+            $dolist[$value['doid']] = $value;
+        }
+    }
+    //回复
+    if($doids) {
+        
+        include_once(S_ROOT.'./source/class_tree.php');
+        $tree = new tree();
+        
+        $values = array();
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." USE INDEX(dateline) WHERE doid IN (".simplode($doids).") ORDER BY dateline");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            realname_set($value['uid'], $value['username']);
+            $newdoids[$value['doid']] = $value['doid'];
+            if(empty($value['upid'])) {
+                $value['upid'] = "do$value[doid]";
+            }
+            $tree->setNode($value['id'], $value['upid'], $value);
+        }
+    }
+    foreach ($newdoids as $cdoid) {
+        $values = $tree->getChilds("do$cdoid");
+        foreach ($values as $key => $id) {
+            $one = $tree->getValue($id);
+            $one['layer'] = $tree->getLayer($id) * 2 - 2;
+            $one['style'] = "padding-left:{$one['layer']}em;";
+            if($_GET['highlight'] && $one['id'] == $_GET['highlight']) {
+                $one['style'] .= 'color:red;font-weight:bold;';
+            }
+            $clist[$cdoid][] = $one;
+        }
+    }
+    $dolist = resort($itemids, $dolist);
+    $_TPL['css'] = 'doing';
+    realname_get();
+    include_once template("space_search_doing");
+}
+else if ($search_type =='complain') {
+    foreach ($items as $key => $value) {
+        $itemids[] = $value['doid'];
+	}
+	$dolist = array();
+    if (count($itemids) > 0) {
+        $idstr = join(',', $itemids);
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." 
+            WHERE doid in ($idstr)");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($value['uid'], $value['username']);
             $doids[] = $value['doid'];
             $dolist[$value['doid']] = $value;
         }
