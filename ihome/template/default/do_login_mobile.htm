@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>i北航登录</title>
+    <link href="plugin/bootstrap/dist/css/bootstrap.ihome.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        #header{
+            height:50px;
+            font-size:20px;
+            color:white;
+            background-color:#3f69b5;
+            text-align:center;
+            line-height:50px;
+        }
+        #username,#password{
+            display:block;
+            box-shadow:none;
+            border:1px solid #d1d1cd;
+            background-color:#fff;
+            font-size:14px;
+            width:80%;
+            margin: 30px auto;
+            height: 45px;
+            padding: 6px 12px;
+            border-radius:10px;
+        }
+        #loginsubmit{
+            display:block;
+            background-color:#3f69b5;
+            color:white;
+            font-size:16px;
+            width:60%;
+            height:45px;
+            text-align:center;
+            border-radius:15px;
+            margin:0 auto;
+            border:none;
+            padding:6px 12px;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+</head>
+<body style="margin:0;height:100%;">
+    <div id="header">
+        绑定ihome账号
+    </div>
+    <div>
+        <form id="loginform" name="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post">
+            <div id="formtable">
+            <input value="$membername" type="text" name="username" id="username" placeholder="邮箱或者用户名">       
+            <input type="password" name="password" value="$password" id="password" placeholder="请输入密码">
+            </div>
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+            <input type="submit" value="绑定" id="loginsubmit" name="loginsubmit">
+        </form>
+    </div> 
+</body>
+</html>

@@ -173,7 +173,7 @@ $(function(){
 			<!--{if $value['intend']=='uname'}-->
 			{text: "$value['text']", weight:$value['weight'], link:"/admincp.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&ac=complain&type=complains&submit=搜索"}
 			<!--{else}-->
-			{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=doing"}
+			{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain"}
 			<!--{/if}-->
 			<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
 					<!--{/loop}-->
