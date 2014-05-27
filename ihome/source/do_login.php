@@ -75,7 +75,11 @@ if(submitcheck('loginsubmit')) {
 		include_once(S_ROOT.'./source/function_cp.php');
 		if(!ckseccode($_POST['seccode'])) {
 			$_SGLOBAL['input_seccode'] = 1;
-			include template('do_login');
+            if (stristr($_SERVER['HTTP_USER_AGENT'],'mobile') === FALSE){
+                include template('do_login');
+            }else{
+                include template('do_login_mobile');
+            }
 			exit;
 		}
 	}
@@ -197,7 +201,10 @@ if(submitcheck('loginsubmit')) {
 
 $membername = empty($_SCOOKIE['loginuser'])?'':sstripslashes($_SCOOKIE['loginuser']);
 $cookiecheck = ' checked';
-
-include template('do_login');
+if (stristr($_SERVER['HTTP_USER_AGENT'],'mobile') === FALSE){
+    include template('do_login');
+}else{
+    include template('do_login_mobile');
+}
 
 ?>
