@@ -202,11 +202,9 @@ if(submitcheck('loginsubmit')) {
 
 $membername = empty($_SCOOKIE['loginuser'])?'':sstripslashes($_SCOOKIE['loginuser']);
 $cookiecheck = ' checked';
-/**if (stristr($_SERVER['HTTP_USER_AGENT'],'mobile') === FALSE){
+if (stristr($_SERVER['HTTP_USER_AGENT'],'mobile') === FALSE){
     include template('do_login');
 }else{
     include template('do_login_mobile');
-}**/
-
-    include template('do_login');
+}
 ?>
