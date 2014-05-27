@@ -2,44 +2,57 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
     <title>i北航登录</title>
     <style type="text/css">
-        .ui-field-contain{
-            border-bottom:none;
+        #header{
+            height:50px;
+            font-size:20px;
+            color:white;
+            background-color:#3f69b5;
+            text-align:center;
+            line-height:50px;
         }
-        #password_label{
-            margin-top:10px;
+        #username,#password{
+            display:block;
+            box-shadow:none;
+            border:1px solid #d1d1cd;
+            background-color:#fff;
+            font-size:14px;
+            width:80%;
+            margin: 30px auto;
+            height: 30px;
+            padding: 6px 12px;
+            border-radius:10px;
         }
         #loginsubmit{
+            display:block;
             background-color:#3f69b5;
-            opacity:1;
-            text-indent: 0;
             color:white;
+            font-size:16px;
+            width:60%;
+            height:45px;
+            text-align:center;
+            border-radius:15px;
+            margin:0 auto;
+            border:none;
+            padding:6px 12px;
         }
     </style>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 </head>
-<body>
-<div data-role="page" id="pageone">
-    <div data-role="header" data-theme="b">
-        <h1>i 北航登录</h1>
+<body style="margin:0;height:100%;">
+    <div id="header">
+        绑定ihome账号
     </div>
-
-    <div data-role="main" class="ui-content">
+    <div>
         <form id="loginform" name="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post">
-            <div class="ui-field-contain">
-            <label for="username">账号:</label>
+            <div id="formtable">
             <input value="$membername" type="text" name="username" id="username" placeholder="邮箱或者用户名">       
-            <label for="password" id="password_label">密码:</label>
             <input type="password" name="password" value="$password" id="password" placeholder="请输入密码">
             </div>
             <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
             <input type="submit" value="绑定" id="loginsubmit" name="loginsubmit">
         </form>
-    </div>
-</div> 
-    
+    </div> 
 </body>
 </html>
