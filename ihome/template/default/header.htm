@@ -261,8 +261,9 @@ jq(function(){
 </script>
 <script language="javascript" type="text/javascript">
     var jq2=jQuery.noConflict();
+    var ua = navigator.userAgent.toLowerCase();
     jq2(function(){
-        if (localStorage.getItem('ad') != 'yes' && $_SGLOBAL[supe_uid]){
+        if (localStorage.getItem('ad') != 'yes' && $_SGLOBAL[supe_uid] && ua.search('mobile') == -1){
             var height = jq2('.ad_for_2years').height();
             jq2('.ad_for_2years').css({marginTop:-(height)});
             jq2('.ad_for_2years').css({display:'block'});
