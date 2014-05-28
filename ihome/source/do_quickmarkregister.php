@@ -35,7 +35,6 @@ ADD INDEX `structSearch` (`startyear` ASC, `academy` ASC);
 */
 //姓名+入学年份+学院+生日+用户名+密码
 include_once('../common.php');
-
 function inject_check($sql_str) {
 	if($sql_str)
 	{
@@ -61,16 +60,22 @@ else
 {
 	try
 	{
-		$content = file_get_contents('php://input');
-		$json = json_decode($content);
-
-		$uid = trim($json->uid);
-		$name = trim($json->realname);
-		$startyear = trim($json->startyear);
-		$academy = trim($json->academy);
-		$birthday = trim($json->birthday);
-		$username = trim($json->username);
-		$password = trim($json->password);
+		#$content = file_get_contents('php://input');
+		#$json = json_decode($content);
+		$uid = $_POST["uid"];#trim($json->uid);
+		runlog("qr","uid:.".$uid);
+		$name = $_POST["realname"];#trim($json->realname);
+		runlog("qr","name:".$name);
+		$startyear = $_POST["startyear"];#trim($json->startyear);
+		runlog("qr","startyear:".$startyear);
+		$academy = $_POST["academy"];#trim($json->academy);
+		runlog("qr","academy:".$academy);
+		$birthday = $_POST["birthday"];#trim($json->birthday);
+		runlog("qr","birthday:".$birthday);
+		$username = $_POST["username"];#trim($json->username);
+		runlog("qr","username:".$username);
+		$password = $_POST["password"];#trim($json->password);
+		runlog("qr","password:".$password);
 
 		if($name=="" || $startyear=="" || strlen($password) < 6 || $uid =="")
 		{
@@ -92,7 +97,6 @@ else
 				//
 				// 做一些注册用户的动作
 				//
-
 				$q = $_SGLOBAL['db']->query("SELECT userid FROM ".tname('baseprofile')." WHERE realname='$name' AND birthday='$birthday'");
 				$realname_match = $_SGLOBAL['db']->fetch_array($q);
 				$realname_match = $realname_match['userid'];
@@ -116,6 +120,7 @@ else
 					{
 						$q = $_SGLOBAL['db']->query("INSERT INTO ".tname('baseprofile')."(realname,startyear,birthday,academy) VALUES('$name','$startyear','$birthday','$academy')");
 						$_SGLOBAL['db']->fetch_array($q);
+						sleep(5);
 					}
 					else
 					{
@@ -124,7 +129,7 @@ else
 				}
 				//走改造过的激活流程
 				$_POST['email'] = $username;
-				$email_pattern = '/(\w{6,16})@\w{1,}\.\w{2,3}/i';
+				$email_pattern = '/(\w{4,16})@\w{1,}\.\w{2,3}/i';
 				$matches = array();
 				preg_match($email_pattern, $username, $matches[]);
 				if($matches[0][1])
@@ -138,47 +143,70 @@ else
 				$realname = $name;
 				$password = $password;
 
-				$birth_year = intval(substr($birthday, 0, 4));
-				$birth_month = intval(substr($birthday, 4, 2));
-				$birth_day = intval(substr($birthday, 6, 2));
-
 				$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE realname='$realname' and birthday='$birthday' limit 1");
 				$bp = $_SGLOBAL['db']->fetch_array($query);
 				
 				if(empty($bp))
 					{
-						returnResponse("40002","realnameWITHbirthday_is_invalid");
+						returnResponse("40003","realnameWITHbirthday_is_invalid");
 					}
 				if($bp['isactive'] == 1)
 					{
-						returnResponse("40002","users_have_actived");
+						returnResponse("40004","users_have_actived");
 					}
 				
 				if(!@include_once S_ROOT.'./uc_client/client.php')
 					{
-						returnResponse("40002","system_error");
+						returnResponse("40005","system_error");
 					}
 
 				//邮箱
 				$email = isemail(trim($_POST['email']))?trim($_POST['email']):'';
 				if(empty($email))
 					{
-						returnResponse("40002","email_format_is_wrong");
+						returnResponse("40006","email_format_is_wrong");
 					}
 				if($_SCONFIG['checkemail'])
 					{
 						if($count = getcount('spacefield', array('email'=>$email)))
 							{
-								returnResponse("40002","email_has_been_registered");
+								returnResponse("40007","email_has_been_registered");
 							}
 					}
 
 				//创建新用户
 				$newuid = uc_user_register($username, $password, $email);
 				if($newuid <= 0)
-					{
-						returnResponse(40002,"system is busy");
-					}
+				{
+					if($newuid == -1)
+						{
+							returnResponse(40008,'user_name_is_not_legitimate');
+						}
+					elseif($newuid == -2)
+						{
+							returnResponse(40009,'include_not_registered_words');
+						}
+					elseif($newuid == -3)
+						{
+							returnResponse(40010,'user_name_already_exists');
+						}
+					elseif($newuid == -4)
+						{
+							returnResponse(40011,'email_format_is_wrong');
+						}
+					elseif($newuid == -5)
+						{
+							returnResponse(40012,'email_not_registered');
+						}
+					elseif($newuid == -6)
+						{
+							returnResponse(40013,'email_has_been_registered');
+						}
+					else
+						{
+							returnResponse(40014,'register_error');
+						}
+				}
 				else
 					{
 						$setarr = array(
@@ -335,7 +363,7 @@ else
 							'new' => 1,
 							'authorid' => $newuid,
 							'author' => $name,
-							'note' => '开心中大奖<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">今年董事大会如期召开，请各董事准时参会</a>',
+							'note' => '校友激活确认<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">点此处确认校友的激活</a>',
 							'dateline' => $_SGLOBAL['timestamp']
 						);
 
