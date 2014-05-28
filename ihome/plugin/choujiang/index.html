@@ -241,6 +241,7 @@
 
 				newItem.find('.num').html( data[ 'tel' ].replace(data[ 'tel' ].substr(2, 2), '**') );
 				newItem.find('.avatar img').attr('src', data[ 'url' ]);
+				//alert(data['url']);
 				newItem.find('.name').html(data[ 'nick' ]);
 
 				if( min > 0 ){
@@ -315,7 +316,7 @@
 
 				//这里是一下子抽多少人的选项
 				setTimeout(function(){
-					if( ++i < 5 ) {
+					if( ++i < 2 ) {
 						boot.aStart();
 						boot.lottery();
 
@@ -386,6 +387,7 @@
 
 					var lucky = this.randit();
 						value = [];
+						lucky = '38022627'
 
 					for(var i = 0; i < lucky.length; i++){
 						if (i>0&&i<2 || i>3) {
