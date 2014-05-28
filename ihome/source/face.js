@@ -9,7 +9,7 @@
         
 		var arrow = '<div class="arrow"></div>';
 		arrow += '<input type="hidden" id="getNum" value="'+th+'"/>'; 
-		arrow += '<div class="face_header"><a class="face_header_a"data-num="1" href="javascript:;">默认</a><!--<a class="face_header_a" data-num="2" href="javascript:;">小i</a>--></div>';
+		arrow += '<div class="face_header"><a class="face_header_a"data-num="1" href="javascript:;">默认</a><a class="face_header_a" data-num="2" href="javascript:;">小i</a></div>';
 		var FACE_TPL = arrow + "<table>";
         var COLS = cols;
         FACE_TPL += "<tr>"
