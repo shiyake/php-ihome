@@ -102,7 +102,8 @@ if(submitcheck('addsubmit')) {
 			'pass' => $pass,
 			'timeline' => $_SGLOBAL['timestamp'],
 			'hot' => $hot,
-			'wallid' => $WallId
+			'wallid' => $WallId,
+			'fromdevice' => 'i-wall'
 		);
 		//入库
 		$newwallid = inserttable('wallfield', $setarr, 1);

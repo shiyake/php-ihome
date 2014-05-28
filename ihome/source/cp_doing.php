@@ -107,7 +107,8 @@ if(submitcheck('addsubmit')) {
                 'pass' => $pass,
                 'timeline' => $_SGLOBAL['timestamp'],
                 'hot' => $hot,
-                'wallid' => $getwall['id']
+                'wallid' => $getwall['id'],
+                'fromdevice' => 'topic'
             );
             //Èë¿â
             inserttable('wallfield', $wallarr, 0);
