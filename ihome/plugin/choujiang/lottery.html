@@ -54,11 +54,11 @@
 	}
 	
 	.box-counter:nth-child(1) {
-		width: 225px
+		width: 160px
 	}
 
 	.box-counter:nth-child(2) {
-		width: 300px
+		width: 160px
 	}
 
 	.box-counter:nth-child(3) {
@@ -114,11 +114,8 @@
 		background: url(img/num1.png) repeat-y;
 	}
 
-	.box-counter .prefix li:nth-child(2) {
-		background: url(img/num3458.png) repeat-y;
-	}
 
-	.box-counter .prefix li:nth-child(3) {
+	.box-counter .prefix li:nth-child(2) {
 		background: url(img/num0-9.png) repeat-y;
 	}
 
@@ -134,14 +131,11 @@
 		<ul class="none">
 			<li>*</li>
 			<li>*</li>
-			<li>*</li>
 		</ul>
 	</div>
 
 	<div class="box-counter">
 		<ul class="none">
-			<li>*</li>
-			<li>*</li>
 			<li>*</li>
 			<li>*</li>
 		</ul>
@@ -247,11 +241,11 @@
 			lottery: function(){
 				//异步获取Json、手机号
 
-				var lucky = '15967197636';
+				var lucky = '12**7636';
 					value = [];
 
 				for(var i = 0; i < lucky.length; i++){
-					( i > 0 && i < 3 || i > 6 ) && value.push( lucky.charAt( i ) )
+					(( i > 0 && i<2 ) || i>3 ) && value.push( lucky.charAt( i ) )
 				}
 				
 				$.each(args, function(i, n){
@@ -321,23 +315,23 @@
 				timer = timer || 200;
 
 				//网络识别号 [ 2 ]{ 3, 4, 5, 8 }
-				if( arguments[2] != undefined && arguments[2] ) {
-					var to = code.indexOf( num ),
-						from = ( 10 * loop + running ) % 4;
+				// if( arguments[2] != undefined && arguments[2] ) {
+				// 	var to = code.indexOf( num ),
+				// 		from = ( 10 * loop + running ) % 4;
 					
-					if( to >= from ) {
-						running += to - from;
-					} else {
-						running += 4 + to - from;
-					}
+				// 	if( to >= from ) {
+				// 		running += to - from;
+				// 	} else {
+				// 		running += 4 + to - from;
+				// 	}
 					
-					format();
-				} else {
+				// 	format();
+				// } else {
 					if( num < running ) {
 						loop ++;
 					}
 					running = num;
-				}
+				// }
 				
 
 				arg.animate({

@@ -4,8 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 		<title>ihome抽奖系统</title>
-		<!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
-		<link rel="stylesheet" href="css/screen.css">
+			<link rel="stylesheet" href="css/screen.css">
 	</head>
 	<body>
 		<div id="wrapper">
@@ -389,7 +388,9 @@
 						value = [];
 
 					for(var i = 0; i < lucky.length; i++){
-						( i > 0 && i < 1 || i > 2 ) && value.push( lucky.charAt( i ) )
+						if (i>0&&i<2 || i>3) {
+							value.push( lucky.charAt( i ) )
+						};						
 					}
 					
 					$.each(args, function(i, n){
@@ -500,23 +501,23 @@
 					timer = timer || 200;
 
 					//网络识别号 [ 2 ]{ 3, 4, 5, 8 }
-					if( arguments[2] != undefined && arguments[2] ) {
-						var to = code.indexOf( num ),
-							from = ( 10 * loop + running ) % 4;
+					// if( arguments[2] != undefined && arguments[2] ) {
+					// 	var to = code.indexOf( num ),
+					// 		from = ( 10 * loop + running ) % 4;
 						
-						if( to >= from ) {
-							running += to - from;
-						} else {
-							running += 4 + to - from;
-						}
+					// 	if( to >= from ) {
+					// 		running += to - from;
+					// 	} else {
+					// 		running += 4 + to - from;
+					// 	}
 						
-						format();
-					} else {
+					// 	format();
+					// } else {
 						if( num < running ) {
 							loop ++;
 						}
 						running = num;
-					}
+					// }
 					
 
 					arg.animate({
