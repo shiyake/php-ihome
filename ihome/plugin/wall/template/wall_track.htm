@@ -2,27 +2,25 @@
 <!--{template header}-->
 <style>
     .wall_track_title{
-        width:150px;
+        width:300px;
         background-color:#2986c6;
-        padding: 6px 12px;
+        padding: 6px 0px;
         text-align:center;
-        margin-left:225px;
-        margin-top:30px;
-        margin-bottom:0px;
-        transform:rotate(9deg);
-        -ms-transform:rotate(9deg); /* Internet Explorer */
-        -moz-transform:rotate(9deg); /* Firefox */
-        -webkit-transform:rotate(9deg); /* Safari 和 Chrome */
-        -o-transform:rotate(9deg); /* Opera */
+        margin:30px 150px 0;
+        transform:rotate(3deg);
+        -ms-transform:rotate(3deg); /* Internet Explorer */
+        -moz-transform:rotate(3deg); /* Firefox */
+        -webkit-transform:rotate(3deg); /* Safari 和 Chrome */
+        -o-transform:rotate(3deg); /* Opera */
         border-radius:15px;
 
     }
     .wall_track_title:hover{
-        transform:rotate(-9deg);
-        -ms-transform:rotate(-9deg); /* Internet Explorer */
-        -moz-transform:rotate(-9deg); /* Firefox */
-        -webkit-transform:rotate(-9deg); /* Safari 和 Chrome */
-        -o-transform:rotate(-9deg); /* Opera */
+        transform:rotate(-3deg);
+        -ms-transform:rotate(-3deg); /* Internet Explorer */
+        -moz-transform:rotate(-3deg); /* Firefox */
+        -webkit-transform:rotate(-3deg); /* Safari 和 Chrome */
+        -o-transform:rotate(-3deg); /* Opera */
     }
 
     .wall_track_title h4{
@@ -75,7 +73,7 @@
 
 
 <!--<div><h2 class="title"><img src="image/app/doing.gif">ｉ北航墙</h2></div>-->
-<div class="wall_track_title"><h4>ｉ北航墙</h4></div>
+<div class="wall_track_title"><h4>$Value['wallname']</h4></div>
 <div id="content" style="width:600px;float:left;border-right:none;" >
 	<!--{template plugin/wall/template/wall_tracking_form}-->
 	<br>
