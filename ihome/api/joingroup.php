@@ -28,11 +28,13 @@ else
 {
 	try
 	{
-		$content = file_get_contents('php://input');
-		$json = json_decode($content);
+		//$content = file_get_contents('php://input');
+		//$json = json_decode($content);
 
-		$uid = $json->uid;
-		$gid = $json->gid;
+		//$uid = $json->uid;
+		//$gid = $json->gid;
+		$uid = trim($_POST["uid"]);
+		$gid = trim($_POST["gid"]);
 
 		if(inject_check($uid) || inject_check($gid))
 		{
