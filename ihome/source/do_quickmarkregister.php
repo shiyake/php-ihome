@@ -62,19 +62,19 @@ else
 	{
 		#$content = file_get_contents('php://input');
 		#$json = json_decode($content);
-		$uid = $_POST["uid"];#trim($json->uid);
+		$uid = trim($_POST["uid"]);#trim($json->uid);
 		runlog("qr","uid:.".$uid);
-		$name = $_POST["realname"];#trim($json->realname);
+		$name = trim($_POST["realname"]);#trim($json->realname);
 		runlog("qr","name:".$name);
-		$startyear = $_POST["startyear"];#trim($json->startyear);
+		$startyear = trim($_POST["startyear"]);#trim($json->startyear);
 		runlog("qr","startyear:".$startyear);
-		$academy = $_POST["academy"];#trim($json->academy);
+		$academy = trim($_POST["academy"]);#trim($json->academy);
 		runlog("qr","academy:".$academy);
-		$birthday = $_POST["birthday"];#trim($json->birthday);
+		$birthday = trim($_POST["birthday"]);#trim($json->birthday);
 		runlog("qr","birthday:".$birthday);
-		$username = $_POST["username"];#trim($json->username);
+		$username = trim($_POST["username"]);#trim($json->username);
 		runlog("qr","username:".$username);
-		$password = $_POST["password"];#trim($json->password);
+		$password = trim($_POST["password"]);#trim($json->password);
 		runlog("qr","password:".$password);
 
 		if($name=="" || $startyear=="" || strlen($password) < 6 || $uid =="")
