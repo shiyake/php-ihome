@@ -240,7 +240,23 @@
 				var newItem = selector.find('li:eq(0)').clone().removeAttr('class').attr({'data-num': num}).css({'margin-left': 300});
 
 				newItem.find('.num').html( data[ 'tel' ].replace(data[ 'tel' ].substr(2, 2), '**') );
-				newItem.find('.avatar img').attr('src', data[ 'url' ]);
+
+
+
+				// data[ 'url' ] = '23594'
+				substr_lll = '00000';
+				url_o = substr_lll.concat(data[ 'url' ])
+				//url_o = data[ 'url' ];//这里获得23594
+				//截取02/35/94_avatar_big.jpg
+				url_s1 = url_o.substr(-2,2)
+				url_s2 = url_o.substr(-4,2)
+				url_s3 = url_o.substr(-6,2)
+				url_s = url_s3+'/'+url_s2+'/'+url_s1+'_avatar_big.jpg';
+				url1 = 'http://i.buaa.edu.cn/ihome/data/avatar/000/'+url_s;
+				//alert(url1);
+
+
+				newItem.find('.avatar img').attr('src', url1);
 				//alert(data['url']);
 				newItem.find('.name').html(data[ 'nick' ]);
 
@@ -316,7 +332,7 @@
 
 				//这里是一下子抽多少人的选项
 				setTimeout(function(){
-					if( ++i < 2 ) {
+					if( ++i < 10 ) {
 						boot.aStart();
 						boot.lottery();
 
@@ -387,7 +403,7 @@
 
 					var lucky = this.randit();
 						value = [];
-						lucky = '38022627'
+						//lucky = '38022627'
 
 					for(var i = 0; i < lucky.length; i++){
 						if (i>0&&i<2 || i>3) {
@@ -423,7 +439,20 @@
 						//停止头像
 						clearTimeout( timers[ args.length ] );
 
-						flicker.attr('src', dataSource[ result ][ 'url' ]);
+						// data[ 'url' ] = '23594'
+						substr_lll = '00000';
+						url_o = substr_lll.concat(dataSource[ result ][ 'url' ])
+						//url_o = data[ 'url' ];//这里获得23594
+						//截取02/35/94_avatar_big.jpg
+						url_s1 = url_o.substr(-2,2)
+						url_s2 = url_o.substr(-4,2)
+						url_s3 = url_o.substr(-6,2)
+						url_s = url_s3+'/'+url_s2+'/'+url_s1+'_avatar_big.jpg';
+						url2 = 'http://i.buaa.edu.cn/ihome/data/avatar/000/'+url_s;
+						//alert(url1);
+
+						flicker.attr('src', url2);
+						//alert(dataSource[ result ][ 'url' ])
 
 						config.appear( $('.' +  config.awards), result )
 					}, 1000)
@@ -437,9 +466,30 @@
 				avatar: function() {
 					var result = Math.round( Math.random() * config.total + .5 ) - 1;
 
-						url = dataSource[ result ][ 'url' ];
+					
 
-					flicker.attr('src', url);
+
+
+
+				// data[ 'url' ] = '23594'
+				substr_lll = '00000';
+				url_o = substr_lll.concat(dataSource[ result ][ 'url' ])
+				//url_o = data[ 'url' ];//这里获得23594
+				//截取02/35/94_avatar_big.jpg
+				url_s1 = url_o.substr(-2,2)
+				url_s2 = url_o.substr(-4,2)
+				url_s3 = url_o.substr(-6,2)
+				url_s = url_s3+'/'+url_s2+'/'+url_s1+'_avatar_big.jpg';
+				url3 = 'http://i.buaa.edu.cn/ihome/data/avatar/000/'+url_s;
+				//alert(url1);
+
+
+
+						//url = dataSource[ result ][ 'url' ];
+						//alert(url);
+
+
+					flicker.attr('src', url3);
 
 					timers[ args.length ] = setTimeout(arguments.callee, 100)
 				}
