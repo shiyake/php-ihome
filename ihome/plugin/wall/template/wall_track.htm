@@ -2,27 +2,25 @@
 <!--{template header}-->
 <style>
     .wall_track_title{
-        width:200px;
-        background-color:#3f69b5;
-        padding: 6px 12px;
+        width:300px;
+        background-color:#2986c6;
+        padding: 6px 0px;
         text-align:center;
-        margin-left:200px;
-        margin-top:30px;
-        margin-bottom:0px;
-        transform:rotate(9deg);
-        -ms-transform:rotate(9deg); /* Internet Explorer */
-        -moz-transform:rotate(9deg); /* Firefox */
-        -webkit-transform:rotate(9deg); /* Safari 和 Chrome */
-        -o-transform:rotate(9deg); /* Opera */
+        margin:30px 150px 0;
+        transform:rotate(3deg);
+        -ms-transform:rotate(3deg); /* Internet Explorer */
+        -moz-transform:rotate(3deg); /* Firefox */
+        -webkit-transform:rotate(3deg); /* Safari 和 Chrome */
+        -o-transform:rotate(3deg); /* Opera */
         border-radius:15px;
 
     }
     .wall_track_title:hover{
-        transform:rotate(-9deg);
-        -ms-transform:rotate(-9deg); /* Internet Explorer */
-        -moz-transform:rotate(-9deg); /* Firefox */
-        -webkit-transform:rotate(-9deg); /* Safari 和 Chrome */
-        -o-transform:rotate(-9deg); /* Opera */
+        transform:rotate(-3deg);
+        -ms-transform:rotate(-3deg); /* Internet Explorer */
+        -moz-transform:rotate(-3deg); /* Firefox */
+        -webkit-transform:rotate(-3deg); /* Safari 和 Chrome */
+        -o-transform:rotate(-3deg); /* Opera */
     }
 
     .wall_track_title h4{
@@ -34,10 +32,15 @@
         width:470px;
         border-radius:15px;
     }
+    #trackingform {
+        margin-bottom:0px;
+    }
     #add {
-        border-radius:50%;
+        border-radius:10px;
         background-color:#65d8bb;
-        margin-left:25px;
+        margin-left:10px;
+        margin-top:10px;
+        float:right;
         border:none;
         color:white;
         font-size:20px;
@@ -51,17 +54,26 @@
         right: -450px;
         top: 10px;
     }
-    #dl {
-        border-radius: 10px;
-        margin-bottom: 15px;
-        background-color: #eee;
-        border: 1px solid #dcdcdc;
+    .doing_list{
+        margin-top: 125px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #f8f8f8;
+        border:1px solid #dcdcdc;
+        border-radius: 15px;
+    }
+    .doing_list #dl:last-child{
+        border:none;
+    }
+    .doing_list .doing {
+        margin-top:5px;
+        margin-bottom: 5px;
     }
 </style>
 
 
 <!--<div><h2 class="title"><img src="image/app/doing.gif">ｉ北航墙</h2></div>-->
-<div class="wall_track_title"><h4>ｉ北航墙</h4></div>
+<div class="wall_track_title"><h4>$Value['wallname']</h4></div>
 <div id="content" style="width:600px;float:left;border-right:none;" >
 	<!--{template plugin/wall/template/wall_tracking_form}-->
 	<br>

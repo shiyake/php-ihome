@@ -1,8 +1,8 @@
 <form method="post" id="trackingform" action="plugin.php?pluginid=wall&wallid=$WallId&ac=tracking" class="post_doing">
 <div class="r_option">还可输入 <strong id="maxlimit">20</strong> 个字</div>
 <br>
-<textarea id="message" name="message" onkeyup="textCounter(this, 'maxlimit', 20)" onkeydown="ctrlEnter(event, 'add');" rows="4" style="width:438px; height: 72px;"></textarea>
-<input type="submit" id="add" name="add" value="发布" style="width: 80px; height: 80px; cursor: pointer; position: relative;left: 440px;top: -78px" />
+<textarea id="message" name="message" onkeyup="textCounter(this, 'maxlimit', 20)" onkeydown="ctrlEnter(event, 'add');" rows="4" style="width:560px; height: 72px;"></textarea>
+<input type="submit" id="add" name="add" value="发布" style="width: 100px; height: 40px; cursor: pointer; " />
 <input type="hidden" name="addsubmit" value="tracking" />
 <input type="hidden" name="refer" value="$theurl" />
 <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
