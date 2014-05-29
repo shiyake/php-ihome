@@ -14,7 +14,7 @@
 		height:64px;
 	}
 </style>
-	<div class="exchange_" >
+<div class="exchange_" >
 		<h2 class="ex_title" style="text-align:center;width:100%"> 软件详情 </h2>
 			<ul class="bloglist" style="height:auto;">
 				<li style="width:100%;">
@@ -60,7 +60,7 @@
                     <div style="overflow: hidden; width: 100%;">
                     <a style="display: none;" title="显示更多选项" onclick="ajaxmenu(event, this.id)" onmouseout="feed_menu(415,0);" onmouseover="feed_menu(415,1);" id="a_feed_menu_415" class="float_more" href="cp.php?ac=feed&amp;op=menu&amp;feedid=415">菜单</a>
                     <a title="只看此类动态" style="float:right;"href="space.php?uid=&amp;do=feed&amp;view=me&amp;appid=2&amp;icon=blog" class="type"><img src="image/icon/blog.gif"/></a>
-					<a href="space.php?uid=$value[uid]" target="_blank"><div class="round_avatar_t"><!--{eval echo avatar($value[uid],'big');}--></div>&nbsp;{$_SN[$value[uid]]}</a> 发表评论： 
+					<a href="space.php?uid=$value[uid]" target="_blank"><div class="round_avatar_t"><!--{eval echo avatar($value[uid],'big');}--></div>&nbsp;<!--{eval echo getUsername($value[uid],$_SGLOBAL['db'])}--></a> 发表评论： 
                     <div class="feed_content" style="display:inline-block;">
                     <div class="detail" style="width:100%;">
                     <b>评分:$value['score']</b>&nbsp;$value['content']
