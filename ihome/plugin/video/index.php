@@ -10,6 +10,7 @@ if(!defined('iBUAA')) {
 }
 $ac = $_GET['ac'];
 $ac_array = array('view','list','upload','delete');
+$clicks = empty($_SGLOBAL['click']['videoid'])?array():$_SGLOBAL['click']['videoid'];
 if (!in_array($ac, $ac_array)) {
 	$ac = 'upload';
 }
@@ -77,6 +78,10 @@ elseif ($ac == 'view') {
 		$url = $_SC['attachurl'].$value['filepath'];
 		$title = $value['title'];
 		$desc = $value['desc'];
+        //点赞
+        $hash = md5($video['uid']."\t".$video['dateline']);
+        $id = $vid;
+        $idtype = 'videoid';
 		
 		//接下来是评论
 		//应该有个分页的功能--升序
