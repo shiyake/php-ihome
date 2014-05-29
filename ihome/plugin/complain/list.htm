@@ -90,7 +90,7 @@ $(function(){
 			  <td style="">$value[message]</td>
 			  <td style="width:125px;">$value[addtime]</td>
 			  <td style="width:160px;"><a href=space.php?uid=$value[atuid]>$value[atuname]</a></td>
-			  <td style="width:60px;"><a href="space.php?do=doing&doid=$value[doid]" target="_blank"><!--{if $value[isreply] == '0'}-->未回复<!--{else}-->已回复<!--{/if}--></a></td>
+			  <td style="width:60px;"><a href="space.php?do=doing&doid=$value[doid]" target="_blank"><!--{if $value[isreply] == '0'}--><img src="image/no_reply.png"/></a></td><!--{else}-->已回复</a></td><!--{/if}-->
 			</tr>
 			<!--{/loop}-->
 		  </tbody>

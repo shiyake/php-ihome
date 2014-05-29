@@ -14,14 +14,16 @@ function bbcode($message, $parseurl=0) {
 			"/\[url\]\s*(https?:\/\/|ftp:\/\/|gopher:\/\/|news:\/\/|telnet:\/\/|rtsp:\/\/|mms:\/\/|callto:\/\/|ed2k:\/\/){1}([^\[\"']+?)\s*\[\/url\]/i",
 			"/\[em:([0-9]+):\]/i",
 			"/\[am:([0-9]+):\]/i",
-			"/\[bm:([0-9]+):\]/i"
+			"/\[bm:([0-9]+):\]/i",
+			"/\[nm:([0-9]+):\]/i"
 		);
 		$_SGLOBAL['replace_exp'] = array(
 			"<div class=\"quote\"><span class=\"q\">\\1</span></div>",
 			"<a href=\"\\1\\2\" target=\"_blank\">\\1\\2</a>",
             "<img src=\"image/face/\\1.gif\" class=\"face\">",
 			"<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">",
-			"<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">"
+			"<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">",
+			"<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">"
 		);
 		$_SGLOBAL['search_str'] = array('[b]', '[/b]','[i]', '[/i]', '[u]', '[/u]');
 		$_SGLOBAL['replace_str'] = array('<b>', '</b>', '<i>','</i>', '<u>', '</u>');

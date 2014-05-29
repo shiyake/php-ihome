@@ -1,4 +1,19 @@
 <!--{template header}-->
+<style>
+	.round_avatar_t {
+		border-radius:50%;
+		width:72px;
+		height:72px;
+		margin-top:0;
+		display:inline-block;
+		border:4px solid #ffffff;
+	}
+	.round_avatar_t img {
+		border-radius:50%;
+		width:64px;
+		height:64px;
+	}
+</style>
 	<div class="exchange_" >
 		<h2 class="ex_title" style="text-align:center;width:100%"> 软件详情 </h2>
 			<ul class="bloglist" style="height:auto;">
@@ -41,20 +56,17 @@
 				<br />
                 <ul style="width:99%;">
 				<!--{loop $pllist $key $value}-->
-                    <li style="float:left;margin:15px 30px 30px 5px;width:100%;<!--{eval echo($key%2==0?'background:#f6f6f6;':'background:#FFE;')}-->">
+                    <li style="float:left;margin:15px 30px 30px 5px;width:100%;border-radius:37px 0 0 37px;<!--{eval echo($key%2==0?'background:#f6f6f6;':'background:#FFE;')}-->">
                     <div style="overflow: hidden; width: 100%;">
                     <a style="display: none;" title="显示更多选项" onclick="ajaxmenu(event, this.id)" onmouseout="feed_menu(415,0);" onmouseover="feed_menu(415,1);" id="a_feed_menu_415" class="float_more" href="cp.php?ac=feed&amp;op=menu&amp;feedid=415">菜单</a>
-                    <a title="只看此类动态" href="space.php?uid=&amp;do=feed&amp;view=me&amp;appid=2&amp;icon=blog" class="type"><img src="image/icon/blog.gif"/></a>
-                    <a href="space.php?uid=$value[uid]" target="_blank">{$_SN[$value['uid']]}</a> 发表评论： 
-                    
-                    <span class="gray"><!--{eval echo sgmdate("m月d日 H:i", $value['stamptime'])}--></span>
-                    
-                    <div class="feed_content">
+                    <a title="只看此类动态" style="float:right;"href="space.php?uid=&amp;do=feed&amp;view=me&amp;appid=2&amp;icon=blog" class="type"><img src="image/icon/blog.gif"/></a>
+					<a href="space.php?uid=$value[uid]" target="_blank"><div class="round_avatar_t"><!--{eval echo avatar($value[uid],'big');}--></div>&nbsp;{$_SN[$value[uid]]}</a> 发表评论： 
+                    <div class="feed_content" style="display:inline-block;">
                     <div class="detail" style="width:100%;">
-                    <b>评分:$value['score']</b><br/>$value['content']
+                    <b>评分:$value['score']</b>&nbsp;$value['content']
                     </div>
                     </div>
-                    
+                    <span class="gray_content" style="float:right"><!--{eval echo sgmdate("m月d日 H:i", $value['stamptime'])}--></span>   
                     </li>
                 <!--{/loop}-->
             </ul>
@@ -73,11 +85,10 @@
                 <input type="radio" name="score" value="100"  checked> 100分
                 <br />
 				<br />
-                <a href="#" id="editface" onclick="showFace(this.id, 'comment_message');return false;"><img src="image/facelist.gif" align="absmiddle" /></a>
-					<br />
-					<textarea name="message" id="comment_message" rows="4" cols="60" style="width:98%;" onkeydown="ctrlEnter(event, 'commentsubmit_btn');"></textarea><br>
+				<br />
+					<textarea name="message" id="comment_message" rows="4" cols="60" style="width:98%;" class="form-control"onkeydown="ctrlEnter(event, 'commentsubmit_btn');"></textarea><br>
 					<input type="hidden" name="refer" value="plugin.php?pluginid=software&ac=show&id=$thevalue['id']" />
-					<center><input type="submit" id="commentsubmit_btn" name="commentsubmit_btn" class="submit" value=" 评 论 " /></center>
+					<input type="submit" id="commentsubmit_btn" name="commentsubmit_btn" class="submit btn btn-sm btn-comments" value=" 评 论 " />
 					<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
                     </form>
                 </li>
