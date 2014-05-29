@@ -1,13 +1,16 @@
 <!--{template header}-->
-<!--{if $video}-->
+
+<div id="content">
+	<div style="margin-left:20px;" class="plugin_video_view_title">
+		$title
+	</div>
+	<!--{if $video}-->
 <style type="text/css">
 .plugin_video_view_video { padding:5px 5px 5px 0px }
 .plugin_video_view_title {font-size:20px; color:#0165A6; padding:5px 5px 15px 0px }
 .plugin_video_view_desc {font-size:16px; text-indent:2em; color:#0165A6; padding:5px 65px 15px 0px}
 </style>
-<div class="plugin_video_view_title">
-$title
-</div>
+
 <!--<div class="plugin_video_view_video">
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="660px" height="495px">
 <param name="movie" value="ihome.swf">
@@ -22,11 +25,14 @@ $title
 $desc
 </div>
 <!--{/if}-->
-
-<div id="content">
-	<!--<div id="click_div">
+<!--<div id="click_div">
 		<!--{template space_click}-->
-    </div>-->
+	</div>-->
+	<style>
+		#comment_ul li {
+			border-bottom:1px solid #dcdcdc;
+		}
+	</style>
 	<div class="comments" id="div_main_content">
 		<h4>
 			<!--{if !$video[noreply]}-->
@@ -54,14 +60,10 @@ $desc
 				<tr>
                     <td>
                         <script language="javascript" src="source/face.js"></script>
-                        <a href="javascript:;" class="comment_face drop_face" title="插入表情" style="margin-top:-5px;"><div></div></a>
-                        <div class="drop_face_menu"data-target="comment_message"></div>
-						<!--{if $_SGLOBAL['magic']['doodle']}-->
-						<a id="a_magic_doodle" href="magic.php?mid=doodle&showid=comment_doodle&target=comment_message" onclick="ajaxmenu(event, this.id, 1)"><img src="image/magic/doodle.small.gif" class="magicicon" />涂鸦板</a>
-						<!--{/if}-->
-						<br />
-						<textarea id="comment_message" class="t_input" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="width:500px;" onfocus="at()"></textarea>
-					</td>
+						<textarea id="comment_message" class="t_input form-control" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="width:100%;" onfocus="at()"></textarea>
+						<a href="javascript:;" class="comment_face drop_face" title="插入表情" style="margin-top:-5px;"><div></div></a>
+						<div class="drop_face_menu"data-target="comment_message"></div>
+						<input type="button" id="commentsubmit_btn" style="margin-left:10px;"name="commentsubmit_btn" class="submit btn btn-sm btn-comments" value="评论" onclick="ajaxpost('quickcommentform_{$id}', 'comment_add')" />	</td>
 				</tr>
 				<tr>
 					<td>
@@ -71,7 +73,7 @@ $desc
 						<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
 						<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
 						<input type="hidden" name="commentsubmit" value="true" />
-						<input type="button" id="commentsubmit_btn" name="commentsubmit_btn" class="submit" value="评论" onclick="ajaxpost('quickcommentform_{$id}', 'comment_add')" />
+						
 						<div id="__quickcommentform_{$id}"></div>
 					</td>
 				</tr>
