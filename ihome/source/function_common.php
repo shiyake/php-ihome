@@ -3245,6 +3245,17 @@ echo $e;
 			return $imgpath."_sqr.jpg"; 
 		else return $des.$name."_sqr.jpg";
 	}
+	function getUsername($uid,$con) {
+		$query = $con -> query("SELECT * FROM ".tname("space")." WHERE uid=".$uid);
+		while($res = $con->fetch_array($query))	{
+			if($res['name'])	{
+				return $res['name'];
+			}	
+			else {
+				return $res['username'];
+			}
+		}
+	}
 	function poll_style($str) {/*
 		$str=preg_replace('/\<br\>/i','',$str);
 	$str=preg_replace('/\<input\>/i','<div><input>',$str);
