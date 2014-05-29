@@ -38,7 +38,7 @@ else
 
 		if(inject_check($uid) || inject_check($gid))
 		{
-			returnResponse(40002, "system is busy");
+			returnResponse(40002, "格式不正确");
 		}
 		else
 		{
@@ -56,7 +56,7 @@ else
 			$is_in_group = $is_in_group['result'];
 			if(!$name || !$tid || $is_in_group)
 			{
-				returnResponse(40002, "system is busy");
+				returnResponse(40002, "格式不正确");
 			}
 			else
 			{
@@ -67,7 +67,7 @@ else
 	}
 	catch(Exception $e)
 	{
-		returnResponse(40002, "system is busy");
+		returnResponse(40002, "格式不正确");
 	}
 }
 ?>

@@ -22,7 +22,7 @@ function returnResponse($code, $desc)
 
 if($_SERVER['REQUEST_METHOD'] != "POST")
 {
-	returnResponse(40003, "method is not correct");
+	returnResponse(40003, "方法不正确");
 }
 else
 {
@@ -38,7 +38,7 @@ else
 
 		if(inject_check($uid) || inject_check($gid))
 		{
-			returnResponse(40002, "system is busy");
+			returnResponse(40002, "格式不正确");
 		}
 		else
 		{
@@ -57,7 +57,7 @@ else
 
 			if(!$name || !$tid || $grade == "9")
 			{
-				returnResponse(40002, "system is busy");
+				returnResponse(40002, "格式不正确");
 			}
 			else
 			{
@@ -72,7 +72,7 @@ else
 	}
 	catch(Exception $e)
 	{
-		returnResponse(40002, "system is busy");
+		returnResponse(40002, "格式不正确");
 	}
 }
 ?>
