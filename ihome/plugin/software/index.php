@@ -18,13 +18,14 @@ if (!$usertype == '4' || !$usertype == '教师' ) {
 	showmessage('仅限教师访问！');
 }
 */
-
 $user = $_SGLOBAL['db']->query("select usertype from ".tname(baseprofile)." WHERE uid = ".$space[uid]."  and collegeid like '0%' LIMIT 1 ");
 $usertype = $_SGLOBAL['db']->result($user);
 
 if ($usertype != '4' && $usertype != '教师' && $_SGLOBAL['member']['groupid'] !=1) {
 	showmessage('仅限教师访问！');
 }
+
+include_once ("../../common.php");
 
 if($ac == 'index') {
 	$Software = array();
