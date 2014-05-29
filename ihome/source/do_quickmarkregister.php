@@ -54,7 +54,7 @@ function returnResponse($code, $desc)
 
 if($_SERVER['REQUEST_METHOD'] != "POST")
 {
-	returnResponse(40003,"method is not correct");
+	returnResponse(40003,"方法不正确");
 }
 else
 {
@@ -63,7 +63,7 @@ else
 		#$content = file_get_contents('php://input');
 		#$json = json_decode($content);
 		$uid = trim($_POST["uid"]);#trim($json->uid);
-		runlog("qr","uid:.".$uid);
+		runlog("qr","uid:".$uid);
 		$name = trim($_POST["realname"]);#trim($json->realname);
 		runlog("qr","name:".$name);
 		$startyear = trim($_POST["startyear"]);#trim($json->startyear);
@@ -79,12 +79,12 @@ else
 
 		if($name=="" || $startyear=="" || strlen($password) < 6 || $uid =="")
 		{
-			returnResponse(40002,"system is busy");
+			returnResponse(40002,"格式不正确");
 		}
 		if(inject_check($uid) || inject_check($name) || inject_check($startyear) || inject_check($academy) || inject_check($birthday) ||
 			inject_check($username) || inject_check($password))
 		{
-			returnResponse(40002,"system is busy");
+			returnResponse(40002,"格式不正确");
 		}
 		else
 		{
@@ -124,7 +124,7 @@ else
 					}
 					else
 					{
-						returnResponse(40002,"system is busy");
+						returnResponse(40015,"入学年份不正确");
 					}
 				}
 				//走改造过的激活流程
@@ -138,7 +138,7 @@ else
 				}
 				else
 				{
-					returnResponse(40002,"system is busy");
+					returnResponse(40016,"电子邮件不正确");
 				}
 				$realname = $name;
 				$password = $password;
@@ -148,29 +148,29 @@ else
 				
 				if(empty($bp))
 					{
-						returnResponse("40003","realnameWITHbirthday_is_invalid");
+						returnResponse(40017,"真实名称和生日不能匹配");
 					}
 				if($bp['isactive'] == 1)
 					{
-						returnResponse("40004","users_have_actived");
+						returnResponse(40004,"用户已经激活");
 					}
 				
 				if(!@include_once S_ROOT.'./uc_client/client.php')
 					{
-						returnResponse("40005","system_error");
+						returnResponse(40005,"系统错误");
 					}
 
 				//邮箱
 				$email = isemail(trim($_POST['email']))?trim($_POST['email']):'';
 				if(empty($email))
 					{
-						returnResponse("40006","email_format_is_wrong");
+						returnResponse(40006,"电子邮件不能为空");
 					}
 				if($_SCONFIG['checkemail'])
 					{
 						if($count = getcount('spacefield', array('email'=>$email)))
 							{
-								returnResponse("40007","email_has_been_registered");
+								returnResponse(40007,"电子邮件被注册");
 							}
 					}
 
@@ -180,31 +180,31 @@ else
 				{
 					if($newuid == -1)
 						{
-							returnResponse(40008,'user_name_is_not_legitimate');
+							returnResponse(40008,'用户名不合法');
 						}
 					elseif($newuid == -2)
 						{
-							returnResponse(40009,'include_not_registered_words');
+							returnResponse(40009,'信息包含不合法字符');
 						}
 					elseif($newuid == -3)
 						{
-							returnResponse(40010,'user_name_already_exists');
+							returnResponse(40010,'用户已经存在');
 						}
 					elseif($newuid == -4)
 						{
-							returnResponse(40011,'email_format_is_wrong');
+							returnResponse(40011,'电子邮件格式不正确');
 						}
 					elseif($newuid == -5)
 						{
-							returnResponse(40012,'email_not_registered');
+							returnResponse(40012,'电子邮件没有被注册');
 						}
 					elseif($newuid == -6)
 						{
-							returnResponse(40013,'email_has_been_registered');
+							returnResponse(40013,'电子邮件被注册');
 						}
 					else
 						{
-							returnResponse(40014,'register_error');
+							returnResponse(40014,'注册错误');
 						}
 				}
 				else
@@ -380,13 +380,13 @@ else
 			}
 			else
 			{
-				returnResponse(40001,"no invitation number ok");
+				returnResponse(40001,"用户没有邀请次数");
 			}
 		}
 	}
 	catch(Exception $e)
 	{
-		returnResponse(40002,"system is busy");
+		returnResponse(40002,"格式不正确");
 	}
 }
 ?>
