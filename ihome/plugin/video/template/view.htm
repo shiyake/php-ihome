@@ -8,7 +8,7 @@
 <div class="plugin_video_view_title">
 $title
 </div>
-<div class="plugin_video_view_video">
+<!--<div class="plugin_video_view_video">
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="660px" height="495px">
 <param name="movie" value="ihome.swf">
 <param name="quality" value="high">
@@ -17,39 +17,37 @@ $title
 <embed src="ihome.swf" allowfullscreen="true" flashvars="vcastr_file=$url&LogoText=ihome&TextColor=0x0000FF" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="660px" height="495px">
 </embed>
 </object>
-</div>
+</div>-->
 <div class="plugin_video_view_desc">
 $desc
 </div>
 <!--{/if}-->
 
 <div id="content">
-
-	<div id="click_div">
+	<!--<div id="click_div">
 		<!--{template space_click}-->
-	</div>
-
+    </div>-->
 	<div class="comments" id="div_main_content">
 		<h4>
-			<!--{if !$blog[noreply]}-->
-			<a href="#quickcommentform_{$id}" class="r_option">发表评论</a>
+			<!--{if !$video[noreply]}-->
+            <!--<a href="#quickcommentform_{$id}" class="r_option">发表评论</a>-->
 			<!--{/if}-->
-			评论 (<span id="comment_replynum">$blog[replynum]</span> 个评论)</h4>
+            评论 <!--(<span id="comment_replynum">$video[comment]</span> 个评论)--></h4>
 		<div class="comments_list" id="comment">
 			<!--{if $cid}-->
 			<div class="notice">
-				当前只显示与你操作相关的单个评论，<a href="space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]">点击此处查看全部评论</a>
+				当前只显示与你操作相关的单个评论，<a href="space.php?uid=$video[uid]&do=video&id=$video[videoid]">点击此处查看全部评论</a>
 			</div>
 			<!--{/if}-->
 			<ul id="comment_ul">
 			<!--{loop $comment $value}-->
-				<!--{template space_comment_li}-->
+				<!--{template space_comment_li_video}-->
 			<!--{/loop}-->
 			</ul>
 		</div>
 		<div class="page">$multi</div>
 
-		<!--{if !$blog[noreply]}-->
+		<!--{if !$video[noreply]}-->
 		<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">
 
 			<table cellpadding="0" cellspacing="0">
@@ -67,9 +65,9 @@ $desc
 				</tr>
 				<tr>
 					<td>
-						<input type="hidden" name="refer" value="space.php?uid=$blog[uid]&do=$do&id=$id" />
+						<input type="hidden" name="refer" value="space.php?uid=$video[uid]&do=$do&id=$id" />
 						<input type="hidden" name="id" value="$id">
-						<input type="hidden" name="idtype" value="blogid">
+						<input type="hidden" name="idtype" value="videoid">
 						<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
 						<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
 						<input type="hidden" name="commentsubmit" value="true" />
