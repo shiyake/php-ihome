@@ -43,6 +43,9 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
     $doingnum[intval($value['uid'])] = intval($value['num']);
 }
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC");
+$query_total = $_SGLOBAL['db']->query("SELECT COUNT(*) as publicAll FROM ".tname('space')." WHERE groupid=3");
+$total = $_SGLOBAL['db']->fetch_array($query_total);
+$total = $total['publicAll'];
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
     $item = array();
     if ($value['name'] == '') {
