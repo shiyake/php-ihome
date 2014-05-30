@@ -114,7 +114,55 @@ span{
                     <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()"/>
                     <span id="checkemail"></span>
                 </div>
-                <div class="active_inputlist">
+				<div class="active_inputlist">
+					<div class="active_inputtitle">选择院系</div>
+					<select id="subtitle" name="subtitle" class="t_input form-control input-sm" style="width:180px;display:block;border-radius:0;">
+                                    <option value=0>选择院系</option>
+                                    <option value="材料科学与工程学院">材料科学与工程学院</option>
+                                    <option value="电子信息工程学院">电子信息工程学院</option>
+                                    <option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+                                    <option value="能源与动力工程学院">能源与动力工程学院</option>
+                                    <option value="航空科学与工程学院">航空科学与工程学院</option>
+                                    <option value="计算机学院">计算机学院</option>
+                                    <option value="机械工程及自动化学院">机械工程及自动化学院</option>
+                                    <option value="经济管理学院">经济管理学院</option>
+                                    <option value="数学与系统科学学院">数学与系统科学学院</option>
+                                    <option value="生物与医学工程学院">生物与医学工程学院</option>
+                                    <option value="人文社会科学学院（公共管理学院）">人文社会科学学院</option>
+                                    <option value="外国语学院">外国语学院</option>
+                                    <option value="交通科学与工程学院">交通科学与工程学院</option>
+                                    <option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+                                    <option value="宇航学院">宇航学院</option>
+                                    <option value="飞行学院">飞行学院</option>
+                                    <option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+                                    <option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+                                    <option value="法学院">法学院</option>
+                                    <option value="软件学院">软件学院</option>
+                                    <option value="继续教育学院">继续教育学院</option>
+                                    <option value="高等工程学院">高等工程学院</option>
+                                    <option value="中法工程师学院">中法工程师学院</option>
+                                    <option value="国际学院">国际学院</option>
+                                    <option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+                                    <option value="化学与环境学院">化学与环境学院</option>
+                                    <option value="思想政治理论学院">思想政治理论学院</option>
+								</select>
+							</div>
+			  <div class="active_inputlist">
+				  <div class="active_inputtitle">选择入学时间</div>
+				  <select id="startyear" name="startyear" class="t_input form-control input-sm" style="border-radius:0;width:180px;display:block;">
+                                    <option value=0>选择入学年份</option>
+                                </select>
+                                <script type="text/javascript">
+
+                                    var selObj = document.getElementById('startyear');
+                                    var index = 1;
+                                    for (year=2013;year >= 1953; year--) {
+                                        selObj.options[index] = new Option(year, year);
+                                        index++;
+									}
+								</script>
+			  </div>
+              <div class="active_inputlist">
                 	<div class="active_inputtitle">校友类型</div>
                     <input class="active_inputtitle" type="radio" id="alumtype" name="alumtype" value="inland" checked />国内
                     <input class="active_inputtitle" type="radio" id="alumtype2" name="alumtype" value="overseas"  />国外
