@@ -98,23 +98,23 @@ span{
 			点击提交后，将以<b>您的邮箱</b>为帐号，以<b>邀请码</b>为初始密码。<br />
 			<b>激活成功后请尽快修改密码以免账号被盗</b>
             <div class="active_inputbox">
-            <form id="mobileregisterform" name="mobileregisterform" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=InviteCreate" method="post" class="activate_form">
-            	<div class="active_inputlist">
+            <form id="mobileregisterform" name="mobileregisterform" style="margin-top:-15px;" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=InviteCreate" method="post" class="activate_form">
+            	<div class="active_inputlist less_height">
                 	<div class="active_inputtitle">您的姓名</div>
                     <input class="active_normal" type="text" id="realname" name="realname" value="" onblur="checkrealname()"/>
                     <span id="checkrealname"></span>
                 </div>
-                <div class="active_inputlist">
+                <div class="active_inputlist less_height">
                 	<div class="active_inputtitle">生日/邀请码</div>
                     <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()"/>
                     <span id="checkbirthday"></span>
                 </div>
-                <div class="active_inputlist">
+                <div class="active_inputlist less_height">
                 	<div class="active_inputtitle">您的邮箱</div>
                     <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()"/>
                     <span id="checkemail"></span>
                 </div>
-				<div class="active_inputlist">
+				<div class="active_inputlist less_height">
 					<div class="active_inputtitle">选择院系</div>
 					<select id="subtitle" name="subtitle" class="t_input form-control input-sm" style="width:180px;display:block;border-radius:0;">
                                     <option value=0>选择院系</option>
@@ -147,7 +147,7 @@ span{
                                     <option value="思想政治理论学院">思想政治理论学院</option>
 								</select>
 							</div>
-			  <div class="active_inputlist">
+			  <div class="active_inputlist less_height">
 				  <div class="active_inputtitle">选择入学时间</div>
 				  <select id="startyear" name="startyear" class="t_input form-control input-sm" style="border-radius:0;width:180px;display:block;">
                                     <option value=0>选择入学年份</option>
@@ -162,7 +162,7 @@ span{
 									}
 								</script>
 			  </div>
-              <div class="active_inputlist">
+              <div class="active_inputlist less_height">
                 	<div class="active_inputtitle">校友类型</div>
                     <input class="active_inputtitle" type="radio" id="alumtype" name="alumtype" value="inland" checked />国内
                     <input class="active_inputtitle" type="radio" id="alumtype2" name="alumtype" value="overseas"  />国外
@@ -172,7 +172,12 @@ span{
                 <input class="active_button" type="button" style="margin-top:-10px;background-image:url(template/default/image/ButtonAlumn.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonAlumnPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonAlumn.png)'" id="mobileregistersubmit" name="mobileregistersubmit" onclick="CheckSubmitOrNo()"/>
             </form>
             </div>
-        </div>
+		</div>
+		<style>
+			.less_height {
+				height:30px !important;
+			}
+		</style>
         <div id="FreshmanActivatePage" class="active_main" style="display:none">
         	<h1>新生激活</h1>
             此激活方式，仅适用于<b>当前年份</b>入学本科生，硕士研究生与博士研究生。<br />
