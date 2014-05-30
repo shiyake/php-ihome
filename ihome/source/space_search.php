@@ -277,48 +277,64 @@ else if ($search_type =='complain') {
         $itemids[] = $value['doid'];
 	}
 	$dolist = array();
-    if (count($itemids) > 0) {
-        $idstr = join(',', $itemids);
-        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." 
-            WHERE doid in ($idstr)");
-        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	if ($_GET['starttime']&&$_GET['endtime'])	{
+		if (count($itemids) > 0) {
+			$idstr = join(',', $itemids);
+			$starttime = str_replace("-","",$_GET['starttime']);
+			$endtime = str_replace("-","",$_GET['endtime']);
+			$sql="SELECT * FROM ".tname('complain')." WHERE  datatime>='$starttime' and datatime<='$endtime' and doid in ($idstr)";
+			$query = $_SGLOBAL['db']->query($sql);
+			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+				realname_set($value['uid'], $value['username']);
+				$doids[] = $value['doid'];
+				$dolist[$value['doid']] = $value;
+			}
+		}
+	}
+	else {
+		if (count($itemids) > 0) {
+			$idstr = join(',', $itemids);
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." 
+				WHERE doid in ($idstr)");
+			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+				realname_set($value['uid'], $value['username']);
+				$doids[] = $value['doid'];
+				$dolist[$value['doid']] = $value;
+			}
+		}
+	}
+	//回复
+	if($doids) {
+
+		include_once(S_ROOT.'./source/class_tree.php');
+		$tree = new tree();
+
+		$values = array();
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." USE INDEX(dateline) WHERE doid IN (".simplode($doids).") ORDER BY dateline");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			realname_set($value['uid'], $value['username']);
-            $doids[] = $value['doid'];
-            $dolist[$value['doid']] = $value;
-        }
-    }
-    //回复
-    if($doids) {
-        
-        include_once(S_ROOT.'./source/class_tree.php');
-        $tree = new tree();
-        
-        $values = array();
-        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." USE INDEX(dateline) WHERE doid IN (".simplode($doids).") ORDER BY dateline");
-        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            realname_set($value['uid'], $value['username']);
-            $newdoids[$value['doid']] = $value['doid'];
-            if(empty($value['upid'])) {
-                $value['upid'] = "do$value[doid]";
-            }
-            $tree->setNode($value['id'], $value['upid'], $value);
-        }
-    }
-    foreach ($newdoids as $cdoid) {
-        $values = $tree->getChilds("do$cdoid");
-        foreach ($values as $key => $id) {
-            $one = $tree->getValue($id);
-            $one['layer'] = $tree->getLayer($id) * 2 - 2;
-            $one['style'] = "padding-left:{$one['layer']}em;";
-            if($_GET['highlight'] && $one['id'] == $_GET['highlight']) {
-                $one['style'] .= 'color:red;font-weight:bold;';
-            }
-            $clist[$cdoid][] = $one;
-        }
-    }
-    $dolist = resort($itemids, $dolist);
-    $_TPL['css'] = 'doing';
-    realname_get();
-    include_once template("space_search_doing");
+			$newdoids[$value['doid']] = $value['doid'];
+			if(empty($value['upid'])) {
+				$value['upid'] = "do$value[doid]";
+			}
+			$tree->setNode($value['id'], $value['upid'], $value);
+		}
+	}
+	foreach ($newdoids as $cdoid) {
+		$values = $tree->getChilds("do$cdoid");
+		foreach ($values as $key => $id) {
+			$one = $tree->getValue($id);
+			$one['layer'] = $tree->getLayer($id) * 2 - 2;
+			$one['style'] = "padding-left:{$one['layer']}em;";
+			if($_GET['highlight'] && $one['id'] == $_GET['highlight']) {
+				$one['style'] .= 'color:red;font-weight:bold;';
+			}
+			$clist[$cdoid][] = $one;
+		}
+	}
+	$dolist = resort($itemids, $dolist);
+	$_TPL['css'] = 'doing';
+	realname_get();
+	include_once template("space_search_doing");
 }
 ?>
