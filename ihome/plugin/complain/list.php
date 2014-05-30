@@ -130,21 +130,36 @@ if(!isset($tab)) {
 	$mpurl .= '&tab='.$tab;
 }
 // tagcloud
+
 if(preg_match('/MSIE/i', $useragent))
 {
-	$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, tag_count as weight, max_type,type as intend FROM '.tname('complain_tagcloud')." LIMIT 0,8");
+	$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, tag_count as weight, max_type,type as intend FROM '.tname('complain_tagcloud')." group by tag_word LIMIT 0,8");
 }
 else 
 {
-	$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, tag_count as weight, max_type,type as intend FROM '.tname('complain_tagcloud')." LIMIT 0,200");
-}
-$tags = array();
-$tag_index = 0;
-while($value = $_SGLOBAL['db']->fetch_array($tags_query)) {
-    $tags[$tag_index] = $value;
-    $tag_index++;
-}
+	if($_GET['starttime']&&$_GET['endtime'])	{
+		$starttime=str_replace('-','',$_GET['starttime']);
+		$endtime=str_replace('-','',$_GET['starttime']);
+		$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, sum(tag_count) as weight, max_type,type as intend FROM '.tname('complain_tagcloud')." where datatime>='$starttime' and datatime<='$endtime' group by tag_word LIMIT 0,200");
 
+		$tags = array();
+		$tag_index = 0;
+		while($value = $_SGLOBAL['db']->fetch_array($tags_query)) {
+			$tags[$tag_index] = $value;
+			$tag_index++;
+		}
+	}
+	else	{ 
+		$tags_query = $_SGLOBAL['db']->query('SELECT id, tag_word as text, sum(tag_count) as weight, max_type,type as intend FROM '.tname('complain_tagcloud')." group by tag_word LIMIT 0,200");
+
+		$tags = array();
+		$tag_index = 0;
+		while($value = $_SGLOBAL['db']->fetch_array($tags_query)) {
+			$tags[$tag_index] = $value;
+			$tag_index++;
+		}
+	}
+}
 include_once template("/plugin/complain/list");
 
 
