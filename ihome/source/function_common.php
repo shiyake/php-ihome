@@ -284,7 +284,7 @@ function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $
     $insertkeysql = $insertvaluesql = $comma = '';
     foreach ($insertsqlarr as $insert_key => $insert_value) {
         $insertkeysql .= $comma.'`'.$insert_key.'`';
-        $insertvaluesql .= $comma.'\''.$insert_value.'\'';
+	        $insertvaluesql .= $comma.'\''.$insert_value.'\'';
         $comma = ', ';
     }
     $method = $replace?'REPLACE':'INSERT';
@@ -3244,6 +3244,22 @@ echo $e;
 			else {
 				return $res['username'];
 			}
+		}
+	}
+	function isComplainOrNot($doid,$con)	{
+		$query = $con -> query("SELECT * FROM ".tname("complain")." WHERE doid=".$doid);
+		if($res = $con->fetch_array($query))	{
+			return true;
+		}
+		return false;
+	}
+	function complainReplyOrNot($doid,$con)	{
+		$query = $con -> query("SELECT * FROM ".tname("complain")." WHERE doid=".$doid);
+		if($res = $con->fetch_array($query))	{
+			if($res['isreply'])	{
+				return true;
+			}
+			return false;
 		}
 	}
 	function poll_style($str) {/*

@@ -15,19 +15,19 @@ if(submitcheck('addsubmit')) {
             echo "privilege_error";
             exit;
         }
-        //ÊµÃûÈÏÖ¤
+        //ÃŠÂµÃƒÃ»ÃˆÃÃ–Â¤
         ckrealname('doing');
-        //ÊÓÆµÈÏÖ¤
+        //ÃŠÃ“Ã†ÂµÃˆÃÃ–Â¤
         ckvideophoto('doing');
-        //ĞÂÓÃ»§¼ûÏ°
+        //ÃÃ‚Ã“ÃƒÂ»Â§Â¼Ã»ÃÂ°
         cknewuser();
-        //ÑéÖ¤Âë
+        //Ã‘Ã©Ã–Â¤Ã‚Ã«
         if(checkperm('seccode') && !ckseccode($_POST['seccode'])) {
             //showmessage('incorrect_code');
             echo "code_error";
             exit;
         }
-        //ÅĞ¶ÏÊÇ·ñ²Ù×÷Ì«¿ì
+        //Ã…ÃÂ¶ÃÃŠÃ‡Â·Ã±Â²Ã™Ã—Ã·ÃŒÂ«Â¿Ã¬
         $waittime = interval_check('post');
         if($waittime > 0) {
             //showmessage('operating_too_fast', '', 1, array($waittime));
@@ -38,15 +38,15 @@ if(submitcheck('addsubmit')) {
         if(!checkperm('allowdoing')) {
             $add_doing = 0;
         }
-        //ÊµÃû
+        //ÃŠÂµÃƒÃ»
         if(!ckrealname('doing', 1)) {
             $add_doing = 0;
         }
-        //ÊÓÆµ
+        //ÃŠÃ“Ã†Âµ
         if(!ckvideophoto('doing', array(), 1)) {
             $add_doing = 0;
         }
-        //ĞÂÓÃ»§
+        //ÃÃ‚Ã“ÃƒÂ»Â§
         if(!cknewuser(1)) {
             $add_doing = 0;
         }
@@ -55,7 +55,7 @@ if(submitcheck('addsubmit')) {
             $add_doing = 0;
         }
     }
-    //»ñÈ¡ĞÄÇé
+    //Â»Ã±ÃˆÂ¡ÃÃ„Ã‡Ã©
     $mood = 0;
     preg_match("/\[em\:(\d+)\:\]/s", $_POST['message'], $ms);
     $mood = empty($ms[1])?0:intval($ms[1]);
@@ -83,10 +83,10 @@ if(submitcheck('addsubmit')) {
             }
         }
     }	
-    //Ìæ»»±íÇé
+    //ÃŒÃ¦Â»Â»Â±Ã­Ã‡Ã©
     $message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
-    //Æ¥Åä´ø#ºÅµÄ»°Ìâ
+    //Ã†Â¥Ã…Ã¤Â´Ã¸#ÂºÃ…ÂµÃ„Â»Â°ÃŒÃ¢
     preg_match_all("/^[#](.*)[#](.*)$/U",$message, $matches, PREG_SET_ORDER);
     foreach($matches as $item){
         $wallname = trim($item[1]);
@@ -110,7 +110,7 @@ if(submitcheck('addsubmit')) {
                 'wallid' => $getwall['id'],
                 'fromdevice' => 'topic'
             );
-            //Èë¿â
+            //ÃˆÃ«Â¿Ã¢
             inserttable('wallfield', $wallarr, 0);
             $message = str_replace('#'.$item[1].'#', "<a href=\"plugin.php?pluginid=wall&ac=track&wallid=".$getwall['id']."\">#".$item[1]."#</a> ", $message);
         }
@@ -168,17 +168,17 @@ if(submitcheck('addsubmit')) {
                 'fromdevice' => 'web'
             );
         }
-        //Èë¿â
+        //ÃˆÃ«Â¿Ã¢
         $newdoid = inserttable('doing', $setarr, 1);
         /*
-         *	´¦ÀíÍ¶ËßĞÅÏ¢
+         *	Â´Â¦Ã€Ã­ÃÂ¶Ã‹ÃŸÃÃ…ÃÂ¢
          *	2013-04-18
          */
         $nowtime = time();
         if($isComplain){
             $complainOK = FALSE;
         }
-        //»ı·ÖµÍÓÚ»ı·Ö¹æÔòÖĞÉèÖÃµÄÊıÖµÊ±,½ûÖ¹·¢ÆğËßÇó,½«ËßÇó×ªÎªÆÕÍ¨¼ÇÂ¼
+        //Â»Ã½Â·Ã–ÂµÃÃ“ÃšÂ»Ã½Â·Ã–Â¹Ã¦Ã”Ã²Ã–ÃÃ‰Ã¨Ã–ÃƒÂµÃ„ÃŠÃ½Ã–ÂµÃŠÂ±,Â½Ã»Ã–Â¹Â·Â¢Ã†Ã°Ã‹ÃŸÃ‡Ã³,Â½Â«Ã‹ÃŸÃ‡Ã³Ã—ÂªÃÂªÃ†Ã•ÃÂ¨Â¼Ã‡Ã‚Â¼
         @include_once(S_ROOT.'./data/data_creditrule.php');
         if($isComplain && ($_SGLOBAL['member']['credit'] < $_SGLOBAL['creditrule']['complain']['credit'])){
             $isComplain = FALSE;
@@ -187,7 +187,7 @@ if(submitcheck('addsubmit')) {
         }
         foreach($UserIds as $UserId){
             if($isComplain){
-                //¸ù¾İ@µ½µÄÓÃ»§ID,²éÑ¯¸ÃÓÃ»§ÊÇ·ñÎª²¿ÃÅ
+                //Â¸Ã¹Â¾Ã@ÂµÂ½ÂµÃ„Ã“ÃƒÂ»Â§ID,Â²Ã©Ã‘Â¯Â¸ÃƒÃ“ÃƒÂ»Â§ÃŠÃ‡Â·Ã±ÃÂªÂ²Â¿ÃƒÃ…
                 $UserDept = isDepartment($UserId ,1);
                 if($UserDept){
                     $nowtime = time();
@@ -208,36 +208,36 @@ if(submitcheck('addsubmit')) {
                         'times' => 1,
                         'issendmsg' =>0,
 						'message' => $message,
-						'datatime' => strtotime($nowtime)
+						'datatime' => date("Ymd",$nowtime)
                     );
                     inserttable('complain', $complain, 0);
-                    //Í¨Öª±»@µÄ²¿ÃÅ,ÓĞÓÃ»§Í¶Ëß
+                    //ÃÂ¨Ã–ÂªÂ±Â»@ÂµÃ„Â²Â¿ÃƒÃ…,Ã“ÃÃ“ÃƒÂ»Â§ÃÂ¶Ã‹ÃŸ
                     $note = cplang('note_complain_buchu', array("space.php?do=doing&doid=$newdoid",date('Y-m-d H:i' ,$dateline)));
                     notification_complain_add($UserId, 'complain', $note);
                     $complainOK = TRUE;
                 }else{
-                    //Í¨Öª±»@µÄÓÃ»§
+                    //ÃÂ¨Ã–ÂªÂ±Â»@ÂµÃ„Ã“ÃƒÂ»Â§
                     $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"));
                     notification_add($UserId, 'atyou', $note);
                 }
             }else{
-                //Í¨Öª±»@µÄÓÃ»§
+                //ÃÂ¨Ã–ÂªÂ±Â»@ÂµÃ„Ã“ÃƒÂ»Â§
                 $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"));
                 notification_add($UserId, 'atyou', $note);
             }
         }
-        if($complainOK){//Í¨ÖªÓÃ»§ËßÇó·¢Æğ³É¹¦
+        if($complainOK){//ÃÂ¨Ã–ÂªÃ“ÃƒÂ»Â§Ã‹ÃŸÃ‡Ã³Â·Â¢Ã†Ã°Â³Ã‰Â¹Â¦
             $note = cplang('note_complain_user_success', array("space.php?do=doing&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
             getreward('complain', 1, $_SGLOBAL['supe_uid']);
         }
-        if(!$complainOK && $isComplain){//ËßÇó·¢ÆğÊ§°Ü
+        if(!$complainOK && $isComplain){//Ã‹ÃŸÃ‡Ã³Â·Â¢Ã†Ã°ÃŠÂ§Â°Ãœ
             $note = cplang('note_complain_user_failed', array("space.php?do=doing&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
         }
-        //ÒÔÉÏ´¦ÀíÍ¶ËßĞÅÏ¢//////////////////////////
+        //Ã’Ã”Ã‰ÃÂ´Â¦Ã€Ã­ÃÂ¶Ã‹ÃŸÃÃ…ÃÂ¢//////////////////////////
     }
-    //¸üĞÂ¿Õ¼änote
+    //Â¸Ã¼ÃÃ‚Â¿Ã•Â¼Ã¤note
     $setarr = array('note'=>$message);
     $credit = $experience = 0;
     if(!empty($_POST['spacenote'])) {
@@ -261,7 +261,7 @@ if(submitcheck('addsubmit')) {
         'lastpost' => "lastpost='$_SGLOBAL[timestamp]'"
     );
     if($add_doing) {
-        if(empty($space['doingnum'])) {//µÚÒ»´Î
+        if(empty($space['doingnum'])) {//ÂµÃšÃ’Â»Â´Ã
             $doingnum = getcount('doing', array('uid'=>$space['uid']));
             $setarr['doingnum'] = "doingnum='$doingnum'";
         } else {
@@ -269,7 +269,7 @@ if(submitcheck('addsubmit')) {
         }
     }
     $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET ".implode(',', $setarr)." WHERE uid='$_SGLOBAL[supe_uid]'");
-    //ÊÂ¼şfeed
+    //ÃŠÃ‚Â¼Ã¾feed
     if($add_doing) {
         if($picid && $filepath) {
             $feedarr = array(
@@ -305,13 +305,13 @@ if(submitcheck('addsubmit')) {
                 'fromdevice' => 'web'
             );
         }
-        $feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
-        $feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//ºÏ²¢hash
+        $feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//ÃÂ²ÂºÃƒhash
+        $feedarr['hash_data'] = md5($feedarr['title_template']."\t".$feedarr['title_data']."\t".$feedarr['body_template']."\t".$feedarr['body_data']);//ÂºÃÂ²Â¢hash
         $feedid = inserttable('feed', $feedarr, 1);
     }
-    //Í³¼Æ
+    //ÃÂ³Â¼Ã†
     updatestat('doing');
-    //·ÖÏíÖÁĞÂÀËÎ¢²©
+    //Â·Ã–ÃÃ­Ã–ÃÃÃ‚Ã€Ã‹ÃÂ¢Â²Â©
     @include_once(S_ROOT.'./source/weibo/config.php');
     @include_once(S_ROOT.'./source/weibo/saetv2.ex.class.php' );
     $weibo = $message;
@@ -355,17 +355,17 @@ if(submitcheck('addsubmit')) {
         ckspacelog();
         showmessage('no_privilege');
     }
-    //ÊµÃûÈÏÖ¤
+    //ÃŠÂµÃƒÃ»ÃˆÃÃ–Â¤
     ckrealname('doing');
-    //ĞÂÓÃ»§¼ûÏ°
+    //ÃÃ‚Ã“ÃƒÂ»Â§Â¼Ã»ÃÂ°
     cknewuser();
-    //ÅĞ¶ÏÊÇ·ñ²Ù×÷Ì«¿ì
+    //Ã…ÃÂ¶ÃÃŠÃ‡Â·Ã±Â²Ã™Ã—Ã·ÃŒÂ«Â¿Ã¬
     $waittime = interval_check('post');
     if($waittime > 0) {
         showmessage('operating_too_fast', '', 1, array($waittime));
     }
     $message = getstr($_POST['message'], 480, 1, 1, 1);
-    //ÌáÈ¡ATÓÃ»§	
+    //ÃŒÃ¡ÃˆÂ¡ATÃ“ÃƒÂ»Â§	
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$_POST['message'], $matches, PREG_SET_ORDER);
     foreach($matches as $value){
         $TmpString = $value[0]; 
@@ -377,7 +377,7 @@ if(submitcheck('addsubmit')) {
             if(empty($realname)){
                 $realname = $rs['username'];
             }
-            //µ÷ÓÃ¼ì²éº¯Êı½«@ºóµÄÄÚÈİ½øĞĞÑéÖ¤£¬ÎªUID¶ÔÓ¦µÄĞÕÃûÏàÍ¬Ôò·µ»Ø@ÓëĞÕÃû£¬²»ÏàÍ¬Ôò¼ÌĞøÅĞ¶ÏÏÂÒ»¸ö@£¬Ã»ÓĞÕÒµ½Æ¥ÅäµÄ×îÖÕ½«·µ»Øfalse
+            //ÂµÃ·Ã“ÃƒÂ¼Ã¬Â²Ã©ÂºÂ¯ÃŠÃ½Â½Â«@ÂºÃ³ÂµÃ„Ã„ÃšÃˆÃÂ½Ã¸ÃÃÃ‘Ã©Ã–Â¤Â£Â¬ÃÂªUIDÂ¶Ã”Ã“Â¦ÂµÃ„ÃÃ•ÃƒÃ»ÃÃ ÃÂ¬Ã”Ã²Â·ÂµÂ»Ã˜@Ã“Ã«ÃÃ•ÃƒÃ»Â£Â¬Â²Â»ÃÃ ÃÂ¬Ã”Ã²Â¼ÃŒÃÃ¸Ã…ÃÂ¶ÃÃÃ‚Ã’Â»Â¸Ã¶@Â£Â¬ÃƒÂ»Ã“ÃÃ•Ã’ÂµÂ½Ã†Â¥Ã…Ã¤ÂµÃ„Ã—Ã®Ã–Ã•Â½Â«Â·ÂµÂ»Ã˜false
             $ValidValue = getAtName($TmpString, $TmpName, $realname);
             $ValidValue = trim($ValidValue);
             $at_friend= "space.php?uid=".$UserId;
@@ -387,9 +387,9 @@ if(submitcheck('addsubmit')) {
             }
         }
     }	
-    //Ìæ»»±íÇé
+    //ÃŒÃ¦Â»Â»Â±Ã­Ã‡Ã©
     if(preg_match("/\[em:(\d+):]/is")) {
-        showmessage("Ç×£¬Ô­ÁÂÎÒÃÇ²»¹ÄÀøÄú¼ÌĞøÊ¹ÓÃ¾É±íÇé£¬^_^","location.href=-1");
+        showmessage("Ã‡Ã—Â£Â¬Ã”Â­ÃÃ‚ÃÃ’ÃƒÃ‡Â²Â»Â¹Ã„Ã€Ã¸Ã„ÃºÂ¼ÃŒÃÃ¸ÃŠÂ¹Ã“ÃƒÂ¾Ã‰Â±Ã­Ã‡Ã©Â£Â¬^_^","location.href=-1");
     }
     $message = preg_replace("/\[am:(\d+):]/is", "<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
@@ -411,7 +411,7 @@ if(submitcheck('addsubmit')) {
     if(empty($updo)) {
         showmessage('docomment_error');
     } else {
-        //ºÚÃûµ¥
+        //ÂºÃšÃƒÃ»ÂµÂ¥
         if(isblacklist($updo['uid'])) {
             showmessage('is_blacklist');
         }
@@ -428,12 +428,12 @@ if(submitcheck('addsubmit')) {
         'ip' => getonlineip(),
         'grade' => $updo['grade']+1
     );
-    //×î¶à²ã¼¶
+    //Ã—Ã®Â¶Ã Â²Ã£Â¼Â¶
     if($updo['grade'] >= 3) {
-        $setarr['upid'] = $updo['upid'];//¸üÄ¸Ò»¸ö¼¶±ğ
+        $setarr['upid'] = $updo['upid'];//Â¸Ã¼Ã„Â¸Ã’Â»Â¸Ã¶Â¼Â¶Â±Ã°
     }
     $newid = inserttable('docomment', $setarr, 1);
-    //¸üĞÂ»Ø¸´Êı
+    //Â¸Ã¼ÃÃ‚Â»Ã˜Â¸Â´ÃŠÃ½
     $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
     $isReplyComplain = FALSE;
     $nowtime = time();
@@ -464,8 +464,8 @@ if(submitcheck('addsubmit')) {
             }
         }
     }*/
-    //ÒÔÉÏ±ê¼ÇËßÇóÒÑ´¦Àí///////////////////////////
-    //Í¨Öª
+    //Ã’Ã”Ã‰ÃÂ±ÃªÂ¼Ã‡Ã‹ÃŸÃ‡Ã³Ã’Ã‘Â´Â¦Ã€Ã­///////////////////////////
+    //ÃÂ¨Ã–Âª
     if($updo['uid'] != $_SGLOBAL['supe_uid']) {
         if($isReplyComplain){
             $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
@@ -474,18 +474,18 @@ if(submitcheck('addsubmit')) {
             $note = cplang('note_doing_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
             notification_add($updo['uid'], 'doing', $note);
         }
-        //½±Àø»ı·Ö
+        //Â½Â±Ã€Ã¸Â»Ã½Â·Ã–
         getreward('comment',1, 0, 'doing'.$updo['doid']);
     }
     foreach($UserIds as $UserId){		
         $note = cplang('note_doingcomment_at', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         notification_add($UserId, 'atyou', $note);
     }
-    //Í³¼Æ
+    //ÃÂ³Â¼Ã†
     updatestat('docomment');
     showmessage('do_success', $_POST['refer'], 0);
 }
-//É¾³ı
+//Ã‰Â¾Â³Ã½
 if($_GET['op'] == 'delete') {
     if(submitcheck('deletesubmit')) {
         if($id) {
@@ -493,14 +493,30 @@ if($_GET['op'] == 'delete') {
             $query = $_SGLOBAL['db']->query("SELECT dc.*, d.uid as duid FROM ".tname('docomment')." dc, ".tname('doing')." d WHERE dc.id='$id' AND dc.doid=d.doid");
             if($value = $_SGLOBAL['db']->fetch_array($query)) {
                 if($allowmanage || $value['uid'] == $_SGLOBAL['supe_uid'] || $value['duid'] == $_SGLOBAL['supe_uid'] ) {
-                    //¸üĞÂÄÚÈİ
+                    //Â¸Ã¼ÃÃ‚Ã„ÃšÃˆÃ
                     updatetable('docomment', array('uid'=>0, 'username'=>'', 'message'=>''), array('id'=>$id));
                     $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum-1 WHERE doid='$doid'");
                     if($value['uid'] != $_SGLOBAL['supe_uid'] && $value['duid'] != $_SGLOBAL['supe_uid']) {
-                        //¿Û³ı»ı·Ö
+                        //Â¿Ã›Â³Ã½Â»Ã½Â·Ã–
                         getreward('delcomment', 1, $value['uid']);
                     }
                 }
+            }
+            if(!$id&&isComplainOrNot($doid,$_SGLOBAL['db']))  {
+                if(complainReplyOrNot($doid,$_SGLOABL['db']))  {
+                    $query = $_SGLOBAL['db']->query("UPDATE ".tanme("complain")." set isreply=1,replytime=".date(time())." WHERE doid=".$doid);
+
+                }
+                else {
+                    $_SGLOBAL['db']->query("DELETE FROM ".tname("complain")." WHERE doid=".$doid);
+                    foreach($UserIds as $UserId){       
+                        $note = 'æ‚¨æœ‰ä¸€æ¡è¯‰æ±‚å·²æ’¤é”€ï¼Œç°è½¬æ¢ä¸ºæ™®é€šè®°å½•' ;
+                        notification_add($UserId, 'atyou', $note);
+                    }
+                    
+                   
+                }
+                
             }
         } else {
             include_once(S_ROOT.'./source/function_delete.php');
@@ -552,7 +568,7 @@ elseif ($_GET['op'] == 'getcomment') {
     realname_get();
 }
 include template('cp_doing');
-//É¸Ñ¡
+//Ã‰Â¸Ã‘Â¡
 function ckicon_uid($feed) {
     global $_SGLOBAL, $space, $_SCONFIG;
 
