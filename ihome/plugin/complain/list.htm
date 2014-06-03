@@ -171,9 +171,9 @@ $(function(){
 			<!--{if $tags}-->
 			<!--{loop $tags $key $value}-->
 			<!--{if $value['intend']=='uname'}-->
-			{text: "$value['text']", weight:$value['weight'], link:"/admincp.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&ac=complain&type=complains&submit=搜索"}
+{text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索"}
 			<!--{else}-->
-			{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain"}
+			{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
 			<!--{/if}-->
 			<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
 					<!--{/loop}-->

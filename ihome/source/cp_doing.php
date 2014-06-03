@@ -207,7 +207,8 @@ if(submitcheck('addsubmit')) {
                         'expire' => 0,
                         'times' => 1,
                         'issendmsg' =>0,
-                        'message' => $message
+						'message' => $message,
+						'datatime' => strtotime($nowtime)
                     );
                     inserttable('complain', $complain, 0);
                     //通知被@的部门,有用户投诉

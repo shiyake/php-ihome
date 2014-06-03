@@ -12,20 +12,13 @@ if(!defined('iBUAA')) {
 
 $ac = $_GET['ac']?$_GET['ac']:index;
 
-/*
-$usertype = $_GET['usertype'];
-if (!$usertype == '4' || !$usertype == '教师' ) {
-	showmessage('仅限教师访问！');
-}
-*/
+
 $user = $_SGLOBAL['db']->query("select usertype from ".tname(baseprofile)." WHERE uid = ".$space[uid]."  and collegeid like '0%' LIMIT 1 ");
 $usertype = $_SGLOBAL['db']->result($user);
 
 if ($usertype != '4' && $usertype != '教师' && $_SGLOBAL['member']['groupid'] !=1) {
 	showmessage('仅限教师访问！');
 }
-
-include_once ("../../common.php");
 
 if($ac == 'index') {
 	$Software = array();
@@ -62,6 +55,7 @@ elseif($ac =='show') {
 	
 	}
 
+
 	//评论列表
 	$pllist = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('software_comment')." where sid=".$_GET['id']." ORDER BY comid desc;");
@@ -71,7 +65,9 @@ elseif($ac =='show') {
 	$membername = empty($_SCOOKIE['loginuser'])?'':sstripslashes($_SCOOKIE['loginuser']);
 	$wheretime = $_SGLOBAL['timestamp']-3600*24*30;
 	$_TPL['css'] = 'network';
+	
 	realname_get();
+	
 	include_once( template( "plugin/software/template/software_show" ) );
 	
 
