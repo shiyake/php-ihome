@@ -154,7 +154,7 @@ $_SGLOBAL['cplang'] = array(
 	'poster_only_jpg_allowed'=>'由于您的服务器不支持生成缩略图，您在此处只能上传 jpg 格式的图片',
 	'file_too_big' => '文件太大了，网站仅支持100M以内的文件!',
 	'file_too_small' => '文件太小了，不符合要求!'
-
+	
 );
 
 ?>
