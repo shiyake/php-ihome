@@ -202,6 +202,20 @@ div #tagcloud span.w1 {
     color: #555 !important;
 }
 /* 表情面板 */
+.face_view {
+    display:none;
+    width:59px;
+    height:59px;
+    position:absolute;
+    border:1px solid #dcdcdc;
+    background:#fff;
+    text-align:center;
+    line-height:59px;
+}
+.face_view img {
+    max-width:50px;
+    max-height:50px;
+}
 .face_cell {
     padding: 1px;
     background: transparent;
