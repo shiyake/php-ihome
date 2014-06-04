@@ -10,7 +10,7 @@
 		var arrow = '<div class="arrow"></div>';
 		arrow += '<input type="hidden" id="getNum" value="'+th+'"/>'; 
 		arrow += '<div class="face_header"><a class="face_header_a"data-num="1" href="javascript:;">默认</a><a class="face_header_a" data-num="2" href="javascript:;">小i</a></div>';
-		var FACE_TPL = arrow + "<table>";
+		var FACE_TPL = arrow + "<div class='face_view'></div><table>";
         var COLS = cols;
         FACE_TPL += "<tr>"
         for (var i = 1; i <= num; i++) {
@@ -88,8 +88,35 @@
             });
         }
     }
-    jq(document).on("click", ".face_cell", function() {
-        var img_id = jq(this).children().data("index");
+    
+    jq(document).on("mousemove",".face_cell",function(e){
+    	e.preventDefault();
+		var img_data = jq(this).find("img").attr("src");
+		var div_left = jq(this).position().left;
+		if(div_left > 191)	{
+			jq(".face_view").css({
+				"display":"block",
+				"left":"0px",
+				"margin-left":"5px"
+			});
+		}
+		else {
+			jq(".face_view").css({
+				"display":"block",
+				"left":"337px",
+				"margin-left":"-13px"
+			});
+		}
+		var html = "<img src='"+img_data+"'/>";
+		jq(".face_view").html(html);
+	});
+    jq(document).on("mouseout",".face_cell",function(){
+    	jq(".face_view").css({
+    		"display":"none"
+    	});
+    });
+	jq(document).on("click", ".face_cell", function() {
+		var img_id = jq(this).children().data("index");
         var obj = jq(this).closest(".drop_face_menu");
         target = "#" + obj.data("target");
         document.getElementById(obj.data("target")).focus();
@@ -99,7 +126,7 @@
     });
     jq(document).on("click", ".drop_face", function(e) {
         e.preventDefault();
-        popover_menu(jq(this), 208, 398, pop_info(14,57,1));
+        popover_menu(jq(this), 208, 393, pop_info(14,57,1));
     });
     
 	jq(document).on("click",".face_header_a",function(e){
