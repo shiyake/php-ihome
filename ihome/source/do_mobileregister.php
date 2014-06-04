@@ -17,16 +17,16 @@ if($op == "checkrealname")
 			{
 				showmessage('realname_is_not_legitimate');
 			}
-		$query = $_SGLOBAL['db']->query("SELECT realname FROM ".tname('baseprofile')." WHERE realname='$realname'");
-		$realname = $_SGLOBAL['db']->fetch_array($query);
-		if (empty($realname))
-			{
-				showmessage('realname_is_null');
-			}
-		else
-			{
+		//$query = $_SGLOBAL['db']->query("SELECT realname FROM ".tname('baseprofile')." WHERE realname='$realname'");
+		//$realname = $_SGLOBAL['db']->fetch_array($query);
+		//if (empty($realname))
+		//	{
+		//		showmessage('realname_is_null');
+		//	}
+		//else
+		//	{
 				showmessage('succeed');
-			}
+		//	}
 	}
 
 elseif($op == "checkbirthday")
@@ -36,16 +36,16 @@ elseif($op == "checkbirthday")
 			{
 				showmessage('birthday_is_not_legitimate');
 			}
-		$query = $_SGLOBAL['db']->query("SELECT birthday FROM ".tname('baseprofile')." WHERE birthday='$birthday'");
-		$birthday = $_SGLOBAL['db']->fetch_array($query);
-		if (empty($birthday))
-			{
-				showmessage('birthday_is_null');
-			}
-		else
-			{
+		//$query = $_SGLOBAL['db']->query("SELECT birthday FROM ".tname('baseprofile')." WHERE birthday='$birthday'");
+		//$birthday = $_SGLOBAL['db']->fetch_array($query);
+		//if (empty($birthday))
+		//	{
+		//		showmessage('birthday_is_null');
+		//	}
+		//else
+		//	{
 				showmessage('succeed');
-			}
+		//	}
 	}
 /*
 elseif($op == "checkseccode")
@@ -173,13 +173,14 @@ elseif($op == "fetchmobile")
 			}
 
 		//查询基本数据
+			/*
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE realname='$realname' and birthday='$birthday' limit 1");
 		$bp = $_SGLOBAL['db']->fetch_array($query);
 		
 		if(empty($bp))
 			{
 				showmessage('realnameWITHbirthday_is_invalid','',2);
-			}
+			}*/
 		if($bp['isactive'] == 1)
 			{
 				showmessage('users_have_actived','index.php',2);
