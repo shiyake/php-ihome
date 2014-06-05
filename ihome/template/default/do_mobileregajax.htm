@@ -1,5 +1,5 @@
 <!--{template header}-->
-	<div id="mobileregajax" name="mobileregajax" class="mobileregajax" >
+	<div id="mobileregajax" name="mobileregajax" class="mobileregajax" style="height: 328px;">
 		<form id="mobileregajaxform" name="mobileregajax" method="post" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=create" >
 			<table cellspacing="0" cellpadding="3">
 				<tr>
@@ -30,7 +30,44 @@
 						<input type="text" id="inputverifycode" name="inputverifycode" onblur="checkinputverifycode()">
 						<span id="checkinputverifycode">
 						</span>
-					</td>
+				<tr>
+					<td><div>选择院系</div></td>
+					<td><select id="subtitle" name="subtitle" class="t_input form-control input-sm" style="width:180px;display:block;border-radius:0;">
+	                            <option value="2222" selected="selected">选择院系</option>
+	                            <option value="材料科学与工程学院">材料科学与工程学院</option>
+	                            <option value="电子信息工程学院">电子信息工程学院</option>
+	                            <option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+	                            <option value="能源与动力工程学院">能源与动力工程学院</option>
+	                            <option value="航空科学与工程学院">航空科学与工程学院</option>
+	                            <option value="计算机学院">计算机学院</option>
+	                            <option value="机械工程及自动化学院">机械工程及自动化学院</option>
+	                            <option value="经济管理学院">经济管理学院</option>
+	                            <option value="数学与系统科学学院">数学与系统科学学院</option>
+	                            <option value="生物与医学工程学院">生物与医学工程学院</option>
+	                            <option value="人文社会科学学院">人文社会科学学院</option>
+	                            <option value="外国语学院">外国语学院</option>
+	                            <option value="交通科学与工程学院">交通科学与工程学院</option>
+	                            <option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+	                            <option value="宇航学院">宇航学院</option>
+	                            <option value="飞行学院">飞行学院</option>
+	                            <option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+	                            <option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+	                            <option value="法学院">法学院</option>
+	                            <option value="软件学院">软件学院</option>
+	                            <option value="继续教育学院">继续教育学院</option>
+	                            <option value="高等工程学院">高等工程学院</option>
+	                            <option value="中法工程师学院">中法工程师学院</option>
+	                            <option value="国际学院">国际学院</option>
+	                            <option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+	                            <option value="化学与环境学院">化学与环境学院</option>
+	                            <option value="思想政治理论学院">思想政治理论学院</option>
+							</select></td>
+				</tr>
+				<tr>
+					<td><div>选择入学时间</div></td>
+					<td><input type="text" name="startyear" class="t_input form-control input-sm" style="border-radius:0;width:180px;display:block;">
+                                </input>
+                    </td>
 				</tr>
 				<tr>
 					<td>
