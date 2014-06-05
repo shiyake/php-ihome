@@ -110,7 +110,7 @@ else
 		}
 		else
 		{
-			if($_SGLOBAL["no_inviteactive"])
+			if(!$_SGLOBAL["no_inviteactive"])
 			{
 				$uid_pattern = '/(\d+)$/i';
 				$matches = array();
