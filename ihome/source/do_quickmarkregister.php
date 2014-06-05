@@ -110,6 +110,17 @@ else
 		}
 		else
 		{
+			$uid_pattern = '/(\d+)$/i';
+			$matches = array();
+			preg_match($uid_pattern, $uid, $matches[]);
+			if($matches[0][1])
+			{
+				$uid = $matches[0][1];
+			}
+			else
+			{
+				returnResponse(40002,"格式不正确");
+			}
 			if(!$_SGLOBAL["no_inviteactive"])
 			{
 				$count = 0;
