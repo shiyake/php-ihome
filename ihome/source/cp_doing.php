@@ -488,7 +488,9 @@ if(submitcheck('addsubmit')) {
 //É¾³ý
 if($_GET['op'] == 'delete') {
     if(submitcheck('deletesubmit')) {
+
         if($id) {
+
             $allowmanage = checkperm('managedoing');
             $query = $_SGLOBAL['db']->query("SELECT dc.*, d.uid as duid FROM ".tname('docomment')." dc, ".tname('doing')." d WHERE dc.id='$id' AND dc.doid=d.doid");
             if($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -502,26 +504,12 @@ if($_GET['op'] == 'delete') {
                     }
                 }
             }
-            if(!$id&&isComplainOrNot($doid,$_SGLOBAL['db']))  {
-                if(complainReplyOrNot($doid,$_SGLOABL['db']))  {
-                    $query = $_SGLOBAL['db']->query("UPDATE ".tanme("complain")." set isreply=1,replytime=".date(time())." WHERE doid=".$doid);
-
-                }
-                else {
-                    $_SGLOBAL['db']->query("DELETE FROM ".tname("complain")." WHERE doid=".$doid);
-                    foreach($UserIds as $UserId){       
-                        $note = '您有一条诉求已撤销，现转换为普通记录' ;
-                        notification_add($UserId, 'atyou', $note);
-                    }
-                    
-                   
-                }
-                
-            }
+            
         } else {
             include_once(S_ROOT.'./source/function_delete.php');
             deletedoings(array($doid));
         }
+        
         showmessage('do_success', $_POST['refer'], 0);
     }
 } 
@@ -567,6 +555,7 @@ elseif ($_GET['op'] == 'getcomment') {
     }
     realname_get();
 }
+
 include template('cp_doing');
 //É¸Ñ¡
 function ckicon_uid($feed) {
