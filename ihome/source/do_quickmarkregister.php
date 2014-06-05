@@ -462,6 +462,7 @@ else
 							$q = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('tagspace')." WHERE tagid='$tagid' AND grade='9'");
 							$recver = $_SGLOBAL['db']->fetch_array($q);
 							$recver = $recver['uid'];
+							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
 						if(!$recver)
 						{
