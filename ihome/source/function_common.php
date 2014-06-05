@@ -3263,11 +3263,26 @@ echo $e;
 			return false;
 		}
 	}
+	function isComplainOrNot_feed($feedid,$con)	{
+		$sql = "SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid;
+
+		$query = $con -> query("SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid);
+		
+		if ($value = $con -> fetch_array($query))	{
+			
+			if($value['idtype'] == "doid")	{
+				if(isComplainOrNot($value['id'],$con))	{
+					return true ;
+				}
+			}
+		}
+		return false ;
+	}
 	function poll_style($str) {/*
 		$str=preg_replace('/\<br\>/i','',$str);
-	$str=preg_replace('/\<input\>/i','<div><input>',$str);
-	$str=preg_replace('/\<\/a\>/i','</a></div>',$str);
-	$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
+		$str=preg_replace('/\<input\>/i','<div><input>',$str);
+		$str=preg_replace('/\<\/a\>/i','</a></div>',$str);
+		$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
 		return $str;   
 	}
 ?>
