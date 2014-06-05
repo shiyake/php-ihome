@@ -101,6 +101,7 @@ function feed_delete(id, result) {
 		var feedid = ids[1];
 		var obj = $('feed_'+ feedid +'_li');
 		obj.style.display = "none";
+		
 	}
 }
 

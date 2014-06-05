@@ -1,6 +1,6 @@
 <?php
 /*
-QR方式注册用户的Api
+QR方式注册用户的Api,也处理校友自己激活
 
 确保ihome_space表存在invite_remain字段
 下面的脚本用于创建该字段并默认设置20：
@@ -274,6 +274,23 @@ else
 			}
 			else
 			{
+				//检查uid是否在ucenter里面，如果不在，就采取野蛮方式插入新纪录
+				$q = $_SGLOBAL['db']->query("SELECT uid FROM ihomeuser_members WHERE uid='$newuid'");
+				$members_match = $_SGLOBAL['db']->fetch_array($q);
+				$members_match = $members_match['uid'];
+				$q = $_SGLOBAL['db']->query("SELECT uid FROM ihomeuser_memberfields WHERE uid='$newuid'");
+				$memberfields_match = $_SGLOBAL['db']->fetch_array($q);
+				$memberfields_match = $memberfields_match['uid'];
+				if(!$members_match && !$memberfields_match)
+                {
+                        $salt = substr(uniqid(rand()), -6);
+                        $hhpassword = md5(md5($password).$salt);
+                        $sqladd = "uid='".intval($newuid)."',";
+                        $sqladd .= " secques='',";
+                        $_SGLOBAL['db']->query("INSERT INTO ihomeuser_members SET $sqladd username='$username', password='$hhpassword', email='$email', regip='".$_SERVER["HTTP_X_FORWARDED_FOR"]."', regdate='".time()."', salt='$salt'");
+                        $_SGLOBAL['db']->query("INSERT INTO ihomeuser_memberfields SET uid='$newuid'");
+                }
+				
 				$setarr = array(
 				'uid' => $newuid,
 				'username' => $username,
@@ -445,6 +462,7 @@ else
 							$q = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('tagspace')." WHERE tagid='$tagid' AND grade='9'");
 							$recver = $_SGLOBAL['db']->fetch_array($q);
 							$recver = $recver['uid'];
+							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
 						if(!$recver)
 						{
@@ -487,6 +505,14 @@ else
 						$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
 						
 						inserttable('notification', $setarr);
+						$q = $_SGLOBAL['db']->query("SELECT tagid FROM ".tname('mtag')." WHERE startyear='$startyear' AND academy='$academy'");
+						$tagid = $_SGLOBAL['db']->fetch_array($q);
+						$tagid = $tagid['tagid'];
+						runlog("qr","tagid:".$tagid);
+						if($tagid)
+						{
+							jointag($newuid, $tagid, $_SGLOBAL['db']);
+						}
 					}
 				}
 			}
