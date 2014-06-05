@@ -116,23 +116,7 @@ if(submitcheck('addsubmit')) {
         }
         break;
     }
-    $message = substr($message, 0, 480);
-    $start=strlen($message);
-    $end=strlen($message);
-    $flag0=0;
-    $flag1=0;
-    if(strlen($message)>420) {
-        for($i=strlen($message);$i>=420;$i--) {
-            if($flag0==0&&$message[$i]=='<') {
-                $start=$i;
-                $flag0=1;
-            }
-            if($flag1==0&&$message[$i]=='>') {
-                $end=$i;
-                $flag1=1;
-            }
-        }
-    }  
+   
     if($end<$start) {
         $message=substr($message,0,$start-1);
     }  
