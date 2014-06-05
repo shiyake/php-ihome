@@ -504,6 +504,14 @@ else
 						$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
 						
 						inserttable('notification', $setarr);
+						$q = $_SGLOBAL['db']->query("SELECT tagid FROM ".tname('mtag')." WHERE startyear='$startyear' AND academy='$academy'");
+						$tagid = $_SGLOBAL['db']->fetch_array($q);
+						$tagid = $tagid['tagid'];
+						runlog("qr","tagid:".$tagid);
+						if($tagid)
+						{
+							jointag($newuid, $tagid, $_SGLOBAL['db']);
+						}
 					}
 				}
 			}
