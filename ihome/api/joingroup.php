@@ -22,7 +22,7 @@ function returnResponse($code, $desc)
 
 if($_SERVER['REQUEST_METHOD'] != "POST")
 {
-	returnResponse(40003, "method is not correct");
+	returnResponse(40003, "方法不正确");
 }
 else
 {
