@@ -2439,6 +2439,7 @@ function runlog($file, $log, $halt=0) {
 
 	//将uid的用户加入到tagid的群组中
 	function jointag ( $uid , $tagid , $db) {	
+		sleep(2);
 		$query =$db->query("SELECT * FROM ".tname('mtag')." WHERE tagid='$tagid'"); 	
 		$rs=($db->fetch_array($query));
 

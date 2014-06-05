@@ -1,6 +1,6 @@
 <?php
 /*
-QR方式注册用户的Api
+QR方式注册用户的Api,也处理校友自己激活
 
 确保ihome_space表存在invite_remain字段
 下面的脚本用于创建该字段并默认设置20：
