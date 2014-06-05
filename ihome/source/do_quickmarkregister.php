@@ -99,7 +99,7 @@ else
 		runlog("qr","email:".$_POST["email"]);
 		//$_SGLOBAL["no_inviteactive"];
 
-		if($name=="" || $startyear=="" || $birthday="" || strlen($password) < 6 || (!$_SGLOBAL["no_inviteactive"] && $uid ==""))
+		if($name=="" || $startyear=="" || $birthday=="" || strlen($password) < 6 || (!$_SGLOBAL["no_inviteactive"] && $uid ==""))
 		{
 			returnResponse(40002,"格式不正确");
 		}
@@ -149,7 +149,7 @@ else
 					$_SGLOBAL['db']->fetch_array($q);
 					sleep(3);
 				}
-				else if($startyear>1951)
+				else if($startyear<1951)
 				{
 					returnResponse(40015,"入学年份不正确");
 				}
