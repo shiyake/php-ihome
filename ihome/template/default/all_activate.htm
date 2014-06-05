@@ -172,7 +172,7 @@ span{
         <div id="CardActivateOff" class="active_img" style="display:block">
         	<img src="template/default/image/Card.png" alt="一卡通激活Activated" width="220" height="94"/>
         </div>
-		<div class="active_null"></div>
+		<!--<div class="active_null"></div>
 		<div id="MailActivateOn" class="active_img" style="display:block">
         	<a href="javascript:menu(2);">
         		<img src="template/default/image/MailDisa.png" alt="邮箱激活" width="220" height="94"/>
@@ -180,7 +180,7 @@ span{
         </div>
         <div id="MailActivateOff" class="active_img" style="display:none">
         	<img src="template/default/image/Mail.png" alt="邮箱激活Activated" width="220" height="94"/>
-        </div>
+        </div>-->
 		<div class="active_null"></div>
 		<div id="AlumnActivateOn" class="active_img" style="display:block">
         	<a href="javascript:menu(3)";>
@@ -209,43 +209,43 @@ span{
 	function menu(n)
 	{
 		i1a=document.getElementById('CardActivateOn').style;
-		i2a=document.getElementById('MailActivateOn').style;
+		//i2a=document.getElementById('MailActivateOn').style;
 		i3a=document.getElementById('AlumnActivateOn').style;
 		i4a=document.getElementById('FreshmanActivateOn').style;
 		i1b=document.getElementById('CardActivateOff').style;
-		i2b=document.getElementById('MailActivateOff').style;
+		//i2b=document.getElementById('MailActivateOff').style;
 		i3b=document.getElementById('AlumnActivateOff').style;
 		i4b=document.getElementById('FreshmanActivateOff').style;
 		m1=document.getElementById('CardActivatePage').style;
-		m2=document.getElementById('MailActivatePage').style;
+		//m2=document.getElementById('MailActivatePage').style;
 		m3=document.getElementById('AlumnActivatePage').style;
 		m4=document.getElementById('FreshmanActivatePage').style;
 		m5=document.getElementById('MsgActivatePage').style;
 		ibg=document.getElementById('inputbg').style;
 		if(n==1)
 		{
-			i1b.display=i2a.display=i3a.display=i4a.display=m1.display='block';
-			i1a.display=i2b.display=i3b.display=i4b.display=m2.display=m3.display=m4.display=m5.display='none';
+			i1b.display=/*i2a.display=*/i3a.display=i4a.display=m1.display='block';
+			i1a.display=/*i2b.display=*/i3b.display=i4b.display=/*m2.display=*/m3.display=m4.display=m5.display='none';
 			ibg.backgroundImage='url(template/default/image/InputBG1.png)';
 			activeupdateseccode(1);
 		}
 		if(n==2)
 		{
-			i1a.display=i2b.display=i3a.display=i4a.display=m2.display='block';
-			i1b.display=i2a.display=i3b.display=i4b.display=m1.display=m3.display=m4.display=m5.display='none';
+			i1a.display=/*i2b.display=*/i3a.display=i4a.display=/*m2.display='block';*/
+			i1b.display=/*i2a.display=*/i3b.display=i4b.display=m1.display=m3.display=m4.display=m5.display='none';
 			ibg.backgroundImage='url(template/default/image/InputBG2.png)';
 			activeupdateseccode(2);
 		}
 		if(n==3)
 		{
-			i1a.display=i2a.display=i3b.display=i4a.display=m3.display='block';
-			i1b.display=i2b.display=i3a.display=i4b.display=m1.display=m2.display=m4.display=m5.display='none';
+			i1a.display=/*i2a.display=*/i3b.display=i4a.display=m3.display='block';
+			i1b.display=/*i2b.display=*/i3a.display=i4b.display=m1.display=/*m2.display=*/m4.display=m5.display='none';
 			ibg.backgroundImage='url(template/default/image/InputBG3.png)';
 		}
 		if(n==4)
 		{
-			i1a.display=i2a.display=i3a.display=i4b.display=m4.display='block';
-			i1b.display=i2b.display=i3b.display=i4a.display=m1.display=m2.display=m3.display=m5.display='none';
+			i1a.display=/*i2a.display=*/i3a.display=i4b.display=m4.display='block';
+			i1b.display=/*i2b.display=*/i3b.display=i4a.display=m1.display=/*m2.display=*/m3.display=m5.display='none';
 			ibg.backgroundImage='url(template/default/image/InputBG4.png)';
 			activeupdateseccode(4);
 		}
