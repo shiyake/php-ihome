@@ -512,7 +512,7 @@ else
 							'new' => 1,
 							'authorid' => $newuid,
 							'author' => $name,
-							'note' => "$name($birthday,$academy,$startyear级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过</a>',
+							'note' => "$name($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过</a>',
 							'dateline' => $_SGLOBAL['timestamp']
 						);
 
