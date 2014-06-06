@@ -284,7 +284,7 @@ function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $
     $insertkeysql = $insertvaluesql = $comma = '';
     foreach ($insertsqlarr as $insert_key => $insert_value) {
         $insertkeysql .= $comma.'`'.$insert_key.'`';
-        $insertvaluesql .= $comma.'\''.$insert_value.'\'';
+	        $insertvaluesql .= $comma.'\''.$insert_value.'\'';
         $comma = ', ';
     }
     $method = $replace?'REPLACE':'INSERT';
@@ -2439,6 +2439,7 @@ function runlog($file, $log, $halt=0) {
 
 	//将uid的用户加入到tagid的群组中
 	function jointag ( $uid , $tagid , $db) {	
+		sleep(2);
 		$query =$db->query("SELECT * FROM ".tname('mtag')." WHERE tagid='$tagid'"); 	
 		$rs=($db->fetch_array($query));
 
@@ -3246,11 +3247,42 @@ echo $e;
 			}
 		}
 	}
+	function isComplainOrNot($doid,$con)	{
+		$query = $con -> query("SELECT * FROM ".tname("complain")." WHERE doid=".$doid);
+		if($res = $con->fetch_array($query))	{
+			return true;
+		}
+		return false;
+	}
+	function complainReplyOrNot($doid,$con)	{
+		$query = $con -> query("SELECT * FROM ".tname("complain")." WHERE doid=".$doid);
+		if($res = $con->fetch_array($query))	{
+			if($res['isreply'])	{
+				return true;
+			}
+			return false;
+		}
+	}
+	function isComplainOrNot_feed($feedid,$con)	{
+		$sql = "SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid;
+
+		$query = $con -> query("SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid);
+		
+		if ($value = $con -> fetch_array($query))	{
+			
+			if($value['idtype'] == "doid")	{
+				if(isComplainOrNot($value['id'],$con))	{
+					return true ;
+				}
+			}
+		}
+		return false ;
+	}
 	function poll_style($str) {/*
 		$str=preg_replace('/\<br\>/i','',$str);
-	$str=preg_replace('/\<input\>/i','<div><input>',$str);
-	$str=preg_replace('/\<\/a\>/i','</a></div>',$str);
-	$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
+		$str=preg_replace('/\<input\>/i','<div><input>',$str);
+		$str=preg_replace('/\<\/a\>/i','</a></div>',$str);
+		$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
 		return $str;   
 	}
 ?>

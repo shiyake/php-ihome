@@ -16,11 +16,6 @@ if($dept_uids == '0'){
 	showmessage('对不起，您没有该权限！','space.php?do=home');
 }
 
-
-
-
-
-
 $type = $_GET['type'];
 
 if($type == 'complains'){
@@ -33,16 +28,28 @@ if($type == 'complains'){
 	$start = ($page-1)*$perpage;
 	//检查开始数
 	ckstart($start, $perpage);
+	if($_GET['starttime'] && $_GET['endtime'])	{
+		$starttime = $_GET['starttime'];
+		$starttime = str_replace ('-','',$starttime);
+		$endtime = $_GET['endtime'];
+		$endtime = str_replace ('-','',$endtime);
+	}
 	
 	$wheresql = '1';
 	$isSearch = FALSE;
 	if($uid = $_GET['uid'] ? trim($_GET['uid']) : ''){
 		$wheresql .= " AND temp.uid=$uid";
 	}
-	if($uname = $_GET['uname'] ? trim($_GET['uname']) : ''){
-		$wheresql .= " AND temp.uname like '%$uname%'";
+	if($uname = $_GET['uname'] ? trim($_GET['uname']) : '' )	{
+		$wheresql .= " AND temp.uname like '%$uname%' AND datatime >= $starttime AND datatime <= $endtime";
+		
+	}
+	
+	if($message = $_GET['message'] ? trim($_GET['message']) : '' && $_GET['starttime'] && $_GET['endtime'])	{
+		$wheresql .= " AND temp.atdepartment like '%$message%' AND datatime >= $starttime AND datatime <= $endtime";
+		
 	}	
-	if($message = $_GET['message'] ? trim($_GET['message']) : ''){
+	else if($message = $_GET['message'] ? trim($_GET['message']) : ''){
 		$wheresql .= " AND temp.atdepartment like '%$message%'";
 	}
 	if($atuname = $_GET['atuname'] ? trim($_GET['atuname']) : ''){
