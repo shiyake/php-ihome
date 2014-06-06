@@ -2,191 +2,205 @@
 <link href="plugin/complain/css/jqcloud.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
 <div class="main">
-
 	<div class="complain_tabs">
 		<span$actives[0]><a href="plugin.php?pluginid=complain&type=baseinfo">基本信息</a></span>
 		<span$actives[1]><a href="plugin.php?pluginid=complain&type=complains">诉求记录</a></span>
 	</div>
-<style type="text/css">
-.complain_tabs{line-height:30px;margin:30px 0 0 0;font-size:16px;}
-.complain_tabs span{margin:0 0 0 15px;padding:5px;background: none repeat scroll 0 0 #FCF9E6;}
-.active{background:#FF8E00 !important; font-weight:blod;}
-th {
-text-align: right;
-}
-.listtable th{
-text-align: center;
-}
-.listtable td{
-text-align: center;
-}
-.listtable tr:hover{ 
-	/*background-color:#A2F4A2 !important;*/
-}
-.listtable a{
-	color:#000000;
-}
-</style>  
-<script>
-$(function(){
- $(".listtable tr:odd").css("background-color","#FCF9E6");
- $(".listtable tr:even").css("background-color","#d0e7fc");
-});
-</script>
+	<style type="text/css">
+		.complain_tabs	{
+			line-height:30px;
+			margin:30px 0 0 0;
+			font-size:16px;
+		}
+		.complain_tabs border-spacing: {
+			margin:0 0 0 15px;
+			padding:5px;
+			background: none repeat scroll 0 0 #FCF9E6;
+		}
+		.active	{
+			background:#FF8E00 !important; 
+			font-weight:blod;
+		}
+		th {
+			text-align: right;
+		}
+		.listtable th{
+			text-align: center;
+		}
+		.listtable td{
+			text-align: center;
+		}
+		.listtable tr:hover{ 
+			/*background-color:#A2F4A2 !important;*/
+		}
+		.listtable a{
+			color:#000000;
+		}
+	</style>  
+	<script>
+		$(function(){
+			$(".listtable tr:odd").css("background-color","#FCF9E6");
+			$(".listtable tr:even").css("background-color","#d0e7fc");
+		});
+	</script>
 	<!--{if $type=='complains'}-->
 	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1; margin:20px 0 0 0;">
 		<form id="from1" method="get" action="plugin.php?pluginid=complain&type=complains">
 			<div class="block style4">
-			  <table width="750" height="123" cellpadding="3" cellspacing="3" style="margin:0 auto;">
-				<tr>
-				  <th width="100">用户UID</th>
-				  <td width="250">
-				  <input type="text" name="uid" id="uid" value="" size="10"><span id="dept_uid_msg">用户UID</span></td>
-				  <th width="100">姓名</th>
-				  <td width="300"><input type="text" id="uname" name="uname" value=""><span id="up_uid_msg">姓名</span></td>
-				</tr>
-				<tr>
-				  <th>诉求部门</th>
-				  <td><input type="text" name="message" id="message" value="" size="10"><span id="up_uid_msg">部门名称</span></td>
-				  <th>当前处理阶段</th>
-				  <td><input type="text" name="atuname" id="atuname" value=""><span id="official_msg">部门名称或领导姓名<span></td>
-				</tr>
-				<tr>
-				  <th>处理状况</th>
-				  <td>
-				  <select name="isreply">
-					<option value="3">==所有==</option>
-					<option value="2">未回复</option>
-					<option value="1">已回复</option>
-				  </select>
-				  </td>
-				  <th></th>
-				  <td></td>
-				</tr>
-				<tr>
-				  <td colspan="4" style="text-align:center;">
-				  <input type="hidden" name="type" value="complains">
-				  <input type="hidden" name="pluginid" value="complain">
-				  <input type="submit" name="submit" value="搜索" class="submit">
-				  </td>
-				</tr>
-			  </table>
-			</div>
-		</form>
-	</div>
-	<div class="bdrcontent">
-		<table cellspacing="2" cellpadding="2" class="listtable">
-		  <tbody>
-			<tr class="line">
-			  <th>姓名</th>
-			  <th>诉求信息</th>
-			  <th>发起时间</th>
-			  <th>处理阶段</th>
-			  <th>处理状况</th>
-			</tr>
-			<!--{loop $Complains $key=>$value}-->
-			<tr>
-			  <td style="width:110px;"><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
-			  <td style="">$value[message]</td>
-			  <td style="width:125px;">$value[addtime]</td>
-			  <td style="width:160px;"><a href=space.php?uid=$value[atuid]>$value[atuname]</a></td>
-			  <td style="width:60px;"><a href="space.php?do=doing&doid=$value[doid]" target="_blank"><!--{if $value[isreply] == '0'}--><img src="image/no_reply.png"/></a></td><!--{else}-->已回复</a></td><!--{/if}-->
-			</tr>
-			<!--{/loop}-->
-		  </tbody>
-		</table>
-	</div>
-	<div class="footactions">
-		<div class="pages">$multi</div>
-	</div>
-	<!--{else}-->
-	<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1; margin:20px 0 0 0;">
-		<form id="from1" method="get" action="plugin.php?pluginid=complain&type=baseinfo">
-			<div class="block style4">
-			  <table width="750" height="123" cellpadding="3" cellspacing="3" style="margin:0 auto;">
-				<tr>
-				  <th>处理阶段</th>
-				  <td>
-				  <select name="times">
-					<option value="0">请选择</option>
-					<option value="1">部处</option>
-					<option value="3">处长</option>
-					<option value="7">副校长</option>
-					<option value="10">校长</option>
-				  </select>
-				  </td>
-				  <th>起止时间</th>
-				  <td>
-				  <input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$startDay">~
-				  <input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$endDay">
-				  </td>
-				</tr>
-				<tr>
-				  <td colspan="4" style="text-align:center;">
-				  <input type="hidden" name="type" value="baseinfo">
-				  <input type="hidden" name="pluginid" value="complain">
-				  <input type="submit" name="submit" value="搜索" class="submit">
-				  </td>
-				</tr>
-			  </table>
-			</div>
-		</form>
-	</div>
-	<div class="bdrcontent">
-		<div class="title">
-			<h3>从 $startDay 到 $endDay ，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
+				<table width="750" height="123" cellpadding="3" cellspacing="3" style="margin:0 auto;">
+					<tr>
+						<th width="100">用户UID</th>
+						<td width="250">
+							<input type="text" name="uid" id="uid" value="" size="10"><span id="dept_uid_msg">用户UID</span></td>
+							<th width="100">姓名</th>
+							<td width="300"><input type="text" id="uname" name="uname" value=""><span id="up_uid_msg">姓名</span></td>
+						</tr>
+						<tr>
+							<th>诉求部门</th>
+							<td><input type="text" name="message" id="message" value="" size="10"><span id="up_uid_msg">部门名称</span></td>
+							<th>当前处理阶段</th>
+							<td><input type="text" name="atuname" id="atuname" value=""><span id="official_msg">部门名称或领导姓名<span></td>
+						</tr>
+						<tr>
+							<th>处理状况</th>
+							<td>
+								<select name="isreply">
+									<option value="3">==所有==</option>
+									<option value="2">未回复</option>
+									<option value="1">已回复</option>
+								</select>
+							</td>
+							<th></th>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align:center;">
+								<input type="hidden" name="type" value="complains">
+								<input type="hidden" name="pluginid" value="complain">
+								<input type="submit" name="submit" value="搜索" class="submit">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
 		</div>
-		<table cellspacing="2" cellpadding="2" class="listtable">
-		  <tbody>
-			<tr class="line">
-			  <th>单位UID</th>
-			  <th>单位名称</th>
-			  <th>诉求总数</th>
-			  <th>已处理数量</th>
-			  <th>操作</th>
-			</tr>
-			<!--{loop $complains $value}-->
-			<tr>
-			  <td>$value[atdeptuid]</td>
-			  <td>$value[department]</td>
-			  <td>$value[total]</td>
-			  <td>$value[isreply]</td>
-			  <td>
-			  <a href="plugin.php?pluginid=complain&message=$value[department]&isreply=3&type=complains">详情</a>
-			  </td>
-			</tr>
-			<!--{/loop}-->
-		  </tbody>
-		</table>
-	</div>
-	<!--{/if}-->
-  
-  
-  <div style="text-align:center; padding-top:10px;">
-	  <!--	<img src="plugin/complain/images/ciyun.jpg" />-->
-<div id="tagcloud" style="width:990px;height:400px;background:#fff;">
-			</div>
-	  <script type="text/javascript" charset="utf-8">
-	 		var words = [
-			<!--{if $tags}-->
-			<!--{loop $tags $key $value}-->
-			<!--{if $value['intend']=='uname'}-->
-{text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索"}
-			<!--{else}-->
-			{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
-			<!--{/if}-->
-			<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+		<div class="bdrcontent">
+			<table cellspacing="2" cellpadding="2" class="listtable">
+				<tbody>
+					<tr class="line">
+						<th>姓名</th>
+						<th>诉求信息</th>
+						<th>发起时间</th>
+						<th>处理阶段</th>
+						<th>处理状况</th>
+					</tr>
+					<!--{loop $Complains $key=>$value}-->
+					<tr>
+						<td style="width:110px;"><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
+						<td style="">$value[message]</td>
+						<td style="width:125px;">$value[addtime]</td>
+						<td style="width:160px;"><a href=space.php?uid=$value[atuid]>$value[atuname]</a></td>
+						<td style="width:60px;"><a href="space.php?do=doing&doid=$value[doid]" target="_blank"><!--{if $value[isreply] == '0'}--><img src="image/no_reply.png"/></a></td><!--{else}-->已回复</a></td><!--{/if}-->
+					</tr>
 					<!--{/loop}-->
+				</tbody>
+			</table>
+		</div>
+		<div class="footactions">
+			<div class="pages">$multi</div>
+		</div>
+		<!--{else}-->
+		<div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1; margin:20px 0 0 0;">
+			<form id="from1" method="get" action="plugin.php?pluginid=complain&type=baseinfo">
+				<div class="block style4">
+					<table width="750" height="123" cellpadding="3" cellspacing="3" style="margin:0 auto;">
+						<tr>
+							<th>处理阶段</th>
+							<td>
+								<select name="times">
+									<option value="0">请选择</option>
+									<option value="1">部处</option>
+									<option value="3">处长</option>
+									<option value="7">副校长</option>
+									<option value="10">校长</option>
+								</select>
+							</td>
+							<th>起止时间</th>
+							<td>
+								<input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$startDay">~
+								<input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$endDay">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align:center;">
+								<input type="hidden" name="type" value="baseinfo">
+								<input type="hidden" name="pluginid" value="complain">
+								<input type="submit" name="submit" value="搜索" class="submit">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+		<div class="bdrcontent">
+			<div class="title">
+				<h3>从 $startDay 到 $endDay ，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
+			</div>
+			<table cellspacing="2" cellpadding="2" class="listtable">
+				<tbody>
+					<tr class="line">
+						<th>单位UID</th>
+						<th>单位名称</th>
+						<th>诉求总数</th>
+						<th>已处理数量</th>
+						<th>操作</th>
+					</tr>
+					<!--{loop $complains $value}-->
+					<tr>
+						<td>$value[atdeptuid]</td>
+						<td>$value[department]</td>
+						<td>$value[total]</td>
+						<td>$value[isreply]</td>
+						<td>
+							<a href="plugin.php?pluginid=complain&message=$value[department]&isreply=3&type=complains">详情</a>
+						</td>
+					</tr>
+					<!--{/loop}-->
+				</tbody>
+			</table>
+		</div>
+		<!--{/if}-->
+
+		<!--{if $_GET['starttime']}-->
+			<br>
+			<b>以下诉求云是从{$_GET['starttime']}到{$_GET['endtime']}的</b>
+		<!--{/if}-->
+		
+		<div style="text-align:center; padding-top:10px;">
+			<!--	<img src="plugin/complain/images/ciyun.jpg" />-->
+			<div id="tagcloud" style="width:990px;height:400px;background:#fff;">
+			</div>
+			<script type="text/javascript" charset="utf-8">
+				var words = [
+				<!--{if $tags}-->
+				<!--{loop $tags $key $value}-->
+				<!--{if $value['intend']=='uname'}-->
+				{text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+				<!--{else}-->
+				{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+				<!--{/if}-->
+				<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+				<!--{/loop}-->
 				<!--{/if}-->];
 				jQuery(function(){
 					jQuery('#tagcloud').jQCloud(words,{
 						delayedMode:true
 					});
 				});
-	
-	  </script>
-  </div>
-  </div>
-  <!-- end main -->
-  
+
+			</script>
+		</div>
+	</div>
+<!-- end main -->
+
 <!--{template plugin/complain/footer}-->
