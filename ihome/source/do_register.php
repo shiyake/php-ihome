@@ -227,6 +227,12 @@ if(empty($op)) {
 		}
 		$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='1' WHERE uid='$newuid'");
 		$_SGLOBAL['db']->fetch_array($q);
+		$q = $_SGLOBAL['db']->query("SELECT academy,startyear FROM ".tname('baseprofile')." WHERE uid='$newuid'");
+		$academy = $_SGLOBAL['db']->fetch_array($q);
+		$startyear = $academy['startyear'];
+		$academy = $academy['academy'];
+		$gid = tagGrade3($startyear, $academy, $_SGLOBAL['db']);
+		jointag($newuid, $gid, $_SGLOBAL['db']);
 		showmessage('registered', $jumpurl);
 
 	}
