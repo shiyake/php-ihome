@@ -54,9 +54,13 @@ else
 			$q = $_SGLOBAL['db']->query("SELECT 1 AS result FROM ".tname('tagspace')." WHERE tagid='$gid' AND uid='$uid'");
 			$is_in_group = $_SGLOBAL['db']->fetch_array($q);
 			$is_in_group = $is_in_group['result'];
-			if(!$name || !$tid || $is_in_group)
+			if(!$name || !$tid)
 			{
 				returnResponse(40002, "格式不正确");
+			}
+			else if($is_in_group)
+			{
+				returnResponse(40004, "已经在群组中");
 			}
 			else
 			{
