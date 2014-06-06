@@ -45,7 +45,7 @@ if($type == 'complains'){
 		
 	}
 	
-	if($message = $_GET['message'] ? trim($_GET['message']) : '' && $_GET['starttime'] && $_GET['endtime'])	{
+	if(strlen($_GET['starttime']) && $message = $_GET['message'] ? trim($_GET['message']) : '' )	{
 		$wheresql .= " AND temp.atdepartment like '%$message%' AND datatime >= $starttime AND datatime <= $endtime";
 		
 	}	
