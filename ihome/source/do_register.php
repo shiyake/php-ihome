@@ -225,6 +225,8 @@ if(empty($op)) {
 				update_usertype($_SGLOBAL['db'],$newuid);
 			}	
 		}
+		$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='1' WHERE uid='$newuid'");
+		$_SGLOBAL['db']->fetch_array($q);
 		showmessage('registered', $jumpurl);
 
 	}
