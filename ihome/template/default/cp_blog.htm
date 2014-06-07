@@ -65,7 +65,7 @@
 		<table cellspacing="4" cellpadding="4" width="100%" class="infotable">
 			<tr>
 				<td style="padding:10px;">
-					<select name="classid" id="classid" style="width:90px;height:22px;display:inline;"  class="form-control input-sm" onchange="addSort(this)">
+					<select name="classid" id="classid" style="width:90px;display:inline;"  class="form-control input-sm" onchange="addSort(this)">
 						<option value="0">选择分类</option>
 						<!--{loop $classarr $value}-->
 						<!--{if $value['classid'] == $blog['classid']}-->
@@ -76,7 +76,7 @@
 						<!--{/loop}-->
 						<!--{if !$blog['uid'] || $blog['uid']==$_SGLOBAL['supe_uid']}--><option value="addoption" style="color:red;">+新建分类</option><!--{/if}-->
 					</select>
-					<input type="text" class="t_input form-control input-sm" style="display:inline;width:300px;" id="subject" name="subject" value="$blog[subject]" size="60" onblur="relatekw();" />
+					<input type="text" class="t_input form-control input-sm" style="width:300px;" id="subject" name="subject" value="$blog[subject]" size="60" onblur="relatekw();" />
 				</td>
 			</tr>
 			<tr>
