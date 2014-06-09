@@ -104,6 +104,22 @@ if(empty($op)) {
 				showmessage('register_error');
 			}
 		} else {
+			//检查uid是否在ucenter里面，如果不在，就采取野蛮方式插入新纪录
+			$q = $_SGLOBAL['db']->query("SELECT uid FROM ihomeuser_members WHERE uid='$newuid'");
+			$members_match = $_SGLOBAL['db']->fetch_array($q);
+			$members_match = $members_match['uid'];
+			$q = $_SGLOBAL['db']->query("SELECT uid FROM ihomeuser_memberfields WHERE uid='$newuid'");
+			$memberfields_match = $_SGLOBAL['db']->fetch_array($q);
+			$memberfields_match = $memberfields_match['uid'];
+			if(!$members_match && !$memberfields_match)
+            {
+                    $salt = substr(uniqid(rand()), -6);
+                    $hhpassword = md5(md5($password).$salt);
+                    $sqladd = "uid='".intval($newuid)."',";
+                    $sqladd .= " secques='',";
+                    $_SGLOBAL['db']->query("INSERT INTO ihomeuser_members SET $sqladd username='$username', password='$hhpassword', email='$email', regip='".$_SERVER["HTTP_X_FORWARDED_FOR"]."', regdate='".time()."', salt='$salt'");
+                    $_SGLOBAL['db']->query("INSERT INTO ihomeuser_memberfields SET uid='$newuid'");
+            }
 			$setarr = array(
 				'uid' => $newuid,
 				'username' => $username,
@@ -209,6 +225,14 @@ if(empty($op)) {
 				update_usertype($_SGLOBAL['db'],$newuid);
 			}	
 		}
+		$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='1' WHERE uid='$newuid'");
+		$_SGLOBAL['db']->fetch_array($q);
+		$q = $_SGLOBAL['db']->query("SELECT academy,startyear FROM ".tname('baseprofile')." WHERE uid='$newuid'");
+		$academy = $_SGLOBAL['db']->fetch_array($q);
+		$startyear = $academy['startyear'];
+		$academy = $academy['academy'];
+		$gid = tagGrade3($startyear, $academy, $_SGLOBAL['db']);
+		jointag($newuid, $gid, $_SGLOBAL['db']);
 		showmessage('registered', $jumpurl);
 
 	}
