@@ -1,10 +1,46 @@
+<style>
+	.top_list {
+		border-radius: 10px;
+		border:1px solid #dcdcdc;
+		height:117px;
+		margin-bottom:10px;
+	}
+	.top_list > .top_left {
+		float:left;
+	}
+
+	.top_list > .top_right {
+		margin-left:125px;
+		
+	}
+	.top_list > .top_right > .top_right_right {
+
+	}
+	.top_list > .top_right > .line_list  {
+		
+		margin-right:10px;
+	}
+	.top_left img {
+		border-radius:10px 0 0 10px;
+		height:115px;
+		width:115px;
+	}
+</style>
 	<div class="space_list">
 	<!--{if $list}-->
 	<!--{loop $list $key $value}-->
-	<table cellspacing="0" cellpadding="0" width="100%">
-	<tr>
-		<td width="65"><div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div></td>
-		<td>
+	<div class="top_list" cellspacing="0" cellpadding="0" width="100%">
+	
+		<div class="top_left">
+			<a href="space.php?uid=$value[uid]">
+			<!--{avatar($value[uid],'big')}-->
+			</a>
+		</div>
+		<div class="top_right">
+		<table style="border:none;margin:0;">
+		<tr>
+		<td style="vertical-align:top;width:570px;">
+			<div class="top_right_left">
 			<h4>
 				<!--{if $ols[$value[uid]]}--><img src="image/online_icon.gif" align="absmiddle"> <!--{/if}-->
 				<a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}"<!--{eval g_color($value[groupid]);}-->>{$_SN[$value[uid]]}</a>
@@ -18,19 +54,24 @@
 			
 			<p>
 				<!--{if $_GET['view']=='show'}-->竞价<!--{/if}-->积分：$value[credit] / <!--{if $value[experience]}-->经验：$value[experience] / <!--{/if}-->人气：$value[viewnum] / 好友：$value[friendnum]</p>
-			<!--{if $value[note]}-->$value[note]<!--{/if}-->
-		</td>
-		<td width="100">
-			<ul class="line_list">
+			
+			</div>
+			</td>
+			<td style="vertical-align:top;">
+			<div class="top_right_right">
+			<ul class="line_list clearfix">
 				<li><a href="space.php?uid=$value[uid]">去串个门</a></li>
 				<li><a href="cp.php?ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="ajaxmenu(event, this.id, 1)" title="打招呼">打个招呼</a></li>
 				<!--{if isset($value['isfriend']) && !$value['isfriend']}--><li><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)" title="加好友">加为好友</a></li><!--{/if}-->	
 				<li><a href="cp.php?ac=pm&uid=$value[uid]" id="a_pm_$value[uid]" onclick="ajaxmenu(event, this.id, 1)">发送消息</a></li>
 			</ul>
-		</td>
-	</tr>
-	</table>
-	<!--{/loop}-->
+			</div>
+			</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+			<!--{/loop}-->
 	<div class="page">$multi</div>
 	<!--{else}-->
 	<div class="c_form">没有相关成员。</div>
