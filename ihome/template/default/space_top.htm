@@ -1,28 +1,39 @@
 <!--{eval $_TPL['titles'] = array('排名');}-->
 <!--{template header}-->
 
-<div class="searchbar floatright">
+<div class="searchbar floatright" style="position:absolute;right:0;top:60px;">
 <form method="get" action="cp.php">
 	<input name="searchkey" value="" size="15" class="t_input" type="text">
-	<input name="searchsubmit" value="找人" class="submit" type="submit">
+	<input name="searchsubmit" value="找人" class="submit btn btn-sm btn-comments" type="submit">
 	<input type="hidden" name="searchmode" value="1" />
 	<input type="hidden" name="ac" value="friend" />
 	<input type="hidden" name="op" value="search" />
 </form>
 </div>
-<h4 class="title title">排行榜</h4>
-<div class="tabs_header">
-	<ul class="tabs">
-		<li$actives[show]><a href="space.php?do=top"><span>竞价排行</span></a>
-		<li$actives[mm]><a href="space.php?do=top&view=mm"><span>美女排行</span></a>
-		<li$actives[gg]><a href="space.php?do=top&view=gg"><span>帅哥排行</span></a>
-		<li$actives[experience]><a href="space.php?do=top&view=experience"><span>经验排行</span></a>
-		<li$actives[credit]><a href="space.php?do=top&view=credit"><span>积分排行</span></a>
-		<li$actives[friendnum]><a href="space.php?do=top&view=friendnum"><span>好友数排行</span></a>
-		<li$actives[viewnum]><a href="space.php?do=top&view=viewnum"><span>访问量排行</span></a>
-		<li$actives[online]><a href="space.php?do=top&view=online"><span>在线成员</span></a>
-		<li$actives[updatetime]><a href="space.php?do=top&view=updatetime"><span>全部成员</span></a>
-	</ul>
+<style>
+	.l_status a {
+		color:#777;
+	}
+	.l_status .active {
+		color:#01b6f9;
+	}
+	.space_list {
+		margin-left:5px;
+	}
+</style>
+<h4 class="title title30">排行榜</h4>
+<div class="l_status" style="margin-left:20px;margin-top:20px;">
+	
+		<a $actives[show] href="space.php?do=top"><span>竞价排行</span></a>
+		<a $actives[mm] href="space.php?do=top&view=mm"><span>美女排行</span></a>
+		<a $actives[gg] href="space.php?do=top&view=gg"><span>帅哥排行</span></a>
+		<a $actives[experience] href="space.php?do=top&view=experience"><span>经验排行</span></a>
+		<a $actives[credit] href="space.php?do=top&view=credit"><span>积分排行</span></a>
+		<a $actives[friendnum] href="space.php?do=top&view=friendnum"><span>好友数排行</span></a>
+		<a $actives[viewnum] href="space.php?do=top&view=viewnum"><span>访问量排行</span></a>
+		<a $actives[online] href="space.php?do=top&view=online"><span>在线成员</span></a>
+		<a $actives[updatetime] href="space.php?do=top&view=updatetime"><span>全部成员</span></a>
+	
 </div>
 
 <script type="text/javascript">
@@ -40,11 +51,11 @@
 	}
 </script>
 
-<div class="c_form">
+<div class="c_form" style="margin-left:10px;">
 	
 	<!--{if $now_pos >= 0}-->
 	<div style="padding-bottom:20px;">
-		<h4 class="l_status">排行榜公告：</h4>
+		<h5 class="l_status">排行榜公告：</h5>
 		<!--{if $_GET[view]=='show'}-->
 			<!--{if $space[showcredit]}-->
 			自己当前的竞价积分为：$space[showcredit]，当前排名 <span style="font-size:20px;color:red;">$now_pos</span> ，再接再厉！
@@ -82,7 +93,7 @@
 					要帮助的好友用户名<br />
 					<input type="text" name="fusername" value="" size="20" class="t_input" /><br />
 					赠送竞价积分(<span class="gray">不要超过自己的积分:$space[credit]</span>)<br />
-					<input type="text" id="stakecredit" name="stakecredit" value="100" size="5" class="t_input" onblur="checkCredit('stakecredit');" /> <input type="submit" name="friend_submit" value="赠送" class="submit" />
+					<input type="text" id="stakecredit" name="stakecredit" value="100" size="5" class="t_input" onblur="checkCredit('stakecredit');" /> <input type="submit" name="friend_submit" value="赠送" class="submit btn btn-sm btn-comments" />
 				</p>
 				<input type="hidden" name="friendsubmit" value="true" />
 				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
@@ -98,7 +109,7 @@
 					<br />
 					<input type="text" name="note" value="" size="35" class="t_input" /><br />
 					增加竞价积分(<span class="gray">不要超过自己的积分:$space[credit]</span>)<br />
-					<input type="text" id="showcredit" name="showcredit" value="100" size="5" class="t_input" onblur="checkCredit('showcredit');" /> <input type="submit" name="show_submit" value="增加" class="submit" />
+					<input type="text" id="showcredit" name="showcredit" value="100" size="5" class="t_input" onblur="checkCredit('showcredit');" /> <input type="submit" name="show_submit" value="增加" class="submit btn btn-sm btn-comments" />
 				</p>
 				<input type="hidden" name="showsubmit" value="true" />
 				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
