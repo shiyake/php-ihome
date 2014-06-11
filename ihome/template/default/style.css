@@ -895,3 +895,7 @@ div #tagcloud span.w1 {
     z-index:9999;
     width: 100%;
 }
+.right_head {
+    float:right;
+    margin-top:-40px;
+}
