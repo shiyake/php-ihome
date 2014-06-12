@@ -56,7 +56,7 @@ if($_GET['op'] == 'add') {
 	}
 	
 	if($item['uid'] == $_SGLOBAL['supe_uid']) {
-		showmessage('click_no_self');
+		showmessage('click_no_self',$_SGLOBAL['refer']);
 	}
 	
 	//黑名单
@@ -67,7 +67,7 @@ if($_GET['op'] == 'add') {
 	//检查是否点击过了
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('clickuser')." WHERE uid='$space[uid]' AND id='$id' AND idtype='$idtype'");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
-		showmessage('click_have');
+		showmessage('click_have',$_SGLOBAL['refer']);
 	}
 	
 	//参与
