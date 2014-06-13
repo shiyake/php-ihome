@@ -29,9 +29,14 @@ jQuery(function ($) {
 	var files = $(".files");
 	var btn = $(".btn span");
 	$("#fileupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
-	$("#fileupload").change(function(){
+	$("#fileupload").live("change",function(){
+		
+		$(".mood_textarea").val("分享图片");
 		$("#myupload").ajaxSubmit({
 			dataType:  'json',
+			beforeSubmit: function(data)	{
+			showimg.html("<div class='triangle-isosceles' style='width:200px;height:300px;line-height:300px;text-align:center;'><p><b>"+name+"</b></p> <img style='width:30px;height:30px;' src='image/loading154.gif' ></div>");
+			},
 			success: function(data) {
 				var img = "$_SC['attachurl']"+data.pic;
 				var num = 12;
@@ -41,7 +46,7 @@ jQuery(function ($) {
 				$("#datapicid").val(picid);
 				$("#datapicpath").val(data.pic);
 				showimg.html("<div class='triangle-isosceles'><p><b>"+name+"</b></p> <img src='"+img+"' ><p><span class='delimg' rel='"+picid+"'>删除</span></p></div>");
-				btn.html("图片");
+				btn.html("图片");	
 			},
 			error:function(xhr){
 				btn.html("上传失败");
@@ -52,16 +57,15 @@ jQuery(function ($) {
 	});
 	jQuery(".delimg").live('click',function(){
 		var picid = $(this).attr("rel");
-	
 		$.get("cp.php?ac=upload&file=delete&type=pic",{ picid: picid },function(ancon){
-			if(ancon=='ok'){
-				$("#datapicid").val('');
-				$("#datapicpath").val('');				
-				showimg.empty();
-				$("#fileupload").val('');
-			}else{
-				alert("删除失败，刷新即可~");
-			}
+				if(ancon=='ok'){
+					$("#datapicid").val('');
+					$("#datapicpath").val('');				
+					showimg.empty();
+					$("#fileupload").val('');
+				}else{
+					alert("删除失败，刷新即可~");
+				}
 		});
 	});
 	
