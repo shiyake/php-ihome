@@ -319,6 +319,28 @@
 
 	<!--{if $count}-->
     <div class="album-list clearfix">
+      <!--{if $space[self] && $_GET['view']=='me'}-->
+        <div class="album pull-left">
+            <div class="cover">
+                <!--{eval
+                    $image_path = $value['pic'];
+                    if (strpos($image_path, 'thumb.jpg') > 0) {
+                        $image_path = substr($image_path, 0, strlen($image_path)-10);
+                    }
+                }-->
+                <div class="cover-inner">
+                    <a href="space.php?uid=$space[uid]&do=album&id=-1" target="_blank">
+                        <img src="<!--{eval echo substr($value[pic], 0, strlen($value[pic])-10);}-->" onerror='this.src="image/alt_album_cover.png";this.onerrror=null;' alt="$value[albumname]" />
+                    </a>
+                    <p class="name text-overflow">
+                        <a href="space.php?uid=$space[uid]&do=album&id=-1" target="_blank">
+                            默认相册
+                        </a>
+                                            </p>
+                </div>
+            </div>
+        </div>
+     <!--{/if}-->
 	<!--{loop $list $key $value}-->
         <div class="album pull-left">
             <div class="cover">

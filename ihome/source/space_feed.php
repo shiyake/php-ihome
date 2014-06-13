@@ -62,7 +62,7 @@ if($_GET['view'] == 'all') {
 	$_GET['view'] = 'complain';
 	$_TPL['hidden_time'] = 0;
 
-}elseif($_GET['view'] == 'ours' || $_GET['view'] == 'we'){
+}elseif($_GET['view'] == 'we'){
     $wheresql = "icontype!='work' or icontype is NULL";
     $ordersql = "dateline DESC";
     $theurl = "space.php?uid=$space[uid]&do=$do&view=ours";
