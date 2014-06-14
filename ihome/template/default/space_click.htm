@@ -43,13 +43,34 @@
             overflow:initial;
         }
     </style>
+<script>
+     (function(){
+        jQuery(function(){
+            jQuery(".tool_avatar").tooltip({
+                "html":true,
+                "placement":"bottom"
+            });
+            jQuery(".cencle_click").on("click",function(){
+            
+                jQuery.post("cp.php?ac=click&op=del&clickid="+jQuery(this).data("clickid")+"&uid=$_SGLOBAL['supe_uid']&idtype="+jQuery(this).data("idtype")+"&id="+jQuery(this).data("id")+"&hash=$hash");
+                jQuery(this).prev(".avatar48").css({"display":"none"});
+                jQuery(this).css({"display":"none"});
+            });
+        });
+
+     })();
+</script>
 <div class="trace" style="padding-bottom: 10px;">
 	<div id="trace_div">
 		<ul class="avatar_list" style="margin-left:30px;" id="trace_ul">
 		<!--{loop $clickuserlist $value}-->
 		<li>
 			<!--{if $value[username]}-->
-			<div class="avatar48"><a href="space.php?uid=$value[uid]" target="_blank" title="$_SN[$value[uid]]"><!--{avatar($value[uid], 'small')}--></a></div>
+			<div class="avatar48"><a href="space.php?uid=$value[uid]" target="_blank" class="tool_avatar" data-toggle="tooltip" title="$_SN[$value[uid]]<br>$value['clickname']">
+            <!--{avatar($value[uid], 'small')}--></a></div>
+            <!--{if $value[uid]==$_SGLOBAL['supe_uid']}-->
+                <a href="javascript:;" class="cencle_click" style="float:right;position:absolute;" data-clickid="$value['clickid']" data-idtype="$value['idtype']" data-id="$value[id]">取消表态</a>
+            <!--{/if}-->
 			<!--{else}-->
 			<div class="avatar48"><img src="image/magic/hidden.gif" alt="$value[clickname]" class="avatar" /></div>
 			<p>匿名</p>

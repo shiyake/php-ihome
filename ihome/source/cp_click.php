@@ -10,7 +10,18 @@ $id = empty($_GET['id'])?0:intval($_GET['id']);
 
 //µã»÷Æ÷
 include_once(S_ROOT.'./data/data_click.php');
-
+if ($_GET['op'] == 'del')	{
+	$uid = $_SGLOBAL['supe_uid'];
+	$id = $_GET['id'];
+	$idtype = $_GET['idtype'];
+	$clickid = $_GET['clickid'];
+	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("clickuser")." WHERE uid=$uid and clickid=$clickid and idtype='$idtype' and id=$id");
+	
+	if($_SGLOBAL[db]->fetch_array($query))	{
+		 $_SGLOBAL['db'] -> query("DELETE FROM ".tname("clickuser")." WHERE uid=$uid and clickid=$clickid and idtype='$idtype' and id=$id");
+	}
+	return ;
+}
 $clicks = empty($_SGLOBAL['click'][$idtype])?array():$_SGLOBAL['click'][$idtype];
 $click = $clicks[$clickid];
 
@@ -176,7 +187,7 @@ if($_GET['op'] == 'add') {
 	realname_get();
 	
 	$click_multi = smulti($start, $perpage, $count, "cp.php?ac=click&op=show&clickid=$clickid&idtype=$idtype&id=$id", 'click_div');
-}
+} 
 
 include_once(template('cp_click'));
 
