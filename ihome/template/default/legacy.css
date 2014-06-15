@@ -3700,3 +3700,15 @@ h4.title.title30 img.pic10 {
 #comment_ul li:last-child{
     border-bottom:none;
 }
+.inflate {
+    line-height:222%;	
+}
+.top_right_left h4 a {
+    font-size: 13px;
+}
+.top_right_left h4 span {
+    float: none;
+}
+.right_head_margin {
+    margin-right: 20px;
+}
