@@ -12,7 +12,7 @@
                 <!--{if $value[clicknum]}-->
                 <div class="digface">
                     <img src="image/click/$value[icon]" alt="" />
-                    $value[name]({$value[clicknum]})
+                    $value[name](<span class="click_num_$value[clickid]">{$value[clicknum]}</span>)
                 </div>
                 <!--{else}-->
                 <style>
@@ -51,7 +51,10 @@
                 "placement":"bottom"
             });
             jQuery(".cencle_click").on("click",function(){
-            
+                var num=jQuery(".click_num_"+jQuery(this).data("clickid")).html();
+                
+                num -= 1;
+                jQuery(".click_num_"+jQuery(this).data("clickid")).html(num);
                 jQuery.post("cp.php?ac=click&op=del&clickid="+jQuery(this).data("clickid")+"&uid=$_SGLOBAL['supe_uid']&idtype="+jQuery(this).data("idtype")+"&id="+jQuery(this).data("id")+"&hash=$hash");
                 jQuery(this).prev(".avatar48").css({"display":"none"});
                 jQuery(this).css({"display":"none"});
