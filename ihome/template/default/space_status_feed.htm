@@ -51,7 +51,8 @@ jQuery(function ($) {
 			error:function(xhr){
 				btn.html("上传失败");
 				bar.width('0')
-				files.html(xhr.responseText);
+				showimg.html("");
+				//files.html(xhr.responseText);
 			}
 		});
 	});
