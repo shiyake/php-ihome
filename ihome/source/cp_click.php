@@ -10,7 +10,27 @@ $id = empty($_GET['id'])?0:intval($_GET['id']);
 
 //µã»÷Æ÷
 include_once(S_ROOT.'./data/data_click.php');
-
+if ($_GET['op'] == 'del')	{
+	$uid = $_SGLOBAL['supe_uid'];
+	$id = $_GET['id'];
+	$idtype = $_GET['idtype'];
+	$clickid = $_GET['clickid'];
+	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("clickuser")." WHERE uid=$uid and clickid=$clickid and idtype='$idtype' and id=$id");
+	
+	if($_SGLOBAL['db']->fetch_array($query))	{
+		$_SGLOBAL['db'] -> query("DELETE FROM ".tname("clickuser")." WHERE uid=$uid and clickid=$clickid and idtype='$idtype' and id=$id");
+		if(!strcmp($idtype,"blogid"))	{
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("blog")." SET click_$clickid = click_$clickid - 1 WHERE blogid=$id ");
+		}
+		else if(!strcmp($idtype,"picid"))	{
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("pic")." SET click_$clickid = click_$clickid - 1 WHERE picid=$id ");	
+		}
+		else if(!strcmp($idtype,"tid"))	{
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("thread")." SET click_$clickid = click_$clickid - 1 WHERE tid=$id ");	
+		}
+	}
+	return ;
+}
 $clicks = empty($_SGLOBAL['click'][$idtype])?array():$_SGLOBAL['click'][$idtype];
 $click = $clicks[$clickid];
 
@@ -176,7 +196,7 @@ if($_GET['op'] == 'add') {
 	realname_get();
 	
 	$click_multi = smulti($start, $perpage, $count, "cp.php?ac=click&op=show&clickid=$clickid&idtype=$idtype&id=$id", 'click_div');
-}
+} 
 
 include_once(template('cp_click'));
 
