@@ -11,6 +11,7 @@ if(empty($_GET['op'])) {
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=<?=$_GET['charset']?>" />
 <title>Editor</title>
+<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
 <script language="javascript" src="image/editor/editor_base.js"></script>
 <style type="text/css">
 body{margin:0;padding:0;}
