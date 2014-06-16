@@ -94,7 +94,7 @@ if($type == 'api'){
 		$status = isset($_GET['status']) ? trim($_GET['status']) : 'disable';
 		$url = isset($_GET['url']) ? trim($_GET['url']) : '';
 		$type = isset($_GET['types']) ? intval($_GET['types']) : 0;
-		//$desc = isset($_GET['desc']) ? $_GET['desc'] : '';
+		$desc = isset($_GET['desc']) ? $_GET['desc'] : '';
 		//$desc = empty($_GET['desc'])?'':getstr($_GET['desc'], 5000, 0, 1);
 		
 		//$desc = htmlentities($desc);
@@ -123,7 +123,7 @@ if($type == 'api'){
 			'iauth_type' => $iauth_type,
 			'iauth_name' => $iauth_name,
 			'name' => $name,
-			//'desc' => $desc,
+			'desc' => $desc,
 			'url' => $url,
 			'app_url' => $app_url,
 			'back_url' => $back_url,
