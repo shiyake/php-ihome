@@ -13,6 +13,7 @@ if(empty($_GET['op'])) {
 <title>Editor</title>
 <script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
 <script language="javascript" src="image/editor/editor_base.js"></script>
+<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
 <style type="text/css">
 body{margin:0;padding:0;}
 body, td, input, button, select {font: 12px/1.5em Tahoma, Arial, Helvetica, snas-serif;}

@@ -173,62 +173,61 @@
 			</tr>
 			<!--{/if}-->
 			<!--{/if}-->
-
+<style>
+	.triangle-isosceles {
+		position:initial;
+		margin:0;
+		padding:0;
+		background:none;
+		border:none;
+	}
+</style>
 <script type="text/javascript">
-	jQuery.noConflict();
-	jQuery(function ($) {
-		var showimg = $('#showimg');
-		var files = $(".files");
-		$("#attachupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=attach' method='post' enctype='multipart/form-data'></form>");
-		$("#attachupload").change(function(){
-			$("#myupload").ajaxSubmit({
+	
+	jQuery(function(){
+		var showimg = jQuery('#showimg');
+		var files = jQuery(".files");
+
+		jQuery("#attachupload").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=attach' method='post' enctype='multipart/form-data'></form>");
+		jQuery("#attachupload").live("change",function(){
+			
+			jQuery("#myupload").ajaxSubmit({
 				dataType:  'json',
 				success: function(data) {
+					
 					var name = data.name;
 					var size = data.size;
 					var aid = data.aid;
 					var path =data.path;
-					$("#attachid").val(aid);
-					$("#attachpath").val(path);
-					showimg.html("<div class='triangle-isosceles top'><b>"+name+"</b><span class='delimg' rel='"+aid+"'>删除</span></div>");
+					jQuery("#attachname").val(name);
+					jQuery("#attachsize").val(size);
+					jQuery("#attachid").val(aid);
+					jQuery("#attachpath").val(path);
+					showimg.html("<div class='triangle-isosceles top'><b>"+name+"</b></div>");
 				},
 				error:function(xhr){
-					btn.html("上传失败");
-					bar.width('0')
-					files.html(xhr.responseText);
+					files.html("附件上传失败");
+					//files.html(xhr.responseText);
 				}
 			});
 		});
-    });
+    
 
-jQuery(".delimg").live('click',function(){
-        var aid = $(this).attr("rel");		
-        $.get("cp.php?ac=upload&file=delete&type=attach",{ aid: aid },function(ancon){
-            if(ancon=='ok'){
-            $("#attachid").val('');
-            $("#attachpath").val('');				
-            showimg.empty();
-            $("#attachupload").val('');
-            }else{
-            alert("删除失败，刷新即可~");
-            }
-            });
-
-        });
-jQuery("#to_upload").live('click',function(){
-        jQuery("#upload_file").click();    
-        });
+		
+	});
+	
     </script>
 
     <tr>
         <th width="70">上传附件</th>
         <td>
-            <a id="to_upload" href="javascript:;">上传附件</a>
-            <input type="file" id="upload_file" name="attachupload" style="display:none;" id="attachupload" title="上传附件">&nbsp;<span>最大上传10Mb</span>
+            
+            <input type="file" name="attachupload" id="attachupload">&nbsp;<span>最大上传10Mb</span>
+            <div style="height:0;margin:0;display:inline-block;color:red;" class="files"></div>
+   			<div id="showimg"></div>
         </td>
     </tr>
-    <div style="height:0;margin:0;" class="files"></div>
-    <div id="showimg"></div>
+    
 
 
 </table>
@@ -236,12 +235,12 @@ jQuery("#to_upload").live('click',function(){
 <input type="button" id="blogbutton" name="blogbutton" value="提交发布" onclick="validate(this);" style="display: none;" />
 <input type="hidden" name="topicid" value="$_GET[topicid]" />
 <input type="hidden" name="makefeed" value="1" />
-<!--
+
 <input type="hidden" name="attachid" id="attachid" value="" />
 <input type="hidden" name="attachpath" id="attachpath" value="" />
 <input type="hidden" name="attachname" id="attachname" value="" />
 <input type="hidden" name="attachsize" id="attachsize" value="" />
--->
+
 <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
     </form>
 
