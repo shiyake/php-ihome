@@ -62,6 +62,7 @@ var myfriend_post = __reloadAfter(myfriend_post);
 		<li$actives[search2]><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
 		<!--{if $_SCONFIG['closeinvite']==1  }-->
 		<li><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
+        <li><a href="cp.php?ac=invite2"><span>批量邀请</span></a></li>
 		<!--{/if}--> 
 		<!--<li$actives[request]><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->
 		
@@ -70,8 +71,9 @@ var myfriend_post = __reloadAfter(myfriend_post);
 		<!--{/if}-->
 	</ul>
 </div>
-<div class="right_head">
-    <a href="space.php?do=top"><span>排行榜</span></a>
+<div class="right_head right_head_margin">
+<img src="template/default/image/ranking.png">
+<a href="space.php?do=top"><span>排行榜</span></a>
 </div>
 <!--{/if}-->
 

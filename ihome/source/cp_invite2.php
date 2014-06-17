@@ -9,8 +9,8 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-include_once(S_ROOT.'./reader.php');
-include_once(S_ROOT.'./oleread.inc');
+include_once(S_ROOT.'./plugin/invite/reader.php');
+include_once(S_ROOT.'./plugin/invite/oleread.inc');
 
 $isfile = 0;
 $file_pointer = '';
@@ -41,7 +41,7 @@ if(empty($op)){
 		//发送邀请信--处理好了之后才...
 		$arr = array('realname'=>$realname, 'sex'=>$sex, 'birthday'=>$birthday, 'email'=>$email, 'academy'=>$academy, 'collegeid'=>$collegeid, 'class'=>$class, 'mobile'=>$mobile, 'unit'=>$unit);
 		invite_alumni($arr);
-
+		
 	}
 }
 	
