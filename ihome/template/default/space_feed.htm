@@ -26,90 +26,112 @@
 	<!--{/if}-->
 	<script>
 		var jq1=jQuery.noConflict();
+        var loadOurs = function(){
+            var ajaxvar=new XMLHttpRequest();
+            ajaxvar.onreadystatechange=function()	{
+                jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+                jq1(".alert").css({"display":"none"});
+                if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+                    jq1(".alert").css({"display":"block"});
+                    jq1("#feed_div").html(ajaxvar.responseText);
+                    jq1("#blue_solid").animate({left:"0px"},400);
+                }
+            }
+            ajaxvar.open("POST","space.php?do=home&view=ours&show=1",true);
+            ajaxvar.send();
+            if(jq1("#public").hasClass("active"))	{
+                jq1("#public").removeClass("active");
+            }
+            if(jq1("#work").hasClass("active"))	{
+                jq1("#work").removeClass("active");
+            }
+            if(!jq1("#ours").hasClass("active"))	{
+                jq1("#ours").addClass("active");
+            }
+        };
+        var loadPublic = function(){
+            var ajaxvar=new XMLHttpRequest();
+            ajaxvar.onreadystatechange=function()	{
+                jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+                jq1(".alert").css({"display":"none"});
+                if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+                    jq1(".alert").css({"display":"block"});
+                    jq1("#feed_div").html(ajaxvar.responseText);
+                    jq1("#blue_solid").animate({left:"102px"},400);
+                }
+            }
+            ajaxvar.open("POST","space.php?do=home&view=all&show=1",true);
+            ajaxvar.send();
+            if(jq1("#work").hasClass("active"))	{
+                jq1("#work").removeClass("active");
+            }
+            if(jq1("#ours").hasClass("active"))	{
+                jq1("#ours").removeClass("active");
+            }
+            if(!jq1("#public").hasClass("active"))	{
+                jq1("#public").addClass("active");
+
+            }
+        };
+        var loadWork = function(){
+            var ajaxvar=new XMLHttpRequest();
+            ajaxvar.onreadystatechange=function()	{
+                jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
+                jq1(".alert").css({"display":"none"});
+                if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+                    jq1(".alert").css({"display":"block"});
+                    jq1("#feed_div").html(ajaxvar.responseText);
+                    jq1("#blue_solid").animate({left:"204px"},400);
+                }
+            }
+            ajaxvar.open("POST","space.php?do=home&view=work&show=1",true);
+            ajaxvar.send();
+            if(jq1("#public").hasClass("active"))	{
+                jq1("#public").removeClass("active");
+            }
+            if(jq1("#ours").hasClass("active"))	{
+                jq1("#ours").removeClass("active");
+            }
+            if(jq1("#work").hasClass("active"))	{
+                jq1("#work").addClass("active");
+            }
+        };
 		jq1(document).ready(function(){
 			jq1("#ours").click(function(){
-				var ajaxvar=new XMLHttpRequest();
-				ajaxvar.onreadystatechange=function()	{
-					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
-					jq1(".alert").css({"display":"none"});
-					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
-						jq1(".alert").css({"display":"block"});
-						jq1("#feed_div").html(ajaxvar.responseText);
-						jq1("#blue_solid").animate({left:"0px"},400);
-					}
-				}
-				ajaxvar.open("POST","space.php?do=home&view=ours&show=1",true);
-				ajaxvar.send();
-				if(jq1("#public").hasClass("active"))	{
-					jq1("#public").removeClass("active");
-				}
-				if(jq1("#work").hasClass("active"))	{
-					jq1("#work").removeClass("active");
-				}
-				if(!jq1("#ours").hasClass("active"))	{
-					jq1("#ours").addClass("active");
-				}
+                loadOurs();
 			});
 			jq1("#public").click(function(){
-				var ajaxvar=new XMLHttpRequest();
-				ajaxvar.onreadystatechange=function()	{
-					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
-					jq1(".alert").css({"display":"none"});
-					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
-						jq1(".alert").css({"display":"block"});
-						jq1("#feed_div").html(ajaxvar.responseText);
-						jq1("#blue_solid").animate({left:"102px"},400);
-					}
-				}
-				ajaxvar.open("POST","space.php?do=home&view=all&show=1",true);
-				ajaxvar.send();
-				if(jq1("#work").hasClass("active"))	{
-					jq1("#work").removeClass("active");
-				}
-				if(jq1("#ours").hasClass("active"))	{
-					jq1("#ours").removeClass("active");
-				}
-				if(!jq1("#public").hasClass("active"))	{
-					jq1("#public").addClass("active");
-
-				}
+                loadPublic();
 			});
 			jq1("#work").click(function(){
-				var ajaxvar=new XMLHttpRequest();
-				ajaxvar.onreadystatechange=function()	{
-					jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
-					jq1(".alert").css({"display":"none"});
-					if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
-						jq1(".alert").css({"display":"block"});
-						jq1("#feed_div").html(ajaxvar.responseText);
-						jq1("#blue_solid").animate({left:"204px"},400);
-					}
-				}
-				ajaxvar.open("POST","space.php?do=home&view=work&show=1",true);
-				ajaxvar.send();
-				if(jq1("#public").hasClass("active"))	{
-					jq1("#public").removeClass("active");
-				}
-				if(jq1("#ours").hasClass("active"))	{
-					jq1("#ours").removeClass("active");
-				}
-				if(jq1("#work").hasClass("active"))	{
-					jq1("#work").addClass("active");
-				}
+                loadWork();
 			});
 		});
+        var hash = (!window.location.hash)?"#tab1":window.location.hash;
+        window.location.hash=hash;
+        switch(hash){
+            case "#tab1":
+            loadOurs();
+            break;
+            case "#tab2":
+            loadPublic();
+            break;
+            case "#tab3":
+            loadWork();
+            break;
+        }
 
 	</script>
 	<ul id="new_feed" class="nav nav-tabs <!--{if !strstr($_SERVER["HTTP_USER_AGENT"],'MSIE')}-->nav-justified<!--{/if}-->" 
 		style="overflow: hidden;margin-top:18px;height:32px;" >
 		<li id="ours" style="width:102px;text-align:center;" class="active">
-		<a href="javascript:;">新鲜事</a>
+		<a href="#tab1">新鲜事</a>
 		</li>
 		<li id="public" style="width:102px;text-align:center;">
-		<a href="javascript:;">公开新鲜事</a>
+		<a href="#tab2">公开新鲜事</a>
 		</li>
 		<li id="work" style="width:102px;text-align:center;">
-		<a href="javascript:;">思政新鲜事</a>
+		<a href="#tab3">思政新鲜事</a>
 		</li>
 	</ul>
 	<div style="border-bottom:1px solid #dcdcdc;">
@@ -117,7 +139,6 @@
 	</div>
 	<div id="feed_div" class="enter-content">	
 		<!--{/if}-->
-		<!--{template cp_feed_news}-->
 		<!--{if $filtercount == -9527}-->
 		<div class="alert alert-info" style="margin-top:10px;text-align:center;" id="feed_filter_notice_{$start}">
 			根据您的<a href="cp.php?ac=privacy&op=view">筛选设置</a>，有 $filtercount 条动态被屏蔽 (<a href="javascript:;" onclick="filter_more($start);" id="a_feed_privacy_more">点击查看</a>)
