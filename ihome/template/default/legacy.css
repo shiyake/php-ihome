@@ -3715,3 +3715,21 @@ h4.title.title30 img.pic10 {
 #mainareafg .l_status .active {
     font-size: 13px;
 }
+#feedback_status {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #2fb895 ;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    border: 1px solid #2fb895 ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#feedback_status:hover {
+color: #2fb895 ;
+background-color: #FFFFFF;
+}
