@@ -58,7 +58,6 @@ if(submitcheck("upload")){
 	        	//存储在一个地址
 	        //确定存储地址
 			//$newname = getsiteurl().'\upload2\\'.$filename;
-
 			$newname = S_ROOT.'./plugin/invite/upload/'.$filename;
 
 	       	if ((move_uploaded_file($_FILES['file']['tmp_name'],$newname))) {
@@ -317,6 +316,7 @@ function send_message($mobile, $verifycode, $db, $nowtime, $realname){
 	$contents = "尊敬的北航校友 ".$realname."，".$_SGLOBAL['supe_name']." 邀请您加入i北航大家庭，邀请码为".$verifycode." 请登录i.buaa.edu.cn完成注册，谢谢！[i北航]";
 	
 	if(sendsms($mobile, '验证码', $contents)) {
+		
 	    $setarr = array(
                 'mobile' => $mobile,
                 'realname' => $realname,
