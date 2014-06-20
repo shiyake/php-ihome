@@ -2578,7 +2578,7 @@ function runlog($file, $log, $halt=0) {
 		global $_SGLOBAL, $_SCONFIG;
 		$data = date('Ymd H:i:s',time());
 		$arr = array(
-			"uid" => $uid ,
+			"uid" => $uid, 
 			"apply_date" => $data
 		);
 		inserttable("no_mtag_register",$arr);
