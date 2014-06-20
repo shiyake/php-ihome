@@ -114,6 +114,7 @@ $_SGLOBAL['cplang'] = array(
 	'event_comment_reply' => '\\1 回复了你的活动评论',
     //公共主页
 	'note_public_apply' => '有新的公共主页申请，<a href="\\1" target="_blank">请点击处理</a>',
+	'note_no_mtag' => '有新的校友等待激活认证，<a href="\\1" target="_blank">请你点击以下链接，接受校友认证',
 	'invite_subject' => '\\1邀请您加入\\2，并成为TA的好友',
 	'invite_massage' => '<table border="0">
 		<tr>

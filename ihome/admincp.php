@@ -43,7 +43,7 @@ $acs = array(
 	array('index','config', 'privacy', 'ip', 'spam', 'hotuser', 'defaultuser', 'usergroup', 'credit', 'magic', 'magiclog', 'profield', 'ad', 'userapp'),
 	array('tag', 'mtag', 'event', 'report', 'space', 'userimport'),
 	array('cache', 'network', 'profilefield', 'eventclass', 'click', 'task', 'censor', 'stat', 'block', 'cron', 'app', 'log','wallmanage','publicapply','publictype','complain','apps'),
-	array('feed', 'blog', 'album', 'pic', 'comment', 'thread', 'post', 'doing', 'share', 'poll','wallcontentmanage'),
+	array('feed', 'blog', 'album', 'pic', 'comment', 'thread', 'post', 'doing', 'share', 'poll','wallcontentmanage','mtaginvite'),
 );
 if(!empty($_SC['allowedittpl']) && $isfounder) {
 	$acs[2][] = 'template';
@@ -190,7 +190,6 @@ $Query = $_SGLOBAL['db']->query("select * from ".tname("wall")." where uid=".$_S
 if($_SGLOBAL['db']->fetch_array($Query)){
 	$WallStartFlag = 1;
 }
-
 
 include_once(S_ROOT.'./admin/admincp_'.$acfile.'.php');
 include_once template("admin/tpl/$acfile");

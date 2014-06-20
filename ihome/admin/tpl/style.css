@@ -77,3 +77,11 @@
 
 /*足迹墙*/
 .wallapply th{width:65px; text-align:center; overflow:hidden;}
+.mtag_invite_ul {
+	display:block;
+}
+.mtag_invite_ul li {
+	list-style: none;
+	width:150px;
+	float: left;
+}
