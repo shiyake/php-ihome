@@ -2563,6 +2563,7 @@ function runlog($file, $log, $halt=0) {
 			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
 			$setarr = array(  'tagname' => $mtagname, 'fieldid' => 7, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
 			$tagspaceid=inserttable('mtag',$setarr,1);
+			
 			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
 			$r=($db->fetch_array($query));
 			if ($r) {
@@ -2573,7 +2574,22 @@ function runlog($file, $log, $halt=0) {
 			return $tagid;
 		}
 	}
+	function note_no_mtag($uid)	{
+		global $_SGLOBAL, $_SCONFIG;
+		$data = date('Ymd H:i:s',time());
+		$arr = array(
+			"uid" => $uid, 
+			"apply_date" => $data
+		);
+		inserttable("no_mtag_register",$arr);
 
+		$note = cplang('note_no_mtag', array("admincp.php?ac=mtaginvite"));;
+		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." where groupid=1");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)){	
+			notification_add($value['uid'], 'systemnote', $note);
+		}
+	}
+	
 	//检测用户已发送短信数量
 	function checksendsms()
 	{
