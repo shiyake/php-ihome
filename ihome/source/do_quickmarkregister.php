@@ -480,6 +480,9 @@ else
 						}
 						if(!$recver)
 						{
+							if(!$collage_match)     {
+								note_no_mtag($newuid);
+							}
 							$recver = 3;
 						}
 						runlog("qr","recver:".$recver);
@@ -492,9 +495,6 @@ else
 							'note' => "($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
 							'dateline' => $_SGLOBAL['timestamp']
 						);
-						if(!$collage_match)	{
-							note_no_mtag($uid);
-						}
 						$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
 						inserttable('notification', $setarr);
 					}
