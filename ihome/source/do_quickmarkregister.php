@@ -508,7 +508,6 @@ else
 					}
 					else
 					{
-						
 						//另外还要发给邀请人一个验证通知。。。
 						$setarr = array(
 							'uid' => $uid,
