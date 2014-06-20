@@ -76,34 +76,7 @@ function space_open($uid, $username, $gid=0, $email='') {
 	$_SGLOBAL['supe_uid'] = $_uid;
 	$_SGLOBAL['supe_username'] = $_username;
 	
-	note_no_mtag($_uid);
 	return $space;
-}
-function note_no_mtag($uid)	{
-	global $_SGLOBAL, $_SCONFIG;
-	if( !has_mtag($uid) )	{
-		$data = date('Ymd H:i:s',time());
-		$arr = array(
-			"uid" => $uid ,
-			"apply_date" => $data
-		);
-		inserttable("no_mtag_register",$arr);
-
-		$note = cplang('note_no_mtag', array("admincp.php?ac=mtaginvite"));;
-		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." where groupid=1");
-		while ($value = $_SGLOBAL['db']->fetch_array($query)){	
-			notification_add($value['uid'], 'systemnote', $note);
-		}
-		
-	}
-}
-function has_mtag($uid)	{
-	global $_SGLOBAL, $_SCONFIG;
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("tagspace")." where uid=$uid");
-	if( $_SGLOBAL['db']->fetch_array($query) )	{
-		return true;
-	}
-	return false;
 }
 //添加session
 function insertsession($setarr) {
