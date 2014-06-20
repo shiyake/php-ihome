@@ -480,6 +480,9 @@ else
 						}
 						if(!$recver)
 						{
+							if(!$collage_match)     {
+								note_no_mtag($newuid);
+							}
 							$recver = 3;
 						}
 						runlog("qr","recver:".$recver);
@@ -505,9 +508,6 @@ else
 					}
 					else
 					{
-						if(!$collage_match)	{
-							note_no_mtag($uid);
-						}
 						//另外还要发给邀请人一个验证通知。。。
 						$setarr = array(
 							'uid' => $uid,
