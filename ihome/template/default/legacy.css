@@ -3712,9 +3712,7 @@ h4.title.title30 img.pic10 {
 .right_head_margin {
     margin-right: 20px;
 }
-#mainareafg .l_status .active {
-    font-size: 13px;
-}
+
 #feedback_status {
     font-size: 14px;
     color: #FFFFFF;
@@ -3730,6 +3728,6 @@ h4.title.title30 img.pic10 {
     cursor: pointer;
 }
 #feedback_status:hover {
-color: #2fb895 ;
-background-color: #FFFFFF;
+    color: #2fb895 ;
+    background-color: #FFFFFF;
 }

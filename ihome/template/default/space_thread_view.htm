@@ -32,7 +32,7 @@
 
           <ul class="line_list" style="border-bottom:1px solid #dcdcdc;margin-bottom:0">
 				<li>
-				<table width="100%">
+				<table width="85%" style="float:left;">
 				<tr>
 					<td width="70" valign="top">
 						<div class="avatar48">
@@ -75,8 +75,12 @@
 					</td>
 				</tr>
 			</table>
-			
-		
+
+			<!--{if $thread['tagid'] == 60 && $_SGLOBAL[supe_uid] == 3}-->
+			<form name="feedback_form" id="feedback_form" method="post" action="cp.php?uid=$thread['uid']&ac=thread<!--{if $thread['tid']}-->&tid=$thread['tid']&op=toggle<!--{/if}-->">
+            <span id="feedback_status" onclick="$('feedback_form').submit()"><!--{if $thread[solved]}-->已解决<!--{else}-->未解决<!--{/if}--></span></form>
+			<!--{/if}-->
+
 			<table width="100%" style="margin-bottom:-15px;">			
 				<tr>
 					<td align="right">
