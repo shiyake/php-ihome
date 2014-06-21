@@ -105,8 +105,10 @@ if ($filetype == 'pic') {
 }
 
 elseif ($filetype == 'attach') {
+
     if ($fileac == 'upload') {
         $feed_file = uploadFile($_FILES['attachupload']);
+        
         if ($feed_file && is_array($feed_file)) {
             $arr = array(
                 'name'=>$feed_file['filename'],
@@ -114,6 +116,7 @@ elseif ($filetype == 'attach') {
                 'size'=>$feed_file['size'],
                 'aid'=>$feed_file['aid']
 			);
+            
             //name和size是显示用的
             //aid与path是存储用的
             echo json_encode($arr);
@@ -121,7 +124,7 @@ elseif ($filetype == 'attach') {
         }
     }
     elseif ($fileac == 'delete') {
-        $picid = $_GET['picid']?$_GET['picid']:0;
+        $picid = $_GET['aid']?$_GET['aid']:0;
         $delete[$picid] = $picid;
         if($delete) {
             include_once(S_ROOT.'./source/function_delete.php');

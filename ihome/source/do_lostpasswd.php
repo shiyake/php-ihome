@@ -134,6 +134,9 @@ if (submitcheck("submit_username")) {
     $spaceinfo = $_SGLOBAL['db']->fetch_array($query);
 
 } elseif(submitcheck('emailsubmit')) {
+    if(empty($_POST['email'])){
+        showmessage('邮箱不能为空');
+    }
 
     $spaceinfo = array();
     $query = $_SGLOBAL['db']->query('SELECT s.uid, s.groupid, s.username, s.flag, sf.email, sf.emailcheck FROM '.tname('space').' s LEFT JOIN '.tname('spacefield')." sf ON sf.uid=s.uid WHERE sf.email='$_POST[email]'");
@@ -157,8 +160,8 @@ if (submitcheck("submit_username")) {
     include_once(S_ROOT.'./source/function_cp.php');
     smail(0, $spaceinfo['email'], $mail_subject, $mail_message);
 
-    //showmessage('getpasswd_send_succeed', 'do.php?ac='.$_SCONFIG['login_action'], 5);
-    showmessage($reseturl, 'do.php?ac='.$_SCONFIG['login_action'], 0);
+    showmessage('getpasswd_send_succeed', 'do.php?ac='.$_SCONFIG['login_action'], 3);
+    //showmessage($reseturl, 'do.php?ac='.$_SCONFIG['login_action'], 3);
 
 } elseif(submitcheck('resetsubmit')) {
 
