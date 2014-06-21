@@ -46,6 +46,9 @@
         var pos = getPos(target);
         var strHead = '',
             strEnd = '';
+        if (jq(target).val() == '评论...'){
+            jq(target).val('');
+        }
         strHead = jq(target).val().substr(0, pos);
         strEnd = jq(target).val().substr(pos, jq(target).val().length);
         jq(target).val(strHead + faceText + strEnd);
