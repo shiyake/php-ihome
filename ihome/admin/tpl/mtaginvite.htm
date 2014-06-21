@@ -1,0 +1,31 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+		<h4 class="l_status title">最新校友激活认证申请</h4>
+		<ul class="mtag_invite_ul">
+			<li>UID</li><li>登录名</li><li>申请时间</li><li>批准时间</li><li>操作人</li><li>操作</li>
+		</ul>
+		<!--{loop $value $key $arr}-->
+		<ul class="mtag_invite_ul">
+			<li><a href="space.php?uid=$arr[uid]">$arr['uid']</a></li>
+			<li><a href="space.php?uid=$arr[uid]">$_SN[$arr['uid']]&nbsp;</a></li>
+			<li>$arr['apply_date']&nbsp;</li>
+			<li>$arr['pass_date']&nbsp;</li>
+			<li><a href="space.php?uid=$arr['apply_uid']">$_SN[$arr['apply_uid']]</a>&nbsp;</li>
+			<li>
+				<!--{if empty($arr['pass_date'])}-->
+					<a href="space.php?do=friend&view=confirm&uid=%27$arr['uid']%27">批准</a>
+				<!--{else}-->
+					已通过
+				<!--{/if}-->
+			</li>
+		</ul>	
+		<!--{/loop}-->
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

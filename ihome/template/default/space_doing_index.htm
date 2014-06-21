@@ -42,7 +42,16 @@
                 </div>    
                 <div class="feed_li_inner" style="overflow:hidden;letter-spacing:0.5px;">
                     <a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
-                    <div class="feed_content clearfix"></div>
+                    <div class="feed_content clearfix">
+                        <!--{if $dv['image_1'] && !$dv['body_template']}-->
+                        <!--{eval $dv['image_1']=substr($dv['image_1'],0,strlen($dv['image_1'])-10);}-->
+                        <a href="$dv[image_1_link]"{$dv[target]}><img src="$dv[image_1]" class="summaryimg shareImg" /></a>
+                        <!--{elseif $dv['body_template'] && $dv['image_1']}-->
+                        <!--{if strstr($value['image_1'],".thumb.jpg")}-->
+                        <!--{eval $dv['image_1']=substr($dv['image_1'],0,strlen($dv['image_1'])-10);}-->
+                        <!--{/if}-->
+                        <!--{/if}-->
+                    </div>
                     <div id="reply_content">
                         <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
                         <span class="floatright">
@@ -113,7 +122,16 @@
                 </div>    
                 <div class="feed_li_inner" style="overflow:hidden;letter-spacing:0.5px;">
                     <a href="space.php?uid=$dv[uid]">{$_SN[$dv[uid]]}</a>: <span>$dv[message]</span>
-                    <div class="feed_content clearfix"></div>
+                    <div class="feed_content clearfix">
+                        <!--{if $dv['image_1'] && !$dv['body_template']}-->
+                        <!--{eval $dv['image_1']=substr($dv['image_1'],0,strlen($dv['image_1'])-10);}-->
+                        <a href="$dv[image_1_link]"{$dv[target]}><img src="$dv[image_1]" class="summaryimg shareImg" /></a>
+                        <!--{elseif $dv['body_template'] && $dv['image_1']}-->
+                        <!--{if strstr($value['image_1'],".thumb.jpg")}-->
+                        <!--{eval $dv['image_1']=substr($dv['image_1'],0,strlen($dv['image_1'])-10);}-->
+                        <!--{/if}-->
+                        <!--{/if}-->
+                    </div>
                     <div id="reply_content">
                         <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
                         <span class="floatright">

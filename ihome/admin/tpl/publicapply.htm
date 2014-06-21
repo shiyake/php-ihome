@@ -2,7 +2,7 @@
 <!--{if $op==''}-->
 <!--{template admin/tpl/header}-->
 
-	<h2 class="l_status title">最新公共主页申请</h2>	
+	<h4 class="l_status title">最新公共主页申请</h4>	
 	<!--{loop $applist $key $value}-->	
 	主页名：$value[name]	登录名：$value[username]	申请时间：$value[apptime]<br>
 	<li><a href="admincp.php?ac=publicapply&op=details&appid=$value[appid]" target= "_blank">详情</a></li>
@@ -11,7 +11,7 @@
 	---------------------------------------------------------------------------------------------------<br>
 	<!--{/loop}-->
 
-	<h2 class="l_status title">最新公共主页处理</h2>	
+	<h4 class="l_status title">最新公共主页处理</h4>	
 	<!--{loop $deallog $key $value}-->	
 	主页名：$value[name]	登录名：$value[username]	申请时间：$value[apptime]<br>
 	<li><a href="admincp.php?ac=publicapply&op=details&appid=$value[appid]" target= "_blank">详情</a></li>

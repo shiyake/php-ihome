@@ -1,8 +1,8 @@
 <?php
 
-if(!defined('iBUAA')) {
-	exit('Access Denied');
-}
+//if(!defined('iBUAA')) {
+	//exit('Access Denied');
+//}
 
 //开通空间
 function space_open($uid, $username, $gid=0, $email='') {
@@ -75,10 +75,9 @@ function space_open($uid, $username, $gid=0, $email='') {
 
 	$_SGLOBAL['supe_uid'] = $_uid;
 	$_SGLOBAL['supe_username'] = $_username;
-
+	
 	return $space;
 }
-
 //添加session
 function insertsession($setarr) {
 	global $_SGLOBAL, $_SCONFIG;

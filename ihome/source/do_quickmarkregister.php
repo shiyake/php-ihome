@@ -480,6 +480,9 @@ else
 						}
 						if(!$recver)
 						{
+							if(!$collage_match)     {
+								note_no_mtag($newuid);
+							}
 							$recver = 3;
 						}
 						runlog("qr","recver:".$recver);
