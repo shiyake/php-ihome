@@ -107,9 +107,9 @@
                 loadWork();
 			});
 		});
-        var hash = (!window.location.hash)?"#tab1":window.location.hash;
-        window.location.hash=hash;
-        switch(hash){
+        var hashTab = (!window.location.hash)?"#tab1":window.location.hash;
+        window.location.hash=hashTab;
+        switch(hashTab){
             case "#tab1":
             loadOurs();
             break;
