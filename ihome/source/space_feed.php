@@ -15,7 +15,7 @@ if(empty($_SCONFIG['feedhotday'])) $_SCONFIG['feedhotday'] = 2;
 //网站近况
 $isnewer = $space['friendnum']<$_SCONFIG['showallfriendnum']?1:0;
 if(empty($_GET['view']) && $space['self'] && $isnewer) {
-	$_GET['view'] = 'we';//默认显示
+	$_GET['view'] = 'ours';//默认显示
 }
 
 //分页
@@ -62,7 +62,7 @@ if($_GET['view'] == 'all') {
 	$_GET['view'] = 'complain';
 	$_TPL['hidden_time'] = 0;
 
-}elseif($_GET['view'] == 'we'){
+}elseif($_GET['view'] == 'ours'){
     $wheresql = "icontype!='work' or icontype is NULL";
     $ordersql = "dateline DESC";
     $theurl = "space.php?uid=$space[uid]&do=$do&view=ours";
@@ -82,9 +82,9 @@ if($_GET['view'] == 'all') {
 		//$wheresql = "uid IN ('0',$space[feedfriend])";
 		$wheresql = "uid IN ('0',$space[feedfriend],$space[uid])";
 		$ordersql = "dateline DESC";
-		$theurl = "space.php?uid=$space[uid]&do=$do&view=we";
+		$theurl = "space.php?uid=$space[uid]&do=$do&view=ours";
 		$f_index = 'USE INDEX(dateline)';
-		$_GET['view'] = 'we';
+		$_GET['view'] = 'ours';
 		$_TPL['hidden_time'] = 0;
 	}
 }
@@ -373,6 +373,7 @@ if($space['self'] && empty($start)) {
 			} else {
 				$hotlist = $hotlist_all;
 			}
+		
 		}
 	}
 	
