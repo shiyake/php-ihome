@@ -8,7 +8,7 @@ $tmpuid = $_SGLOBAL['supe_uid'] ? $_SGLOBAL['supe_uid'] : $uid;
 if($tmpuid){
 	$querygroupid = $_SGLOBAL['db']->query("SELECT pptype,caninvite FROM ".tname('space')." WHERE uid='$tmpuid'");
 	$valuegroupid = $_SGLOBAL['db']->fetch_array($querygroupid);
-	if(isDepartMent($_SGLOBAL['supe_uid'],0)||$valuegroupid['pptype']==1 ||$valuegroupid['pptype']==2||$valuegroupid['caninvite']==1 ){//显示邀请功能
+	if(isDepartMent($_SGLOBAL['supe_uid'],0)||$valuegroupid['pptype']==1 ||$valuegroupid['caninvite']==1 ){//显示邀请功能
 		$flag=1;	
 	}else{//不显示邀请功能
 		$flag=0;
@@ -64,8 +64,9 @@ if(!empty($_GET['grant']))	{
 	$str=getGrantNum($_GET['grant']);
 	$spaceurl=$siteurl.'space.php?u='.$str;
 }
-else
+else {
 	$spaceurl = $siteurl.'space.php?u='.$_SGLOBAL['supe_uid'];
+}
 $mailvar=array();
 if(!empty($_GET['grant']))	{
 	$num=getGrantNum($_GET['grant']);

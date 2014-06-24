@@ -37,7 +37,7 @@
                     jq1("#blue_solid").animate({left:"0px"},400);
                 }
             }
-            ajaxvar.open("POST","space.php?do=home&view=ours&show=1",true);
+            ajaxvar.open("POST","space.php?do=home&view=ours&start=0&show=1",true);
             ajaxvar.send();
             if(jq1("#public").hasClass("active"))	{
                 jq1("#public").removeClass("active");
@@ -60,7 +60,7 @@
                     jq1("#blue_solid").animate({left:"102px"},400);
                 }
             }
-            ajaxvar.open("POST","space.php?do=home&view=all&show=1",true);
+            ajaxvar.open("POST","space.php?do=home&view=all&start=0&show=1",true);
             ajaxvar.send();
             if(jq1("#work").hasClass("active"))	{
                 jq1("#work").removeClass("active");
@@ -78,13 +78,13 @@
             ajaxvar.onreadystatechange=function()	{
                 jq1("#feed_div").html('<img class="feed_loading" src="image/loading154.gif"></img>');
                 jq1(".alert").css({"display":"none"});
-                if(ajaxvar.readyState==4 && ajaxvar.status==200)	{
+                if(ajaxvar.readyState==4 && ajaxvar.status==200){
                     jq1(".alert").css({"display":"block"});
                     jq1("#feed_div").html(ajaxvar.responseText);
                     jq1("#blue_solid").animate({left:"204px"},400);
                 }
             }
-            ajaxvar.open("POST","space.php?do=home&view=work&show=1",true);
+            ajaxvar.open("POST","space.php?do=home&view=work&start=0&show=1",true);
             ajaxvar.send();
             if(jq1("#public").hasClass("active"))	{
                 jq1("#public").removeClass("active");
@@ -96,28 +96,39 @@
                 jq1("#work").addClass("active");
             }
         };
+        var flag_clicked=0;
 		jq1(document).ready(function(){
 			jq1("#ours").click(function(){
-                loadOurs();
+                loadOurs();  
+                view="ours";
+                flag_clicked=0;              
 			});
 			jq1("#public").click(function(){
-                loadPublic();
+                loadPublic(); 
+                view="all";   
+                flag_clicked=0;           
 			});
 			jq1("#work").click(function(){
                 loadWork();
+                view="work";
+                flag_clicked=0;
 			});
 		});
         var hashTab = (!window.location.hash)?"#tab1":window.location.hash;
         window.location.hash=hashTab;
+        var view;
         switch(hashTab){
             case "#tab1":
             loadOurs();
+            view="ours";
             break;
             case "#tab2":
             loadPublic();
+            view="all";
             break;
             case "#tab3":
             loadWork();
+            view="work";
             break;
         }
 
@@ -410,34 +421,27 @@ showcalendar();
 				jq1(".feed_more_btn").css({"display":"none"});
 				}
 				});
-var next = $start;
+next=$start;
 function feed_more(el) {
 	var x = new Ajax('XML', 'ajax_wait', 'noEffect');
 	var html = '';
 	el.innerHTML = '<img style="height:7px;" src="image/icons/loadinfo.gif"></img>';
-	var view;
-	if(jq1("#blue_solid").css("left")=="0px") {
-		view="ours";
-	}
-	else if(jq1("#blue_solid").css("left")=="102px") {
-		view="all";
-	}
-	else {
-		view="work";
-	}
-	next = next + $perpage;
-	x.get('cp.php?ac=feed&op=get&start='+next+'&view='+view+'&appid=$_GET[appid]&icon=$_GET[icon]&filter=$_GET[filter]&day=$_GET[day]', function(s){
-			html = s;
+	flag_clicked ++;
+	
+		x.get('cp.php?ac=feed&op=get&start='+flag_clicked*$perpage+'&view='+view+'&filter=$_GET[filter]&show=1', function(s){
+		
+		html = s;
 			if(html.indexOf("没有相关动态")!=-1) {
-			el.parentNode.style.display="none";
-			el.innerHTML = '加载更多动态'; }
-			else {
-			$('feed_div').innerHTML += html;
-			jq1("#feed_div").find(".feed_last").removeClass("feed_last"); 
-			el.innerHTML = '加载更多动态';
-			jq1("#feed_div").children().children().last("li").addClass("feed_last");    
+				el.parentNode.style.display="none";
+				el.innerHTML = '加载更多动态'; 
 			}
-			});
+			else {
+				$('feed_div').innerHTML += html;
+				jq1("#feed_div").find(".feed_last").removeClass("feed_last"); 
+				el.innerHTML = '加载更多动态';
+				jq1("#feed_div").children().children().last("li").addClass("feed_last");    
+			}
+	});
 }
 
 function filter_more(id) {
