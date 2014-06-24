@@ -373,6 +373,7 @@ if($space['self'] && empty($start)) {
 			} else {
 				$hotlist = $hotlist_all;
 			}
+		
 		}
 	}
 	
