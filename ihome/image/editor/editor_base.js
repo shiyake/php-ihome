@@ -297,7 +297,7 @@ function faceBox(e) {
 	var faceul = document.createElement("ul");
 	for(i=1; i<57; i++) {
 		var faceli = document.createElement("li");
-		faceli.innerHTML = '<img src="image/face_new/'+i+'.gif" onclick="insertImg(this.src);" style="cursor:pointer;" />';
+		faceli.innerHTML = '<img src="image/face_new/face_1/'+i+'.gif" onclick="insertImg(this.src);" style="cursor:pointer;" />';
 		faceul.appendChild(faceli);
 	}
 	dvFaceBox.appendChild(faceul);
