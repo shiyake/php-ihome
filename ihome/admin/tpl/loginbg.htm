@@ -1,0 +1,97 @@
+<!--{template admin/tpl/header}-->
+<script language="javascript" type="text/javascript" src="plugin/bootstrap/jscolor/jscolor.js"></script>
+<script language="javascript" type="text/javascript" src="source/jquery-ajax-image-upload-login.js"></script>
+<div class="mainarea" style="min-height:500px;">
+    <div class="maininner" style="padding-top:20px;padding-left:20px;padding-bottom:20px;">
+        <style>
+            #image_preview {
+                width:630px;
+                position:absolute;
+               // clip:rect(0,469px,105px,0);
+            }
+            .loading {
+                background-size:630px 360px;
+            }
+            #col_group input {
+                margin-bottom:15px;
+            }
+            #col_group label {
+                width: 120px;
+            }
+        </style>
+        <form id="login_bg" action="admincp.php?ac=loginbg" method="post">
+            <span style="font-size:12px;color:#777;">登陆页背景图(建议上传图片大小1280*720像素)</p>
+            <div style="height:380px;">
+                <div id="image_preview_wrap" style="float:left;border:1px solid #dcdcdc;">
+                    <div class="loading" style="width:630px;position:absolute;display:none;border: 1px #ccc solid;background: url('template/default/image/uploading.gif') no-repeat center center;"></div>
+                    <!--{if strcmp($_SGLOBAL['login_bg'],'default')}-->
+                    <div style="width:630px;"><img id="image_preview" src="{$_SGLOBAL['login_bg']}" /></div>
+                    <!--{else}-->
+                    <div style="width:630px;"><img id="image_preview" src="image/bg_for_graduate.jpg"/></div>
+                    <!--{/if}-->
+                </div>
+                <div style="padding-left:650px;">
+                    <!--{if strcmp($_SGLOBAL['login_bg'],'default')}-->
+                    <input style="display:none;" type="file" name="image-upload" size="40" id="image-upload" />
+                    <a href="javascript:;" onclick="removeImage()" id="remove-image-upload" style="display:block;">恢复默认封面图</a>
+                    <!--{else}-->
+                    <input type="file" name="image-upload" size="40" id="image-upload" style="display:inline"/>
+                    <a id="remove-image-upload" href="javascript:;" onclick="removeImage()" style="display:none"/>恢复默认封面图</a>
+
+                    <!--{/if}-->
+                    <input type="hidden" name="type" value="pic" />
+                    <input type="hidden" name="file" value="upload_loginbg" />
+                    <input type="hidden" id="login_bg_pic" name="login_bg_pic" value="{$_SGLOBAL['login_bg']}" />
+                    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                </div>
+                <br>
+            </div>
+            <div id='col_group'>
+                <label for="box_bg_col">登录框背景颜色</label>
+                <input class="color" name="box_bg_col" id="box_bg_col" value="{$loginbg['box_bg_col']}">
+                <br/>
+                <label for="box_border_col">登录框边框颜色</label>
+                <input class="color" name="box_border_col" id="box_border_col" value="{$loginbg['box_border_col']}">
+                <br/>
+                <label for="btn_bg_col">登录按钮背景颜色</label>
+                <input class="color" name="btn_bg_col" id="btn_bg_col" value="{$loginbg['btn_bg_col']}">
+                <br/>
+                <label for="btn_border_col">登录按钮边框颜色</label>
+                <input class="color" name="btn_border_col" id="btn_border_col" value="{$loginbg['btn_border_col']}">
+                <br/>
+                <label for="btn_font_col">登录按钮字体颜色</label>
+                <input class="color" name="btn_font_col" id="btn_font_col" value="{$loginbg['btn_font_col']}">
+                <br/>
+                <label for="active_font_col">激活等颜色</label>
+                <input class="color" name="active_font_col" id="active_font_col" value="{$loginbg['active_font_col']}">
+                <br/>
+                <label for="back_font_col">背面描述字体颜色</label>
+                <input class="color" name="back_font_col" id="back_font_col" value="{$loginbg['back_font_col']}">
+                <br/>
+                <label for="back_link_col">背面链接字体颜色</label>
+                <input class="color" name="back_link_col" id="back_link_col" value="{$loginbg['back_link_col']}">
+                <br/>
+            </div>
+            <div style="display:inline;">
+                <input type="submit" name="login_bg_btn" class="btn btn-comments btn-sm" value="保存修改"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="side">
+    <!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->
+<script type="text/javascript">
+    function removeImage(){   
+        var imgPreview=document.getElementById('image_preview'); 
+        imgPreview.src="image/bg_for_graduate.jpg"; 
+        var obj_img_upload=document.getElementById("image-upload");   
+        obj_img_upload.style.display="block"; 
+        obj_img_upload.value="";
+        obj_remove_img_upload=document.getElementById('remove-image-upload');   
+        obj_remove_img_upload.style.display="none";   
+        var bg=document.getElementById('login_bg_pic'); 
+        bg.value='image/bg_for_graduate.jpg';   
+    }
+</script>
