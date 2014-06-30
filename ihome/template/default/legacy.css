@@ -3118,6 +3118,7 @@ div.active_checkseccode {
     zoom:1;
     min-height:1000px;
     border-left:1px solid #dcdcdc;
+    margin-left: -15px;
 }
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
     color: #333 !important;
@@ -3364,7 +3365,7 @@ div.active_checkseccode {
     line-height: 36px;
 }
 .mood_submit .askbag {
-    background-color:rgb(2253,95,95);
+    background-color:rgb(255,95,95);
 }
 .mood_submit .askbag:hover {
     background-color:rgb(215,81,80);
@@ -3712,6 +3713,36 @@ h4.title.title30 img.pic10 {
 .right_head_margin {
     margin-right: 20px;
 }
-#mainareafg .l_status .active {
-    font-size: 13px;
+#solved_feedback {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #2fb895 ;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 10px 4px;
+    border: 1px solid #2fb895 ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#solved_feedback:hover {
+    color: #2fb895 ;
+    background-color: #FFFFFF;
+}
+#unsolved_feedback {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: rgb(255,95,95) ;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 10px 4px;
+    border: 1px solid rgb(255,95,95) ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#unsolved_feedback:hover {
+    color: rgb(255,95,95) ;
+    background-color: #FFFFFF;
+}
+.status {
+    text-align: center;
 }

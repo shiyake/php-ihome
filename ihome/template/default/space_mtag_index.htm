@@ -40,6 +40,16 @@
 			<!--{if $mtag[announcement]}-->$mtag[announcement]<!--{else}-->还没有公告<!--{/if}-->
 		</div>
 	</div>
+	
+	<!--{if $tagid == 60}-->
+	<div class="tabs_header" style="margin-left: 0px;">
+		<ul class="tabs status_tabs">
+			<li$status_active[all]><a href="space.php?do=mtag&tagid=$mtag[tagid]&status=all"><span>全部</span></a></li>
+			<li$status_active[solving]><a href="space.php?do=mtag&tagid=$mtag[tagid]&status=solving"><span>未解决</span></a></li>
+			<li$status_active[solved]><a href="space.php?do=mtag&tagid=$mtag[tagid]&status=solved"><span>已解决</span></a></li>
+		</ul>
+	</div>
+	<!--{/if}-->
 
 	<div class="topic_list">
 	<!--{if $list}-->
@@ -49,6 +59,7 @@
 					<td class="subject">主题</td>
 					<td class="author" style="width:110px;"><!--{if $_GET[view]!='me'}-->作者 <!--{/if}-->(回应/阅读)</td>
 					<td class="lastpost">最后更新</td>
+					<td class="status">状态</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -57,7 +68,7 @@
 					<!--{eval if($value[magicegg]) for($i=0; $i<$value[magicegg]; $i++) $magicegg .= '<img src="image/magic/egg/'.mt_rand(1,6).'.gif" />';}-->
 				<tr <!--{if $key%2==1}--> class="alt"<!--{/if}-->>
 					<td class="subject">
-					<!--<div style="width:290px;word-break:break-all;">-->
+					<div style="width:290px;word-break:break-all;">
 					<!--{if $value[displayorder]}--> [顶] <!--{/if}-->
 					<!--{if $value[digest]}--> [精] <!--{/if}-->
 					<!--{if $value[eventid]}--> [活] <!--{/if}-->
@@ -66,10 +77,11 @@
 					<!--{if $value[hot]}-->
 					<br><span class="gray">$value[hot] 人推荐</span>
 					<!--{/if}-->
-					<!--</div>-->
+					</div>
 					</td>
 					<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br>$value[replynum]/$value[viewnum]</td>
 					<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+					<td class="status"><!--{if $value[solved]==1}-->已解决<!--{elseif $value[lastauthorid]==3}-->已回复<!--{else}-->未回复<!--{/if}--></td>
 				</tr>
 				<!--{/loop}-->
 			</tbody>
