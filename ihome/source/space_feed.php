@@ -63,7 +63,11 @@ if($_GET['view'] == 'all') {
 	$_TPL['hidden_time'] = 0;
 
 }elseif($_GET['view'] == 'ours'){
-    $wheresql = "icontype!='work' or icontype is NULL";
+    //$wheresql = "icontype!='work' or icontype is NULL";
+    $wheresql = "uid IN ('0',$space[feedfriend],$space[uid])";
+    if ($space[feedfriend]==''){
+        $wheresql = "uid IN ('0',$space[uid])";
+    }
     $ordersql = "dateline DESC";
     $theurl = "space.php?uid=$space[uid]&do=$do&view=ours";
     $f_index = '';

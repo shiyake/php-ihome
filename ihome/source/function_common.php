@@ -406,6 +406,26 @@ function getuid($name) {
 	return $uid;
 }
 
+//获取IP对应的国家,判断是否为国外用户
+function getIpDetails(){
+    $onlineip = getonlineip();
+    //include("geoip.inc.php");
+    //include_once(S_ROOT.'./source/geoip.inc.php');
+    //$gi = geoip_open(S_ROOT."./source/GeoIP.dat",GEOIP_STANDARD);
+    //$country_code = geoip_country_code_by_addr($gi, $onlineip);
+    //$result = file_get_contents($get_ip_url);
+    //$result = json_decode($result,1);
+    //if ($country_code == 'CN'){
+    //    $result = False;
+    //}else{
+    //    $result = True;
+    //}
+    $get_ip_url = 'http://freegeoip.net/json/'.$onlineip;
+    $result = file_get_contents($get_ip_url);
+    $result = json_decode($result,1);
+    return $result;
+}
+
 //获取当前用户信息
 function getmember() {
 	global $_SGLOBAL, $space;
