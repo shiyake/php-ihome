@@ -562,7 +562,7 @@ if($_GET['op'] == 'edit') {
 	}
 	
 } elseif ($_GET['op'] == 'toggle') {
-	# 切换反馈的处理状态
+	// 切换反馈的处理状态
 	if($_SGLOBAL[supe_uid]!=3) {
 		showmessage('no_privilege');
 	} else {
