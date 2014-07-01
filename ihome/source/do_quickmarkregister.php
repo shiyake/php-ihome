@@ -457,7 +457,7 @@ else
 			///////////////////////
 			if($academy)
 			{
-				if($_SGLOBAL["no_inviteactive"]&&empty($_SCONFIG['overseas']))
+				if($_SGLOBAL["no_inviteactive"])
 				{
 					if($realname_match)
 					{
@@ -478,26 +478,28 @@ else
 							$recver = $recver['uid'];
 							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
-						if(!$recver)
-						{
-							if(!$collage_match)     {
-								note_no_mtag($newuid);
+						if(empty($_SCONFIG['overseas'])	{
+							if(!$recver)
+							{
+								if(!$collage_match)     {
+									note_no_mtag($newuid);
+								}
+								$recver = 3;
 							}
-							$recver = 3;
+							runlog("qr","recver:".$recver);
+							
+							$setarr = array(
+								'uid' => $recver,
+								'type' => "friend",
+								'new' => 1,
+								'authorid' => $newuid,
+								'author' => $name,
+								'note' => "($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
+								'dateline' => $_SGLOBAL['timestamp']
+							);
+							$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+							inserttable('notification', $setarr);
 						}
-						runlog("qr","recver:".$recver);
-						
-						$setarr = array(
-							'uid' => $recver,
-							'type' => "friend",
-							'new' => 1,
-							'authorid' => $newuid,
-							'author' => $name,
-							'note' => "($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
-							'dateline' => $_SGLOBAL['timestamp']
-						);
-						$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
-						inserttable('notification', $setarr);
 					}
 				}
 				else
