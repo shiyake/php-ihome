@@ -34,6 +34,11 @@ if($ac == $_SCONFIG['mobileregister_action']) {
 } elseif($ac == 'mobileregister') {
 	$ac = '';
 }
+if($ac == $_SCONFIG['overseasregister_action'])	{
+	$ac = 'overseasregister';
+} elseif($ac == 'overseasregister')	{
+	$ac = '';
+}
 if($ac == $_SCONFIG['EmailInviteRegister']) {
 	$ac = 'emailinviteregister';
 }
@@ -57,10 +62,19 @@ if($ac == $_SCONFIG['mobileaccess']) {
 } elseif($ac == 'mobileaccess') {
 	$ac = '';
 }
+if($ac == $_SCONFIG['oversear']) {
+	$ac = 'mobileaccess';
+} elseif($ac == 'mobileaccess') {
+	$ac = '';
+}if($ac == $_SCONFIG['overseasregister_email']) {
+	$ac = 'overseasregister_email';
+} elseif($ac == 'overseasregister_email') {
+	$ac = '';
+}
 
 
-$acs = array('login', 'register', 'activate', 'buaaregister', 'quickregister', 'mobileregister','lostpasswd', 'swfupload', 'inputpwd', 'emailinviteregister', 'freshmanregister','quickmarkregister',
-	'ajax', 'seccode', 'sendmail', 'stat', 'emailcheck','mobileaccess');
+$acs = array('login', 'register', 'activate', 'buaaregister', 'quickregister', 'mobileregister','overseasregister','lostpasswd', 'swfupload', 'inputpwd', 'emailinviteregister', 'freshmanregister','quickmarkregister',
+	'ajax', 'seccode', 'sendmail', 'stat', 'emailcheck','mobileaccess','overseasregister_email');
 
 	
 if(empty($ac) || !in_array($ac, $acs)) {

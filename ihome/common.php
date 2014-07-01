@@ -76,6 +76,7 @@ if(empty($_GET['m_timestamp']) || $_SGLOBAL['mobile'] != md5($_GET['m_timestamp'
 
 
 if(empty($_SCONFIG['login_action'])) $_SCONFIG['login_action'] = md5('login'.md5($_SCONFIG['sitekey']));
+
 if(empty($_SCONFIG['register_action'])) $_SCONFIG['register_action'] = md5('register'.md5($_SCONFIG['sitekey']));
 
 if(empty($_SCONFIG['activate_action'])) $_SCONFIG['activate_action'] = md5('activate'.md5($_SCONFIG['sitekey']));
@@ -83,6 +84,8 @@ if(empty($_SCONFIG['activate_action'])) $_SCONFIG['activate_action'] = md5('acti
 if(empty($_SCONFIG['buaaregister_action'])) $_SCONFIG['buaaregister_action'] = md5('buaaregister'.md5($_SCONFIG['sitekey']));
 
 if(empty($_SCONFIG['quickregister_action'])) $_SCONFIG['quickregister_action'] = md5('quickregister'.md5('xuxing'));
+
+if(empty($_SCONFIG['overseasregister_action'])) $_SCONFIG['overseasregister_action'] = md5('overseasregister'.md5('ancon'));
 
 if(empty($_SCONFIG['mobileregister_action'])) $_SCONFIG['mobileregister_action'] = md5('mobileregister'.md5('ancon'));
 
@@ -94,6 +97,7 @@ if(empty($_SCONFIG['QuickMarkRegister_Action'])) $_SCONFIG['QuickMarkRegister_Ac
 
 if(empty($_SCONFIG['mobileaccess'])) $_SCONFIG['mobileaccess'] = md5('mobileaccess'.md5('mobile'));
 
+if(empty($_SCONFIG['overseasregister_email'])) $_SCONFIG['overseasregister_email']=md5('overseasregister_email'.md5('email'));
 
 $_SGLOBAL['collegeid'] = '';
 

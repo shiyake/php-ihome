@@ -1,0 +1,180 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+
+<div>
+<form id="mobileregisterform" name="mobileregisterform" action="do.php?ac=$_SCONFIG[mobileregister_action]&op=create" method="post" class="c_form">
+<table cellpadding="0" cellspacing="0" class="formtable">
+	<caption>
+		<h2>校友激活</h2>
+	</caption>
+	<tr>
+		<th width="100">
+			您的名字：
+		</th>
+		<td>
+			<input type="text" id="realname" name="realname" value="" class="t_input" onblur="checkrealname()" tabindex="1" />
+			<span id="checkrealname">
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			您的生日：
+		</th>
+		<td>
+			<input type="password" id="birthday" name="birthday" value="" class="t_input" onblur="checkbirthday()" tabindex="2" />
+			<span id="checkbirthday">
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			您的邮箱：
+		</th>
+		<td>
+			<input type="text" id="email" name="email" value="" onblur="checkemail()" class="t_input" tabindex="3" />
+			请准确填写邮箱，用于找回密码与接收通知。
+		</td>
+	</tr>
+	<tr>
+		<th>
+		</th>
+		<td>
+			<input type="button" id="mobileregistersubmit" name="mobileregistersubmit" value="提交" class="submit" onclick="AJAXrealnameANDbirthdayFETCHmobile(event,this.id,1)" tabindex="4" />
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<script type="text/javascript">
+
+	var lastrealname = lastbirthday =lastmobile = lastgetverifycode = lastinputverifycode = '';
+
+	function checkrealname(){
+		var realname = $('realname').value;
+		if(realname == lastrealname){
+			return;
+		}else{
+			lastrealname = realname;
+		}
+		var cc = $('checkrealname');
+		var cclen = realname.replace(/[^\x00-\xff]/g, "**").length;
+		if(cclen < 4 || cclen > 14){
+			warning(cc, cclen < 4 ? '对不起，输入的名字不能小于2个字' : '对不起，输入名字不能超过7个字');
+			return;
+		}
+		ajaxresponse('checkrealname', 'op=checkrealname&realname=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(realname) : realname));
+	}
+
+	function checkbirthday(){
+		var birthday = $('birthday').value;
+		if(birthday == lastbirthday){
+			return;
+		}else{
+			lastbirthday = birthday;
+		}
+		ajaxresponse('checkbirthday', 'op=checkbirthday&birthday=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(birthday) : birthday));
+	}
+
+	function checkemail(){
+		var email = $('email').value;
+		if(email.length!=0)
+		{
+			if (email.charAt(0)=='.' ||        
+				 email.charAt(0)=='@'||       
+				 email.indexOf('@', 0) == -1 || 
+				 email.indexOf('.', 0) == -1 || 
+				 email.lastIndexOf('@')==email.length-1 || 
+				 email.lastIndexOf('.')==email.length-1)
+			 {
+			  alert('Email的格式不正确！');
+			  $('email').focus();
+			  return false;
+			  }
+		   }
+		return false;
+		} 
+			
+		function checkmobile()
+			{
+				var mobile = $('mobile').value;
+				if(mobile == lastmobile)
+					{
+						return;
+					}
+				else
+					{
+						lastmobile = mobile;
+					}
+				ajaxresponse('checkmobile', 'op=checkmobile&mobile=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(mobile) : mobile));
+			}
+
+		function checkgetverifycode()
+			{
+				var getverifycode = $('mobile').value;
+				if(getverifycode == lastgetverifycode)
+					{
+						return;
+					}
+				else
+					{
+						lastgetverifycode = getverifycode;
+					}
+				ajaxresponseformobile('checkgetverifycode', 'op=checkgetverifycode&mobile=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(getverifycode) : getverifycode));
+			}
+
+		function checkinputverifycode()
+			{
+				var inputverifycode = $('inputverifycode').value;
+				if(inputverifycode == lastinputverifycode)
+					{
+						return;
+					}
+				else
+					{
+						lastinputverifycode = inputverifycode;
+					}
+				ajaxresponse('checkinputverifycode', 'op=checkinputverifycode&inputverifycode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(inputverifycode) : inputverifycode));
+			}
+
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[mobileregister_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	
+	function ajaxresponseformobile(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[mobileregister_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('successfully') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">' + '验证码已经成功发送！';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	
+	function warning(obj, msg) {
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+
+</script>
+
+<!--{template footer}-->
