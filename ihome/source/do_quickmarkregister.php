@@ -71,7 +71,7 @@ function returnResponse($code, $desc)
 	exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] != "POST")
+if($_GET['ac']!=$_SCONFIG['overseasregister_email']&&$_SERVER['REQUEST_METHOD'] != "POST" )
 {
 	returnResponse(40003,"方法不正确");
 }
@@ -457,7 +457,7 @@ else
 			///////////////////////
 			if($academy)
 			{
-				if($_SGLOBAL["no_inviteactive"])
+				if($_SGLOBAL["no_inviteactive"]&&empty($overseas))
 				{
 					if($realname_match)
 					{
@@ -486,6 +486,7 @@ else
 							$recver = 3;
 						}
 						runlog("qr","recver:".$recver);
+						
 						$setarr = array(
 							'uid' => $recver,
 							'type' => "friend",

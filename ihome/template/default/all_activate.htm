@@ -116,15 +116,55 @@ span{
                 </div>
                 <div class="active_inputlist">
                 	<div class="active_inputtitle">校友类型</div>
-                    <input class="active_inputtitle" type="radio" id="alumtype" name="alumtype" value="inland" checked />国内
-                    <input class="active_inputtitle" type="radio" id="alumtype2" name="alumtype" value="overseas"  />国外
+                    <input class="active_inputtitle" type="radio" id="alumtype" name="alumtype" value="inland" checked />
+                    <label for="alumtype">国内</label>
+                    <input class="active_inputtitle" type="radio" id="alumtype2" name="alumtype" value="overseas"  />
+                    <label for="alumtype2">国外</label>
                 </div>
                 <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
                 <input type="hidden" name="mobileregajaxsubmit" id="mobileregajaxsubmit" value="ture" />
-                <input class="active_button" type="button" style="margin-top:-10px;background-image:url(template/default/image/ButtonAlumn.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonAlumnPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonAlumn.png)'" id="mobileregistersubmit" name="mobileregistersubmit" onclick="CheckSubmitOrNo()"/>
+                <input class="active_button" type="button" style="margin-top:-10px;background-image:url(template/default/image/ButtonAlumn.png)" onmousedown="this.style.backgroundImage='url(template/default/image/ButtonAlumnPress.png)'" onmouseup="this.style.backgroundImage='url(template/default/image/ButtonAlumn.png)'" id="mobileregistersubmit" name="mobileregistersubmit" onclick="CheckSubmitOrNoInland()"/>
             </form>
             </div>
         </div>
+       
+        <script>
+            var jq=jQuery.noConflict();
+            var showInlandOrOverseas = function(val){
+                if(val=="overseas") {
+                    var obj=jq("#mobileregisterform");
+                    obj.attr({"id":"overseasregisterform"});
+                    obj.attr({"name":"overseasregisterform"});
+                    obj.attr({"action":"do.php?ac=$_SCONFIG[overseasregister_action]&op=InviteCreate"});
+                    var hiddenobj=jq("#mobileregajaxsubmit");
+                    hiddenobj.attr({"name":"overseasregajaxsubmit"});
+                    hiddenobj.attr({"id":"overseasregajaxsubmit"});
+                    var buttonobj=jq("#mobileregistersubmit");
+                    buttonobj.attr({"name":"overseasregistersubmit"});
+                    buttonobj.attr({"id":"overseasregistersubmit"});
+                    buttonobj.attr({"onclick":"CheckSubmitOrNoOverseas()"});
+                }
+                else {
+                    var obj=jq("#overseasregisterform");
+                    obj.attr({"id":"mobileregisterform"});
+                    obj.attr({"name":"mobileregisterform"});
+                    obj.attr({"action":"do.php?ac=$_SCONFIG[mobileregister_action]&op=InviteCreate"});
+                    var hiddenobj=jq("#overseasregajaxsubmit");
+                    hiddenobj.attr({"name":"mobileregajaxsubmit"});
+                    hiddenobj.attr({"id":"mobileregajaxsubmit"});
+                    var buttonobj=jq("#oversearegstersubmit");
+                    buttonobj.attr({"name":"mobileregistersubmit"});
+                    buttonobj.attr({"id":"mobileregistersubmit"});
+                    buttonobj.attr({"onclick":"CheckSubmitOrNoInland()"});
+                }
+                return val;
+            };
+            jq(function(){
+                jq(".active_inputtitle").change(function(){
+                    showInlandOrOverseas(jq(this).val());
+                });
+            });
+        </script>
         <div id="FreshmanActivatePage" class="active_main" style="display:none">
         	<h1>新生激活</h1>
             此激活方式，仅适用于<b>当前年份</b>入学本科生，硕士研究生与博士研究生。<br />
@@ -387,25 +427,33 @@ span{
 		ajaxfreshmanresponse('checkfreshmanbirthday', 'op=checkfreshmanbirthday&freshmanbirthday=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(freshmanbirthday) : freshmanbirthday));
 	}
 
-	function CheckSubmitOrNo(){
-		var Birthday = $('birthday').value;		
-		var LengthOfBirthday = Birthday.replace(/[^\d]/, "*").length;
-
+	function CheckSubmitOrNoOverseas() {
 		var alum = document.getElementsByName('alumtype');
 		for (var i = 0; i < alum.length; i++) {
-		if (alum[i].checked) {
-			if (alum[i].value == 'overseas') document.mobileregisterform.submit();
-			}
-		}
-
-		if(LengthOfBirthday == 6){
-			document.mobileregisterform.submit();
-		}
-		else{
-            var mobileregistersubmit = window.mobileregistersubmit || document.mobileregisterform.mobileregistersubmit;
-			AJAXrealnameANDbirthdayFETCHmobile(event, mobileregistersubmit.id, 1);
-		}
+	        var overseasregistersubmit = window.overseasregistersubmit || document.mobileregisterform.overseasregistersubmit;
+			AJAXrealnameANDbirthdayFETCHoverseas(event, overseasregistersubmit.id, 1);
+        }
 	}
+
+    function CheckSubmitOrNoInland(){
+        var Birthday = $('birthday').value;     
+        var LengthOfBirthday = Birthday.replace(/[^\d]/, "*").length;
+
+        var alum = document.getElementsByName('alumtype');
+        for (var i = 0; i < alum.length; i++) {
+        if (alum[i].checked) {
+            if (alum[i].value == 'overseas') document.mobileregisterform.submit();
+            }
+        }
+
+        if(LengthOfBirthday == 6){
+            document.mobileregisterform.submit();
+        }
+        else{
+            var mobileregistersubmit = window.mobileregistersubmit || document.mobileregisterform.mobileregistersubmit;
+            AJAXrealnameANDbirthdayFETCHmobile(event, mobileregistersubmit.id, 1);
+        }
+    }
 
 	function checkemail(){
 		var email = $('email').value;

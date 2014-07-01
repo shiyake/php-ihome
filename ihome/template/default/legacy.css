@@ -3118,7 +3118,6 @@ div.active_checkseccode {
     zoom:1;
     min-height:1000px;
     border-left:1px solid #dcdcdc;
-    padding-right: 20px;
 }
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
     color: #333 !important;
