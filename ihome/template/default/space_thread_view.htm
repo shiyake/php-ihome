@@ -18,7 +18,7 @@
     <!--{elseif $mtag['allowpost']}-->
     <a href="cp.php?ac=thread&tagid=$mtag[tagid]" style="position:absolute;top:35px;left:50%;margin-left:400px;font-size:14px;">发起新话题</a>
     <!--{/if}-->-->
-    <!--{if $thread['tagid'] == 60 && $_SGLOBAL[supe_uid] == 3}-->
+    <!--{if $thread['tagid'] == 2985 && ($_SGLOBAL[supe_uid] == 3 || $_SGLOBAL[supe_uid] == 665)}-->
 		<div class="r_option" style="margin-right:0px;margin-top:-33px;">
 			<a  href="http://xa.limijiaoyin.com/space.php?do=mtag&tagid=60"}>返回上一页</a>
 		</div>
@@ -80,7 +80,7 @@
 				</tr>
 			</table>
 
-			<!--{if $thread['tagid'] == 60 && $_SGLOBAL[supe_uid] == 3}-->
+			<!--{if $thread['tagid'] == 2985 && ($_SGLOBAL[supe_uid] == 3 || $_SGLOBAL[supe_uid] == 665)}-->
 			<form name="feedback_form" id="feedback_form" method="post" action="cp.php?uid=$thread['uid']&ac=thread<!--{if $thread['tid']}-->&tid=$thread['tid']&op=toggle<!--{/if}-->">
 				<!--{if $thread[solved]}--><span id="solved_feedback" onclick="$('feedback_form').submit()" onmouseover="this.innerHTML='标记为未解决'" onmouseout="this.innerHTML='已解决'" style="float:right;">已解决</span><!--{else}--><span id="unsolved_feedback" onclick="$('feedback_form').submit()" onmouseover="this.innerHTML='标记为已解决'" onmouseout="this.innerHTML='未解决'" style="float:right;">未解决</span><!--{/if}--></form>
 			<!--{/if}-->

@@ -240,7 +240,7 @@ if($tagname) {
 		if($mtag['allowview']) {
 			$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('thread')." main WHERE main.tagid='$tagid'"),0);
 
-			if ($tagid != 60) {
+			if ($tagid != 2985) {
 				$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
 				WHERE main.tagid='$tagid' 
 				ORDER BY main.displayorder DESC, main.lastpost DESC 
@@ -267,7 +267,7 @@ if($tagname) {
 				realname_set($value['lastauthorid'], $value['lastauthor']);
 				$list[] = $value;
 			}
-			if ($tagid == 60) {
+			if ($tagid == 2985) {
 				$multi = multi($count, $perpage, $page, $theurl);
 			}
 
