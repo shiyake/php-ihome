@@ -34,7 +34,7 @@ if($_GET['op']=='create')
 		$inviteactive_showmsg = true;
 		$country = $_POST['country'];
 		$school = $_POST['school'];
-		$overseas = true;
+		$_SCONFIG['overseas'] = true;
 		include_once('do_quickmarkregister.php');
 		$lng='';
 		$lat='';

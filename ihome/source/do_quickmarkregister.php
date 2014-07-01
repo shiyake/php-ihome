@@ -457,7 +457,7 @@ else
 			///////////////////////
 			if($academy)
 			{
-				if($_SGLOBAL["no_inviteactive"]&&empty($overseas))
+				if($_SGLOBAL["no_inviteactive"]&&empty($_SCONFIG['overseas']))
 				{
 					if($realname_match)
 					{
