@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	
-	<!--{if $tagid == 60}-->
+	<!--{if $tagid == 2985}-->
 	<div class="tabs_header" style="margin-left: 0px;">
 		<ul class="tabs status_tabs">
 			<li$status_active[all]><a href="space.php?do=mtag&tagid=$mtag[tagid]&status=all"><span>全部</span></a></li>
@@ -59,7 +59,7 @@
 					<td class="subject">主题</td>
 					<td class="author" style="width:110px;"><!--{if $_GET[view]!='me'}-->作者 <!--{/if}-->(回应/阅读)</td>
 					<td class="lastpost">最后更新</td>
-					<!--{if $tagid == 60}-->
+					<!--{if $tagid == 2985}-->
 					<td class="status">状态</td>
 					<!--{/if}-->
 				</tr>
@@ -83,14 +83,14 @@
 					</td>
 					<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br>$value[replynum]/$value[viewnum]</td>
 					<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
-					<!--{if $tagid == 60}-->
-					<td class="status"><!--{if $value[solved]==1}-->已解决<!--{elseif $value[lastauthorid]==3}-->已回复<!--{else}-->未回复<!--{/if}--></td>
+					<!--{if $tagid == 2985}-->
+					<td class="status"><!--{if $value[solved]==1}-->已解决<!--{elseif $value[lastauthorid]==665}-->已回复<!--{else}-->未回复<!--{/if}--></td>
 					<!--{/if}-->
 				</tr>
 				<!--{/loop}-->
 			</tbody>
 		</table>
-		<!--{if $_GET['tagid'] != 60}-->
+		<!--{if $_GET['tagid'] != 2985}-->
 		<div class="r_option">
 		<a href="space.php?do=mtag&tagid=$mtag[tagid]&view=list">查看全部话题列表</a>
 		</div>

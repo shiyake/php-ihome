@@ -563,7 +563,7 @@ if($_GET['op'] == 'edit') {
 	
 } elseif ($_GET['op'] == 'toggle') {
 	// 切换反馈的处理状态
-	if($_SGLOBAL[supe_uid]!=3) {
+	if($_SGLOBAL[supe_uid] != 3 || $_SGLOBAL[supe_uid] != 665) {
 		showmessage('no_privilege');
 	} else {
 		$query = $_SGLOBAL['db']->query("UPDATE ".tname('thread')." SET solved=1-solved WHERE tid='$tid'");
