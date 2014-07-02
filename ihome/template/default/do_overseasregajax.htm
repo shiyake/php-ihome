@@ -1,4 +1,10 @@
 <!--{template header}-->
+<!--{eval 
+	$year=array();
+	for($i=1950 ;$i < 2100;$i++)	{
+		array_push($year,$i);
+	}
+}-->
 <div id="overseasregajax" name="overseasregajax" class="overseasregajax" style="height: 218px;">
 	<form id="overseasregajaxform" name="overseasregajax" method="post" action="do.php?ac=$_SCONFIG[overseasregister_action]&op=create" >
 		<table cellspacing="0" cellpadding="3">
@@ -37,8 +43,12 @@
 			</tr>
 			<tr>
 				<td><div>选择入学时间</div></td>
-				<td><input type="text" name="startyear" class="t_input form-control input-sm" style="width:180px;display:block;">
-					</input>
+				<td>
+					<select type="text" name="startyear" class="t_input form-control input-sm" style="width:180px;display:block;">
+						<!--{loop $year $key}-->
+						<option>$key</option>
+						<!--{/loop}-->
+					</select>
 				</td>
 			</tr>
 			<tr>

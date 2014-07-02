@@ -61,7 +61,7 @@ if(submitcheck('overseasregajaxsubmit'))
 		$id=$res['id'];
 	}
 	$message = "亲爱的北航校友您好，请点击以下链接完成注册http://i.buaa.edu.cn/do.php?ac={$_SCONFIG['overseasregister_email']}&op=create&id={$id}&ver={$ver}";
-	showmessage($message);
+	//showmessage($message);
 	if(smail(0,$email,$message))	{
 		showmessage("邮件已经发送，请注意查收","index.php",3000);
 	}else	{
