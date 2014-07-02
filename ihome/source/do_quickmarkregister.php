@@ -478,7 +478,7 @@ else
 							$recver = $recver['uid'];
 							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
-						if(empty($_SCONFIG['overseas'])	{
+						if(empty($_SCONFIG['overseas']))	{
 							if(!$recver)
 							{
 								if(!$collage_match)     {
