@@ -92,7 +92,7 @@
             if(jq1("#ours").hasClass("active"))	{
                 jq1("#ours").removeClass("active");
             }
-            if(jq1("#work").hasClass("active"))	{
+            if(!jq1("#work").hasClass("active"))	{
                 jq1("#work").addClass("active");
             }
         };
@@ -148,7 +148,7 @@
 	<div style="border-bottom:1px solid #dcdcdc;">
 		<div id="blue_solid"></div>
 	</div>
-	<div id="feed_div" class="enter-content">	
+	<div id="feed_div" class="enter-content">
 		<!--{/if}-->
 		<!--{if $filtercount == -9527}-->
 		<div class="alert alert-info" style="margin-top:10px;text-align:center;" id="feed_filter_notice_{$start}">
@@ -168,6 +168,54 @@
 		<!--{/if}-->
 		<!--{if empty($_TPL['getmore'])}-->	
 	</div>
+	<script>
+		var callback = function(){
+			var type = jq1("#new_feed .active").attr('id');
+			var version = jq1("#feed_div li:first").attr('id').replace(/.*?(\d+).*/i,'$1');
+			var url = "cp.php?ac=feed&op=update&active=" + type + "&version=" + version;
+		
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url, false);
+			xhr.send();
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				var updates = parseInt(xhr.responseText);
+				var stage = 0;
+				if (jq1("#feed_update").length) {
+					stage = parseInt(jq1("#feed_update").attr('stage'));
+						updates += stage;
+						jq1("#feed_update").remove();
+				};
+					
+				if (updates > 0) {
+					if (!jq1("#feed_update").length) {
+						jq1("#feed_div").prepend('<a id="feed_update" href="javascript:void(0);" class="hidden" updates="0" stage="0" type=""></a>');
+						jq1("#feed_update").click(function(){
+							jq1('#'+jq1(this).attr('type')).click();
+							jq1(this).remove();
+						});
+					};
+					var now = jq1("#feed_update");
+					now.attr("updates",updates);
+					now.attr("type",type);
+					now.attr("stage",stage);
+					now.attr("href", jq1("#new_feed .active a").attr('href'));
+					now.text("有"+updates+"条新消息");
+					now.attr('class','');
+				}
+			};
+			xhr.abort();
+			xhr = null;
+		};
+
+		var interval_id;
+		jq1(window).focus(function() {
+			if (!interval_id) {callback();interval_id = setInterval(callback, 3000);};
+		});
+		jq1(window).blur(function() {
+			clearInterval(interval_id);
+			interval_id = 0;
+		});
+	</script>
 	<!--{if $count%$perpage==0}-->
 	<div class="alert alert-info feed_more_btn" style="width:550px;text-align:center;padding-top:20px;">
 		<a href="javascript:;" onclick="feed_more(this);"> 加载更多动态</a>

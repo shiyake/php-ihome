@@ -3745,3 +3745,14 @@ h4.title.title30 img.pic10 {
 .status {
     text-align: center;
 }
+#feed_update {
+    background: #fefded;
+    color: #F48C12;
+    border: 1px solid #f9f2a7;
+    display: block;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    margin: 15px 20px 11px;
+    cursor: pointer;
+}

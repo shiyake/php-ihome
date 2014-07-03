@@ -45,7 +45,7 @@ if($_GET['op'] == 'delete') {
 			$space['privacy']['black_feed'][$uid] = $uid;
 			privacy_update();
 		} elseif($ignore_type == 'black_all') {
-            //删除好友
+            //鍒犻櫎濂藉弸
             if($space['friends'] && in_array($uid, $space['friends'])) {
                 friend_update($_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username'], $uid, '', 'ignore');
             }
@@ -54,7 +54,7 @@ if($_GET['op'] == 'delete') {
 		showmessage('do_success', $_POST['refer']);
 	}
 } elseif($_GET['op'] == 'get') {
-	//获得好友的feed
+	//鑾峰緱濂藉弸鐨刦eed
 	$cp_mode = 1;
 	$_GET['start'] = intval($_GET['start']);
 	if($_GET['start'] < 1) {
@@ -98,6 +98,25 @@ if($_GET['op'] == 'delete') {
 	if(empty($feed['uid'])) {
 		showmessage('non_normal_operation');
 	}
+} elseif($_GET['op'] == 'update') {
+	$version = empty($_GET['version'])?0:intval($_GET['version']);
+	$active = $_GET['active'];
+	if ($active == 'ours') {
+		$wheresql = "uid IN ($space[feedfriend],$space[uid])";
+	    if ($space[feedfriend] == ''){
+	        $wheresql = "uid IN ($space[uid])";
+	    }
+	} elseif ($active == 'public') {
+		$wheresql = "1";
+	} elseif ($active == 'work') {
+		$wheresql = "icontype='work'";
+	} else {
+		showmessage("feeds update error!");
+	}
+	$query = $_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('feed')." USE INDEX(dateline) 
+		WHERE $wheresql AND feedid > $version");
+	echo current(($_SGLOBAL['db']->fetch_array($query)));
+	exit();	
 } else {
 	$url = "space.php?uid=$feed[uid]";
 	switch ($feed['idtype']) {
