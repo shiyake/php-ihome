@@ -7,7 +7,7 @@ if(!defined('iBUAA')) {
 $op = $_GET['op'] ? trim($_GET['op']) : '';
 
 if($_SGLOBAL['supe_uid']) {
-	showmessage('do_success', 'space.php?do=home', 0);
+	showmessage('do_success', 'space.php?do=recommendpublic', 0);
 }
 
 if($op == "checkrealname")

@@ -72,7 +72,7 @@ if($_GET['op']=='create')
 			inserttable('notification', $setarr);
 			//变更记录
 			if($_SCONFIG['my_status']) inserttable('userlog', array('uid'=>$newuid, 'action'=>'add', 'dateline'=>$_SGLOBAL['timestamp']), 0, true);
-			showmessage('registered', 'space.php?do=home', 1);
+			showmessage('registered', 'space.php?do=recommendpublic', 1);
 		}
 		catch (exception $e)	{
 			showmessage("无法获取您的位置信息，注册失败",'space.php?do=home',1);

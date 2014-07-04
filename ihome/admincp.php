@@ -43,7 +43,7 @@ $acs = array(
 	array('index','config', 'privacy', 'ip', 'spam', 'hotuser', 'defaultuser', 'usergroup', 'credit', 'magic', 'magiclog', 'profield', 'ad', 'userapp'),
 	array('tag', 'mtag', 'event', 'report', 'space', 'userimport'),
 	array('cache', 'network', 'profilefield', 'eventclass', 'click', 'task', 'censor', 'stat', 'block', 'cron', 'app', 'log','wallmanage','publicapply','publictype','complain','apps','loginbg'),
-	array('feed', 'blog', 'album', 'pic', 'comment', 'thread', 'post', 'doing', 'share', 'poll','wallcontentmanage','mtaginvite'),
+	array('feed', 'blog', 'album', 'pic', 'comment', 'thread', 'post', 'doing', 'share', 'poll','wallcontentmanage','mtaginvite','recommendpublic'),
 );
 if(!empty($_SC['allowedittpl']) && $isfounder) {
 	$acs[2][] = 'template';

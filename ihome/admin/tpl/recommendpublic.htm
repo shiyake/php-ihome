@@ -1,0 +1,103 @@
+<!--{template admin/tpl/header}-->
+<link rel="stylesheet" type="text/css" href="admin/tpl/recommendpublic.css"/>
+<script language="javascript" src="admin/tpl/recommendpublic.js"></script>
+
+<div class="mainarea">
+	<div class="maininner">
+		<div class="bdrcontent">
+			<h4 class="l_status title">公共主页推荐</h4>
+			<div>
+			<form method="post" action="admincp.php?ac=recommendpublic&op=query">
+				<input class="input-sm form-control query_input" type="text" name="query" placeholder="公共主页uid或名称"/>
+				<input class="btn query_button btn-sm btn-comments" type="button" value="搜索"/>
+			</form>
+			</div>
+		</div>
+		
+		<div class="query_div bdrcontent">
+			<div class="public_message">
+			<script>
+			function recommend(id) {
+				jQuery.post("admincp.php?ac=recommendpublic&op=add",{
+					"uid":jQuery("#query_res_"+id).find(".uid").val(),
+					"username":jQuery("#query_res_"+id).find(".username").val()
+					},function(data){
+
+					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
+				});
+			}
+			function delete_public(uid)	{
+				jQuery.post("admincp.php?ac=recommendpublic&op=delete",{
+					"uid":uid
+					},function(data){
+					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
+				});
+			}
+			function edit_public_return(uid)	{
+				jQuery.post("admincp.php?ac=recommendpublic&op=edit",{
+					"edit_input":jQuery("#edit_"+uid).find(".edit_input").val(),
+					"uid":uid
+				},function(data){
+					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
+				});
+			}
+			function edit_public(uid)	{
+				jQuery("#edit_"+uid).html('<a class="edit_public_other"  onclick="edit_public_return('+uid+')" href="javascript:;"><span class="glyphicon glyphicon-ok"></span></a><input type="text" class="edit_input form-control input-sm"/>');
+
+			}
+			</script>
+			<h5>下面是查询结果:</h5>
+
+				<!--{loop $query_value $key $value}-->
+				<form id="query_res_{$key}" class="query_form">
+					<!--{avatar($value['uid'],small,False,1)}-->
+					&nbsp;&nbsp;主页名：<a href="space.php?uid=$value['uid']">{$value['name']}</a>，uid：<a href="space.php?uid=$value['uid']">{$value['uid']}</a>，登录名：<a href="space.php?uid=$value['uid']">{$value['username']}</a>，类别：<a href="space.php?uid=$value['uid']">{$name_map[$value['pptype']]}</a>
+					<input class="btn btn-sm btn-comments recommend_btn" type="button" value="推荐" onclick="recommend($key)"/>
+					<input type="hidden" class="uid" name="uid" value="{$value['uid']}"/>
+					<input type="hidden" class="username" name="username" value="{$value['username']}"/>
+				</form>
+				<!--{/loop}-->
+				<div class="page">$page</div>
+			</div>
+		</div>
+		
+		<div class="public_list bdrcontent">
+			<ul class="public_list_ul clearfix">
+				<li>权重</li><li>uid</li><li>登录名</li><li>全称</li><li>类别</li><li>
+				</li>
+			</ul>
+			<div class="public_inner">
+			<!--{loop $public_uid $value}-->
+			<ul class="public_list_ul public_list_ul_inner clearfix">
+				<li id="edit_$value[uid]"><a class="edit_public" onclick="edit_public($value[uid])" href="javascript:;" >
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a><a href="space.php?uid=$value['uid']">$value['id']</a></li>
+				<li><a href="space.php?uid=$value['uid']">$value['uid']&nbsp;</a></li>
+				<li><a href="space.php?uid=$value['uid']">$value['username']&nbsp;</a></li>
+				<li><a href="space.php?uid=$value['uid']">$value['name']&nbsp;</a></li>
+				<li><a href="space.php?uid=$value['uid']">$value['pptype']&nbsp;</a></li>
+				<li class="dropdown">
+				
+					<li class="dropdown" style="width:20px;">
+					<span>	
+					<a class="delete_public" data-toggle="dropdown" href="javascript:;"><span class="glyphicon glyphicon-remove"></span></a>
+
+					<ul class="dropdown-menu delete_ul" role="menu" aria-labelledby="dLabel">
+						<div class="title-sm">消息提示</div>
+						<div class="main-inner">确定删除推荐的主页吗？</div>
+						<div class="inner"><button class="btn btn-sm btn-comments"  onclick="delete_public($value['uid'])">确定</button>&nbsp;&nbsp;<button class="btn btn-sm">取消</button></div>
+					</ul>
+
+				</li>
+			</ul>
+			
+			<!--{/loop}-->
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

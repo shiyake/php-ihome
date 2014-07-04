@@ -245,7 +245,11 @@ if($_SGLOBAL['magic']['gift'] && $_SGLOBAL['supe_uid']) {
 		}
 	}
 }
-	
+$recommendpublic = array();
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("rec_public")." as a left join ".tname("space")." as b on a.uid=b.uid order by id desc limit 6");
+while($res = $_SGLOBAL['db']->fetch_array($query))	{
+	$recommendpublic[] = $res;
+}
 //ￊￇﾷ￱ￔￚￏ￟
 $ols = array();
 if($oluids) {
