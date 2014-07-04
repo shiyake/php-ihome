@@ -885,7 +885,33 @@ jQuery(function ($) {
 			</ul>
 		</div>
 		<!--{/if}-->
-		
+		<!--{if !empty($recommendpublic)}-->
+		<div class="sidebox border-bottom-none">
+			<h4 class="title">
+			公共主页推荐
+			<span class="r_option">
+				<a href="space.php?do=recommendpublic" class="action">查看全部</a>
+			</span>
+			</h4>
+			
+			<ul class="avatar_list">
+			<!--{loop $recommendpublic $value}-->
+			<li>
+			<div class="avatar48">
+				<a href="space.php?uid=$value[uid]">
+					<!--{avatar($value[uid],small)}-->
+				</a>
+			</div>
+			<p>
+				<a href="space.php?uid=$value[fuid]">
+				{$_SN[$value[uid]]}
+				</a>
+			</p>
+			</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
 		
 		<!--{if !empty($flink)}-->
 		<div class="sidebox border-bottom-none" id="flink-box">

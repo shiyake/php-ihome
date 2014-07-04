@@ -28,7 +28,7 @@
 			}
 			function delete_public(uid)	{
 				jQuery.post("admincp.php?ac=recommendpublic&op=delete",{
-					"uid":public_uid
+					"uid":uid
 					},function(data){
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
