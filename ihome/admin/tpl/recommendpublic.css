@@ -46,6 +46,9 @@
 .public_inner {
 	display:;
 }
+.delete_ul .inner {
+    padding-bottom:5px;
+}
 .delete_ul {
 	border-radius:10px;
 	padding-bottom:5px;

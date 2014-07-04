@@ -62,6 +62,7 @@
 		</div>
 		
 		<div class="public_list bdrcontent">
+			<h6 class="title">您可以通过改变权重控制公共主页的推荐顺序，权重越大，显示位置越靠前。</h6>
 			<ul class="public_list_ul clearfix">
 				<li>权重</li><li>uid</li><li>登录名</li><li>全称</li><li>类别</li><li>
 				</li>
@@ -71,7 +72,7 @@
 			<ul class="public_list_ul public_list_ul_inner clearfix">
 				<li id="edit_$value[uid]"><a class="edit_public" onclick="edit_public($value[uid])" href="javascript:;" >
 						<span class="glyphicon glyphicon-pencil"></span>
-					</a><a href="space.php?uid=$value['uid']">$value['id']</a></li>
+					</a>$value['id']</li>
 				<li><a href="space.php?uid=$value['uid']">$value['uid']&nbsp;</a></li>
 				<li><a href="space.php?uid=$value['uid']">$value['username']&nbsp;</a></li>
 				<li><a href="space.php?uid=$value['uid']">$value['name']&nbsp;</a></li>
@@ -85,7 +86,7 @@
 					<ul class="dropdown-menu delete_ul" role="menu" aria-labelledby="dLabel">
 						<div class="title-sm">消息提示</div>
 						<div class="main-inner">确定删除推荐的主页吗？</div>
-						<div class="inner"><button class="btn btn-sm btn-comments"  onclick="delete_public($value['uid'])">确定</button>&nbsp;&nbsp;<button class="btn btn-sm">取消</button></div>
+						<div class="inner"><button class="btn btn-sm btn-comments"  onclick="delete_public($value['uid'])">确定</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm">取消</button></div>
 					</ul>
 
 				</li>
