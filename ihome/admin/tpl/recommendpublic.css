@@ -29,10 +29,7 @@
 	list-style: none;
 	text-align: center;
 }
-.edit_public {
-	position:absolute;
-	left:384px;
-}
+
 .edit_public_other {
 	position:absolute;
 	margin-left:48px;

@@ -7,10 +7,10 @@
 		<div class="bdrcontent">
 			<h4 class="l_status title">公共主页推荐</h4>
 			<div>
-			<form method="post" action="admincp.php?ac=recommendpublic&op=query">
-				<input class="input-sm form-control query_input" type="text" name="query" placeholder="公共主页uid或名称"/>
+			
+				<input class="input-sm form-control query_input" type="text" name="query" placeholder="公共主页uid或名称" />
 				<input class="btn query_button btn-sm btn-comments" type="button" value="搜索"/>
-			</form>
+			
 			</div>
 		</div>
 		
@@ -22,7 +22,9 @@
 					"uid":jQuery("#query_res_"+id).find(".uid").val(),
 					"username":jQuery("#query_res_"+id).find(".username").val()
 					},function(data){
-
+					if(data.indexOf('该公共主页已经存在推荐列表'))	{
+						alert("该公共主页已经存在推荐列表,请不要重复添加");
+					}
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
@@ -41,23 +43,40 @@
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
-			function edit_public(uid)	{
-				jQuery("#edit_"+uid).html('<a class="edit_public_other"  onclick="edit_public_return('+uid+')" href="javascript:;"><span class="glyphicon glyphicon-ok"></span></a><input type="text" class="edit_input form-control input-sm"/>');
-
+			function edit_public_back(uid,id)	{
+				var obj = jQuery("#edit_"+uid);
+				obj.prev("li").css({"display":"block"});
+				obj.css({"display":"none"});
+				obj.prev("li").attr({"id":"edit_"+uid});
+				obj.attr({"id":""});
+			}
+			function edit_public(uid,id)	{
+				var obj = jQuery("#edit_"+uid);
+				var this_uid = obj.attr("id");
+				obj.css({"display":"none"});
+				obj.next("li").attr({"id":this_uid});
+				obj.next("li").find("input").val(id);
+				obj.attr({"id":""});
+				obj.next("li").css({"display":"block"});
+				obj.next("li").find("input").focus();
+				obj.next("li").find("input").select();
 			}
 			</script>
+			<!--{if empty($query_value)}-->
+				<h5>没有相关搜索结果，请换个条件试试	</h5>
+			<!--{else}-->
 			<h5>下面是查询结果:</h5>
 
 				<!--{loop $query_value $key $value}-->
 				<form id="query_res_{$key}" class="query_form">
 					<!--{avatar($value['uid'],small,False,1)}-->
-					&nbsp;&nbsp;主页名：<a href="space.php?uid=$value['uid']">{$value['name']}</a>，uid：<a href="space.php?uid=$value['uid']">{$value['uid']}</a>，登录名：<a href="space.php?uid=$value['uid']">{$value['username']}</a>，类别：<a href="space.php?uid=$value['uid']">{$name_map[$value['pptype']]}</a>
+					&nbsp;&nbsp;主页名：{$value['name']}，uid：{$value['uid']}，登录名：<a href="space.php?uid=$value['uid']">{$value['username']}</a>，类别：{$name_map[$value['pptype']]}
 					<input class="btn btn-sm btn-comments recommend_btn" type="button" value="推荐" onclick="recommend($key)"/>
 					<input type="hidden" class="uid" name="uid" value="{$value['uid']}"/>
 					<input type="hidden" class="username" name="username" value="{$value['username']}"/>
 				</form>
 				<!--{/loop}-->
-				<div class="page">$page</div>
+			<!--{/if}-->
 			</div>
 		</div>
 		
@@ -70,13 +89,27 @@
 			<div class="public_inner">
 			<!--{loop $public_uid $value}-->
 			<ul class="public_list_ul public_list_ul_inner clearfix">
-				<li id="edit_$value[uid]"><a class="edit_public" onclick="edit_public($value[uid])" href="javascript:;" >
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>$value['id']</li>
-				<li><a href="space.php?uid=$value['uid']">$value['uid']&nbsp;</a></li>
-				<li><a href="space.php?uid=$value['uid']">$value['username']&nbsp;</a></li>
+				<li id="edit_$value[uid]">
+				<table>
+					<tr>
+						<td style="width:78px;text-align:right;">
+						$value['id']
+						</td>
+						<td>
+						<a class="edit_public" onclick="edit_public($value[uid],$value[id])" href="javascript:;" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+						</td>
+					</tr>
+				</table>
+				</li>
+				<li style="display:none">
+				<a class="edit_public_other"  onclick="edit_public_return($value['uid'])" ><span class="glyphicon glyphicon-ok"></span></a><input type="text" onblur="edit_public_back($value[uid],$value[id])" href="javascript:;" class="edit_input form-control input-sm"/>
+				</li>
+				<li>$value['uid']&nbsp;</li>
+				<li>$value['username']&nbsp;</li>
 				<li><a href="space.php?uid=$value['uid']">$value['name']&nbsp;</a></li>
-				<li><a href="space.php?uid=$value['uid']">$value['pptype']&nbsp;</a></li>
+				<li>$value['pptype']&nbsp;</li>
 				<li class="dropdown">
 				
 					<li class="dropdown" style="width:20px;">
