@@ -29,10 +29,7 @@
 	list-style: none;
 	text-align: center;
 }
-.edit_public {
-	position:absolute;
-	left:384px;
-}
+
 .edit_public_other {
 	position:absolute;
 	margin-left:48px;
@@ -45,6 +42,9 @@
 }
 .public_inner {
 	display:;
+}
+.delete_ul .inner {
+    padding-bottom:5px;
 }
 .delete_ul {
 	border-radius:10px;

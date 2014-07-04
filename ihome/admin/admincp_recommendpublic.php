@@ -7,9 +7,9 @@ if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 
 if($_GET['op']=='query')	{
 	$query_str = $_POST['query'];
-	$sql="SELECT * FROM ".tname("space").' WHERE uid="'.$query_str.'" or name like "%'.$query_str.'%" and groupid=3';
+	$sql="SELECT * FROM ".tname("space").' WHERE (uid="'.$query_str.'" and groupid=3) or (name like "%'.$query_str.'%" and groupid=3)';
 
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space").' WHERE uid="'.$query_str.'" or name like "%'.$query_str.'%" and groupid=3');
+	$query = $_SGLOBAL['db']->query($sql);
 
 	$query_value = array();
 	while($res = $_SGLOBAL['db']->fetch_array($query))	{
@@ -22,7 +22,7 @@ if($_GET['op']=='add')	{
 	$name = $_POST['username'];
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("rec_public")." WHERE uid=".$add_item);
 	if($_SGLOBAL['db']->fetch_array($query))	{
-		echo "<script>alert('该公共主页已经存在推荐列表，请不要重复添加');</script>";
+		showmessage( "该公共主页已经存在推荐列表，请不要重复添加" );
 	}
 	else {
 		$arr = array("id"=>"0","uid"=>$add_item,"username"=>$name,"addtime"=>time());
