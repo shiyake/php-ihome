@@ -903,8 +903,12 @@ jQuery(function ($) {
 				</a>
 			</div>
 			<p>
-				<a href="space.php?uid=$value[fuid]">
-				{$_SN[$value[uid]]}
+				<a href="space.php?uid=$value[uid]">
+				<!--{if $_SN[$value[uid]]}-->
+					$_SN[$value[uid]]
+				<!--{else}-->
+					$value['name']
+				<!--{/if}-->
 				</a>
 			</p>
 			</li>
