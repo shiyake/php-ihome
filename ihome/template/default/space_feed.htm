@@ -145,6 +145,9 @@
 		<a href="#tab3">思政新鲜事</a>
 		</li>
 	</ul>
+	<span class="r_option" style="position: relative;top: -30px;">
+		<a href="space.php?do=recommendation">精彩推荐</a>
+	</span>
 	<div style="border-bottom:1px solid #dcdcdc;">
 		<div id="blue_solid"></div>
 	</div>
@@ -182,8 +185,8 @@
 				var stage = 0;
 				if (jq1("#feed_update").length) {
 					stage = parseInt(jq1("#feed_update").attr('stage'));
-						updates += stage;
-						jq1("#feed_update").remove();
+					updates += stage;
+					jq1("#feed_update").remove();
 				};
 					
 				if (updates > 0) {
@@ -209,7 +212,7 @@
 
 		var interval_id;
 		jq1(window).focus(function() {
-			if (!interval_id) {callback();interval_id = setInterval(callback, 3000);};
+			if (!interval_id) {interval_id = setInterval(callback, 3000);};
 		});
 		jq1(window).blur(function() {
 			clearInterval(interval_id);

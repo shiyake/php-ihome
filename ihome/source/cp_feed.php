@@ -113,8 +113,7 @@ if($_GET['op'] == 'delete') {
 	} else {
 		showmessage("feeds update error!");
 	}
-	$query = $_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('feed')." USE INDEX(dateline) 
-		WHERE $wheresql AND feedid > $version");
+	$query = $_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('feed')." WHERE $wheresql AND feedid > $version");
 	echo current(($_SGLOBAL['db']->fetch_array($query)));
 	exit();	
 } else {
