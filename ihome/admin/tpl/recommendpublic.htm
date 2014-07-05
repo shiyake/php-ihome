@@ -22,9 +22,7 @@
 					"uid":jQuery("#query_res_"+id).find(".uid").val(),
 					"username":jQuery("#query_res_"+id).find(".username").val()
 					},function(data){
-					if(data.indexOf('该公共主页已经存在推荐列表'))	{
-						alert("该公共主页已经存在推荐列表,请不要重复添加");
-					}
+					
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
@@ -43,12 +41,14 @@
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
-			function edit_public_back(uid,id)	{
+			function edit_public_back(e,uid,id)	{
+				jQuery("#edit_"+uid).find(".edit_public_other").click();
 				var obj = jQuery("#edit_"+uid);
 				obj.prev("li").css({"display":"block"});
-				obj.css({"display":"none"});
 				obj.prev("li").attr({"id":"edit_"+uid});
 				obj.attr({"id":""});
+				obj.css({"display":"none"});
+				
 			}
 			function edit_public(uid,id)	{
 				var obj = jQuery("#edit_"+uid);
@@ -61,7 +61,15 @@
 				obj.next("li").find("input").focus();
 				obj.next("li").find("input").select();
 			}
-			</script>
+			function on_ok(e,uid)	{
+				if(e.which== 13)	{
+
+					jQuery("#edit_"+uid).find(".edit_public_other").click();
+				}
+				
+				
+			}
+			</script>	
 			<!--{if empty($query_value)}-->
 				<h5>没有相关搜索结果，请换个条件试试	</h5>
 			<!--{else}-->
@@ -104,7 +112,7 @@
 				</table>
 				</li>
 				<li style="display:none">
-				<a class="edit_public_other"  onclick="edit_public_return($value['uid'])" ><span class="glyphicon glyphicon-ok"></span></a><input type="text" onblur="edit_public_back($value[uid],$value[id])" href="javascript:;" class="edit_input form-control input-sm"/>
+				<a class="edit_public_other" id="edit_public_other_$value[uid]" href="javascript:;" onclick="edit_public_return($value['uid'])" ><span class="glyphicon glyphicon-ok"></span></a><input type="text" onkeyDown="on_ok(event,$value[uid])" onblur="edit_public_back(event,$value[uid],$value[id])" href="javascript:;" class="edit_input form-control input-sm"/>
 				</li>
 				<li>$value['uid']&nbsp;</li>
 				<li>$value['username']&nbsp;</li>
