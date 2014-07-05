@@ -7,15 +7,20 @@ if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 
 if($_GET['op']=='query')	{
 	$query_str = $_POST['query'];
-	$sql="SELECT * FROM ".tname("space").' WHERE (uid="'.$query_str.'" and groupid=3) or (name like "%'.$query_str.'%" and groupid=3)';
-
+    $sql = 'SELECT * FROM '.tname('space').' WHERE uid="'.$query_str.'" and groupid=3 or name="'.$query_str.'" and groupid=3';
 	$query = $_SGLOBAL['db']->query($sql);
 
 	$query_value = array();
 	while($res = $_SGLOBAL['db']->fetch_array($query))	{
-		$query_value[] = $res;
-	}
-
+        $query1 = $_SGLOBAL['db']->query("SELECT * FROM ".tname("rec_public")." WHERE uid=".$res['uid']);
+        if($_SGLOBAL['db']->fetch_array($query1)) {
+            $res['recommend_or_not']='已推荐';
+        } 
+        else {
+            $res['recommend_or_not']='推荐';
+        }
+        $query_value[] = $res;
+    }	
 }
 if($_GET['op']=='add')	{
 	$add_item = $_POST['uid'];

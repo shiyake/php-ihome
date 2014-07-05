@@ -79,7 +79,7 @@
 				<form id="query_res_{$key}" class="query_form">
 					<!--{avatar($value['uid'],small,False,1)}-->
 					&nbsp;&nbsp;主页名：{$value['name']}，uid：{$value['uid']}，登录名：<a href="space.php?uid=$value['uid']">{$value['username']}</a>，类别：{$name_map[$value['pptype']]}
-					<input class="btn btn-sm btn-comments recommend_btn" type="button" value="推荐" onclick="recommend($key)"/>
+					<input class="btn btn-sm btn-comments recommend_btn" type="button" value="$value['recommend_or_not']" onclick="recommend($key)"/>
 					<input type="hidden" class="uid" name="uid" value="{$value['uid']}"/>
 					<input type="hidden" class="username" name="username" value="{$value['username']}"/>
 				</form>
