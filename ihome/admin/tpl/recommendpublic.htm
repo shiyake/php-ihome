@@ -22,7 +22,7 @@
 					"uid":jQuery("#query_res_"+id).find(".uid").val(),
 					"username":jQuery("#query_res_"+id).find(".username").val()
 					},function(data){
-					
+					jQuery(".query_div").css({"display":"none"});
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
@@ -30,6 +30,7 @@
 				jQuery.post("admincp.php?ac=recommendpublic&op=delete",{
 					"uid":uid
 					},function(data){
+					jQuery(".query_div").css({"display":"none"});
 					jQuery(".public_inner").html(jQuery(data).find(".public_inner").html());
 				});
 			}
@@ -79,7 +80,11 @@
 				<form id="query_res_{$key}" class="query_form">
 					<!--{avatar($value['uid'],small,False,1)}-->
 					&nbsp;&nbsp;主页名：{$value['name']}，uid：{$value['uid']}，登录名：<a href="space.php?uid=$value['uid']">{$value['username']}</a>，类别：{$name_map[$value['pptype']]}
+					<!--{if $value['recommend_or_not']=='已推荐'}-->
+					<span style="float:right">$value['recommend_or_not']</span>
+					<!--{else}-->
 					<input class="btn btn-sm btn-comments recommend_btn" type="button" value="$value['recommend_or_not']" onclick="recommend($key)"/>
+					<!--{/if}-->
 					<input type="hidden" class="uid" name="uid" value="{$value['uid']}"/>
 					<input type="hidden" class="username" name="username" value="{$value['username']}"/>
 				</form>
