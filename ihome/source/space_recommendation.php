@@ -24,7 +24,7 @@ $count = 0;
 if ($space[feedfriend]==''){
     $wheresql = "uid IN ($space[uid])";
 }
-$ordersql = "dateline DESC";
+$ordersql = "weight DESC, dateline DESC";
 $theurl = "space.php?uid=$space[uid]&do=$do";
 $f_index = '';
 
@@ -34,7 +34,7 @@ if(empty($count)) {
 if($count) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('recommendation')." $f_index
 		WHERE $wheresql
-		ORDER BY dateline DESC
+		ORDER BY $ordersql 
 		LIMIT $start,$perpage");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$reclist[] = $value;
