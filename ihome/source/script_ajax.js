@@ -429,6 +429,77 @@ function ajaxmenu(e, ctrlid, isbox, timeout, func) {
 	doane(e);
 }
 
+function AJAXrealnameANDbirthdayFETCHoverseas(e, ctrlid, isbox, timeout, func) {
+
+	var offset = 0;
+	var duration = 3;
+	var realname = $('realname').value;
+	var realname = is_ie && document.charset == 'utf-8' ? encodeURIComponent(realname) : realname;
+	var birthday = $('birthday').value;
+	var birthday = is_ie && document.charset == 'utf-8' ? encodeURIComponent(birthday) : birthday;
+	var email = $('email').value;
+	var eamil = is_ie && document.charset == 'utf-8' ? encodeURIComponent(email) : email;
+
+
+	if (isUndefined(timeout)) timeout = 0;
+	if (isUndefined(isbox)) isbox = 0;
+	if (timeout > 0) duration = 0;
+
+	showloading();
+	if (jsmenu['active'][0] && jsmenu['active'][0].ctrlkey == ctrlid) {
+		hideMenu();
+		doane(e);
+		return;
+	} else if (is_ie && is_ie < 7 && document.readyState.toLowerCase() != 'complete') {
+		return;
+	}
+
+	if (isbox) {
+		divclass = 'popupmenu_centerbox';
+		offset = -1;
+	} else {
+		divclass = 'popupmenu_popup';
+	}
+
+	var div = $(ctrlid + '_menu');
+	if (!div) {
+		div = document.createElement('div');
+		div.ctrlid = ctrlid;
+		div.id = ctrlid + '_menu';
+		div.style.display = 'none';
+		div.className = divclass;
+		$('append_parent').appendChild(div);
+	}
+
+	var x = new Ajax();
+	var href = 'do.php?ac=6299f5ffe24ae256e5e35f501065ff87&op=fetchmobile' + '&realname=' + realname + '&birthday=' + birthday + '&email=' + email;
+	x.div = div;
+	x.etype = e.type;
+
+
+	x.get(href, function(s) {
+		evaled = false;
+		if (s.indexOf('ajaxerror') != -1) {
+			evaled = true;
+		}
+		if (s.indexOf('hideMenu()') == -1) { //添加关闭
+			s = '<h1>个人信息确认</h1><a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a><div class="popupmenu_inner">' + s + '<div>';
+		}
+		if (!evaled) {
+			if (x.div) x.div.innerHTML = s;
+			showMenu(ctrlid, x.etype == 'click', offset, duration, timeout, 0, ctrlid, 1000, true);
+			//function
+			if (func) {
+				setTimeout(func + '(\'' + ctrlid + '\')', 10);
+			}
+		}
+		evalscript(s);
+	});
+
+	showloading('none');
+	doane(e);
+}
+
 function AJAXrealnameANDbirthdayFETCHmobile(e, ctrlid, isbox, timeout, func) {
 
 	var offset = 0;

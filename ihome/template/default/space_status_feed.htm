@@ -126,6 +126,10 @@ jQuery(function ($) {
 		jqDoingForm.ajaxSubmit({
 			dataType:  'html',
 			success: function(data) {
+				if (jq1("#feed_update").length != 0) {
+					jq1("#feed_update").attr('class', 'hidden');
+					jq1("#feed_update").attr('stage', jq1("#feed_update").attr('updates'));
+				};
 				jqDoingForm.clearForm();
 				jqShowimg.empty();
 				

@@ -32,16 +32,16 @@ if($id) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('thread')." WHERE tid='$id' LIMIT 1");
 	if(!$thread = $_SGLOBAL['db']->fetch_array($query)) {
 		showmessage('topic_does_not_exist');
-	}
-	
-	//验证空间是否被锁定
+    }
+
+    //验证空间是否被锁定
 	$space = getspace($thread['uid']);
 	if($space['flag'] == -1) {
 		showmessage('space_has_been_locked');
 	}
 	
 	realname_set($thread['uid'], $thread['username']);
-	
+
 	//群组信息
 	$tagid = $thread['tagid'];
 	
