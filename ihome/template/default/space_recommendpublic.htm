@@ -1,0 +1,39 @@
+<!--{template header}-->
+
+<link rel="stylesheet" type="text/css" href="template/default/public.css"/>
+<link rel="stylesheet" type="text/css" href="template/default/recommendpublic.css"/>
+<div class="recommendpublic">
+	<h4>小i为您精心推荐的公共主页</h4>
+	<div class="public_accont">
+		<ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            
+            <!--{loop $recommend $key $value}-->
+
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+          
+        </ul>	
+	</div>
+	<div class="page"></div>
+</div>
+<!--{template footer}-->

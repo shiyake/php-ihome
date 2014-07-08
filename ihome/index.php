@@ -26,6 +26,18 @@ print_r ($_SERVER[argv]);
 echo "<br />";
 exit(aa);
 */
+//get loginbg style
+try {
+    $query_bg = $_SGLOBAL['db']->query("SELECT * FROM ".tname('loginbg').' where id=1');
+    while($value_bg = $_SGLOBAL['db']->fetch_array($query_bg)){
+        $loginbg = $value_bg;
+        $col1 = hexdec(substr($loginbg['box_bg_col'],0,2));
+        $col2 = hexdec(substr($loginbg['box_bg_col'],2,2));
+        $col3 = hexdec(substr($loginbg['box_bg_col'],4,2));
+    }
+} catch(Exception $e){
+}
+
 if(is_numeric($_SERVER['QUERY_STRING'])) {
 	/*started by 0, length == 6 or length==8 or length==9 is collegeid. by xuxing 2013-7-30*/
 	if(strlen($_SERVER['QUERY_STRING'])==8){

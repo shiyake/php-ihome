@@ -27,8 +27,50 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-    <!--<div class='bg'></div>-->
-<div style="width:100%;height:100%;position:absolute;"><img src="../../image/bg_for_graduate.jpg" style="width:100%;height:100%"</div>
+    <!--{if !empty($loginbg)}-->
+    <style>
+        .bg {
+            background:url({$loginbg['bg_pic']}) top left no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size:cover;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src="{$loginbg['bg_pic']}",
+            sizingMethod='scale');
+            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src="{$loginbg['bg_pic']}",
+            sizingMethod='scale')";
+        }
+        .contain-box{
+            background-color: #{$loginbg['box_bg_col']};
+            background-color: rgba($col1,$col2,$col3,0.4);
+            border: 1px solid #{$loginbg['box_border_col']};
+        }
+        .contain-box .form .submit-control #loginsubmit{
+            background-color:#{$loginbg['btn_bg_col']};
+            border: 1px solid #{$loginbg['btn_border_col']};
+            color: #{$loginbg['btn_font_col']};
+        }
+        .contain-box .form .submit-control .text {
+            color: #{$loginbg['active_font_col']};
+        }
+        .info-back {
+            color:#{$loginbg['back_font_col']};
+        }
+        .footer-back #footer1 a{
+            color:#{$loginbg['back_link_col']};
+        }
+        .footer-back {
+            color:#{$loginbg['back_link_col']};
+        }
+        .footer-back #footer2 a{
+            color:#{$loginbg['back_link_col']};
+        }
+    </style>
+    <!--{/if}-->
+    <div class='bg'></div>
+    <!--<div style="width:100%;height:100%;position:absolute;"><img src="{$loginbg['bg_pic']}" style="width:100%;height:100%"</div>-->
 <div class="contain-box quickflip-wrapper">
 <div>
     <div class="logo-head">

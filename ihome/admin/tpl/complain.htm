@@ -422,8 +422,15 @@ jQuery.noConflict();
 	</div>
 	<div class="bdrcontent">
 		<div class="title">
-			<h3>从 $startDay 到 $endDay ，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
+			<!--{eval $doing_map=array(1=>"部处",3=>"处长",7=>"副校长",10=>"校长");}-->
+			<h3>从 $startDay 到 $endDay ，处理阶段{$doing_map[$_GET['times']]}，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
 		</div>
+		<style>
+			.red-bold {
+				color:rgb(255,95,95);
+				font-weight:bold;
+			}
+		</style>
 		<table cellspacing="2" cellpadding="2" class="listtable">
 		  <tbody>
 			<tr class="line">
@@ -434,7 +441,11 @@ jQuery.noConflict();
 			  <th>操作</th>
 			</tr>
 			<!--{loop $complains $value}-->
+			<!--{if $value[total]>$value[isreply]}-->
+			<tr class="red-bold">
+			<!--{else}-->
 			<tr>
+			<!--{/if}-->
 			  <td>$value[atdeptuid]</td>
 			  <td>$value[department]</td>
 			  <td>$value[total]</td>

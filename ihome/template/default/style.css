@@ -899,3 +899,6 @@ div #tagcloud span.w1 {
     float:right;
     margin-top:-40px;
 }
+.status_tabs li{
+    width: 70px;
+}

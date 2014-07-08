@@ -561,6 +561,17 @@ if($_GET['op'] == 'edit') {
 		showmessage('do_success', "space.php?uid=$thread[uid]&do=thread&id=$tid", 0);
 	}
 	
+} elseif ($_GET['op'] == 'toggle') {
+	// 切换反馈的处理状态
+	if($_SGLOBAL[supe_uid] != 3 && $_SGLOBAL[supe_uid] != 665) {
+		showmessage('no_privilege');
+	} else {
+		$query = $_SGLOBAL['db']->query("UPDATE ".tname('thread')." SET solved=1-solved WHERE tid='$tid'");
+		$uid = $_GET['uid'];
+		$tid = $_GET['tid'];
+		$url = "space.php?uid=$uid&do=thread&id=$tid";
+		showmessage('do_success', $url, 1);
+	}
 } else {
 
 	if(!checkperm('allowthread')) {

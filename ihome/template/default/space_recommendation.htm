@@ -1,0 +1,41 @@
+
+<!--{eval $_TPL['titles'] = array('小i推荐');}-->
+<!--{template header}-->
+<style>
+.no-content-tip {
+	text-align: center;
+	margin-top: 75px;
+	color: #888;
+}
+.recommendation_list ol li {
+    border-bottom: 1px solid #dcdcdc;
+}
+.recommendation_list ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+</style>
+
+<div id="content" style="border-right: none;">
+<h4 class="title" style="margin:30px 0px 30px 15px;"><span class="glyphicon glyphicon-thumbs-up" style="padding:0px 10px;"></span>小i推荐</h4>
+
+<!--{if $reclist}-->
+<div class="recommendation_list">
+	<ol>
+	<!--{loop $reclist  $value}-->
+        <!--{eval $value = mkfeed($value);}-->
+        <!--{template space_recommendation_li}-->
+	<!--{/loop}-->
+	</ol>
+	<div class="page" style="margin-bottom: 10px;">$multi</div>
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+现在还没有推荐
+</p>
+<!--{/if}-->
+</div>
+<!--{template footer}-->
