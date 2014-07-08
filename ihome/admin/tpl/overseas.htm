@@ -1,0 +1,99 @@
+<!--{template admin/tpl/header}-->
+<link rel="stylesheet" type="text/css" href="admin/tpl/recommendpublic.css"/>
+<script language="javascript" src="admin/tpl/recommendpublic.js"></script>
+<style>
+	.listtable td{
+		text-align:center;
+	}
+	.showMessage .message {
+		margin-left:-138px;
+		margin-top:-42px;
+	}
+</style>
+<script>
+	(function(){
+		jq=jQuery.noConflict();
+		var Message_out = function (message) {
+	        jq(".message").html(message);
+	        jq(".showMessage").css({"display":"block"});
+	        jq(".message").css({"display":"block"});    
+	        jq(".showMessage").stop().animate({"opacity":"0.6"},700);
+			jq(".showMessage").delay(1500).animate({
+				"opacity":"0"
+			},700,function(){
+				jq(".showMessage").css({
+					"display":"none" 
+				});
+				jq(".message").css({
+					"display":"none"
+				});
+			}); 
+	    }
+		var post_change = function()	{
+			jq.post("admincp.php?ac=overseas&do=change",{
+				"change_uid":jq(".change_uid").val()
+				},
+				function(data){
+					if(!data.indexOf("error")) {
+						var html = '<img src="/template/default/image/comment_ok.png"><div class="comment_text">该uid不存在，请查证后输入</div>';
+					}
+					else	{
+					var html = '<img src="/template/default/image/comment_ok.png"><div class="comment_text">信息已更改</div>';
+					}
+					Message_out(html);
+					
+				});
+		}
+		jq(function(){
+			jq(".change_btn").click(function(){
+				post_change();
+			});
+			jq(document).keypress(function(e){
+				if(e.which==13)	{
+					post_change();
+				}
+			});
+		});
+	})();
+</script>
+<div class="showMessage" style="display:none;">
+    <div class="message" style="display:none;">
+    </div>
+</div>
+<div class="mainarea">
+	<div class="maininner">
+		<div class="bdrcontent">
+			<h4 class="l_status title">国外校友管理</h4>
+		
+		</div>
+	</div>
+	<div class="maininner" style="margin-top:10px;">
+		<div class="bdrcontent">
+			<span>修改审核人UID</span><input class="form-control input-sm change_uid" type="text" style="width:188px;display:initial;margin-left:10px;" name="change_uid"/><button style="margin-left:10px;" class="btn btn-sm btn-comments change_btn">修改</button></div>
+		<div class="bdrcontent" style="margin-top:10px;">
+		<div><h5>最新申请</h5></div>
+		<table class="listtable">
+		<tr>
+			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>申请时间</td><td>处理操作</td>
+			</tr>
+		<!--{loop $apply $value}-->
+			<tr><td>$value['name']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td>$value['dataline']</td><td><a href="space.php?do=friend&view=confirm&uid=%27{$value['uid']}%27&type=overseas">通过</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuse&uid=%27{$value['uid']}%27&type=overseas">忽略</a></td></tr>
+		<!--{/loop}-->
+		</table>
+		<div><h5>最新处理</h5></div>
+		<table class="listtable">
+			<tr>
+			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>处理时间</td>
+			<td>处理人</td></tr>
+		<!--{loop $pass $value}-->
+			<tr><td>$value['name']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td>$value['passline']</td><td><!--{eval echo getUsername($value['pass_uid'],$_SGLOBAL['db'])}--></td></tr>
+		<!--{/loop}-->
+		</table>
+		</div>
+		</div>
+	</div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

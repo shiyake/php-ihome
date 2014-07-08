@@ -425,7 +425,13 @@ function getIpDetails(){
     $result = json_decode($result,1);
     return $result;
 }
-
+function is_overseas()	{
+	$var = getIpDetails();
+	if($var['country_code']!='CN')	{
+		return true;
+	}
+	return false;
+}
 //获取当前用户信息
 function getmember() {
 	global $_SGLOBAL, $space;

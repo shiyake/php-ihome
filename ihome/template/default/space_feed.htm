@@ -2,6 +2,37 @@
 <!--{eval $_TPL['titles'] = array('首页');}-->
 <!--{template header}-->
 
+<link rel="stylesheet" type="text/css" href="plugin/toastr/toastr.min.css"/>
+<script language="javascript" type="text/javascript" src="plugin/toastr/toastr.min.js"></script>
+
+<!--{if $_SGLOBAL['overseas'] == 'overseas' &&  !$space['namestatus']}-->
+<script language="javascript" type="text/javascript">
+    var jq2=jQuery.noConflict();
+    var flag_again = localStorage.getItem('no_more_again');
+    jq2(document).ready(function(){
+        if (flag_again != 'yes'){
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "positionClass": "toast-top-left",
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.info('您正在国外吧？完善您所在的国家和学校信息，方便我们更好的服务您。<button id="no_more_again"style="color:yellow;border:none;margin-top:10px;border-radius:5px;margin-left:25px;margin-right:50px;"><a style="color:yellow">不再显示</a></button><button style="color:yellow;border:none;margin-top:10px;border-radius:5px;margin-bottom:5px;"><a style="color:yellow" href="cp.php">完善信息</a></button>');
+        jq2('#no_more_again').click(function(){
+            flag_again = 'yes'; 
+            });
+        }
+    });
+</script>
+<!--{/if}-->
 
 <div id="content">
 	<!--{if $space['uid'] && $space[self]}-->
