@@ -4,7 +4,7 @@
     }
 
     var jq = jQuery.noConflict();
-	face_num = [57,15];
+	face_num = [57,16];
     function pop_info(cols,num,th) {
         
 		var arrow = '<div class="arrow"></div>';
