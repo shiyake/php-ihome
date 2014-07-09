@@ -37,6 +37,7 @@ if($count) {
 		ORDER BY $ordersql 
 		LIMIT $start,$perpage");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		realname_set($value['uid'], $value['username']);
 		$reclist[] = $value;
 	}
 }

@@ -1516,9 +1516,6 @@ function runlog($file, $log, $halt=0) {
 		}
 
 		$searchs[] = '{actor}';
-		if (empty($_SN[$feed['uid']])) {
-			$_SN[$feed['uid']] = 'UID:'.$feed[uid];
-		}
 		$replaces[] = empty($actors)?"<a href=\"space.php?uid=$feed[uid]\">".$_SN[$feed['uid']]."</a>":implode(lang('dot'), $actors);
 
 		$searchs[] = '{app}';
