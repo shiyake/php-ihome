@@ -168,6 +168,7 @@ if($_GET['op'] == 'add') {
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid);
 		
 		while ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($res['uid'], $res['username']);
 			$search_res[] = $res;
 		}
 		
@@ -201,6 +202,7 @@ if($_GET['op'] == 'add') {
 			WHERE $wheresql
 			ORDER BY weight DESC, feedid DESC");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($value['uid'], $value['username']);
 			$reclist[] = $value;
 		}
 	}
