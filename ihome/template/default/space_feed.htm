@@ -145,7 +145,7 @@
 		<a href="#tab3">思政新鲜事</a>
 		</li>
 	</ul>
-	<span class="r_option" style="position: relative;top: -30px;">
+	<span class="r_option" style="position: relative;top: -29px;display: none;">
 		<a href="space.php?do=recommendation">精彩推荐</a>
 	</span>
 	<div style="border-bottom:1px solid #dcdcdc;">
@@ -202,7 +202,7 @@
 					now.attr("type",type);
 					now.attr("stage",stage);
 					now.attr("href", jq1("#new_feed .active a").attr('href'));
-					now.text("有"+updates+"条新消息");
+					now.text("有"+updates+"条新消息，点击查看");
 					now.attr('class','');
 				}
 			};
