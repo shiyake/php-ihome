@@ -37,6 +37,17 @@
                     jq1("#blue_solid").animate({left:"0px"},400);
                 }
             }
+            ajaxvar.onload = function() {
+                if (hajime && sessionStorage.clicked == 0) {
+					window.scrollTo(0, sessionStorage.scrollY);
+					hajime = 0;
+					if (!window.onscroll) {
+						window.onscroll = function (event) {
+						  	sessionStorage.scrollY = window.scrollY;
+						};
+					};
+				};
+            }
             ajaxvar.open("POST","space.php?do=home&view=ours&start=0&show=1",true);
             ajaxvar.send();
             if(jq1("#public").hasClass("active"))	{
@@ -59,6 +70,17 @@
                     jq1("#feed_div").html(ajaxvar.responseText);
                     jq1("#blue_solid").animate({left:"102px"},400);
                 }
+            }
+            ajaxvar.onload = function() {
+                if (hajime && sessionStorage.clicked == 0) {
+					window.scrollTo(0, sessionStorage.scrollY);
+					hajime = 0;
+					if (!window.onscroll) {
+						window.onscroll = function (event) {
+						  	sessionStorage.scrollY = window.scrollY;
+						};
+					};
+				};
             }
             ajaxvar.open("POST","space.php?do=home&view=all&start=0&show=1",true);
             ajaxvar.send();
@@ -84,6 +106,17 @@
                     jq1("#blue_solid").animate({left:"204px"},400);
                 }
             }
+            ajaxvar.onload = function() {
+                if (hajime && sessionStorage.clicked == 0) {
+					window.scrollTo(0, sessionStorage.scrollY);
+					hajime = 0;
+					if (!window.onscroll) {
+						window.onscroll = function (event) {
+						  	sessionStorage.scrollY = window.scrollY;
+						};
+					};
+				};
+            }
             ajaxvar.open("POST","space.php?do=home&view=work&start=0&show=1",true);
             ajaxvar.send();
             if(jq1("#public").hasClass("active"))	{
@@ -97,21 +130,34 @@
             }
         };
         var flag_clicked=0;
+        var hajime = 1;
 		jq1(document).ready(function(){
+			if (!sessionStorage.clicked) {
+				sessionStorage.clicked = 0;
+				window.onscroll = function (event) {
+				  	sessionStorage.scrollY = window.scrollY;
+				};
+			} else {
+				jq1('.feed_more_btn a').click();
+			};
+			
 			jq1("#ours").click(function(){
                 loadOurs();  
                 view="ours";
-                flag_clicked=0;              
+                flag_clicked=0;    
+				sessionStorage.clicked = 0;          
 			});
 			jq1("#public").click(function(){
                 loadPublic(); 
                 view="all";   
-                flag_clicked=0;           
+                flag_clicked=0;          
+				sessionStorage.clicked = 0; 
 			});
 			jq1("#work").click(function(){
                 loadWork();
                 view="work";
                 flag_clicked=0;
+				sessionStorage.clicked = 0;
 			});
 		});
         var hashTab = (!window.location.hash)?"#tab1":window.location.hash;
@@ -131,7 +177,7 @@
             view="work";
             break;
         }
-
+			
 	</script>
 	<ul id="new_feed" class="nav nav-tabs <!--{if !strstr($_SERVER["HTTP_USER_AGENT"],'MSIE')}-->nav-justified<!--{/if}-->" 
 		style="overflow: hidden;margin-top:18px;height:32px;" >
@@ -212,7 +258,7 @@
 
 		var interval_id;
 		jq1(window).focus(function() {
-			if (!interval_id) {interval_id = setInterval(callback, 3000);};
+			if (!interval_id) {interval_id = setInterval(callback, 30000);};
 		});
 		jq1(window).blur(function() {
 			clearInterval(interval_id);
@@ -477,21 +523,40 @@ function feed_more(el) {
 	var x = new Ajax('XML', 'ajax_wait', 'noEffect');
 	var html = '';
 	el.innerHTML = '<img style="height:7px;" src="image/icons/loadinfo.gif"></img>';
+	if (sessionStorage.clicked == flag_clicked) {sessionStorage.clicked++;};
 	flag_clicked ++;
-	
+
 		x.get('cp.php?ac=feed&op=get&start='+flag_clicked*$perpage+'&view='+view+'&filter=$_GET[filter]&show=1', function(s){
-		
-		html = s;
+			html = s;
 			if(html.indexOf("没有相关动态")!=-1) {
 				el.parentNode.style.display="none";
 				el.innerHTML = '加载更多动态'; 
-			}
-			else {
+			} else {
 				$('feed_div').innerHTML += html;
 				jq1("#feed_div").find(".feed_last").removeClass("feed_last"); 
 				el.innerHTML = '加载更多动态';
-				jq1("#feed_div").children().children().last("li").addClass("feed_last");    
+				jq1("#feed_div").children().children().last("li").addClass("feed_last");
 			}
+
+			if (sessionStorage.clicked > flag_clicked) {
+				jq1('.feed_more_btn a').click();
+			} else if (hajime && sessionStorage.clicked == flag_clicked) {
+				console.log(flag_clicked);
+				console.log(sessionStorage.clicked);
+				console.log(sessionStorage.scrollY);
+				console.log(window.scrollY);
+				setTimeout(function(){
+					window.scrollTo(0, sessionStorage.scrollY);
+					hajime = 0;
+					if (!window.onscroll) {
+						window.onscroll = function (event) {
+						  	sessionStorage.scrollY = window.scrollY;
+						};
+					};
+				},1000);
+								
+				console.log(window.scrollY);
+			};		
 	});
 }
 
