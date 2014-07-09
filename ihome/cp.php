@@ -102,6 +102,14 @@ else if(is_overseas() && !$space['namestatus'])	{
 	$_SGLOBAL['overseas'] = 'overseas' ;
 }
 else $_SGLOBAL['overseas'] = 'inland' ;
+
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($rows = $_SGLOBAL['db']->fetch_array($query))	{
+	if($rows['overseas_tip']=='never')	{
+		$_SGLOBAL['overseas_tip'] = 'never';
+	}
+	else $_SGLOBAL['overseas_tip'] = 'always';
+}
 $_SGLOBAL['space_theme'] = $space['theme'];
 $_SGLOBAL['space_css'] = $space['css'];
 if ($space['theme'] == 'diy') {

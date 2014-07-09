@@ -103,7 +103,9 @@ if($_GET['op'] == 'base') {
 			updatetable('space', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
 		}
 		//国外校友事件处理
-	
+		if(!empty($_POST['sync']))	{
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip = '".$_POST['sync']."' WHERE uid=".$_SGLOBAL['supe_uid']);
+		}
 		if( $_SGLOBAL['overseas'] == 'overseas' && !$space['namestatus'])	{
 
 			$country = trim($_POST['country']);

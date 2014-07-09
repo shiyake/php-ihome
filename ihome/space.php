@@ -293,6 +293,16 @@ else if(is_overseas() && !$space['namestatus'])	{
 }
 else $_SGLOBAL['overseas'] = 'inland' ;	
 
+//全局变量定义，判断是否再也不显示同步到群组
+
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($rows = $_SGLOBAL['db']->fetch_array($query))	{
+	if($rows['overseas_tip']=='never')	{
+		$_SGLOBAL['overseas_tip'] = 'never';
+	}
+	else $_SGLOBAL['overseas_tip'] = 'always';
+}
+
 //处理
 include_once(S_ROOT."./source/space_{$do}.php");
 

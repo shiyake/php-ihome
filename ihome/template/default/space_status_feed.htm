@@ -3,23 +3,39 @@
 -->
 <html>
 <script language="javascript" src="source/face.js"></script>
+<script language="javascript" src="plugin/layer/layer.min.js"></script>
 <style>
     .tooltip-inner{
         width: 196px;
         text-align: left;
+    }
+    .center-box {
+    	margin-left: 45px;
+    	margin-top: 45px;
+    	text-align: center;
+    }
+    .center-box {
+
     }
 </style>
 <script language="javascript" src="plugin/at/jquery.form.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 
-
 function atfriend(uid,name) {
 	var messageContent = jQuery("#message").val();
 	messageContent = messageContent + '@'+name+'('+uid+')'+' ';
 	jQuery("#message").val(messageContent);
 }	
-	
+function sync(msg)	{
+	jQuery.post("cp.php?ac=doing&sync=true",{
+		"msg":msg,
+		"uid":"$_SGLOBAL['supe_uid']"
+		},function(data){
+			
+			location.href="space.php?uid=$_SGLOBAL['supe_uid']&do=thread&id="+data.tid;
+	},"json");
+} 	
 jQuery(function ($) {
 
 	var bar = $('.bar');
@@ -35,7 +51,7 @@ jQuery(function ($) {
 		$("#myupload").ajaxSubmit({
 			dataType:  'json',
 			beforeSubmit: function(data)	{
-			showimg.html("<div class='triangle-isosceles' style='width:200px;height:300px;line-height:300px;text-align:center;'><p><b>"+name+"</b></p> <img style='width:30px;height:30px;' src='image/loading154.gif' ></div>");
+			showimg.html("<div class='triangle-isosceles' style='width:200px;height:300px;line-height:300px;text-align:center;'></h4><p><b>"+name+"</b></p> <img style='width:30px;height:30px;' src='image/loading154.gif' ></div>");
 			},
 			success: function(data) {
 				var img = "$_SC['attachurl']"+data.pic;
@@ -303,126 +319,144 @@ jQuery(function ($) {
 			sina_img.html("<img src=\"image/status/sina1.png\" align=\"absmiddle\" />");
 			$("#sina").val('0');
 		}
-	});
-	*/	
-	jQuery("#new_function_msg_close").live('click',function(){
-		jQuery("#new_function_msg").css("display","none");
+        });
+     */	
+     <!--{if $_SGLOBAL['overseas']=='overseas' && $_SGLOBAL['overseas_tip']=="always"}-->
+    
+    jQuery("#add").on('click',function(){
+    	
+    	var mes = jQuery("#message").val();
+    	
+      	jQuery.layer({
+		    type: 1,
+		    title: false,
+		    area: ['300px', '130px'],
+		    shade: [0],
+		    shift: 'left',
+		    page: {
+		        html: '<div class="center-box"><h5>要把发布的状态同步到群组吗？</h5><p><a href="cp.php?ac=profile" style="vertical-align:bottom;">去设置</a>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="sync(\''+mes+'\')" class="btn btn-sm btn-comments">同步</button></p></div>'
+	    	}
 		});
-	jQuery("#face_topic").mouseover(function(){
-		jQuery(this).find("img").attr({"src":"image/icons/statues_topic_pressed.png"});		
-		});
-	jQuery("#face_topic").mouseout(function(){
-		jQuery(this).find("img").attr({"src":"image/icons/statues_topic_normal.png"});		
-		});
+    });
+    <!--{/if}-->
+jQuery("#new_function_msg_close").live('click',function(){
+        jQuery("#new_function_msg").css("display","none");
+        });
+jQuery("#face_topic").mouseover(function(){
+        jQuery(this).find("img").attr({"src":"image/icons/statues_topic_pressed.png"});		
+        });
+jQuery("#face_topic").mouseout(function(){
+        jQuery(this).find("img").attr({"src":"image/icons/statues_topic_normal.png"});		
+        });
 });
 </script>
 <!--status message start
 <div class="showStatusMessage">
-<script language="javascript" src="plugin/at/jquery-1.8.2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="template/default/style.css"/> 
+    <script language="javascript" src="plugin/at/jquery-1.8.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="template/default/style.css"/> 
     <div class="statusMessage">
         <p id="messageContent"></p>
     </div>
 </div>
 status message end-->
 <div id="mood_feed">
-	<form method="post" id="doingform" action="cp.php?ac=doing&view=$_GET[view]" >
-		<div class="mood_statement">
-			<div class="mood_say_something">
-				<!--
-				<div class="btn" id="face_saybag">
-					<a id="complain_help" data-container="body" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-title="发布状态时，如果@了学院或部门处室的公共主页，点击该按钮后再发布。您的状态将作为诉求发布。">
-						<div id="complain_img"> 
-							<img src="image/statues_su_normal.png" />
-						</div>
-					</a>
-				</div>
-				-->
-				<input type="hidden" id="complain" name="complain" value="0" />
-				<ul id="mood-switch" class="nav nav-mood pull-left">
-					<li class="active status">
-						<a href="#">发状态</a>
-					</li>
-					<li class="complain">
-						<a href="#">提诉求</a>
-					</li>
-				</ul>
+    <form method="post" id="doingform" action="cp.php?ac=doing&view=$_GET[view]" >
+        <div class="mood_statement">
+            <div class="mood_say_something">
+                <!--
+                <div class="btn" id="face_saybag">
+                    <a id="complain_help" data-container="body" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-title="发布状态时，如果@了学院或部门处室的公共主页，点击该按钮后再发布。您的状态将作为诉求发布。">
+                        <div id="complain_img"> 
+                            <img src="image/statues_su_normal.png" />
+                        </div>
+                    </a>
+                </div>
+                -->
+                <input type="hidden" id="complain" name="complain" value="0" />
+                <ul id="mood-switch" class="nav nav-mood pull-left">
+                    <li class="active status">
+                    <a href="#">发状态</a>
+                    </li>
+                    <li class="complain">
+                    <a href="#">提诉求</a>
+                    </li>
+                </ul>
                 <a style="color:black;position:absolute;top:13px;margin-left:-85px;left:50%;z-index:100"id="complain_help" data-container="body" data-trigger="hover" data-toggle="tooltip" data-placement="bottom" data-title="提诉求时，需要先点击提诉求按钮，然后在输入框内@学院或部门处室的公共主页并输入诉求内容，最后点击诉求按钮，您的状态将作为诉求发布。"><span class="glyphicon glyphicon-question-sign"></span></a>
                 <div class="mood_say_statement">还可输入 <strong id="maxlimit">140</strong> 个字</div>
-			</div>			
-		</div>
-		<textarea class="mood_textarea" id="message" name="message" oninput="textCounter(this, 'maxlimit', 140)" onpropertychange="textCounter(this, 'maxlimit', 140)"onkeydown="ctrlEnter(event, 'add');"></textarea>
-		<div class="arrow-left">
-		</div>
-		<div class="demo">
-			<div class="btn drop_face" id="face_smell">
-				<!--
-					<a href="#" id="doingface" onclick="showFace(this.id, 'message');return false;"><img src="image/icons/statues_face_normal.png" align="absmiddle" title="插入表情"/></a>
-				-->
-	<!--			<a href="javascript:;" class="facein" 
-					data-html="true" data-original-title title 
-					data-placement="bottom" 
-					data-trigger="click"  data-toggle="popover" 
-					data-container="body" >
+            </div>			
+        </div>
+        <textarea class="mood_textarea" id="message" name="message" oninput="textCounter(this, 'maxlimit', 140)" onpropertychange="textCounter(this, 'maxlimit', 140)"onkeydown="ctrlEnter(event, 'add');"></textarea>
+        <div class="arrow-left">
+        </div>
+        <div class="demo">
+            <div class="btn drop_face" id="face_smell">
+                <!--
+                <a href="#" id="doingface" onclick="showFace(this.id, 'message');return false;"><img src="image/icons/statues_face_normal.png" align="absmiddle" title="插入表情"/></a>
+                -->
+                <!--			<a href="javascript:;" class="facein" 
+                    data-html="true" data-original-title title 
+                    data-placement="bottom" 
+                    data-trigger="click"  data-toggle="popover" 
+                    data-container="body" >
                     -->
                     <a href="javascript:;"><img src="image/icons/statues_face_normal.png" 
-						width="30" height="30"
-						align="absmiddle" title="插入表情" />
+                        width="30" height="30"
+                        align="absmiddle" title="插入表情" />
                     </a>
-                    
+
                 </div>
                 <div class="drop_face_menu" data-target="message"></div>
-			<div class="btn" id="face_pictor">
-				<img src="image/icons/statues_image_normal.png" width="30" height="30" align="absmiddle" />
-				<input id="fileupload" type="file" name="feedfile" title="插入图片">
-			</div>
-			<!--<div class="btn" id="face_topic">
-				<img src="image/icons/statues_topic_normal.png" width="30" height="30" align="absmiddle"/>
-			</div>
-			<a href="plugin.php?pluginid=video&ac=view&vid=192">ihome两周年庆典宣传片</a>-->
-			<!--功能细节有待完善，先注掉<div class="btn" id="at_friends">
-				<img src="image/icons/at-icon.png" width="30" height="30" align="absmiddle" />
-              </div>-->
-			<!--	
-			<div class="btn">
-				<div id="sina_img"><img src="image/status/sina1.png" /></div>
-				<input type="hidden" id="sina" name="sina" value="0" />
-				<input type="hidden" name="valsina" id="valsina" value="$space[sina_token]">
-			</div>
-			-->
-			<div id="at_friends_box">
-				<div id="search_at_friends">
-					<input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
-					<a href="javascript:" id="search_friends_submit"><img src="image/icons/at-search-icon.png" id="search_friends_bt" /></a>
-					<span id="close_at_box"><a href="javascript:void(0)">×</a></span>
-				</div>
-				<div id="friends_list_box"></div>
-			</div>
-			<div class="mood_submit">
-				<button type="submit" id="add" name="add" >发布</button>
-			</div>
-			<div class="progress">
-				<span class="bar"></span><span class="percent">0%</span >
-			</div>
-			<div class="files"></div>
-			<div id="showimg"></div>
-			<!-- wangnan 2013.12.27
-			<div id="new_function_msg" style="background:url('image/status/new_function_msg.png') no-repeat scroll;position:relative;padding:7px 4px 4px 4px;height:67px;width:232px;line-height:15px;z-index:999;top:-42px;left:70px;">
-				<div style="text-align:right;"><a href="javascript:void(0)" id="new_function_msg_close">关闭</a></div>
-				<div id="new_function_msg_cn" style="padding:2px;">
-				【温馨提示】发布状态时,如果@了学院或部门处室的公共主页,点击该按钮后再发布.您的状态将作为诉求发布.
-				</div>
-			</div>
-			-->
-		</div>	
-		
-		<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
-		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
-		<input type="hidden" name="addsubmit" value="true" />
-		<input type="hidden" name="refer" value="$theurl" />
-		<input type="hidden" name="topicid" value="$topicid" />
-		<input type="hidden" name="datapicid" id="datapicid" value="" />
-		<input type="hidden" name="datapicpath" id="datapicpath" value="" />
-		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-	</form>
-</div>
+                <div class="btn" id="face_pictor">
+                    <img src="image/icons/statues_image_normal.png" width="30" height="30" align="absmiddle" />
+                    <input id="fileupload" type="file" name="feedfile" title="插入图片">
+                </div>
+                <!--<div class="btn" id="face_topic">
+                    <img src="image/icons/statues_topic_normal.png" width="30" height="30" align="absmiddle"/>
+                </div>
+                <a href="plugin.php?pluginid=video&ac=view&vid=192">ihome两周年庆典宣传片</a>-->
+                <!--功能细节有待完善，先注掉<div class="btn" id="at_friends">
+                    <img src="image/icons/at-icon.png" width="30" height="30" align="absmiddle" />
+                </div>-->
+                <!--	
+                <div class="btn">
+                    <div id="sina_img"><img src="image/status/sina1.png" /></div>
+                    <input type="hidden" id="sina" name="sina" value="0" />
+                    <input type="hidden" name="valsina" id="valsina" value="$space[sina_token]">
+                </div>
+                -->
+                <div id="at_friends_box">
+                    <div id="search_at_friends">
+                        <input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
+                        <a href="javascript:" id="search_friends_submit"><img src="image/icons/at-search-icon.png" id="search_friends_bt" /></a>
+                        <span id="close_at_box"><a href="javascript:void(0)">×</a></span>
+                    </div>
+                    <div id="friends_list_box"></div>
+                </div>
+                <div class="mood_submit">
+                    <button type="submit" id="add" name="add" >发布</button>
+                </div>
+                <div class="progress">
+                    <span class="bar"></span><span class="percent">0%</span >
+                    </div>
+                    <div class="files"></div>
+                    <div id="showimg"></div>
+                    <!-- wangnan 2013.12.27
+                    <div id="new_function_msg" style="background:url('image/status/new_function_msg.png') no-repeat scroll;position:relative;padding:7px 4px 4px 4px;height:67px;width:232px;line-height:15px;z-index:999;top:-42px;left:70px;">
+                        <div style="text-align:right;"><a href="javascript:void(0)" id="new_function_msg_close">关闭</a></div>
+                        <div id="new_function_msg_cn" style="padding:2px;">
+                            【温馨提示】发布状态时,如果@了学院或部门处室的公共主页,点击该按钮后再发布.您的状态将作为诉求发布.
+                        </div>
+                    </div>
+                    -->
+                </div>	
+
+                <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+                <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+                <input type="hidden" name="addsubmit" value="true" />
+                <input type="hidden" name="refer" value="$theurl" />
+                <input type="hidden" name="topicid" value="$topicid" />
+                <input type="hidden" name="datapicid" id="datapicid" value="" />
+                <input type="hidden" name="datapicpath" id="datapicpath" value="" />
+                <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+            </form>
+        </div>

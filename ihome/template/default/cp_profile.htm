@@ -425,9 +425,19 @@
 	<th>所在学校</th>
 	<td><input type="text" name="overseas_school" class="t_input"/></td>
 </tr>
+
 <!--{/if}-->
-
-
+<!--{if  $_SGLOBAL['overseas'] == 'overseas' && $_SGLOBAL['overseas_tip'] == 'always'}-->
+<tr>
+	<th>同步状态到群组</th>
+	<td><input id="sync1" type="radio" name="sync" value="always" checked><label for="sync1">一直</label><input id="sync2" type="radio" name="sync" value="never"><label for="sync2">从不</label></td>
+</tr>
+<!--{elseif $_SGLOBAL['overseas'] == 'overseas' && $_SGLOBAL['overseas_tip'] == 'never'}-->
+<tr>
+	<th>同步状态到群组</th>
+	<td><input id="sync1" type="radio" name="sync" value="always"><label for="sync1">一直</label><input id="sync2" type="radio" name="sync" value="never" checked><label for="sync2">从不</label></td>
+</tr>
+<!--{/if}-->
 <!--{loop $profilefields $value}-->
 <tr>
 	<th>$value[title]<!--{if $value[required]}-->*<!--{/if}-->:</th>

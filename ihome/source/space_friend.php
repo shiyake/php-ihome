@@ -132,8 +132,15 @@ if($_GET['view'] == 'online') {
 
 	if( $type == 'overseas' )	{
 		//记录审批时间
-		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid=".$_SGLOBAL['supe_uid']." , cer=1  WHERE uid='$uid'");
+		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' , cer=1  WHERE uid='$uid'");
+
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('spaceforeign')." WHERE uid={$uid}");
+		if($value = $_SGLOBAL['db'] -> fetch_array($query))	{
+			
+			tagGroupOverseas($uid,$value["school"]);
+		}
 	}
+
 	$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'");
 	$bp = $_SGLOBAL['db']->fetch_array($q);
 	if($bp)
@@ -151,7 +158,8 @@ if($_GET['view'] == 'online') {
 			jointag($bp['uid'], $gid, $_SGLOBAL['db']);
 		}
 		if($type == 'overseas')	{
-			$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1");
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
+
 			if($_SGLOBAL['db']->fetch_array($query))	{
 				showmessage('do_success','admincp.php?ac=overseas',2);
 			}
