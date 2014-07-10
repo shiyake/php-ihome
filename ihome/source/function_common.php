@@ -1705,8 +1705,8 @@ function runlog($file, $log, $halt=0) {
 
 		if(empty($_SGLOBAL['supe_uid'])) {
 			ssetcookie('_refer', rawurlencode($_SERVER['REQUEST_URI']));
-			//showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
-			showmessage('to_login', 'index.php');
+			showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
+			//showmessage('to_login', 'index.php');
 		}
 	}
 
