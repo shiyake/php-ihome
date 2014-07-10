@@ -282,6 +282,17 @@ if($theme == 'uchomedefault') {
 		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
 	}
 }
+
+//全局变量定义，判读是否是国外校友
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($_SGLOBAL['db']->fetch_array($query))	{
+	$_SGLOBAL['overseas'] = 'overseas' ;
+}
+else if(is_overseas() && !$space['namestatus'])	{
+	$_SGLOBAL['overseas'] = 'overseas' ;
+}
+else $_SGLOBAL['overseas'] = 'inland' ;	
+
 //处理
 include_once(S_ROOT."./source/space_{$do}.php");
 

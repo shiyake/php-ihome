@@ -126,6 +126,14 @@ if($_GET['view'] == 'online') {
 	$uid = $_GET['uid'];
 	$uid = substr($uid, 2, strlen($uid)-4);
 	//找到baseprofile
+	//如果是国外校友
+	
+	$type = $_GET['type'];
+
+	if( $type == 'overseas' )	{
+		//记录审批时间
+		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid=".$_SGLOBAL['supe_uid']." , cer=1  WHERE uid='$uid'");
+	}
 	$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'");
 	$bp = $_SGLOBAL['db']->fetch_array($q);
 	if($bp)
@@ -142,9 +150,39 @@ if($_GET['view'] == 'online') {
 			$gid = tagGrade3($startyear, $academy, $_SGLOBAL['db']);
 			jointag($bp['uid'], $gid, $_SGLOBAL['db']);
 		}
+		if($type == 'overseas')	{
+			$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1");
+			if($_SGLOBAL['db']->fetch_array($query))	{
+				showmessage('do_success','admincp.php?ac=overseas',2);
+			}
+		}
 		showmessage('do_success',"/",2);
 	}
-}else {
+} elseif($_GET['view']=="refuse")	{
+	$uid = $_GET['uid'];
+	$uid = substr($uid,2,strlen($uid)-4);
+	$type = $_GET['type'];
+	if( $type == 'overseas' )	{
+		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' WHERE uid='$uid'");
+	}
+	$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'");
+	$bp = $_SGLOBAL['db']->fetch_array($q);
+	if($type == 'overseas')	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1");
+		if($_SGLOBAL['db']->fetch_array($query))	{
+			showmessage('do_success','admincp.php?ac=overseas',2);
+		}
+	}
+	if($bp)
+	{
+		//改成未认证的
+		$q = $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET namestatus='0' WHERE uid='$bp[uid]'");
+		showmessage('do_success',"/",2);
+	}
+}
+
+
+else {
 
 	//´¦Àí²éÑ¯
 	$theurl = "space.php?uid=$space[uid]&do=$do";

@@ -102,7 +102,40 @@ if($_GET['op'] == 'base') {
 			}
 			updatetable('space', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
 		}
+		//国外校友事件处理
 	
+		if( $_SGLOBAL['overseas'] == 'overseas' && !$space['namestatus'])	{
+
+			$country = trim($_POST['country']);
+			$overseas_school = trim($_POST['overseas_school']);
+			//更改表中spaceforeign信息
+
+			$_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." as a left join ".tname("space")." as b on a.uid=b.uid WHERE a.uid=".$_SGLOBAL['supe_uid']);
+			
+			if($value = $_SGLOBAL['db']->fetch_array($query))	{
+				$name = $value['name'];
+				$username = $value['username'];
+			}
+
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("spaceforeign")." SET school='".$overseas_school."' , country = '".$country."' , dataline = {$_SGLOBAL['timestamp']} WHERE uid=".$_SGLOBAL['supe_uid']);
+			//发送给外事处
+			
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE consul=1");
+			if($res = $_SGLOBAL['db']->fetch_array($query))	{
+				$recver = $res['uid']; 
+			}
+			$setarr = array(
+				'uid' => $recver,
+				'type' => "friend",
+				'new' => 1,
+				'authorid' => $_SGLOBAL['supe_uid'],
+				'author' => $value['name'],
+				'note' => "{$value['name']}登录名{$value['username']}来自$country,$school".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=overseas">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuse&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=overseas">忽略</a>',
+				'dateline' => $_SGLOBAL['timestamp']
+			) ;
+			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+			inserttable('notification', $setarr);		
+		}
 		//变更记录
 		if($_SCONFIG['my_status']) {
 			inserttable('userlog', array('uid'=>$_SGLOBAL['supe_uid'], 'action'=>'update', 'dateline'=>$_SGLOBAL['timestamp'], 'type'=>0), 0, true);
@@ -191,7 +224,8 @@ if($_GET['op'] == 'base') {
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$friendarr[$value['subtype']][$value['friend']] = ' selected';
 	}
-	
+
+
 } elseif ($_GET['op'] == 'contact') {
 	
 	if($_GET['resend']) {
