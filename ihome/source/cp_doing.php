@@ -3,6 +3,7 @@
 if(!defined('iBUAA')) {
     exit('Access Denied');
 }
+
 $doid = empty($_GET['doid'])?0:intval($_GET['doid']);
 $id = empty($_GET['id'])?0:intval($_GET['id']);
 if(empty($_POST['refer'])) $_POST['refer'] = "space.php?do=doing&view=me";
@@ -540,6 +541,77 @@ elseif ($_GET['op'] == 'getcomment') {
     realname_get();
 }
 
+if($_GET['sync']=='true') {
+        
+    $msg = $_POST['msg'];
+    $uid = $_POST['uid'];
+    $remember = $_POST['remember'];
+
+    if($remember=='true')   {
+
+        $_SGLOBAL['db'] -> query("UPDATE ".tname("spaceforeign")." SET sync='yes' WHERE uid=".$_POST['uid']);
+        $_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip='never' WHERE uid=".$_SGLOBAL['supe_uid']);
+    } 
+    $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid='$uid'");
+    if($res = $_SGLOBAL['db']->fetch_array($query))    {
+        $school = $res['school'];
+        $query1 = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("mtag")." WHERE tagname='$school'");
+        if( $r = $_SGLOBAL['db']-> fetch_array($query1) )   {
+            $tagid = $r['tagid'];
+        }
+    }
+
+    $setarr = array(
+        'tagid' => $tagid,
+        'uid' => $_SGLOBAL['supe_uid'],
+        'username' => $_SGLOBAL['supe_username'],
+        'dateline' => $_SGLOBAL['timestamp'],
+        'subject' => $msg,
+        'lastpost' => $_SGLOBAL['timestamp'],
+        'lastauthor' => $_SGLOBAL['supe_username'],
+        'lastauthorid' => $_SGLOBAL['supe_uid']
+    );
+    $tid = inserttable('thread',$setarr,1);
+	$psetarr = array(
+		'tagid' => $tagid,
+		'tid' => $tid,
+		'uid' => $_SGLOBAL['supe_uid'],
+		'username' => $_SGLOBAL['supe_username'],
+		'ip' => getonlineip(),
+		'dateline' => $_SGLOBAL['timestamp'],
+		'message' => $msg,
+		'isthread' => 1
+	);
+	//添加
+	inserttable('post', $psetarr);
+	
+	//更新群组统计
+	$_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET threadnum=threadnum+1 WHERE tagid='$tagid'");
+	
+	//统计
+	updatestat('thread');
+	
+	//更新用户统计
+	if(empty($space['threadnum'])) {
+		$space['threadnum'] = getcount('thread', array('uid'=>$space['uid']));
+		$threadnumsql = "threadnum=".$space['threadnum'];
+	} else {
+		$threadnumsql = 'threadnum=threadnum+1';
+	}
+	//积分
+	$reward = getreward('publishthread', 0);
+	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$threadnumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
+    $returnarr = array("tagid"=>$tagid,"tid"=>$tid);
+    echo json_encode($returnarr);
+    return ;
+}
+if($_GET['sync']=='false') {
+    if($_POST['remember']=="true")  {
+        $_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip='never' WHERE uid='".$_SGLOBAL['supe_uid']."'");
+        $_SGLOBAL['db'] -> query("UPDATE ".tname("spaceforeign")." SET sync='no'  WHERE uid='".$_SGLOBAL['supe_uid']."'");
+    }
+    return ;
+}
 include template('cp_doing');
 //É¸Ñ¡
 function ckicon_uid($feed) {

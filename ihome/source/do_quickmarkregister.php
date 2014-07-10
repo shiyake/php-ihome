@@ -478,7 +478,7 @@ else
 							$recver = $recver['uid'];
 							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
-						if(empty($_SCONFIG['overseas']))	{
+						
 							if(!$recver)
 							{
 								if(!$collage_match)     {
@@ -499,7 +499,7 @@ else
 							);
 							$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
 							inserttable('notification', $setarr);
-						}
+						
 					}
 				}
 				else

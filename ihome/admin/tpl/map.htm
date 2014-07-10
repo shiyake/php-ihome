@@ -1,18 +1,28 @@
-<html>
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        
         <style type="text/css">
-            body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+            body, html,#allmap {width: 100%;height: 100%;}
         </style>
         <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0zzWLSv1P3Vkc7cu3xwB7ByC"></script>
         <title>国际校友分布</title>
     </head>
-    <body>
+   
+    
+    <!--{template admin/tpl/header}-->
+    <div id="bg_pic">
+    <div class="side">
+     <!--{template admin/tpl/side}-->
+          </div>
+        <div class="maininner">
+        <div class="bdrcontent" style="margin-top:20px;" >
         <div id="allmap" style="width:100%;"></div>
-    </body>
-</html>
-
+        </div>
+        </div>
+        
+    </div>
+    </div>
+<!--{template admin/tpl/footer}-->
 <script type="text/javascript">
     // 百度地图API功能
     var map = new BMap.Map("allmap");
