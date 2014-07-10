@@ -1,6 +1,3 @@
-<!--<html xmlns:wb="http://open.weibo.com/wb">-->
-<!--<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=632731976&debug=true" type="text/javascript" charset="utf-8"></script>
--->
 <html>
 <script language="javascript" src="source/face.js"></script>
 <script language="javascript" src="plugin/layer/layer.min.js"></script>
@@ -10,12 +7,9 @@
         text-align: left;
     }
     .center-box {
-    	margin-left: 45px;
-    	margin-top: 45px;
+    	margin-left: 34px;
+    	margin-top: 27px;
     	text-align: center;
-    }
-    .center-box {
-
     }
 </style>
 <script language="javascript" src="plugin/at/jquery.form.js"></script>
@@ -30,12 +24,20 @@ function atfriend(uid,name) {
 function sync(msg)	{
 	jQuery.post("cp.php?ac=doing&sync=true",{
 		"msg":msg,
-		"uid":"$_SGLOBAL['supe_uid']"
+		"uid":"$_SGLOBAL['supe_uid']",
+		"remember":jQuery("#remember").prop("checked")
 		},function(data){
 			
 			location.href="space.php?uid=$_SGLOBAL['supe_uid']&do=thread&id="+data.tid;
 	},"json");
-} 	
+} 
+function sync_no()	{
+	jQuery.post("cp.php?ac=doing&sync=false",{
+		"remember":jQuery("#remember").prop("checked")
+	},function(){
+		jQuery(".xubox_close").click();
+	});
+}	
 jQuery(function ($) {
 
 	var bar = $('.bar');
@@ -321,7 +323,13 @@ jQuery(function ($) {
 		}
         });
      */	
-     <!--{if $_SGLOBAL['overseas']=='overseas' && $_SGLOBAL['overseas_tip']=="always"}-->
+
+     <!--{if $_SGLOBAL['overseas']=='overseas' && $_SGLOBAL['cer']==1 && $_SGLOBAL['overseas_tip']=="never" && $_SGLOBAL['sync']=="yes"}-->
+
+     jQuery("#add").on('click',function(){
+     	sync(jQuery("#message").val());
+     });
+     <!--{elseif $_SGLOBAL['overseas']=='overseas' && $_SGLOBAL['cer']==1 && $_SGLOBAL['overseas_tip']=="always"}-->
     
     jQuery("#add").on('click',function(){
     	
@@ -334,7 +342,7 @@ jQuery(function ($) {
 		    shade: [0],
 		    shift: 'left',
 		    page: {
-		        html: '<div class="center-box"><h5>要把发布的状态同步到群组吗？</h5><p><a href="cp.php?ac=profile" style="vertical-align:bottom;">去设置</a>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="sync(\''+mes+'\')" class="btn btn-sm btn-comments">同步</button></p></div>'
+		        html: '<div class="center-box"><h5>要把发布的状态同步到群组吗？</h5><p><button onclick="sync_no()" class="btn btn-sm btn-comments">不同步</button><button onclick="sync(\''+mes+'\')" style="margin-left:30px;" class="btn btn-sm btn-comments">同步</button>&nbsp;&nbsp;</p><p><input type="checkbox" name="remember" id="remember"/>&nbsp;<label for="remember">记住选择</label><span style="margin-left:10px;">在个人设置->同步设置里更改</span></p></div>'
 	    	}
 		});
     });

@@ -284,12 +284,29 @@ if($theme == 'uchomedefault') {
 }
 
 //全局变量定义，判读是否是国外校友
+//通过IP归属地，判断是否为从前的国外校友，并把信息录入到spaceforeign表中
+
 $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
 if($_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['overseas'] = 'overseas' ;
+	$q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer=1");
+	if($qes=$_SGLOBAL['db']->fetch_array($q))	{
+		$_SGLOBAL['cer'] = 1;
+	
+		$_SGLOBAL['sync'] = $qes['sync'];
+		//showmessage($_SGLOBAL['sync']);
+	}
+	else {
+	 	$_SGLOBAL['cer'] = 0;
+	 	$_SGLOBAL['sync'] = 'no';
+	}
 }
-else if(is_overseas() && !$space['namestatus'])	{
-	$_SGLOBAL['overseas'] = 'overseas' ;
+else if(is_overseas())	{
+	$query=$_SGLOBAL['db']-> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+	if(!$_SGLOBAL['db']->fetch_array($query))	{
+		$_SGLOBAL['overseas'] = 'overseas' ;
+		$_SGLOBAL['cer'] = 0;
+	}
 }
 else $_SGLOBAL['overseas'] = 'inland' ;	
 

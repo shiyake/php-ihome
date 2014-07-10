@@ -97,11 +97,18 @@ if(!in_array($ac, array('common', 'pm'))) {
 $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
 if($_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['overseas'] = 'overseas' ;
+	if($q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer=1"))	{
+		$_SGLOBAL['cer'] = 1;
+	}
+	else $_SGLOBAL['cer'] = 0;
 }
-else if(is_overseas() && !$space['namestatus'])	{
-	$_SGLOBAL['overseas'] = 'overseas' ;
+else if(is_overseas())	{
+	$query=$_SGLOBAL['db']-> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+	if(!$_SGLOBAL['db']->fetch_array($query))	{
+		$_SGLOBAL['overseas'] = 'overseas' ;
+	}
 }
-else $_SGLOBAL['overseas'] = 'inland' ;
+else $_SGLOBAL['overseas'] = 'inland' ;	
 
 $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
 if($rows = $_SGLOBAL['db']->fetch_array($query))	{
