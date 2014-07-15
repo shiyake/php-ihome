@@ -293,7 +293,7 @@
 
 		var interval_id;
 		jq1(window).focus(function() {
-			if (!interval_id) {interval_id = setInterval(callback, 3000);};
+			if (!interval_id) {interval_id = setInterval(callback, 30000);};
 		});
 		jq1(window).blur(function() {
 			clearInterval(interval_id);
