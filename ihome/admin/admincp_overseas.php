@@ -2,6 +2,9 @@
 if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
+if(!checkperm('manageoverseas')) {
+	cpmessage('no_authority_management_operation');
+}
 $apply = array();
 $passdeny = array();
 $pos = array();
