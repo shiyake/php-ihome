@@ -106,12 +106,12 @@ span{
                 </div>
                 <div class="active_inputlist">
                 	<div class="active_inputtitle">生日/邀请码</div>
-                    <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()"/>
+                    <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()" placeholder="这是您的初始密码"/>
                     <span id="checkbirthday"></span>
                 </div>
                 <div class="active_inputlist">
                 	<div class="active_inputtitle">您的邮箱</div>
-                    <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()"/>
+                    <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()" placeholder="请使用QQ邮箱"/>
                     <span id="checkemail"></span>
                 </div>
                 <div class="active_inputlist">
@@ -245,7 +245,20 @@ span{
 
 	var lastcollegeid = lastfreshmanseccode = lastalumnseccode = lastemailseccode = lastquickcollegeid = lastquickseccode = lastrealname = lastfreshmanrealname = lastbirthday =lastmobile = lastgetverifycode = lastinputverifycode = lastfreshmanbirthday = '';
 	menu(4);
-
+    function validate () {
+        if (jQuery('#subtitle').val()=="2222" || jQuery('#subtitle').val()==null) {
+            alert("请选择院系");
+            return false;
+        }
+        if (jQuery("select[name='country']").val()=="请选择国家或地区" || jQuery('#subtitle').val()==null) {
+            alert("请选择国家或地区");
+            return false;
+        }
+        if (jQuery("input[name='school']").val()=="" || jQuery("input[name='school']").val()==null) {
+            alert("请填写所在学校");
+            return false;
+        }
+    }
 	function menu(n)
 	{
 		i1a=document.getElementById('CardActivateOn').style;
@@ -470,6 +483,11 @@ span{
 			  $('email').focus();
 			  return false;
 			  }
+            if (email.substring(email.lastIndexOf('@')+1).toLowerCase() != 'qq.com') {
+                alert('亲，请使用QQ邮箱哦~');
+                $('email').focus();
+                return false;
+            };
 		   }
 		return false;
 		} 

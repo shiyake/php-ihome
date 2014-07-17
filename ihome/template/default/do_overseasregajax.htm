@@ -1,12 +1,12 @@
 <!--{template header}-->
 <!--{eval 
 	$year=array();
-	for($i=1950 ;$i < 2100;$i++)	{
+	for($i=1950 ;$i < 2015;$i++)	{
 		array_push($year,$i);
 	}
 }-->
 <div id="overseasregajax" name="overseasregajax" class="overseasregajax" style="height: 218px;">
-	<form id="overseasregajaxform" name="overseasregajax" method="post" action="do.php?ac=$_SCONFIG[overseasregister_action]&op=create" >
+	<form id="overseasregajaxform" name="overseasregajax" method="post" action="do.php?ac=$_SCONFIG[overseasregister_action]&op=create" onsubmit="return validate()">
 		<table cellspacing="0" cellpadding="3">
 			<tr>
 				<td><div>选择院系</div></td>
@@ -54,11 +54,12 @@
 			<tr>
 				<td>
 
-					<div>所在国家</div>
+					<div>所在国家或地区</div>
 				</td>
 				<td>
 
-					<select name="country" class="form-control input-sm">
+					<select name="country" class="t_input form-control input-sm">
+					<option>请选择国家或地区</option>
 					<option>阿尔及利亚</option>
 					<option>阿富汗</option>
 					<option>阿根廷</option>

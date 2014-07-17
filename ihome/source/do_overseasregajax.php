@@ -32,8 +32,18 @@ if(submitcheck('overseasregajaxsubmit'))
 	$_POST["username"] = $username;
 	$_POST["password"] = $password;
 	$_POST["birthday"] = $birthday;
-	$_POST["startyear"] = $_POST["startyear"];
-	$_POST["academy"] = $_POST["subtitle"];
+	if ($bp['startyear'] == '' or $bp['startyear'] == null) {
+		$_POST["startyear"] = $_POST["startyear"];
+		$_SGLOBAL['db']->query("UPDATE ".tname('baseprofile')." SET startyear='".$_POST["startyear"]."' WHERE realname='$realname' and birthday='$birthday' limit 1");
+	} else {
+		$_POST["startyear"] = $bp['startyear'];
+	}
+	if ($bp['academy'] == '' or $bp['academy'] == null) {
+		$_POST["academy"] = $_POST["subtitle"];
+		$_SGLOBAL['db']->query("UPDATE ".tname('baseprofile')." SET academy='".$_POST["academy"]."' WHERE realname='$realname' and birthday='$birthday' limit 1");
+	} else {
+		$_POST["academy"] = $bp['academy'];
+	}
 	$_POST['email'] = $email;
 	$_SGLOBAL["inviteactive_showemail"] = true;
 	$_SGLOBAL["no_inviteactive"] = true;
