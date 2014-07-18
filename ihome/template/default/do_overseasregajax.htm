@@ -1,7 +1,7 @@
 <!--{template header}-->
 <!--{eval 
 	$year=array();
-	for($i=1950 ;$i < 2015;$i++)	{
+	for($i=1952 ;$i < 2015;$i++)	{
 		array_push($year,$i);
 	}
 }-->
@@ -46,7 +46,11 @@
 				<td>
 					<select type="text" name="startyear" class="t_input form-control input-sm" style="width:180px;display:block;">
 						<!--{loop $year $key}-->
+						<!--{if $key != 2008}-->
 						<option>$key</option>
+						<!--{else}-->
+						<option selected="selected">$key</option>
+						<!--{/if}-->
 						<!--{/loop}-->
 					</select>
 				</td>

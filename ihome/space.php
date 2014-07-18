@@ -289,9 +289,9 @@ if($theme == 'uchomedefault') {
 $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
 if($_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['overseas'] = 'overseas' ;
-	$q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer=1");
+	$q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer!=-1");
 	if($qes=$_SGLOBAL['db']->fetch_array($q))	{
-		$_SGLOBAL['cer'] = 1;
+		$_SGLOBAL['cer'] = 2;
 	
 		$_SGLOBAL['sync'] = $qes['sync'];
 		//showmessage($_SGLOBAL['sync']);
