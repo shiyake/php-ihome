@@ -161,7 +161,7 @@ if($_GET['op'] == 'add') {
 				$_SGLOBAL['db'] -> query("UPDATE ".tname("recommendation")." SET recfrom_i = 1, weight = 0 WHERE feedid = ".$feedid);
 			}
 		} else {
-			$_SGLOBAL['db'] -> query("INSERT INTO ".tname("recommendation")." SELECT *, 1, 0 FROM ".tname("feed")." WHERE feedid = ".$feedid);
+			$_SGLOBAL['db'] -> query("INSERT INTO ".tname("recommendation")." SELECT *, 1, 0, 0, 0 FROM ".tname("feed")." WHERE feedid = ".$feedid);
 		}
 	} else if ($_POST['recop'] == 'search') {
 		$feedid = $_POST['feedid'];
