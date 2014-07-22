@@ -101,6 +101,7 @@ else
 
 		if($name=="" || $startyear=="" || $birthday=="" || strlen($password) < 6 || (!$_SGLOBAL["no_inviteactive"] && $uid ==""))
 		{
+			showmessage($name." ".$startyear." ".$birthday." ".strlen($password)." ".$_SGLOBAL["no_inviteactive"]." ".$uid);
 			returnResponse(40002,"格式不正确");
 		}
 		if((!$_SGLOBAL["no_inviteactive"] && inject_check($uid)) || inject_check($name) || inject_check($startyear) || 

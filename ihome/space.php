@@ -314,6 +314,11 @@ else $_SGLOBAL['overseas'] = 'inland' ;
 
 $query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
 if($rows = $_SGLOBAL['db']->fetch_array($query))	{
+	if ($rows['credit'] <= 3) {
+		$_SGLOBAL['newbie'] = 1;
+	} else {
+		$_SGLOBAL['newbie'] = 0;
+	}
 	if($rows['overseas_tip']=='never')	{
 		$_SGLOBAL['overseas_tip'] = 'never';
 	}

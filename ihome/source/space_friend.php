@@ -189,7 +189,7 @@ elseif ($_GET['view']=='confirmoverseas')	{
 			showmessage('do_success','admincp.php?ac=overseas',1);
 		}
 	}
-	showmessage('do_success',"/",2);
+	showmessage('do_success',"space.php?do=notice",1);
 	
 }
 elseif ($_GET['view']=='refuseoverseas')	{
@@ -213,11 +213,12 @@ elseif ($_GET['view']=='refuseoverseas')	{
 	
 	$bp = $_SGLOBAL['db']->fetch_array($q);
 	if($type == 'overseas')	{
-		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1");
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
 		if($_SGLOBAL['db']->fetch_array($query))	{
 			showmessage('do_success','admincp.php?ac=overseas',1);
 		}
 	}
+	showmessage('do_success',"space.php?do=notice",1);
 	
 }
 else {

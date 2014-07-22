@@ -46,7 +46,7 @@ if("change" == $_GET['do'])	{
 			'new' => 1,
 			'authorid' => $_SGLOBAL['supe_uid'],
 			'author' => $name,
-			'note' => '管理员授权您为外事处，处理国外校友相关事务',
+			'note' => '管理员授权您处理国外校友信息认证相关事务',
 			'dateline' => $_SGLOBAL['timestamp']
 			) ;
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$change_uid'");
@@ -59,7 +59,7 @@ if("change" == $_GET['do'])	{
 				'new' => 1,
 				'authorid' => $_SGLOBAL['supe_uid'],
 				'author' => $name,
-				'note' => '管理员取消了授权您为外事处',
+				'note' => '管理员取消了授权您处理国外校友信息认证相关事务',
 				'dateline' => $_SGLOBAL['timestamp']
 				) ;
 				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$consulNow'");

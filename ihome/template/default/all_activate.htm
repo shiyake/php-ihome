@@ -106,12 +106,12 @@ span{
                 </div>
                 <div class="active_inputlist">
                 	<div class="active_inputtitle">生日/邀请码</div>
-                    <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()" placeholder="这是您的初始密码"/>
+                    <input class="active_normal" type="password" id="birthday" name="birthday" value="" onblur="checkbirthday()"/>
                     <span id="checkbirthday"></span>
                 </div>
                 <div class="active_inputlist">
                 	<div class="active_inputtitle">您的邮箱</div>
-                    <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()" placeholder="请使用QQ邮箱"/>
+                    <input class="active_normal" type="text" id="email" name="email" value="" onblur="checkemail()"/>
                     <span id="checkemail"></span>
                 </div>
                 <div class="active_inputlist">
@@ -441,14 +441,17 @@ span{
 	}
 
 	function CheckSubmitOrNoOverseas() {
+        var e = window.event || arguments.callee.caller.arguments[0];
 		var alum = document.getElementsByName('alumtype');
 		for (var i = 0; i < alum.length; i++) {
 	        var overseasregistersubmit = window.overseasregistersubmit || document.mobileregisterform.overseasregistersubmit;
-			AJAXrealnameANDbirthdayFETCHoverseas(event, overseasregistersubmit.id, 1);
+			AJAXrealnameANDbirthdayFETCHoverseas(e, overseasregistersubmit.id, 1);
         }
 	}
 
     function CheckSubmitOrNoInland(){
+        var e = window.event || arguments.callee.caller.arguments[0];
+        
         var Birthday = $('birthday').value;     
         var LengthOfBirthday = Birthday.replace(/[^\d]/, "*").length;
 
@@ -464,7 +467,7 @@ span{
         }
         else{
             var mobileregistersubmit = window.mobileregistersubmit || document.mobileregisterform.mobileregistersubmit;
-            AJAXrealnameANDbirthdayFETCHmobile(event, mobileregistersubmit.id, 1);
+            AJAXrealnameANDbirthdayFETCHmobile(e, mobileregistersubmit.id, 1);
         }
     }
 
@@ -482,12 +485,7 @@ span{
 			  alert('Email的格式不正确！');
 			  $('email').focus();
 			  return false;
-			  }
-            if (email.substring(email.lastIndexOf('@')+1).toLowerCase() != 'qq.com') {
-                alert('亲，请使用QQ邮箱哦~');
-                $('email').focus();
-                return false;
-            };
+			  }F
 		   }
 		return false;
 		} 
@@ -672,7 +670,7 @@ jQuery.noConflict();
 		$('.active_button').attr("disabled","disabled");//将按钮设置为disabled
 		setTimeout(function() {
 			m5.display='none';
-			$('.active_button').removeAttr("disabled");//去除按钮的disabled属性
+            $('.active_button').removeAttr("disabled");//去除按钮的disabled属性
 		},60000);
 		
 
