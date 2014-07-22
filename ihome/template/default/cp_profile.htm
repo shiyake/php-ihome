@@ -300,8 +300,28 @@
 				jQuery(this).attr({"selected":"selected"});
 			}
 		});
+		jQuery("[rel=tooltip]").tooltip();
 	});
 </script>
+<!--{if $overseas_verified == 1}-->
+<tr>
+	<th>所在国家:</th>
+	<td><span rel="tooltip" data-toggle="tooltip" data-placement="right" title="" data-original-title="验证通过">$country&nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></span></td>
+</tr>
+<tr>
+	<th>所在学校:</th>
+	<td><span rel="tooltip" data-toggle="tooltip" data-placement="right" title="" data-original-title="验证通过">$school&nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></span></td>
+</tr>
+<!--{elseif $overseas_verified == 0}-->
+<tr>
+	<th>所在国家:</th>
+	<td><span rel="tooltip" data-toggle="tooltip" data-placement="right" title="" data-original-title="等待验证">$country&nbsp;&nbsp;<span class="glyphicon glyphicon-question-sign"></span></span></td>
+</tr>
+<tr>
+	<th>所在学校:</th>
+	<td><span rel="tooltip" data-toggle="tooltip" data-placement="right" title="" data-original-title="等待验证">$school&nbsp;&nbsp;<span class="glyphicon glyphicon-question-sign"></span></span></td>
+</tr>
+<!--{else}-->
 <tr>
 	<th>所在国家:</th>
 	<td>
@@ -437,6 +457,7 @@
 	<th>所在学校:</th>
 	<td><input type="text" name="overseas_school" class="t_input" value="$school"/></td>
 </tr>
+<!--{/if}-->
 
 <!--{/if}-->
 <!--{loop $profilefields $value}-->

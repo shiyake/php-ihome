@@ -20,9 +20,6 @@ $count = 0;
  	$actives['recfrom_i'] = " class='active'";
  	$wheresql = "recfrom_i = 1";
  }
-if ($space[feedfriend]==''){
-    $wheresql = "uid IN ($space[uid])";
-}
 $ordersql = "weight DESC, dateline DESC";
 $theurl = "space.php?do=recommendation&type=$type";
 $f_index = '';

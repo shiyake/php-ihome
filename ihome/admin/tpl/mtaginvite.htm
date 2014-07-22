@@ -6,30 +6,37 @@
 			
 			<div class="bdrcontent">
 			<h4 class="l_status title">最新校友激活认证申请</h4>
-			<div>
-			<ul class="mtag_invite_ul clearfix">
-				<li>UID</li><li>登录名</li><li>申请时间</li><li>批准时间</li><li>操作人</li><li>操作</li>
-			</ul>
-			<!--{loop $value $key $arr}-->
-			<ul class="mtag_invite_ul clearfix">
-				<li><a href="space.php?uid=$arr[uid]">$arr['uid']</a></li>
-				<li><a href="space.php?uid=$arr[uid]">$arr['username']&nbsp;</a></li>
-				<li>$arr['apply_date']&nbsp;</li>
-				<li>$arr['pass_date']&nbsp;</li>
-				<li><a href="space.php?uid=$arr['apply_uid']">$_SN[$arr['apply_uid']]</a>&nbsp;</li>
-				<li>
-					<!--{if empty($arr['pass_date'])}-->
-						<a href="admincp.php?ac=mtaginvite&do=pass&uid=$arr['uid']">批准</a>/<a href="admincp.php?ac=mtaginvite&do=refuse&uid=$arr['uid']" >拒绝</a>
-					<!--{else}-->
-					<!--{if $arr['state']=='yes'}-->
-						已通过
-					<!--{else}-->
-						已拒绝
-					<!--{/if}-->
-					<!--{/if}-->
-				</li>
-			</ul>	
-			<!--{/loop}-->
+			<div class="bdrcontent">
+				<table class="listtable">
+					<tr>
+						<td>UID</td>
+						<td>登录名</td>
+						<td>申请时间</td>
+						<td>批准时间</td>
+						<td>操作人</td>
+						<td>操作</td>
+					</tr>
+					<!--{loop $value $key $arr}-->
+					<tr>
+						<td><a href="space.php?uid=$arr[uid]">$arr['uid']</a></td>
+						<td><a href="space.php?uid=$arr[uid]">$arr['username']&nbsp;</a></td>
+						<td><!--{eval echo preg_replace('/(\d{4})(\d{2})(\d{2})(.*)/','$1-$2-$3$4',$arr['apply_date'])}-->&nbsp;</td>
+						<td><!--{eval echo preg_replace('/(\d{4})(\d{2})(\d{2})(.*)/','$1-$2-$3$4',$arr['pass_date'])}-->&nbsp;</td>
+						<td><a href="space.php?uid=$arr['apply_uid']">$_SN[$arr['apply_uid']]</a>&nbsp;</td>
+						<td>
+							<!--{if empty($arr['pass_date'])}-->
+								<a href="admincp.php?ac=mtaginvite&do=pass&uid=$arr['uid']">批准</a>/<a href="admincp.php?ac=mtaginvite&do=refuse&uid=$arr['uid']" >拒绝</a>
+							<!--{else}-->
+							<!--{if $arr['state']=='yes'}-->
+								已通过
+							<!--{else}-->
+								已拒绝
+							<!--{/if}-->
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{/loop}-->
+				</table>
 			</div>
 		</div>
 	</div>

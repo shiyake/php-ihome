@@ -217,8 +217,13 @@ if(submitcheck('addsubmit')) {
             getreward('complain', 1, $_SGLOBAL['supe_uid']);
         }
         if(!$complainOK && $isComplain){//ËßÇó·¢ÆðÊ§°Ü
-            $note = cplang('note_complain_user_failed', array("space.php?do=doing&doid=$newdoid"));
-            notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            if ($UserId == '0000') {
+                $note = cplang( "您好，您的诉求已发送成功。谢谢您对ihome社区的大力支持!", array("space.php?do=doing&doid=$newdoid"));
+                notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            } else {
+                $note = cplang('note_complain_user_failed', array("space.php?do=doing&doid=$newdoid"));
+                notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            }
         }
         //ÒÔÉÏ´¦ÀíÍ¶ËßÐÅÏ¢//////////////////////////
     }

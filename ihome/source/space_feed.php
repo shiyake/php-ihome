@@ -513,7 +513,7 @@ while ($complain = $_SGLOBAL['db']->fetch_array($complainQuery)) {
 
 $isLeader = FALSE;
 $dept_uids = '0';
-$dept_uids .= getBaseDepartmentID($uid);
+$dept_uids .= getBaseDepartmentID($_SGLOBAL[supe_uid]);
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain_uid')." WHERE uid=$_SGLOBAL[supe_uid]");
 if($value = $_SGLOBAL['db']->fetch_array($query) || $dept_uids != '0') {
 	$isLeader = TRUE;

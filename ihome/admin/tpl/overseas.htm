@@ -69,7 +69,11 @@
 	
 	<div style="margin-top:10px;">
 		<div class="bdrcontent">
-			<span>修改审核人UID</span><input class="form-control input-sm change_uid" type="text" style="width:188px;display:initial;margin-left:10px;" placeholder="输入审核人UID" name="change_uid"/><button style="margin-left:10px;" class="btn btn-sm btn-comments change_btn">修改</button></div>
+			<!--{if $consulNow}-->
+			<span>修改审核人UID</span><input class="form-control input-sm change_uid" type="text" style="width:240px;display:initial;margin-left:10px;" placeholder="当前审核人为$consulName (uid为$consulNow)" name="change_uid"/><button style="margin-left:10px;" class="btn btn-sm btn-comments change_btn">修改</button></div>
+			<!--{else}-->
+			<span>修改审核人UID</span><input class="form-control input-sm change_uid" type="text" style="width:240px;display:initial;margin-left:10px;" placeholder="当前没有审核人" name="change_uid"/><button style="margin-left:10px;" class="btn btn-sm btn-comments change_btn">修改</button></div>
+			<!--{/if}-->
 		<div class="bdrcontent" style="margin-top:10px;">
 		<div><h5>最新申请</h5></div>
 		<table class="listtable">
@@ -77,7 +81,7 @@
 			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>申请时间</td><td>处理操作</td>
 			</tr>
 		<!--{loop $apply $value}-->
-			<tr><td>$value['username']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td><!--{eval echo date('Y-m-d h:m:s',$value['dataline'])}--></td><td><a href="space.php?do=friend&view=confirmoverseas&uid=%27{$value['uid']}%27&type=overseas">通过</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27{$value['uid']}%27&type=overseas">忽略</a></td></tr>
+			<tr><td>$value['username']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td><!--{eval echo date('Y-m-d H:m:s',$value['dataline'])}--></td><td><a href="space.php?do=friend&view=confirmoverseas&uid=%27{$value['uid']}%27&type=overseas">通过</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27{$value['uid']}%27&type=overseas">拒绝</a></td></tr>
 		<!--{/loop}-->
 		</table>
 		</div>
@@ -87,8 +91,7 @@
 			<tr>
 			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>处理时间</td>
 			<td>处理人</td></tr>
-		<!--{loop $pass $value}-->
-			<tr><td>$value['name']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td><!--{eval echo date('Y-m-d h:m:s',$value['passline'])}--></td><td><!--{eval echo getUsername($value['pass_uid'],$_SGLOBAL['db'])}--></td></tr>
+		<!--{loop $passdeny $value}--><tr><td style="text-align: left;"><!--{if $value['cer'] == 1}--><span class="glyphicon glyphicon-ok"></span><!--{else}--><span class="glyphicon glyphicon-remove"></span><!--{/if}-->&nbsp;&nbsp;$value['username']</td><td>$value['birthday']</td><td style='word-break: normal;'>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td style='word-break: normal;'><!--{eval echo date('Y-m-d H:m:s',$value['passline'])}--></td><td><!--{eval echo getUsername($value['pass_uid'],$_SGLOBAL['db'])}--></td></tr>
 		<!--{/loop}-->
 		</table>
 		</div>

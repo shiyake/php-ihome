@@ -141,7 +141,8 @@ if($_GET['op'] == 'base') {
 						"country"=>$country,
 						"school"=>$overseas_school,
 						"lng"=>$lng,
-						"lat"=>$lat
+						"lat"=>$lat,
+						'dataline'=>$_SGLOBAL['timestamp']
 					);
 					inserttable("spaceforeign",$forg);
 					//forgienCreate表插入数据
@@ -783,10 +784,12 @@ if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
 		$monthhtml .= "<option value=\"$i\">$i</option>";
 	}
 }
+$overseas_verified = 13;
 if($_SGLOBAL['overseas'])	{
 	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
 	
 	if($res = $_SGLOBAL['db']->fetch_array($query))	{
+		$overseas_verified = $res['cer'];
 		$country = $res['country'] ;
 		$school = $res['school'] ; 
 
