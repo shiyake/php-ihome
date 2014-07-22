@@ -2,6 +2,9 @@
 if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
+if(!checkperm('managerecommendpublic')) {
+	cpmessage('no_authority_management_operation');
+}
 //1为学院、2为部处、3为名人、4为学生组织、5为兴趣社团、6为学生党组织、7为活动主页、8为品牌主页、20为班级主页、100为航路研语、默认0为其他
 
 

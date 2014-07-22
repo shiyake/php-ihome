@@ -260,25 +260,31 @@ include_once template("/plugin/apps/detail");
 function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
     GLOBAL $_SGLOBAL;
     //更新总平均分以及评分人数
-    $all_score = $app['score'] * $app['modders'];
-    $all_score_easy = $app['score_easy'] * $app['modders'];
-    $all_score_service = $app['score_service'] * $app['modders'];
-    $all_score_speed = $app['score_speed'] * $app['modders'];
+    $all_score = $app['score'] * $app['comment'];
+    $all_score_easy = $app['score_easy'] * $app['comment'];
+    $all_score_service = $app['score_service'] * $app['comment'];
+    $all_score_speed = $app['score_speed'] * $app['comment'];
     if($isUpdate){
-        $app['score'] = ($all_score + $newScore['score'] - 5) / $app['modders'];
-        $app['score_easy'] = ($all_score_easy + $newScore['score_easy'] - 5) / $app['modders'];
-        $app['score_service'] = ($all_score_service + $newScore['score_service'] - 5) / $app['modders'];
-        $app['score_speed'] = ($all_score_speed + $newScore['score_speed'] - 5) / $app['modders'];
+        $app['comment']++;
+        $app['comment'] = $app['comment'] ? $app['comment'] : 1;
+        $all_comment = $app['comment'];
+        $app['score'] = ($all_score + $newScore['score']) / $all_comment;
+        $app['score_easy'] = ($all_score_easy + $newScore['score_easy']) / $all_comment;
+        $app['score_service'] = ($all_score_service + $newScore['score_service']) / $all_comment;
+        $app['score_speed'] = ($all_score_speed + $newScore['score_speed']) / $all_comment;
         //更新评分记录
         updatetable('apps_detail' , $newScore ,array('appsid'=>$appsid,'uid'=>$_SGLOBAL['supe_uid']));
         $_SGLOBAL['db']->query("UPDATE ".tname('apps')." USE INDEX(id) SET comment=comment+1 WHERE id=$appsid");
+
     }else{
         $app['modders']++;
         $app['modders'] = $app['modders'] ? $app['modders'] : 1;
-        $app['score'] = ($all_score + $newScore['score']) / $app['modders'];
-        $app['score_easy'] = ($all_score_easy + $newScore['score_easy']) / $app['modders'];
-        $app['score_service'] = ($all_score_service + $newScore['score_service']) / $app['modders'];
-        $app['score_speed'] = ($all_score_speed + $newScore['score_speed']) / $app['modders'];
+        if ($app['modders'] == 1) {
+            $app['score'] = 5;
+            $app['score_easy'] = 5;
+            $app['score_service'] = 5;
+            $app['score_speed'] = 5;
+        }
         //增加评分记录
         inserttable('apps_detail',$newScore,0);
     }
@@ -299,7 +305,12 @@ function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
         'score_service' => $app['score_service'],
         'score_speed' => $app['score_speed']
     );
-    updatetable('apps' , $app_arr ,array('id'=>$appsid));
+
+    if ($app['comment']%50 == 49) {
+        $_SGLOBAL['db']->query("update ".tname('apps').", (select appsid, round(avg(score),1) as s, round(avg(score_easy),1) as se, round(avg(score_service),1) as sv, round(avg(score_speed),1) as sp from ihome_apps_detail where issystem = 0 group by appsid) av set score=av.s, score_easy=av.se, score_service=av.sv, score_speed=av.sp where id = av.appsid and id=".$appsid);
+    } else {
+        updatetable('apps' , $app_arr ,array('id'=>$appsid));
+    }    
     return $app_arr;
 }
 

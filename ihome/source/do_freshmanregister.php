@@ -313,6 +313,13 @@ if(submitcheck('freshmanregistersubmit'))
 							
 							$tagname = $value['startyear'].'年'.$class.'班';
 							auto_join($newuid, $tagname, $_SGLOBAL['db']);
+
+							$classB = preg_replace('/([a-zA-Z]*\d{4})\d*/','${1}', $class);
+							$eduinfo = array('uid' => $newuid, 'type'=>'edu', 'title' => '北京航空航天大学', 'subtitle'=>$value['academy'].$value['startyear'].'级'.$classB.'大班', 'startyear'=>$value['startyear']);
+							inserttable('spaceinfo', $eduinfo, 1);
+							
+							$tagname = $value['startyear'].'年'.$classB.'大班';
+							auto_join($newuid, $tagname, $_SGLOBAL['db']);
 						}
 				}
 

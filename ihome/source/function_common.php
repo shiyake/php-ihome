@@ -418,7 +418,13 @@ function getIpDetails(){
     $result = json_decode($result,1);
     return $result;
 }
-
+function is_overseas()	{
+	$var = getIpDetails();
+	if($var['country_code']!='CN')	{
+		return true;
+	}
+	return false;
+}
 //获取当前用户信息
 function getmember() {
 	global $_SGLOBAL, $space;
@@ -1516,9 +1522,6 @@ function runlog($file, $log, $halt=0) {
 		}
 
 		$searchs[] = '{actor}';
-		if (empty($_SN[$feed['uid']])) {
-			$_SN[$feed['uid']] = 'UID:'.$feed[uid];
-		}
 		$replaces[] = empty($actors)?"<a href=\"space.php?uid=$feed[uid]\">".$_SN[$feed['uid']]."</a>":implode(lang('dot'), $actors);
 
 		$searchs[] = '{app}';
@@ -1695,8 +1698,8 @@ function runlog($file, $log, $halt=0) {
 
 		if(empty($_SGLOBAL['supe_uid'])) {
 			ssetcookie('_refer', rawurlencode($_SERVER['REQUEST_URI']));
-			//showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
-			showmessage('to_login', 'index.php');
+			showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
+			//showmessage('to_login', 'index.php');
 		}
 	}
 
@@ -2501,7 +2504,11 @@ function runlog($file, $log, $halt=0) {
 			return $r['tagid'];
 		}else{
 			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
-			$setarr = array(  'tagname' => $mtagname, 'fieldid' => 4, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			if (strpos($mtagname, "大班")) {
+				$setarr = array(  'tagname' => $mtagname, 'fieldid' => 2, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			} else {
+				$setarr = array(  'tagname' => $mtagname, 'fieldid' => 4, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			}
 			$tagspaceid=inserttable('mtag',$setarr,1);
 			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
 			$r=($db->fetch_array($query));
@@ -2515,6 +2522,34 @@ function runlog($file, $log, $halt=0) {
 	}
 
 	/*用入学年份跟学院找群*/
+	function tagGrade4 ($school, $db) {
+		$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='".$school."'");
+		$r=($db->fetch_array($query));
+		if ($r) {
+			return $r['tagid'];
+		}else{
+			$mtagname = $school;
+			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
+			$setarr = array(  
+				'tagname' => $mtagname, 
+				'fieldid' => 9, 
+				'announcement' => $announcement ,
+				'joinperm' => 1 , 
+				'viewperm' => 1 ,
+				'threadperm' => 0 , 
+				'postperm' => 0
+				);
+			$tagspaceid=inserttable('mtag',$setarr,1);
+			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
+			$r=($db->fetch_array($query));
+			if ($r) {
+				$tagid = $r['tagid'];
+			}else{
+				$tagid = -1;
+			}
+			return $tagid;
+		}
+	}
 	function tagGrade3 ($startyear, $academy ,$db) {
 		$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE startyear='$startyear' AND academy='$academy'");
 		$r=($db->fetch_array($query));
@@ -2525,7 +2560,7 @@ function runlog($file, $log, $halt=0) {
 			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
 			$setarr = array(  
 				'tagname' => $mtagname, 
-				'fieldid' => 7, 
+				'fieldid' => 8, 
 				'announcement' => $announcement ,
 				'joinperm' => 1 , 
 				'viewperm' => 1 ,
@@ -2545,7 +2580,14 @@ function runlog($file, $log, $halt=0) {
 			return $tagid;
 		}
 	}
+	//国外校友群组
+	function tagGroupOverseas($uid,$school)	{
+		global $_SGLOBAL,$_SCONFIG;
 
+		$tagid = tagGrade4($school,$_SGLOBAL['db']);
+
+		jointag($uid,$tagid,$_SGLOBAL['db']);
+	}
 	//已知群组名，查找群组，如果不存在，建立新群组，返回群组号//群组为区域群组,
 	function tagArea ($mtagname ,$db) {
 

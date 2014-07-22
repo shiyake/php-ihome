@@ -161,13 +161,14 @@ if($_GET['op'] == 'add') {
 				$_SGLOBAL['db'] -> query("UPDATE ".tname("recommendation")." SET recfrom_i = 1, weight = 0 WHERE feedid = ".$feedid);
 			}
 		} else {
-			$_SGLOBAL['db'] -> query("INSERT INTO ".tname("recommendation")." SELECT *, 1, 0 FROM ".tname("feed")." WHERE feedid = ".$feedid);
+			$_SGLOBAL['db'] -> query("INSERT INTO ".tname("recommendation")." SELECT *, 1, 0, 0, 0 FROM ".tname("feed")." WHERE feedid = ".$feedid);
 		}
 	} else if ($_POST['recop'] == 'search') {
 		$feedid = $_POST['feedid'];
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid);
 		
 		while ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($res['uid'], $res['username']);
 			$search_res[] = $res;
 		}
 		
@@ -201,6 +202,7 @@ if($_GET['op'] == 'add') {
 			WHERE $wheresql
 			ORDER BY weight DESC, feedid DESC");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($value['uid'], $value['username']);
 			$reclist[] = $value;
 		}
 	}

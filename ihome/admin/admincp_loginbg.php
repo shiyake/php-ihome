@@ -4,6 +4,9 @@
 if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
+if(!checkperm('manageloginbg')) {
+    cpmessage('no_authority_management_operation');
+}
 $_SGLOBAL['login_bg']='image/bg_for_graduate.jpg';
 
 try {
