@@ -126,6 +126,10 @@ if($_GET['view'] == 'online') {
 	$uid = $_GET['uid'];
 	$uid = substr($uid, 2, strlen($uid)-4);
 	//找到baseprofile
+	//如果是国外校友
+	
+	$type = $_GET['type'];
+
 	$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'");
 	$bp = $_SGLOBAL['db']->fetch_array($q);
 	if($bp)
@@ -144,7 +148,80 @@ if($_GET['view'] == 'online') {
 		}
 		showmessage('do_success',"/",2);
 	}
-}else {
+} 
+elseif ($_GET['view']=='confirmoverseas')	{
+	$uid = $_GET['uid'];
+	$uid = substr($uid, 2, strlen($uid)-4);
+	
+	//如果是国外校友
+	
+	$type = $_GET['type'];
+
+	if( $type == 'overseas' )	{
+		//记录审批时间
+		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' , cer=1  WHERE uid='$uid'");
+
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('spaceforeign')." WHERE uid={$uid}");
+		if($value = $_SGLOBAL['db'] -> fetch_array($query))	{
+			
+			tagGroupOverseas($uid,$value["country"].$value["school"]);
+		}
+		$setarr = array(
+			'uid' => $uid,
+			'type' => "systemnote",
+			'new' => 1,
+			'authorid' => $_SGLOBAL['supe_uid'],
+			'author' => $name,
+			'note' => '恭喜，我们已经通过了您的国外信息申请。',
+			'dateline' => $_SGLOBAL['timestamp']
+		) ;
+		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
+		inserttable('notification', $setarr);
+	}
+
+	
+	$bp = $_SGLOBAL['db']->fetch_array($q);
+	
+	if($type == 'overseas')	{
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
+
+		if($_SGLOBAL['db']->fetch_array($query))	{
+			showmessage('do_success','admincp.php?ac=overseas',1);
+		}
+	}
+	showmessage('do_success',"space.php?do=notice",1);
+	
+}
+elseif ($_GET['view']=='refuseoverseas')	{
+	$uid = $_GET['uid'];
+	$uid = substr($uid,2,strlen($uid)-4);
+	$type = $_GET['type'];
+	if( $type == 'overseas' )	{
+		$_SGLOBAL['db'] -> query("UPDATE ".tname('spaceforeign')." SET passline='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' ,cer=-1 WHERE uid='$uid'");
+		$setarr = array(
+			'uid' => $uid,
+			'type' => "systemnote",
+			'new' => 1,
+			'authorid' => $_SGLOBAL['supe_uid'],
+			'author' => $name,
+			'note' => '很遗憾，经过考虑，我们现在不能通过您的国外信息申请。我们建议您继续完善您的申请。',
+			'dateline' => $_SGLOBAL['timestamp']
+		) ;
+		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
+		inserttable('notification', $setarr);
+	}
+	
+	$bp = $_SGLOBAL['db']->fetch_array($q);
+	if($type == 'overseas')	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
+		if($_SGLOBAL['db']->fetch_array($query))	{
+			showmessage('do_success','admincp.php?ac=overseas',1);
+		}
+	}
+	showmessage('do_success',"space.php?do=notice",1);
+	
+}
+else {
 
 	//´¦Àí²éÑ¯
 	$theurl = "space.php?uid=$space[uid]&do=$do";

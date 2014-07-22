@@ -4,13 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-//分页
-$perpage = 20;
-$perpage = mob_perpage($perpage);
-
-$page = empty($_GET['page'])?0:intval($_GET['page']);
-if($page<1) $page=1;
-$start = ($page-1)*$perpage;
+$type = empty($_GET['type'])?'recfrom_i':$_GET['type'];
 
 //检查开始数
 ckstart($start, $perpage);
@@ -19,13 +13,15 @@ $reclist = array();
 $count = 0;
 
 //处理查询
-// 小i推荐
- $wheresql = "recfrom_i = 1";
-if ($space[feedfriend]==''){
-    $wheresql = "uid IN ($space[uid])";
-}
+ if ($type == 'autorec') {
+ 	$actives['autorec'] = " class='active'";
+ 	$wheresql = "autorec = 1";
+ } else {
+ 	$actives['recfrom_i'] = " class='active'";
+ 	$wheresql = "recfrom_i = 1";
+ }
 $ordersql = "weight DESC, dateline DESC";
-$theurl = "space.php?uid=$space[uid]&do=$do";
+$theurl = "space.php?do=recommendation&type=$type";
 $f_index = '';
 
 if(empty($count)) {
@@ -34,18 +30,13 @@ if(empty($count)) {
 if($count) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('recommendation')." $f_index
 		WHERE $wheresql
-		ORDER BY $ordersql 
-		LIMIT $start,$perpage");
+		ORDER BY $ordersql");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['uid'], $value['username']);
 		$reclist[] = $value;
 	}
 }
 
-//分页
-
-$ajaxdiv = 'tab_content_'.$_GET['do'];
-$multi = multi($count, $perpage, $page, $theurl, $ajaxdiv);
 
 //实名
 realname_get();

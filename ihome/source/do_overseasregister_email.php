@@ -53,9 +53,9 @@ if($_GET['op']=='create')
 			inserttable("spaceforeign",$forg);
 			//设置隐私
 			$_SGLOBAL['db']->query("INSERT INTO ".tname('spaceinfo')." (type,subtype,uid,friend) VALUES ('contact','mobile',".$newuid.",1)");
-
+			$query = $_SGLOBAL['db']->query("UPDATE ".tname("spaceforeign")." SET dataline='".time()."' WHERE uid=$newuid");
 			//给外事处发消息进行认证
-			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE groupid=10");
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE consul=1");
 			if($res = $_SGLOBAL['db']->fetch_array($query))	{
 				$recver = $res['uid']; 
 			}
@@ -65,7 +65,7 @@ if($_GET['op']=='create')
 				'new' => 1,
 				'authorid' => $newuid,
 				'author' => $name,
-				'note' => "$birthday,$academy,".$startyear."级,来自$country,$school的同学".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
+				'note' => "($birthday,$academy,".$startyear."级)".'向您发起了'.$country.$school.'学校的认证请求<br/><a href="space.php?do=friend&view=confirmoverseas&uid=%27'.$newuid.'%27&type=overseas">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27'.$newuid.'%27&type=overseas">忽略</a>',
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");

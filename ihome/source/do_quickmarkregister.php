@@ -101,6 +101,7 @@ else
 
 		if($name=="" || $startyear=="" || $birthday=="" || strlen($password) < 6 || (!$_SGLOBAL["no_inviteactive"] && $uid ==""))
 		{
+			showmessage($name." ".$startyear." ".$birthday." ".strlen($password)." ".$_SGLOBAL["no_inviteactive"]." ".$uid);
 			returnResponse(40002,"格式不正确");
 		}
 		if((!$_SGLOBAL["no_inviteactive"] && inject_check($uid)) || inject_check($name) || inject_check($startyear) || 
@@ -478,7 +479,7 @@ else
 							$recver = $recver['uid'];
 							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
-						if(empty($_SCONFIG['overseas']))	{
+						
 							if(!$recver)
 							{
 								if(!$collage_match)     {
@@ -499,7 +500,7 @@ else
 							);
 							$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
 							inserttable('notification', $setarr);
-						}
+						
 					}
 				}
 				else

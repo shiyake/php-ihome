@@ -282,6 +282,49 @@ if($theme == 'uchomedefault') {
 		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
 	}
 }
+
+//全局变量定义，判读是否是国外校友
+//通过IP归属地，判断是否为从前的国外校友，并把信息录入到spaceforeign表中
+
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($_SGLOBAL['db']->fetch_array($query))	{
+	$_SGLOBAL['overseas'] = 'overseas' ;
+	$q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer!=-1");
+	if($qes=$_SGLOBAL['db']->fetch_array($q))	{
+		$_SGLOBAL['cer'] = 2;
+	
+		$_SGLOBAL['sync'] = $qes['sync'];
+		//showmessage($_SGLOBAL['sync']);
+	}
+	else {
+	 	$_SGLOBAL['cer'] = 0;
+	 	$_SGLOBAL['sync'] = 'no';
+	}
+}
+else if(is_overseas())	{
+	$query=$_SGLOBAL['db']-> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+	if(!$_SGLOBAL['db']->fetch_array($query))	{
+		$_SGLOBAL['overseas'] = 'overseas' ;
+		$_SGLOBAL['cer'] = 0;
+	}
+}
+else $_SGLOBAL['overseas'] = 'inland' ;	
+
+//全局变量定义，判断是否再也不显示同步到群组
+
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($rows = $_SGLOBAL['db']->fetch_array($query))	{
+	if ($rows['credit'] <= 3) {
+		$_SGLOBAL['newbie'] = 1;
+	} else {
+		$_SGLOBAL['newbie'] = 0;
+	}
+	if($rows['overseas_tip']=='never')	{
+		$_SGLOBAL['overseas_tip'] = 'never';
+	}
+	else $_SGLOBAL['overseas_tip'] = 'always';
+}
+
 //处理
 include_once(S_ROOT."./source/space_{$do}.php");
 

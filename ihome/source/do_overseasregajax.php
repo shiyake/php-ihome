@@ -32,8 +32,18 @@ if(submitcheck('overseasregajaxsubmit'))
 	$_POST["username"] = $username;
 	$_POST["password"] = $password;
 	$_POST["birthday"] = $birthday;
-	$_POST["startyear"] = $_POST["startyear"];
-	$_POST["academy"] = $_POST["subtitle"];
+	if (!empty($bp) and ($bp['startyear'] == '' or $bp['startyear'] == null)) {
+		$_POST["startyear"] = $_POST["startyear"];
+		$_SGLOBAL['db']->query("UPDATE ".tname('baseprofile')." SET startyear='".$_POST["startyear"]."' WHERE realname='".$realname."' and birthday='".$birthday."' limit 1");
+	} elseif (!empty($bp)) {
+		$_POST["startyear"] = $bp['startyear'];
+	}
+	if (!empty($bp) and ($bp['academy'] == '' or $bp['academy'] == null)) {
+		$_POST["academy"] = $_POST["subtitle"];
+		$_SGLOBAL['db']->query("UPDATE ".tname('baseprofile')." SET academy='".$_POST["academy"]."' WHERE realname='".$realname."' and birthday='".$birthday."' limit 1");
+	} elseif (!empty($bp)) {
+		$_POST["academy"] = $bp['academy'];
+	}
 	$_POST['email'] = $email;
 	$_SGLOBAL["inviteactive_showemail"] = true;
 	$_SGLOBAL["no_inviteactive"] = true;
@@ -55,13 +65,12 @@ if(submitcheck('overseasregajaxsubmit'))
 		"school"=>$school
 	);
 	inserttable("forgienCreate",$leave_message);
-	$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('forgienCreate')."	WHERE ver=$ver and username=$username");
+	$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('forgienCreate')."	WHERE ver='".$ver."' and username='".$username."'");
 	$id=0;
 	if($res=$_SGLOBAL['db']->fetch_array($query))	{
 		$id=$res['id'];
 	}
 	$message = "亲爱的北航校友您好，请点击以下链接完成注册http://i.buaa.edu.cn/do.php?ac={$_SCONFIG['overseasregister_email']}&op=create&id={$id}&ver={$ver}";
-	//showmessage($message);
 	include_once(S_ROOT.'./source/function_cp.php');
     smail(0, $email, $message, '');
     showmessage("邮件已经发送，请注意查收","index.php",3);

@@ -1,11 +1,11 @@
 <?php
 
-//Í¨ÓÃÎÄ¼þ
+//ÃÂ¨Ã“ÃƒÃŽÃ„Â¼Ã¾
 include_once('./common.php');
 include_once(S_ROOT.'./source/function_cp.php');
 include_once(S_ROOT.'./source/function_magic.php');
 
-//ÔÊÐíµÄ·½·¨
+//Ã”ÃŠÃÃ­ÂµÃ„Â·Â½Â·Â¨
 $acs = array('space', 'doing', 'upload', 'video', 'comment', 'blog', 'album', 'relatekw', 'common', 'class',
 	'swfupload', 'thread', 'mtag', 'poke', 'friend',
 	'avatar', 'profile', 'theme', 'import', 'feed', 'privacy', 'pm', 'share', 'advance', 'invite', 'invitefriend', 'invite2', 'sendmail', 'protect', 'thirdparty',
@@ -37,7 +37,7 @@ $appid = empty($_GET['appid'])?'':$_GET['appid'];
 			$atfriends[$count++] = array('uid'=>$rs1[$i],'namequery'=>$rs2['name'].' '.Pinyin($rs2['name'],1).' '.$rs1[$i],'name'=>$rs2['name'],'avatar'=>'');
 		
 		}
-		//¿¿¿¿¿¿
+		//Â¿Â¿Â¿Â¿Â¿Â¿
 		$query = $_SGLOBAL['db']->query("select uid,name,username from ".tname('space')." where groupid=3");
 		while($value = $_SGLOBAL['db']->fetch_array($query)){
 			if(empty($value['name'])) $value['name'] = $value['username'];
@@ -53,8 +53,8 @@ $appid = empty($_GET['appid'])?'':$_GET['appid'];
 		fclose($f);
 	}
 	
-//showmessage('bb');//2013Äê3ÔÂ11ÈÕ10:52:45 for find BUG of friend¡¤¡¤ @Ancon£¡
-//È¨ÏÞÅÐ¶Ï
+//showmessage('bb');//2013Ã„Ãª3Ã”Ã‚11ÃˆÃ•10:52:45 for find BUG of friendÂ¡Â¤Â¡Â¤ @AnconÂ£Â¡
+//ÃˆÂ¨ÃÃžÃ…ÃÂ¶Ã
 if(empty($_SGLOBAL['supe_uid'])) {
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		ssetcookie('_refer', rawurlencode($_SERVER['REQUEST_URI']));
@@ -64,17 +64,17 @@ if(empty($_SGLOBAL['supe_uid'])) {
 	showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
 }
 
-//»ñÈ¡¿Õ¼äÐÅÏ¢
+//Â»Ã±ÃˆÂ¡Â¿Ã•Â¼Ã¤ÃÃ…ÃÂ¢
 $space = getspace($_SGLOBAL['supe_uid']);
 if(empty($space)) {
 	showmessage('space_does_not_exist');
 }
 
 	
-//ÊÇ·ñ¹Ø±ÕÕ¾µã
+//ÃŠÃ‡Â·Ã±Â¹Ã˜Â±Ã•Ã•Â¾ÂµÃ£
 if(!in_array($ac, array('common', 'pm'))) {
 	checkclose();
-	//¿Õ¼ä±»Ëø¶¨
+	//Â¿Ã•Â¼Ã¤Â±Â»Ã‹Ã¸Â¶Â¨
 	if($space['flag'] == -1) {
 		showmessage('space_has_been_locked');
 	}
@@ -83,17 +83,40 @@ if(!in_array($ac, array('common', 'pm'))) {
         exit();
     }
 
-	//½ûÖ¹·ÃÎÊ
+	//Â½Ã»Ã–Â¹Â·ÃƒÃŽÃŠ
 	if(checkperm('banvisit')) {
 		ckspacelog();
 		showmessage('you_do_not_have_permission_to_visit');
 	}
-	//ÑéÖ¤ÊÇ·ñÓÐÈ¨ÏÞÍæÓ¦ÓÃ
+	//Ã‘Ã©Ã–Â¤ÃŠÃ‡Â·Ã±Ã“ÃÃˆÂ¨ÃÃžÃÃ¦Ã“Â¦Ã“Ãƒ
 	if($ac =='userapp' && !checkperm('allowmyop')) {
 		showmessage('no_privilege');
 	}
 }
+//å…¨å±€å˜é‡å®šä¹‰ï¼Œåˆ¤è¯»æ˜¯å¦æ˜¯å›½å¤–æ ¡å‹
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($_SGLOBAL['db']->fetch_array($query))	{
+	$_SGLOBAL['overseas'] = 'overseas' ;
+	if($q = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']." AND cer=1"))	{
+		$_SGLOBAL['cer'] = 1;
+	}
+	else $_SGLOBAL['cer'] = 0;
+}
+else if(is_overseas())	{
+	$query=$_SGLOBAL['db']-> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+	if(!$_SGLOBAL['db']->fetch_array($query))	{
+		$_SGLOBAL['overseas'] = 'overseas' ;
+	}
+}
+else $_SGLOBAL['overseas'] = 'inland' ;	
 
+$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid=".$_SGLOBAL['supe_uid']);
+if($rows = $_SGLOBAL['db']->fetch_array($query))	{
+	if($rows['overseas_tip']=='never')	{
+		$_SGLOBAL['overseas_tip'] = 'never';
+	}
+	else $_SGLOBAL['overseas_tip'] = 'always';
+}
 $_SGLOBAL['space_theme'] = $space['theme'];
 $_SGLOBAL['space_css'] = $space['css'];
 if ($space['theme'] == 'diy') {
@@ -121,9 +144,9 @@ if($theme == 'uchomedefault') {
 		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
 	}
 }
-//²Ëµ¥
+//Â²Ã‹ÂµÂ¥
 $actives = array($ac => ' class="active"');
-//showmessage($ac);//2013Äê3ÔÂ11ÈÕ10:48:31--for find bug of friend¡¤¡¤!@Ancon
+//showmessage($ac);//2013Ã„Ãª3Ã”Ã‚11ÃˆÃ•10:48:31--for find bug of friendÂ¡Â¤Â¡Â¤!@Ancon
 include_once(S_ROOT.'./source/cp_'.$ac.'.php');
 
 ?>
