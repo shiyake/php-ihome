@@ -427,7 +427,7 @@ function getIpDetails(){
 }
 function is_overseas()	{
 	$var = getIpDetails();
-	if($var['country_code']!='CN')	{
+	if($var['country_code']!='CN' && $var['country_code']!='RD') {
 		return true;
 	}
 	return false;
