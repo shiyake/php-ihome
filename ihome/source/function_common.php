@@ -1315,7 +1315,11 @@ function runlog($file, $log, $halt=0) {
 	function adshow($pagetype) {
 		global $_SGLOBAL;
 
-		@include_once(S_ROOT.'./data/data_ad.php');
+		$_SGLOBAL['ad'] = array();
+		$query = $_SGLOBAL['db']->query('SELECT adid, pagetype FROM '.tname('ad')." WHERE system='1' AND available='1'");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$_SGLOBAL['ad'][$value['pagetype']][] = $value['adid'];
+		}
 		if(empty($_SGLOBAL['ad']) || empty($_SGLOBAL['ad'][$pagetype])) return false;
 		$ads = $_SGLOBAL['ad'][$pagetype];
 		$key = mt_rand(0, count($ads)-1);

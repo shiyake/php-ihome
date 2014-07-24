@@ -29,6 +29,7 @@
 	<!--{if $_SGLOBAL['overseas']}-->
 	<a href="cp.php?ac=profile&op=sync"$cat_actives[sync]>同步设置</a>
 	<!--{/if}-->
+	<a href="cp.php?ac=profile&op=asst"$cat_actives[asst]>辅导员认证</a>
 </div>
 
 <!--{eval $farr = array(0=>'全用户','1'=>'仅好友','3'=>'仅自己');}-->
@@ -1075,6 +1076,210 @@ jQuery(function ($) {
 </script>
 <!--{/if}-->
 <!--修改-->
+<!--{elseif $_GET['op'] == 'asst'}-->
+<h6>如果您是辅导员，可以在此进行辅导员认证。</h6>
+<div style="margin-top:30px">
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{if $asst_verified == 1}-->
+<tr>
+	<th style="width:10em;">类别:</th>
+	<td>
+		<!--{$degree}-->
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">年级:</th>
+	<td>
+		<!--{$year}-->
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">学院:</th>
+	<td>
+		<!--{$academy}-->
+	</td>
+</tr>
+<tr>
+	<th></th>
+	<td>
+		<input type="submit" class="btn btn-sm btn-comments" value="认证成功" disabled="disabled"/>
+	</td>
+</tr>
+<!--{elseif $asst_verified == -1}-->
+<tr>
+	<th style="width:10em;">类别:</th>
+	<td>
+		<select name="degree" id="degree">
+			<option value="本科">本科</option>
+			<option value="硕士">硕士</option>
+			<option value="博士">博士</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">年级:</th>
+	<td>
+		<select name="year" id="year">
+			<option value="2014">2014级</option>
+			<option value="2013">2013级</option>
+			<option value="2012">2012级</option>
+			<option value="2011">2011级</option>
+			<option value="2010">2010级</option>
+			<option value="2009">2009级</option>
+			<option value="2008">2008级</option>
+			<option value="2007">2007级</option>
+			<option value="2006">2006级</option>
+			<option value="2005">2005级</option>
+			<option value="2004">2004级</option>
+			<option value="2003">2003级</option>
+			<option value="2002">2002级</option>
+			<option value="2001">2001级</option>
+			<option value="2000">2000级</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">学院:</th>
+	<td>
+		<select name="academy" id="academy">
+			<option value="材料科学与工程学院">材料科学与工程学院</option>
+			<option value="电子信息工程学院">电子信息工程学院</option>
+			<option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+			<option value="能源与动力工程学院">能源与动力工程学院</option>
+			<option value="航空科学与工程学院">航空科学与工程学院</option>
+			<option value="计算机学院">计算机学院</option>
+			<option value="机械工程及自动化学院">机械工程及自动化学院</option>
+			<option value="经济管理学院">经济管理学院</option>
+			<option value="数学与系统科学学院">数学与系统科学学院</option>
+			<option value="生物与医学工程学院">生物与医学工程学院</option>
+			<option value="人文社会科学学院">人文社会科学学院</option>
+			<option value="外国语学院">外国语学院</option>
+			<option value="交通科学与工程学院">交通科学与工程学院</option>
+			<option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+			<option value="宇航学院">宇航学院</option>
+			<option value="飞行学院">飞行学院</option>
+			<option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+			<option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+			<option value="法学院">法学院</option>
+			<option value="软件学院">软件学院</option>
+			<option value="继续教育学院">继续教育学院</option>
+			<option value="高等工程学院">高等工程学院</option>
+			<option value="中法工程师学院">中法工程师学院</option>
+			<option value="国际学院">国际学院</option>
+			<option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+			<option value="化学与环境学院">化学与环境学院</option>
+			<option value="思想政治理论学院">思想政治理论学院</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th></th>
+	<td>
+		<input type="submit" name="asstsubmit" class="btn btn-sm btn-comments"  id="asstcsubmit" value="重新验证"/>
+	</td>
+</tr>
+<!--{elseif $asst_verified == 0}-->
+<tr>
+	<th style="width:10em;">类别:</th>
+	<td>
+		<!--{$degree}-->
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">年级:</th>
+	<td>
+		<!--{$year}-->
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">学院:</th>
+	<td>
+		<!--{$academy}-->
+	</td>
+</tr>
+<tr>
+	<th></th>
+	<td>
+		<input type="submit" class="btn btn-sm btn-comments" value="认证中" disabled="disabled"/>
+	</td>
+</tr>
+<!--{else}-->
+<tr>
+	<th style="width:10em;">类别:</th>
+	<td>
+		<select name="degree" id="degree">
+			<option value="本科">本科</option>
+			<option value="硕士">硕士</option>
+			<option value="博士">博士</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">年级:</th>
+	<td>
+		<select name="year" id="year">
+			<option value="2014">2014级</option>
+			<option value="2013">2013级</option>
+			<option value="2012">2012级</option>
+			<option value="2011">2011级</option>
+			<option value="2010">2010级</option>
+			<option value="2009">2009级</option>
+			<option value="2008">2008级</option>
+			<option value="2007">2007级</option>
+			<option value="2006">2006级</option>
+			<option value="2005">2005级</option>
+			<option value="2004">2004级</option>
+			<option value="2003">2003级</option>
+			<option value="2002">2002级</option>
+			<option value="2001">2001级</option>
+			<option value="2000">2000级</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">学院:</th>
+	<td>
+		<select name="academy" id="academy">
+			<option value="材料科学与工程学院">材料科学与工程学院</option>
+			<option value="电子信息工程学院">电子信息工程学院</option>
+			<option value="自动化科学与电气工程学院">自动化科学与电气工程学院</option>
+			<option value="能源与动力工程学院">能源与动力工程学院</option>
+			<option value="航空科学与工程学院">航空科学与工程学院</option>
+			<option value="计算机学院">计算机学院</option>
+			<option value="机械工程及自动化学院">机械工程及自动化学院</option>
+			<option value="经济管理学院">经济管理学院</option>
+			<option value="数学与系统科学学院">数学与系统科学学院</option>
+			<option value="生物与医学工程学院">生物与医学工程学院</option>
+			<option value="人文社会科学学院">人文社会科学学院</option>
+			<option value="外国语学院">外国语学院</option>
+			<option value="交通科学与工程学院">交通科学与工程学院</option>
+			<option value="可靠性与系统工程学院">可靠性与系统工程学院</option>
+			<option value="宇航学院">宇航学院</option>
+			<option value="飞行学院">飞行学院</option>
+			<option value="仪器科学与光电工程学院">仪器科学与光电工程学院</option>
+			<option value="物理科学与核能工程学院">物理科学与核能工程学院</option>
+			<option value="法学院">法学院</option>
+			<option value="软件学院">软件学院</option>
+			<option value="继续教育学院">继续教育学院</option>
+			<option value="高等工程学院">高等工程学院</option>
+			<option value="中法工程师学院">中法工程师学院</option>
+			<option value="国际学院">国际学院</option>
+			<option value="新媒体艺术与设计学院">新媒体艺术与设计学院</option>
+			<option value="化学与环境学院">化学与环境学院</option>
+			<option value="思想政治理论学院">思想政治理论学院</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th></th>
+	<td>
+		<input type="submit" name="asstsubmit" class="btn btn-sm btn-comments"  id="asstcsubmit" value="申请验证"/>
+	</td>
+</tr>
+<!--{/if}-->
+</table>
+</div>
+</form>
 <!--{/if}-->
 
 
