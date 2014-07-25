@@ -46,11 +46,15 @@ function comment_add(id, result) {
 			newli.innerHTML = s;
 		});
 		if($('comment_prepend')){
-			obj = obj.firstChild;
-			while (obj && obj.nodeType != 1){
-				obj = obj.nextSibling;
-			}
-			obj.parentNode.insertBefore(newli, obj);
+            if (obj.childElementCount != 0){
+                obj = obj.firstChild;
+                while (obj && obj.nodeType != 1){
+                    obj = obj.nextSibling;
+                }
+                obj.parentNode.insertBefore(newli, obj);
+            } else {
+                obj.appendChild(newli);
+            }
 		} else {
 			obj.appendChild(newli);
 		}
