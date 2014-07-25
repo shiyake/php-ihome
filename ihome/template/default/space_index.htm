@@ -990,7 +990,14 @@ jQuery(function ($) {
 						jQuery("#error_"+uid).css('display', '');
 					};
 					if (flag) {
+						var added = jQuery('.recpub_li:visible');
+						for (var i = 0; i < added.length; i++) {
+							if (jQuery.inArray(added[i], reclist) == -1) {
+								jQuery(added[i]).css('display', 'none');
+							};
+						};
 						now.css('display', 'none');
+
 						jQuery(reclist[0]).css('display', '');
 						jQuery(reclist[1]).css('display', '');
 						jQuery('#randrec').css('display', 'none');

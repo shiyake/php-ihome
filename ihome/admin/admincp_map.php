@@ -2,6 +2,9 @@
 if(!defined('iBUAA') || !defined('IN_ADMINCP')) 	{
 	exit('Access Denied');
 }
+if(!checkperm('managemap')) {
+	cpmessage('no_authority_management_operation');
+}
 $pos = array();
 
 $query = $_SGLOBAL['db']->query("SELECT distinct lng,lat FROM ".tname("spaceforeign"));

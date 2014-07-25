@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	conn = MySQLdb.connect(host="dev-node1.limijiaoyin.com", user='root', passwd='nameLR9969', db='ihome', port=3306, charset='utf8')
 	cursor = conn.cursor()
 	cursor.execute("delete from ihome_autorecpub")
-	cursor.execute("select uid, aud, name from ihome_space where audnum > 0 order by audnum desc")
+	cursor.execute("select uid, aud, name from ihome_space where groupid = 3 and audnum > 0 order by audnum desc")
 	rows = cursor.fetchall()
 	for row in rows:
 		if row[1] != None:

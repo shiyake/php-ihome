@@ -206,7 +206,6 @@ elseif($op == "checkmobile")
 
 elseif($op == "checkgetverifycode")
 	{
-		
 		$verifycode = rand(100000,999999);
 		$mobile = $_GET['mobile'];
 		$mobile = ismobile($_GET['mobile'])?trim($_GET['mobile']):'';

@@ -22,18 +22,24 @@
                     </div>
                     <div class="ops-reverse">
                         <!--{if $value['a'] =='0'}-->
-                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1, 0, 'reloadIRec')" class="addfriend">关注</a>
                         <!--{/if}-->
                         <!--{if $value['a'] =='1'}-->
-                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_toppublics_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <span>已关注</span>
                         <!--{/if}-->
                     </div>
                 </div>
             </li> 
             <!--{/loop}-->
-          
         </ul>	
 	</div>
+    <script>
+        function reloadIRec(param) {
+            jQuery.get("space.php?do=recommendpublic", function(data) {
+                jQuery(".public_accont").html(jQuery(data).find(".public_accont").html());
+            });
+        }
+    </script>
 	<div class="page"></div>
 </div>
 <!--{template footer}-->

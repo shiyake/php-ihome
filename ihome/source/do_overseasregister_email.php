@@ -65,7 +65,7 @@ if($_GET['op']=='create')
 				'new' => 1,
 				'authorid' => $newuid,
 				'author' => $name,
-				'note' => "$birthday,$academy,".$startyear."级,来自$country,$school的同学".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirmoverseas&uid=%27'.$newuid.'%27&type=overseas">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27'.$newuid.'%27&type=overseas">忽略</a>',
+				'note' => "($birthday,$academy,".$startyear."级)".'向您发起了'.$country.$school.'学校的认证请求<br/><a href="space.php?do=friend&view=confirmoverseas&uid=%27'.$newuid.'%27&type=overseas">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27'.$newuid.'%27&type=overseas">忽略</a>',
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");

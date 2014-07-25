@@ -245,7 +245,20 @@ span{
 
 	var lastcollegeid = lastfreshmanseccode = lastalumnseccode = lastemailseccode = lastquickcollegeid = lastquickseccode = lastrealname = lastfreshmanrealname = lastbirthday =lastmobile = lastgetverifycode = lastinputverifycode = lastfreshmanbirthday = '';
 	menu(4);
-
+    function validate () {
+        if (jQuery('#subtitle').val()=="2222" || jQuery('#subtitle').val()==null) {
+            alert("请选择院系");
+            return false;
+        }
+        if (jQuery("select[name='country']").val()=="请选择国家或地区" || jQuery('#subtitle').val()==null) {
+            alert("请选择国家或地区");
+            return false;
+        }
+        if (jQuery("input[name='school']").val()=="" || jQuery("input[name='school']").val()==null) {
+            alert("请填写所在学校");
+            return false;
+        }
+    }
 	function menu(n)
 	{
 		i1a=document.getElementById('CardActivateOn').style;
@@ -428,14 +441,17 @@ span{
 	}
 
 	function CheckSubmitOrNoOverseas() {
+        var e = window.event || arguments.callee.caller.arguments[0];
 		var alum = document.getElementsByName('alumtype');
 		for (var i = 0; i < alum.length; i++) {
 	        var overseasregistersubmit = window.overseasregistersubmit || document.mobileregisterform.overseasregistersubmit;
-			AJAXrealnameANDbirthdayFETCHoverseas(event, overseasregistersubmit.id, 1);
+			AJAXrealnameANDbirthdayFETCHoverseas(e, overseasregistersubmit.id, 1);
         }
 	}
 
     function CheckSubmitOrNoInland(){
+        var e = window.event || arguments.callee.caller.arguments[0];
+        
         var Birthday = $('birthday').value;     
         var LengthOfBirthday = Birthday.replace(/[^\d]/, "*").length;
 
@@ -451,7 +467,7 @@ span{
         }
         else{
             var mobileregistersubmit = window.mobileregistersubmit || document.mobileregisterform.mobileregistersubmit;
-            AJAXrealnameANDbirthdayFETCHmobile(event, mobileregistersubmit.id, 1);
+            AJAXrealnameANDbirthdayFETCHmobile(e, mobileregistersubmit.id, 1);
         }
     }
 
@@ -469,7 +485,7 @@ span{
 			  alert('Email的格式不正确！');
 			  $('email').focus();
 			  return false;
-			  }
+			  }F
 		   }
 		return false;
 		} 
@@ -654,7 +670,7 @@ jQuery.noConflict();
 		$('.active_button').attr("disabled","disabled");//将按钮设置为disabled
 		setTimeout(function() {
 			m5.display='none';
-			$('.active_button').removeAttr("disabled");//去除按钮的disabled属性
+            $('.active_button').removeAttr("disabled");//去除按钮的disabled属性
 		},60000);
 		
 
