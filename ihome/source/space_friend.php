@@ -227,6 +227,14 @@ elseif ($_GET['view']=='confirmasst')	{
 	$type = $_GET['type'];
 
 	if( $type == 'asst' )	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
+		if ($consul = $_SGLOBAL['db']->fetch_array($query)) {
+			if ($consul['groupid']!=1 && $consul['asstConsul']!='1') {
+				showmessage('当前您没有权限执行相关操作！');
+			}
+		} else {
+			showmessage('未知错误');
+		}
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
 		if ($_SGLOBAL['db']->fetch_array($query)) {
 			//记录审批时间
@@ -261,6 +269,14 @@ elseif ($_GET['view']=='refuseasst')	{
 	$type = $_GET['type'];
 
 	if( $type == 'asst' )	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
+		if ($consul = $_SGLOBAL['db']->fetch_array($query)) {
+			if ($consul['groupid']!=1 && $consul['asstConsul']!='1') {
+				showmessage('当前您没有权限执行相关操作！');
+			}
+		} else {
+			showmessage('未知错误');
+		}
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
 		if ($_SGLOBAL['db']->fetch_array($query)) {
 			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' ,state=-1, passed=1 WHERE passed=0 and uid='$uid'");
