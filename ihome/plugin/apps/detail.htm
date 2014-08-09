@@ -61,10 +61,10 @@
 			<!--{/if}-->
 			<!--{/if}-->
           <script type="text/javascript">
-			$(function() {
+			jq(function() {
 				var isconfirm = location.hash;
 				if(isconfirm == '#confirm'){
-					$("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
+					jq("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
 					showDialog();
 					});
 				}
@@ -72,7 +72,7 @@
 			function gourl(){
 				var iauth_type = '$app[iauth_type]';
 				if(iauth_type == 'UAC'){
-					$("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
+					jq("#msg-box").load("plugin.php?pluginid=apps&ac=detail&isConfirm=1&appsid=$appsid&state=$state",function(){
 					showDialog();
 					});
 				}
@@ -80,7 +80,7 @@
 					location = '$app[url]';
 			}
 			function authiAuth(appid){
-				$.get("plugin.php?pluginid=apps&ac=detail&authorize=1&appsid=" + appid,
+				jq.get("plugin.php?pluginid=apps&ac=detail&authorize=1&appsid=" + appid,
 				{appsid:appid},
 				function(data){
 					if(data != 0)
@@ -90,7 +90,7 @@
 				});
 			}
 			function useApp(appid){
-				$.get("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appid,
+				jq.get("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appid,
 				{appsid:appid},
 				function(data){
 					if(data != 0)
@@ -100,7 +100,7 @@
 				});
 			}
 			function removeiAuth(appid){
-				$.get("plugin.php?pluginid=apps&ac=detail&resetauthorize=1&appsid=" + appid,
+				jq.get("plugin.php?pluginid=apps&ac=detail&resetauthorize=1&appsid=" + appid,
 				{appsid:appid},
 				function(data){
 					if(data != 0){
@@ -194,51 +194,51 @@
 				value : $app[score],
 				 enabled : false
 			}
-			$('#all_score').rater(options_score);
+			jq('#all_score').rater(options_score);
 			var options_score_easy = {
 				value : $app[score_easy],
 				 enabled : false
 			}
-			$('#all_score_easy').rater(options_score_easy);
+			jq('#all_score_easy').rater(options_score_easy);
 			var options_score_service = {
 				value : $app[score_service],
 				 enabled : false
 			}
-			$('#all_score_service').rater(options_score_service);
+			jq('#all_score_service').rater(options_score_service);
 			var options_score_speed = {
 				value : $app[score_speed],
 				 enabled : false
 			}
-			$('#all_score_speed').rater(options_score_speed);
+			jq('#all_score_speed').rater(options_score_speed);
 			/******************************以下显示将输入的分数***********************************/
 			var options_add_score = {
 				value : 5,
 				after_click : function(ret) {  
-					$('#score').val(ret.number);  
+					jq('#score').val(ret.number);  
 				}  
 			}
-			$('#add_score').rater(options_add_score);
+			jq('#add_score').rater(options_add_score);
 			var options_add_score_easy = {
 				value : 5,
 				after_click : function(ret) {  
-					$('#score_easy').val(ret.number);  
+					jq('#score_easy').val(ret.number);  
 				}
 			}
-			$('#add_score_easy').rater(options_add_score_easy);
+			jq('#add_score_easy').rater(options_add_score_easy);
 			var options_add_score_service = {
 				value : 5,
 				after_click : function(ret) {  
-					$('#score_service').val(ret.number);  
+					jq('#score_service').val(ret.number);  
 				}
 			}
-			$('#add_score_service').rater(options_add_score_service);
+			jq('#add_score_service').rater(options_add_score_service);
 			var options_add_score_speed = {
 				value : 5,
 				after_click : function(ret) {  
-					$('#score_speed').val(ret.number);  
+					jq('#score_speed').val(ret.number);  
 				}
 			}
-			$('#add_score_speed').rater(options_add_score_speed);
+			jq('#add_score_speed').rater(options_add_score_speed);
 			</script>
             <div class="clear dashed margin_bottom_10"></div>
             <!--<div class="more"> <a href="#">显示更多</a> </div>-->
