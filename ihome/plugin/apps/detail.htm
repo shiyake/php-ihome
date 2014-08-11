@@ -133,13 +133,39 @@
               <span class="left margin_left_40">服务质量：</span><span class="left" id="add_score_service"></span>
 			  <span class="left margin_left_80">响应速度：</span><span class="left" id="add_score_speed"></span>
               <div class="clear"></div>
-			  <form action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
+			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
                 <textarea rows="2" class="width_95" name="content"></textarea>
-				<input name="score" id="score" type="hidden" value="5" />
-				<input name="score_easy" id="score_easy" type="hidden" value="5" />
-				<input name="score_service" id="score_service" type="hidden" value="5" />
-				<input name="score_speed" id="score_speed" type="hidden" value="5" />
+				<input name="score" id="score" type="hidden" value="0" />
+				<input name="score_easy" id="score_easy" type="hidden" value="0" />
+				<input name="score_service" id="score_service" type="hidden" value="0" />
+				<input name="score_speed" id="score_speed" type="hidden" value="0" />
+              </div>
+              <!-- end shuru -->
+              <div class="anniu">
+                <label><input type="checkbox" value="1" name="anonymous">匿名</label><br />
+				<input type="hidden" name="comment_submit" value="true" />
+				<input type="hidden" name="appsid" value="$appsid" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                <button type="submit" class="pinf">评分</button>
+              </div>
+			  </form>
+              <!-- end anniu -->
+            </div>
+            <!-- end yy_eva_c -->
+            <div class="clear"></div>
+          </div>
+          <!--{else}-->
+          <div class="yy_eva">
+            <h2 class="block">应用评价</h2>
+            <div class="yy_eva_c">
+			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
+              <div class="shuru">
+                <textarea rows="2" class="width_95" name="content"></textarea>
+				<input name="score" id="score" type="hidden" value="0" />
+				<input name="score_easy" id="score_easy" type="hidden" value="0" />
+				<input name="score_service" id="score_service" type="hidden" value="0" />
+				<input name="score_speed" id="score_speed" type="hidden" value="0" />
               </div>
               <!-- end shuru -->
               <div class="anniu">
@@ -212,33 +238,42 @@
 			jq('#all_score_speed').rater(options_score_speed);
 			/******************************以下显示将输入的分数***********************************/
 			var options_add_score = {
-				value : 5,
+				value : 0,
 				after_click : function(ret) {  
 					jq('#score').val(ret.number);  
 				}  
 			}
 			jq('#add_score').rater(options_add_score);
 			var options_add_score_easy = {
-				value : 5,
+				value : 0,
 				after_click : function(ret) {  
 					jq('#score_easy').val(ret.number);  
 				}
 			}
 			jq('#add_score_easy').rater(options_add_score_easy);
 			var options_add_score_service = {
-				value : 5,
+				value : 0,
 				after_click : function(ret) {  
 					jq('#score_service').val(ret.number);  
 				}
 			}
 			jq('#add_score_service').rater(options_add_score_service);
 			var options_add_score_speed = {
-				value : 5,
+				value : 0,
 				after_click : function(ret) {  
 					jq('#score_speed').val(ret.number);  
 				}
 			}
 			jq('#add_score_speed').rater(options_add_score_speed);
+			document.grade.onsubmit = function() {
+				if (!(parseInt(document.grade.score.value) &&
+					parseInt(document.grade.score_easy.value) &&
+					parseInt(document.grade.score_service.value) &&
+					parseInt(document.grade.score_speed.value))) {
+					alert('您好，您还没进行评分哦~');
+					return false; 
+				}
+			};
 			</script>
             <div class="clear dashed margin_bottom_10"></div>
             <!--<div class="more"> <a href="#">显示更多</a> </div>-->

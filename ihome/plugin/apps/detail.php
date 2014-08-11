@@ -200,30 +200,35 @@ if(submitcheck('comment_submit')) {
     $score_easy = intval($_POST['score_easy']);
     $score_service = intval($_POST['score_service']);
     $score_speed = intval($_POST['score_speed']);
-    $vision = '1';
-    $anonymous = isset($_POST['anonymous']) ? intval($_POST['anonymous']) : 0;
+    if ($score && $score_easy && $score_service && $score_speed) {
+        $vision = '1';
+        $anonymous = isset($_POST['anonymous']) ? intval($_POST['anonymous']) : 0;
 
-    //插入数据库
-    $detailarr = array(
-        'appsid' => $appsid,
-        'uid' => $uid,
-        'anonymous' => $anonymous,
-        'score' => $score,
-        'score_easy' => $score_easy,
-        'score_service' => $score_service,
-        'score_speed' => $score_speed,
-        'content' => $content,
-        'ip' => getonlineip(),
-        'time' => $nowtime,
-        'vision' => $vision,
-        'issystem' => 0,
-    );
-    //用户打分
-    $app_score = gradeForApp($detailarr ,$app ,$appsid ,1);
-    $app['score'] = $app_score['score'];
-    $app['score_easy'] = $app_score['score_easy'];
-    $app['score_service'] = $app_score['score_service'];
-    $app['score_speed'] = $app_score['score_speed'];
+        //插入数据库
+        $detailarr = array(
+            'appsid' => $appsid,
+            'uid' => $uid,
+            'anonymous' => $anonymous,
+            'score' => $score,
+            'score_easy' => $score_easy,
+            'score_service' => $score_service,
+            'score_speed' => $score_speed,
+            'content' => $content,
+            'ip' => getonlineip(),
+            'time' => $nowtime,
+            'vision' => $vision,
+            'issystem' => 0,
+        );
+        //用户打分
+        $app_score = gradeForApp($detailarr ,$app ,$appsid ,1);
+        $app['score'] = $app_score['score'];
+        $app['score_easy'] = $app_score['score_easy'];
+        $app['score_service'] = $app_score['score_service'];
+        $app['score_speed'] = $app_score['score_speed'];
+    } else {
+        showmessage("请先进行评分再提交");
+    }
+    
 }
 
 

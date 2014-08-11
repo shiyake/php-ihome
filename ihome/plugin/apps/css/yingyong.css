@@ -94,7 +94,7 @@
 
 .app_container .shuru textarea{ width:400px;}
 .app_container .anniu{ width:50px; float:left;}
-.app_container .anniu button{ width:54px; cursor:pointer; height:30px; margin-top:5px; color:#fff; background:url(../images/pinf.gif) no-repeat left center; border:none;}
+.app_container .anniu button{ width:54px; cursor:pointer; height:30px; margin-top:5px; color:#fff; background:url(../images/pinf.gif) no-repeat left center; border:none;box-sizing: border-box;}
 .app_container .anniu button:hover{ background:url(../images/pinf_hover.gif) no-repeat left center;}
 .app_container .user_com_c{ margin-top:10px; margin-bottom:10px; font-size:12px;}
 .app_container .user_com{ padding-top:20px; padding-left:10px; padding-bottom:20px; margin-bottom:20px; margin-top:20px; background:#eee;}

@@ -1,7 +1,7 @@
 @charset "utf-8";
 body{ background:#f4f4f4; background:url(../images/body_bk.gif) repeat;}
-.app_container { font:normal 12px Verdana, Geneva, sans-serif; behavior:url(js/csshover.htc); color:#000;}
-.app_container button, input, select, textarea {font: 12px "微软雅黑",Verdana, Geneva, Arial, "\5b8b\4f53", sans-serif;}
+body { font:normal 12px Verdana, Geneva, sans-serif; behavior:url(js/csshover.htc); color:#000;}
+body, button, input, select, textarea {font: 12px "微软雅黑",Verdana, Geneva, Arial, "\5b8b\4f53", sans-serif;}
 .app_container submit{ border:none;}
 .app_container h1, h2, h3, h4, h5, h6 {font-weight:bold; color:#E76300;}
 .app_container h1, h2, h3, h4, h5, h6, p {line-height:1.6; font-size:100%; margin:0px;}
