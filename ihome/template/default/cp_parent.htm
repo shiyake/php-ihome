@@ -1,0 +1,147 @@
+<!--{template header}-->
+<h4 class="title" style="margin: 30px 0px 10px 20px;">
+    <img class="pic10" src="image/icons/icon-addfriend-black.png" />好友</h4>
+<div style="margin-left: 20px;" class="tabs_header">
+    <ul class="tabs">
+        <li><a href="space.php?uid=$space[uid]&do=friend"><span>好友管理</span></a></li>
+        <li><a href="cp.php?ac=friend&op=search2"><span>添加好友</span></a></li>
+		<!--{if $_SGLOBAL['supe_isStudent'] == 1}-->
+		<li class="active"><a href="cp.php?ac=parent"><span>邀请家长</span></a></li>
+		<!--{/if}-->
+		<!--{if $_SCONFIG['closeinvite']==1}-->
+        <li><a href="cp.php?ac=invite"><span>邀请站外好友</span></a></li>
+        <li><a href="cp.php?ac=invite2"><span>批量邀请</span></a></li>
+        <!--{/if}-->
+		<!--<li><a href="cp.php?ac=friend&op=request"><span>好友请求</span></a></li>-->
+        <!--<li><a href="space.php?do=top"><span>排行榜</span></a></li>-->
+    </ul>
+</div>
+
+<style>
+#content {
+    border-left: none;
+}
+input[type="radio"] {
+    margin:0;
+}
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+}
+</style>
+
+<div id="content" style="width:540px;border-right:none;">
+<!--{if empty($_PARENT['uid']) }-->
+<form action="cp.php?ac=parent&op=invite" method="post">
+你可以为自己的家长开通一个ihome账号，让家长也能了解北航的方方面面~
+		<table>
+			<tr>
+				<td>
+					用户名：
+				</td>
+				<td>
+					<input id="username" name="username" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+				<td>
+					<p>提交后不可修改</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					真实姓名：
+				</td>
+				<td>
+					<input id="realname" name="realname" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+				<td>
+					<p>提交后不可修改</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					密码：
+				</td>
+				<td>
+					<input id="password1" name="password1" type="password" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+				<td>
+					<p>密码至少六位</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					密码确认：
+				</td>
+				<td>
+					<input id="password2" name="password2" type="password" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+			</tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" class="btn btn-comments btn-sm invitebuttom" onclick="addaction()" value="邀请"/></td>
+            </tr>
+         </table>
+	 </form>
+<!--{else}-->
+<form action="cp.php?ac=parent&op=reset" method="post">
+你可以为自己的家长开通一个ihome账号，让家长也能了解北航的方方面面~<BR/><BR/>
+已开通用户：<BR/><BR/>
+		<table>
+			<tr>
+				<td>
+					用户名：
+				</td>
+				<td>
+					<!--{eval echo $_PARENT['username'];}-->
+				</td>
+			</tr>
+			<tr>
+				<td>
+					真实姓名：
+				</td>
+				<td>
+					<!--{eval echo $_PARENT['realname'];}-->
+				</td>
+			</tr>
+			<tr>
+				<td>
+					当前密码:
+				</td>
+				<td>
+					<!--{eval echo $_PARENT['password'];}-->
+				</td>
+			</tr>
+			<tr>
+				<td>
+					密码：
+				</td>
+				<td>
+					<input id="password1" name="password1" type="password" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+				<td>
+					<p>密码至少六位</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					密码确认：
+				</td>
+				<td>
+					<input id="password2" name="password2" type="password" class="t_input form-control input-sm" style="width:147px;display:block;">
+					</input>
+				</td>
+				<td></td>
+			</tr>
+            <tr>
+                <td><input type="submit" class="btn btn-comments btn-sm invitebuttom" value="确定"/></td>
+                <td><input type="reset" class="btn btn-comments btn-sm invitebuttom"  value="取消"/></td>
+            </tr>
+         </table>
+</form>
+<!--{/if}-->
+</div>
+<!--{template footer}-->
