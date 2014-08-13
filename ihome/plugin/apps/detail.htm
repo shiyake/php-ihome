@@ -129,7 +129,7 @@
               <span class="left margin_left_40">服务质量：</span><span class="left" id="add_score_service"></span>
 			  <span class="left margin_left_80">响应速度：</span><span class="left" id="add_score_speed"></span>
               <div class="clear"></div>
-			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
+			  <form id="grade" name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
                 <textarea rows="2" class="form-control comment width_95" name="content"></textarea>
 				<input name="score" id="score" type="hidden" value="0" />
@@ -156,7 +156,7 @@
 				if (!(parseInt(document.grade.score.value) &&
 					parseInt(document.grade.score_easy.value) &&
 					parseInt(document.grade.score_service.value) &&
-					parseInt(document.grade.score_speed.value))) {
+					parseInt(document.grade.score_speed.value)) || !document.grade.content.value.trim()) {
 					alert('您好，您还有完成评分哦~');
 					return false; 
 				}
@@ -166,7 +166,7 @@
           <div class="yy_eva">
             <h2 class="block">应用评价</h2>
             <div class="yy_eva_c">
-			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
+			  <form id="grade" name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
                 <textarea rows="2"  class="form-control comment width_95" name="content"></textarea>
               </div>
@@ -216,8 +216,11 @@
               <div class="com_c_time">$comment[time]</div>
             </div>
             <!-- end user_com_c -->
-            <div class="clear dashed"></div>
+            <div class="clear"></div>
 			<!--{/loop}-->
+	        <div class="page">
+	          $multi
+	        </div>
 			<!--{/if}-->
 			<link href="plugin/apps/css/star.css" rel="stylesheet">
 			<script language="javascript" type="text/javascript" src="plugin/apps/js/star_big.js"></script>

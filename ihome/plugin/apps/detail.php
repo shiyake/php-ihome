@@ -195,7 +195,7 @@ if($authorize && !$isAuthorized){
 //提交评分
 if(submitcheck('comment_submit')) {
     //接收信息
-    $content = $_POST['content'];
+    $content = trim($_POST['content']);
     $score = $_POST['score'] ? intval($_POST['score']) : -1;
     $score_easy = $_POST['score_easy'] ? intval($_POST['score_easy']) : -1;
     $score_service = $_POST['score_service'] ? intval($_POST['score_service']) : -1;
@@ -221,10 +221,12 @@ if(submitcheck('comment_submit')) {
         );
         //用户打分
         $app_score = gradeForApp($detailarr ,$app ,$appsid ,1);
-        $app['score'] = $app_score['score'];
-        $app['score_easy'] = $app_score['score_easy'];
-        $app['score_service'] = $app_score['score_service'];
-        $app['score_speed'] = $app_score['score_speed'];
+        // $app['score'] = $app_score['score'];
+        // $app['score_easy'] = $app_score['score_easy'];
+        // $app['score_service'] = $app_score['score_service'];
+        // $app['score_speed'] = $app_score['score_speed'];
+        // $app['comment'] = $app_score['comment'];
+        header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");
     } else {
         showmessage("请先进行评分再提交");
     }
@@ -244,14 +246,21 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 
 //获取评论
+$orderby = empty($_GET['orderby']) || $_GET['orderby'] != 'favourite' ? 'time' : 'favourite';
+$perpage = 10;
+$page = empty($_GET['page'])?1:intval($_GET['page']);
+$start = ($page-1)*$perpage;
+ckstart($start, $perpage);
+$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0 AND TRIM(content)!=''"));
+$url = "plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=$orderby";
+$multi = multi($count, $perpage, $page, $url);
+
 $comments = array();
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0  ORDER BY time DESC LIMIT 10");
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0 AND TRIM(content)!='' ORDER BY ".$orderby." DESC LIMIT ".$start.",".$perpage);
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
-    if (trim($value['content'])!='') {
-        $value['time'] = date("Y-m-d H:i",$value['time']);
-        realname_set($value['uid'], $value['uname']);
-        $comments[] = $value;
-    }
+    $value['time'] = date("Y-m-d H:i",$value['time']);
+    realname_set($value['uid'], $value['uname']);
+    $comments[] = $value;
 }
 realname_get();
 
@@ -267,23 +276,26 @@ include_once template("/plugin/apps/detail");
 function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
     GLOBAL $_SGLOBAL;
     //更新总平均分以及评分人数
-    $all_score = $app['score'] * $app['comment'];
-    $all_score_easy = $app['score_easy'] * $app['comment'];
-    $all_score_service = $app['score_service'] * $app['comment'];
-    $all_score_speed = $app['score_speed'] * $app['comment'];
+    $all_score = $app['S'];
+    $all_score_easy = $app['SE'];
+    $all_score_service = $app['SV'];
+    $all_score_speed = $app['SP'];
     if($isUpdate){
         $app['comment']++;
-        $app['comment'] = $app['comment'] ? $app['comment'] : 1;
-        $all_comment = $app['comment'];
-        $app['score'] = ($all_score + $newScore['score']) / $all_comment;
-        $app['score_easy'] = ($all_score_easy + $newScore['score_easy']) / $all_comment;
-        $app['score_service'] = ($all_score_service + $newScore['score_service']) / $all_comment;
-        $app['score_speed'] = ($all_score_speed + $newScore['score_speed']) / $all_comment;
-        //更新评分记录
-        updatetable('apps_detail' , $newScore ,array('appsid'=>$appsid,'uid'=>$_SGLOBAL['supe_uid']));
-        $_SGLOBAL['db']->query("UPDATE ".tname('apps')." USE INDEX(id) SET comment=comment+1 WHERE id=$appsid");
+        if ($newScore['score']>0) {
+            $app['S'] += $newScore['score'];
+            $app['SE'] += $newScore['score_easy'];
+            $app['SV'] += $newScore['score_service'];
+            $app['SP'] += $newScore['score_speed'];
+            $app['scorer']++;
 
-    }else{
+            $all_scorer = $app['scorer'];
+            $app['score'] = $all_scorer ? ($all_score + $newScore['score']) / $all_scorer : 0;
+            $app['score_easy'] = $all_scorer ? ($all_score_easy + $newScore['score_easy']) / $all_scorer : 0;
+            $app['score_service'] = $all_scorer ? ($all_score_service + $newScore['score_service']) / $all_scorer : 0;
+            $app['score_speed'] = $all_scorer ? ($all_score_speed + $newScore['score_speed']) / $all_scorer : 0;
+        }
+    } else {
         $app['modders']++;
         $app['modders'] = $app['modders'] ? $app['modders'] : 1;
         if ($app['modders'] == 1) {
@@ -292,9 +304,9 @@ function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
             $app['score_service'] = 5;
             $app['score_speed'] = 5;
         }
-        //增加评分记录
-        inserttable('apps_detail',$newScore,0);
     }
+    inserttable('apps_detail',$newScore,0);
+
     //取一位小数
     $score = round($app['score'],1);
     $score_easy = round($app['score_easy'],1);
@@ -310,14 +322,17 @@ function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
         'score' => $app['score'],
         'score_easy' => $app['score_easy'],
         'score_service' => $app['score_service'],
-        'score_speed' => $app['score_speed']
+        'score_speed' => $app['score_speed'],
+        'comment' => $app['comment'],
+        'S' => $app['S'],
+        'SE' => $app['SE'],
+        'SV' => $app['SV'],
+        'SP' => $app['SP'],
+        'scorer' => $app['scorer']
     );
 
-    if ($app['comment']%50 == 49) {
-        $_SGLOBAL['db']->query("update ".tname('apps').", (select appsid, round(avg(score),1) as s, round(avg(score_easy),1) as se, round(avg(score_service),1) as sv, round(avg(score_speed),1) as sp from ihome_apps_detail where issystem = 0 group by appsid) av set score=av.s, score_easy=av.se, score_service=av.sv, score_speed=av.sp where id = av.appsid and id=".$appsid);
-    } else {
-        updatetable('apps' , $app_arr ,array('id'=>$appsid));
-    }    
+    updatetable('apps' , $app_arr ,array('id'=>$appsid));
+
     return $app_arr;
 }
 
