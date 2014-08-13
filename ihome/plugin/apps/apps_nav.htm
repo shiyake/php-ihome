@@ -1,0 +1,22 @@
+<!--{if $apps_ad}-->
+<img src="http://placehold.it/970x100">
+<!--{/if}-->
+<div class="navbar nav_header">
+	<div class="apps-nav pull-left">
+		<ul class="list-inline">
+		  <li class="nav_li<!--{if $ac!='mine'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps">服务首页</a></li>
+		  <li class="nav_li<!--{if $ac=='mine'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=mine">我的服务</a></li>
+		</ul>
+	</div>
+
+	<div class="apps_search pull-right">
+		<form class="form-search" action="plugin.php?pluginid=apps&ac=list" method="post">
+		  <input style=" color:#666; border:1px solid #ddd; margin: 5px 0 0 5px; padding-left:5px; width:160px; float:left; height:34px; line-height:34px; " maxlength="100" size="30" onfocus="this.value=&#39;&#39;" value="请输入关键字" name="keyword">
+		  <input style="border-style: none; border-color: inherit; border-width: 0;margin:6px 0 0 0px;float:left; background:url(plugin/apps/images/search.jpg) no-repeat left top; width: 36px; height:36px;cursor:pointer;" type="submit" name="submit" value="">
+		  <input type="hidden" name="appssearch" value="true" />
+		  <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+</div>
+<div style="border-bottom:1px solid #dcdcdc;">
+</div>

@@ -1,13 +1,10 @@
 <!--{template plugin/apps/header}-->
+<!--{template plugin/apps/apps_nav}-->
   <div class="main">
     
 	<!--{template plugin/apps/left}-->
 	
-    <div class="yingyong_right">
-	
-      <!--{template plugin/apps/right_nav}-->
-	  
-      <div class="clear"></div>
+    <div class="content">
       <div class="yingyong_c">
         <div class="yingyong_text">
           <div class="yingyong_img"><img src="$app[logo]" title="$app[name]" width="120" height="120" /></div>
@@ -114,7 +111,6 @@
 		  </script>
 		  </div>
           <!-- end quanli -->
-          <div class="clear"></div>
           <div class="yy_jieshao">
             <h2 class="block">应用介绍<!--{if $app[offline]}--><span style="color:#FF0005;font-weight:blod;padding:0px 20px;">(该服务线上提交后,另需线下办理相关业务.详见以下说明)</span><!--{/if}--></h2>
             <div class="yy_jieshao_c"> $app[desc] </div>
@@ -135,7 +131,7 @@
               <div class="clear"></div>
 			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
-                <textarea rows="2" class="width_95" name="content"></textarea>
+                <textarea rows="2" class="form-control comment width_95" name="content"></textarea>
 				<input name="score" id="score" type="hidden" value="0" />
 				<input name="score_easy" id="score_easy" type="hidden" value="0" />
 				<input name="score_service" id="score_service" type="hidden" value="0" />
@@ -143,11 +139,11 @@
               </div>
               <!-- end shuru -->
               <div class="anniu">
-                <label><input type="checkbox" value="1" name="anonymous">匿名</label><br />
+                <label><input type="checkbox" value="1" name="anonymous">匿名</label>
 				<input type="hidden" name="comment_submit" value="true" />
 				<input type="hidden" name="appsid" value="$appsid" />
 				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-                <button type="submit" class="pinf">评分</button>
+                <button type="submit" class="btn btn-default pinf">评价</button>
               </div>
 			  </form>
               <!-- end anniu -->
@@ -155,25 +151,32 @@
             <!-- end yy_eva_c -->
             <div class="clear"></div>
           </div>
+          <script>
+			document.grade.onsubmit = function() {
+				if (!(parseInt(document.grade.score.value) &&
+					parseInt(document.grade.score_easy.value) &&
+					parseInt(document.grade.score_service.value) &&
+					parseInt(document.grade.score_speed.value))) {
+					alert('您好，您还有完成评分哦~');
+					return false; 
+				}
+			};
+          </script>
           <!--{else}-->
           <div class="yy_eva">
             <h2 class="block">应用评价</h2>
             <div class="yy_eva_c">
 			  <form name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
-                <textarea rows="2" class="width_95" name="content"></textarea>
-				<input name="score" id="score" type="hidden" value="0" />
-				<input name="score_easy" id="score_easy" type="hidden" value="0" />
-				<input name="score_service" id="score_service" type="hidden" value="0" />
-				<input name="score_speed" id="score_speed" type="hidden" value="0" />
+                <textarea rows="2"  class="form-control comment width_95" name="content"></textarea>
               </div>
               <!-- end shuru -->
               <div class="anniu">
-                <label><input type="checkbox" value="1" name="anonymous">匿名</label><br />
+                <label><input type="checkbox" value="1" name="anonymous">匿名</label>
 				<input type="hidden" name="comment_submit" value="true" />
 				<input type="hidden" name="appsid" value="$appsid" />
 				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-                <button type="submit" class="pinf">评分</button>
+                <button type="submit" class="btn btn-default pinf">评价</button>
               </div>
 			  </form>
               <!-- end anniu -->
@@ -181,13 +184,21 @@
             <!-- end yy_eva_c -->
             <div class="clear"></div>
           </div>
+          <script>
+			document.grade.onsubmit = function() {
+				if (!document.grade.content.value.trim()) {
+					alert('您好，您还没进行评价哦~');
+					return false; 
+				}
+			};
+          </script>
 		  <!--{/if}-->
 		  <!--{/if}-->
 				
           <!-- end yy_eva -->
+          <!--{if $comments}-->
           <div class="user_com">
             <h2 class="block padding_bottom_10">用户评价</h2>
-            <!--{if $comments}-->
 			<!--{loop $comments $comment}-->
 			<div class="user_com_c">
               <div class="user_img">
@@ -201,10 +212,6 @@
 			  </div>
               <div class="user_com_c_c">
                 <div class="user_c_neirong">$comment[content]</div>
-                <span class="left">总体评价：</span><span class="score_num">$comment[score]&nbsp;&nbsp;&nbsp;</span>
-				<span class="left">易用性：</span><span class="score_num">$comment[score_easy]&nbsp;&nbsp;&nbsp;</span>
-				<span class="left">服务质量：</span><span class="score_num">$comment[score_service]&nbsp;&nbsp;&nbsp;</span>
-				<span class="left">响应速度：</span><span class="score_num">$comment[score_speed]&nbsp;&nbsp;&nbsp;</span>
 			  </div>
               <div class="com_c_time">$comment[time]</div>
             </div>
@@ -265,15 +272,6 @@
 				}
 			}
 			jq('#add_score_speed').rater(options_add_score_speed);
-			document.grade.onsubmit = function() {
-				if (!(parseInt(document.grade.score.value) &&
-					parseInt(document.grade.score_easy.value) &&
-					parseInt(document.grade.score_service.value) &&
-					parseInt(document.grade.score_speed.value))) {
-					alert('您好，您还没进行评分哦~');
-					return false; 
-				}
-			};
 			</script>
             <div class="clear dashed margin_bottom_10"></div>
             <!--<div class="more"> <a href="#">显示更多</a> </div>-->

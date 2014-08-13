@@ -196,10 +196,10 @@ if($authorize && !$isAuthorized){
 if(submitcheck('comment_submit')) {
     //接收信息
     $content = $_POST['content'];
-    $score = intval($_POST['score']);
-    $score_easy = intval($_POST['score_easy']);
-    $score_service = intval($_POST['score_service']);
-    $score_speed = intval($_POST['score_speed']);
+    $score = $_POST['score'] ? intval($_POST['score']) : -1;
+    $score_easy = $_POST['score_easy'] ? intval($_POST['score_easy']) : -1;
+    $score_service = $_POST['score_service'] ? intval($_POST['score_service']) : -1;
+    $score_speed = $_POST['score_speed'] ? intval($_POST['score_speed']) : -1;
     if ($score && $score_easy && $score_service && $score_speed) {
         $vision = '1';
         $anonymous = isset($_POST['anonymous']) ? intval($_POST['anonymous']) : 0;
@@ -247,9 +247,11 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
 $comments = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0  ORDER BY time DESC LIMIT 10");
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
-    $value['time'] = date("Y-m-d H:i",$value['time']);
-    realname_set($value['uid'], $value['uname']);
-    $comments[] = $value;
+    if (trim($value['content'])!='') {
+        $value['time'] = date("Y-m-d H:i",$value['time']);
+        realname_set($value['uid'], $value['uname']);
+        $comments[] = $value;
+    }
 }
 realname_get();
 

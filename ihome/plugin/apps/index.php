@@ -31,6 +31,7 @@ if (!in_array($ac, $ac_array)) {
 	$ac = 'foru';
 }
 
+$apps_ad = 1;
 
 if($ac) {
 	@require_once(''.$ac.'.php');
