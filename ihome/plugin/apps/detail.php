@@ -69,9 +69,22 @@ if($resetauthorize){
 
 //是否已经授权该应用
 $isAuthorized = FALSE;
+$hasShortcut = 0;
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid AND appsid=$appsid");
 if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $isAuthorized = TRUE;
+    $hasShortcut = intval($value['shortcut']);
+}
+
+if ($isAuthorized && !empty($_GET['shortcut'])) {
+    $shortcut = $_GET['shortcut'] == 'add' ? 1 : 0;
+    if ($shortcut == $hasShortcut) {
+        echo 1;
+        exit();
+    } else {
+        $_SGLOBAL['db']->query("UPDATE ".tname('apps_users')." SET shortcut=$shortcut WHERE uid=$uid AND appsid=$appsid");
+        $hasShortcut = $shortcut;
+    }
 }
 
 //使用app

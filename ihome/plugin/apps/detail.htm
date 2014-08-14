@@ -49,6 +49,11 @@
 			<!--{else}-->
 			<div class="shiyong"><a onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
 			<!--{/if}-->
+			<!--{if $hasShortcut}-->
+			<div class="shortcut"><a onclick="removeShortcut()" href="javascript:void(0);">取消首页快捷方式</a></div>
+			<!--{else}-->
+			<div class="shortcut"><a onclick="addShortcut()" href="javascript:void(0);">添加首页快捷方式</a></div>
+			<!--{/if}-->
             <div class="jiechu"><a onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
 			<!--{else}-->
 			<!--{if $app[iauth_type]}-->
@@ -106,6 +111,24 @@
 					}
 					else
 						alert('解除授权失败~!');
+				});
+			}
+			function addShortcut() {
+				jq.get("plugin.php?pluginid=apps&ac=detail&appsid=$appsid&shortcut=add",function(data) {
+					if (data == '1') {
+						alert('操作已经完成');
+						return;
+					}
+	        		jq(".quanli").html(jq(data).find(".quanli").html());
+				});
+			}
+			function removeShortcut() {
+				jq.get("plugin.php?pluginid=apps&ac=detail&appsid=$appsid&shortcut=remove",function(data) {
+					if (data == '1') {
+						alert('操作已经完成');
+						return;
+					}
+	        		jq(".quanli").html(jq(data).find(".quanli").html());
 				});
 			}
 		  </script>
