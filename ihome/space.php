@@ -21,6 +21,7 @@
 include_once('./common.php');
 include_once(S_ROOT.'./data/data_magic.php');
 
+
 //是否关闭站点
 checkclose();
 
@@ -326,6 +327,16 @@ if($rows = $_SGLOBAL['db']->fetch_array($query))	{
 }
 
 //处理
+//parent
+@include_once('./source/cp_parent_func.php');
+global $_PARENT;
+initStudent();
+initParent();
+initParentFlag();
+
+if($_SGLOBAL['supe_isParent']){
+	$_SGLOBAL['newbie'] = 0;
+}
 include_once(S_ROOT."./source/space_{$do}.php");
 
 //echo Pinyin($friends,2);

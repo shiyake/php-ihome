@@ -543,12 +543,20 @@
 	<td></td>
 </tr>
 <tr>
-	<th style="width:10em;">新邮箱:</th>
+	<th style="width:10em;">新邮箱:<!--{eval echo $_PARENT['email'];}--></th>
 	<td>
+	<!--{if $_SGLOBAL['supe_isParent']}-->
+		<!--{if $_PARENT['emailupdated']}-->
+		<input type="text" id="email" class="t_input" name="email" value="$space[email]" />
+		<!--{else}-->
+		<input type="text" id="email" name="email" class="t_input" value="" />
+		<!--{/if}-->
+	<!--{else}-->	
 		<input type="text" id="email" class="t_input" name="email" value="$space[email]" />
 		<!--{if $space['emailcheck']}-->
 		<br>注意：新填写的邮箱只有在验证激活之后，才可以生效。
 		<!--{/if}-->
+	<!--{/if}-->
 	</td>
 	<td></td>
 </tr>
@@ -572,10 +580,16 @@
 	<th style="width:10em;">常用邮箱:</th>
 	<td>
 		<!--{if $space[email]}-->
-			$space[email]<br>
 			<!--{if $space['emailcheck']}-->
+				$space[email]<br>
 				当前邮箱已经验证激活 (<a href="$theurl&editemail=1">更换</a>)
 			<!--{else}-->
+				<!--{if $_SGLOBAL['supe_isParent']==1}-->
+					<!--{if $_PARENT['emailupdated']==0}-->
+					尚无激活邮箱(<a href="$theurl&editemail=1">去激活</a>)
+					<!--{/if}-->
+				<!--{/if}-->
+                                $space[email]<br>
 				邮箱等待验证中...<br>
 				系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。<br>
 				如果没有收到验证邮件，您可以<a href="$theurl&editemail=1">更换一个邮箱</a>，或者<a href="$theurl&resend=1">重新接收验证邮件</a>

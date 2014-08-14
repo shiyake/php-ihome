@@ -385,11 +385,15 @@ status message end-->
                     <li class="active status">
                     <a href="#">发状态</a>
                     </li>
+					<!--{if $_SGLOBAL['supe_isParent'] == 0}-->
                     <li class="complain">
                     <a href="#">提诉求</a>
                     </li>
+					<!--{/if}-->
                 </ul>
+		<!--{if !$_SGLOBAL['supe_isParent']}-->
                 <a style="color:black;position:absolute;top:13px;margin-left:-85px;left:50%;z-index:100"id="complain_help" data-container="body" data-trigger="hover" data-toggle="tooltip" data-placement="bottom" data-title="提诉求时，需要先点击提诉求按钮，然后在输入框内@学院或部门处室的公共主页并输入诉求内容，最后点击诉求按钮，您的状态将作为诉求发布。"><span class="glyphicon glyphicon-question-sign"></span></a>
+                <!--{/if}-->
                 <div class="mood_say_statement">还可输入 <strong id="maxlimit">140</strong> 个字</div>
             </div>			
         </div>
