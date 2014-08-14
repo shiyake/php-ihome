@@ -1,5 +1,6 @@
 @charset "utf-8";
 .app_container {
+	background-color: #fff;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
@@ -194,4 +195,10 @@
 	float: left;
 	text-align: center;
 	margin-right: 20px;
+}
+.user_com_cft {
+	margin-left: 70px;
+}
+a.selected {
+	font-weight: bold;
 }

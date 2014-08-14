@@ -199,8 +199,13 @@
           <!--{if $comments}-->
           <div class="user_com">
             <h2 class="block padding_bottom_10">用户评价</h2>
+            <!--{if $orderby=='upvotes'}-->
+            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default ">按照时间排序</a>
+            <!--{else}-->
+            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default ">按照点赞排序</a>
+            <!--{/if}-->
 			<!--{loop $comments $comment}-->
-			<div class="user_com_c">
+			<div id="user_com_$comment[id]" class="user_com_c">
               <div class="user_img">
 				<!--{if $comment[anonymous]}-->
 				<a href="javascript:void(0)" target="_blank"><!--{avatar(0,small)}--></a>
@@ -210,10 +215,17 @@
 				<a href="space.php?uid=$comment[uid]" target="_blank">$_SN[$comment[uid]]</a>
 				<!--{/if}-->
 			  </div>
-              <div class="user_com_c_c">
-                <div class="user_c_neirong">$comment[content]</div>
+			  <div class="user_com_cft">
+			  	<div class="user_com_c_c">
+	                <div class="user_c_neirong">$comment[content]</div>
+				</div>
+				<!--{if $comment[hasVoted]}-->
+				<a href="javascript:void(0);" class="btn btn-default com_upvotes disabled"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
+				<!--{else}-->
+				<a href="javascript:void(0);" class="btn btn-default com_upvotes" onclick="upvote($comment[id])"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
+				<!--{/if}-->
+	            <div class="com_c_time">$comment[time]</div>
 			  </div>
-              <div class="com_c_time">$comment[time]</div>
             </div>
             <!-- end user_com_c -->
             <div class="clear"></div>
@@ -221,6 +233,21 @@
 	        <div class="page">
 	          $multi
 	        </div>
+	        <script>
+	        	function upvote(cid) {
+	        		jq.get("plugin.php?pluginid=apps&ac=detail&appsid=$appsid&upvote="+cid,function(data) {
+	        			var s = 1;
+	        			if (data == '1') {
+	        				alert('没有这条评论！');
+	        				return;
+	        			} else if (data == '2') {
+	        				alert('您已经投过票了~');
+	        				return;
+	        			}
+	        			jq("#user_com_"+cid).html(jq(data).find("#user_com_"+cid).html());
+	        		});
+	        	}
+	        </script>
 			<!--{/if}-->
 			<link href="plugin/apps/css/star.css" rel="stylesheet">
 			<script language="javascript" type="text/javascript" src="plugin/apps/js/star_big.js"></script>

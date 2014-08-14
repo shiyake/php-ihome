@@ -11,8 +11,7 @@ $uid = $_SGLOBAL['supe_uid'];
 $nowtime = time();
 $isConfirm = $_GET['isConfirm'] ? trim($_GET['isConfirm']) : 0;
 $state = $_GET['state'] ? trim($_GET['state']) : 0;
-
-
+$upvote = $_GET['upvote'] ? trim($_GET['upvote']) : 0;
 
 //app的基本信息
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id='$appsid' OR iauth_id='$appsid'");
@@ -245,8 +244,30 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $isGrade = TRUE;
 }
 
+//投票哦~
+if ($upvote) {
+    $value = $_SGLOBAL['db']->fetch_array($_SGLOBAL['db']->query("SELECT * FROM ".tname("apps_detail")." WHERE appsid=$appsid AND issystem=0 AND id=$upvote"));
+    if (!$value) {
+        echo 1;
+        exit();
+    }
+    $hasVoted = false;
+    if ($value['voter']) {
+        $voters = explode(',', $value['voter']);
+        $hasVoted = in_array($uid, $voters);
+        if ($hasVoted) {
+            echo 2;
+            exit();
+        }
+        $voter = $value['voter'].",$uid";
+    } else {
+        $voter = $uid;
+    }
+    $_SGLOBAL['db']->query("UPDATE ".tname('apps_detail')." SET upvotes=upvotes+1, voter='$voter' WHERE id=$upvote");
+}
+
 //获取评论
-$orderby = empty($_GET['orderby']) || $_GET['orderby'] != 'favourite' ? 'time' : 'favourite';
+$orderby = empty($_GET['orderby']) || $_GET['orderby'] != 'upvotes' ? 'time' : 'upvotes';
 $perpage = 10;
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 $start = ($page-1)*$perpage;
@@ -258,6 +279,12 @@ $multi = multi($count, $perpage, $page, $url);
 $comments = array();
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0 AND TRIM(content)!='' ORDER BY ".$orderby." DESC LIMIT ".$start.",".$perpage);
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
+    $hasVoted = false;
+    if ($value['voter']) {
+        $voters = explode(',', $value['voter']);
+        $hasVoted = in_array($uid, $voters);
+    }
+    $value['hasVoted'] = $hasVoted;
     $value['time'] = date("Y-m-d H:i",$value['time']);
     realname_set($value['uid'], $value['uname']);
     $comments[] = $value;
