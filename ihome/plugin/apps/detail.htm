@@ -221,38 +221,46 @@
           <!-- end yy_eva -->
           <!--{if $comments}-->
           <div class="user_com">
-            <h2 class="block padding_bottom_10">用户评价</h2>
-            <!--{if $orderby=='upvotes'}-->
-            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default ">按照时间排序</a>
-            <!--{else}-->
-            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default ">按照点赞排序</a>
-            <!--{/if}-->
-			<!--{loop $comments $comment}-->
-			<div id="user_com_$comment[id]" class="user_com_c">
-              <div class="user_img">
-				<!--{if $comment[anonymous]}-->
-				<a href="javascript:void(0)" target="_blank"><!--{avatar(0,small)}--></a>
-				(匿名)
-				<!--{else}-->
-				<a href="space.php?uid=$comment[uid]" target="_blank"><!--{avatar($comment[uid],small)}--></a>
-				<a href="space.php?uid=$comment[uid]" target="_blank">$_SN[$comment[uid]]</a>
-				<!--{/if}-->
-			  </div>
-			  <div class="user_com_cft">
-			  	<div class="user_com_c_c">
-	                <div class="user_c_neirong">$comment[content]</div>
-				</div>
-				<!--{if $comment[hasVoted]}-->
-				<a href="javascript:void(0);" class="btn btn-default com_upvotes disabled"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
-				<!--{else}-->
-				<a href="javascript:void(0);" class="btn btn-default com_upvotes" onclick="upvote($comment[id])"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
-				<!--{/if}-->
-	            <div class="com_c_time">$comment[time]</div>
-			  </div>
+          	<div class="left">
+	            <h2 class="block padding_bottom_10 left" style="width:auto;">用户评价</h2>
+	            <!--{if $orderby=='upvotes'}-->
+	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default right">按照时间排序</a>
+	            <!--{else}-->
+	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default right">按照点赞排序</a>
+	            <!--{/if}-->
             </div>
+            <div class="clear"></div>
+            <div class="user_com_cs">
+				<!--{loop $comments $comment}-->
+				<div id="user_com_$comment[id]" class="user_com_c">
+	              <div class="user_img">
+					<!--{if $comment[anonymous]}-->
+					<a href="javascript:void(0)" target="_blank"><!--{avatar(0,small)}--></a>
+					<!--{else}-->
+					<a href="space.php?uid=$comment[uid]" target="_blank"><!--{avatar($comment[uid],small)}--></a>
+					<!--{/if}-->
+				  </div>
+				  <div class="user_com_cft">
+					<!--{if $comment[anonymous]}-->
+					匿名
+					<!--{else}-->
+					<a href="space.php?uid=$comment[uid]" target="_blank">$_SN[$comment[uid]]</a>
+					<!--{/if}-->
+		            <span class="com_c_time">&nbsp;($comment[time])</span>
+				  	<div class="user_com_c_c">
+		                <div class="user_c_neirong">$comment[content]</div>
+					</div>
+					<!--{if $comment[hasVoted]}-->
+					<a href="javascript:void(0);" class="btn btn-default com_upvotes disabled right"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="btn btn-default com_upvotes right" onclick="upvote($comment[id])"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
+					<!--{/if}-->
+				  </div>
+	            </div>
             <!-- end user_com_c -->
             <div class="clear"></div>
 			<!--{/loop}-->
+			</div>
 	        <div class="page">
 	          $multi
 	        </div>

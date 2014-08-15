@@ -174,13 +174,14 @@
 	line-height: 30px;
 }
  .yy_jieshao,.yy_eva,.user_com {
-	padding-bottom: 20px;
-	padding-top: 20px;
-	padding-left: 10px;
+ 	padding: 20px 10px;
 	background: #eee;
 	margin-top: 10px;
 	float: left;
 	width: 100%;
+}
+.user_com>.left {
+	width: 95%;
 }
 .yy_jieshao_c,.yy_eva_c,.user_com_c {
 	padding: 10px;
@@ -188,8 +189,18 @@
 .yy_jieshao h2 {
 	clear: none;
 }
-.shuru .comment {
+.yy_eva_c form {
 	width: 80%;
+}
+.anniu {
+	padding: 10px;
+}
+.anniu label {
+	margin-top: 5px;
+}
+.pinf {
+	float: right;
+	font-size: 10px;
 }
 .user_com_c {
 	margin-bottom: 10px;
@@ -205,4 +216,17 @@
 }
 a.selected {
 	font-weight: bold;
+}
+.com_c_time {
+	color: #999;
+}
+.user_com_c_c {
+	padding: 6px 0;
+}
+.user_com_c {
+	width: 97%;
+}
+.user_com_c:not(:first-child) {
+	border-top: 1px solid #ccc;
+	margin-top: 10px;
 }
