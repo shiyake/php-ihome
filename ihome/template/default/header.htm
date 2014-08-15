@@ -494,10 +494,10 @@ jq(function(){
                                 <!--{eval $temp = 0}-->
                                 <!--{loop $shortcuts $shortcut}-->
                                 <!--{if $temp}-->
-                                <li><img src="$shortcut[logo]" title="$shortcut[name]"><a  style="margin-left:-10px; width: 20px;" href="$shortcut[url]" title="$shortcut[name]">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"></span></a></li>
+                                <li><img src="$shortcut[logo]" title="$shortcut[name]"><a  style="margin-left:-10px; width: 20px;" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"></span></a></li>
                                 <!--{else}-->
                                 <!--{eval $temp = 1}-->
-                                <li class="first_show_next"><img src="$shortcut[logo]" title="$shortcut[name]"><a  style="margin-left:-10px; width: 20px;" href="$shortcut[url]" title="$shortcut[name]">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"></span></a></li>
+                                <li class="first_show_next"><img src="$shortcut[logo]" title="$shortcut[name]"><a  style="margin-left:-10px; width: 20px;" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"></span></a></li>
                                 <!--{/if}-->
                                 <!--{/loop}-->
                             </ul>
@@ -511,6 +511,16 @@ jq(function(){
                                         jq.get("space.php?do=home",function(data) {
                                             jq("#my_shortcutapp").html(jq(data).find("#my_shortcutapp").html());
                                         });
+                                    });
+                                }
+                                function useApp(appsid) {
+                                    jq.post("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appsid,
+                                        {appsid:appsid},
+                                        function(data) {
+                                        if(data != 0)
+                                            location=data;
+                                        else
+                                            alert('跳转失败~!');
                                     });
                                 }
                             </script>
