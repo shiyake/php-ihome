@@ -3756,3 +3756,21 @@ h4.title.title30 img.pic10 {
     margin: 15px 20px 11px;
     cursor: pointer;
 }
+#my_shortcutapp li img {
+    float: left;
+}
+#my_shortcutapp li a.shortcutname {
+    display: block;
+    float: left;
+    width: 88px;
+    margin-left: -10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+a.shortcutname + a {
+    display: none;
+}
+#my_shortcutapp li:hover a+a {
+    display: block;
+}
