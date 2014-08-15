@@ -15,7 +15,7 @@ function initStudent(){
 		if(preg_match('/^[0-9]/', $_SGLOBAL['supe_collegeid'])){
 			$_SGLOBAL['supe_isStudent'] = 1;
 		}else{
-			$_SGLOBAL['supe_isStudent'] = 2;
+			$_SGLOBAL['supe_isStudent'] = 0;
 		}
 	}
 }
@@ -46,6 +46,7 @@ function initParent(){
 		$_PARENT['realname'] = $rows['realname'];
 		$_PARENT['email'] = $rows['email'];
 		$_PARENT['password'] = '******';
+		$_PARENT['emailupdated']=0;
 	}
 }
 
@@ -81,7 +82,11 @@ function addUserManually($username, $password, $email = 'default@ihome.com'){
 	function mutualFriendManually($uidA, $usernameA, $uidB, $usernameB){
 		@include_once(S_ROOT.'common.php');
 		@include_once(S_ROOT.'source/function_cp.php');
-		@friend_update($uidA, $usernameA, $uidB, $usernameB, 'invite', 0);
+		global $_SCONFIG;
+		$_SCONFIG['uc_status'] = 1;
+		@friend_update($uidA, $usernameA, $uidB, $usernameB, 'add', 4);
+		@friend_update($uidB, $usernameB, $uidA, $usernameA, 'add', 4);
+		//$_SGLOBAL['db']->query("update ".tname("spacefield")." set friend='$uidA' where uid='$uidB'");
 		@notification_add($uidA, 'friend', cplang('note_friend_add'));
 		@notification_add($uidB, 'friend', cplang('note_friend_add'));
 		return 1;
