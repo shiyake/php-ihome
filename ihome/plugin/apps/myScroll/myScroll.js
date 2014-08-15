@@ -19,7 +19,7 @@
 		   block=$(this).find("div.myBlock"),
 		   innerBlock=block.find(".mainul"),
 		   list=block.find('.mainul > .mainli'),
-		   listNum=list.size(),
+		   listNum=list.size()>6?6:list.size(),
 		   listWidth=list.width(),
 		   blockWidth=listWidth*opts.visible,//可见区域宽度
 		   intervalId; 
