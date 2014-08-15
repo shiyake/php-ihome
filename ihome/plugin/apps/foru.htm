@@ -37,6 +37,10 @@
 	  <ul class="mainul">
 	  <!--{eval $maxnum=12;$num=0;}-->
 	  <!--{loop $promot $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
 	  	<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -48,6 +52,7 @@
         </div>
       </div>
 	  </li>
+	  <!--{/if}-->
 	  <!--{eval ++$num;if($num==$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
@@ -71,6 +76,10 @@
 	  <ul class="mainul">
 	  <!--{eval $maxnum=12;$num=0;}-->
 	  <!--{loop $hot $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -82,6 +91,7 @@
         </div>
       </div>
 	  </li>
+	  <!--{/if}-->
 	  <!--{eval ++$num;if($num==$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
@@ -105,6 +115,10 @@
 	  <ul class="mainul">
 	  <!--{eval $num=0;}-->
 	  <!--{loop $popular $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -116,6 +130,7 @@
         </div>
       </div>
 	  </li>
+	  <!--{/if}-->
 	  <!--{eval ++$num;if($num==$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
