@@ -39,6 +39,7 @@
 	});
 	//左边栏我的活动隐藏与显示
 	jq(function() {
+		var memHeight = jq("#my_shortcutapp").height();
 		jq("#my_defaultapp_toggle").click(function() {
 			if (jq("#my_defaultapp").css("display") == "none") {
 				jq("#my_defaultapp").css({
@@ -57,15 +58,19 @@
 				});
 			} else {
 				jq("#my_defaultapp").stop().animate({
-					"height": "0px"
-				},
-				400);
-				jq("#my_defaultapp").css({
-					"display": "none"
+					"height": "0px"	
+				}, 400, function() {
+					jq("#my_defaultapp").css({
+						"display": "none"
+					});
 				});
-				jq("#my_shortcutapp,#my_shortcutapp_toggle").css({
+				jq("#my_shortcutapp_toggle").css({
 					"position": "relative",
 					"top": "20px"
+				});
+				jq("#my_shortcutapp").css({
+					"position": "relative",
+					"top": "10px"
 				});
 				jq('.shortcut_line').css({
 					"top": "10px"
@@ -78,16 +83,16 @@
 					"display": "block"
 				});
 				jq("#my_shortcutapp").stop().animate({
-					"height": "322px"
+					"height": memHeight
 				},
 				300);
 			} else {
 				jq("#my_shortcutapp").stop().animate({
 					"height": "0px"
-				},
-				400);
-				jq("#my_shortcutapp").css({
-					"display": "none"
+				}, 400, function() {
+					jq("#my_shortcutapp").css({
+						"display": "none"
+					});
 				});
 			}
 		});

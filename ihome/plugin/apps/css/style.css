@@ -10,7 +10,7 @@
 	padding: 20px;
 }
 .left_menu ul li {
-	margin-bottom: 10px;
+	margin-bottom: 12px;
 }
 .left_menu a {
 	font-size: 18px;
@@ -18,6 +18,10 @@
 }
 .left_menu a:hover {
 	color: rgb(51, 51, 51);
+}
+.left_menu img {
+	width: 12px;
+	margin-top: 3px;
 }
 .content {
 	margin-left: 170px;
@@ -28,15 +32,20 @@
 .page {
 	clear: left;
 }
-.nav_li {
-	font-size: 28px;
-	margin: 0 12px;
-}
 .nav_header {
-	margin-bottom: 0 !important ;
+	margin-bottom: 0 !important;
 }
-.apps-nav ul {
-	margin: 10px;
+#apps_nav_header a {
+	color: #333;
+	border: none;
+	font-size: 18px;
+}
+#apps_nav_header a:hover {
+	border: none;
+	text-decoration: none;
+	background: transparent;
+	color: #333;
+	cursor: pointer;
 }
 .apps_search {
 	margin: 10px;
@@ -67,8 +76,8 @@
 }
 .yy_list_c_2 {
 	float: left;
-	padding: 10px;
-	width: 125px;
+	padding: 21px 10px;
+	width: 132px;
 }
 .yy_list_c_2>a {
 	display: block;
@@ -113,7 +122,7 @@
 	margin: 0;
 	font-size: 16px;
 	font-weight: bold;
-	color: #000;
+	color: #333;
 	line-height: 20px;
 	clear: both;
 }
@@ -130,9 +139,6 @@
 .nav_li a:hover {
 	text-decoration: none;
 }
-.li_active {
-	font-weight: bold;
-}
 .typename {
 	font-weight: bold;
 	font-size: 18px;
@@ -140,6 +146,16 @@
 }
 .sort_by {
 	display: inline;
+}
+.sort_by a {
+	color: #ccc;
+}
+.sort_by a.selected {
+	color: #333;
+}
+.sort_by a:hover {
+	color: #777;
+	text-decoration: none;
 }
 .yingyong_img {
 	margin-top: 20px;
@@ -175,7 +191,6 @@
 }
  .yy_jieshao,.yy_eva,.user_com {
  	padding: 20px 10px;
-	background: #eee;
 	margin-top: 10px;
 	float: left;
 	width: 100%;
@@ -189,8 +204,11 @@
 .yy_jieshao h2 {
 	clear: none;
 }
-.yy_eva_c form {
+.yy_eva_c {
 	width: 80%;
+}
+.yy_eva_c form {
+	margin-top: 10px;
 }
 .anniu {
 	padding: 10px;
@@ -229,4 +247,15 @@ a.selected {
 .user_com_c:not(:first-child) {
 	border-top: 1px solid #ccc;
 	margin-top: 10px;
+}
+.xiaowai {
+	font-size: 14px;
+	line-height: 20px;
+	background-color: #DFF0D8;
+	border-color: #D6E9C6;
+	color: #468847;
+	padding: 5px;
+}
+.yy_more a:hover {
+	text-decoration: none;
 }

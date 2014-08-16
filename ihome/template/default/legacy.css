@@ -3769,6 +3769,7 @@ h4.title.title30 img.pic10 {
     text-overflow: ellipsis;
 }
 a.shortcutname + a {
+    float: right;
     display: none;
 }
 #my_shortcutapp li:hover a+a {

@@ -10,7 +10,7 @@
 		jq(".myScroll").myScroll({
 							   visible:3,
 							   scroll:3,
-							   speed:1000
+							   speed:500
 							   });
 		/*
 		jq("#myfavorite").myScroll({
@@ -47,13 +47,12 @@
         <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="promot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -86,13 +85,12 @@
         <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="hot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -125,13 +123,12 @@
         <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="popular_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>

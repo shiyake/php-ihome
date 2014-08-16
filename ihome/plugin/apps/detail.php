@@ -303,7 +303,7 @@ while($value = $_SGLOBAL['db']->fetch_array($query)) {
     $comments[] = $value;
 }
 realname_get();
-
+$comments_count = count($comments);
 
 include_once template("/plugin/apps/detail");
 

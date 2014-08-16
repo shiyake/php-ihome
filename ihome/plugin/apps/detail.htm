@@ -32,7 +32,7 @@
           <!-- end yingyong_intr -->
           <div class="yingyong_eva"> <span class="left">总体评价：</span><span class="left" id="all_score"></span><span class="score_num">$app[score]</span>
             <div class="clear"></div>
-            <span class="left">易&nbsp;用&nbsp;&nbsp;性：</span><span class="left" id="all_score_easy"></span><span class="score_num">$app[score_easy]</span>
+            <span class="left" style="word-spacing:2px;">易&nbsp;用&nbsp;性：</span><span class="left" id="all_score_easy"></span><span class="score_num">$app[score_easy]</span>
             <div class="clear"></div>
             <span class="left">服务质量：</span><span class="left" id="all_score_service"></span><span class="score_num">$app[score_service]</span>
             <div class="clear"></div>
@@ -146,11 +146,11 @@
           <div class="yy_eva">
             <h2 class="block">应用评价</h2>
             <div class="yy_eva_c">
-			<span class="left margin_left_40">总体评价：</span><span class="left" id="add_score"></span>
-			<span class="left margin_left_80">易&nbsp;&nbsp;用&nbsp;&nbsp;性：</span><span class="left" id="add_score_easy"></span>
+        	  <div class="left"><span class="left" style="margin-top:4px;">总体评价：</span><span class="left" id="add_score"></span></div>
+			  <div class="right"><span class="left" style="margin-top:4px;word-spacing:2px;">易&nbsp;用&nbsp;性：</span><span class="left" id="add_score_easy"></span></div>
               <div class="clear"></div>
-              <span class="left margin_left_40">服务质量：</span><span class="left" id="add_score_service"></span>
-			  <span class="left margin_left_80">响应速度：</span><span class="left" id="add_score_speed"></span>
+              <div class="left"><span class="left" style="margin-top:4px;">服务质量：</span><span class="left" id="add_score_service"></span></div>
+              <div class="right"><span class="left" style="margin-top:4px;">响应速度：</span><span class="left" id="add_score_speed"></span></div>			  
               <div class="clear"></div>
 			  <form id="grade" name="grade" action="plugin.php?pluginid=apps&ac=detail&appsid=$appsid" method="post">
               <div class="shuru">
@@ -223,10 +223,12 @@
           <div class="user_com">
           	<div class="left">
 	            <h2 class="block padding_bottom_10 left" style="width:auto;">用户评价</h2>
+	            <!--{if $comments_count > 1}-->
 	            <!--{if $orderby=='upvotes'}-->
 	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default right">按照时间排序</a>
 	            <!--{else}-->
 	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default right">按照点赞排序</a>
+	            <!--{/if}-->
 	            <!--{/if}-->
             </div>
             <div class="clear"></div>
