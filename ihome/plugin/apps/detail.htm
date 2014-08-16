@@ -136,7 +136,11 @@
           <!-- end quanli -->
           <div class="yy_jieshao">
             <h2 class="block">应用介绍<!--{if $app[offline]}--><span style="color:#FF0005;font-weight:blod;padding:0px 20px;">(该服务线上提交后,另需线下办理相关业务.详见以下说明)</span><!--{/if}--></h2>
+            <!--{if $app[desc]}-->
             <div class="yy_jieshao_c"> $app[desc] </div>
+            <!--{else}-->
+            <div class="yy_jieshao_c"> (暂无简介) </div>
+            <!--{/if}-->
             <!-- end yy_jieshao_c -->
           </div>
           <!-- end yy_jieshao -->
