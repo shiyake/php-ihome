@@ -45,21 +45,21 @@
 			<div class="xiaowai">该服务只允许在校师生在校园网环境使用，谢谢~！</div>
 			<!--{elseif $isAuthorized}-->
 			<!--{if $app[iauth_type]}-->
-			<div class="shiyong"><a onclick="gourl();" href="javascript:void(0)">立即使用</a></div>
+			<div class="shiyong"><a class="btn btn-default" onclick="gourl();" href="javascript:void(0)">立即使用</a></div>
 			<!--{else}-->
-			<div class="shiyong"><a onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
+			<div class="shiyong"><a class="btn btn-default" onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
 			<!--{/if}-->
 			<!--{if $hasShortcut}-->
-			<div class="shortcut"><a onclick="removeShortcut()" href="javascript:void(0);">取消首页快捷方式</a></div>
+			<div class="shortcut"><a class="btn btn-default" onclick="removeShortcut()" href="javascript:void(0);">取消首页快捷方式</a></div>
 			<!--{else}-->
-			<div class="shortcut"><a onclick="addShortcut()" href="javascript:void(0);">添加首页快捷方式</a></div>
+			<div class="shortcut"><a class="btn btn-default" onclick="addShortcut()" href="javascript:void(0);">添加首页快捷方式</a></div>
 			<!--{/if}-->
-            <div class="jiechu"><a onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
+            <div class="jiechu"><a class="btn btn-default" onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
 			<!--{else}-->
 			<!--{if $app[iauth_type]}-->
-			<div class="shouquan"><a onclick="gourl();" href="javascript:void(0)">授权使用</a></div>
+			<div class="shouquan"><a class="btn btn-default" onclick="gourl();" href="javascript:void(0)">授权使用</a></div>
 			<!--{else}-->
-			<div class="shouquan"><a onclick="authiAuth('$appsid');" href="javascript:void(0)">授权使用</a></div>
+			<div class="shouquan"><a class="btn btn-default" onclick="authiAuth('$appsid');" href="javascript:void(0)">授权使用</a></div>
 			<!--{/if}-->
 			<!--{/if}-->
           <script type="text/javascript">
