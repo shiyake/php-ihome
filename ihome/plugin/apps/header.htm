@@ -1,24 +1,303 @@
 <!--{if empty($_SGLOBAL['inajax'])}-->
 <!DOCTYPE html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit"> 
+<meta http-equiv="content-type" content="text/html; charset=$_SC[charset]" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+     
+        <title><!--{if $_TPL['titles']}--><!--{loop $_TPL['titles'] $value}--><!--{if $value}-->$value - <!--{/if}--><!--{/loop}--><!--{/if}--><!--{if $_SN[$space[uid]]}-->{$_SN[$space[uid]]} - <!--{/if}-->$_SCONFIG[sitename]</title>
 <meta name="keywords" content="i北航">
 <link rel="shortcut icon" href="favicon.ico">
-<title>i 北航</title>
-<link href="plugin/apps/css/reset.css" rel="stylesheet" type="text/css" />
-<link href="plugin/apps/css/color.css" rel="stylesheet" type="text/css" />
 <link href="plugin/apps/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="plugin/apps/css/style.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/color.css" rel="stylesheet" type="text/css" />
+<link href="plugin/apps/css/reset.css" rel="stylesheet" type="text/css" />
 <link href="plugin/apps/css/yingyong.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="plugin/apps/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="plugin/apps/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="plugin/apps/js/ihome_dialog.js"></script>
 <script type="text/javascript" src="plugin/apps/js/touming.js"></script>
 <script type="text/javascript" src="plugin/apps/js/pie.js"></script>
+
+<link href="plugin/bootstrap/dist/css/bootstrap.ihome.css" rel="stylesheet" type="text/css"/>
+<link href="plugin/bootstrap/wrapbootstrap/css/lib/font-awesome.css" type="text/css" rel="stylesheet"/>
+
+
+<link rel="stylesheet" type="text/css" href="template/default/legacy.css"/>
+<link rel="stylesheet" type="text/css" href="template/default/style.css"/>
+
+<link href="plugin/bootstrap/dist/css/popupmenu.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+    @import url(template/default/jqcloud.css);
+    <!--{if $_TPL['css']}-->
+    @import url(template/default/{$_TPL[css]}.css);
+    <!--{/if}-->
+    <!--{if !empty($_SGLOBAL['space_css'])}-->
+    $_SGLOBAL[space_css]
+    <!--{/if}-->
+    @import url(plugin/at/jquery.at.css);
+    <!--{if !empty($_SGLOBAL['space_diy'])}-->
+    @import url(theme/diy/$_SGLOBAL['space_diy']['diy_colors']/style.css);
+    <!--{if $_SGLOBAL['space_diy']['bg_enabled'] && !empty($_SGLOBAL['space_diy']['bg'])}-->
+    <!--{if $_SGLOBAL['space_diy']['bg_style'] == 1}-->
+    body { background: white url("{$_SGLOBAL['space_diy']['bg']}") fixed !important; }
+    <!--{else}-->
+    body { background: inherit !important; }
+    <!--{/if}-->
+    <!--{/if}-->
+    #bg_pic { background: inherit !important; }
+
+
+
+    <!--{/if}-->
+
+    @import url(template/default/jqcloud.css);
+    @import url(template/default/space.css);
+    @import url(plugin/at/jquery.at.css);
+
+</style>
+<link rel="shortcut icon" href="image/logo_title.png" />
+<link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]" />
+    <script language="javascript" type="text/javascript" src="plugin/bootstrap/html5shiv.min.js"></script>
+    <script language="javascript" type="text/javascript" src="plugin/bootstrap/respond.min.js"></script>
+        <script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
+        <script language="javascript" type="text/javascript" src="plugin/bootstrap/jquery.lazyload.js"></script>
+
+    <script language="javascript" type="text/javascript" src="source/script_cookie.js"></script>
+    <script language="javascript" type="text/javascript" src="source/script_common.js"></script>
+    <script language="javascript" type="text/javascript" src="source/script_menu.js"></script>
+    <script language="javascript" type="text/javascript" src="source/script_ajax.js"></script>
+    <script language="javascript" type="text/javascript" src="source/script_manage.js"></script>
+
+        <!--<script language="javascript" type="text/javascript" src="plugin/at/jquery-1.8.2.min.js"></script>-->
+      <script language="javascript" type="text/javascript" src="source/script_face.js"></script>
+      <script language="javascript" type="text/javascript" src="plugin/at/jquery.caret.js" ></script>
+    <script language="javascript" type="text/javascript" src="plugin/at/jquery.at.js"></script>
+    <script language="javascript" type="text/javascript" src="plugin/at/jquery.form.js"></script>
+    <script language="javascript" type="text/javascript" src="source/jqcloud-1.0.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
+        <script language="javascript" type="text/javascript" src="source/main.js"></script>
+        <script language="javascript" type="text/javascript" src="source/infocard.js"></script>
+    <script language="javascript" type="text/javascript" src="plugin/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+        <!--<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>-->
+
+    <script type="text/javascript">
+      function _ihome_func_wrap_comment(func, classname, formid) {
+        var args = Array.prototype.slice.call(arguments, 2);
+        return function() {
+          var popover = jq("#" + formid).find(classname).data("bs.popover");
+          if (popover) {
+            if(popover.tip().hasClass("in")) {
+              popover.toggle();
+            }
+          }
+          func.apply(null, args);
+        };
+      }
+    </script>
+    <script type="text/javascript">
+      
+<!--{if $_SGLOBAL['space_diy'] }-->
+var jq1=jQuery.noConflict();
+jq1(document).ready(function(){
+    <!--{if $_SGLOBAL['space_diy']['diy_alpha']}-->
+    var val=$_SGLOBAL['space_diy']['diy_alpha'];
+        if (navigator.userAgent.match(/\bMSIE\b/)&& (!document.documentMode || document.documentMode < 9))   { 
+      
+    }
+             else {
+             var str=jq1("#mainareafg").css("background-color");
+             if(str==null) {
+                 str=jq1("#mainarea").css("background");
+             }
+             var nstr;
+             if(str!=null) {
+             if(str[3]!='a')  {
+             for (var j=0;j<str.length;j++)   {
+             if(str[j]=='(')   {
+             start=j;
+             for(var i=start;i<str.length;i++)
+             {
+             if(str[i]==')')
+             {
+                 end=i;
+                 break;
+             }
+             }
+             nstr=str.slice (start,end);
+             break;
+             }
+             }
+             }
+             else 
+             {
+                 for (var j=0;j<str.length;j++)
+                 {
+                     if(str[j]=='(')
+                     {
+                         start=j;
+                         for(var i=start;i<str.length;i++)
+                         {
+                             if(str[i]==')')
+                             {
+                                 for(var k=i;k>=0;k--)
+                                 {
+                                     if(str[k]==',')
+                                     {
+                                         end=k;
+                                         break;
+                                     }
+                                 }
+                                 break;
+                             }
+                         }
+                         nstr=str.slice (start,end);
+                         break;
+                     }
+                 }
+             }
+             }jq1("#footer").css({"background-color":"rgba(255,255,255,"+val/100+")"});
+             jq1("#mainareafg").css({"background-color":"rgba"+nstr+","+val/100+")"});
+             jq1("#mainarea").css({"background-color":"rgba"+nstr+","+val/100+")"});
+             if(jq1("#main")) {
+                 var str=jq1("#main").css("background-color");
+                 var nstr;
+                 if(str!=null) {
+                 if(str[3]!='a')
+                 {
+                     for (var j=0;j<str.length;j++)
+                     {
+                         if(str[j]=='(')
+                         {
+                             start=j;
+                             for(var i=start;i<str.length;i++)
+                             {
+                                 if(str[i]==')')
+                                 {
+                                     end=i;
+                                     break;
+                                 }
+                             }
+                             nstr=str.slice (start,end);
+                             break;
+                         }
+                     }
+                 }
+                 else 
+                 {
+                     for (var j=0;j<str.length;j++)
+                     {
+                         if(str[j]=='(')
+                         {
+                             start=j;
+                             for(var i=start;i<str.length;i++)
+                             {
+                                 if(str[i]==')')
+                                 {
+                                     for(var k=i;k>=0;k--)
+                                     {
+                                         if(str[k]==',')
+                                         {
+                                             end=k;
+                                             break;
+                                         }
+                                     }
+                                     break;
+                                 }
+                             }
+                             nstr=str.slice (start,end);
+                             break;
+                         }
+                     }
+                 }
+                 jq1("#main").css({"background-color":"rgba"+nstr+","+val/100+")"});
+                 val_appsidebar=val/100;
+                 nstr_appsidebar=nstr;
+             }
+             }
+             }
+<!--{/if}-->
+});
+<!--{/if}-->     
+function searchSubmit() {
+    jq("#head_search").submit()
+}
+jq(function(){  
+        jq("#at_friends").hover(function(){
+            jq(this).children("img").attr("src","image/icons/at-icon2.png");
+            });
+        jq("#at_friends").mouseleave(function(){
+            jq(this).children("img").attr("src","image/icons/at-icon.png");
+            });
+        jq("#face_smell").hover(function(){
+            jq(this).children("a").children("img").attr("src","image/icons/statues_face_pressed.png");
+            });
+        jq("#face_pictor").hover(function(){
+            jq(this).children("img").attr("src","image/icons/statues_image_pressed.png");
+            });
+        jq("#face_smell").mouseleave(function(){
+            jq(this).children("a").children("img").attr("src","image/icons/statues_face_normal.png");
+            });
+        jq("#face_smell").click(function(){
+            if(jq(this).hasClass("face_click")) {
+            jq(this).removeClass("face_click");
+            }
+            else {
+            jq(this).addClass("face_click");
+            }
+            });
+        jq("#face_pictor").mouseleave(function(){
+                jq(this).children("img").attr("src","image/icons/statues_image_normal.png");
+                });
+        jq("#face_saybag").click(function(){
+                jq(this).children("a").children("div").children("img").attr("src","image/statues_su_normal.png");
+                if(jq(this).hasClass("face_click")) {
+                jq(this).removeClass("face_click");
+                }
+                else {
+          jq(this).addClass("face_click");
+          } 
+                });
+    
+    
+    jq.getJSON("cp.php?ac=public&op=checkpublic", function(json){
+      var html = '';
+      jq.each(json, function(i,item){
+        html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype='+item.type+'&touid='+item.uid+'"><i class="icon-user" style="margin-right:11px"></i>'+item.name+'</a></li>';
+      });
+      jq("#for-public").before(html);
+            });
+});
+</script>
+<script language="javascript" type="text/javascript">
+    var jq2=jQuery.noConflict();
+    var ua = navigator.userAgent.toLowerCase();
+    jq2(function(){
+        if (localStorage.getItem('ad') != 'yes' && $_SGLOBAL[supe_uid] && ua.search('mobile') == -1){
+            var height = jq2('.ad_for_2years').height();
+            jq2('.ad_for_2years').css({marginTop:-(height)});
+            jq2('.ad_for_2years').css({display:'block'});
+            jq2('#erase').css({display:'block'});
+            jq2('.ad_for_2years').animate({marginTop : 0},2000,function(){
+                localStorage.setItem('ad','yes');
+                setTimeout(function(){
+                    jq2('.ad_for_2years').animate({marginTop : -(height)},2000);
+                    jq2('#erase').css({display:'none'});
+                },20000);
+            
+            });
+        }
+        jq2('#erase').click(function(){
+            jq2('#erase').css({display:'none'});
+            jq2('.ad_for_2years').css({display:'none'});
+            });
+    });
+</script>
 <script>
-$(function() {
+jq(function() {
     if (window.PIE) {
-        $('.rounded').each(function() {
+        jq('.rounded').each(function() {
             PIE.attach(this);
         });
     }
@@ -31,27 +310,142 @@ $(function() {
     </script>
 <![endif]-->
 </head>
-<body>
-<div class="container">
-  <div class="header">
-    <div class="header_c">
-      <div class="logo"></div>
-      <!-- end logo -->
-      <div class="nav">
-        <ul class="nav_ul">
-          <li class="nav_li"><a href="space.php?do=home">我的首页</a></li>
-          <li class="nav_li"><a href="space.php">个人主页</a></li>
-          <li class="nav_li"><a href="space.php?do=friend">好友</a></li>
-          <li class="nav_li"><a href="plugin.php?pluginid=apps">服务大厅</a></li>
-          <li class="nav_li"><a href="cp.php">设置</a></li>
-          <li class="nav_li"><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]">退出</a></li>
-        </ul>
-      </div>
-      <!-- end nav -->
-      <div class="setup"></div>
-      <!-- end setup -->
+<body style="padding-top:55px;">
+    <!--{if $_SGLOBAL[supe_uid]}-->
+    <!--<img class='ad_for_2years'  style="display:none" src="template/default/image/twoyears_small.gif"/>
+    <a href="javascript:void(0)"><img style="display:none;position:fixed;top:90px;right:50px;z-index:10000;width:50px;" id='erase' src="template/default/image/erase.png"/></a>-->
+    <!--{/if}-->
+    <!--{if !empty($_SGLOBAL['space_diy'])}-->
+    <!--{if $_SGLOBAL['space_diy']['bg_enabled'] && !empty($_SGLOBAL['space_diy']['bg'])}-->
+    <!--{if $_SGLOBAL['space_diy']['bg_style'] == 2}-->
+    <img src="{$_SGLOBAL['space_diy']['bg']}" style="width:100%;position:fixed;z-index:-999;" />
+    <!--{/if}-->
+    <!--{/if}-->
+    <!--{/if}-->
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+
+    <div id="feedback"><a href="space.php?uid=665&do=mtag&tagid=2985"><img src="image/feedback.png"/></a></div>
+    <div id="back" style="display:none;" title="回到顶部"></div>
+    <div class="navbar-fixed-top navbar-ihome" style="z-index:9999">
+        <div class="container">
+
+            <div class="nav-header">
+                <a class="navbar-brand" href="space.php?do=home" style="display: block; height: 35px; width: 155px; padding: 10px;">
+                    <img src="template/default/image/logo_navigation.png"/>
+                </a>
+            </div>
+            <ul class="nav navbar-nav pull-left hidden-xs"> 
+                <!--{if $_SGLOBAL[supe_uid]}-->
+                <li id="index"><a href="space.php?do=home">首页</a></li>
+                <li id="home"><a href="space.php">个人主页</a></li>
+                <li id="friend"><a href="space.php?do=friend">好友</a></li>
+                <li id="app"><a href="plugin.php?pluginid=apps">服务大厅</a></li>
+                <!--{eval $Tyear=date("Y",time());}-->
+                <!--{if time()<=strtotime("$Tyear-7-10") && time()>=strtotime("$Tyear-5-10")}-->
+                <li><a href="space.php?do=mtag&tagid=294">离别寄语</a></li>
+                <!--{else}-->
+                <!--{if time()<=strtotime("$Tyear-9-11") && time()>=strtotime("$Tyear-7-11")}-->
+                <li><a href="space.php?uid=<!--{$_SGLOBAL[supe_uid]}-->&do=blog&view=freshman">新生须知</a></li>
+                <!--{/if}-->
+                <!--{/if}-->
+                <!--{else}-->
+                <li><a href="index.php">登录</a></li>
+                <li><a href="do.php?ac=$_SCONFIG[activate_action]">激活</a></li>
+
+                <!--{/if}-->
+                <!--{if $_SGLOBAL['appmenu']}-->
+                <!--{if $_SGLOBAL['appmenus']}-->
+                <li class="dropmenu" id="ucappmenu" onclick="showMenu(this.id)">
+                <a href="javascript:;">站内导航</a>
+                </li>
+                <!--{else}-->
+                <li><a target="_blank" href="{$_SGLOBAL[appmenu][url]}" title="{$_SGLOBAL[appmenu][name]}">{$_SGLOBAL[appmenu][name]}</a></li>
+                <!--{/if}-->
+                <!--{/if}-->
+                <!--  <!--{if $_SGLOBAL[supe_uid]}-->
+                <li><a href="space.php?do=pm<!--{if !empty($_SGLOBAL['member']['newpm'])}-->&filter=newpm<!--{/if}-->">消息<!--{if !empty($_SGLOBAL['member']['newpm'])}--><font color="yellow">（新）</font><!--{/if}--></a></li>
+                t
+                <!--{if $_SGLOBAL['member']['allnotenum']}-->
+                <li class="notify" id="membernotemenu" onmouseover="showMenu(this.id)">
+                <a href="space.php?do=notice">{$_SGLOBAL[member][allnotenum]}个提醒</a></li><!--{/if}-->
+                <!--{/if}-->-->
+            </ul>
+            <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;"> 
+                <!--{if $_SGLOBAL[supe_uid]}-->
+                <li class="hidden-xs hidden-sm" style="padding:13px;padding-left:0;padding-right:0;width:140px">
+                <form method="get" id="head_search" action="space.php" >
+                    <input id="search_input" class="search form-control input-sm" 
+                    name="query" value="找人、搜内容" type="text" onblur="if(this.value=='') {this.value='找人、搜内容';}" onclick="if(this.value=='找人、搜内容'){this.value='';}" 
+                    style="border-radius:20px;" frame="void" />
+                    <a tabindex="4" onclick="searchSubmit()"  title="搜索按钮" href="javascript:void(0)" style="outline:none;right:10px;" id="searchsubmit_a"><span class="icon-search"></span></a>
+                    <!--<input type="image" class="head_search_submit" src="template/default/image/head_search_submit.png" width="25" height="23" value="go" />
+                    -->
+                    <input type="hidden" name="do" value="search" />
+                    <!--{if $do=='doing'}-->
+                    <input type="hidden" name="type" value="doing"/>
+                    <!--{elseif $do=='blog'}-->
+                    <input type="hidden" name="type" value="blog"/>
+                    <!--{elseif $do=='album'}-->
+                    <input type="hidden" name="type" value="album"/>
+                    <!--{elseif $do=='poll'}-->
+                    <input type="hidden" name="type" value="poll"/>
+                    <!--{elseif $do=='event'}-->
+                    <input type="hidden" name="type" value="event"/>
+                    <!--{elseif $do=='mtag'}-->
+                    <input type="hidden" name="type" value="mtag"/>
+                    <!--{/if}-->
+                </form>
+                </li>
+                <!--{eval $member = $_SGLOBAL['member'];}-->
+                <li class="dropdown pull-right">
+                <a class="dropdown-toggle hidden-xs hidden-sm" style="padding: 9px 5px 10px;" data-toggle="dropdown" href="#">
+                    <div style="border-radius:50%;border:2px solid #ffffff;">
+                    <!--{if $_SCONFIG[realname]}-->
+                    <!--{if $_SGLOBAL[member][namestatus]}-->
+                    <!--{avatar($_SGLOBAL[supe_uid],small,False,1)}-->
+                    <!--
+                    $_SGLOBAL[member][name]
+                    -->
+                    <!--{else}-->
+                    <!--{avatar($_SGLOBAL[supe_uid],small,False,1)}-->
+                    <!--{/if}-->
+
+                    <!--{/if}-->
+                </div>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="cp.php"><i class="icon-cog" style="margin-right:11px"></i>设置</a></li>
+                    <li class="divider" id="for-public"></li>
+                    <li><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]"><i class="icon-signout" style="margin-right:10px"></i>退出</a></li>
+                </ul>
+                </li>
+                <li class="pull-right li_notice">
+                <a href="cp.php?ac=friend&op=request"><img src="image/icons/icon-addfriend.png"></img></a>
+                <!--{if $member[addfriendnum]}-->
+                <span class="news_badge"></span>
+                <!--{/if}--> 
+                </li>
+                <li class="pull-right li_notice">
+                <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
+                <!--{if $member[notenum]}--> 
+                <span class="news_badge"></span>
+                <!--{/if}-->
+                </li>
+                <li class="pull-right li_notice" style="padding-left:0">
+                <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
+                <!--{if $member[newpm]}-->
+                <span class="news_badge"></span>
+                <!--{/if}--> 
+                </li>
+                <!--{/if}-->
+            </ul>
+        </div>
     </div>
-    <!-- end header_c -->
-  </div>
   <!-- end head -->
+<!--{if !empty($_SGLOBAL[supe_uid])}-->
+<a href="/cp.php?ac=theme&op=diy2"><div id="diy"></div></a>
 <!--{/if}-->
+
+<div class="app_container">
+<!--{/if}

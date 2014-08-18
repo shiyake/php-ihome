@@ -1,46 +1,84 @@
   <div class="clear"></div>
-  <div class="footer">
-    <div class="footer_c">
-      <div class="footer_c_list border_right">
-        <div class="footer_c_list_t">用户帮助</div>
-        <!-- end footer_c_list_t -->
-        <div class="footer_c_list_c"> <a href="#">1.玩转i北航</a><br />
-          <a href="#">2.常见问题</a> </div>
-        <!-- end footer_c_list_c -->
-      </div>
-      <!-- end footer_c_list -->
-      <div class="footer_c_list border_right">
-        <div class="footer_c_list_t">客户端</div>
-        <!-- end footer_c_list_t -->
-        <div class="footer_c_list_c"> <a href="#">1.客户端下载</a> </div>
-        <!-- end footer_c_list_c -->
-      </div>
-      <!-- end footer_c_list -->
-      <div class="footer_c_list border_right">
-        <div class="footer_c_list_t ">服务大厅简介</div>
-        <!-- end footer_c_list_t -->
-        <div class="footer_c_list_c"> <a href="#">1.使用说明</a><br />
-          <a href="#">2.接入说明</a> </div>
-        <!-- end footer_c_list_c -->
-      </div>
-      <!-- end footer_c_list -->
-      <div class="footer_c_list">
-        <div class="footer_c_list_t">爱北航信息</div>
-        <!-- end footer_c_list_t -->
-        <div class="footer_c_list_c"> <a href="#">1.关于我们</a><br />
-          <a href="#">2.加入我们</a><br />
-          <a href="#">3.意见提醒</a> </div>
-        <!-- end footer_c_list_c -->
-      </div>
-      <!-- end footer_c_list -->
+<div id="footer" style="width:100%;">
+    <div id="footerfg">
+        <!--      <!--{if $_TPL['templates']}-->
+        <div class="chostlp" title="切换风格"><img id="chostlp" src="{$_TPL['default_template']['icon']}" onmouseover="showMenu(this.id)" alt="{$_TPL['default_template']['name']}" /></div>
+        <ul id="chostlp_menu" class="chostlp_drop" style="display: none">
+            <!--{loop $_TPL['templates'] $value}-->
+            <li><a href="cp.php?ac=common&op=changetpl&name=$value[name]" title="$value[name]"><img src="$value[icon]" alt="$value[name]" /></a></li>
+            <!--{/loop}-->
+        </ul>
+        <!--{/if}-->-->
+        <p class="r_option">
+        <!--  <a href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP"><img src="image/top.gif" alt="" style="padding: 5px 6px 6px;" /></>-->
+            </p>
+
+            <!--{if $_SGLOBAL['ad']['footer']}-->
+            <p style="padding:5px 0 10px 0;"><!--{ad/footer}--></p>
+            <!--{/if}-->
+
+            <!--{if $_SCONFIG['close']}-->
+            <p style="color:blue;font-weight:bold;">
+            提醒：当前站点处于关闭状态
+            </p>
+            <!--{/if}-->
+            <p>
+            <a title="<!--{eval echo X_RELEASE;}-->">$_SCONFIG[sitename]</a> <span title="<!--{eval echo X_REVISION;}-->"><!--{eval echo X_VER;}--></span> - 
+            <font size="2"><a href="http://i.buaa.edu.cn/attachment/ihome.apk">安卓客户端</a></font> - <a href="mailto:$_SCONFIG[adminemail]">联系我们</a> - <font size="2"><a href="invitation.php" style="color:#00f;">招贤纳士</a></font>
+            <!--{if $_SCONFIG['miibeian']}--> - <a  href="http://www.miibeian.gov.cn" target="_blank">$_SCONFIG[miibeian]</a><!--{/if}-->
+            </p>
+            <p>
+            技术支持 <a  href="http://www.buaa.edu.cn" target="_blank">北京航空航天大学</a> <a  href="http://nic.buaa.edu.cn" target="_blank">网络信息中心</a> 
+            2012年 
+            </p>
+            <!--{if $_SCONFIG['debuginfo']}-->
+            <p><!--{eval echo debuginfo();}--></p>
+            <!--{/if}-->
+        </div>
     </div>
-    <!-- end footer_c -->
-  </div>
-  <!-- end footer -->
-  <div class="foot"> ©&nbsp;2013&nbsp;i&nbsp;北航&nbsp;V2.1.1_1&nbsp;-&nbsp;京ICP备05004617<br />
-    技术支持&nbsp;北京航空航天大学&nbsp;网络信息中心 </div>
-  <!-- end foot -->
-</div>
-<!-- end container -->
-</body>
-</html>
+    <!--/wrap-->
+    <!--/bg_pic-->
+    <!--/bg_pic_repeat-->
+    <!--{if $_SGLOBAL['appmenu']}-->
+    <ul id="ucappmenu_menu" class="dropmenu_drop" style="display:none;">
+        <li><a href="{$_SGLOBAL[appmenu][url]}" title="{$_SGLOBAL[appmenu][name]}" target="_blank">{$_SGLOBAL[appmenu][name]}</a></li>
+        <!--{loop $_SGLOBAL['appmenus'] $value}-->
+        <li><a href="$value[url]" title="$value[name]" target="_blank">$value[name]</a></li>
+        <!--{/loop}-->
+    </ul>
+    <!--{/if}-->
+    <!--{if $_SGLOBAL[supe_uid]}-->
+    <!--{if !isset($_SCOOKIE['checkpm'])}-->
+    <script language="javascript"  type="text/javascript" src="cp.php?ac=pm&op=checknewpm&rand=$_SGLOBAL[timestamp]"></script>
+    <!--{/if}-->
+    <!--{if !isset($_SCOOKIE['synfriend'])}-->
+    <script language="javascript"  type="text/javascript" src="cp.php?ac=friend&op=syn&rand=$_SGLOBAL[timestamp]"></script>
+    <!--{/if}-->
+    <!--{/if}-->
+    <!--{if !isset($_SCOOKIE['sendmail'])}-->
+    <script language="javascript"  type="text/javascript" src="do.php?ac=sendmail&rand=$_SGLOBAL[timestamp]"></script>
+    <!--{/if}-->
+
+    <!--{if $_SGLOBAL['ad']['couplet']}-->
+    <script language="javascript" type="text/javascript" src="source/script_couplet.js"></script>
+    <div id="uch_couplet" style="z-index: 10; position: absolute; display:none">
+        <div id="couplet_left" style="position: absolute; left: 2px; top: 60px; overflow: hidden;">
+            <div style="position: relative; top: 25px; margin:0.5em;" onMouseOver="this.style.cursor='hand'" onClick="closeBanner('uch_couplet');"><img src="image/advclose.gif"></div>
+            <!--{ad/couplet}-->
+        </div>
+        <div id="couplet_rigth" style="position: absolute; right: 2px; top: 60px; overflow: hidden;">
+            <div style="position: relative; top: 25px; margin:0.5em;" onMouseOver="this.style.cursor='hand'" onClick="closeBanner('uch_couplet');"><img src="image/advclose.gif"></div>
+            <!--{ad/couplet}-->
+        </div>
+        <script type="text/javascript">
+            lsfloatdiv('uch_couplet', 0, 0, '', 0).floatIt();
+            </script>
+        </div>
+        <!--{/if}-->
+        <!--{if $_SCOOKIE[reward_log]}-->
+        <script type="text/javascript">
+            showreward();
+            </script>
+            <!--{/if}-->
+         </body>
+     </html>

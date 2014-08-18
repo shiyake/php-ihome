@@ -1,5 +1,5 @@
 body{ text-align:center; white-space:normal;}
-.container,#container{text-align:left;}
+.app_container,#container{text-align:left;}
 strong, dfn {font-weight:bold;}
 .strong{font-weight:bold;}
 .bold{font-weight:bold;}

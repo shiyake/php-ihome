@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink','sync'))) {
+if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink','sync','asst'))) {
 	$_GET['op'] = 'base';
 }
 
@@ -766,6 +766,54 @@ if($_GET['op'] == 'base') {
 	if(submitcheck("syncsubmit"))	{
 		$sync = $_POST['sync'] ;
 		$_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip='".$POST['sync']."'");
+	}
+} elseif ($_GET['op']=='asst') {
+	if(submitcheck('asstsubmit')) {
+		$degree = $_POST['degree'];
+		$year = $_POST['year'];
+		$academy = $_POST['academy'];
+		$q = $_SGLOBAL['db']->query("SELECT username, name FROM ".tname("space")." WHERE uid=$_SGLOBAL[supe_uid]");
+		$r = $_SGLOBAL['db']->fetch_array($q);
+		$username = $r['username'];
+		$name = $r['name'];
+
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("asst")." WHERE uid=$_SGLOBAL[supe_uid] and passed=0");
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			showmessage("您的申请正在审查中，请耐心等候~");
+		} else {
+			$q = $_SGLOBAL['db']->query("SELECT realbirth FROM ".tname("spacefield")." WHERE uid=$_SGLOBAL[supe_uid]");
+			$r = $_SGLOBAL['db']->fetch_array($q);
+			$birthday = $r['realbirth'];
+			$_SGLOBAL['db']->query("INSERT INTO ".tname('asst')." SET uid=".$_SGLOBAL[supe_uid].", username='".$username."', name='".$name."', birthday='".$birthday."', applydate='".$_SGLOBAL[timestamp]."', degree='".$degree."', year='".$year."', academy='".$academy."'");
+		}
+
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE asstConsul=1");
+		if($res = $_SGLOBAL['db']->fetch_array($query))	{
+			$recver = $res['uid']; 
+		}
+		$setarr = array(
+			'uid' => $recver,
+			'type' => "friend",
+			'new' => 1,
+			'authorid' => $_SGLOBAL['supe_uid'],
+			'author' => $name,
+			'note' => "{$name}登录名{$username}".'向您发起了'.$degree.$year.'级'.$academy.'辅导员的认证请求<br/><a href="space.php?do=friend&view=confirmasst&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=asst">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseasst&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=asst">拒绝</a>',
+			'dateline' => $_SGLOBAL['timestamp']
+		);
+		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+		inserttable('notification', $setarr);
+
+		$url = 'cp.php?ac=profile&op=asst';
+		showmessage('do_success', $url);
+	} else {
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("asst")." WHERE uid=$_SGLOBAL[supe_uid] ORDER BY applydate desc LIMIT 1");
+		$asst_verified = 13;
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			$asst_verified = $res['state'];
+			$degree = $res['degree'];
+			$year = $res['year'];
+			$academy = $res['academy'];
+		}
 	}
 }
 $cat_actives = array($_GET['op'] => ' class="active"');
