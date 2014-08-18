@@ -126,6 +126,9 @@
 	line-height: 20px;
 	clear: both;
 }
+.yingyong_c .yingyong_c_t h2 {
+	padding-left: 0;
+}
 .yingyong_c_t {
 	float: left;
 	width: 100%;
