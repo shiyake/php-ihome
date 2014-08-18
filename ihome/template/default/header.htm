@@ -494,10 +494,10 @@ jq(function(){
                                 <!--{eval $temp = 0}-->
                                 <!--{loop $shortcuts $shortcut}-->
                                 <!--{if $temp}-->
-                                <li><img src="$shortcut[logo]" title="$shortcut[name]"><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
+                                <li><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
                                 <!--{else}-->
                                 <!--{eval $temp = 1}-->
-                                <li class="first_show_next"><img src="$shortcut[logo]" title="$shortcut[name]"><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
+                                <li class="first_show_next"><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
                                 <!--{/if}-->
                                 <!--{/loop}-->
                             </ul>

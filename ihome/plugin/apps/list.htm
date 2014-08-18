@@ -12,8 +12,8 @@
 			<div class="yingyong_leibie_t_c">
 				<span class="yingyong_leibie_t">排序：</span>
 				<ul class="sort_by list-inline">
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=usernumber"<!--{if $orderby=='usernumber'}--> class="selected"<!--{/if}-->>使用人数</a></li>
+					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=clicktime"<!--{if $orderby=='clicktime'}--> class="selected"<!--{/if}-->>使用频率</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score"<!--{if $orderby=='score'}--> class="selected"<!--{/if}-->>总体评价</a></li>
 				</ul>

@@ -1,9 +1,8 @@
-<!--{template plugin/apps/header}-->  	
+<!--{template plugin/apps/header}-->
+<!--{template plugin/apps/apps_nav}-->
     <div class="main">
     	<!--{template plugin/apps/left}-->
-        <div class="yingyong_right">
-        	<!--{template plugin/apps/right_nav}-->
-            <div class="clear"></div>
+        <div class="content yingyong_right">
             <script type="text/javascript">
 			jq(function(){
 				jq(".yingyong_c span>a:first").addClass("tabActive");
@@ -33,8 +32,8 @@
 				<!--{if !$id}-->
 				var names = jq("#"+id).val();
 				if(names == '' || strlen(names)<12){
-					jq("#"+id).focus();
 					alert('请输入服务名称~!');
+					jq("#"+id).focus();
 					return false;
 				}
 				jq.post("plugin.php?pluginid=apps&ac=apply&ajax=1",{name:names},
@@ -66,7 +65,7 @@
 
             <div class="yingyong_c">
             
-				<span class="yingyong_tab clear">
+				<span class="apps_type clear">
 					<a href="javascript:" class="margin_left_100">校内服务</a>
                     <a href="javascript:">第三方服务</a>
                 </span><!-- end yingyong_tab -->
@@ -74,11 +73,9 @@
                 <ul>
                     <div class="yingyong_req">
 					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
-                        <div class="yingyong_t">校内服务</div><!-- end yingyong_t -->
-                        <div class="clear height_10"></div>
                         
                         <div class="left inline width_100 text_align_right">服务名称&nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="name1" value="" onblur="isexist('name1')" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;少于12字</div>
+                        <div class="left"><input type="text" id="name1" value="" onblur="isexist('name1')" name="name" style="width:220px;" class="border_input form-control input-sm">&nbsp;&nbsp;&nbsp;&nbsp;少于12字</div>
                         <div class="clear height_10"></div>
                         
                         <div class="left inline width_100 text_align_right">服务LOGO&nbsp;&nbsp;</div>
@@ -86,7 +83,7 @@
                         <div class="clear height_10"></div>
                         
 						<div class="left inline width_100 text_align_right">服务网址&nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="url1" name="url" value="" style="width:220px;" class="border_input"></div>
+                        <div class="left"><input type="text" id="url1" name="url" value="" style="width:220px;" class="border_input form-control input-sm"></div>
                         <div class="clear height_10"></div>
 						
 						<div class="left inline width_100 text_align_right">所属类别&nbsp;&nbsp;</div>
@@ -212,7 +209,7 @@
                             <input type="hidden" name="category" value="1" />
 							<input type="hidden" name="appsapply" value="true" />
 							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+							<input type="submit" id="submit" name="submit" value="提交" class="right btn btn-default neirong_submit">
                         </div>
                         <div class="clear height_10"></div>
                         
@@ -222,8 +219,6 @@
                 <ul>
                     <div class="yingyong_req">
 					<form id="app-apply" class="form-horizontal" action="plugin.php?pluginid=apps&ac=apply" method="post" enctype="multipart/form-data">
-                        <div class="yingyong_t">第三方服务</div><!-- end yingyong_t -->
-                        <div class="clear height_10"></div>
 						
                         <div class="left inline width_100 text_align_right">接入类型&nbsp;&nbsp;</div>
                         <div class="left">
@@ -240,11 +235,11 @@
                         <div class="clear height_10"></div>
 						
                         <div class="left inline width_100 text_align_right">服务中文名称&nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="name3" onblur="isexist('name3')" name="name" style="width:220px;" class="border_input">&nbsp;&nbsp;&nbsp;&nbsp;不超过20字</div>
+                        <div class="left"><input type="text" id="name3" onblur="isexist('name3')" name="name" style="width:220px;" class="border_input form-control input-sm">&nbsp;&nbsp;&nbsp;&nbsp;不超过20字</div>
                         <div class="clear height_10"></div>
 						
 						<div class="left inline width_100 text_align_right">服务英文简称&nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="iauth_name" onblur="isexist('iauth_name')" name="iauth_name" style="width:220px;" class="border_input">数字,字母,下划线组成,少于48字符</div>
+                        <div class="left"><input type="text" id="iauth_name" onblur="isexist('iauth_name')" name="iauth_name" style="width:220px;" class="border_input form-control input-sm">数字,字母,下划线组成,少于48字符</div>
                         <div class="clear height_10"></div>
 						
                         <div id="for_rp">
@@ -254,15 +249,15 @@
                         
 						<div id="for_wsc">
 						<div class="left inline width_100 text_align_right">会话初始化网址</div>
-                        <div class="left"><input type="text" id="url" name="url" style="width:220px;" class="border_input"></div>
+                        <div class="left"><input type="text" id="url" name="url" style="width:220px;" class="border_input form-control input-sm"></div>
                         <div class="clear height_10"></div>
 						
 						<div class="left inline width_100 text_align_right">授权回调网址&nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="back_url" name="back_url" style="width:220px;" class="border_input"></div>
+                        <div class="left"><input type="text" id="back_url" name="back_url" style="width:220px;" class="border_input form-control input-sm"></div>
                         <div class="clear height_10"></div>
 						
 						<div class="left inline width_100 text_align_right">登录回调网址 &nbsp;&nbsp;</div>
-                        <div class="left"><input type="text" id="app_url" name="app_url" style="width:220px;" class="border_input"></div>
+                        <div class="left"><input type="text" id="app_url" name="app_url" style="width:220px;" class="border_input form-control input-sm"></div>
                         <div class="clear height_10"></div>
 						</div>
 						
@@ -332,7 +327,7 @@
                             <input type="hidden" name="category" value="3" />
 							<input type="hidden" name="appsapply" value="true" />
 							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
-							<input type="submit" id="submit" name="submit" value="提交" class="neirong_submit">
+							<input type="submit" id="submit" name="submit" value="提交" class="right btn btn-default neirong_submit">
                         </div>
                         <div class="clear height_10"></div>
                         

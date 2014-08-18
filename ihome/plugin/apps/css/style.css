@@ -147,14 +147,17 @@
 .sort_by {
 	display: inline;
 }
-.sort_by a {
-	color: #ccc;
+.apps_type a {
+	font-size: 16px;
+	margin: 6px 12px;
 }
-.sort_by a.selected {
+.sort_by a,.apps_type a {
 	color: #333;
 }
-.sort_by a:hover {
-	color: #777;
+.sort_by a.selected,.apps_type .tabActive {
+	color: #2b96e1;
+}
+.sort_by a:hover,.apps_type a:hover {
 	text-decoration: none;
 }
 .yingyong_img {
@@ -190,6 +193,7 @@
 	line-height: 30px;
 }
  .yy_jieshao,.yy_eva,.user_com {
+	/*border-top: 1px solid #aaa;*/
  	padding: 20px 10px;
 	margin-top: 10px;
 	float: left;
@@ -255,4 +259,44 @@ a.selected {
 	border-color: #D6E9C6;
 	color: #468847;
 	padding: 5px;
+}
+.mylist {
+	border-bottom: 1px solid #ccc;
+}
+.mylist span {
+	display: inline-block;
+	width: 78px;
+	text-align: center;
+}
+.mylist .name {
+	width: 100px;
+}
+.mylist>span>span {
+	width: 10px;
+	height: 10px;
+	margin-top: 7px;
+	margin-right: 5px;
+	padding: 0;
+	overflow: hidden;
+}
+.yy_green {
+	background: #4be14b;
+}
+.yy_yellow {
+	background: #e8c342;
+}
+.yy_red {
+	background: #ea7070;
+}
+.yy_blue {
+	background: #415bfa;
+}
+.yingyong_req {
+	padding: 30px;
+}
+.width_100 {
+	width: 100px;
+}
+.yingyong_req div {
+	margin-top: 5px;
 }
