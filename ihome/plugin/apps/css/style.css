@@ -35,10 +35,16 @@
 .nav_header {
 	margin-bottom: 0 !important;
 }
+#apps_nav_header {
+	border-bottom: 1px solid #ccc;
+}
 #apps_nav_header a {
-	color: #333;
+	color: #bbb;
 	border: none;
 	font-size: 18px;
+}
+#apps_nav_header .li_active a {
+	color: #333;
 }
 #apps_nav_header a:hover {
 	border: none;
@@ -48,7 +54,7 @@
 	cursor: pointer;
 }
 .apps_search {
-	margin: 10px;
+	margin: 8px;
 }
 .yy_list {
 	float: left;
@@ -228,6 +234,7 @@
 	margin-top: 2px;
 }
 button.pinf {
+	border: none;
 	color: #FFF;
 	background-color: #65d8bb;
 	float: right;

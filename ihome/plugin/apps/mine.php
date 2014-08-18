@@ -6,7 +6,7 @@ if($ac != 'mine') {
 
 $uid = $_SGLOBAL['supe_uid'];
 
-$perpage = 9;
+$perpage = 21;
 $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) {
 	$page=1;
