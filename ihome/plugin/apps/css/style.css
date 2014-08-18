@@ -227,10 +227,16 @@
 .anniu .checkbox input {
 	margin-top: 2px;
 }
-.pinf {
+button.pinf {
+	color: #FFF;
+	background-color: #65d8bb;
 	float: right;
 	font-size: 10px;
 	margin: 6px 0;
+}
+button.pinf:hover,button.pinf:active,button.pinf:focus {
+	color: #FFF;
+	background-color: #2fb895;
 }
 .user_com_c {
 	margin-bottom: 10px;
@@ -310,4 +316,7 @@ a.selected {
 }
 .shuru textarea {
 	padding: 6px 12px;
+}
+.user_img img {
+	border-radius: 50%;
 }
