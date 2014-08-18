@@ -34,7 +34,7 @@ if($_GET['op'] == 'invite'){
                     //}
 
                 $_SGLOBAL['db']->query("insert into ".tname("space")." set uid=".$_PARENT['uid'].", groupid=5, username='".$_PARENT['username']."'");
-                $_SGLOBAL['db']->query("insert into ".tname("spacefield")." set uid=".$_PARENT['uid']);
+                $_SGLOBAL['db']->query("insert into ".tname("spacefield")." set uid=".$_PARENT['uid']." ,emailcheck=1");
                 $q = $_SGLOBAL['db']->query("select feedfriend from ".tname("spacefield")." where uid=".$_SGLOBAL['supe_uid']);
                 $r = $_SGLOBAL['db']->fetch_array($q);
                 if($r){
