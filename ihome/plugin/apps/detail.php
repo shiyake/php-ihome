@@ -207,7 +207,7 @@ if($authorize && !$isAuthorized){
 //提交评分
 if(submitcheck('comment_submit')) {
     //接收信息
-    $content = trim($_POST['content']);
+    $content = htmlspecialchars(trim($_POST['content']));
     $score = $_POST['score'] ? intval($_POST['score']) : -1;
     $score_easy = $_POST['score_easy'] ? intval($_POST['score_easy']) : -1;
     $score_service = $_POST['score_service'] ? intval($_POST['score_service']) : -1;

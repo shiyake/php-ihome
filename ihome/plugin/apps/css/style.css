@@ -212,20 +212,25 @@
 	clear: none;
 }
 .yy_eva_c {
-	width: 80%;
+	width: 88%;
 }
 .yy_eva_c form {
 	margin-top: 10px;
 }
 .anniu {
-	padding: 10px;
+	float: left;
+	width: 100%;
 }
-.anniu label {
-	margin-top: 5px;
+.anniu .checkbox {
+	float: left;
+}
+.anniu .checkbox input {
+	margin-top: 2px;
 }
 .pinf {
 	float: right;
 	font-size: 10px;
+	margin: 6px 0;
 }
 .user_com_c {
 	margin-bottom: 10px;
@@ -302,4 +307,7 @@ a.selected {
 }
 .yingyong_req div {
 	margin-top: 5px;
+}
+.shuru textarea {
+	padding: 6px 12px;
 }
