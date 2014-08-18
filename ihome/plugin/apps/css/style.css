@@ -320,3 +320,8 @@ a.selected {
 .user_img img {
 	border-radius: 50%;
 }
+.com_c_time {
+	margin-top: 17px;
+	display: block;
+	float: left;
+}

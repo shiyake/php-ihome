@@ -252,10 +252,11 @@
 					<!--{else}-->
 					<a href="space.php?uid=$comment[uid]" target="_blank">$_SN[$comment[uid]]</a>
 					<!--{/if}-->
-		            <span class="com_c_time">&nbsp;($comment[time])</span>
-				  	<div class="user_com_c_c">
+		            <div class="user_com_c_c">
 		                <div class="user_c_neirong">$comment[content]</div>
 					</div>
+					<div class="clear"></div>
+					<span class="com_c_time">$comment[time]</span>
 					<!--{if $comment[hasVoted]}-->
 					<a href="javascript:void(0);" class="btn btn-default com_upvotes disabled right"><span class="glyphicon glyphicon-thumbs-up"></span>($comment[upvotes])</a>
 					<!--{else}-->
