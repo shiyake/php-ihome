@@ -3057,17 +3057,18 @@ runlog("debug", "log:".print_r($flog, true));
 	}
 	//查找是否为部处
 	function isDepartment($uid = 0 ,$isDept = 1){
-		include S_ROOT.'./data/powerlevel/powerlevel.php';
-		if(array_key_exists($uid ,$_POWERINFO)){
+		global $_SGLOBAL;
+		$query = $_SGLOBAL['db']->query("select * from ".tname('powerlevel')." WHERE dept_uid='$uid'");
+		if ($result = $_SGLOBAL['db']->fetch_array($query)) {
 			if($isDept){
-				if($_POWERINFO[$uid]['isdept'] == 1)
-					return $_POWERINFO[$uid];
+				if($result['isdept'] == 1)
+					return $result;
 				else
 					return FALSE;
 			}else{
-				return $_POWERINFO[$uid];
+				return $result;
 			}
-		}else{
+		} else {
 			echo FALSE;
 		}
 	}
