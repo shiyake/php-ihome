@@ -233,7 +233,7 @@
 .anniu .checkbox input {
 	margin-top: 2px;
 }
-button.pinf {
+button.pinf,.quanli a.btn {
 	border: none;
 	color: #FFF;
 	background-color: #65d8bb;
@@ -241,7 +241,10 @@ button.pinf {
 	font-size: 10px;
 	margin: 6px 0;
 }
-button.pinf:hover,button.pinf:active,button.pinf:focus {
+.quanli div:first-child a {
+        margin-top: -10px;
+}
+button.pinf:hover,button.pinf:active,button.pinf:focus,.quanli a.btn:hover, .quanli a.btn:active, .quanli a.btn:focus  {
 	color: #FFF;
 	background-color: #2fb895;
 }
