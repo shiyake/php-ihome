@@ -380,6 +380,7 @@ var jq = jQuery.noConflict();
           log("AtView.render", li);
           return $ul.append(_highlighter(li, holder.query.text));
         });
+        $ul.children().tooltip();
         this.show();
         return $ul.find("li:eq(0)").addClass("cur");
       }
