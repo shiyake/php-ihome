@@ -13,8 +13,8 @@
 				<span class="yingyong_leibie_t">排序：</span>
 				<ul class="sort_by list-inline">
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=usernumber"<!--{if $orderby=='usernumber'}--> class="selected"<!--{/if}-->>使用人数</a></li>
+					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=clicktime"<!--{if $orderby=='clicktime'}--> class="selected"<!--{/if}-->>使用次数</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=clicktime"<!--{if $orderby=='clicktime'}--> class="selected"<!--{/if}-->>使用频率</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score"<!--{if $orderby=='score'}--> class="selected"<!--{/if}-->>总体评价</a></li>
 				</ul>
 			</div>
@@ -22,9 +22,9 @@
         <!--{if $list}-->
 		<!--{loop $list $app}-->
 		<div class="yy_list">
-			<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
+			<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
           <div class="yy_list_c_2">
-            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
+            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
             <div class="yy_list_c_x"><span class="score_star" id="app_$app[id]"></span><span class="score_num">$app[score]</span></div>
             <div class="yy_info_2">使用次数:$app[clicktime]次<br />
               使用人数:$app[usernumber]人</div>

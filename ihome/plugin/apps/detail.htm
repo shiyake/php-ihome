@@ -14,20 +14,7 @@
 			责任人：<a href="space.php?uid=$app[applyuid]" target="_blank">$_SN[$app[applyuid]]</a><br />
             使用次数：$app[clicktime]次<br />
 			使用人数：$app[usernumber]人<br />
-            评价人数：$app[comment]人<br />
-            <span class="left">适用对象：</span>
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green left inline" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow left inline" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red left inline" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue left inline" title="校友"></div>
-			<!--{/if}-->
+            评价人数：$app[comment]人
           </div>
           <!-- end yingyong_intr -->
           <div class="yingyong_eva"> <span class="left">总体评价：</span><span class="left" id="all_score"></span><span class="score_num">$app[score]</span>
@@ -41,7 +28,7 @@
           </div>
           <!-- end yingyong_eva -->
           <div class="quanli">
-            <!--{if !$isSchoolNET}-->
+            <!--{if $isSchoolNET}-->
 			<div class="xiaowai">该服务只允许在校师生在校园网环境使用，谢谢~！</div>
 			<!--{elseif $isAuthorized}-->
 			<!--{if $app[iauth_type]}-->
@@ -49,12 +36,12 @@
 			<!--{else}-->
 			<div class="shiyong"><a class="btn btn-default" onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
 			<!--{/if}-->
+            <div class="jiechu"><a class="btn btn-default danger" onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
 			<!--{if $hasShortcut}-->
-			<div class="shortcut"><a class="btn btn-default" onclick="removeShortcut()" href="javascript:void(0);">取消首页快捷方式</a></div>
+			<div class="shortcut"><a class="btn btn-default danger" onclick="removeShortcut()" href="javascript:void(0);">从首页取消</a></div>
 			<!--{else}-->
-			<div class="shortcut"><a class="btn btn-default" onclick="addShortcut()" href="javascript:void(0);">添加首页快捷方式</a></div>
+			<div class="shortcut"><a class="btn btn-default" onclick="addShortcut()" href="javascript:void(0);">添加至首页</a></div>
 			<!--{/if}-->
-            <div class="jiechu"><a class="btn btn-default" onclick="removeiAuth('$appsid');" href="javascript:void(0)">解除授权</a></div>
 			<!--{else}-->
 			<!--{if $app[iauth_type]}-->
 			<div class="shouquan"><a class="btn btn-default" onclick="gourl();" href="javascript:void(0)">授权使用</a></div>
@@ -78,8 +65,10 @@
 					showDialog();
 					});
 				}
-				else
-					location = '$app[url]';
+				else{
+					// location = '$app[url]';
+					window.open("$app[url]",'_blank');
+				}
 			}
 			function authiAuth(appid){
 				jq.get("plugin.php?pluginid=apps&ac=detail&authorize=1&appsid=" + appid,
@@ -95,10 +84,13 @@
 				jq.get("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appid,
 				{appsid:appid},
 				function(data){
-					if(data != 0)
-						location=data;
-					else
+					if(data != 0) {
+						// location=data;
+						window.open(data,'_blank');
+					}
+					else {
 						alert('跳转失败~!');
+					}
 				});
 			}
 			function removeiAuth(appid){
@@ -229,9 +221,9 @@
 	            <h2 class="block padding_bottom_10 left" style="width:auto;">用户评价</h2>
 	            <!--{if $comments_count > 1}-->
 	            <!--{if $orderby=='upvotes'}-->
-	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default right">按照时间排序</a>
+	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=time" class="btn btn-default right">最新评论</a>
 	            <!--{else}-->
-	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default right">按照点赞排序</a>
+	            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=upvotes" class="btn btn-default right">有用评论</a>
 	            <!--{/if}-->
 	            <!--{/if}-->
             </div>

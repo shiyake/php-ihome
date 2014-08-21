@@ -15,7 +15,7 @@ if($category = $_GET['category'])
 else
 	$category = 0;
 if($orderby = $_GET['orderby'])
-	$order = "ORDER BY $orderby DESC";
+	$order = "ORDER BY $orderby DESC, usernumber DESC";
 else
 	$order = '';
 	
