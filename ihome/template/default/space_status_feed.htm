@@ -15,7 +15,6 @@
 <script language="javascript" src="plugin/at/jquery.form.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
-
 function atfriend(uid,name) {
 	var messageContent = jQuery("#message").val();
 	messageContent = messageContent + '@'+name+'('+uid+')'+' ';
@@ -39,6 +38,13 @@ function sync_no()	{
 	});
 }	
 jQuery(function ($) {
+	jQuery.each(['show', 'hide'], function (i, ev) {
+		var el = jQuery.fn[ev];
+		jQuery.fn[ev] = function () {
+			this.trigger(ev);
+			return el.apply(this, arguments);
+		};
+	});
 
 	var bar = $('.bar');
 	var percent = $('.percent');
@@ -120,7 +126,7 @@ jQuery(function ($) {
 
 		jqComplain.val(type.hasClass("status") ? '0' : '1');
 	});
-	
+
 	jQuery("#message").focus(function() {
 		$("#mood_feed").removeClass("invalid");
 	});
@@ -444,9 +450,18 @@ status message end-->
                     </div>
                     <div id="friends_list_box"></div>
                 </div>
-                <div class="mood_submit">
-                    <button type="submit" id="add" name="add" >发布</button>
+                <div class="complain_pub">
+				    <label>
+				      <input type="checkbox" checked="checked"> 公开诉求
+				    </label>
                 </div>
+                <div class="pull-right">
+                	<a class="complain_tip" href="javascript:void(0);" onclick="(function(){jq('#message').val(jq('#message').val()+'@');jq('#message').trigger('mouseup');})();">请键入@，并选择诉求部门</a>
+	                <div class="mood_submit">
+	                    <button type="submit" id="add" name="add" >发布</button>
+	                </div>
+                </div>
+                
                 <div class="progress">
                     <span class="bar"></span><span class="percent">0%</span >
                     </div>
