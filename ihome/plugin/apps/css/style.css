@@ -350,3 +350,11 @@ a.selected {
 	display: block;
 	float: left;
 }
+.ads {
+	width: 757px;
+	height: 300px;
+}
+.ad_item {
+	width: 750px;
+	height: 270px;
+}
