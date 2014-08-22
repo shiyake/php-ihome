@@ -36,7 +36,7 @@ $_SGLOBAL['supe_username'] = $username;*/
 	if(trim($message)==null){
 		$arrs = array('flag'=>'null');
 		returnflag($arrs);
-	}else if( strlen($Message) < 2 ){
+	}else if( strlen($message) < 2 ){
 		$arrs = array('flag'=>'content_is_too_short');
 		returnflag($arrs);
 	}else{
