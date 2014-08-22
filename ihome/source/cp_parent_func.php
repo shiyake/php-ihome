@@ -12,7 +12,7 @@ function initStudent(){
 	}else{
 		$_SGLOBAL['supe_collegeid'] = $rows['collegeid'];
 		$_SGLOBAL['supe_academy'] = $rows['academy'];
-		if(preg_match('/^[0-9]/', $_SGLOBAL['supe_collegeid'])){
+		if(preg_match('/^14/', $_SGLOBAL['supe_collegeid'])){
 			$_SGLOBAL['supe_isStudent'] = 1;
 		}else{
 			$_SGLOBAL['supe_isStudent'] = 0;
