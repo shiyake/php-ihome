@@ -2,43 +2,62 @@
 <!--{template plugin/apps/apps_nav}-->
   <div class="main">
     
-	<!--{template plugin/apps/left}-->
-	
+  <!--{template plugin/apps/left}-->
+  
     <div class="content">
+    
       <div class="yingyong_c">
+        <div class="typename">$typeName</div>
+    <div class="yingyong_leibie">
+      <div class="yingyong_leibie_t_c">
+        <span class="yingyong_leibie_t">排序：</span>
+        <ul class="sort_by list-inline">
+          <li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=mine&category=$category&type=$type&orderby=usernumber"<!--{if $orderby=='usernumber'}--> class="selected"<!--{/if}-->>使用人数</a></li>
+          <li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=mine&category=$category&type=$type&orderby=clicktime"<!--{if $orderby=='clicktime'}--> class="selected"<!--{/if}-->>使用次数</a></li>
+          <li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=mine&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
+          <li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=mine&category=$category&type=$type&orderby=score"<!--{if $orderby=='score'}--> class="selected"<!--{/if}-->>总体评价</a></li>
+        </ul>
+      </div>
+    </div><!-- end yingyong_leibie -->
         <!--{if $list}-->
-		<!--{loop $list $app}-->
-		<div class="yy_list">
-      <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
-          <div class="yy_type">$app[type]</div>
-          <div class="yy_info_2">$app[usernumber]人在使用</div>
-        </div>
+    <!--{loop $list $app}-->
+    <div class="yy_list">
+      <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
+          <div class="yy_list_c_2">
+            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
+            <div class="yy_list_c_x"><span class="score_star" id="app_$app[id]"></span><span class="score_num">$app[score]</span></div>
+            <div class="yy_info_2">使用次数:$app[clicktime]次<br />
+              使用人数:$app[usernumber]人</div>
+            <!-- end yy_info -->
+          </div>
       <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
-    </div>
+          <!-- end yy_list_c -->
+        </div>
         <!-- end yy_list -->
-		<!--{/loop}-->
-		<!--{/if}-->
-		<link href="plugin/apps/css/star.css" rel="stylesheet">
-		<script language="javascript" type="text/javascript" src="plugin/apps/js/star_small.js"></script>
-		<script type="text/javascript">
-		<!--{if $list}-->
-		<!--{loop $list $key=>$app}-->
-		var options_$app[id] = {
-			value : $app[score],
-			enabled : false
-		}
-		jq('#app_$app[id]').rater(options_$app[id]);
-		<!--{/loop}-->
-		<!--{/if}-->
-		</script>
+    <!--{/loop}-->
+    <!--{/if}-->
+    <link href="plugin/apps/css/star.css" rel="stylesheet">
+    <script language="javascript" type="text/javascript" src="plugin/apps/js/star_small.js"></script>
+    <script type="text/javascript">
+    <!--{if $list}-->
+    <!--{loop $list $key=>$app}-->
+    var options_$app[id] = {
+      value : $app[score],
+      enabled : false
+    }
+    jq('#app_$app[id]').rater(options_$app[id]);
+    <!--{/loop}-->
+    <!--{/if}-->
+    </script>
+        <div class="clear"></div>
         <div class="page">
           $multi
         </div>
         <!-- end page -->
+        <div class="clear"></div>
       </div>
       <!-- end yingyong_c -->
-        <div class="solid_666"></div>
+        <div class="solid_666 clear"></div>
       </div>
       <!-- end yingyong_c -->
     </div>

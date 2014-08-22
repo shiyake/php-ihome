@@ -88,23 +88,24 @@ while($value = $_SGLOBAL['db']->fetch_array($query)) {
 // $shenghuo = array_sort($shenghuo ,'tuisong');
 // $qita = array_sort($qita ,'tuisong');
 
-$hot = array_sort($allapps ,'clicktime');
-$popular = array_sort($allapps ,'score');
-
-$promot = array_sort($allapps ,'tuisong');
+$limit = 16;
+$half = $limie/2;
+$hot = array_slice(array_sort($allapps ,'clicktime'),0,$limit);
+$popular = array_slice(array_sort($allapps ,'score'),0,$limit);
+$promot = array_slice(array_sort($allapps ,'tuisong'),0,$limit);
 
 
 //我常用的应用
-$appsids = '0';
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid ORDER BY clicktime DESC LIMIT 12");
-while($value = $_SGLOBAL['db']->fetch_array($query)){
-	$appsids .= ','.$value['appsid'];
-}
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id IN (".$appsids.") AND applypass =1 AND ishidden=0 ORDER BY applytime ASC LIMIT 12");
-while($value = $_SGLOBAL['db']->fetch_array($query)) {
-	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
-	$myfavorite[] = $value;
-}
+// $appsids = '0';
+// $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid ORDER BY clicktime DESC LIMIT 12");
+// while($value = $_SGLOBAL['db']->fetch_array($query)){
+// 	$appsids .= ','.$value['appsid'];
+// }
+// $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id IN (".$appsids.") AND applypass =1 AND ishidden=0 ORDER BY applytime ASC LIMIT 12");
+// while($value = $_SGLOBAL['db']->fetch_array($query)) {
+// 	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
+// 	$myfavorite[] = $value;
+// }
 
 /*
 

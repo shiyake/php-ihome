@@ -1,15 +1,14 @@
 <!--{template plugin/apps/header}-->
 <!--{template plugin/apps/apps_nav}-->
 <div class="main">
-  <!--{template plugin/apps/left}-->
-  <div class="apps content">
+  <div class="apps content_full">
 	<link href="plugin/apps/myScroll/style.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="plugin/apps/myScroll/myScroll.js"></script>
 	<script type="text/javascript">   
 	 jq(function(){
 		jq(".myScroll").myScroll({
-							   visible:3,
-							   scroll:3,
+							   visible:4,
+							   scroll:4,
 							   speed:500
 							   });
 		/*
@@ -24,13 +23,13 @@
 	</script>
 	<div class="ads">
 		<div class="ads_list_container">
-			<ul class="ads_list">
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
-				<li class="ad_item"><img src="http://placehold.it/950x270" alt=""></li>
+			<ul class="ads_list" style="width:5208px;">
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
 			</ul>
 		</div>
 		<div class="ads_index"></div>
@@ -50,12 +49,8 @@
       </div>
       <div class="myBlock">
 	  <ul class="mainul">
-	  <!--{eval $maxnum=12;$num=0;}-->
+	  <!--{eval $num=0;}-->
 	  <!--{loop $promot $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
 	  	<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -66,8 +61,11 @@
       <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -88,12 +86,8 @@
       </div>
       <div class="myBlock">
 	  <ul class="mainul">
-	  <!--{eval $maxnum=12;$num=0;}-->
+	  <!--{eval $num=0;}-->
 	  <!--{loop $hot $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -104,8 +98,11 @@
       <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -128,10 +125,6 @@
 	  <ul class="mainul">
 	  <!--{eval $num=0;}-->
 	  <!--{loop $popular $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
@@ -142,8 +135,11 @@
       <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -151,94 +147,6 @@
     </div>
     <!-- end yingyong_c -->
 	<!--{/if}-->
-	<link href="plugin/apps/css/star.css" rel="stylesheet">
-	<script language="javascript" type="text/javascript" src="plugin/apps/js/star_small.js"></script>
-	<script type="text/javascript">
-	<!--{loop $myfavorite $key=>$app}-->
-	var myfavorite_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#myfavorite_app_$app[id]').rater(myfavorite_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $promot $key=>$app}-->
-	var promot_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#promot_app_$app[id]').rater(promot_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $hot $key=>$app}-->
-	var hot_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#hot_app_$app[id]').rater(hot_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $popular $key=>$app}-->
-	var popular_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#popular_app_$app[id]').rater(popular_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $jiaoxue $key=>$app}-->
-	var jiaoxue_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#jiaoxue_app_$app[id]').rater(jiaoxue_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $keyan $key=>$app}-->
-	var keyan_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#keyan_app_$app[id]').rater(keyan_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $qita $key=>$app}-->
-	var qita_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $caiwu $key=>$app}-->
-	var caiwu_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#caiwu_app_$app[id]').rater(caiwu_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $renzi $key=>$app}-->
-	var renzi_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#renzi_app_$app[id]').rater(renzi_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $zichan $key=>$app}-->
-	var zichan_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#zichan_app_$app[id]').rater(zichan_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $shenghuo $key=>$app}-->
-	var shenghuo_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#shenghuo_app_$app[id]').rater(shenghuo_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $qita $key=>$app}-->
-	var qita_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
-	<!--{/loop}-->
-	</script>
     <!-- end yingyong_c -->
     <div class="solid_666 clear"></div>
   </div>
