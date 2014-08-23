@@ -5,16 +5,11 @@
 */
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
-	//获取从客户端LoginSuccessActivity类传递的参数
-	 
+
 	$userid=trim($_POST["sess_userid"]);
 	$username=trim($_POST["sess_username"]);
-	//$userid='96';
-	//$username = 'anminghao';
-
 	//获取客户端传递的session标识
 	$sessionid=trim($_POST["sess_sessionid"]);
-	$arr=array();//空的数组
 
 	if(!$userid || !$username || !$sessionid){
 		verifyerror();
@@ -24,12 +19,9 @@
 	session_id($sessionid);
 	 
 	//将会根据session id获得原来的session
-	 
 	session_start();
-	
-	 
+		 
 	//获取服务器端原来session记录的username,并且根据客户端传过来的username比较进行验证操作
-	 
 	$sess_username=$_SESSION['username'];
 	 
 	if($username==$sess_username){
