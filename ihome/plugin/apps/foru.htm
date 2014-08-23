@@ -33,9 +33,15 @@
 			</ul>
 		</div>
 		<div class="ads_index"></div>
-		<a href="" class="pre_ad"></a>
-		<a href="" class="next_ad"></a>
+		<a href="javascript:void(0);" onclick="next_ad()" class="next_ad"></a>
+		<a href="javascript:void(0);" onclick="pre_ad()" class="pre_ad"></a>
 	</div>
+	<script>
+		var adWidth = jq('adv_item').
+		function next_ad () {
+			jq('.ads_list').animate();
+		}
+	</script>
 	<!--{if $promot}-->
 	<div class="yingyong_c myScroll" id="promot">
       <div class="yingyong_c_t">
