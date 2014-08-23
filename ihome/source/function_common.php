@@ -105,22 +105,15 @@ function dbconnect() {
 	global $_SGLOBAL, $_SC;
 
 	include_once(S_ROOT.'./source/class_mysql.php');
-/*	include_once(S_ROOT.'./source/class_mysql2.php');
 	if(empty($_SGLOBAL['db'])) {
-		$_SGLOBAL['dbw'] = new dbstuff;
-		$_SGLOBAL['dbw']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['dbw']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
-		$_SGLOBAL['dbr'] = new dbstuff;
-		$_SGLOBAL['dbr']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['dbr']->connect($_SC['dbrhost'], $_SC['dbruser'], $_SC['dbrpw'], $_SC['dbrname'], $_SC['rpconnect']);
-		$_SGLOBAL['db'] = new mysqlproxy($_SGLOBAL['dbw'], $_SGLOBAL['dbr']);
+            $_SGLOBAL['dbr'] = new dbstuff;
+            $_SGLOBAL['dbr']->charset = $_SC['dbcharset'];
+            $_SGLOBAL['dbr']->connect($_SC['dbrhost'], $_SC['dbruser'], $_SC['dbrpw'], $_SC['dbrname'], $_SC['rpconnect']);
+            $_SGLOBAL['db'] = new mysqlproxy;
+            $_SGLOBAL['db']->rdb = $_SGLOBAL['dbr'];
+            $_SGLOBAL['db']->charset = $_SC['dbcharset'];
+            $_SGLOBAL['db']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
     }
- */
-	if(empty($_SGLOBAL['db'])) {
-		$_SGLOBAL['db'] = new dbstuff;
-		$_SGLOBAL['db']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['db']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
-	}
 }
 
 //获取在线IP

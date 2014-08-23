@@ -70,8 +70,3 @@ $_SC['dbrcharset'] 		= 'utf8';
 $_SC['rpconnect'] 		= 0; 
 $_SC['dbrname']  		= 'ihome'; 
 
-//mongodb config
-$_SC['mdbhost'] = $mongo_host;
-$_SC['mdbuser'] = $mongo_user;
-$_SC['mdbpass'] = $mongo_pwd;
-$_SC['mdbname'] = 'ihome';

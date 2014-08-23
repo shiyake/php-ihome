@@ -152,4 +152,49 @@ class dbstuff {
 	}
 }
 
+class mysqlproxy extends dbstuff
+{
+	var $rdb;
+	var $dbhost;
+	var $dbuser;
+	var $dbpw;
+	var $dbname;
+	var $pconnect;
+	var $halt;
+	var $writeable;
+
+	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $pconnect = 0, $halt = TRUE) {
+		$this->dbhost = $dbhost;
+		$this->dbuser = $dbuser;
+		$this->dbpw = $dbpw;
+		$this->dbname = $dbname;
+		$this->pconnect = $pconnect;
+		$this->halt = $halt;
+		$this->writeable = false;
+	}
+
+	function query($sql, $type = '') 
+	{
+		if (preg_match("/^\\s*[Ss][Ee][Ll][Ee][Cc][Tt]/", $sql))
+		{ 
+              return $this->rdb->query($sql, $type);
+        } 
+        if(!$this->writeable)
+        	{
+        		dbstuff::connect($this->dbhost, $this->dbuser, $this->dbpw, $this->dbname, $this->pconnect, $this->halt);
+        		$this->writeable = true;
+        	}
+		return dbstuff::query($sql, $type);
+	}
+
+	function close() {
+		$this->rdb->close();
+		return dbstuff::close();
+	}
+
+	function fetch_array($query)
+	{
+		return $this->rdb->fetch_array($query);
+	}
+}
 ?>
