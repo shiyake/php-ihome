@@ -105,22 +105,15 @@ function dbconnect() {
 	global $_SGLOBAL, $_SC;
 
 	include_once(S_ROOT.'./source/class_mysql.php');
-/*	include_once(S_ROOT.'./source/class_mysql2.php');
 	if(empty($_SGLOBAL['db'])) {
-		$_SGLOBAL['dbw'] = new dbstuff;
-		$_SGLOBAL['dbw']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['dbw']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
-		$_SGLOBAL['dbr'] = new dbstuff;
-		$_SGLOBAL['dbr']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['dbr']->connect($_SC['dbrhost'], $_SC['dbruser'], $_SC['dbrpw'], $_SC['dbrname'], $_SC['rpconnect']);
-		$_SGLOBAL['db'] = new mysqlproxy($_SGLOBAL['dbw'], $_SGLOBAL['dbr']);
+            $_SGLOBAL['dbr'] = new dbstuff;
+            $_SGLOBAL['dbr']->charset = $_SC['dbcharset'];
+            $_SGLOBAL['dbr']->connect($_SC['dbrhost'], $_SC['dbruser'], $_SC['dbrpw'], $_SC['dbrname'], $_SC['rpconnect']);
+            $_SGLOBAL['db'] = new mysqlproxy;
+            $_SGLOBAL['db']->rdb = $_SGLOBAL['dbr'];
+            $_SGLOBAL['db']->charset = $_SC['dbcharset'];
+            $_SGLOBAL['db']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
     }
- */
-	if(empty($_SGLOBAL['db'])) {
-		$_SGLOBAL['db'] = new dbstuff;
-		$_SGLOBAL['db']->charset = $_SC['dbcharset'];
-		$_SGLOBAL['db']->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $_SC['pconnect']);
-	}
 }
 
 //获取在线IP
@@ -406,6 +399,32 @@ function getuid($name) {
 	return $uid;
 }
 
+//获取IP对应的国家,判断是否为国外用户
+function getIpDetails(){
+    $onlineip = getonlineip();
+    //include("geoip.inc.php");
+    //include_once(S_ROOT.'./source/geoip.inc.php');
+    //$gi = geoip_open(S_ROOT."./source/GeoIP.dat",GEOIP_STANDARD);
+    //$country_code = geoip_country_code_by_addr($gi, $onlineip);
+    //$result = file_get_contents($get_ip_url);
+    //$result = json_decode($result,1);
+    //if ($country_code == 'CN'){
+    //    $result = False;
+    //}else{
+    //    $result = True;
+    //}
+    $get_ip_url = 'http://freegeoip.net/json/'.$onlineip;
+    $result = file_get_contents($get_ip_url);
+    $result = json_decode($result,1);
+    return $result;
+}
+function is_overseas()	{
+	$var = getIpDetails();
+	if($var['country_code']!='CN' && $var['country_code']!='RD')	{
+		return true;
+	}
+	return false;
+}
 //获取当前用户信息
 function getmember() {
 	global $_SGLOBAL, $space;
@@ -1679,8 +1698,8 @@ function runlog($file, $log, $halt=0) {
 
 		if(empty($_SGLOBAL['supe_uid'])) {
 			ssetcookie('_refer', rawurlencode($_SERVER['REQUEST_URI']));
-			//showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
-			showmessage('to_login', 'index.php');
+			showmessage('to_login', 'do.php?ac='.$_SCONFIG['login_action']);
+			//showmessage('to_login', 'index.php');
 		}
 	}
 
@@ -2485,7 +2504,11 @@ function runlog($file, $log, $halt=0) {
 			return $r['tagid'];
 		}else{
 			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
-			$setarr = array(  'tagname' => $mtagname, 'fieldid' => 4, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			if (strpos($mtagname, "大班")) {
+				$setarr = array(  'tagname' => $mtagname, 'fieldid' => 2, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			} else {
+				$setarr = array(  'tagname' => $mtagname, 'fieldid' => 4, 'announcement' => $announcement ,'joinperm' => 1 , 'viewperm' => 1 ,'threadperm' => 0 , 'postperm' => 0);
+			}
 			$tagspaceid=inserttable('mtag',$setarr,1);
 			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
 			$r=($db->fetch_array($query));
@@ -2499,6 +2522,34 @@ function runlog($file, $log, $halt=0) {
 	}
 
 	/*用入学年份跟学院找群*/
+	function tagGrade4 ($school, $db) {
+		$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='".$school."'");
+		$r=($db->fetch_array($query));
+		if ($r) {
+			return $r['tagid'];
+		}else{
+			$mtagname = $school;
+			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
+			$setarr = array(  
+				'tagname' => $mtagname, 
+				'fieldid' => 9, 
+				'announcement' => $announcement ,
+				'joinperm' => 1 , 
+				'viewperm' => 1 ,
+				'threadperm' => 0 , 
+				'postperm' => 0
+				);
+			$tagspaceid=inserttable('mtag',$setarr,1);
+			$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE tagname='$mtagname'");
+			$r=($db->fetch_array($query));
+			if ($r) {
+				$tagid = $r['tagid'];
+			}else{
+				$tagid = -1;
+			}
+			return $tagid;
+		}
+	}
 	function tagGrade3 ($startyear, $academy ,$db) {
 		$query = $db->query("SELECT * FROM ".tname('mtag')." WHERE startyear='$startyear' AND academy='$academy'");
 		$r=($db->fetch_array($query));
@@ -2509,7 +2560,7 @@ function runlog($file, $log, $halt=0) {
 			$announcement = sprintf("欢迎加入%s，大家常联系哦！",$mtagname);
 			$setarr = array(  
 				'tagname' => $mtagname, 
-				'fieldid' => 7, 
+				'fieldid' => 8, 
 				'announcement' => $announcement ,
 				'joinperm' => 1 , 
 				'viewperm' => 1 ,
@@ -2529,7 +2580,14 @@ function runlog($file, $log, $halt=0) {
 			return $tagid;
 		}
 	}
+	//国外校友群组
+	function tagGroupOverseas($uid,$school)	{
+		global $_SGLOBAL,$_SCONFIG;
 
+		$tagid = tagGrade4($school,$_SGLOBAL['db']);
+
+		jointag($uid,$tagid,$_SGLOBAL['db']);
+	}
 	//已知群组名，查找群组，如果不存在，建立新群组，返回群组号//群组为区域群组,
 	function tagArea ($mtagname ,$db) {
 
@@ -2684,70 +2742,81 @@ function runlog($file, $log, $halt=0) {
 	return FALSE;
 	}
 
-	//中文转拼音 start
-	function Pinyin($_String, $_Code='gb2312',$isInitial=false)
-	{
-		$_DataKey = "a|ai|an|ang|ao|ba|bai|ban|bang|bao|bei|ben|beng|bi|bian|biao|bie|bin|bing|bo|bu|ca|cai|can|cang|cao|ce|ceng|cha".
-			"|chai|chan|chang|chao|che|chen|cheng|chi|chong|chou|chu|chuai|chuan|chuang|chui|chun|chuo|ci|cong|cou|cu|".
-			"cuan|cui|cun|cuo|da|dai|dan|dang|dao|de|deng|di|dian|diao|die|ding|diu|dong|dou|du|duan|dui|dun|duo|e|en|er".
-			"|fa|fan|fang|fei|fen|feng|fo|fou|fu|ga|gai|gan|gang|gao|ge|gei|gen|geng|gong|gou|gu|gua|guai|guan|guang|gui".
-			"|gun|guo|ha|hai|han|hang|hao|he|hei|hen|heng|hong|hou|hu|hua|huai|huan|huang|hui|hun|huo|ji|jia|jian|jiang".
-			"|jiao|jie|jin|jing|jiong|jiu|ju|juan|jue|jun|ka|kai|kan|kang|kao|ke|ken|keng|kong|kou|ku|kua|kuai|kuan|kuang".
-			"|kui|kun|kuo|la|lai|lan|lang|lao|le|lei|leng|li|lia|lian|liang|liao|lie|lin|ling|liu|long|lou|lu|lv|luan|lue".
-			"|lun|luo|ma|mai|man|mang|mao|me|mei|men|meng|mi|mian|miao|mie|min|ming|miu|mo|mou|mu|na|nai|nan|nang|nao|ne".
-			"|nei|nen|neng|ni|nian|niang|niao|nie|nin|ning|niu|nong|nu|nv|nuan|nue|nuo|o|ou|pa|pai|pan|pang|pao|pei|pen".
-			"|peng|pi|pian|piao|pie|pin|ping|po|pu|qi|qia|qian|qiang|qiao|qie|qin|qing|qiong|qiu|qu|quan|que|qun|ran|rang".
-			"|rao|re|ren|reng|ri|rong|rou|ru|ruan|rui|run|ruo|sa|sai|san|sang|sao|se|sen|seng|sha|shai|shan|shang|shao|".
-			"she|shen|sheng|shi|shou|shu|shua|shuai|shuan|shuang|shui|shun|shuo|si|song|sou|su|suan|sui|sun|suo|ta|tai|".
-			"tan|tang|tao|te|teng|ti|tian|tiao|tie|ting|tong|tou|tu|tuan|tui|tun|tuo|wa|wai|wan|wang|wei|wen|weng|wo|wu".
-			"|xi|xia|xian|xiang|xiao|xie|xin|xing|xiong|xiu|xu|xuan|xue|xun|ya|yan|yang|yao|ye|yi|yin|ying|yo|yong|you".
-			"|yu|yuan|yue|yun|za|zai|zan|zang|zao|ze|zei|zen|zeng|zha|zhai|zhan|zhang|zhao|zhe|zhen|zheng|zhi|zhong|".
-			"zhou|zhu|zhua|zhuai|zhuan|zhuang|zhui|zhun|zhuo|zi|zong|zou|zu|zuan|zui|zun|zuo";
+    //中文转拼音 start
+    function Pinyin($_String, $_Code='gb2312',$isInitial=false)
+    {
+        global $_SGLOBAL;
+        if(!$_SGLOBAL['pinyinkey'])
+        {
+            $_DataKey = "a|ai|an|ang|ao|ba|bai|ban|bang|bao|bei|ben|beng|bi|bian|biao|bie|bin|bing|bo|bu|ca|cai|can|cang|cao|ce|ceng|cha".
+                "|chai|chan|chang|chao|che|chen|cheng|chi|chong|chou|chu|chuai|chuan|chuang|chui|chun|chuo|ci|cong|cou|cu|".
+                "cuan|cui|cun|cuo|da|dai|dan|dang|dao|de|deng|di|dian|diao|die|ding|diu|dong|dou|du|duan|dui|dun|duo|e|en|er".
+                "|fa|fan|fang|fei|fen|feng|fo|fou|fu|ga|gai|gan|gang|gao|ge|gei|gen|geng|gong|gou|gu|gua|guai|guan|guang|gui".
+                "|gun|guo|ha|hai|han|hang|hao|he|hei|hen|heng|hong|hou|hu|hua|huai|huan|huang|hui|hun|huo|ji|jia|jian|jiang".
+                "|jiao|jie|jin|jing|jiong|jiu|ju|juan|jue|jun|ka|kai|kan|kang|kao|ke|ken|keng|kong|kou|ku|kua|kuai|kuan|kuang".
+                "|kui|kun|kuo|la|lai|lan|lang|lao|le|lei|leng|li|lia|lian|liang|liao|lie|lin|ling|liu|long|lou|lu|lv|luan|lue".
+                "|lun|luo|ma|mai|man|mang|mao|me|mei|men|meng|mi|mian|miao|mie|min|ming|miu|mo|mou|mu|na|nai|nan|nang|nao|ne".
+                "|nei|nen|neng|ni|nian|niang|niao|nie|nin|ning|niu|nong|nu|nv|nuan|nue|nuo|o|ou|pa|pai|pan|pang|pao|pei|pen".
+                "|peng|pi|pian|piao|pie|pin|ping|po|pu|qi|qia|qian|qiang|qiao|qie|qin|qing|qiong|qiu|qu|quan|que|qun|ran|rang".
+                "|rao|re|ren|reng|ri|rong|rou|ru|ruan|rui|run|ruo|sa|sai|san|sang|sao|se|sen|seng|sha|shai|shan|shang|shao|".
+                "she|shen|sheng|shi|shou|shu|shua|shuai|shuan|shuang|shui|shun|shuo|si|song|sou|su|suan|sui|sun|suo|ta|tai|".
+                "tan|tang|tao|te|teng|ti|tian|tiao|tie|ting|tong|tou|tu|tuan|tui|tun|tuo|wa|wai|wan|wang|wei|wen|weng|wo|wu".
+                "|xi|xia|xian|xiang|xiao|xie|xin|xing|xiong|xiu|xu|xuan|xue|xun|ya|yan|yang|yao|ye|yi|yin|ying|yo|yong|you".
+                "|yu|yuan|yue|yun|za|zai|zan|zang|zao|ze|zei|zen|zeng|zha|zhai|zhan|zhang|zhao|zhe|zhen|zheng|zhi|zhong|".
+                "zhou|zhu|zhua|zhuai|zhuan|zhuang|zhui|zhun|zhuo|zi|zong|zou|zu|zuan|zui|zun|zuo";
+            $_DataValue = "-20319|-20317|-20304|-20295|-20292|-20283|-20265|-20257|-20242|-20230|-20051|-20036|-20032|-20026|-20002|-19990".
+                "|-19986|-19982|-19976|-19805|-19784|-19775|-19774|-19763|-19756|-19751|-19746|-19741|-19739|-19728|-19725".
+                "|-19715|-19540|-19531|-19525|-19515|-19500|-19484|-19479|-19467|-19289|-19288|-19281|-19275|-19270|-19263".
+                "|-19261|-19249|-19243|-19242|-19238|-19235|-19227|-19224|-19218|-19212|-19038|-19023|-19018|-19006|-19003".
+                "|-18996|-18977|-18961|-18952|-18783|-18774|-18773|-18763|-18756|-18741|-18735|-18731|-18722|-18710|-18697".
+                "|-18696|-18526|-18518|-18501|-18490|-18478|-18463|-18448|-18447|-18446|-18239|-18237|-18231|-18220|-18211".
+                "|-18201|-18184|-18183|-18181|-18012|-17997|-17988|-17970|-17964|-17961|-17950|-17947|-17931|-17928|-17922".
+                "|-17759|-17752|-17733|-17730|-17721|-17703|-17701|-17697|-17692|-17683|-17676|-17496|-17487|-17482|-17468".
+                "|-17454|-17433|-17427|-17417|-17202|-17185|-16983|-16970|-16942|-16915|-16733|-16708|-16706|-16689|-16664".
+                "|-16657|-16647|-16474|-16470|-16465|-16459|-16452|-16448|-16433|-16429|-16427|-16423|-16419|-16412|-16407".
+                "|-16403|-16401|-16393|-16220|-16216|-16212|-16205|-16202|-16187|-16180|-16171|-16169|-16158|-16155|-15959".
+                "|-15958|-15944|-15933|-15920|-15915|-15903|-15889|-15878|-15707|-15701|-15681|-15667|-15661|-15659|-15652".
+                "|-15640|-15631|-15625|-15454|-15448|-15436|-15435|-15419|-15416|-15408|-15394|-15385|-15377|-15375|-15369".
+                "|-15363|-15362|-15183|-15180|-15165|-15158|-15153|-15150|-15149|-15144|-15143|-15141|-15140|-15139|-15128".
+                "|-15121|-15119|-15117|-15110|-15109|-14941|-14937|-14933|-14930|-14929|-14928|-14926|-14922|-14921|-14914".
+                "|-14908|-14902|-14894|-14889|-14882|-14873|-14871|-14857|-14678|-14674|-14670|-14668|-14663|-14654|-14645".
+                "|-14630|-14594|-14429|-14407|-14399|-14384|-14379|-14368|-14355|-14353|-14345|-14170|-14159|-14151|-14149".
+                "|-14145|-14140|-14137|-14135|-14125|-14123|-14122|-14112|-14109|-14099|-14097|-14094|-14092|-14090|-14087".
+                "|-14083|-13917|-13914|-13910|-13907|-13906|-13905|-13896|-13894|-13878|-13870|-13859|-13847|-13831|-13658".
+                "|-13611|-13601|-13406|-13404|-13400|-13398|-13395|-13391|-13387|-13383|-13367|-13359|-13356|-13343|-13340".
+                "|-13329|-13326|-13318|-13147|-13138|-13120|-13107|-13096|-13095|-13091|-13076|-13068|-13063|-13060|-12888".
+                "|-12875|-12871|-12860|-12858|-12852|-12849|-12838|-12831|-12829|-12812|-12802|-12607|-12597|-12594|-12585".
+                "|-12556|-12359|-12346|-12320|-12300|-12120|-12099|-12089|-12074|-12067|-12058|-12039|-11867|-11861|-11847".
+                "|-11831|-11798|-11781|-11604|-11589|-11536|-11358|-11340|-11339|-11324|-11303|-11097|-11077|-11067|-11055".
+                "|-11052|-11045|-11041|-11038|-11024|-11020|-11019|-11018|-11014|-10838|-10832|-10815|-10800|-10790|-10780".
+                "|-10764|-10587|-10544|-10533|-10519|-10331|-10329|-10328|-10322|-10315|-10309|-10307|-10296|-10281|-10274".
+                "|-10270|-10262|-10260|-10256|-10254";
+            $_TDataKey = explode('|', $_DataKey);
+            $_TDataValue = explode('|', $_DataValue);
+            $_SGLOBAL['pinyinkey'] = $_TDataKey;
+            $_SGLOBAL['pinyinval'] = $_TDataValue;
+            $_Data = (PHP_VERSION>='5.0') ? array_combine($_TDataKey, $_TDataValue) : _Array_Combine($_TDataKey, $_TDataValue);
+            arsort($_Data);
+            reset($_Data);
+            $_SGLOBAL['pinyindata'] = $_Data;
+        }
+        else
+        {
+            $_TDataKey = $_SGLOBAL['pinyinkey'];
+            $_TDataValue = $_SGLOBAL['pinyinval'];
+            $_Data = $_SGLOBAL['pinyindata'];
+        }
 
-		$_DataValue = "-20319|-20317|-20304|-20295|-20292|-20283|-20265|-20257|-20242|-20230|-20051|-20036|-20032|-20026|-20002|-19990".
-			"|-19986|-19982|-19976|-19805|-19784|-19775|-19774|-19763|-19756|-19751|-19746|-19741|-19739|-19728|-19725".
-			"|-19715|-19540|-19531|-19525|-19515|-19500|-19484|-19479|-19467|-19289|-19288|-19281|-19275|-19270|-19263".
-			"|-19261|-19249|-19243|-19242|-19238|-19235|-19227|-19224|-19218|-19212|-19038|-19023|-19018|-19006|-19003".
-			"|-18996|-18977|-18961|-18952|-18783|-18774|-18773|-18763|-18756|-18741|-18735|-18731|-18722|-18710|-18697".
-			"|-18696|-18526|-18518|-18501|-18490|-18478|-18463|-18448|-18447|-18446|-18239|-18237|-18231|-18220|-18211".
-			"|-18201|-18184|-18183|-18181|-18012|-17997|-17988|-17970|-17964|-17961|-17950|-17947|-17931|-17928|-17922".
-			"|-17759|-17752|-17733|-17730|-17721|-17703|-17701|-17697|-17692|-17683|-17676|-17496|-17487|-17482|-17468".
-			"|-17454|-17433|-17427|-17417|-17202|-17185|-16983|-16970|-16942|-16915|-16733|-16708|-16706|-16689|-16664".
-			"|-16657|-16647|-16474|-16470|-16465|-16459|-16452|-16448|-16433|-16429|-16427|-16423|-16419|-16412|-16407".
-			"|-16403|-16401|-16393|-16220|-16216|-16212|-16205|-16202|-16187|-16180|-16171|-16169|-16158|-16155|-15959".
-			"|-15958|-15944|-15933|-15920|-15915|-15903|-15889|-15878|-15707|-15701|-15681|-15667|-15661|-15659|-15652".
-			"|-15640|-15631|-15625|-15454|-15448|-15436|-15435|-15419|-15416|-15408|-15394|-15385|-15377|-15375|-15369".
-			"|-15363|-15362|-15183|-15180|-15165|-15158|-15153|-15150|-15149|-15144|-15143|-15141|-15140|-15139|-15128".
-			"|-15121|-15119|-15117|-15110|-15109|-14941|-14937|-14933|-14930|-14929|-14928|-14926|-14922|-14921|-14914".
-			"|-14908|-14902|-14894|-14889|-14882|-14873|-14871|-14857|-14678|-14674|-14670|-14668|-14663|-14654|-14645".
-			"|-14630|-14594|-14429|-14407|-14399|-14384|-14379|-14368|-14355|-14353|-14345|-14170|-14159|-14151|-14149".
-			"|-14145|-14140|-14137|-14135|-14125|-14123|-14122|-14112|-14109|-14099|-14097|-14094|-14092|-14090|-14087".
-			"|-14083|-13917|-13914|-13910|-13907|-13906|-13905|-13896|-13894|-13878|-13870|-13859|-13847|-13831|-13658".
-			"|-13611|-13601|-13406|-13404|-13400|-13398|-13395|-13391|-13387|-13383|-13367|-13359|-13356|-13343|-13340".
-			"|-13329|-13326|-13318|-13147|-13138|-13120|-13107|-13096|-13095|-13091|-13076|-13068|-13063|-13060|-12888".
-			"|-12875|-12871|-12860|-12858|-12852|-12849|-12838|-12831|-12829|-12812|-12802|-12607|-12597|-12594|-12585".
-			"|-12556|-12359|-12346|-12320|-12300|-12120|-12099|-12089|-12074|-12067|-12058|-12039|-11867|-11861|-11847".
-			"|-11831|-11798|-11781|-11604|-11589|-11536|-11358|-11340|-11339|-11324|-11303|-11097|-11077|-11067|-11055".
-			"|-11052|-11045|-11041|-11038|-11024|-11020|-11019|-11018|-11014|-10838|-10832|-10815|-10800|-10790|-10780".
-			"|-10764|-10587|-10544|-10533|-10519|-10331|-10329|-10328|-10322|-10315|-10309|-10307|-10296|-10281|-10274".
-			"|-10270|-10262|-10260|-10256|-10254";
-		$_TDataKey = explode('|', $_DataKey);
-		$_TDataValue = explode('|', $_DataValue);
-
-		$_Data = (PHP_VERSION>='5.0') ? array_combine($_TDataKey, $_TDataValue) : _Array_Combine($_TDataKey, $_TDataValue);
-		arsort($_Data);
-		reset($_Data);
-
-		if($_Code != 'gb2312') $_String = _U2_Utf8_Gb($_String);
-		$_Res = '';
-		for($i=0; $i<strlen($_String); $i++)
-		{
-			$_P = ord(substr($_String, $i, 1));
-			if($_P>160) { $_Q = ord(substr($_String, ++$i, 1)); $_P = $_P*256 + $_Q - 65536; }
-			$_Res .= _Pinyin($_P, $_Data,$isInitial);
-		}
-		return preg_replace("/[^a-z0-9]*/", '', $_Res);
-	}
+        if($_Code != 'gb2312') $_String = _U2_Utf8_Gb($_String);
+        $_Res = '';
+        for($i=0; $i<strlen($_String); $i++)
+        {
+            $_P = ord(substr($_String, $i, 1));
+            if($_P>160) { $_Q = ord(substr($_String, ++$i, 1)); $_P = $_P*256 + $_Q - 65536; }
+            $_Res .= _Pinyin($_P, $_Data,$isInitial);
+        }
+        return preg_replace("/[^a-z0-9]*/", '', $_Res);
+    }
 
 	function _Pinyin($_Num, $_Data,$isInitial)
 	{
@@ -2981,17 +3050,18 @@ runlog("debug", "log:".print_r($flog, true));
 	}
 	//查找是否为部处
 	function isDepartment($uid = 0 ,$isDept = 1){
-		include S_ROOT.'./data/powerlevel/powerlevel.php';
-		if(array_key_exists($uid ,$_POWERINFO)){
+		global $_SGLOBAL;
+		$query = $_SGLOBAL['db']->query("select * from ".tname('powerlevel')." WHERE dept_uid='$uid'");
+		if ($result = $_SGLOBAL['db']->fetch_array($query)) {
 			if($isDept){
-				if($_POWERINFO[$uid]['isdept'] == 1)
-					return $_POWERINFO[$uid];
+				if($result['isdept'] == 1)
+					return $result;
 				else
 					return FALSE;
 			}else{
-				return $_POWERINFO[$uid];
+				return $result;
 			}
-		}else{
+		} else {
 			echo FALSE;
 		}
 	}

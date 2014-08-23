@@ -31,6 +31,35 @@ if (!in_array($ac, $ac_array)) {
 	$ac = 'foru';
 }
 
+$apps_ad = 1;
+
+$_SGLOBAL['space_theme'] = $space['theme'];
+$_SGLOBAL['space_css'] = $space['css'];
+if ($_SGLOBAL['space_theme'] == 'diy') {
+	$_SGLOBAL['space_diy'] = array(
+		'bg_enabled' => $space['diy_bg_enabled'],
+		'bg' => $space['diy_bg'],
+		'bg_style' => $space['diy_bg_style'],
+		'diy_colors' => $space['diy_colors'],
+		'diy_alpha' => $space['diy_alpha'],
+    );
+}
+$_SGLOBAL['index_bg']=$space['index_bg'];
+$theme = empty($_GET['theme'])?'':preg_replace("/[^0-9a-z]/i", '', $_GET['theme']);
+if($theme == 'uchomedefault') {
+	$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
+} elseif($theme) {
+	$cssfile = S_ROOT.'./theme/'.$theme.'/style.css';
+	if(file_exists($cssfile)) {
+		$_SGLOBAL['space_theme'] = $theme;
+		$_SGLOBAL['space_css'] = '';
+		$_SGLOBAL['space_diy'] = '';
+	}
+} else {
+	if(!$space['self'] && $_SGLOBAL['member']['nocss']) {
+		$_SGLOBAL['space_theme'] = $_SGLOBAL['space_css'] = $_SGLOBAL['space_diy'] = '';
+	}
+}
 
 if($ac) {
 	@require_once(''.$ac.'.php');

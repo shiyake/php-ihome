@@ -2330,7 +2330,7 @@ li.news_title {
     display: inline-block;
     width: 36px;
     height: 36px;
-    margin: 0 0 22px -85px;
+    margin: 0 0 -12px -85px;
     filter: alpha(opacity=70);
     -moz-opacity: 0.7;
     opacity: 0.7;
@@ -3364,7 +3364,7 @@ div.active_checkseccode {
     line-height: 36px;
 }
 .mood_submit .askbag {
-    background-color:rgb(2253,95,95);
+    background-color:rgb(255,95,95);
 }
 .mood_submit .askbag:hover {
     background-color:rgb(215,81,80);
@@ -3712,6 +3712,66 @@ h4.title.title30 img.pic10 {
 .right_head_margin {
     margin-right: 20px;
 }
-#mainareafg .l_status .active {
-    font-size: 13px;
+#solved_feedback {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #2fb895 ;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 10px 4px;
+    border: 1px solid #2fb895 ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#solved_feedback:hover {
+    color: #2fb895 ;
+    background-color: #FFFFFF;
+}
+#unsolved_feedback {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: rgb(255,95,95) ;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 10px 4px;
+    border: 1px solid rgb(255,95,95) ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#unsolved_feedback:hover {
+    color: rgb(255,95,95) ;
+    background-color: #FFFFFF;
+}
+.status {
+    text-align: center;
+}
+#feed_update {
+    background: #fefded;
+    color: #F48C12;
+    border: 1px solid #f9f2a7;
+    display: block;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    margin: 15px 20px 11px;
+    cursor: pointer;
+}
+#my_shortcutapp li a.shortcutname {
+    display: block;
+    float: left;
+    width: 124px;
+    margin-left: 4px;  
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+a.shortcutname + a {
+    float: right;
+    display: none;
+}
+#my_shortcutapp li:hover a+a {
+    display: block;
+}
+.typename,.yingyong_leibie {
+    margin-left: 10px;
 }

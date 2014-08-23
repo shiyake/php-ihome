@@ -1,0 +1,47 @@
+<!--{if $apps_ad}-->
+<img src="plugin/apps/images/service.jpg" style="width:100%;">
+<!--{/if}-->
+<div style="position:relative;">
+	<ul id="apps_nav_header" class="nav nav-tabs nav-justified">
+	  <li style="width:102px;text-align:center;" class="nav_li<!--{if $ac!='mine'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps">服务首页</a></li>
+	  <li style="width:102px;text-align:center;" class="nav_li<!--{if $ac=='mine'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=mine">我的服务</a></li>
+	</ul>
+
+	<div class="apps_search" style="position:absolute;top:0;right:12px;">
+		<form class="form-search" action="plugin.php?pluginid=apps&ac=list" method="post">
+		  <input class="search form-control input-sm" value="请输入关键字" style="width:150px;" name="keyword">
+		  <input style="border-style: none; border-color: inherit; border-width: 0;margin: -28px 3px 0 0; float:right; background:url(plugin/apps/images/search.png) no-repeat left top; width: 24px; height:24px;cursor:pointer;" type="submit" name="submit" value="">
+		  <input type="hidden" name="appssearch" value="true" />
+		  <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<script>
+		jQuery('.apps_search .search').click(function() {
+			if(jQuery(this).val()=='请输入关键字') {jQuery(this).val('');}
+			jQuery(this).animate({width: "300px"},400);
+		});
+		jQuery('.apps_search .search').blur(function() {
+			if(jQuery(this).val()=='') {
+				jQuery(this).val('请输入关键字');
+				jQuery(this).animate({width: "150px"},400);
+			}
+		});
+		function loadDefault () {
+			jQuery.get("plugin.php?pluginid=apps",function(data) {
+				jQuery(".content").html(jQuery(data).find(".content").html());
+				jQuery(".myScroll").myScroll({
+							   visible:3,
+							   scroll:3,
+							   speed:500
+							   });
+				jQuery("#blue_solid").animate({left:"0px"},400);
+			});
+		}
+		function loadMine () {
+			jQuery.get("plugin.php?pluginid=apps&ac=mine",function(data) {
+				jQuery(".content").html(jQuery(data).find(".content").html());
+				jQuery("#blue_solid").animate({left:"102px"},400);				
+			});
+		}
+	</script>
+</div>

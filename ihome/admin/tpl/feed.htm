@@ -1,5 +1,51 @@
 <!--{template admin/tpl/header}-->
-
+<style>
+	.no-content-tip {
+		text-align: center;
+		margin-top: 75px;
+		color: #888;
+	}
+	.rec_list_ul li{
+		float: left;
+		width: 70px;
+		list-style: none;
+		text-align: center;
+	}
+	.rec_list_ul {
+		border-bottom: 1px solid #dcdcdc;
+		padding-bottom: 10px;
+	}
+	.search_res_ul li{
+		float: left;
+		width: 70px;
+		list-style: none;
+		text-align: center;
+	}
+	.search_res_ul {
+		border-bottom: 1px solid #dcdcdc;
+		padding-bottom: 10px;
+	}
+	.title-sm {
+		font-size:12px;
+		background-color:#f5f5f5;
+		padding:5px;
+		margin-top:-5px;
+		border-radius:10px 10px 0 0;
+		margin-bottom:5px;
+		text-align: left;
+	}
+	.main_inner {
+		padding:5px;
+		font-size:12px;	
+	}
+	.pop_tip {
+		border-radius: 10px;
+		padding-bottom: 5px;
+	}
+	.pop_tip .inner {
+		padding-bottom: 5px;
+	}
+</style>
 <div class="mainarea">
 <div class="maininner">
 
@@ -9,11 +55,120 @@
 		<li$actives[all]><a href="admincp.php?ac=feed"><span>浏览全部动态</span></a></li>
 		<li$actives[site]><a href="admincp.php?ac=feed&uid=0"><span>浏览全局动态</span></a></li>
 		<li class="null"><a href="admincp.php?ac=feed&op=add">发布全局动态</a></li>
+		<li$actives[rec]><a href="admincp.php?ac=feed&op=irecommend">小i推荐</a></li>
 	</ul>
 </div>
 <!--{/if}-->
+
+<!--{if $_GET['op'] == 'irecommend'}-->
+<script>
+	function on_search (e) {
+		if(e.which == 13) {
+			jQuery("#query_button").click();
+		}
+	}
+	function irecommend(feedid) {
+		jQuery.post("admincp.php?ac=feed&op=irecommend",{
+			"recop":"add",
+			"feedid":feedid,
+			},function(data){
+				if (data == "<span>该项已经在推荐中，请勿重复推荐</span>") {
+					jQuery("#query_div").html(data);
+				} else {
+					jQuery(".rec_list").html(jQuery(data).find(".rec_list").html());
+					jQuery("#query_div").html("<span>推荐成功</span>");
+				};				
+		});
+	}
+	jQuery(function(){
+		jQuery("#query_button").click(function(){
+			var feedid = jQuery("#query_input").val();
+			if (isNaN(feedid)) {
+				alert("请输入正确数字！");
+				jQuery("#query_input").focus();
+				return false;
+			} else {
+				jQuery.post("admincp.php?ac=feed&op=irecommend",
+				{
+					"recop":"search",
+					"feedid":feedid
+				},
+				function(data){
+					jQuery("#query_div").html(jQuery(data).find("#query_div").html());
+					jQuery("#query_div").css({"display":"block"});
+				});
+			};
+			
+		});
+	});
+</script>
+<div class="bdrcontent">
+	<input class="input-sm form-control" id="query_input" type="text" name="feedid" onkeydown="on_search(event)" style="display:inline-block; width:200px;" placeholder="想推荐的动态ID(feedid)"/>
+	<input class="btn btn-sm btn-comments" id="query_button" type="button" value="搜索" style="margin-left: 10px;"/>
+</div>
+
+<div id="query_div" style="display:none;margin:10px;">
+<!--{if $search_res}-->
+<ul class="search_res_ul clearfix">
+	<li>feedid</li><li>时间</li><li style="width:600px; padding-left: 20px;">动态</li><li></li>
+</ul>
+<div class="search_res">
+<!--{loop $search_res $value}-->
+<!--{eval $value = mkfeed($value);}-->
+<ul class="search_res_ul clearfix">
+	<li><span class="res_feed_$value[feedid]">$value['feedid']&nbsp;</span></li>
+	<li><span class="time" style="display:block;"><!--{date('m-d H:i',$value[dateline],1)}--></span></li>
+	<li style="width:600px; text-align: left; padding-left: 20px;" id="feed_$value[feedid]_li">
+		<div style="width:100%;overflow:hidden;">
+			$value[title_template]
+			<!--{if $value[hot]}--><span style="color:red;">(热度：$value[hot])</span><!--{/if}-->
+			<div class="feedContent">
+				<!--{if $value['image_1']}-->
+				<a href="$value[image_1_link]"><img src="$value[image_1]" class="summaryimg" /></a>
+				<!--{/if}-->
+				<!--{if $value['image_2']}-->
+				<a href="$value[image_2_link]"><img src="$value[image_2]" class="summaryimg" /></a>
+				<!--{/if}-->
+				<!--{if $value['image_3']}-->
+				<a href="$value[image_3_link]"><img src="$value[image_3]" class="summaryimg" /></a>
+				<!--{/if}-->
+				<!--{if $value['image_4']}-->
+				<a href="$value[image_4_link]"><img src="$value[image_4]" class="summaryimg" /></a>
+				<!--{/if}-->
+				<!--{if $value['body_template']}-->
+				<div class="detail" <!--{if $value['image_3']}-->style="clear: both;"<!--{/if}-->>
+					$value[body_template]
+				</div>
+				<!--{/if}-->
+				<!--{if $value['body_general']}-->
+				<div class="quote"><span class="q">$value[body_general]</span></div>
+				<!--{/if}-->
+			</div>
+		</div>
+	</li>
+	<!--{if $recommended}-->
+	<span>已推荐</span>
+	<!--{else}-->
+	<li class="dropdown">
 	
-<!--{if $_GET['op']!='add'}-->
+		<li class="dropdown" style="width:20px;">
+		<span>	
+		<a class="recommend" data-toggle="dropdown" href="javascript:;"><span class="btn btn-sm btn-comments recommend_btn" type="button" value="$value['recommend_or_not']" onclick="irecommend($value['feedid'])">推荐</span></a>
+
+	</li>
+	<!--{/if}-->
+</ul>
+<!--{/loop}-->
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+查无结果
+</p>
+<!--{/if}-->
+</div>
+<!--{elseif $_GET['op']!='add'}-->
 	
 	<form method="get" action="admincp.php">
 	<div class="block style4">
@@ -68,8 +223,128 @@
 	<br>
 <!--{/if}-->
 
+<!--{if $_GET['op'] == 'irecommend'}-->
+<script>
 
-<!--{if $_GET['op']=='add' || $_GET['op']=='edit'}-->
+	function on_edit(e,feedid)	{
+		if(e.which== 13)	{
+			set_weight_ret(feedid);
+		}
+	}
+	function set_weight (feedid)	{
+		jQuery("#edit_"+feedid+" .set_weight").css({"display":"none"});
+		var weight = jQuery("#edit_"+feedid+" .show_weight").html();
+		jQuery("#edit_"+feedid+" .show_weight").css({"display":"none"});
+		jQuery("#edit_"+feedid+" .edit_weight_other").css({"display":"initial"});
+		jQuery("#edit_"+feedid+" .edit_input").css({"display":"initial"});
+		jQuery("#edit_"+feedid+" .edit_input").val(weight);
+		jQuery("#edit_"+feedid+" .edit_input").focus();
+		jQuery("#edit_"+feedid+" .edit_input").select();
+	}
+	function show_weight (feedid) {
+		jQuery("#edit_"+feedid+" .edit_weight_other").click();
+		jQuery("#edit_"+feedid+" .set_weight").css({"display":"initial"});
+		jQuery("#edit_"+feedid+" .show_weight").css({"display":"initial"});
+		jQuery("#edit_"+feedid+" .edit_weight_other").css({"display":"none"});
+		jQuery("#edit_"+feedid+" .edit_input").css({"display":"none"});
+	}
+	function set_weight_ret (feedid) {
+		var weight = jQuery("#edit_"+feedid).find(".edit_input").val();
+		if (isNaN(weight)) {
+			alert("请输入数字！");
+			return false;
+		} else {
+			jQuery.post("admincp.php?ac=feed&op=irecommend",{
+				"recop":"set_weight",
+				"feedid":feedid,
+				"edit_input":weight,
+				},function(data){
+				jQuery(".rec_list").html(jQuery(data).find(".rec_list").html());
+			});
+		};
+		
+	}
+	function unrecommend (feedid) {
+		jQuery.post("admincp.php?ac=feed&op=irecommend",{
+			"recop":"unrecommend",
+			"feedid":feedid,
+			},function(data){
+				jQuery("#query_div").css({"display":"none"});
+				jQuery(".rec_list").html(jQuery(data).find(".rec_list").html());
+		});
+	}
+</script>
+<div class="bdrcontent rec_list" style="margin-top: 10px">
+	<!--{if $reclist}-->
+	<ul class="rec_list_ul clearfix">
+		<li>权重</li><li>feedid</li><li>时间</li><li style="width:500px;  padding-left: 20px;">动态</li><li></li>
+	</ul>
+	<div>
+	<!--{loop $reclist $value}-->
+	<!--{eval $value = mkfeed($value)}-->
+	<ul class="rec_list_ul clearfix">
+		<li id="edit_$value[feedid]">
+			<span class="show_weight">$value['weight']</span>
+			<a class="set_weight" onclick="set_weight($value[feedid])" href="javascript:;" ><span class="glyphicon glyphicon-pencil"></span></a>
+			<a class="edit_weight_other"  onclick="set_weight_ret($value[feedid])" href="javascript:;" style="position: absolute; margin-left: 50px; margin-top: 6px; display: none;"><span class="glyphicon glyphicon-ok"></span></a>
+			<input type="text" class="edit_input form-control input-sm" style="display: none;" onkeydown="on_edit(event,$value[feedid])" onblur="show_weight($value[feedid])" value="$value['weight']"/>
+		</li>
+		<li><span class="rec_feed_$value[feedid]">$value['feedid']&nbsp;</span></li>
+		<li><span class="time" style="display:block;"><!--{date('m-d H:i',$value[dateline],1)}--></span></li>
+		<li style="width:500px; text-align: left; padding-left: 20px;" id="feed_$value[feedid]_li">
+			<div style="width:100%;overflow:hidden;">
+				$value[title_template] 
+				<!--{if $value[hot]}--><span style="color:red;">(热度：$value[hot])</span><!--{/if}-->
+				<div class="feedContent">
+					<!--{if $value['image_1']}-->
+					<a href="$value[image_1_link]"><img src="$value[image_1]" class="summaryimg" /></a>
+					<!--{/if}-->
+					<!--{if $value['image_2']}-->
+					<a href="$value[image_2_link]"><img src="$value[image_2]" class="summaryimg" /></a>
+					<!--{/if}-->
+					<!--{if $value['image_3']}-->
+					<a href="$value[image_3_link]"><img src="$value[image_3]" class="summaryimg" /></a>
+					<!--{/if}-->
+					<!--{if $value['image_4']}-->
+					<a href="$value[image_4_link]"><img src="$value[image_4]" class="summaryimg" /></a>
+					<!--{/if}-->
+					<!--{if $value['body_template']}-->
+					<div class="detail" <!--{if $value['image_3']}-->style="clear: both;"<!--{/if}-->>
+						$value[body_template]
+					</div>
+					<!--{/if}-->
+					<!--{if $value['body_general']}-->
+					<div class="quote"><span class="q">$value[body_general]</span></div>
+					<!--{/if}-->
+				</div>
+			</div>
+		</li>
+		<li class="dropdown">
+		
+			<li class="dropdown" style="width:90px;">
+			<span>	
+			<a class="unrecommend" data-toggle="dropdown" href="javascript:;"><span class="glyphicon glyphicon-remove"></span></a>
+
+			<ul class="dropdown-menu pop_tip" role="menu" aria-labelledby="dLabel">
+				<div class="title-sm">消息提示</div>
+				<div class="main_inner">确定取消推荐该动态吗？</div>
+				<div class="inner"><button class="btn btn-sm btn-comments"  onclick="unrecommend($value['feedid'])">确定</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm">取消</button></div>
+			</ul>
+
+		</li>
+	</ul>
+	<!--{/loop}-->
+	</div>
+	<!--{else}-->
+	<p class="no-content-tip">
+	<img src="image/icons/no_status.png">
+	<br>
+	现在还没有推荐
+	</p>
+	<!--{/if}-->
+
+</div>
+<!--{elseif $_GET['op']=='add' || $_GET['op']=='edit'}-->
 	<form method="post" action="admincp.php?ac=feed">
 
 	<script language="javascript" src="image/editor/editor_function.js"></script>
@@ -140,11 +415,11 @@
 					<div style="padding:10px 0 0 0;" class="r_option gray">
 						<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[feedid]"> 选择
 						<!--{if $allowmanage}--> &nbsp;
-						<a href="admincp.php?ac=feed&op=edit&feedid=$value[feedid]">编辑</a>
+						<a href="admincp.php?ac=feed&op=edit&feedid=$value[feedid]">编辑($value[feedid])</a>
 						<!--{/if}-->
 					</div>
 					<a class="type" href="admincp.php?ac=feed&icon=$value[icon]" title="只看此类动态"><img src="$value[icon_image]" /></a>
-					$value[title_template] 
+					$value[title_template]
 					<span class="time"><!--{date('m-d H:i',$value[dateline],1)}--></span>
 					<!--{if $value[hot]}--><span style="color:red;">(热度：$value[hot])</span><!--{/if}-->
 					<div class="feedContent">

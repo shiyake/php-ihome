@@ -19,6 +19,18 @@
     #content {
         border-left:1px solid #dcdcdc;
     }
+    .tooltip-inner {
+	    width: initial !important;
+		height: initial !important;
+	}
+    .tooltip-arrow {
+	    width: initial !important;
+		height: initial !important;
+	}
+    .tooltip {
+	    width: initial !important;
+		height: initial !important;
+	}
 </style>
 
 
@@ -885,7 +897,117 @@ jQuery(function ($) {
 			</ul>
 		</div>
 		<!--{/if}-->
-		
+		<!--{if !empty($recommendpublic)}-->
+		<div id="recpub" class="sidebox border-bottom-none" style="border-top:1px solid #dcdcdc">
+			<h4 class="title">
+			公共主页推荐
+			<!--{if !$allflag}-->
+			<span class="r_option" id="randrec">
+				<a href="javascript:void(0);" class="action" onclick="randrec()">换一批</a>
+			</span>
+			<!--{/if}-->
+			</h4>
+			
+			<ul class="avatar_list">
+			<!--{eval $recindex = 0}-->
+			<!--{loop $recommendpublic $value}-->
+			<!--{if $recindex < 2}-->
+			<li id="rec_$value[uid]" class="recpub_li">
+			<!--{else}-->
+			<li id="rec_$value[uid]" class="recpub_li" style="display:none;">
+			<!--{/if}-->
+			<span rel="tooltip" data-toggle="tooltip" data-placement="top" title="$value['name']">
+				<div class="avatar48">
+					<a href="space.php?uid=$value[uid]">
+						<!--{avatar($value[uid],small)}-->
+					</a>
+				</div>
+				<p>
+					<a href="space.php?uid=$value[uid]">
+					<!--{if $_SN[$value[uid]]}-->
+						$_SN[$value[uid]]
+					<!--{else}-->
+						$value['name']
+					<!--{/if}-->
+					</a>
+				</p>
+			</span>
+            <div class="ops-reverse" style="text-align: center;">
+                <a href="javascript:void(0);" id="add_$value[uid]" onclick="add($value[uid])" class="addfriend">关注</a>
+                <span id="success_$value[uid]" style="display: none;">已关注</span>
+                <span id="error_$value[uid]" style="display: none;">无法关注</span>
+            </div>
+			</li>
+			<!--{eval $recindex++}-->
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+		<script>
+			var reclist = jQuery(".recpub_li");
+			if (jQuery("[rel=tooltip]").length) {
+		    	jQuery("[rel=tooltip]").tooltip();
+		    }
+			function randrec() {
+				var added = jQuery('.recpub_li:visible');
+				shown = [];
+				if (jQuery(reclist[0]).is(':visible')) {
+					rec = [].shift.call(reclist);
+					shown.push(rec);
+					jQuery(rec).css('display', 'none');
+					reclist.push(rec);
+				};
+				if (jQuery(reclist[0]).is(':visible')) {
+					rec = [].shift.call(reclist);
+					shown.push(rec);
+					jQuery(rec).css('display', 'none');
+					reclist.push(rec);
+				};
+
+				for (var i = 0; i < added.length; i++) {
+					if (jQuery.inArray(added[i], reclist) == -1) {
+						jQuery(added[i]).css('display', 'none');
+					};
+				};
+
+				jQuery(reclist[0]).css('display', '');
+				if (jQuery.inArray(reclist[1], shown) == -1) {
+					jQuery(reclist[1]).css('display', '');
+				};
+			}
+			function add(uid) {
+				href="cp.php?ac=friend&op=add&uid=";
+				href += uid;
+				jQuery.get(href, function(data) {
+					var flag = reclist.length <= 3 ? 1 : 0;
+					jQuery("#add_"+uid).css('display', 'none');
+					var now = jQuery("#rec_"+uid);
+					var i = reclist.index(now);
+					reclist.splice(i, 1);
+					if (data.indexOf('成功') != -1) {
+						jQuery("#success_"+uid).css('display', '');
+					} else {
+						jQuery("#error_"+uid).css('display', '');
+					};
+					if (flag) {
+						var added = jQuery('.recpub_li:visible');
+						for (var i = 0; i < added.length; i++) {
+							if (jQuery.inArray(added[i], reclist) == -1) {
+								jQuery(added[i]).css('display', 'none');
+							};
+						};
+						now.css('display', 'none');
+
+						jQuery(reclist[0]).css('display', '');
+						jQuery(reclist[1]).css('display', '');
+						jQuery('#randrec').css('display', 'none');
+					};
+					if (!reclist.length) {
+						jQuery('#recpub').css('display', 'none');
+					};
+				});
+			}
+		</script>
 		
 		<!--{if !empty($flink)}-->
 		<div class="sidebox border-bottom-none" id="flink-box">

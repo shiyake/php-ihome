@@ -320,6 +320,7 @@ jq(function(){
                 <li><a href="space.php?do=mtag&tagid=294">离别寄语</a></li>
                 <!--{else}-->
                 <!--{if time()<=strtotime("$Tyear-9-11") && time()>=strtotime("$Tyear-7-11")}-->
+                <li><a href="space.php?uid=<!--{$_SGLOBAL[supe_uid]}-->&do=blog&view=freshman">新生须知</a></li>
                 <!--{/if}-->
                 <!--{/if}-->
                 <!--{else}-->
@@ -464,7 +465,7 @@ jq(function(){
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
                                 <li class="last_show"><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
                             </ul>
-                            <div class="left_line_my_act" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开我的应用">我的应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>
+                            <div class="left_line_my_act" id="my_defaultapp_toggle" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开官方应用">官方应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>
                             <div class="l_line" style="width:30px;"></div><div class="r_line" style="margin-left:119px;"></div>
                             <ul class="app_list topline" id="my_defaultapp" style="display:block;height:322px;">
                                 <li class="first_show_next"><img src="image/icons/icon_bt.png"/></img><a href="buaasso.php?m=sso&to=buaabt" target= "_blank" title="去往BT" style="height:auto;">未来花园BT</a></li>
@@ -482,6 +483,44 @@ jq(function(){
                                 <!--{/loop}-->
                                 <!--{/if}-->
                             </ul>
+                            <!--{if $hasShortcut}-->
+                            <div class="left_line_my_act" id="my_shortcutapp_toggle" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开我的应用">我的应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>
+                            <div class="l_line shortcut_line" style="width:30px;"></div><div class="r_line shortcut_line" style="margin-left:119px;"></div>
+                            <ul class="app_list topline" id="my_shortcutapp" style="display:block;">
+                                <!--{eval $temp = 0}-->
+                                <!--{loop $shortcuts $shortcut}-->
+                                <!--{if $temp}-->
+                                <li><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
+                                <!--{else}-->
+                                <!--{eval $temp = 1}-->
+                                <li class="first_show_next"><a class="shortcutname" href="javascript:void(0);" title="$shortcut[name]" onclick="useApp($shortcut[appsid])">$shortcut[name]</a><a onclick="removeShortcut($shortcut[appsid])" href="javascript:void(0);"><span class="icon-trash"></span></a></li>
+                                <!--{/if}-->
+                                <!--{/loop}-->
+                            </ul>
+                            <script>
+                                function removeShortcut(appsid) {
+                                    jq.get("plugin.php?pluginid=apps&ac=detail&appsid="+appsid+"&shortcut=remove",function(data) {
+                                        if (data == '1') {
+                                            alert('操作已经完成');
+                                            return;
+                                        }
+                                        jq.get("space.php?do=home",function(data) {
+                                            jq("#my_shortcutapp").html(jq(data).find("#my_shortcutapp").html());
+                                        });
+                                    });
+                                }
+                                function useApp(appsid) {
+                                    jq.post("plugin.php?pluginid=apps&ac=detail&gotoapp=1&appsid=" + appsid,
+                                        {appsid:appsid},
+                                        function(data) {
+                                        if(data != 0)
+                                            location=data;
+                                        else
+                                            alert('跳转失败~!');
+                                    });
+                                }
+                            </script>
+                            <!--{/if}-->
 
                             <ul id="scrollToShow" class="app_list" style="width:165px;margin-top:-261px;display:none;" id="default_userapp">
                                 <li><img src="image/icons/icon_zuji.png"/><a href="space.php?do=doing">足迹</a><!--<em><a href="space.php?do=doing" class="gray">我踩</a></em>--></li>

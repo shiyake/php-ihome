@@ -11,8 +11,7 @@ $uid = $_SGLOBAL['supe_uid'];
 $nowtime = time();
 $isConfirm = $_GET['isConfirm'] ? trim($_GET['isConfirm']) : 0;
 $state = $_GET['state'] ? trim($_GET['state']) : 0;
-
-
+$upvote = $_GET['upvote'] ? trim($_GET['upvote']) : 0;
 
 //app的基本信息
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id='$appsid' OR iauth_id='$appsid'");
@@ -70,9 +69,22 @@ if($resetauthorize){
 
 //是否已经授权该应用
 $isAuthorized = FALSE;
+$hasShortcut = 0;
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid AND appsid=$appsid");
 if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $isAuthorized = TRUE;
+    $hasShortcut = intval($value['shortcut']);
+}
+
+if ($isAuthorized && !empty($_GET['shortcut'])) {
+    $shortcut = $_GET['shortcut'] == 'add' ? 1 : 0;
+    if ($shortcut == $hasShortcut) {
+        echo 1;
+        exit();
+    } else {
+        $_SGLOBAL['db']->query("UPDATE ".tname('apps_users')." SET shortcut=$shortcut WHERE uid=$uid AND appsid=$appsid");
+        $hasShortcut = $shortcut;
+    }
 }
 
 //使用app
@@ -195,35 +207,42 @@ if($authorize && !$isAuthorized){
 //提交评分
 if(submitcheck('comment_submit')) {
     //接收信息
-    $content = $_POST['content'];
-    $score = intval($_POST['score']);
-    $score_easy = intval($_POST['score_easy']);
-    $score_service = intval($_POST['score_service']);
-    $score_speed = intval($_POST['score_speed']);
-    $vision = '1';
-    $anonymous = isset($_POST['anonymous']) ? intval($_POST['anonymous']) : 0;
+    $content = htmlspecialchars(trim($_POST['content']));
+    $score = $_POST['score'] ? intval($_POST['score']) : -1;
+    $score_easy = $_POST['score_easy'] ? intval($_POST['score_easy']) : -1;
+    $score_service = $_POST['score_service'] ? intval($_POST['score_service']) : -1;
+    $score_speed = $_POST['score_speed'] ? intval($_POST['score_speed']) : -1;
+    if ($score && $score_easy && $score_service && $score_speed) {
+        $vision = '1';
+        $anonymous = isset($_POST['anonymous']) ? intval($_POST['anonymous']) : 0;
 
-    //插入数据库
-    $detailarr = array(
-        'appsid' => $appsid,
-        'uid' => $uid,
-        'anonymous' => $anonymous,
-        'score' => $score,
-        'score_easy' => $score_easy,
-        'score_service' => $score_service,
-        'score_speed' => $score_speed,
-        'content' => $content,
-        'ip' => getonlineip(),
-        'time' => $nowtime,
-        'vision' => $vision,
-        'issystem' => 0,
-    );
-    //用户打分
-    $app_score = gradeForApp($detailarr ,$app ,$appsid ,1);
-    $app['score'] = $app_score['score'];
-    $app['score_easy'] = $app_score['score_easy'];
-    $app['score_service'] = $app_score['score_service'];
-    $app['score_speed'] = $app_score['score_speed'];
+        //插入数据库
+        $detailarr = array(
+            'appsid' => $appsid,
+            'uid' => $uid,
+            'anonymous' => $anonymous,
+            'score' => $score,
+            'score_easy' => $score_easy,
+            'score_service' => $score_service,
+            'score_speed' => $score_speed,
+            'content' => $content,
+            'ip' => getonlineip(),
+            'time' => $nowtime,
+            'vision' => $vision,
+            'issystem' => 0,
+        );
+        //用户打分
+        $app_score = gradeForApp($detailarr ,$app ,$appsid ,1);
+        // $app['score'] = $app_score['score'];
+        // $app['score_easy'] = $app_score['score_easy'];
+        // $app['score_service'] = $app_score['score_service'];
+        // $app['score_speed'] = $app_score['score_speed'];
+        // $app['comment'] = $app_score['comment'];
+        header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");
+    } else {
+        showmessage("请先进行评分再提交");
+    }
+    
 }
 
 
@@ -238,16 +257,53 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $isGrade = TRUE;
 }
 
+//投票哦~
+if ($upvote) {
+    $value = $_SGLOBAL['db']->fetch_array($_SGLOBAL['db']->query("SELECT * FROM ".tname("apps_detail")." WHERE appsid=$appsid AND issystem=0 AND id=$upvote"));
+    if (!$value) {
+        echo 1;
+        exit();
+    }
+    $hasVoted = false;
+    if ($value['voter']) {
+        $voters = explode(',', $value['voter']);
+        $hasVoted = in_array($uid, $voters);
+        if ($hasVoted) {
+            echo 2;
+            exit();
+        }
+        $voter = $value['voter'].",$uid";
+    } else {
+        $voter = $uid;
+    }
+    $_SGLOBAL['db']->query("UPDATE ".tname('apps_detail')." SET upvotes=upvotes+1, voter='$voter' WHERE id=$upvote");
+}
+
 //获取评论
+$orderby = empty($_GET['orderby']) || $_GET['orderby'] != 'upvotes' ? 'time' : 'upvotes';
+$perpage = 10;
+$page = empty($_GET['page'])?1:intval($_GET['page']);
+$start = ($page-1)*$perpage;
+ckstart($start, $perpage);
+$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0 AND TRIM(content)!=''"));
+$url = "plugin.php?pluginid=apps&ac=detail&appsid=$appsid&orderby=$orderby";
+$multi = multi($count, $perpage, $page, $url);
+
 $comments = array();
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0  ORDER BY time DESC LIMIT 10");
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_detail')." WHERE appsid=$appsid AND issystem=0 AND TRIM(content)!='' ORDER BY ".$orderby." DESC LIMIT ".$start.",".$perpage);
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
+    $hasVoted = false;
+    if ($value['voter']) {
+        $voters = explode(',', $value['voter']);
+        $hasVoted = in_array($uid, $voters);
+    }
+    $value['hasVoted'] = $hasVoted;
     $value['time'] = date("Y-m-d H:i",$value['time']);
     realname_set($value['uid'], $value['uname']);
     $comments[] = $value;
 }
 realname_get();
-
+$comments_count = count($comments);
 
 include_once template("/plugin/apps/detail");
 
@@ -260,28 +316,37 @@ include_once template("/plugin/apps/detail");
 function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
     GLOBAL $_SGLOBAL;
     //更新总平均分以及评分人数
-    $all_score = $app['score'] * $app['modders'];
-    $all_score_easy = $app['score_easy'] * $app['modders'];
-    $all_score_service = $app['score_service'] * $app['modders'];
-    $all_score_speed = $app['score_speed'] * $app['modders'];
+    $all_score = $app['S'];
+    $all_score_easy = $app['SE'];
+    $all_score_service = $app['SV'];
+    $all_score_speed = $app['SP'];
     if($isUpdate){
-        $app['score'] = ($all_score + $newScore['score'] - 5) / $app['modders'];
-        $app['score_easy'] = ($all_score_easy + $newScore['score_easy'] - 5) / $app['modders'];
-        $app['score_service'] = ($all_score_service + $newScore['score_service'] - 5) / $app['modders'];
-        $app['score_speed'] = ($all_score_speed + $newScore['score_speed'] - 5) / $app['modders'];
-        //更新评分记录
-        updatetable('apps_detail' , $newScore ,array('appsid'=>$appsid,'uid'=>$_SGLOBAL['supe_uid']));
-        $_SGLOBAL['db']->query("UPDATE ".tname('apps')." USE INDEX(id) SET comment=comment+1 WHERE id=$appsid");
-    }else{
+        $app['comment']++;
+        if ($newScore['score']>0) {
+            $app['S'] += $newScore['score'];
+            $app['SE'] += $newScore['score_easy'];
+            $app['SV'] += $newScore['score_service'];
+            $app['SP'] += $newScore['score_speed'];
+            $app['scorer']++;
+
+            $all_scorer = $app['scorer'];
+            $app['score'] = $all_scorer ? ($all_score + $newScore['score']) / $all_scorer : 0;
+            $app['score_easy'] = $all_scorer ? ($all_score_easy + $newScore['score_easy']) / $all_scorer : 0;
+            $app['score_service'] = $all_scorer ? ($all_score_service + $newScore['score_service']) / $all_scorer : 0;
+            $app['score_speed'] = $all_scorer ? ($all_score_speed + $newScore['score_speed']) / $all_scorer : 0;
+        }
+    } else {
         $app['modders']++;
         $app['modders'] = $app['modders'] ? $app['modders'] : 1;
-        $app['score'] = ($all_score + $newScore['score']) / $app['modders'];
-        $app['score_easy'] = ($all_score_easy + $newScore['score_easy']) / $app['modders'];
-        $app['score_service'] = ($all_score_service + $newScore['score_service']) / $app['modders'];
-        $app['score_speed'] = ($all_score_speed + $newScore['score_speed']) / $app['modders'];
-        //增加评分记录
-        inserttable('apps_detail',$newScore,0);
+        if ($app['modders'] == 1) {
+            $app['score'] = 5;
+            $app['score_easy'] = 5;
+            $app['score_service'] = 5;
+            $app['score_speed'] = 5;
+        }
     }
+    inserttable('apps_detail',$newScore,0);
+
     //取一位小数
     $score = round($app['score'],1);
     $score_easy = round($app['score_easy'],1);
@@ -297,9 +362,17 @@ function gradeForApp($newScore ,$app ,$appsid ,$isUpdate = 1){
         'score' => $app['score'],
         'score_easy' => $app['score_easy'],
         'score_service' => $app['score_service'],
-        'score_speed' => $app['score_speed']
+        'score_speed' => $app['score_speed'],
+        'comment' => $app['comment'],
+        'S' => $app['S'],
+        'SE' => $app['SE'],
+        'SV' => $app['SV'],
+        'SP' => $app['SP'],
+        'scorer' => $app['scorer']
     );
+
     updatetable('apps' , $app_arr ,array('id'=>$appsid));
+
     return $app_arr;
 }
 

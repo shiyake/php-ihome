@@ -7,7 +7,7 @@ if(!defined('iBUAA')) {
 $op = $_GET['op'] ? trim($_GET['op']) : '';
 
 if($_SGLOBAL['supe_uid']) {
-	showmessage('do_success', 'space.php?do=home', 0);
+	showmessage('do_success', 'space.php?do=recommendpublic', 0);
 }
 
 if($op == "checkrealname")
@@ -206,7 +206,6 @@ elseif($op == "checkmobile")
 
 elseif($op == "checkgetverifycode")
 	{
-		
 		$verifycode = rand(100000,999999);
 		$mobile = $_GET['mobile'];
 		$mobile = ismobile($_GET['mobile'])?trim($_GET['mobile']):'';

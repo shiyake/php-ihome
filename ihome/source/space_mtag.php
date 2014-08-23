@@ -12,6 +12,7 @@ $id = empty($_GET['id'])?0:intval($_GET['id']);
 $tagid = empty($_GET['tagid'])?0:intval($_GET['tagid']);
 $fieldid = empty($_GET['fieldid'])?0:intval($_GET['fieldid']);
 $tagname = trim($_GET['tagname']);
+$status = empty($_GET['status'])?"all":$_GET['status'];
 
 if($tagname) {
 	
@@ -228,18 +229,48 @@ if($tagname) {
 	} else {
 
 		$list = $starlist = $modlist = $memberlist = $checklist = array();
+		$status_active = array($status => ' class="active"');
 		
+		$perpage = 30;
+		$start = ($page-1)*$perpage;
+		
+		ckstart($start, $perpage);
+		$theurl = "space.php?do=mtag&tagid=$tagid&status=$status";
+
 		if($mtag['allowview']) {
-			$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
+			$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('thread')." main WHERE main.tagid='$tagid'"),0);
+
+			if ($tagid != 2985) {
+				$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
 				WHERE main.tagid='$tagid' 
 				ORDER BY main.displayorder DESC, main.lastpost DESC 
 				LIMIT 0,50");
+			} elseif ($status == 'solved') {
+				$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
+				WHERE main.tagid='$tagid' AND main.solved=1 
+				ORDER BY main.displayorder DESC, main.lastpost DESC 
+				LIMIT $start,$perpage");
+			} elseif ($status == 'solving') {
+				$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
+				WHERE main.tagid='$tagid' AND main.solved=0 
+				ORDER BY main.displayorder DESC, main.lastpost DESC 
+				LIMIT $start,$perpage");
+			} else {
+				$query = $_SGLOBAL['db']->query("SELECT main.* FROM ".tname('thread')." main 
+				WHERE main.tagid='$tagid' 
+				ORDER BY main.displayorder DESC, main.lastpost DESC 
+				LIMIT $start,$perpage");
+			}
+			
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 				realname_set($value['uid'], $value['username']);
 				realname_set($value['lastauthorid'], $value['lastauthor']);
 				$list[] = $value;
 			}
-			
+			if ($tagid == 2985) {
+				$multi = multi($count, $perpage, $page, $theurl);
+			}
+
 			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('tagspace')." WHERE tagid='$tagid' AND grade='1'");
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 				realname_set($value['uid'], $value['username']);

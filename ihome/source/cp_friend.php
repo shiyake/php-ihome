@@ -117,11 +117,24 @@ if($op == 'add') {
 				//showmessage($na);exit();
 				$setarr=array('aud'=> $na,'audnum'=>count($aud));
 				updatetable('space',$setarr,array('uid'=>$uid));
+				// update the autorecpub table
+				$q = $_SGLOBAL['db']->query("SELECT exclude FROM ".tname('autorecpub')." WHERE uid=$uid");	
+				$temp = $_SGLOBAL['db']->fetch_array($q);
+				
+				$temp = $temp['exclude'];				
+				$pat = ",".$_SGLOBAL['supe_uid'].",";
+				$temp = str_replace("$pat", '', $temp);
+				
+				$temp = $temp.$_SGLOBAL['supe_uid'].",,";
+				// showmessage("UPDATE ".tname('autorecpub')." SET exclude='".$temp."' WHERE uid=$uid");
+				$q = $_SGLOBAL['db']->query("UPDATE ".tname('autorecpub')." SET exclude='".$temp."' WHERE uid=$uid");
 				showmessage('public_add','space.php?uid='.$uid,1);
 
 		
 				
 		}
+
+				
 		//////////Lv/////////////
 	//检测现在状态
 	$status = getfriendstatus($_SGLOBAL['supe_uid'], $uid);
@@ -320,6 +333,13 @@ if($op == 'add') {
 				$setarr=array('aud'=> $f,'audnum'=>count($auds));
 				updatetable('space',$setarr,array('uid'=>$uid));
 				
+				$q = $_SGLOBAL['db']->query("SELECT exclude FROM ".tname('autorecpub')." WHERE uid=$uid");	
+				$temp = $_SGLOBAL['db']->fetch_array($q);
+				$temp = $temp['exclude'];
+				$pat = ",".$_SGLOBAL['supe_uid'].",";
+				$temp = str_replace("$pat", '', $temp);
+				// showmessage("UPDATE ".tname('autorecpub')." SET exclude='".$temp."' WHERE uid=$uid");
+				$q = $_SGLOBAL['db']->query("UPDATE ".tname('autorecpub')." SET exclude='".$temp."' WHERE uid=$uid");
 				
 			}
 

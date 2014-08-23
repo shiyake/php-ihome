@@ -5,34 +5,34 @@
         	<!--{template plugin/apps/right_nav}-->
             <div class="clear"></div>
             <script type="text/javascript">
-			$(function(){
-			   $("#WSC").click(function(){
-					$("#for_rp").show();
-					$("#for_wsc").show();
+			jq(function(){
+			   jq("#WSC").click(function(){
+					jq("#for_rp").show();
+					jq("#for_wsc").show();
 				});
-				$("#UAC").click(function(){
-					$("#for_rp").show();
-					$("#for_wsc").hide();
+				jq("#UAC").click(function(){
+					jq("#for_rp").show();
+					jq("#for_wsc").hide();
 				});
-				$("#RP").click(function(){
-					$("#for_rp").hide();
+				jq("#RP").click(function(){
+					jq("#for_rp").hide();
 				});
 				
 				
 			});
 			function isexist(id){
 				<!--{if !$id}-->
-				var names = $("#"+id).val();
+				var names = jq("#"+id).val();
 				if(names == '' || strlen(names)<12){
-					$("#"+id).focus();
+					jq("#"+id).focus();
 					alert('请输入服务名称~!');
 					return false;
 				}
-				$.post("plugin.php?pluginid=apps&ac=apply&ajax=1",{name:names},
+				jq.post("plugin.php?pluginid=apps&ac=apply&ajax=1",{name:names},
 				function(data){
 					if(data!=0){
 						alert('该名称已存在~!');
-						$("#"+id).focus();
+						jq("#"+id).focus();
 					}
 				});
 				<!--{/if}-->
@@ -125,10 +125,10 @@
 							<input  type="file" name="feedfile" id="pics" style="border:none;" >(上传成功后保存在您的默认相册中,点击下方的缩略图即可插入到"服务描述"中)
 							<script type="text/javascript" src="plugin/apps/js/jquery.form.js"></script>
 							<script type="text/javascript">
-								$(function($) {
-									$("#pics").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
-									$("#pics").change(function(){
-										$("#myupload").ajaxSubmit({
+								jq(function($) {
+									jq("#pics").wrap("<form id='myupload' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+									jq("#pics").change(function(){
+										jq("#myupload").ajaxSubmit({
 											dataType:  'json',
 											success: function(data) {
 												var img = "$_SC['attachurl']"+data.pic;
@@ -138,9 +138,9 @@
 												name = cut_string(name,num);
 												
 												var htmls = '<div class="pics"><a href="javascript:" onclick="insertHtml(\''+img+'\')" title="点击插入到服务描述中"><img src="'+img+'" height="60" width="60" /></a></div>';
-												$("#cpics").append(htmls);
+												jq("#cpics").append(htmls);
 												
-												$("#pics").val('');
+												jq("#pics").val('');
 											},
 											error:function(xhr){
 												alert(xhr.responseText);
@@ -273,10 +273,10 @@
 							<script>
 							function getapi(){
 								var api_value = '0';    
-								$('input[name="apis"]:checked').each(function(){    
-									api_value += ',' + $(this).val();    
+								jq('input[name="apis"]:checked').each(function(){    
+									api_value += ',' + jq(this).val();    
 								});
-								$("#api").val(api_value);
+								jq("#api").val(api_value);
 							}
 							</script>
                         </div>
@@ -296,10 +296,10 @@
                         <div class="left">
 							<input  type="file" name="feedfile" id="pics2" style="border:none;" >(上传成功后保存在您的默认相册中,点击下方的缩略图即可插入到"服务描述"中)
 							<script type="text/javascript">
-								$(function($) {
-									$("#pics2").wrap("<form id='myupload2' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
-									$("#pics2").change(function(){
-										$("#myupload2").ajaxSubmit({
+								jq(function($) {
+									jq("#pics2").wrap("<form id='myupload2' action='cp.php?ac=upload&file=upload&type=pic' method='post' enctype='multipart/form-data'></form>");
+									jq("#pics2").change(function(){
+										jq("#myupload2").ajaxSubmit({
 											dataType:  'json',
 											success: function(data) {
 												var img = "$_SC['attachurl']"+data.pic;
@@ -309,9 +309,9 @@
 												name = cut_string(name,num);
 												
 												var htmls = '<div class="pics"><a href="javascript:" onclick="insertHtml2(\''+img+'\')" title="点击插入到服务描述中"><img src="'+img+'" height="60" width="60" /></a></div>';
-												$("#cpics2").append(htmls);
+												jq("#cpics2").append(htmls);
 												
-												$("#pics2").val('');
+												jq("#pics2").val('');
 											},
 											error:function(xhr){
 												alert(xhr.responseText);

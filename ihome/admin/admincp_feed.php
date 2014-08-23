@@ -4,9 +4,9 @@ if(!defined('iBUAA') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-//Ȩ��
+//È¨ÏÞ
 if(!$allowmanage = checkperm('managefeed')) {
-	$_GET['uid'] = $_SGLOBAL['supe_uid'];//ֻ�ܲ������˵�
+	$_GET['uid'] = $_SGLOBAL['supe_uid'];//Ö»ÄÜ²Ù×÷±¾ÈËµÄ
 	$_GET['username'] = '';
 }
 
@@ -31,7 +31,7 @@ if(submitcheck('feedsubmit')) {
 		$setarr = array();
 	}
 	
-	//ʱ������
+	//Ê±¼äÎÊÌâ
 	$_POST['dateline'] = trim($_POST['dateline']);
 	if($_POST['dateline']) {
 		$newtimestamp = sstrtotime($_POST['dateline']);
@@ -130,11 +130,90 @@ if($_GET['op'] == 'add') {
 		cpmessage('choose_to_delete_events');
 	}
 	
+} elseif($_GET['op'] == 'irecommend') {
+
+	$search_res = array();
+	if ($_POST['recop'] == 'set_weight') {
+		$feedid = $_POST['feedid'];
+		$edit_input = $_POST['edit_input'];
+
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("recommendation")." WHERE recfrom_i = 1 AND feedid=".$feedid);
+
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("recommendation")." SET weight=".$edit_input." WHERE recfrom_i = 1 AND feedid=".$feedid);
+		}
+	} else if ($_POST['recop'] == 'unrecommend') {
+		$feedid = $_POST['feedid'];		
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("recommendation")." WHERE recfrom_i = 1 AND feedid=".$feedid);
+
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("recommendation")." SET recfrom_i = 0, weight = 0 WHERE feedid =".$feedid);
+		}
+	} else if ($_POST['recop'] == 'add') {
+		$feedid = $_POST['feedid'];		
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("recommendation")." WHERE feedid=".$feedid);
+
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			if ($res['recfrom_i'] == 1) {
+				echo "<span>该项已经在推荐中，请勿重复推荐</span>";
+				exit();
+			} else {
+				$_SGLOBAL['db'] -> query("UPDATE ".tname("recommendation")." SET recfrom_i = 1, weight = 0 WHERE feedid = ".$feedid);
+			}
+		} else {
+			$_SGLOBAL['db'] -> query("INSERT INTO ".tname("recommendation")." SELECT *, 1, 0, 0, 0 FROM ".tname("feed")." WHERE feedid = ".$feedid);
+		}
+	} else if ($_POST['recop'] == 'search') {
+		$feedid = $_POST['feedid'];
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("feed")." WHERE feedid=".$feedid);
+		
+		while ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($res['uid'], $res['username']);
+			$search_res[] = $res;
+		}
+		
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("recommendation")." WHERE recfrom_i=1 AND feedid=".$feedid);
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			$recommended = 1;
+		}
+	} else {
+		
+	}
+
+	$actives = array('rec' => ' class="active"');
+
+	$reclist = array();
+	$count = 0;
+
+	//´¦Àí²éÑ¯
+	 $wheresql = "recfrom_i = 1";
+	if ($space[feedfriend]==''){
+	    $wheresql = "uid IN ($space[uid])";
+	}
+	$ordersql = "dateline DESC";
+	$theurl = "admincp.php?ac=feed&op=irecommend";
+	$f_index = '';
+
+	if(empty($count)) {
+		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('recommendation')." WHERE $wheresql"), 0);
+	}
+	if($count) {
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('recommendation')." $f_index
+			WHERE $wheresql
+			ORDER BY weight DESC, feedid DESC");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			realname_set($value['uid'], $value['username']);
+			$reclist[] = $value;
+		}
+	}
+
+	//ÊµÃû
+	realname_get();
 } else {
 		
 	$mpurl = 'admincp.php?ac=feed';
 	
-	//��������
+	//´¦ÀíËÑË÷
 	$intkeys = array('uid', 'feedid');
 	$strkeys = array('username', 'icon');
 	$randkeys = array(array('sstrtotime','dateline'), array('intval','hot'));
@@ -144,29 +223,29 @@ if($_GET['op'] == 'add') {
 	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	$mpurl .= '&'.implode('&', $results['urls']);
 	
-	//����
+	//ÅÅÐò
 	$orders = getorders(array('dateline','hot'), 'feedid');
 	$ordersql = $orders['sql'];
 	if($orders['urls']) $mpurl .= '&'.implode('&', $orders['urls']);
 	$orderby = array($_GET['orderby']=>' selected');
 	$ordersc = array($_GET['ordersc']=>' selected');
 	
-	//����
-	if(isset($_GET['uid']) && strlen($_GET['uid'])) {
+	//¼¤»î
+	if (isset($_GET['uid']) && strlen($_GET['uid'])) {
 		$actives = array('site' => ' class="active"');
 	} elseif($_GET['orderby'] == 'hot') {
 		$actives = array('hot' => ' class="active"');
 	} else {
 		$actives = array('all' => ' class="active"');
 	}
-	
+
 	$perpage = empty($_GET['perpage'])?0:intval($_GET['perpage']);
 	if(!in_array($perpage, array(20,50,100,1000))) $perpage = 20;
 	
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
 	$start = ($page-1)*$perpage;
-	//��鿪ʼ��
+	//¼ì²é¿ªÊ¼Êý
 	ckstart($start, $perpage);
 	
 	if($perpage > 100) {

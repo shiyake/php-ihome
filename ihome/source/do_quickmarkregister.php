@@ -71,7 +71,7 @@ function returnResponse($code, $desc)
 	exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] != "POST")
+if($_GET['ac']!=$_SCONFIG['overseasregister_email']&&$_SERVER['REQUEST_METHOD'] != "POST" )
 {
 	returnResponse(40003,"方法不正确");
 }
@@ -101,6 +101,7 @@ else
 
 		if($name=="" || $startyear=="" || $birthday=="" || strlen($password) < 6 || (!$_SGLOBAL["no_inviteactive"] && $uid ==""))
 		{
+			showmessage($name." ".$startyear." ".$birthday." ".strlen($password)." ".$_SGLOBAL["no_inviteactive"]." ".$uid);
 			returnResponse(40002,"格式不正确");
 		}
 		if((!$_SGLOBAL["no_inviteactive"] && inject_check($uid)) || inject_check($name) || inject_check($startyear) || 
@@ -478,25 +479,28 @@ else
 							$recver = $recver['uid'];
 							jointag($newuid, $tagid, $_SGLOBAL['db']);
 						}
-						if(!$recver)
-						{
-							if(!$collage_match)     {
-								note_no_mtag($newuid);
+						
+							if(!$recver)
+							{
+								if(!$collage_match)     {
+									note_no_mtag($newuid);
+								}
+								$recver = 3;
 							}
-							$recver = 3;
-						}
-						runlog("qr","recver:".$recver);
-						$setarr = array(
-							'uid' => $recver,
-							'type' => "friend",
-							'new' => 1,
-							'authorid' => $newuid,
-							'author' => $name,
-							'note' => "($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
-							'dateline' => $_SGLOBAL['timestamp']
-						);
-						$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
-						inserttable('notification', $setarr);
+							runlog("qr","recver:".$recver);
+							
+							$setarr = array(
+								'uid' => $recver,
+								'type' => "friend",
+								'new' => 1,
+								'authorid' => $newuid,
+								'author' => $name,
+								'note' => "($birthday,$academy,".$startyear."级)".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirm&uid=%27'.$newuid.'%27">通过请求</a>',
+								'dateline' => $_SGLOBAL['timestamp']
+							);
+							$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+							inserttable('notification', $setarr);
+						
 					}
 				}
 				else

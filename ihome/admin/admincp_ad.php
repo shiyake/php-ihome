@@ -78,8 +78,10 @@ if(submitcheck('adsubmit')) {
 
 	if(empty($adid)) {
 		$adid = inserttable('ad', $setarr, 1);
+		runlog('AD','INSERT AD: '.json_encode($setarr));
 	} else {
 		updatetable('ad', $setarr, array('adid' => $adid));
+		runlog('AD','UPDATE AD: '.json_encode($setarr));
 	}
 
 	//写入模板
@@ -87,8 +89,9 @@ if(submitcheck('adsubmit')) {
 	swritefile($tpl, $html);
 
 	//缓存更新
-	include_once(S_ROOT.'./source/function_cache.php');
-	ad_cache();
+	// 因为不知道会写到那个服务器
+	// include_once(S_ROOT.'./source/function_cache.php');
+	// ad_cache();
 
 	cpmessage('do_success', 'admincp.php?ac=ad');
 
@@ -98,11 +101,13 @@ if(submitcheck('adsubmit')) {
 	if(!empty($_POST['adids']) && deleteads($_POST['adids'])) {
 
 		//缓存更新
-		include_once(S_ROOT.'./source/function_cache.php');
-		ad_cache();
+		// include_once(S_ROOT.'./source/function_cache.php');
+		// ad_cache();
 
+		runlog('AD','DELETE ADS: '.json_encode($_POST['adids']));
 		cpmessage('do_success', 'admincp.php?ac=ad');
 	} else {
+		runlog('AD','TRIED TO DELETE ADS: '.json_encode($_POST['adids']));
 		cpmessage('please_choose_to_remove_advertisements', 'admincp.php?ac=ad');
 	}
 

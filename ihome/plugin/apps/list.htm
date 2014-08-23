@@ -1,67 +1,33 @@
 <!--{template plugin/apps/header}-->
+<!--{template plugin/apps/apps_nav}-->
   <div class="main">
     
 	<!--{template plugin/apps/left}-->
 	
-    <div class="yingyong_right">
-	
-      <!--{template plugin/apps/right_nav}-->
+    <div class="content">
 	  
-      <div class="clear"></div>
       <div class="yingyong_c">
+      	<div class="typename">$typeName</div>
 		<div class="yingyong_leibie">
-			<div class="yingyong_leibie_t">按类别：</div>
 			<div class="yingyong_leibie_t_c">
-				<ul>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&orderby=$orderby"<!--{if !$type}--> class="selected"<!--{/if}-->>所有</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=1&orderby=$orderby"<!--{if $type=='1'}--> class="selected"<!--{/if}-->>教学类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=2&orderby=$orderby"<!--{if $type=='2'}--> class="selected"<!--{/if}-->>科研类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=3&orderby=$orderby"<!--{if $type=='3'}--> class="selected"<!--{/if}-->>财务类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=4&orderby=$orderby"<!--{if $type=='4'}--> class="selected"<!--{/if}-->>人力资源类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=5&orderby=$orderby"<!--{if $type=='5'}--> class="selected"<!--{/if}-->>资产类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=6&orderby=$orderby"<!--{if $type=='6'}--> class="selected"<!--{/if}-->>生活服务类</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=7&orderby=$orderby"<!--{if $type=='7'}--> class="selected"<!--{/if}-->>其他</a></li>
-				</ul>
-			</div>
-			<div class="clear height_10"></div>
-			<div class="yingyong_leibie_t">排序：</div>
-			<div class="yingyong_leibie_t_c">
-				<ul>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
+				<span class="yingyong_leibie_t">排序：</span>
+				<ul class="sort_by list-inline">
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=usernumber"<!--{if $orderby=='usernumber'}--> class="selected"<!--{/if}-->>使用人数</a></li>
+					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type"<!--{if !$orderby}--> class="selected"<!--{/if}-->>添加时间</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=clicktime"<!--{if $orderby=='clicktime'}--> class="selected"<!--{/if}-->>使用频率</a></li>
 					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score"<!--{if $orderby=='score'}--> class="selected"<!--{/if}-->>总体评价</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score_easy"<!--{if $orderby=='score_easy'}--> class="selected"<!--{/if}-->>易用性</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score_service"<!--{if $orderby=='score_service'}--> class="selected"<!--{/if}-->>服务质量</a></li>
-					<li class="yingyong_leibie_li"><a href="plugin.php?pluginid=apps&ac=list&category=$category&type=$type&orderby=score_speed"<!--{if $orderby=='score_speed'}--> class="selected"<!--{/if}-->>响应速度</a></li>
 				</ul>
 			</div>
 		</div><!-- end yingyong_leibie -->
-		<div class="clear height_10"></div>
         <!--{if $list}-->
 		<!--{loop $list $app}-->
 		<div class="yy_list">
-			<div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-			</div>
-		  <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
+			<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" width="100" height="100" /></a></div>
           <div class="yy_list_c_2">
-            <h1><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a></h1>
+            <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
             <div class="yy_list_c_x"><span class="score_star" id="app_$app[id]"></span><span class="score_num">$app[score]</span></div>
             <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-              使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+              使用人数:$app[usernumber]人</div>
             <!-- end yy_info -->
           </div>
           <!-- end yy_list_c -->
@@ -78,7 +44,7 @@
 			value : $app[score],
 			enabled : false
 		}
-		$('#app_$app[id]').rater(options_$app[id]);
+		jq('#app_$app[id]').rater(options_$app[id]);
 		<!--{/loop}-->
 		<!--{/if}-->
 		</script>

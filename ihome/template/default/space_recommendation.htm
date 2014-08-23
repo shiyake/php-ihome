@@ -1,0 +1,58 @@
+
+<!--{eval $_TPL['titles'] = array('精彩推荐');}-->
+<!--{template header}-->
+<style>
+.no-content-tip {
+	text-align: center;
+	margin-top: 75px;
+	color: #888;
+}
+.recommendation_list ol li {
+    border-bottom: 1px solid #dcdcdc;
+    padding-left: 10px;
+}
+.recommendation_list ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.recommendation_list li:last-child {
+	border-bottom: none;
+}
+.recommendation_list .fcomment {
+	width: 457px;
+	margin-bottom: 10px;
+}
+</style>
+
+<div id="content" style="border-right: none;">
+<h4 class="title" style="margin-left:15px;margin-top:30px;"><span class="glyphicon glyphicon-thumbs-up" style="padding:5px 10px;"></span>精彩推荐</h4>
+<div class="tabs_header">
+<ul id="rec_type" class="tabs">
+	<li id="recfrom_i"style="width:110px;text-align:center;"$actives['recfrom_i']>
+	<a href="space.php?do=recommendation&type=recfrom_i">小i推荐</a>
+	</li>
+	<li id="autorec" style="width:110px;text-align:center;"$actives['autorec']>
+	<a href="space.php?do=recommendation&type=autorec">热门推荐</a>
+	</li>
+</ul>
+</div>
+<!--{if $reclist}-->
+<div class="recommendation_list">
+	<ol>
+	<!--{loop $reclist  $value}-->
+        <!--{eval $value = mkfeed($value);}-->
+        <!--{template space_recommendation_li}-->
+	<!--{/loop}-->
+	</ol>
+	<div class="page" style="margin-bottom: 10px;">$multi</div>
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+现在还没有推荐
+</p>
+<!--{/if}-->
+</div>
+<!--{template footer}-->

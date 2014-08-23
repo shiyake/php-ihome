@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink'))) {
+if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink','sync','asst'))) {
 	$_GET['op'] = 'base';
 }
 
@@ -102,7 +102,77 @@ if($_GET['op'] == 'base') {
 			}
 			updatetable('space', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
 		}
-	
+		//国外校友事件处理
+		if(!empty($_POST['sync']))	{
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip = '".$_POST['sync']."' WHERE uid=".$_SGLOBAL['supe_uid']);
+		}
+
+		
+		
+		if( $_SGLOBAL['overseas'] == 'overseas' )	{
+
+			$country = trim($_POST['country']);
+			$overseas_school = trim($_POST['overseas_school']);
+			//更改表中spaceforeign信息
+			//如果已经存在，且结果和当前输入一样
+			$flag_different = false;
+			$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid=".$_SGLOBAL['supe_uid']);
+			if($res = $_SGLOBAL['db'] -> fetch_array($query))	{
+				if( $res['country']==$country && $res['school']==$overseas_school )	{
+					$flag_different = true;
+				}
+			}
+			
+			if(!$flag_different&&!empty($country)&&!empty($overseas_school))	{
+				$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." as a left join ".tname("space")." as b on a.uid=b.uid WHERE a.uid='".$_SGLOBAL['supe_uid']."'");
+				if($value = $_SGLOBAL['db']->fetch_array($query))	{
+					$name = $value['name'];
+					$username = $value['username'];
+					$_SGLOBAL['db'] -> query("UPDATE ".tname("spaceforeign")." SET school='".$overseas_school."' , country = '".$country."' , dataline = '".$_SGLOBAL[timestamp]."',cer=0 WHERE uid='".$_SGLOBAL['supe_uid']."' ");
+					$_SGLOBAL['db'] -> query("UPDATE ".tname("forgienCreate")." SET school='".$overseas_school."', country = '".$country."' WHERE username='".$value['username']."'");
+				}
+				else {//spaceforeign表没有则进行添加
+					$res = getIpDetails();
+					$lng = $res['longitude'];
+					$lat = $res['latitude'];
+					$forg = array(
+						"uid"=>$_SGLOBAL['supe_uid'],
+						"ip"=>getonlineip(),
+						"country"=>$country,
+						"school"=>$overseas_school,
+						"lng"=>$lng,
+						"lat"=>$lat,
+						'dataline'=>$_SGLOBAL['timestamp']
+					);
+					inserttable("spaceforeign",$forg);
+					//forgienCreate表插入数据
+					$username = $_SGLOBAL['supe_username'];
+					$insert_msg = array(
+						"username" => $_SGLOBAL['username'],
+						"country" => $country,
+						"school" => $overseas_school
+					);
+					inserttable("forgienCreate",$insert_msg);
+				}
+				//发送给外事处
+				$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE consul=1");
+				if($res = $_SGLOBAL['db']->fetch_array($query))	{
+					$recver = $res['uid']; 
+				}
+				$setarr = array(
+					'uid' => $recver,
+					'type' => "friend",
+					'new' => 1,
+					'authorid' => $_SGLOBAL['supe_uid'],
+					'author' => $value['name'],
+					'note' => "{$value['name']}登录名{$value['username']}来自$country,$school".'向您发起了认证请求<br/><a href="space.php?do=friend&view=confirmoverseas&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=overseas">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=overseas">忽略</a>',
+					'dateline' => $_SGLOBAL['timestamp']
+				) ;
+				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+				inserttable('notification', $setarr);	
+			}	
+			
+		}
 		//变更记录
 		if($_SCONFIG['my_status']) {
 			inserttable('userlog', array('uid'=>$_SGLOBAL['supe_uid'], 'action'=>'update', 'dateline'=>$_SGLOBAL['timestamp'], 'type'=>0), 0, true);
@@ -191,7 +261,8 @@ if($_GET['op'] == 'base') {
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$friendarr[$value['subtype']][$value['friend']] = ' selected';
 	}
-	
+
+
 } elseif ($_GET['op'] == 'contact') {
 	
 	if($_GET['resend']) {
@@ -364,43 +435,42 @@ if($_GET['op'] == 'base') {
 			if($value) {
 				$provincenum = intval($_POST['province'][$key]); 
 				switch($provincenum){
-						
-						case 1:  $province = '北京';break;
-						case 3:  $province = "上海";break;
-						case 2:  $province = "天津";break;
-						case 4:  $province = "重庆";break;
-						case 5:  $province = "河北";break;
-						case 6:  $province = "山西";break;
-						case 7:  $province = "内蒙古";break;
-						case 8:  $province = "辽宁";break;
-						case 9:  $province = "吉林";break;
-						case 10: $province = "黑龙江";break;
-						case 11: $province = "江苏";break;
-						case 12: $province = "浙江";break;
-						case 13: $province = "安徽";break;
-						case 14: $province = "福建";break;
-						case 15: $province = "江西";break;
-						case 16: $province = "山东";break;
-						case 17: $province = "河南";break;
-						case 18: $province = "湖北";break;
-						case 19: $province = "湖南";break;
-						case 20: $province = "广东";break;
-						case 21: $province = "广西";break;
-						case 22: $province = "海南";break;
-						case 23: $province = "四川";break;
-						case 24: $province = "贵州";break;
-						case 25: $province = "云南";break;
-						case 26: $province = "西藏";break;
-						case 27: $province = "陕西";break;
-						case 28: $province = "甘肃";break;
-						case 29: $province = "宁夏";break;
-						case 30: $province = "青海";break;
-						case 31: $province = "新疆";break;
-						case 32: $province = "香港";break;
-						case 33: $province = "澳门";break;
-						case 34: $province = "台湾";break;
-						default : break;
-					}
+					case 1:  $province = '北京';break;
+					case 3:  $province = "上海";break;
+					case 2:  $province = "天津";break;
+					case 4:  $province = "重庆";break;
+					case 5:  $province = "河北";break;
+					case 6:  $province = "山西";break;
+					case 7:  $province = "内蒙古";break;
+					case 8:  $province = "辽宁";break;
+					case 9:  $province = "吉林";break;
+					case 10: $province = "黑龙江";break;
+					case 11: $province = "江苏";break;
+					case 12: $province = "浙江";break;
+					case 13: $province = "安徽";break;
+					case 14: $province = "福建";break;
+					case 15: $province = "江西";break;
+					case 16: $province = "山东";break;
+					case 17: $province = "河南";break;
+					case 18: $province = "湖北";break;
+					case 19: $province = "湖南";break;
+					case 20: $province = "广东";break;
+					case 21: $province = "广西";break;
+					case 22: $province = "海南";break;
+					case 23: $province = "四川";break;
+					case 24: $province = "贵州";break;
+					case 25: $province = "云南";break;
+					case 26: $province = "西藏";break;
+					case 27: $province = "陕西";break;
+					case 28: $province = "甘肃";break;
+					case 29: $province = "宁夏";break;
+					case 30: $province = "青海";break;
+					case 31: $province = "新疆";break;
+					case 32: $province = "香港";break;
+					case 33: $province = "澳门";break;
+					case 34: $province = "台湾";break;
+					default : break;
+				}
 				$city = getstr($_POST['city'][$key],20,1,1);
 				$subtitle= getstr($_POST['subtitle'][$key], 20, 1, 1);
 				$startyear = intval($_POST['startyear'][$key]);
@@ -455,19 +525,19 @@ if($_GET['op'] == 'base') {
 	if(submitcheck('profilesubmit')) {
 		$infoarr = array(
 
-				'book' => '喜欢的书籍',
-				'movie' => '喜欢的电影',
-				'tv' => '喜欢的电视',
-				'music' => '喜欢的音乐',
-				'game' => '喜欢的游戏',
-				'sport' => '喜欢的运动',
-				'trainwith' => '我想结交',
-				'interest' => '兴趣爱好',
-				'idol' => '偶像',
-				'motto' => '座右铭',
-				'wish' => '最近心愿',
-				'intro' => '我的简介'
-			);
+			'book' => '喜欢的书籍',
+			'movie' => '喜欢的电影',
+			'tv' => '喜欢的电视',
+			'music' => '喜欢的音乐',
+			'game' => '喜欢的游戏',
+			'sport' => '喜欢的运动',
+			'trainwith' => '我想结交',
+			'interest' => '兴趣爱好',
+			'idol' => '偶像',
+			'motto' => '座右铭',
+			'wish' => '最近心愿',
+			'intro' => '我的简介'
+		);
 		$inserts = array();
 		mysql_set_charset('utf8');
 		//$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spaceinfo')." WHERE uid='$space[uid]' AND type='info'");
@@ -692,8 +762,60 @@ if($_GET['op'] == 'base') {
 
 	//print_r($isSuccess);
 	
-}
+} elseif( $_GET['op']=='sync' ){
+	if(submitcheck("syncsubmit"))	{
+		$sync = $_POST['sync'] ;
+		$_SGLOBAL['db'] -> query("UPDATE ".tname("space")." SET overseas_tip='".$POST['sync']."'");
+	}
+} elseif ($_GET['op']=='asst') {
+	if(submitcheck('asstsubmit')) {
+		$degree = $_POST['degree'];
+		$year = $_POST['year'];
+		$academy = $_POST['academy'];
+		$q = $_SGLOBAL['db']->query("SELECT username, name FROM ".tname("space")." WHERE uid=$_SGLOBAL[supe_uid]");
+		$r = $_SGLOBAL['db']->fetch_array($q);
+		$username = $r['username'];
+		$name = $r['name'];
 
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("asst")." WHERE uid=$_SGLOBAL[supe_uid] and passed=0");
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			showmessage("您的申请正在审查中，请耐心等候~");
+		} else {
+			$q = $_SGLOBAL['db']->query("SELECT realbirth FROM ".tname("spacefield")." WHERE uid=$_SGLOBAL[supe_uid]");
+			$r = $_SGLOBAL['db']->fetch_array($q);
+			$birthday = $r['realbirth'];
+			$_SGLOBAL['db']->query("INSERT INTO ".tname('asst')." SET uid=".$_SGLOBAL[supe_uid].", username='".$username."', name='".$name."', birthday='".$birthday."', applydate='".$_SGLOBAL[timestamp]."', degree='".$degree."', year='".$year."', academy='".$academy."'");
+		}
+
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE asstConsul=1");
+		if($res = $_SGLOBAL['db']->fetch_array($query))	{
+			$recver = $res['uid']; 
+		}
+		$setarr = array(
+			'uid' => $recver,
+			'type' => "friend",
+			'new' => 1,
+			'authorid' => $_SGLOBAL['supe_uid'],
+			'author' => $name,
+			'note' => "{$name}登录名{$username}".'向您发起了'.$degree.$year.'级'.$academy.'辅导员的认证请求<br/><a href="space.php?do=friend&view=confirmasst&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=asst">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseasst&uid=%27'.$_SGLOBAL['supe_uid'].'%27&type=asst">拒绝</a>',
+			'dateline' => $_SGLOBAL['timestamp']
+		);
+		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$recver'");
+		inserttable('notification', $setarr);
+
+		$url = 'cp.php?ac=profile&op=asst';
+		showmessage('do_success', $url);
+	} else {
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("asst")." WHERE uid=$_SGLOBAL[supe_uid] ORDER BY applydate desc LIMIT 1");
+		$asst_verified = 13;
+		if ($res = $_SGLOBAL['db']->fetch_array($query)) {
+			$asst_verified = $res['state'];
+			$degree = $res['degree'];
+			$year = $res['year'];
+			$academy = $res['academy'];
+		}
+	}
+}
 $cat_actives = array($_GET['op'] => ' class="active"');
 
 
@@ -710,7 +832,18 @@ if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
 		$monthhtml .= "<option value=\"$i\">$i</option>";
 	}
 }
+$overseas_verified = 13;
+if($_SGLOBAL['overseas'])	{
+	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
+	
+	if($res = $_SGLOBAL['db']->fetch_array($query))	{
+		$overseas_verified = $res['cer'];
+		$country = $res['country'] ;
+		$school = $res['school'] ; 
 
+	}
+
+}
 include template("cp_profile");
 
 

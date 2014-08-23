@@ -44,7 +44,8 @@ if(empty($op)) {
 	if(submitcheck("registersubmit")) { 
 		//ÒÑ¾­×¢²áÓÃ»§
 		if($_SGLOBAL['supe_uid']) {
-			showmessage('registered', 'space.php');
+			//showmessage('registered', 'space.php');
+			showmessage('register','space.php?do=recommendpublic');
 		}
 		if($_SCONFIG['seccode_register']) {
 			include_once(S_ROOT.'./source/function_cp.php');
@@ -233,8 +234,8 @@ if(empty($op)) {
 		$academy = $academy['academy'];
 		$gid = tagGrade3($startyear, $academy, $_SGLOBAL['db']);
 		jointag($newuid, $gid, $_SGLOBAL['db']);
-		showmessage('registered', $jumpurl);
-
+		//showmessage('registered', $jumpurl);
+        showmessage('registered', 'space.php?do=recommendpublic');
 	}
 
 

@@ -245,7 +245,38 @@ if($_SGLOBAL['magic']['gift'] && $_SGLOBAL['supe_uid']) {
 		}
 	}
 }
-	
+
+$recommendpublic = array();
+$me = '%,'.$_SGLOBAL['supe_uid'].',%';
+$query = $_SGLOBAL['db']->query("SELECT uid, name FROM ".tname("autorecpub")." WHERE exclude not like '".$me."' and recTo like '".$me."'");
+while($res = $_SGLOBAL['db']->fetch_array($query)) {
+	if(!isblacklist($res['uid']) && $res[uid] != $_SGLOBAL['supe_uid']) {
+		$recommendpublic[] = $res;
+	}	
+}
+
+$query = $_SGLOBAL['db']->query("SELECT a.uid as uid, b.name as name FROM ".tname("rec_public")." as a left join ".tname("space")." as b on a.uid=b.uid order by id desc limit 6");
+while($res = $_SGLOBAL['db']->fetch_array($query))	{
+	if (in_array($res,$recommendpublic)) {
+		continue;
+	}
+	$q = $_SGLOBAL['db']->query("SELECT count(*) FROM ".tname("space")." where uid=".$res['uid']." and (aud like '".$me."' or aud like '".$_SGLOBAL['supe_uid'].",%' or aud like '%,".$_SGLOBAL['supe_uid']."' or aud like '".$_SGLOBAL['supe_uid']."')");
+	$count = $_SGLOBAL['db']->fetch_array($q);
+	if (!$count['count(*)']) {
+		if(!isblacklist($res['uid']) && $res[uid] != $_SGLOBAL['supe_uid']) {
+			$recommendpublic[] = $res;
+		}
+	}
+}
+
+$reccount = count($recommendpublic);
+$allflag = 0;
+if ($reccount <= 2) {
+	$allflag = 1;
+}
+
+
+
 //ￊￇﾷ￱ￔￚￏ￟
 $ols = array();
 if($oluids) {

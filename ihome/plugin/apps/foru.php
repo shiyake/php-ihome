@@ -14,6 +14,7 @@ if($_SGLOBAL['member']['groupid'] == 3){
 
 $usertype = $collegeid_len;
 $wheresql = " WHERE applypass =1 AND ishidden=0";
+// showmessage($collegeid_len);
 if($collegeid_len == 8){
 //for 本科生
 	//echo "<script>alert('$username 本科生');</script>";
