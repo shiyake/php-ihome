@@ -19,7 +19,7 @@
 		   block=$(this).find("div.myBlock"),
 		   innerBlock=block.find(".mainul"),
 		   list=block.find('.mainul > .mainli'),
-		   listNum=list.size(),
+		   listNum=list.size()>6?6:list.size(),
 		   listWidth=list.width(),
 		   blockWidth=listWidth*opts.visible,//可见区域宽度
 		   intervalId; 
@@ -41,9 +41,10 @@
 		
 	   //单击向后按钮
 	   nextBtn.click(function(){
-							  var snum=getSnum(),
-							  c=listNum-snum-opts.visible,
-							  m=getMove(c);
+							  innerBlock.stop();
+							  var snum=getSnum();
+							  var c=listNum-snum-opts.visible;
+							  var m=getMove(c);
 							  if(listNum-snum > opts.visible){
 							  innerBlock.animate({
 												 "margin-left":"-="+m
@@ -53,6 +54,7 @@
 	   
 	   //单击向前按钮
 	   prevBtn.click(function(){
+							  innerBlock.stop();
 							  var snum=getSnum(),
 							  m=getMove(snum);
 							  if(snum>0){

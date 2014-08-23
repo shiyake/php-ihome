@@ -1,14 +1,13 @@
-<?php
+﻿<?php
 
 //Í¨ÓÃÎÄ¼þ
 include_once('./common.php');
 include_once(S_ROOT.'./source/function_cp.php');
 include_once(S_ROOT.'./source/function_magic.php');
-
 //ÔÊÐíµÄ·½·¨
 $acs = array('space', 'doing', 'upload', 'video', 'comment', 'blog', 'album', 'relatekw', 'common', 'class',
 	'swfupload', 'thread', 'mtag', 'poke', 'friend',
-	'avatar', 'profile', 'theme', 'import', 'feed', 'privacy', 'pm', 'share', 'advance', 'invite', 'invitefriend', 'invite2', 'sendmail', 'protect', 'thirdparty',
+	'avatar', 'profile', 'theme', 'import', 'feed', 'privacy', 'pm', 'share', 'advance', 'invite', 'parent', 'invitefriend', 'invite2', 'sendmail', 'protect', 'thirdparty',
 	'userapp', 'task', 'credit', 'password', 'domain', 'event', 'poll', 'topic',
 	'click','magic', 'top', 'videophoto','publicapply', 'arrangement','namecard', 'check_bot', 'public', 'changelogin');
 $ac = (empty($_GET['ac']) || !in_array($_GET['ac'], $acs))?'profile':$_GET['ac'];
@@ -147,6 +146,17 @@ if($theme == 'uchomedefault') {
 //²Ëµ¥
 $actives = array($ac => ' class="active"');
 //showmessage($ac);//2013Äê3ÔÂ11ÈÕ10:48:31--for find bug of friend¡¤¡¤!@Ancon
+//parent
+@include_once('./source/cp_parent_func.php');
+global $_PARENT;
+initStudent();
+initParent();
+initParentFlag();
+if(preg_match('/@ihome.com$/',$space['email'])){
+	$_PARENT['emailupdated']=0;
+}else{
+	$_PARENT['emailupdated']=1;
+}
 include_once(S_ROOT.'./source/cp_'.$ac.'.php');
 
 ?>

@@ -221,6 +221,88 @@ elseif ($_GET['view']=='refuseoverseas')	{
 	showmessage('do_success',"space.php?do=notice",1);
 	
 }
+elseif ($_GET['view']=='confirmasst')	{
+	$uid = $_GET['uid'];
+	$uid = substr($uid, 2, strlen($uid)-4);	
+	$type = $_GET['type'];
+
+	if( $type == 'asst' )	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
+		if ($consul = $_SGLOBAL['db']->fetch_array($query)) {
+			if ($consul['groupid']!=1 && $consul['asstConsul']!='1') {
+				showmessage('当前您没有权限执行相关操作！');
+			}
+		} else {
+			showmessage('未知错误');
+		}
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
+		if ($_SGLOBAL['db']->fetch_array($query)) {
+			//记录审批时间
+			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' , state=1, passed=1  WHERE passed=0 and uid='$uid'");
+
+			$setarr = array(
+				'uid' => $uid,
+				'type' => "systemnote",
+				'new' => 1,
+				'authorid' => $_SGLOBAL['supe_uid'],
+				'author' => $name,
+				'note' => '您好，您的辅导员申请已通过认证',
+				'dateline' => $_SGLOBAL['timestamp']
+			);
+			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
+			inserttable('notification', $setarr);
+		} else {
+			showmessage("当前没有申请或者申请已被处理");
+		}
+		
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
+		if($_SGLOBAL['db']->fetch_array($query))	{
+			showmessage('do_success','admincp.php?ac=asst',1);
+		}
+	}
+	showmessage('do_success',"space.php?do=notice",1);
+	
+}
+elseif ($_GET['view']=='refuseasst')	{
+	$uid = $_GET['uid'];
+	$uid = substr($uid,2,strlen($uid)-4);
+	$type = $_GET['type'];
+
+	if( $type == 'asst' )	{
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE uid='".$_SGLOBAL['supe_uid']."'");
+		if ($consul = $_SGLOBAL['db']->fetch_array($query)) {
+			if ($consul['groupid']!=1 && $consul['asstConsul']!='1') {
+				showmessage('当前您没有权限执行相关操作！');
+			}
+		} else {
+			showmessage('未知错误');
+		}
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
+		if ($_SGLOBAL['db']->fetch_array($query)) {
+			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' ,state=-1, passed=1 WHERE passed=0 and uid='$uid'");
+			$setarr = array(
+				'uid' => $uid,
+				'type' => "systemnote",
+				'new' => 1,
+				'authorid' => $_SGLOBAL['supe_uid'],
+				'author' => $name,
+				'note' => '您好，您的辅导员申请没有通过认证',
+				'dateline' => $_SGLOBAL['timestamp']
+			);
+			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
+			inserttable('notification', $setarr);
+		} else {
+			showmessage("当前没有申请或者申请已被处理");
+		}
+		
+		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("space")." WHERE groupid=1 and uid='$_SGLOBAL[supe_uid]'");
+		if($_SGLOBAL['db']->fetch_array($query))	{
+			showmessage('do_success','admincp.php?ac=asst',1);
+		}
+	}
+	showmessage('do_success',"space.php?do=notice",1);
+	
+}
 else {
 
 	//´¦Àí²éÑ¯

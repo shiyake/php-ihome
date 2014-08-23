@@ -39,7 +39,8 @@
 	});
 	//左边栏我的活动隐藏与显示
 	jq(function() {
-		jq(".left_line_my_act").click(function() {
+		var memHeight = jq("#my_shortcutapp").height();
+		jq("#my_defaultapp_toggle").click(function() {
 			if (jq("#my_defaultapp").css("display") == "none") {
 				jq("#my_defaultapp").css({
 					"display": "block"
@@ -48,13 +49,50 @@
 					"height": "322px"
 				},
 				300);
+				jq("#my_shortcutapp,#my_shortcutapp_toggle").css({
+					"position": "",
+					"top": ""
+				});
+				jq('.shortcut_line').css({
+					"top": ""
+				});
 			} else {
 				jq("#my_defaultapp").stop().animate({
-					"height": "0px"
+					"height": "0px"	
+				}, 400, function() {
+					jq("#my_defaultapp").css({
+						"display": "none"
+					});
+				});
+				jq("#my_shortcutapp_toggle").css({
+					"position": "relative",
+					"top": "20px"
+				});
+				jq("#my_shortcutapp").css({
+					"position": "relative",
+					"top": "10px"
+				});
+				jq('.shortcut_line').css({
+					"top": "10px"
+				});
+			}
+		});
+		jq("#my_shortcutapp_toggle").click(function() {
+			if (jq("#my_shortcutapp").css("display") == "none") {
+				jq("#my_shortcutapp").css({
+					"display": "block"
+				});
+				jq("#my_shortcutapp").stop().animate({
+					"height": memHeight
 				},
-				400);
-				jq("#my_defaultapp").css({
-					"display": "none"
+				300);
+			} else {
+				jq("#my_shortcutapp").stop().animate({
+					"height": "0px"
+				}, 400, function() {
+					jq("#my_shortcutapp").css({
+						"display": "none"
+					});
 				});
 			}
 		});
@@ -114,14 +152,26 @@
 		}
 	});
 	jq(function() {
-		jq(".left_line_my_act a").click(function() {
-			if (jq(".icon-pull").attr("src") == "image/icons/icon-pull-down.png") {
-				jq(".icon-pull").attr({
+		jq("#my_defaultapp_toggle a").click(function() {
+			if (jq("#my_defaultapp_toggle .icon-pull").attr("src") == "image/icons/icon-pull-down.png") {
+				jq("#my_defaultapp_toggle .icon-pull").attr({
 					"src": "image/icons/icon-pull-up.png"
 				});
 			}
 			else {
-				jq(".icon-pull").attr({
+				jq("#my_defaultapp_toggle .icon-pull").attr({
+					"src": "image/icons/icon-pull-down.png"
+				});
+			}
+		});
+		jq("#my_shortcutapp_toggle a").click(function() {
+			if (jq("#my_shortcutapp_toggle .icon-pull").attr("src") == "image/icons/icon-pull-down.png") {
+				jq("#my_shortcutapp_toggle .icon-pull").attr({
+					"src": "image/icons/icon-pull-up.png"
+				});
+			}
+			else {
+				jq("#my_shortcutapp_toggle .icon-pull").attr({
 					"src": "image/icons/icon-pull-down.png"
 				});
 			}

@@ -1,21 +1,19 @@
 <!--{template plugin/apps/header}-->
-
+<!--{template plugin/apps/apps_nav}-->
 <div class="main">
   <!--{template plugin/apps/left}-->
-  <div class="yingyong_right">
-    <!--{template plugin/apps/right_nav}-->
-    <div class="clear"></div>
+  <div class="apps content">
 	<link href="plugin/apps/myScroll/style.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="plugin/apps/myScroll/myScroll.js"></script>
 	<script type="text/javascript">   
-	 $(function(){
-		$(".myScroll").myScroll({
+	 jq(function(){
+		jq(".myScroll").myScroll({
 							   visible:3,
 							   scroll:3,
-							   speed:1000
+							   speed:500
 							   });
 		/*
-		$("#myfavorite").myScroll({
+		jq("#myfavorite").myScroll({
 							   visible:3,
 							   scroll:3,
 							   auto:[true,2000],
@@ -24,57 +22,11 @@
 		*/
 		});  
 	</script>
-	<!--{if $myfavorite}-->
-	<div class="yingyong_c myScroll" id="myfavorite">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-          <h2>我最常用<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=mine">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{loop $myfavorite $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="myfavorite_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
 	<!--{if $promot}-->
 	<div class="yingyong_c myScroll" id="promot">
       <div class="yingyong_c_t">
         <div class="left inline">
-          <h2>推荐服务<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=&orderby=usernumber">【+查看全部】</a></span></h2>
+          <h2>推荐服务</h2>
         </div>
         <div class="right">
 			<p class="myPrevBtn"></p>
@@ -85,32 +37,22 @@
 	  <ul class="mainul">
 	  <!--{eval $maxnum=12;$num=0;}-->
 	  <!--{loop $promot $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
+	  	<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="promot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{/if}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -122,7 +64,7 @@
 	<div class="yingyong_c myScroll" id="hot">
       <div class="yingyong_c_t">
         <div class="left inline">
-		  <h2>热门服务<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=&orderby=usernumber">【+查看全部】</a></span></h2>
+		  <h2>热门服务</h2>
         </div>
         <div class="right">
 			<p class="myPrevBtn"></p>
@@ -133,32 +75,22 @@
 	  <ul class="mainul">
 	  <!--{eval $maxnum=12;$num=0;}-->
 	  <!--{loop $hot $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="hot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{/if}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -170,7 +102,7 @@
 	<div class="yingyong_c myScroll" id="popular">
       <div class="yingyong_c_t">
         <div class="left inline">
-		  <h2>得分最高<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=&orderby=score">【+查看全部】</a></span></h2>
+		  <h2>得分最高</h2>
         </div>
         <div class="right">
 			<p class="myPrevBtn"></p>
@@ -181,368 +113,22 @@
 	  <ul class="mainul">
 	  <!--{eval $num=0;}-->
 	  <!--{loop $popular $app}-->
+	  <!--{if $num==6}-->
+	  </ul>
+	  <ul class="mainul">
+	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
         <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
           <div class="yy_list_c_x"><span class="score_star" id="popular_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
           <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
+            使用人数:$app[usernumber]人</div>
         </div>
       </div>
 	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $jiaoxue}-->
-	<div class="yingyong_c myScroll" id="jiaoxue">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>教学类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=1&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $jiaoxue $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="jiaoxue_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $keyan}-->
-	<div class="yingyong_c myScroll" id="keyan">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>科研类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=2&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $keyan $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="keyan_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $caiwu}-->
-	<div class="yingyong_c myScroll" id="caiwu">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>财务类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=3&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $caiwu $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="caiwu_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $renzi}-->
-	<div class="yingyong_c myScroll" id="renzi">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>人力资源类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=4&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $renzi $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="renzi_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $zichan}-->
-	<div class="yingyong_c myScroll" id="zichan">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>资产类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=5&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $zichan $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="zichan_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $shenghuo}-->
-	<div class="yingyong_c myScroll" id="shenghuo">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>生活服务类<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=6&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $shenghuo $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="shenghuo_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
-	  <!--{/loop}-->
-	  </ul>
-	  </div>
-      <div class="clear"></div>
-    </div>
-    <!-- end yingyong_c -->
-	<!--{/if}-->
-	<!--{if $qita}-->
-	<div class="yingyong_c myScroll" id="qita">
-      <div class="yingyong_c_t">
-        <div class="left inline">
-		  <h2>其他<span class="yy_more"><a href="plugin.php?pluginid=apps&ac=list&category=1&type=7&orderby=usernumber">【+查看全部】</a></span></h2>
-        </div>
-        <div class="right">
-			<p class="myPrevBtn"></p>
-			<p class="myNextBtn"></p>
-		</div>
-      </div>
-      <div class="myBlock">
-	  <ul class="mainul">
-	  <!--{eval $num=0;}-->
-	  <!--{loop $qita $app}-->
-      <li class="mainli">
-	  <div class="yy_list">
-        <div class="gezi">
-			<!--{if $app[usertype] & 8}-->
-			<div class="yy_green" title="本科生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 4}-->
-			<div class="yy_yellow" title="研究生"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 2}-->
-			<div class="yy_red" title="教职工"></div>
-			<!--{/if}-->
-			<!--{if $app[usertype] & 1}-->
-			<div class="yy_blue" title="校友"></div>
-			<!--{/if}-->
-        </div>
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="qita_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人<br />
-			评价人数:$app[comment]人</div>
-        </div>
-      </div>
-	  </li>
-	  <!--{eval ++$num;if($num==$maxnum)break;}-->
+	  <!--{/if}-->
+	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -558,84 +144,84 @@
 		value : $app[score],
 		enabled : false
 	}
-	$('#myfavorite_app_$app[id]').rater(myfavorite_options_$app[id]);
+	jq('#myfavorite_app_$app[id]').rater(myfavorite_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $promot $key=>$app}-->
 	var promot_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#promot_app_$app[id]').rater(promot_options_$app[id]);
+	jq('#promot_app_$app[id]').rater(promot_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $hot $key=>$app}-->
 	var hot_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#hot_app_$app[id]').rater(hot_options_$app[id]);
+	jq('#hot_app_$app[id]').rater(hot_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $popular $key=>$app}-->
 	var popular_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#popular_app_$app[id]').rater(popular_options_$app[id]);
+	jq('#popular_app_$app[id]').rater(popular_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $jiaoxue $key=>$app}-->
 	var jiaoxue_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#jiaoxue_app_$app[id]').rater(jiaoxue_options_$app[id]);
+	jq('#jiaoxue_app_$app[id]').rater(jiaoxue_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $keyan $key=>$app}-->
 	var keyan_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#keyan_app_$app[id]').rater(keyan_options_$app[id]);
+	jq('#keyan_app_$app[id]').rater(keyan_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $qita $key=>$app}-->
 	var qita_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#qita_app_$app[id]').rater(qita_options_$app[id]);
+	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $caiwu $key=>$app}-->
 	var caiwu_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#caiwu_app_$app[id]').rater(caiwu_options_$app[id]);
+	jq('#caiwu_app_$app[id]').rater(caiwu_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $renzi $key=>$app}-->
 	var renzi_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#renzi_app_$app[id]').rater(renzi_options_$app[id]);
+	jq('#renzi_app_$app[id]').rater(renzi_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $zichan $key=>$app}-->
 	var zichan_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#zichan_app_$app[id]').rater(zichan_options_$app[id]);
+	jq('#zichan_app_$app[id]').rater(zichan_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $shenghuo $key=>$app}-->
 	var shenghuo_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#shenghuo_app_$app[id]').rater(shenghuo_options_$app[id]);
+	jq('#shenghuo_app_$app[id]').rater(shenghuo_options_$app[id]);
 	<!--{/loop}-->
 	<!--{loop $qita $key=>$app}-->
 	var qita_options_$app[id] = {
 		value : $app[score],
 		enabled : false
 	}
-	$('#qita_app_$app[id]').rater(qita_options_$app[id]);
+	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
 	<!--{/loop}-->
 	</script>
     <!-- end yingyong_c -->

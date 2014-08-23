@@ -80,7 +80,7 @@
 				};				
 		});
 	}
-	(jQuery(function(){
+	jQuery(function(){
 		jQuery("#query_button").click(function(){
 			var feedid = jQuery("#query_input").val();
 			if (isNaN(feedid)) {
@@ -100,7 +100,7 @@
 			};
 			
 		});
-	}))();
+	});
 </script>
 <div class="bdrcontent">
 	<input class="input-sm form-control" id="query_input" type="text" name="feedid" onkeydown="on_search(event)" style="display:inline-block; width:200px;" placeholder="想推荐的动态ID(feedid)"/>
@@ -415,7 +415,7 @@
 					<div style="padding:10px 0 0 0;" class="r_option gray">
 						<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[feedid]"> 选择
 						<!--{if $allowmanage}--> &nbsp;
-						<a href="admincp.php?ac=feed&op=edit&feedid=$value[feedid]">编辑</a>
+						<a href="admincp.php?ac=feed&op=edit&feedid=$value[feedid]">编辑($value[feedid])</a>
 						<!--{/if}-->
 					</div>
 					<a class="type" href="admincp.php?ac=feed&icon=$value[icon]" title="只看此类动态"><img src="$value[icon_image]" /></a>

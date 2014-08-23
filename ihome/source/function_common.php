@@ -420,7 +420,7 @@ function getIpDetails(){
 }
 function is_overseas()	{
 	$var = getIpDetails();
-	if($var['country_code']!='CN')	{
+	if($var['country_code']!='CN' && $var['country_code']!='RD')	{
 		return true;
 	}
 	return false;
@@ -2795,15 +2795,6 @@ function runlog($file, $log, $halt=0) {
             $_TDataValue = explode('|', $_DataValue);
             $_SGLOBAL['pinyinkey'] = $_TDataKey;
             $_SGLOBAL['pinyinval'] = $_TDataValue;
-        }
-        else
-        {
-            $_TDataKey = $_SGLOBAL['pinyinkey'];
-            $_TDataValue = $_SGLOBAL['pinyinval'];
-        }
-
-        if(!$_SGLOBAL['pinyinkey'])
-        {
             $_Data = (PHP_VERSION>='5.0') ? array_combine($_TDataKey, $_TDataValue) : _Array_Combine($_TDataKey, $_TDataValue);
             arsort($_Data);
             reset($_Data);
@@ -2811,8 +2802,11 @@ function runlog($file, $log, $halt=0) {
         }
         else
         {
+            $_TDataKey = $_SGLOBAL['pinyinkey'];
+            $_TDataValue = $_SGLOBAL['pinyinval'];
             $_Data = $_SGLOBAL['pinyindata'];
         }
+
         if($_Code != 'gb2312') $_String = _U2_Utf8_Gb($_String);
         $_Res = '';
         for($i=0; $i<strlen($_String); $i++)
@@ -3056,17 +3050,18 @@ runlog("debug", "log:".print_r($flog, true));
 	}
 	//查找是否为部处
 	function isDepartment($uid = 0 ,$isDept = 1){
-		include S_ROOT.'./data/powerlevel/powerlevel.php';
-		if(array_key_exists($uid ,$_POWERINFO)){
+		global $_SGLOBAL;
+		$query = $_SGLOBAL['db']->query("select * from ".tname('powerlevel')." WHERE dept_uid='$uid'");
+		if ($result = $_SGLOBAL['db']->fetch_array($query)) {
 			if($isDept){
-				if($_POWERINFO[$uid]['isdept'] == 1)
-					return $_POWERINFO[$uid];
+				if($result['isdept'] == 1)
+					return $result;
 				else
 					return FALSE;
 			}else{
-				return $_POWERINFO[$uid];
+				return $result;
 			}
-		}else{
+		} else {
 			echo FALSE;
 		}
 	}
