@@ -41,27 +41,29 @@
 		
 	   //单击向后按钮
 	   nextBtn.click(function(){
-							  innerBlock.stop();
-							  var snum=getSnum();
-							  var c=listNum-snum-opts.visible;
-							  var m=getMove(c);
-							  if(listNum-snum > opts.visible){
-							  innerBlock.animate({
-												 "margin-left":"-="+m
-												 },opts.speed);
-							  }
+							  if (!innerBlock.is(':animated')) {
+								  var snum=getSnum();
+								  var c=listNum-snum-opts.visible;
+								  var m=getMove(c);
+								  if(listNum-snum > opts.visible){
+								  innerBlock.animate({
+													 "margin-left":"-="+m
+													 },opts.speed);
+								  }
+								}
 							  });
 	   
 	   //单击向前按钮
 	   prevBtn.click(function(){
-							  innerBlock.stop();
-							  var snum=getSnum(),
-							  m=getMove(snum);
-							  if(snum>0){
-							  innerBlock.animate({
-												 "margin-left":"+="+m
-												 },opts.speed);
-							  }
+							  if (!innerBlock.is(':animated')) {
+								  var snum=getSnum(),
+								  m=getMove(snum);
+								  if(snum>0){
+								  innerBlock.animate({
+													 "margin-left":"+="+m
+													 },opts.speed);
+								  }
+								}
 							  });
 	   
 	   //如果自动滚动

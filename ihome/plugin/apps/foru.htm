@@ -24,23 +24,64 @@
 	<div class="ads">
 		<div class="ads_list_container">
 			<ul class="ads_list" style="width:5208px;">
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
-				<li class="adv_item"><a href="#"><img src="http://placehold.it/868x270" alt=""></a></li>
+				<li class="adv_item 1"><a href="#"><img src="http://placehold.it/868x270&text=1" alt=""></a></li>
+				<li class="adv_item 2"><a href="#"><img src="http://placehold.it/868x270&text=2" alt=""></a></li>
+				<li class="adv_item 3"><a href="#"><img src="http://placehold.it/868x270&text=3" alt=""></a></li>
+				<li class="adv_item 4"><a href="#"><img src="http://placehold.it/868x270&text=4" alt=""></a></li>
+				<li class="adv_item 5"><a href="#"><img src="http://placehold.it/868x270&text=5" alt=""></a></li>
+				<li class="adv_item 6"><a href="#"><img src="http://placehold.it/868x270&text=6" alt=""></a></li>
 			</ul>
 		</div>
-		<div class="ads_index"></div>
-		<a href="javascript:void(0);" onclick="next_ad()" class="next_ad"></a>
-		<a href="javascript:void(0);" onclick="pre_ad()" class="pre_ad"></a>
+		<div><a href="javascript:void(0);" onclick="pre_ad()" class="pre_ad"></a></div>
+		<div><a href="javascript:void(0);" onclick="next_ad()" class="next_ad"></a></div>
+		<div class="ads_index">
+			<ul class="bubble_list">
+				<li class="bubble_item bubble_active"><a href="javascript:void(0);"></a></li>
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+			</ul>
+		</div>
 	</div>
 	<script>
-		var adWidth = jq('adv_item').
-		function next_ad () {
-			jq('.ads_list').animate();
+		var adWidth = jq('.adv_item').width();
+		function pre_ad() {
+			if (!jq('.ads_list').is(':animated')) {
+				clearInterval(timer);
+				jq('.ads_list').prepend(jq('.adv_item:last').clone());
+				jq('.ads_list').css('margin-left', '-='+adWidth);
+				jq('.ads_list').animate({
+					'margin-left': '+='+adWidth
+				},300,function(){
+					jq('.adv_item:last').remove();
+					var current = jq('.bubble_active');
+					var prev = current.prev().length>0 ? current.prev() : jq('.bubble_item:last');
+					current.removeClass('bubble_active');
+					prev.addClass('bubble_active');
+					timer = setInterval(function(){next_ad();},2000);
+				});
+			}
 		}
+		function next_ad() {
+			if (!jq('.ads_list').is(':animated')) {
+				clearInterval(timer);
+				jq('.ads_list').append(jq('.adv_item:first').clone());
+				jq('.ads_list').animate({
+					'margin-left': '-='+adWidth
+				},300,function(){
+					jq('.adv_item:first').remove();
+					jq('.ads_list').css('margin-left','0px');
+					var current = jq('.bubble_active');
+					var next = current.next().length>0 ? current.next() : jq('.bubble_item:first');
+					current.removeClass('bubble_active');
+					next.addClass('bubble_active');
+					timer = setInterval(function(){next_ad();},2000);
+				});
+			}
+		}
+		var timer = setInterval(function(){next_ad();},2000);
 	</script>
 	<!--{if $promot}-->
 	<div class="yingyong_c myScroll" id="promot">
