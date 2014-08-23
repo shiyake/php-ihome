@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<?php if(!defined('iBUAA') || !defined('IN_ADMINCP')) exit('Access Denied');
-    include_once template("admin/tpl/map");
-=======
 <?php 
 if(!defined('iBUAA') || !defined('IN_ADMINCP')) 	{
 	exit('Access Denied');
@@ -20,5 +16,4 @@ while($res = $_SGLOBAL['db']->fetch_array($query))	{
 
 include_once template("admin/tpl/map");
 
->>>>>>> temp
 ?>
