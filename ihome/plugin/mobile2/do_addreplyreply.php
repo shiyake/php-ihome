@@ -7,45 +7,34 @@
     //include_once('../../common.php'); 
 	//include_once(S_ROOT.'./uc_client/client.php');
 	//include_once(S_ROOT.'./data/data_profield.php');
+    include_once('do_mobileverify.php');
 	include_once(S_ROOT.'./source/function_bbcode.php');
 
-	include_once('do_mobileverify.php');
 	$message =getstr($_POST['message']);
-	
-	/*$userid = 18;
-	$username = 'seen';
-$message="asaasas23232";*/	
-	$idtype=getstr($_POST['idtype']);//类型
-//$idtype='doid';
+	/*
+	$userid = '1';
+	$username = 'zhongyu';
+	$message="abcdefghijklmnopqrstuvwxyz";
+	*/
+	$idtype=getstr($_POST['idtype']);
 	$arrs = array();
-	//主体内容ID
 	$id =intval($_POST['id']);
-	$cid = empty($_POST['cid'])?0:intval($_POST['cid']);//评论、回复ID
-/*$id=450;
-$cid=86;*/
+	$cid = empty($_POST['cid'])?0:intval($_POST['cid']);
 	$comment = array();
 	$post = array();
 	realname_set($userid, $username);
-
 	$message = $message.' ';
-
-/*$_SGLOBAL['supe_uid'] = $userid;
-$_SGLOBAL['supe_username'] = $username;*/
-	
 	getmember();
 	if(trim($message)==null){
 		$arrs = array('flag'=>'null');
 		returnflag($arrs);
-	}else if( strlen($message) < 2 ){
+	}
+	if(strlen($message) < 2 ){
 		$arrs = array('flag'=>'content_is_too_short');
 		returnflag($arrs);
 	}else{
-	//处理评论的@功能
-	//提取AT用户
-	preg_match_all("/[@](.*)[(]([\d]+)[)]\s/U",$message, $matches, PREG_SET_ORDER);
-
-	foreach($matches as $value){
-		
+		preg_match_all("/[@](.*)[(]([\d]+)[)]\s/U",$message, $matches, PREG_SET_ORDER);
+		foreach($matches as $value){
 		$TmpString = $value[0]; 
 		$TmpName = $value[1]; 
 		$UserId = $value[2];
