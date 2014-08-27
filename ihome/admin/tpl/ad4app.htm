@@ -1,0 +1,106 @@
+<!--{template admin/tpl/header}-->
+<style>
+	img.preview {
+		width: 270px;
+		height: 100px;
+	}
+</style>
+<script language="javascript" type="text/javascript" src="source/jquery-ajax-image-upload-login.js"></script>
+<div class="mainarea">
+	<div class="maininner">
+		<div class="bdrcontent">
+			<h4 class="l_status title">应用广告</h4>
+		<div class="bdrcontent" style="margin-top:10px;">
+		<table class="listtable">
+		<tr>
+			<td>显示图片</td><td>跳转链接</td><td>处理操作</td>
+			</tr>
+		<!--{loop $ads $value}-->
+			<tr><td><img src="$value['img']" alt="" class="preview" id="preview-img-$value['id']"><input id="img-$value['id']" class="img" type="file" name="img" accept="image/*"><input type="hidden" id="url-img-$value['id']" name="url-img-$value['id']" value="$value['img']"></td><td><input type="text" id="url-$value['id']" name="url" class="form-control input-sm" value="$value['url']"></td><td><a href="#" onclick="modify($value['id'])">更新</a><span class="pipe">|</span><a href="#" onclick="remove($value['id'])">删除</a></td></tr>
+		<!--{/loop}-->
+			<tr><td><img src="" alt="" class="preview" id="preview-img-n" style="display:none;"><input id="img-n" class="img" type="file" name="img" accept="image/*"><input type="hidden" id="url-img-n" name="url-img-n" value=""></td><td><input type="text" id="url-n" name="url" class="form-control input-sm"></td><td><a href="#" onclick="modify('n')">创建</a></td></tr>
+		</table>
+		</div>
+		</div>
+
+	</div>
+	<script>
+		function readURL(input, imgID) {
+			 if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        reader.onload = function (e) {
+		            jQuery('#preview-'+imgID).attr('src', e.target.result).show();
+		        }
+		        reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		var uploadImg = function(){
+			var _this = this;
+			var imgID = jQuery(this).attr('id');
+			jQuery.ajaxFileUpload({
+                url: 'cp.php?ac=upload&file=upload_ad4app&type=pic',
+                secureuri: false,
+                fileElementId: imgID,
+                dataType: "json",
+                success: function(data)
+                {
+                    console.log(data);
+                    readURL(_this, imgID);
+                    jQuery("#url-"+imgID).val(data.master.img_src);
+                    jQuery(".img").change(uploadImg);
+                },
+                error: function(xhr, textStatus, errorThrown)
+                {
+                    console.log(xhr, textStatus, errorThrown + 'error');
+                    return false;
+                }
+            });
+		};
+
+		jQuery(".img").change(uploadImg);
+
+		function modify(id) {
+			img = jQuery("#url-img-"+id).val();
+			url = jQuery("#url-"+id).val();
+			if (!img || !url) {
+				alert('请完整输入图片以及跳转链接');
+				exit();
+			}
+			jQuery.post('admincp.php?ac=ad4app',{
+				id: id,
+				url: url,
+				img: img,
+				action: 'modify'
+			},function(data){
+				if (data == '1') {
+					alert('保存失败');
+				} else {
+					alert('操作完成！');
+					jQuery('.listtable').html(jQuery(data).find('.listtable').html());
+					jQuery(".img").change(uploadImg);
+				}
+			});
+		}
+
+		function remove(id) {
+			jQuery.post('admincp.php?ac=ad4app',{
+				id: id,
+				action: 'remove'
+			},function(data){
+				if (data == '1') {
+					alert('删除失败');
+				} else {
+					alert('操作完成！');
+					jQuery('.listtable').html(jQuery(data).find('.listtable').html());
+					jQuery(".img").change(uploadImg);
+				}
+			});
+		}
+	</script>
+</div>
+	</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->
