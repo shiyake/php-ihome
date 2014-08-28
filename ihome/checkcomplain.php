@@ -176,6 +176,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 		}
 		echo '通知处理完毕~!<br />';
 		//将已报告上级的原投诉记录标记为过期
+		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET ontrack=1 WHERE doid='$result[doid]'");
 		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET expire=1 WHERE id='$result[id]' AND isreply=0");
 		echo '原纪录已标记为过期~!<br />';
 	}

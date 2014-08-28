@@ -429,11 +429,14 @@ if(submitcheck('addsubmit')) {
     $nowtime = time();
     $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
     if($UserDept){
-        $isComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment FROM ".tname('complain')." USE INDEX(doid) WHERE doid='$updo[doid]' AND isreply=0 AND atuid IN($UserDept[official]) LIMIT 1");
+        $isComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment,ontrack FROM ".tname('complain')." USE INDEX(doid) WHERE doid='$updo[doid]' AND isreply=0 AND atuid IN($UserDept[official]) LIMIT 1");
         if($isComplainArray = $_SGLOBAL['db']->fetch_array($isComplainQuery)){
             $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET isreply=1,replytime='$nowtime' WHERE doid='$updo[doid]' AND atuid IN ($UserDept[official])");
             $isReplyComplain = TRUE;
-            $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0");
+            if ($isComplainArray['ontrack']) {
+                $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET ontrack=0 WHERE doid='$updo[doid]'");
+                $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0");
+            }
         }
 	}
 	/*
