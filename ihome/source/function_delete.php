@@ -205,16 +205,16 @@ function deleteComplains($doids){
 	$flag = 0 ;
 	for($i=0;$i<count($doids);$i++)	{
 		if(isComplainOrNot($doids[$i],$_SGLOBAL['db']))	{
-			$ComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=0 AND doid IN (".simplode($doids).") GROUP BY atdepartment");
+			$ComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=0 AND ontrack=1 AND doid=".$doids[$i]." GROUP BY atdepartment");
 			while($Complain = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 				$_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num-1 WHERE atuname='$Complain[atdepartment]' AND issend=0");
 			}
 			//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
-			$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE isreply=0 AND doid IN (".simplode($doids).")");
+			$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE isreply=0 AND doid=".$doids[$i]);
 			$flag = 1 ;
 		}
 	}
-	if($flag)	{
+	if($flag) {
 		showmessage('诉求已删除',$_POST['refer'],0);
 	}
 }
