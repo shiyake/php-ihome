@@ -58,6 +58,7 @@
                 error: function(xhr, textStatus, errorThrown)
                 {
                     console.log(xhr, textStatus, errorThrown + 'error');
+                    alert('上传失败');
                     return false;
                 }
             });

@@ -54,13 +54,13 @@
 				jq('.ads_list').css('margin-left', '-='+adWidth);
 				jq('.ads_list').animate({
 					'margin-left': '+='+adWidth
-				},300,function(){
+				},400,function(){
 					jq('.adv_item:last').remove();
 					var current = jq('.bubble_active');
 					var prev = current.prev().length>0 ? current.prev() : jq('.bubble_item:last');
 					current.removeClass('bubble_active');
 					prev.addClass('bubble_active');
-					timer = setInterval(function(){next_ad();},2000);
+					timer = setInterval(function(){next_ad();},2500);
 				});
 			}
 		}
@@ -70,18 +70,18 @@
 				jq('.ads_list').append(jq('.adv_item:first').clone());
 				jq('.ads_list').animate({
 					'margin-left': '-='+adWidth
-				},300,function(){
+				},400,function(){
 					jq('.adv_item:first').remove();
 					jq('.ads_list').css('margin-left','0px');
 					var current = jq('.bubble_active');
 					var next = current.next().length>0 ? current.next() : jq('.bubble_item:first');
 					current.removeClass('bubble_active');
 					next.addClass('bubble_active');
-					timer = setInterval(function(){next_ad();},2000);
+					timer = setInterval(function(){next_ad();},2500);
 				});
 			}
 		}
-		var timer = setInterval(function(){next_ad();},2000);
+		var timer = setInterval(function(){next_ad();},2500);
 	</script>
 	<!--{if $promot}-->
 	<div class="yingyong_c myScroll" id="promot">
