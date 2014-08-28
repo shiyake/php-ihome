@@ -21,30 +21,30 @@
 		*/
 		});  
 	</script>
+	<!--{if $count}-->
 	<div class="ads">
 		<div class="ads_list_container">
 			<ul class="ads_list" style="width:5208px;">
-				<li class="adv_item 1"><a href="#"><img src="http://placehold.it/868x270&text=1" alt=""></a></li>
-				<li class="adv_item 2"><a href="#"><img src="http://placehold.it/868x270&text=2" alt=""></a></li>
-				<li class="adv_item 3"><a href="#"><img src="http://placehold.it/868x270&text=3" alt=""></a></li>
-				<li class="adv_item 4"><a href="#"><img src="http://placehold.it/868x270&text=4" alt=""></a></li>
-				<li class="adv_item 5"><a href="#"><img src="http://placehold.it/868x270&text=5" alt=""></a></li>
-				<li class="adv_item 6"><a href="#"><img src="http://placehold.it/868x270&text=6" alt=""></a></li>
+				<!--{loop $ads $ad}-->
+				<li class="adv_item"><a href="$ad[url]"><img src="$ad[img]" alt=""></a></li>
+				<!--{/loop}-->
 			</ul>
 		</div>
 		<div><a href="javascript:void(0);" onclick="pre_ad()" class="pre_ad"></a></div>
 		<div><a href="javascript:void(0);" onclick="next_ad()" class="next_ad"></a></div>
 		<div class="ads_index">
 			<ul class="bubble_list">
+				<!--{loop $count $key $value}-->
+				<!--{if $key}-->
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<!--{else}-->
 				<li class="bubble_item bubble_active"><a href="javascript:void(0);"></a></li>
-				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
-				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
-				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
-				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
-				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<!--{/if}-->
+				<!--{/loop}-->
 			</ul>
 		</div>
 	</div>
+	<!--{/if}-->
 	<script>
 		var adWidth = jq('.adv_item').width();
 		function pre_ad() {

@@ -6,7 +6,7 @@ if(!checkperm('managead4app')) {
 	cpmessage('no_authority_management_operation');
 }
 
-if (!empty($_POST['url'])) {
+if (!empty($_POST['action'])) {
 	$id = trim($_POST['id']);
 	$url = empty($_POST['url'])?0:trim($_POST['url']);
 	$img = empty($_POST['img'])?0:trim($_POST['img']);

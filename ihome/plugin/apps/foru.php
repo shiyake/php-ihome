@@ -94,6 +94,14 @@ $hot = array_slice(array_sort($allapps ,'clicktime'),0,$limit);
 $popular = array_slice(array_sort($allapps ,'score'),0,$limit);
 $promot = array_slice(array_sort($allapps ,'tuisong'),0,$limit);
 
+$ads = array();
+$count = array();
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("ad4app")." WHERE state=1");
+while($res = $_SGLOBAL['db']->fetch_array($query))	{
+	$ads[] = $res;
+	$count[] = 1;
+}
+
 
 //我常用的应用
 // $appsids = '0';
