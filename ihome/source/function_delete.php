@@ -205,9 +205,10 @@ function deleteComplains($doids){
 	$flag = 0 ;
 	for($i=0;$i<count($doids);$i++)	{
 		if(isComplainOrNot($doids[$i],$_SGLOBAL['db']))	{
-			$ComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=0 AND ontrack=1 AND doid=".$doids[$i]." GROUP BY atdepartment");
+			$ComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment,MAX(times) level FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=0 AND ontrack=1 AND doid=".$doids[$i]." GROUP BY atdepartment");
 			while($Complain = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
-				$_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num-1 WHERE atuname='$Complain[atdepartment]' AND issend=0");
+				$level = intval($Complain['level']);
+				$_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num-1 WHERE atuname='$Complain[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
 			}
 			//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
 			$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE isreply=0 AND doid=".$doids[$i]);
