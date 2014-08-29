@@ -28,27 +28,27 @@
 	session_start();
 		 
 	//获取服务器端原来session记录的username,并且根据客户端传过来的username比较进行验证操作
-	$sess_username=$_SESSION['username'];
+	// $sess_username=$_SESSION['username'];
 	 
-	if($username==$sess_username){
-		//verifyright();	 
-		$_SGLOBAL['supe_uid'] = $userid;
-		$_SGLOBAL['supe_username'] = $username;
-		$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$userid'");
-	    if($value = $_SGLOBAL['db']->fetch_array($query)){
-			$password = addslashes($value['password']);
-			$setarr = array(
-				'uid'=>$userid,
-				'username'=>$username,
-				'password' => $password
-			);
-			insertsession($setarr);
-		}else{
-			verifyerror();
-		}
-	} else {
-		verifyerror();	 
-	}
+	// if($username==$sess_username){
+	// 	//verifyright();	 
+	// 	$_SGLOBAL['supe_uid'] = $userid;
+	// 	$_SGLOBAL['supe_username'] = $username;
+	// 	$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$userid'");
+	//     if($value = $_SGLOBAL['db']->fetch_array($query)){
+	// 		$password = addslashes($value['password']);
+	// 		$setarr = array(
+	// 			'uid'=>$userid,
+	// 			'username'=>$username,
+	// 			'password' => $password
+	// 		);
+	// 		insertsession($setarr);
+	// 	}else{
+	// 		verifyerror();
+	// 	}
+	// } else {
+	// 	verifyerror();	 
+	// }
 	function verifyright(){
 		$arr = array(
 			'flag'=>'success',
