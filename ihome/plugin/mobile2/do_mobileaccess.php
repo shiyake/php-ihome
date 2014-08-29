@@ -20,6 +20,7 @@
 	if($value = $_SGLOBAL['db']->fetch_array($query)){
 		$uid = $value['uid'];
 		$sessionid = session_id();
+		$_SGLOBAL['db']->query("UPDATE ".UC_DBTABLEPRE."members SET m_online=1 where uid=$uid");
 		//echo $sessionid."aaaaa";exit();
 		$_SESSION['username'] = $username;
 		
