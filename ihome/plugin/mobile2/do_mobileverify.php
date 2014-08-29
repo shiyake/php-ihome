@@ -6,12 +6,18 @@
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
 
-	$userid=trim($_POST["sess_userid"]);
+	$userid=intval(trim($_POST["sess_userid"]));
 	$username=trim($_POST["sess_username"]);
 	//获取客户端传递的session标识
 	$sessionid=trim($_POST["sess_sessionid"]);
 
-	if(!$userid || !$username || !$sessionid){
+	$m_online = 0;
+	$query = $_SGLOBAL['db']->query("SELECT m_online FROM ".UC_DBTABLEPRE."members WHERE uid=".$userid);
+	if ($result = $_SGLOBAL['db']->fetch_array($query)) {
+		$m_online = intval($result['m_online']);
+	}
+
+	if(!$userid || !$username || !$m_online){
 		verifyerror();
 		exit();
 	}
