@@ -400,7 +400,7 @@
 		<!--{template space_olym_medal}-->
 		<!--{/if}-->
 
-
+<!-- 
 		<div class="sidebox">
 			<h4 class="title">热门标签</h4>
 			<div id="tagcloud" style="width:186px;height:186px;">
@@ -408,18 +408,39 @@
 		</div>
 		<script type="text/javascript" charset="$_SC[charset]">
 			var words = [
-			<!--{if $tags}-->
-			<!--{loop $tags $key $value}-->
+			{if $tags}
+			{loop $tags $key $value}
 				{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=$value['intend']"}
-				<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
-					<!--{/loop}-->
-				<!--{/if}-->];
+				{if $key < count($tags) - 1},{/if}
+					{/loop}
+				{/if}];
 				jq(function(){
 					jq('#tagcloud').jQCloud(words,{
 						delayedMode:true
 					});
 				});
 		</script>
+ -->
+		<!--{if $hotevent}-->
+		<div class="sidebox">
+			<h4 class="title" style="margin-bottom:12px">
+				微博热门事件
+			</h4>
+			<ul class="topic-coment">
+				<!--{loop $hotevent $key $value}-->
+				<li class="topic-li topic-page-0 " data-num="0">
+					<div class="topic-item">
+						<a href="http://ring.cnbigdata.org/isearch?wd=$value"	target="_blank" class="hot-item-link">
+							<em class="rank topic-icon-$key"></em>
+							<em class="topic-item-content" title="$value">$value</em>
+						</a>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
 	<div class="sidebox">
 
 		<h4 class="title" style="margin-bottom:12px">
