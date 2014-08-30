@@ -81,7 +81,7 @@
 			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>申请时间</td><td>处理操作</td>
 			</tr>
 		<!--{loop $apply $value}-->
-			<tr><td>$value['username']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td><!--{eval echo date('Y-m-d H:m:s',$value['dataline'])}--></td><td><a href="space.php?do=friend&view=confirmoverseas&uid=%27{$value['uid']}%27&type=overseas">通过</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27{$value['uid']}%27&type=overseas">拒绝</a></td></tr>
+			<tr><td>$value['username']</td><td>$value['birthday']</td><td>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td><!--{eval echo date('Y-m-d H:i:s',$value['dataline'])}--></td><td><a href="space.php?do=friend&view=confirmoverseas&uid=%27{$value['uid']}%27&type=overseas">通过</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseoverseas&uid=%27{$value['uid']}%27&type=overseas">拒绝</a></td></tr>
 		<!--{/loop}-->
 		</table>
 		</div>
@@ -91,7 +91,7 @@
 			<tr>
 			<td>登录名</td><td>生日</td><td>年级</td><td>学院</td><td>国家</td><td>所在学校</td><td>处理时间</td>
 			<td>处理人</td></tr>
-		<!--{loop $passdeny $value}--><tr><td style="text-align: left;"><!--{if $value['cer'] == 1}--><span class="glyphicon glyphicon-ok"></span><!--{else}--><span class="glyphicon glyphicon-remove"></span><!--{/if}-->&nbsp;&nbsp;$value['username']</td><td>$value['birthday']</td><td style='word-break: normal;'>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td style='word-break: normal;'><!--{eval echo date('Y-m-d H:m:s',$value['passline'])}--></td><td><!--{eval echo getUsername($value['pass_uid'],$_SGLOBAL['db'])}--></td></tr>
+		<!--{loop $passdeny $value}--><tr><td style="text-align: left;"><!--{if $value['cer'] == 1}--><span class="glyphicon glyphicon-ok"></span><!--{else}--><span class="glyphicon glyphicon-remove"></span><!--{/if}-->&nbsp;&nbsp;$value['username']</td><td>$value['birthday']</td><td style='word-break: normal;'>$value['startyear']</td><td>$value['academy']</td><td>$value['country']</td><td>$value['school']</td><td style='word-break: normal;'><!--{eval echo date('Y-m-d H:i:s',$value['passline'])}--></td><td><!--{eval echo getUsername($value['pass_uid'],$_SGLOBAL['db'])}--></td></tr>
 		<!--{/loop}-->
 		</table>
 		</div>

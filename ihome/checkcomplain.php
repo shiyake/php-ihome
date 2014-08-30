@@ -99,7 +99,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 					$uid = $UpUserArray['dept_uid'];
 					$atuname = $result['atuname'];
 					$isIgnoreWeekend = 0;
-					addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend);
+					addMobileMsg($tomobile ,$content ,$uid ,$atuname, 3, $isIgnoreWeekend);
 				}
 				
 				break;
@@ -120,7 +120,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 				$uid = $UpUserArray['dept_uid'];
 				$atuname = $result['atdepartment'];
 				$isIgnoreWeekend = 1;
-				addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend);
+				addMobileMsg($tomobile ,$content ,$uid ,$atuname , 7, $isIgnoreWeekend);
 				
 				$Department = isDepartment($result['atdeptuid'] ,0);
 				$up_arr = explode("," , $Department['up_uid']);
@@ -135,7 +135,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 					$uid = $BC_Array['dept_uid'];
 					$atuname = $result['atdepartment'];
 					$isIgnoreWeekend = 0;
-					addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend);
+					addMobileMsg($tomobile ,$content ,$uid ,$atuname , 3, $isIgnoreWeekend);
 				}
 				break;
 
@@ -155,7 +155,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 				$uid = $UpUserArray['dept_uid'];
 				$atuname = $result['atdepartment'];
 				$isIgnoreWeekend = 1;
-				addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend);
+				addMobileMsg($tomobile ,$content ,$uid ,$atuname , 10, $isIgnoreWeekend);
 				
 				$Department = isDepartment($result['atdeptuid'] ,0);
 				$up_arr = explode("," , $Department['up_uid']);
@@ -170,12 +170,13 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 					$uid = $BC_Array['dept_uid'];
 					$atuname = $result['atdepartment'];
 					$isIgnoreWeekend = 0;
-					addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend);
+					addMobileMsg($tomobile ,$content ,$uid ,$atuname , 3, $isIgnoreWeekend);
 				}
 				break;
 		}
 		echo '通知处理完毕~!<br />';
 		//将已报告上级的原投诉记录标记为过期
+		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET ontrack=1 WHERE doid='$result[doid]'");
 		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET expire=1 WHERE id='$result[id]' AND isreply=0");
 		echo '原纪录已标记为过期~!<br />';
 	}
@@ -311,7 +312,7 @@ function sendMobileMsg(){
 
 
 
-function addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend = 0){
+function addMobileMsg($tomobile ,$content ,$uid ,$atuname , $level, $isIgnoreWeekend = 0){
 	GLOBAL $_SGLOBAL;
 	$Msg = $_SGLOBAL['db']->query("SELECT msgid FROM ".tname('mobilemsg')." WHERE atuname='$atuname' AND issend=0 AND uid='$uid'");
 	if($MsgArray = $_SGLOBAL['db']->fetch_array($Msg)){
@@ -328,7 +329,8 @@ function addMobileMsg($tomobile ,$content ,$uid ,$atuname ,$isIgnoreWeekend = 0)
 			'addtime' => $nowtime,
 			'sendtime' => $sendtime,
 			'num' => 1,
-			'atuname' => $atuname
+			'atuname' => $atuname,
+			'level' => $level
 		);
 		//入库
 		inserttable('mobilemsg', $MobileMsg, 0);

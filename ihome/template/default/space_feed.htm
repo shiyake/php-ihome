@@ -13,14 +13,12 @@
 		background-color: #227D51;
 	}
 	.toast_button {
+		color: #227D51;
 		background-color: #fff;
 		border:none;
 		margin-top:10px;
 		border-radius:5px;
 		margin-left:25px;
-	}
-	.toast_button a {
-		color: #227D51;
 	}
 	#no_more_again {
 		margin-right:50px;
@@ -45,7 +43,7 @@
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         }
-        toastr.info('您正在国外吧？完善您所在的国家和学校信息，方便我们更好的服务您。<button id="no_more_again" class="toast_button"><a>不再显示</a></button><button class="toast_button"><a href="cp.php">完善信息</a></button>');
+        toastr.info('您正在国外吧？完善您所在的国家和学校信息，方便我们更好的服务您。<a><button id="no_more_again" class="toast_button">不再显示</button></a><a href="cp.php"><button class="toast_button">完善信息</button></a>');
         jq2('#no_more_again').click(function(){
             localStorage.no_more_again = 'yes'; 
             });
@@ -299,12 +297,14 @@
 		<li id="ours" style="width:102px;text-align:center;" class="active">
 		<a href="#tab1">新鲜事</a>
 		</li>
+		<!--{if $_SGLOBAL['supe_isParent'] == 0}-->
 		<li id="public" style="width:102px;text-align:center;">
 		<a href="#tab2">公开新鲜事</a>
 		</li>
 		<li id="work" style="width:102px;text-align:center;">
 		<a href="#tab3">思政新鲜事</a>
 		</li>
+		<!--{/if}-->
 	</ul>
 	<span class="r_option" style="position: relative;top: -29px;">
 		<a href="space.php?do=recommendation">精彩推荐</a>
@@ -400,7 +400,7 @@
 		<!--{template space_olym_medal}-->
 		<!--{/if}-->
 
-
+<!-- 
 		<div class="sidebox">
 			<h4 class="title">热门标签</h4>
 			<div id="tagcloud" style="width:186px;height:186px;">
@@ -408,18 +408,39 @@
 		</div>
 		<script type="text/javascript" charset="$_SC[charset]">
 			var words = [
-			<!--{if $tags}-->
-			<!--{loop $tags $key $value}-->
+			{if $tags}
+			{loop $tags $key $value}
 				{text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=$value['intend']"}
-				<!--{if $key < count($tags) - 1}-->,<!--{/if}-->
-					<!--{/loop}-->
-				<!--{/if}-->];
+				{if $key < count($tags) - 1},{/if}
+					{/loop}
+				{/if}];
 				jq(function(){
 					jq('#tagcloud').jQCloud(words,{
 						delayedMode:true
 					});
 				});
 		</script>
+ -->
+		<!--{if $hotevent}-->
+		<div class="sidebox">
+			<h4 class="title" style="margin-bottom:12px">
+				微博热门事件
+			</h4>
+			<ul class="topic-coment">
+				<!--{loop $hotevent $key $value}-->
+				<li class="topic-li topic-page-0 " data-num="0">
+					<div class="topic-item">
+						<a href="http://ring.cnbigdata.org/isearch?wd=$value"	target="_blank" class="hot-item-link">
+							<em class="rank topic-icon-$key"></em>
+							<em class="topic-item-content" title="$value">$value</em>
+						</a>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
 	<div class="sidebox">
 
 		<h4 class="title" style="margin-bottom:12px">
@@ -441,11 +462,11 @@ showcalendar();
 </script>
 <div class="sidebox">
 	<h4 class="title" style="margin-bottom:12px">
-		<p class="r_option" style="padding-right:10px;margin-top:2px;">
+		<p class="r_option" style="margin-top:2px;">
 		<!--{if $isLeader}-->
-		<a href="plugin.php?pluginid=complain" style="margin-right:-12px;line-height:25px;" target="_blank">我管理的</a>
+		<a href="plugin.php?pluginid=complain" target="_blank">我管理的</a>
 		<!--{else}-->
-		<a style="margin-right:-10px;line-height:25px;" href="space.php?uid=$space[uid]&do=feed&view=complain">我的</a>
+		<a href="space.php?uid=$space[uid]&do=feed&view=complain">我的</a>
 		<!--{/if}-->
 		</p>
 		诉求信息

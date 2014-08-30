@@ -21,6 +21,7 @@
 include_once('./common.php');
 include_once(S_ROOT.'./data/data_magic.php');
 
+
 //是否关闭站点
 checkclose();
 
@@ -325,7 +326,28 @@ if($rows = $_SGLOBAL['db']->fetch_array($query))	{
 	else $_SGLOBAL['overseas_tip'] = 'always';
 }
 
+$hasShortcut = TRUE;
+$shortcuts = array();
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." JOIN ".tname('apps')." WHERE ".tname('apps_users').".shortcut=1 AND ".tname('apps_users').".uid=$_SGLOBAL[supe_uid] AND ".tname('apps').".id=".tname('apps_users').".appsid");
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
+	$shortcuts []= $value;
+}
+if (empty($shortcuts)) {
+	$hasShortcut = FALSE;
+}
+
 //处理
+//parent
+@include_once('./source/cp_parent_func.php');
+global $_PARENT;
+initStudent();
+initParent();
+initParentFlag();
+
+if($_SGLOBAL['supe_isParent']){
+	$_SGLOBAL['newbie'] = 0;
+}
 include_once(S_ROOT."./source/space_{$do}.php");
 
 //echo Pinyin($friends,2);

@@ -30,7 +30,7 @@
 		<!--{if $value[uid] && empty($_TPL[hidden_more])}-->
 			<!--{/if}-->
 			  <p>$value[title_template]</p>
-		<!--{if !empty($value['body_general'])}-->
+		<!--{if $value['icon']=='share'}-->
         <!--{if $value['body_general']}-->
         <!--{eval $value['body_general']=stripslashes($value['body_general'])}-->
         <p>$value[body_general]</p>
@@ -196,7 +196,7 @@
 			</div>
 			<!--{/if}-->
 		</div>
-		<!--{if $value['body_general']}-->
+		<!--{if $value['icon']=='share'}-->
 		</div>
 		<!--{/if}-->
 		<div id="reply_content">

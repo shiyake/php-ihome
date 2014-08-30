@@ -15,7 +15,7 @@ if($category = $_GET['category'])
 else
 	$category = 0;
 if($orderby = $_GET['orderby'])
-	$order = "ORDER BY $orderby DESC";
+	$order = "ORDER BY $orderby DESC, usernumber DESC";
 else
 	$order = '';
 	
@@ -40,6 +40,11 @@ $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE $listsql 
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
 	$list[] = $value;
+}
+$typeName = '全部';
+$types = array('','教学类','科研类','财务类','人力资源类','资产类','生活服务类','其他');
+if ($type) {
+	$typeName = $types[$type];
 }
 include_once template("/plugin/apps/list");
 
