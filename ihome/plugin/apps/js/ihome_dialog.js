@@ -30,6 +30,7 @@ function resetDialog(){
 	} 
 	msg_box.css("width" , msgWidth + "px");
 	msg_box.css("height" , "auto");
+	msg_box.css("position", "absolute");
 }
 
 

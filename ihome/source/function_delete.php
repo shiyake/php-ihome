@@ -103,6 +103,7 @@ function deletearrangements($arrangementids) {
 	//É¾³ýfeed
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('feed')." WHERE id IN (".simplode($newarrangementids).") AND idtype='arrangementid'");
 	
+	clearRelatedShares($newarrangementids,"arrangement");
 	return $arrangements;
 }
 
@@ -162,6 +163,7 @@ function deleteblogs($blogids) {
 	//É¾³ý½ÅÓ¡
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('clickuser')." WHERE id IN (".simplode($newblogids).") AND idtype='blogid'");
 
+	clearRelatedShares($newblogids,"blog");
 	return $blogs;
 }
 
@@ -173,12 +175,14 @@ function deletefeeds($feedids) {
 	$managebatch = checkperm('managebatch');
 	
 	$delnum = 0;
-	$feeds = $newfeedids = array();
+	$feeds = $newfeedids = $newdoids = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE feedid IN (".simplode($feedids).")");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($allowmanage || $value['uid'] == $_SGLOBAL['supe_uid']) {//¹ÜÀíÔ±/×÷Õß
 			$newfeedids[] = $value['feedid'];
-			$newdoids[] = $value['id'];
+			if ($value['icon']=='doing') {
+				$newdoids[] = $value['id'];
+			}
 			if(!$managebatch && $value['uid'] != $_SGLOBAL['supe_uid']) {
 				$delnum++;
 			}
@@ -193,9 +197,11 @@ function deletefeeds($feedids) {
 	//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
 	//$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid IN (".simplode($newdoids).")");
 	
-	deleteComplains($newdoids);
+	// deleteComplains($newdoids);
 
-	
+	if (!empty($newdoids)) {
+		deletedoings($newdoids);
+	}
 	
 	return $feeds;
 }
@@ -304,6 +310,7 @@ function deletedoings($ids) {
 	//$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid IN (".simplode($newdoids).")");
 	deleteComplains($newdoids);
 	
+	clearRelatedShares($newdoids,"doing");
 	
 	return $doings;
 }
@@ -363,6 +370,7 @@ function deletethreads($tagid, $tids) {
 	//É¾³ý½ÅÓ¡
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('clickuser')." WHERE id IN (".simplode($newids).") AND idtype='tid'");
 
+	clearRelatedShares($newids,"thread");
 	return $delthreads;
 }
 
@@ -745,6 +753,7 @@ function deletepics($picids) {
 	//É¾³ýÍ¼Æ¬
 	deletepicfiles($pics);
 
+	clearRelatedShares($newids,"pic");
 	return $delpics;
 }
 
@@ -841,7 +850,7 @@ function deletealbums($albumids) {
 	if($pics) {
 		deletepicfiles($pics);//É¾³ýÍ¼Æ¬
 	}
-
+	clearRelatedShares($newids,"album");
 	return $dels;
 }
 
@@ -855,6 +864,7 @@ function deletetags($tagids) {
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('tagblog')." WHERE tagid IN (".simplode($tagids).")");
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('tag')." WHERE tagid IN (".simplode($tagids).")");
 
+	clearRelatedShares($tagids,"tag");
 	return true;
 }
 
@@ -881,6 +891,8 @@ function deletemtag($tagids) {
 
 	//É¾³ý¾Ù±¨
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('report')." WHERE id IN (".simplode($newids).") AND idtype='tagid'");
+
+	clearRelatedShares($newids,"mtag");
 	return $dels;
 }
 
@@ -1034,6 +1046,7 @@ function deletepolls($pids) {
 	//É¾³ý¾Ù±¨
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('report')." WHERE id IN (".simplode($newpids).") AND idtype='pid'");
 	
+	clearRelatedShares($newpids,"poll");
 	return $polls;
 	
 }
@@ -1095,7 +1108,28 @@ function deleteevents($eventids){
 		$_SGLOBAL['db']->query("INSERT INTO ".tname('notification')." (`uid`, `type`, `new`, `authorid`, `author`, `note`, `dateline`) VALUES ".implode(',', $note_inserts));
 		$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid IN (".simplode($note_ids).")");
 	}
+
+	clearRelatedShares($neweventids,"event");
 	return $eventarr;
+}
+
+function clearRelatedShares($ids,$type){
+    global $_SGLOBAL;
+
+	$types = array("album","arrangement","blog","doing","event","flash","link","mtag","music","pic","poll","space","tag","thread","video");
+	if (!in_array($type, $types) || empty($ids)) {
+		return false;
+	}
+
+	$sids = array();
+	$query = $_SGLOBAL['db']->query("SELECT sid FROM ".tname('share')." WHERE type='".$type."' AND id IN (".simplode($ids).")");
+	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		$sids[] = $value['sid'];
+	}
+	if (!empty($sids)) {
+		$_SGLOBAL['db']->query("UPDATE ".tname('share')." SET body_template='对不起，该分享已经被删除',body_data='',image='',image_link='' WHERE sid IN (".simplode($sids).")");
+		$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET body_template='对不起，该分享已经被删除',body_data='',image_1='',image_1_link='',image_2='',image_2_link='',image_3='',image_3_link='',image_4='',image_4_link='' WHERE icon='share' AND id IN (".simplode($sids).")");
+	}
 }
 
 ?>
