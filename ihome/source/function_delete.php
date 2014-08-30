@@ -175,12 +175,14 @@ function deletefeeds($feedids) {
 	$managebatch = checkperm('managebatch');
 	
 	$delnum = 0;
-	$feeds = $newfeedids = array();
+	$feeds = $newfeedids = $newdoids = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE feedid IN (".simplode($feedids).")");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($allowmanage || $value['uid'] == $_SGLOBAL['supe_uid']) {//¹ÜÀíÔ±/×÷Õß
 			$newfeedids[] = $value['feedid'];
-			$newdoids[] = $value['id'];
+			if ($value['icon']=='doing') {
+				$newdoids[] = $value['id'];
+			}
 			if(!$managebatch && $value['uid'] != $_SGLOBAL['supe_uid']) {
 				$delnum++;
 			}
@@ -195,9 +197,11 @@ function deletefeeds($feedids) {
 	//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
 	//$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid IN (".simplode($newdoids).")");
 	
-	deleteComplains($newdoids);
+	// deleteComplains($newdoids);
 
-	
+	if (!empty($newdoids)) {
+		deletedoings($newdoids);
+	}
 	
 	return $feeds;
 }
