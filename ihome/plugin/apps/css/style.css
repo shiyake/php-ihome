@@ -443,3 +443,33 @@ a.selected {
 .bubble_item.bubble_active>a {
 	background: url(../images/bubble_active.png) center center no-repeat;
 }
+#msg {
+	width: 370px;
+}
+.fx_c_t_l {
+	font-size: 18px;
+	font-weight: bold;
+}
+#msg-box {
+	background-color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: 1px solid #BBB;
+}
+#handel .fx_c_t_l {
+	margin-bottom: 10px;
+}
+#iauth_content .fx_neirong_c_c {
+	width: 100%;
+}
+.fx_neirong_c_c .btn {
+	margin-top: -25px;
+	border: none;
+	color: #FFF;
+	background-color: #65d8bb;
+	font-size: 10px;
+}
+ .fx_neirong_c_c .btn:hover, .fx_neirong_c_c .btn:active, .fx_neirong_c_c .btn:focus  {
+	color: #FFF;
+	background-color: #2fb895;
+}
