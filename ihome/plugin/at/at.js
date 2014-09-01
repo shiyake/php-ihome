@@ -9,7 +9,7 @@ jq(document).ready(function(){
             jq('textarea#message,textarea#comment_message').atWho('@',{
                 data:friends,
                 limit:10,
-                tpl: "<li rel='tooltip' data-placement='right' data-toggle='tooltip' title='${name}' data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
+                tpl: "<li data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
                 choose: "data-insert"
             });
         });
@@ -33,7 +33,7 @@ jq(document).ready(function(){
                 jq('textarea#message,textarea#comment_message').atWho('@',{
                     data:friends,
                     limit:10,
-                    tpl: "<li rel='tooltip' data-placement='right' data-toggle='tooltip' title='${name}' data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
+                    tpl: "<li data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
                     choose: "data-insert"
                 });
             });

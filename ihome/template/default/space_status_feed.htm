@@ -460,7 +460,7 @@ status message end-->
 				    </label>
                 </div>
                 <div class="pull-right">
-                	<a class="complain_tip" href="javascript:void(0);" style="display:none;" onclick="(function(){setTimeout(function(){var temp_com = jq('#message');temp_com.val(temp_com.val()+'@');temp_com[0].selectionStart = temp_com[0].selectionEnd = temp_com[0].value.length;temp_com.trigger('mouseup');remove();},300);})();">请键入@，并选择诉求部门</a>
+                	<a class="complain_tip" href="javascript:void(0);" style="display:none;" onclick="(function(){setTimeout(function(){var temp_com = jq('#message');temp_com.focus();temp_com.val(temp_com.val()+'@');temp_com[0].selectionStart = temp_com[0].selectionEnd = temp_com[0].value.length;temp_com.trigger('mouseup');jQuery('.complain_tip').remove();},300);})();">请键入@，并选择诉求部门</a>
 	                <div class="mood_submit">
 	                    <button type="submit" id="add" name="add" >发布</button>
 	                </div>
