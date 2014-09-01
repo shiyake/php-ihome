@@ -15,6 +15,7 @@ $upvote = $_GET['upvote'] ? trim($_GET['upvote']) : 0;
 
 parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $preURL);
 $preAc = $preURL['ac']?$preURL['ac']:'list';
+$category = $preURL['category']?$preURL['category']:'0';
 
 //app的基本信息
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id='$appsid' OR iauth_id='$appsid'");
