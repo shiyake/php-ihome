@@ -24,6 +24,7 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     realname_set($value['applyuid'], $value['uname']);
     $app = $value;
     $appsid = $app['id'];
+    $accessible = $isSchoolNET || $app['category']==3;
 }else{
     showmessage('对不起，不存在该应用~!','plugin.php?pluginid=apps');
     exit();
