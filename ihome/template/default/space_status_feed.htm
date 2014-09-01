@@ -120,8 +120,12 @@ jQuery(function ($) {
 
         if (type.hasClass('status')) {
             jQuery("#add").removeClass("askbag");
+            // jQuery(".complain_pub").hide();
+            jQuery(".complain_tip").hide();
         } else {
             jQuery("#add").addClass("askbag");
+            // jQuery(".complain_pub").show();
+            jQuery(".complain_tip").show();
         }
 
 		jqComplain.val(type.hasClass("status") ? '0' : '1');
@@ -450,13 +454,13 @@ status message end-->
                     </div>
                     <div id="friends_list_box"></div>
                 </div>
-                <div class="complain_pub">
+                <div class="complain_pub" style="display:none;">
 				    <label>
-				      <input type="checkbox" checked="checked"> 公开诉求
+				      <input id="comp_pub" name="comp_pub" type="checkbox" checked="checked" value="yes"> 公开诉求
 				    </label>
                 </div>
                 <div class="pull-right">
-                	<a class="complain_tip" href="javascript:void(0);" onclick="(function(){var temp_com = jq('#message');temp_com.val(temp_com.val()+'@');temp_com[0].selectionStart = temp_com[0].selectionEnd = temp_com[0].value.length;temp_com.trigger('mouseup');})();">请键入@，并选择诉求部门</a>
+                	<a class="complain_tip" href="javascript:void(0);" style="display:none;" onclick="(function(){setTimeout(function(){var temp_com = jq('#message');temp_com.val(temp_com.val()+'@');temp_com[0].selectionStart = temp_com[0].selectionEnd = temp_com[0].value.length;temp_com.trigger('mouseup');remove();},300);})();">请键入@，并选择诉求部门</a>
 	                <div class="mood_submit">
 	                    <button type="submit" id="add" name="add" >发布</button>
 	                </div>
