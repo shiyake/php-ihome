@@ -395,6 +395,7 @@ if(empty($op))
 									$eduinfo = array('uid' => $newuid, 'type'=>'edu', 'title' => '北京航空航天大学', 'subtitle'=>$value['academy'].$value['startyear'].'级'.$value['class'].'班', 'startyear'=>$value['startyear']);
 									$tagname = $value['startyear'].'年'.$value['class'].'班';				
 									auto_join($newuid, $tagname, $_SGLOBAL['db']);
+
 									inserttable('spaceinfo', $eduinfo, 1);
 									}
 								}

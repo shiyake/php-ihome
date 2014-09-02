@@ -2449,6 +2449,7 @@ function runlog($file, $log, $halt=0) {
 
 		$tagid=sactag ($tagname,$db);
 		jointag ( $uid , $tagid ,$db);
+		return $tagid;
 	}
 
 	function joinArea($uid,$tagname , $db) {
@@ -2594,6 +2595,71 @@ function runlog($file, $log, $halt=0) {
 		$tagid = tagGrade4($school,$_SGLOBAL['db']);
 
 		jointag($uid,$tagid,$_SGLOBAL['db']);
+	}
+
+	function isAsst($uid) {
+		global $_SGLOBAL,$_SCONFIG;
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('asst')." WHERE uid=$uid AND state=1 AND passed=1");
+		if ($_SGLOBAL['db']->fetch_array($query)) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	function getGroupAsst($tagid) {
+		global $_SGLOBAL,$_SCONFIG;
+		$arr = array();
+		$query = $_SGLOBAL['db']->query("SELECT * FROM " .tname('tagspace'). " WHERE tagid='$tagid' AND grade>7");
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			if (isAsst($value['uid'])) {
+				$arr[] = $value['uid'];
+			}
+		}
+		return $arr;
+	}
+
+	function tagGroupAsst($uid, $startyear, $academy) {
+		global $_SGLOBAL,$_SCONFIG;
+		$arr = array(
+				'材料科学与工程学院' => '01',
+				'电子信息工程学院' => '02',
+				'自动化科学与电气工程学院' => '03',
+				'能源与动力工程学院' => '04',
+				'航空科学与工程学院' => '05',
+				'计算机学院' => '06',
+				'机械工程及自动化学院' => '07',
+				'经济管理学院' => '08', 
+				'数学与系统科学学院' => '09',
+				'生物医学工程系' => '10',
+				'人文社会科学学院' => '11',
+				'外国语学院' => '12',
+				'交通科学与工程学院' => '13',
+				'可靠性与系统工程学院' => '14',
+				'宇航学院' => '15',
+				'飞行学院' => '16',
+				'仪器科学与光电工程学院' => '17',
+				'物理科学与核能工程学院' => '19',
+				'法学院' => '20',
+				'软件学院' => '21',
+				'继续教育学院' => '22',
+				'高等工程学院' => '23',
+				'中法工程师学院' => '24',
+				'国际学院' => '25',
+				'新媒体艺术与设计学院' => '26',
+				'化学与环境学院' => '27'
+			);
+		$tagname = $startyear.'年'.substr($startyear, 2).$arr[$academy].'大班';
+		$tagid=sactag($tagname, $_SGLOBAL['db']);
+		if ($tagid != -1) {
+			jointag($uid,$tagid,$_SGLOBAL['db']);
+			$query = $_SGLOBAL['db']->query("SELECT * FROM " .tname('tagspace'). " WHERE tagid='$tagid' AND uid='$uid'");
+			if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+				if (!$value['grade']) {
+					$_SGLOBAL['db']->query("UPDATE " .tname('tagspace'). " SET grade=8 WHERE tagid='$tagid' AND uid='$uid'");
+				}
+			}
+		}
+		return $tagid;
 	}
 	//已知群组名，查找群组，如果不存在，建立新群组，返回群组号//群组为区域群组,
 	function tagArea ($mtagname ,$db) {
