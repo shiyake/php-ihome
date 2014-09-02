@@ -1,0 +1,31 @@
+<!--{eval $_TPL['titles']=array('记录');}-->
+<!--{template header}-->
+
+<div id="content" style="border-right: none;">
+<h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_zuji.png">诉求</h4>
+<div class="tabs_header">
+    <ul class="tabs">
+        <li$actives[me] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的诉求</span></a></li>
+        <li$actives[all] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
+    </ul>
+</div>
+<!--{if $clist}-->
+<div id="complain_list">
+    <ol>
+    <!--{loop $clist $cp}-->
+    <!--{eval $cid = $cp[id];}-->
+        <li id="c{$cid}" class="s_clear">
+        <span>$cp[atuname]</span>
+        </li>
+    <!--{/loop}-->
+    </ol>
+    <div class="page" style="margin-bottom: 10px;">$multi</div>
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+现在还没有投诉
+</p>
+<!--{/if}-->
+<!--{template footer}-->
