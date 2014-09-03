@@ -236,9 +236,22 @@ elseif ($_GET['view']=='confirmasst')	{
 			showmessage('未知错误');
 		}
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
-		if ($_SGLOBAL['db']->fetch_array($query)) {
+		if ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			//记录审批时间
 			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' , state=1, passed=1  WHERE passed=0 and uid='$uid'");
+			if ($value['degree'] == '本科') {
+				$tagid = tagGroupAsst($uid,$value['year'],$value['academy']);
+				if ($tagid != -1) {
+					$q = $_SGLOBAL['db']->query("SELECT username FROM ".tname('space')." WHERE uid='$uid'");
+					if ($v = $_SGLOBAL['db']->fetch_array($q)) {
+						$username = $v['username'];
+						$query = $_SGLOBAL['db']->query("SELECT uid,username FROM " .tname('tagspace'). " WHERE tagid='$tagid' AND uid!='$uid'");
+						while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+							friend_update($uid, $username, $value['uid'], $value['username'], 'invite');
+						}
+					}
+				}
+			}
 
 			$setarr = array(
 				'uid' => $uid,

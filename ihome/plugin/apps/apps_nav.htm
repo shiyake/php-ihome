@@ -5,7 +5,8 @@
 	<ul id="apps_nav_header" class="nav nav-tabs nav-justified">
 	  <li style="width:102px;text-align:center;" class="nav_li<!--{if $ac=='foru'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps">服务首页</a></li>
 	  <li style="width:102px;text-align:center;" class="nav_li<!--{if $ac=='mine' || $preAc=='mine'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=mine&orderby=usernumber">我的服务</a></li>
-	  <li style="width:102px;text-align:center;" class="nav_li<!--{if $ac=='list' || $preAc=='list'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=list&orderby=usernumber">全部服务</a></li>
+	  <li style="width:102px;text-align:center;" class="nav_li<!--{if ($ac=='list' && $category!='3')  || ($preAc=='list' && $category!='3')}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=list&orderby=usernumber">全部服务</a></li>
+	  <li style="width:120px;text-align:center;" class="nav_li<!--{if $category=='3'}--> li_active<!--{/if}-->"><a href="plugin.php?pluginid=apps&ac=list&category=3&orderby=usernumber">第三方服务</a></li>
 	</ul>
 
 	<div class="apps_search" style="position:absolute;top:0;right:12px;">

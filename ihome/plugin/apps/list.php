@@ -5,15 +5,15 @@ if($ac != 'list') {
 }
 
 //echo 'OK';exit;
-
 $listsql = "applypass >0 AND ishidden=0";
 if($type = $_GET['type'])
 	$listsql .= " AND type=$type";
 
-if($category = $_GET['category'])
+if($category = $_GET['category']) {
 	$listsql .= " AND category=$category";
-else
+} else {
 	$category = 0;
+}
 if($orderby = $_GET['orderby'])
 	$order = "ORDER BY $orderby DESC, usernumber DESC";
 else

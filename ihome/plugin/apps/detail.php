@@ -15,6 +15,7 @@ $upvote = $_GET['upvote'] ? trim($_GET['upvote']) : 0;
 
 parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $preURL);
 $preAc = $preURL['ac']?$preURL['ac']:'list';
+$category = $preURL['category']?$preURL['category']:'0';
 
 //app的基本信息
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id='$appsid' OR iauth_id='$appsid'");
@@ -23,6 +24,7 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     realname_set($value['applyuid'], $value['uname']);
     $app = $value;
     $appsid = $app['id'];
+    $accessible = $isSchoolNET || $app['category']==3;
 }else{
     showmessage('对不起，不存在该应用~!','plugin.php?pluginid=apps');
     exit();
