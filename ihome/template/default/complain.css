@@ -1,0 +1,17 @@
+.complain_list tbody tr td {
+    border-bottom: 1px solid #dcdcdc;
+}
+.complain_list thead tr td {
+    border-bottom: 1px solid #dcdcdc;
+    color: #333;
+}
+.complain_list table {
+    margin: 5px 0 20px;
+    width: 100%;
+}
+.complain_list td {
+    padding: 8px 10px;
+    color: #777;
+    line-height: 150%;
+    overflow: hidden;
+}
