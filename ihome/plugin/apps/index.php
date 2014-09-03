@@ -31,7 +31,7 @@ if (!in_array($ac, $ac_array)) {
 	$ac = 'foru';
 }
 
-$apps_ad = 1;
+$apps_ad = 0;
 
 $_SGLOBAL['space_theme'] = $space['theme'];
 $_SGLOBAL['space_css'] = $space['css'];
