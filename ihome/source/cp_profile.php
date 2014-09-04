@@ -769,7 +769,8 @@ if($_GET['op'] == 'base') {
 	}
 } elseif ($_GET['op']=='asst') {
 	if(submitcheck('asstsubmit')) {
-		$degree = $_POST['degree'];
+		// $degree = $_POST['degree'];
+		$degree = '本科';
 		$year = $_POST['year'];
 		$academy = $_POST['academy'];
 		$q = $_SGLOBAL['db']->query("SELECT username, name FROM ".tname("space")." WHERE uid=$_SGLOBAL[supe_uid]");

@@ -29,7 +29,7 @@
 	<!--{if $_SGLOBAL['overseas']}-->
 	<a href="cp.php?ac=profile&op=sync"$cat_actives[sync]>同步设置</a>
 	<!--{/if}-->
-	<a href="cp.php?ac=profile&op=asst"$cat_actives[asst]>辅导员认证</a>
+	<a href="cp.php?ac=profile&op=asst"$cat_actives[asst]>本科辅导员认证</a>
 </div>
 
 <!--{eval $farr = array(0=>'全用户','1'=>'仅好友','3'=>'仅自己');}-->
@@ -1096,12 +1096,6 @@ jQuery(function ($) {
 <table cellspacing="0" cellpadding="0" class="formtable">
 <!--{if $asst_verified == 1}-->
 <tr>
-	<th style="width:10em;">类别:</th>
-	<td>
-		<!--{$degree}-->
-	</td>
-</tr>
-<tr>
 	<th style="width:10em;">年级:</th>
 	<td>
 		<!--{$year}-->
@@ -1120,16 +1114,6 @@ jQuery(function ($) {
 	</td>
 </tr>
 <!--{elseif $asst_verified == -1}-->
-<tr>
-	<th style="width:10em;">类别:</th>
-	<td>
-		<select name="degree" id="degree">
-			<option value="本科">本科</option>
-			<option value="硕士">硕士</option>
-			<option value="博士">博士</option>
-		</select>
-	</td>
-</tr>
 <tr>
 	<th style="width:10em;">年级:</th>
 	<td>
@@ -1194,12 +1178,6 @@ jQuery(function ($) {
 </tr>
 <!--{elseif $asst_verified == 0}-->
 <tr>
-	<th style="width:10em;">类别:</th>
-	<td>
-		<!--{$degree}-->
-	</td>
-</tr>
-<tr>
 	<th style="width:10em;">年级:</th>
 	<td>
 		<!--{$year}-->
@@ -1218,16 +1196,6 @@ jQuery(function ($) {
 	</td>
 </tr>
 <!--{else}-->
-<tr>
-	<th style="width:10em;">类别:</th>
-	<td>
-		<select name="degree" id="degree">
-			<option value="本科">本科</option>
-			<option value="硕士">硕士</option>
-			<option value="博士">博士</option>
-		</select>
-	</td>
-</tr>
 <tr>
 	<th style="width:10em;">年级:</th>
 	<td>
