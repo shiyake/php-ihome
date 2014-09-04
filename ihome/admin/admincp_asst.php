@@ -46,6 +46,24 @@ if("change" == $_GET['do'])	{
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$change_uid'");
 			inserttable('notification', $setarr);
 
+			foreach ($apply as $value) {
+				$degree = $value['degree'];
+				$year = $value['year'];
+				$academy = $value['academy'];
+				$applyer = $value['uid'];
+				$setarr = array(
+					'uid' => $change_uid,
+					'type' => "friend",
+					'new' => 1,
+					'authorid' => $applyer,
+					'author' => $value['name'],
+					'note' => "登录名{$value['username']}".'向您发起了'.$degree.$year.'级'.$academy.'辅导员的认证请求<br/><a href="space.php?do=friend&view=confirmasst&uid=%27'.$applyer.'%27&type=asst">通过请求</a><span class="pipe">|</span><a href="space.php?do=friend&view=refuseasst&uid=%27'.$applyer.'%27&type=asst">拒绝</a>',
+					'dateline' => $_SGLOBAL['timestamp']
+				);
+				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$change_uid'");
+				inserttable('notification', $setarr);
+			}
+
 			if ($asstConsulNow) {
 				$setarr = array(
 				'uid' => $asstConsulNow,
