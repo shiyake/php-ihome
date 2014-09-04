@@ -72,6 +72,9 @@ if($resetauthorize){
 }
 
 
+// autoAuth
+$autoAuth = autoAuth($app['iauth_id']);
+
 //是否已经授权该应用
 $isAuthorized = FALSE;
 $hasShortcut = 0;
@@ -81,7 +84,7 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $hasShortcut = intval($value['shortcut']);
 }
 
-if ($isAuthorized && !empty($_GET['shortcut'])) {
+if (($isAuthorized || $autoAuth) && !empty($_GET['shortcut'])) {
     $shortcut = $_GET['shortcut'] == 'add' ? 1 : 0;
     if ($shortcut == $hasShortcut) {
         echo 1;
@@ -134,7 +137,7 @@ if($gotoapp && $isAuthorized){
 }
 
 //授权使用
-if($authorize && !$isAuthorized){
+if(($authorize || $autoAuth) && !$isAuthorized){
     if(!@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php')){
         header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");exit();
     }
@@ -210,8 +213,6 @@ if($authorize && !$isAuthorized){
     }
 }
 
-// autoAuth
-$autoAuth = autoAuth($app['iauth_id']);
 
 function autoAuth($iauth_id)
 {
