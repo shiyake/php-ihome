@@ -28,7 +28,7 @@ li{list-style:none;}
 
 /* 主面板tab */
 .xxim_tabs{height:45px; border-bottom:1px solid #DBDBDB; background-color:#F4F4F4; font-size:0;}
-.xxim_tabs span{position:relative; display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:76px; height:45px; border-right:1px solid #DBDBDB; cursor:pointer; font-size:12px;}
+.xxim_tabs span{position:relative; display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:114px; height:45px; border-right:1px solid #DBDBDB; cursor:pointer; font-size:12px;}
 .xxim_tabs span i{top:13px; left:50%; width:19px; margin-left:-10px; height:18px;}
 .xxim_tabs .xxim_tabnow{height:46px; background-color:#fff;}
 .xxim_tabs .xxim_latechat{border-right:none;}
@@ -59,7 +59,7 @@ li{list-style:none;}
 /* 主面板底部 */
 .xxim_bottom{height:32px; border-top:1px solid #D0DCF3; background-color:#F2F4F8;}
 .xxim_expend{border-left:1px solid #D0DCF3; border-bottom:1px solid #D0DCF3;}
-.xxim_bottom li{position:relative; width:50px; height:32px; line-height:32px; float:left; border-right:1px solid #D0DCF3;  cursor:pointer;}
+.xxim_bottom li{position:relative; width:50%; height:32px; line-height:32px; float:left; border-right:1px solid #D0DCF3;  cursor:pointer;}
 .xxim_bottom li i{ top:11px;}
 .xxim_bottom .xxim_hide{border-right:none;}
 .xxim_bottom .xxim_online{box-sizing:initial;width:42px; padding-left:35px;}
@@ -68,10 +68,10 @@ li{list-style:none;}
 .xxim_setonline span{box-sizing:initial;position:relative; display:block; width:32px; padding:0 10px 0 35px;}
 .xxim_setonline span:hover{background-color:#F2F4F8;}
 .xxim_offline .xxim_nowstate, .xxim_setoffline i{background-position:-35px -5px;}
-.xxim_mymsg i{left:18px; width:13px; height:13px; background-position:-105px -5px;}
+.xxim_mymsg i{left:46%; width:13px; height:13px; background-position:-105px -5px;}
 .xxim_mymsg a{position:absolute; left:0; top:0; width:50px; height:32px;}
 .xxim_seter i{left:18px; width:13px; height:13px; background-position:-84px -5px;}
-.xxim_hide i{left:18px; width:14px; height:14px; background-position:-115px -40px;}
+.xxim_hide i{left:46%; width:14px; height:14px; background-position:-115px -40px;}
 .xxim_show i{background-position:-135px -40px;}
 .xxim_bottom .xxim_on{position:absolute; left:-15px; top:50%; width:13px; height:97px; margin-top:-49px; background-position:-25px -65px;}
 .xxim_bottom .xxim_off{background-position:-5px -65px;}
