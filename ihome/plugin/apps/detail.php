@@ -233,7 +233,7 @@ function autoAuth($iauth_id)
     //define("IAUTH_APP_INFO_PAGE",'http://211.71.14.65/plugin/iauth/debug/appcenter.php?ac=auth');
     define("IAUTH_APP_INFO_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail');
     define("IAUTH_SIMPLE_AUTH_CONFIRM_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail&isConfirm=1');
-    
+
     if(!@include_once(S_ROOT.'./plugin/iauth/IAuthCommon.php')){
         header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");exit();
     }
@@ -241,13 +241,14 @@ function autoAuth($iauth_id)
     if ($iauth_id) {
         try {
             $autoAuth = GetAppInfo($iauth_id.'','auto_auth');
-            showmessage($autoAuth);
+            // showmessage($autoAuth);
         } catch(IAuthException $e) {
             $autoAuth = 0;
             // echo $e->getMessage();
             // exit();
         }
     }
+    return $autoAuth;
 }
 
 //提交评分
