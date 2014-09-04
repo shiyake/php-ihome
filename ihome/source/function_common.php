@@ -567,7 +567,8 @@ function checkperm($permtype) {
 			if(empty($_SGLOBAL['member'])) getmember();
 			$gid = getgroupid($_SGLOBAL['member']['experience'], $_SGLOBAL['member']['groupid']);
 			if(!@include_once(S_ROOT.'./data/data_usergroup_'.$gid.'.php')) {
-				#usergroup_cache();
+	            include_once(S_ROOT.'./source/function_cache.php');
+				usergroup_cache();
 				@include_once(S_ROOT.'./data/data_usergroup_'.$gid.'.php');
 			}
 
@@ -1648,7 +1649,7 @@ function runlog($file, $log, $halt=0) {
 	}
 
 	//处理头像
-	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary,$lazy) {
+	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary='',$lazy='') {
 		global $_SCONFIG, $_SN, $_SGLOBAL;
 		$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'small';
 		$avatarfile = avatar_file($uid, $size);
