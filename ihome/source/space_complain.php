@@ -43,7 +43,6 @@ if ($_GET['type'] == 'running') {
     $wheresql .= ' and status = 2 ';
     $submenus['closed']=' class = "active"';
 } else {
-    $wheresql .= ' and status < 127 ';
     $submenus['all']=' class = "active"';
 }
 echo $wheresql;

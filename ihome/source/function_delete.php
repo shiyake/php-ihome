@@ -208,22 +208,7 @@ function deletefeeds($feedids) {
 
 function deleteComplains($doids){
 	global $_SGLOBAL;
-	$flag = 0 ;
-	for($i=0;$i<count($doids);$i++)	{
-		if(isComplainOrNot($doids[$i],$_SGLOBAL['db']))	{
-			$ComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment,MAX(times) level FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=0 AND ontrack=1 AND doid=".$doids[$i]." GROUP BY atdepartment");
-			while($Complain = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
-				$level = intval($Complain['level']);
-				$_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num-1 WHERE atuname='$Complain[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
-			}
-			//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
-			$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE isreply=0 AND doid=".$doids[$i]);
-			$flag = 1 ;
-		}
-	}
-	if($flag) {
-		showmessage('诉求已删除',$_POST['refer'],0);
-	}
+	$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid in (".simplode($doids).")");
 }
 
 //É¾³ý·ÖÏí
@@ -315,6 +300,7 @@ function deletedoings($ids) {
 	return $doings;
 }
 
+	
 //É¾³ý»°Ìâ
 function deletethreads($tagid, $tids) {
 	global $_SGLOBAL;
