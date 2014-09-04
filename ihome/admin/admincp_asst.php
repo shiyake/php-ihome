@@ -36,9 +36,9 @@ if("change" == $_GET['do'])	{
 		if ($asstConsulNow != $change_uid) {
 			$setarr = array(
 			'uid' => $change_uid,
-			'type' => "friend",
+			'type' => "systemnote",
 			'new' => 1,
-			'authorid' => $_SGLOBAL['supe_uid'],
+			'authorid' => 0,
 			'author' => $name,
 			'note' => '您好，您已成为辅导员申请认证的审核人。',
 			'dateline' => $_SGLOBAL['timestamp']
@@ -49,9 +49,9 @@ if("change" == $_GET['do'])	{
 			if ($asstConsulNow) {
 				$setarr = array(
 				'uid' => $asstConsulNow,
-				'type' => "friend",
+				'type' => "systemnote",
 				'new' => 1,
-				'authorid' => $_SGLOBAL['supe_uid'],
+				'authorid' => 0,
 				'author' => $name,
 				'note' => '您好，您已不再是辅导员申请认证的审核人。',
 				'dateline' => $_SGLOBAL['timestamp']
