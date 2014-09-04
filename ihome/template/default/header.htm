@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" type="text/css" href="template/default/legacy.css"/>
 <link rel="stylesheet" type="text/css" href="template/default/style.css"/>
+<link rel="stylesheet" type="text/css" href="template/default/eventtopic.css"/>
 
 <link href="plugin/bootstrap/dist/css/popupmenu.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
@@ -505,7 +506,15 @@ jq(function(){
                                             return;
                                         }
                                         jq.get("space.php?do=home",function(data) {
-                                            jq("#my_shortcutapp").html(jq(data).find("#my_shortcutapp").html());
+                                            var subs = jq(data).find("#my_shortcutapp").html();
+                                            if (subs === undefined) {
+                                                jq("#my_shortcutapp_toggle+div").remove();
+                                                jq("#my_shortcutapp_toggle+div").remove();
+                                                jq("#my_shortcutapp_toggle").remove();
+                                                jq("#my_shortcutapp").remove();
+                                            } else {
+                                                jq("#my_shortcutapp").html(subs);
+                                            }                                            
                                         });
                                     });
                                 }

@@ -29,6 +29,9 @@
 	border-left: 1px solid #ccc;
 	min-height: 700px;
 }
+.content_full {
+	margin: 0 50px;
+}
 .page {
 	clear: left;
 }
@@ -57,14 +60,33 @@
 	margin: 8px;
 }
 .yy_list {
+	position: relative;
 	float: left;
 	width: 230px;
 	height: 120px;
-	border: 2px solid #84bbe1;
+	color: #888;
 	margin: 10px;
-	box-shadow: #999 0px 1px 2px;
-	-webkit-box-shadow: #999 0px 1px 2px;
-	-moz-box-shadow: #999 0px 1px 2px;
+	border: 1px solid #fff;
+	border-radius: 5px;
+}
+.yy_list:hover {
+	background: #f0f5f8;
+	border: 1px solid #cee1ee;
+	border-radius: 5px;
+}
+.yy_list .cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.yy_list a {
+	line-height: 1.7em;
+	color: #444!important;
+	font-size: 14px;
+	font-weight: bold;
+	height: 22px;
 }
 .yy_list a:hover {
 	text-decoration: none;
@@ -79,6 +101,7 @@
 .yy_list_img_2 img {
 	width: 84px;
 	height: 84px;
+	border-radius: 5px;
 }
 .yy_list_c_2 {
 	float: left;
@@ -90,6 +113,9 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+}
+.yy_type {
+	line-height: 2.7em;
 }
 .yy_info_2 {
 	clear: both;
@@ -139,11 +165,15 @@
 	float: left;
 	width: 100%;
 }
-.myBlock {
-	width: 100% !important;
-}
 .myScroll .myBlock .mainul .mainli {
-	width: 252px;
+	width: 210px;
+}
+.myScroll .yy_list {
+	width: 100%;
+	margin: 4px 0;
+}
+.myScroll .yy_list_c_2 {
+	width: 106px;
 }
 .nav_li a:hover {
 	text-decoration: none;
@@ -175,15 +205,20 @@
 	height: 120px;
 	float: left;
 }
+.yingyong_img img {
+	border-radius: 5px;
+}
 .yingyong_intr {
 	width: 190px;
 	float: left;
 	margin-left: 30px;
+	color: #777;
+	line-height: 22px;
 }
 .yingyong_intr h1 {
 	font-size: 14px;
 	font-weight: bold;
-	color: #E76300;
+	color: black;
 }
 .yingyong_eva {
 	width: 230px;
@@ -240,6 +275,15 @@ button.pinf,.quanli a.btn {
 	float: right;
 	font-size: 10px;
 	margin: 6px 0;
+}
+.quanli a.btn {
+	width: 85px;
+}
+.quanli a.btn.danger {
+	background-color: rgb(255,95,95);;
+}
+.quanli a.btn.danger:hover, .quanli a.btn.danger:active, .quanli a.btn.danger:focus {
+	background-color: rgb(215,81,80);
 }
 .quanli div:first-child a {
         margin-top: -10px;
@@ -334,4 +378,99 @@ a.selected {
 	margin-top: 17px;
 	display: block;
 	float: left;
+}
+.myScroll {
+	border-top: 1px solid #ccc;
+}
+.ads {
+	width: 100%;
+	height: 300px;
+	margin: 10px 0;
+}
+.ads_list_container {
+	height: 270px;
+	overflow: hidden;
+}
+.ads_list {
+	height: 270px;
+}
+.ads_list * {
+	width: 868px;
+	height: 270px;
+}
+.adv_item {
+	float: left;
+}
+.pre_ad {
+	width: 30px;
+	height: 30px;
+	background: url(../images/arrow-left.png) center center no-repeat;
+	display: block;
+	float: left;
+	border-radius: 50%;
+	padding: 20px;
+	margin-top: -160px;
+	margin-left: 7px;
+	background-color: whitesmoke;
+}
+.next_ad {
+	width: 30px;
+	height: 30px;
+	background: url(../images/arrow-right.png) center center no-repeat;
+	display: block;
+	float: right;
+	border-radius: 50%;
+	padding: 20px;
+	margin-top: -160px;
+	margin-right: 7px;
+	background-color: whitesmoke;
+}
+.ads_index {
+	margin: 10px;
+}
+.bubble_list {
+	text-align: center;
+}
+.bubble_item {
+	display: inline-block;
+}
+.bubble_item>a {
+	width: 11px;
+	height: 11px;
+	display: block;
+	background: url(../images/bubble.png) center center no-repeat;
+}
+.bubble_item.bubble_active>a {
+	background: url(../images/bubble_active.png) center center no-repeat;
+}
+#msg {
+	width: 370px;
+}
+.fx_c_t_l {
+	font-size: 18px;
+	font-weight: bold;
+}
+#msg-box {
+	background-color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: 1px solid #BBB;
+	z-index: 999;
+}
+#handel .fx_c_t_l {
+	margin-bottom: 10px;
+}
+#iauth_content .fx_neirong_c_c {
+	width: 100%;
+}
+.fx_neirong_c_c .btn {
+	margin-top: -25px;
+	border: none;
+	color: #FFF;
+	background-color: #65d8bb;
+	font-size: 10px;
+}
+ .fx_neirong_c_c .btn:hover, .fx_neirong_c_c .btn:active, .fx_neirong_c_c .btn:focus  {
+	color: #FFF;
+	background-color: #2fb895;
 }

@@ -6,12 +6,18 @@
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
 
-	$userid=trim($_POST["sess_userid"]);
+	$userid=intval(trim($_POST["sess_userid"]));
 	$username=trim($_POST["sess_username"]);
 	//获取客户端传递的session标识
 	$sessionid=trim($_POST["sess_sessionid"]);
 
-	if(!$userid || !$username || !$sessionid){
+	$m_online = 0;
+	$query = $_SGLOBAL['db']->query("SELECT m_online FROM ".UC_DBTABLEPRE."members WHERE uid=".$userid);
+	if ($result = $_SGLOBAL['db']->fetch_array($query)) {
+		$m_online = intval($result['m_online']);
+	}
+
+	if(!$userid || !$username || !$m_online){
 		verifyerror();
 		exit();
 	}
@@ -22,27 +28,27 @@
 	session_start();
 		 
 	//获取服务器端原来session记录的username,并且根据客户端传过来的username比较进行验证操作
-	$sess_username=$_SESSION['username'];
+	// $sess_username=$_SESSION['username'];
 	 
-	if($username==$sess_username){
-		//verifyright();	 
-		$_SGLOBAL['supe_uid'] = $userid;
-		$_SGLOBAL['supe_username'] = $username;
-		$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$userid'");
-	    if($value = $_SGLOBAL['db']->fetch_array($query)){
-			$password = addslashes($value['password']);
-			$setarr = array(
-				'uid'=>$userid,
-				'username'=>$username,
-				'password' => $password
-			);
-			insertsession($setarr);
-		}else{
-			verifyerror();
-		}
-	} else {
-		verifyerror();	 
-	}
+	// if($username==$sess_username){
+	// 	//verifyright();	 
+	// 	$_SGLOBAL['supe_uid'] = $userid;
+	// 	$_SGLOBAL['supe_username'] = $username;
+	// 	$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$userid'");
+	//     if($value = $_SGLOBAL['db']->fetch_array($query)){
+	// 		$password = addslashes($value['password']);
+	// 		$setarr = array(
+	// 			'uid'=>$userid,
+	// 			'username'=>$username,
+	// 			'password' => $password
+	// 		);
+	// 		insertsession($setarr);
+	// 	}else{
+	// 		verifyerror();
+	// 	}
+	// } else {
+	// 	verifyerror();	 
+	// }
 	function verifyright(){
 		$arr = array(
 			'flag'=>'success',
