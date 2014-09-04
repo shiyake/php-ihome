@@ -13,7 +13,7 @@ var config = {
     msgurl: '#',
     chatlogurl: '#',
     aniTime: 200,
-    right: -232,
+    height: 535,
     api: {
         friend: 'plugin/layim/friend.json', //好友列表接口
         group: 'plugin/layim/group.json', //群组列表接口 
@@ -80,7 +80,9 @@ xxim.renode = function(){
         setonline: jQuery('.xxim_setonline'),
         onlinetex: jQuery('#xxim_onlinetex'),
         xximon: jQuery('#xxim_on'),
+        layimTop: jQuery('#xxim_top'),
         layimFooter: jQuery('#xxim_bottom'),
+        xximMymsg: jQuery('#xxim_mymsg'),
         xximHide: jQuery('#xxim_hide'),
         xximSearch: jQuery('#xxim_searchkey'),
         searchMian: jQuery('#xxim_searchmain'),
@@ -93,17 +95,19 @@ xxim.renode = function(){
 xxim.expend = function(){
     var node = xxim.node;
     if(xxim.layimNode.attr('state') !== '1'){
-        xxim.layimNode.stop().animate({right: config.right}, config.aniTime, function(){
+        node.layimTop.stop().animate({height: 0}, config.aniTime, function(){
             node.xximon.addClass('xxim_off');
             try{
                 localStorage.layimState = 1;
             }catch(e){}
             xxim.layimNode.attr({state: 1});
-            node.layimFooter.addClass('xxim_expend').stop().animate({marginLeft: config.right}, config.aniTime/2);
+            node.layimFooter.addClass('xxim_expend');
             node.xximHide.addClass('xxim_show');
         });
+        node.xximMymsg.stop().animate({width: '1%'}, config.aniTime/2);
+        node.xximHide.stop().animate({width: '99%'}, config.aniTime/2);
     } else {
-        xxim.layimNode.stop().animate({right: 1}, config.aniTime, function(){
+        node.layimTop.show().stop().animate({height: config.height}, config.aniTime, function(){
             node.xximon.removeClass('xxim_off');
             try{
                 localStorage.layimState = 2;
@@ -112,7 +116,8 @@ xxim.expend = function(){
             node.layimFooter.removeClass('xxim_expend');
             node.xximHide.removeClass('xxim_show');
         });
-        node.layimFooter.stop().animate({marginLeft: 0}, config.aniTime);
+        node.xximMymsg.stop().animate({width: '50%'}, config.aniTime/2);
+        node.xximHide.stop().animate({width: '50%'}, config.aniTime/2);
     }
 };
 
@@ -129,9 +134,10 @@ xxim.layinit = function(){
         }
         */
         if(localStorage.layimState === '1'){
-            xxim.layimNode.attr({state: 1}).css({right: config.right});
+            xxim.layimNode.attr({state: 1});
+            node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
-            node.layimFooter.addClass('xxim_expend').css({marginLeft: config.right});
+            node.layimFooter.addClass('xxim_expend');
             node.xximHide.addClass('xxim_show');
         }
     }catch(e){
@@ -547,14 +553,14 @@ xxim.event = function(){
 
 //请求列表数据
 xxim.getDates = function(index){
-    var api = [config.api.friend, config.api.group, config.api.chatlog],
+    var api = [config.api.friend, config.api.chatlog],
         node = xxim.node, myf = node.list.eq(index);
     myf.addClass('loading');
     config.json(api[index], {}, function(datas){
         if(datas.status === 1){
             var i = 0, myflen = datas.data.length, str = '', item;
             if(myflen > 1){
-                if(index !== 2){
+                if(index !== 1){
                     for(; i < myflen; i++){
                         str += '<li data-id="'+ datas.data[i].id +'" class="xxim_parentnode">'
                             +'<h5><i></i><span class="xxim_parentname">'+ datas.data[i].name +'</span><em class="xxim_nums">（'+ datas.data[i].nums +'）</em></h5>'
@@ -592,29 +598,14 @@ xxim.view = (function(){
     var xximNode = xxim.layimNode = jQuery('<div id="xximmm" class="xxim_main">'
             +'<div class="xxim_top" id="xxim_top">'
             +'  <div class="xxim_search"><i></i><input id="xxim_searchkey" /><span id="xxim_closesearch">×</span></div>'
-            +'  <div class="xxim_tabs" id="xxim_tabs"><span class="xxim_tabfriend" title="好友"><i></i></span><span class="xxim_tabgroup" title="群组"><i></i></span><span class="xxim_latechat"  title="最近聊天"><i></i></span></div>'
+            +'  <div class="xxim_tabs" id="xxim_tabs"><span class="xxim_tabfriend" title="好友"><i></i></span><span class="xxim_latechat"  title="最近聊天"><i></i></span></div>'
             +'  <ul class="xxim_list" style="display:block"></ul>'
-            +'  <ul class="xxim_list"></ul>'
             +'  <ul class="xxim_list"></ul>'
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
             +'</div>'
             +'<ul class="xxim_bottom" id="xxim_bottom">'
-            +'<li class="xxim_online" id="xxim_online">'
-                +'<i class="xxim_nowstate"></i><span id="xxim_onlinetex">在线</span>'
-                +'<div class="xxim_setonline">'
-                    +'<span><i></i>在线</span>'
-                    +'<span class="xxim_setoffline"><i></i>隐身</span>'
-                +'</div>'
-            +'</li>'
             +'<li class="xxim_mymsg" id="xxim_mymsg" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
-            +'<li class="xxim_seter" id="xxim_seter" title="设置">'
-                +'<i></i>'
-                +'<div class="">'
-                
-                +'</div>'
-            +'</li>'
             +'<li class="xxim_hide" id="xxim_hide"><i></i></li>'
-            +'<li id="xxim_on" class="xxim_icon xxim_on"></li>'
             +'<div class="layim_min" id="layim_min"></div>'
         +'</ul>'
     +'</div>');
