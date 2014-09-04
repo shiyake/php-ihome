@@ -241,6 +241,10 @@ elseif ($_GET['view']=='confirmasst')	{
 			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' , state=1, passed=1  WHERE passed=0 and uid='$uid'");
 			if ($value['degree'] == '本科') {
 				$username = $value['username'];
+				$name = $value['name'];
+				if (!$name) {
+					$name = $username;
+				}
 				$tagid = tagGroupAsst($uid,$value['year'],$value['academy']);
 				if ($tagid != -1) {
 					$query = $_SGLOBAL['db']->query("SELECT uid,username FROM " .tname('tagspace'). " WHERE tagid='$tagid' AND uid!='$uid'");
@@ -249,16 +253,19 @@ elseif ($_GET['view']=='confirmasst')	{
 					}
 				}
 			}
-			$q = $_SGLOBAL['db']->query("SELECT username FROM ".tname('space')." WHERE uid=".$_SGLOBAL['supe_uid']);
+			$q = $_SGLOBAL['db']->query("SELECT username,name FROM ".tname('space')." WHERE uid=".$_SGLOBAL['supe_uid']);
 			if ($v = $_SGLOBAL['db']->fetch_array($q)) {
-				$supe_name = $v['username'];
+				$supe_name = $v['name'];
+				if (!$supe_name) {
+					$supe_name = $v['username'];
+				}
 			}
 			$setarr = array(
 				'uid' => $uid,
 				'type' => "systemnote",
 				'new' => 1,
 				'authorid' => 0,
-				'note' => $username."您好，您的辅导员权限已被管理员".$supe_name."审批通过",
+				'note' => '<a href="space.php?uid='.$uid.'">'.$name.'</a>您好，您的辅导员权限已被管理员<a href="space.php?uid='.$_SGLOBAL['supe_uid'].'">'.$supe_name."</a>审批通过",
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");
@@ -292,13 +299,17 @@ elseif ($_GET['view']=='refuseasst')	{
 		$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname('asst')." WHERE passed=0 and uid='$uid'");
 		if ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$username = $value['username'];
+			$name = $value['name'];
+			if (!$name) {
+				$name = $username;
+			}
 			$_SGLOBAL['db'] -> query("UPDATE ".tname('asst')." SET passdate='".time()."' , pass_uid='".$_SGLOBAL['supe_uid']."' ,state=-1, passed=1 WHERE passed=0 and uid='$uid'");
 			$setarr = array(
 				'uid' => $uid,
 				'type' => "systemnote",
 				'new' => 1,
 				'authorid' => 0,
-				'note' => $username."您好，您的辅导员权限认证未被通过。",
+				'note' => '<a href="space.php?uid='.$uid.'">'.$name."</a>您好，您的辅导员权限认证未被通过。",
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid='$uid'");

@@ -92,6 +92,7 @@ if ($isAuthorized && !empty($_GET['shortcut'])) {
     }
 }
 
+
 //使用app
 if($gotoapp && $isAuthorized){
     if(!@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php')){
@@ -208,6 +209,18 @@ if($authorize && !$isAuthorized){
         exit();
     }
 }
+
+// autoAuth
+if(!@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php')){//echo 'notinclude'; exit();
+    header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");exit();
+}
+try {
+    $autoAuth = GetAppInfo($appsid,'auto_auth');
+} catch(IAuthException $e) {
+    //echo $e->getMessage();
+}
+
+
 
 //提交评分
 if(submitcheck('comment_submit')) {
