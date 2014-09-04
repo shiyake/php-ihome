@@ -4,6 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
+
 $user = $_SGLOBAL['db']->query("select usertype from ".tname(baseprofile)." WHERE uid = ".$space[uid]."  and collegeid like '0%' LIMIT 1 ");
 $usertype = $_SGLOBAL['db']->result($user);
 ssetcookie('mytemplate',S_ROOT.'./template/default/style.css' , 3600*24*365);//长期有效
@@ -396,6 +397,23 @@ if($space['self'] && empty($start)) {
 	}
 }
 //exit('1');
+
+
+// function hot(){
+    $doname = 'http://ring.cnbigdata.org';
+    $param = '/api/ihometopic2?num=8';
+    $url = $doname . $param;
+    $jsonstr = file_get_contents($url);
+    $jsonarr = json_decode($jsonstr,ture);
+    foreach ($jsonarr as $key => $value) {
+    	$value[url][org] = $value[key];
+    	$value[url][utf8] = urlencode($value[key]);
+        $hotevent[] = $value[url];
+    }
+    // print_r($hotevent);
+    // exit();
+// }
+// hot();
 //引入一个月热门投票--仅取3个!
 $timerange = $_SGLOBAL['timestamp']-2592000;
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE dateline >= '$timerange' AND $_SGLOBAL[timestamp] <= expiration ORDER BY  hot DESC LIMIT 3 ");

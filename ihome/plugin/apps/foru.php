@@ -38,13 +38,13 @@ if($collegeid_len == 8){
 }
 
 
-$jiaoxue = array();
-$keyan = array();
-$caiwu = array();
-$renzi = array();
-$zichan = array();
-$shenghuo = array();
-$qita = array();
+// $jiaoxue = array();
+// $keyan = array();
+// $caiwu = array();
+// $renzi = array();
+// $zichan = array();
+// $shenghuo = array();
+// $qita = array();
 
 //所有应用
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')."$wheresql ORDER BY clicktime DESC");
@@ -53,25 +53,25 @@ while($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$value['tuisong'] = ($value['score'] + $value['score_easy'] + $value['score_service'] + $value['score_speed']) * $value['modders'] + $value['usernumber'] + $value['promot'];
 	switch($value['type']){
 		case 1:
-			$jiaoxue[] = $value;
+			$value['type'] = '教学类';
 			break;
 		case 2:
-			$keyan[] = $value;
+			$value['type'] = '科研类';
 			break;
 		case 3:
-			$caiwu[] = $value;
+			$value['type'] = '财务类';
 			break;
 		case 4:
-			$renzi[] = $value;
+			$value['type'] = '人力资源类';
 			break;
 		case 5:
-			$zichan[] = $value;
+			$value['type'] = '资产类';
 			break;
 		case 6:
-			$shenghuo[] = $value;
+			$value['type'] = '生活服务类';
 			break;
 		case 7:
-			$qita[] = $value;
+			$value['type'] = '其他';
 			break;
 		default:
 			break;
@@ -80,31 +80,40 @@ while($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 
 
-$jiaoxue = array_sort($jiaoxue ,'tuisong');
-$keyan = array_sort($keyan ,'tuisong');
-$caiwu = array_sort($caiwu ,'tuisong');
-$renzi = array_sort($renzi ,'tuisong');
-$zichan = array_sort($zichan ,'tuisong');
-$shenghuo = array_sort($shenghuo ,'tuisong');
-$qita = array_sort($qita ,'tuisong');
+// $jiaoxue = array_sort($jiaoxue ,'tuisong');
+// $keyan = array_sort($keyan ,'tuisong');
+// $caiwu = array_sort($caiwu ,'tuisong');
+// $renzi = array_sort($renzi ,'tuisong');
+// $zichan = array_sort($zichan ,'tuisong');
+// $shenghuo = array_sort($shenghuo ,'tuisong');
+// $qita = array_sort($qita ,'tuisong');
 
-$hot = array_sort($allapps ,'clicktime');
-$popular = array_sort($allapps ,'score');
+$limit = 16;
+$half = $limie/2;
+$hot = array_slice(array_sort($allapps ,'clicktime'),0,$limit);
+$popular = array_slice(array_sort($allapps ,'score'),0,$limit);
+$promot = array_slice(array_sort($allapps ,'tuisong'),0,$limit);
 
-$promot = array_sort($allapps ,'tuisong');
+$ads = array();
+$count = array();
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("ad4app")." WHERE state=1");
+while($res = $_SGLOBAL['db']->fetch_array($query))	{
+	$ads[] = $res;
+	$count[] = 1;
+}
 
 
 //我常用的应用
-$appsids = '0';
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid ORDER BY clicktime DESC LIMIT 12");
-while($value = $_SGLOBAL['db']->fetch_array($query)){
-	$appsids .= ','.$value['appsid'];
-}
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id IN (".$appsids.") AND applypass =1 AND ishidden=0 ORDER BY applytime ASC LIMIT 12");
-while($value = $_SGLOBAL['db']->fetch_array($query)) {
-	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
-	$myfavorite[] = $value;
-}
+// $appsids = '0';
+// $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps_users')." WHERE uid=$uid ORDER BY clicktime DESC LIMIT 12");
+// while($value = $_SGLOBAL['db']->fetch_array($query)){
+// 	$appsids .= ','.$value['appsid'];
+// }
+// $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id IN (".$appsids.") AND applypass =1 AND ishidden=0 ORDER BY applytime ASC LIMIT 12");
+// while($value = $_SGLOBAL['db']->fetch_array($query)) {
+// 	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
+// 	$myfavorite[] = $value;
+// }
 
 /*
 

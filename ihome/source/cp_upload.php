@@ -29,9 +29,40 @@ if ($filetype == 'pic') {
         }
     }
     elseif ($fileac == 'uploadbg') { 
-        try	
+        try 
         {
             $feed_file = pic_save($_FILES['image-upload'], $albumid, 'bg_'.time(), 0);
+            if ($feed_file && is_array($feed_file)) {
+                $t=getimagesize($feed_file['new_filepath']); 
+                $ret = array(
+                    'master' => array(
+                        'orig_name' => $feed_file['filename'],
+                        'img_src' => '/attachment/'.$feed_file['filepath'],
+                        'size' => round($feed_file['size']/1000, 0).'kb',
+                        'h' => $t[1],
+                        'w' => $t[0]
+                    ),
+                    'thumb' => array(
+                        'img_src' => '/attachment/'.$feed_file['filepath'],
+                        'size' => round($feed_file['size']/1000, 0).'kb',
+                        'h' => $t[1], 
+                        'w' => $t[0]
+                    ));
+                echo json_encode($ret);
+                exit();
+            }
+        }
+        catch(Exception $e)
+        {}
+        if(empty($_FILE['image-upload']))
+        {
+            showmessage('file_too_large');
+        }
+    }
+    elseif ($fileac == 'upload_ad4app') { 
+        try 
+        {
+            $feed_file = pic_save($_FILES['img'], $albumid, 'ad4app_'.time(), 0);
             if ($feed_file && is_array($feed_file)) {
                 $t=getimagesize($feed_file['new_filepath']); 
                 $ret = array(

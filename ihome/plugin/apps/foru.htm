@@ -1,15 +1,14 @@
 <!--{template plugin/apps/header}-->
 <!--{template plugin/apps/apps_nav}-->
 <div class="main">
-  <!--{template plugin/apps/left}-->
-  <div class="apps content">
+  <div class="apps content_full">
 	<link href="plugin/apps/myScroll/style.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="plugin/apps/myScroll/myScroll.js"></script>
 	<script type="text/javascript">   
 	 jq(function(){
 		jq(".myScroll").myScroll({
-							   visible:3,
-							   scroll:3,
+							   visible:4,
+							   scroll:4,
 							   speed:500
 							   });
 		/*
@@ -21,6 +20,68 @@
 							   });
 		*/
 		});  
+	</script>
+	<!--{if $count}-->
+	<div class="ads">
+		<div class="ads_list_container">
+			<ul class="ads_list" style="width:5208px;">
+				<!--{loop $ads $ad}-->
+				<li class="adv_item"><a href="$ad[url]"><img src="$ad[img]" alt=""></a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<div><a href="javascript:void(0);" onclick="pre_ad()" class="pre_ad"></a></div>
+		<div><a href="javascript:void(0);" onclick="next_ad()" class="next_ad"></a></div>
+		<div class="ads_index">
+			<ul class="bubble_list">
+				<!--{loop $count $key $value}-->
+				<!--{if $key}-->
+				<li class="bubble_item"><a href="javascript:void(0);"></a></li>
+				<!--{else}-->
+				<li class="bubble_item bubble_active"><a href="javascript:void(0);"></a></li>
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	<script>
+		var adWidth = jq('.adv_item').width();
+		function pre_ad() {
+			if (!jq('.ads_list').is(':animated')) {
+				clearInterval(timer);
+				jq('.ads_list').prepend(jq('.adv_item:last').clone());
+				jq('.ads_list').css('margin-left', '-='+adWidth);
+				jq('.ads_list').animate({
+					'margin-left': '+='+adWidth
+				},400,function(){
+					jq('.adv_item:last').remove();
+					var current = jq('.bubble_active');
+					var prev = current.prev().length>0 ? current.prev() : jq('.bubble_item:last');
+					current.removeClass('bubble_active');
+					prev.addClass('bubble_active');
+					timer = setInterval(function(){next_ad();},2500);
+				});
+			}
+		}
+		function next_ad() {
+			if (!jq('.ads_list').is(':animated')) {
+				clearInterval(timer);
+				jq('.ads_list').append(jq('.adv_item:first').clone());
+				jq('.ads_list').animate({
+					'margin-left': '-='+adWidth
+				},400,function(){
+					jq('.adv_item:first').remove();
+					jq('.ads_list').css('margin-left','0px');
+					var current = jq('.bubble_active');
+					var next = current.next().length>0 ? current.next() : jq('.bubble_item:first');
+					current.removeClass('bubble_active');
+					next.addClass('bubble_active');
+					timer = setInterval(function(){next_ad();},2500);
+				});
+			}
+		}
+		var timer = setInterval(function(){next_ad();},2500);
 	</script>
 	<!--{if $promot}-->
 	<div class="yingyong_c myScroll" id="promot">
@@ -35,24 +96,23 @@
       </div>
       <div class="myBlock">
 	  <ul class="mainul">
-	  <!--{eval $maxnum=12;$num=0;}-->
+	  <!--{eval $num=0;}-->
 	  <!--{loop $promot $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-	  	<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="promot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人</div>
+	  	<div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
+          <div class="yy_type">$app[type]</div>
+          <div class="yy_info_2">$app[usernumber]人在使用</div>
         </div>
+      <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -73,24 +133,23 @@
       </div>
       <div class="myBlock">
 	  <ul class="mainul">
-	  <!--{eval $maxnum=12;$num=0;}-->
+	  <!--{eval $num=0;}-->
 	  <!--{loop $hot $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="hot_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人</div>
+        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
+          <div class="yy_type">$app[type]</div>
+          <div class="yy_info_2">$app[usernumber]人在使用</div>
         </div>
+      <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -113,22 +172,21 @@
 	  <ul class="mainul">
 	  <!--{eval $num=0;}-->
 	  <!--{loop $popular $app}-->
-	  <!--{if $num==6}-->
-	  </ul>
-	  <ul class="mainul">
-	  <!--{else}-->
       <li class="mainli">
 	  <div class="yy_list">
-        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank"><img src="$app[logo]" title="$app[name]" /></a></div>
-        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" target="_blank" title="$app[name]">$app[name]</a>
-          <div class="yy_list_c_x"><span class="score_star" id="popular_app_$app[id]"></span><span class="score_num">$app[score]</span></div>
-          <div class="yy_info_2">使用次数:$app[clicktime]次<br />
-            使用人数:$app[usernumber]人</div>
+        <div class="yy_list_img_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]"><img src="$app[logo]" title="$app[name]" /></a></div>
+        <div class="yy_list_c_2"><a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" title="$app[name]">$app[name]</a>
+          <div class="yy_type">$app[type]</div>
+          <div class="yy_info_2">$app[usernumber]人在使用</div>
         </div>
+      <a href="plugin.php?pluginid=apps&ac=detail&appsid=$app[id]" class="cover" title="$app[name]"></a>
       </div>
 	  </li>
+	  <!--{eval ++$num;}-->
+	  <!--{if $num==$half}-->
+	  </ul>
+	  <ul class="mainul">
 	  <!--{/if}-->
-	  <!--{eval ++$num;if($num>$maxnum)break;}-->
 	  <!--{/loop}-->
 	  </ul>
 	  </div>
@@ -136,94 +194,6 @@
     </div>
     <!-- end yingyong_c -->
 	<!--{/if}-->
-	<link href="plugin/apps/css/star.css" rel="stylesheet">
-	<script language="javascript" type="text/javascript" src="plugin/apps/js/star_small.js"></script>
-	<script type="text/javascript">
-	<!--{loop $myfavorite $key=>$app}-->
-	var myfavorite_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#myfavorite_app_$app[id]').rater(myfavorite_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $promot $key=>$app}-->
-	var promot_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#promot_app_$app[id]').rater(promot_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $hot $key=>$app}-->
-	var hot_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#hot_app_$app[id]').rater(hot_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $popular $key=>$app}-->
-	var popular_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#popular_app_$app[id]').rater(popular_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $jiaoxue $key=>$app}-->
-	var jiaoxue_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#jiaoxue_app_$app[id]').rater(jiaoxue_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $keyan $key=>$app}-->
-	var keyan_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#keyan_app_$app[id]').rater(keyan_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $qita $key=>$app}-->
-	var qita_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $caiwu $key=>$app}-->
-	var caiwu_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#caiwu_app_$app[id]').rater(caiwu_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $renzi $key=>$app}-->
-	var renzi_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#renzi_app_$app[id]').rater(renzi_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $zichan $key=>$app}-->
-	var zichan_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#zichan_app_$app[id]').rater(zichan_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $shenghuo $key=>$app}-->
-	var shenghuo_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#shenghuo_app_$app[id]').rater(shenghuo_options_$app[id]);
-	<!--{/loop}-->
-	<!--{loop $qita $key=>$app}-->
-	var qita_options_$app[id] = {
-		value : $app[score],
-		enabled : false
-	}
-	jq('#qita_app_$app[id]').rater(qita_options_$app[id]);
-	<!--{/loop}-->
-	</script>
     <!-- end yingyong_c -->
     <div class="solid_666 clear"></div>
   </div>

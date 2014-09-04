@@ -319,7 +319,16 @@ if(submitcheck('freshmanregistersubmit'))
 							inserttable('spaceinfo', $eduinfo, 1);
 							
 							$tagname = $value['startyear'].'年'.$classB.'大班';
-							auto_join($newuid, $tagname, $_SGLOBAL['db']);
+							$tagid = auto_join($newuid, $tagname, $_SGLOBAL['db']);
+
+							$assts = getGroupAsst($tagid);
+							foreach ($assts as $asst) {
+								$q = $_SGLOBAL['db']->query("SELECT username FROM ".tname("space")." WHERE uid=".$asst);
+								if ($v = $_SGLOBAL['db']->fetch_array($q)) {
+									$asstname = $v['username'];
+									friend_update($newuid, $username, $asst, $asstname, 'invite');
+								}
+							}
 						}
 				}
 
