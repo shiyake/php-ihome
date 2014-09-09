@@ -49,7 +49,7 @@ if($_SCONFIG['allowrewrite'] && isset($_GET['rewrite'])) {
 }
 
 //允许动作
-$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation', 'complain');
+$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation', 'complain', 'complain_item');
 
 //获取变量
 $isinvite = 0;
