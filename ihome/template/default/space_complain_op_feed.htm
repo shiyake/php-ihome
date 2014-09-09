@@ -1,0 +1,79 @@
+<script language="javascript" src="source/face.js"></script>
+<script language="javascript" src="plugin/at/jquery.form.js"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(function($) {
+        var moodSwitch = jQuery("#mood-switch");
+        var jqSubmit = jQuery("#add");
+        var jqoptype = jQuery("#optype");
+        moodSwitch.on("click", "a", function() {
+            moodSwitch.find("li").removeClass("active");
+
+            var type = jQuery(this.parentNode).addClass("active");
+            jqSubmit.html(type.hasClass("reply")?'回复':'转发');
+            jqoptype.val(type.hasClass("reply")?'2':'3');
+            if (type.hasClass("reply")) {
+                jQuery("#reply_dep").css("display","none");
+            } else {
+                jQuery("#reply_dep").css("display","block");
+            }
+        });
+    });
+</script>
+<div>
+    <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=add">
+        <div style="float:left">
+            <div class="round_border head">
+                <a href="space.php?uid=$_SGLOBAL[supe_uid]"><!--{avatar($_SGLOBAL[supe_uid],big,false,0,'feed')}--></a>
+            </div>
+            <div>
+                <a href="space.php?uid=$_SGLOBAL[supe_uid]">$_SN[$_SGLOBAL[supe_uid]]</a>
+            </div>
+        </div>
+        <div >
+            <div class="mood_statement">
+                <div class="mood_say_something">
+                    <input type="hidden" id="optype" name="optype" value="1" />
+                    <ul id="mood-switch" class="nav nav-mood pull-left">
+                        <li class="active reply">
+                            <a href="#">处理诉求</a>
+                        </li>
+                        <li class="relay">
+                            <a href="#">转发诉求</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="reply_dep" style="display:none">
+                <select style="margin-left:30px" name="relay_depid">
+                    <!--{loop $deps $dep}-->
+                    <option value="$dep[uid]">$dep['name']</option>
+                    <!--{/loop}-->
+                </select>
+            </div>
+            <textarea class="mood_textarea" id="message" name="message"></textarea>
+            <div class="demo" style="padding-left:70px">
+                <div class="btn drop_face" id="face_smell">
+                    <a href="javascript:;"><img src="image/icons/statues_face_normal.png" width="30" height="30" align="absmiddle" title="插入表情" /></a>
+
+                </div>
+                <div class="drop_face_menu" data-target="message"></div>
+                <div id="at_friends_box">
+                    <div id="search_at_friends">
+                        <input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
+                    </div>
+                </div>
+                <div class="mood_submit">
+                    <button type="submit" id="add" name="add">回复</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="addsubmit" value="true" />
+        <input type="hidden" name="doid" value="$doid" />
+        <input type="hidden" name="refer" value="$theurl" />
+        <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+        <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+    </form>
+</div>
+

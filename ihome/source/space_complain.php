@@ -45,7 +45,6 @@ if ($_GET['type'] == 'running') {
 } else {
     $submenus['all']=' class = "active"';
 }
-echo $wheresql;
 $count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("select count(*) from ".tname('complain')." where $wheresql"), 0);
 
 if ($count) {

@@ -352,6 +352,22 @@ function docomment_form_close(doid, id) {
 	$(showid).innerHTML = '';
 }
 
+function treecomment_form(rootid, id) {
+	var showid = 'treecomment_form_'+rootid+'_'+id;
+	var divid = 'treecomment_' + rootid;
+	ajaxget('cp.php?ac=treecomment&op=add&rootid='+rootid+'&id='+id, showid);
+	if($(divid)) {
+        if($(divid).style.display!='block')
+		    $(divid).style.display = 'block';
+        else $(divid).style.display = 'none';
+	}
+}
+
+function treecomment_form_close(rootid, id) {
+	var showid = 'treecomment_form_'+rootid+'_'+id;
+	$(showid).innerHTML = '';
+}
+
 //feed评论
 function feedcomment_get(feedid, result) {
 	var showid = 'feedcomment_'+feedid;

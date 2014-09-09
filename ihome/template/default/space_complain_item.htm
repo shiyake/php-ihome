@@ -1,0 +1,74 @@
+<!--{eval $_TPL['titles']=array('诉求');}-->
+<!--{template header}-->
+<!--{if $complain}-->
+<div class="complain_list">
+    <ol>
+        <li>
+            <div class="feed_li_avatar" style="float:left !important">
+                <div class="round_border head">
+                    <a href="space.php?uid=$dv[uid]"><!--{avatar($dv[uid],big,false,0,'feed')}--></a>
+                </div>
+                <div>
+                    <a href="space.php?uid=$dv[uid]">$_SN[$dv[uid]]</a>
+                </div>
+            </div>
+            <script src="source/docomment.js"></script> 
+            <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+                <span>$dv[message]</span>
+                <div class="feed_content clearfix"></div>
+                <div id="reply_content">
+                    <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
+                    <span class="floatright">
+                        <a href="javascript:;" data-doid="{$dv[doid]}" id="do_a_op_$doid" onclick="docomment_form($doid,0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                    </span>
+                </div>
+            </div>
+            <!--{eval $list = $doclist[$dv[doid]];}-->
+            <div class="sub_doing fcomment do_document" id="docomment_$doid" style="display:none;">
+                <span id="docomment_form_{$dv[doid]}_0"></span>
+                <!--{template space_doing_li_index}-->
+            </div>
+            <div class="clearfix"></div>
+        </li>
+        <!--{loop $complain_ops $op}-->
+        <li>
+            <div class="feed_li_avatar" style="float:right !important">
+                <div class="round_border head">
+                    <a href="space.php?uid=$dv[uid]"><!--{avatar($op[uid],big,false,0,'feed')}--></a>
+                </div>
+                <div>
+                    <a href="space.php?uid=$dv[uid]">$_SN[$op[uid]]</a>
+                </div>
+            </div>
+            <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+                <span>$op[message]</span>
+                <div class="feed_content clearfix"></div>
+                <div id="reply_content">
+                    <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
+                    <span class="floatright">
+                        <a href="javascript:;" data-rootid="cop{$op[id]}" id="do_tree_comment_cop{$op[id]}" onclick="treecomment_form('cop{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                    </span>
+                </div>
+            </div>
+            <!--{eval $list = $treeclist["cop".$op[id]];}-->
+            <div class="sub_doing fcomment do_document" id="treecomment_cop$op[id]" style="display:none;">
+                <span id="treecomment_form_cop{$op[id]}_0"></span>
+                <!--{template space_doing_li_index}-->
+            </div>
+
+            <div class="clearfix"></div>
+        </li>
+        <!--{/loop}-->
+    </ol>
+    <!--{if $complain[status] == 0 && $complain[curuid] == $_SGLOBAL[supe_uid]}-->
+    <!--{template space_complain_op_feed}-->
+    <!--{/if}-->
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+没有找到改诉求
+</p>
+<!--{/if}-->
+<!--{template footer}-->
