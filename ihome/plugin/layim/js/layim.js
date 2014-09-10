@@ -11,11 +11,11 @@
 
 var config = {
     msgurl: '#',
-    chatlogurl: '#',
+    chatlogurl: 'space.php?do=pm&subop=view&touid=',
     aniTime: 200,
     height: 535,
     api: {
-        friend: 'plugin/layim/friend.json', //好友列表接口
+        friend: 'api/im/friend.php', //好友列表接口
         group: 'plugin/layim/group.json', //群组列表接口 
         chatlog: 'plugin/layim/chatlog.json', //聊天记录接口
         groups: 'plugin/layim/groups.json', //群组成员接口
@@ -344,7 +344,7 @@ xxim.popchatbox = function(othis){
         type: othis.attr('type'),
         name: othis.find('.xxim_onename').text(),  //用户名
         face: othis.find('.xxim_oneface').attr('src'),  //用户头像
-        href: config.hosts + 'user/' + dataId //用户主页
+        href: config.hosts + 'space.php?uid=' + dataId //用户主页
     }, key = param.type + dataId;
     if(!config.chating[key]){
         xxim.popchat(param);
@@ -587,6 +587,7 @@ xxim.getDates = function(index){
             myf.removeClass('loading');
         } else {
             myf.html('<li class="xxim_errormsg">'+ datas.msg +'</li>');
+            myf.removeClass('loading');
         }
     }, function(){
         myf.html('<li class="xxim_errormsg">请求失败</li>');
