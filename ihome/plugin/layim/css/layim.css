@@ -107,7 +107,7 @@ li{list-style:none;}
 .layim_chatthis{display:block;}
 .layim_chatuser{float:left; padding:15px; font-size:0;}
 .layim_chatuser *{display:inline-block; *display:inline; *zoom:1; vertical-align:top; line-height:30px; font-size:12px; padding-right:10px;}
-.layim_chatuser img{width:30px; height:30px;}
+.layim_chatuser img{width:30px; height:30px;box-sizing:initial;}
 .layim_chatuser .layim_chatname{max-width:230px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
 .layim_chatuser .layim_chattime{color:#999; padding-left:10px;}
 .layim_chatsay{position:relative; float:left; margin:0 15px; padding:10px; line-height:20px; background-color:#F3F3F3; border-radius:3px; clear:both;}
