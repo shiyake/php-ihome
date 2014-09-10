@@ -138,7 +138,8 @@ xxim.layinit = function(){
             node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
             node.layimFooter.addClass('xxim_expend');
-            node.xximHide.addClass('xxim_show');
+            node.xximHide.css('width','99%').addClass('xxim_show');
+            node.xximMymsg.css({'width':'1%', 'overflow':'hidden'});
         }
     }catch(e){
         //layer.msg(e.message, 5, -1);
