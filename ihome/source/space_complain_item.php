@@ -48,6 +48,28 @@ if ($complain) {
         $complain_ops[] = $value;
         realname_set($value['uid'], $value['username']);
     }
+    $commenttree = new tree();
+    foreach($complain_ops as $op) {
+        $query = $_SGLOBAL['db']->query("select * from ".tname('treecomments')." USE index(rootid) where rootid = 'cop{$op[id]}' order by dateline");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            realname_set($value['uid'], $value['username']);
+            if (empty($value['upid'])) {
+                $value['upid'] = $value['rootid'];
+            }
+            $commenttree->setNode($value['id'], $value['upid'], $value);
+        }
+    }
+    $opclist = array();
+    foreach ($complain_ops as $op) {
+        $opclist[$op['id']] = array();
+        $values = $commenttree->getChilds('cop'.$op[id]);
+        foreach ($values as $id) {
+            $one = $commenttree->getValue($id);
+            $one['layer'] = $commenttree->getLayer($id) * 2 -2;
+            $one['style'] = "padding-left:{$one['layer']}em;";
+            $opclist[$op['id']][] = $one;
+        }
+    }
 }
 
 realname_get();
