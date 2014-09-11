@@ -10,16 +10,16 @@
 ;!function(win, undefined){
 
 var config = {
-    msgurl: '#',
+    msgurl: 'space.php?do=pm',
     chatlogurl: 'space.php?do=pm&subop=view&touid=',
     aniTime: 200,
     height: 535,
     api: {
         friend: 'api/im/friend.php', //好友列表接口
         group: 'plugin/layim/group.json', //群组列表接口 
-        chatlog: 'plugin/layim/chatlog.json', //聊天记录接口
+        chatlog: 'api/im/chatlog.php', //聊天记录接口
         groups: 'plugin/layim/groups.json', //群组成员接口
-        sendurl: '' //发送消息接口
+        sendurl: 'api/im/send.php' //发送消息接口
     },
     user: { //当前用户信息
         name: '游客',
@@ -28,17 +28,10 @@ var config = {
     
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
-        '您好，我现在有事不在，一会再和您联系。', 
-        '你没发错吧？',
-        '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！',
-        '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。',
-        '我正在拉磨，没法招呼您，因为我们家毛驴去动物保护协会把我告了，说我剥夺它休产假的权利。',
-        '<（@￣︶￣@）>',
-        '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
-        '主人正在开机自检，键盘鼠标看好机会出去凉快去了，我是他的电冰箱，我打字比较慢，你慢慢说，别急……',
-        '(*^__^*) 嘻嘻，是贤心吗？'
+        'aloha'
     ],
     
+    sendType: 'enter',
     
     chating: {},
     hosts: (function(){
@@ -48,7 +41,7 @@ var config = {
     })(),
     json: function(url, data, callback, error){
         return jQuery.ajax({
-            type: 'GET',
+            type: 'POST',
             url: url,
             data: data,
             dataType: 'json',
@@ -224,8 +217,9 @@ xxim.popchat = function(param){
             log.sendType.show();
         });
         log.sendTypes.on('click', function(){
-            log.sendTypes.find('i').text('')
+            log.sendTypes.find('i').text('');
             jQuery(this).find('i').text('√');
+            config.sendType = jQuery(this).attr('class');
         });
         
         xxim.transmit();
@@ -259,8 +253,8 @@ xxim.popchat = function(param){
             +'    <div class="layim_send">'
             +'        <div class="layim_sendbtn" id="layim_sendbtn">发送<span class="layim_enter" id="layim_enter"><em class="layim_zero"></em></span></div>'
             +'        <div class="layim_sendtype" id="layim_sendtype">'
-            +'            <span><i>√</i>按Enter键发送</span>'
-            +'            <span><i></i>按Ctrl+Enter键发送</span>'
+            +'            <span class="enter"><i>√</i>按Enter键发送</span>'
+            +'            <span class="ctrlEnter"><i></i>按Ctrl+Enter键发送</span>'
             +'        </div>'
             +'    </div>'
             +'</div>'
@@ -397,10 +391,10 @@ xxim.transmit = function(){
     //发送
     log.send = function(){
         var data = {
-            content: node.imwrite.val(),
+            type: xxim.nowchat.type,
             id: xxim.nowchat.id,
-            sign_key: '', //密匙
-            _: +new Date
+            content: node.imwrite.val(),
+            key: 1
         };
 
         if(data.content.replace(/\s/g, '') === ''){
@@ -440,22 +434,15 @@ xxim.transmit = function(){
             }, 'me'));
             node.imwrite.val('').focus();
             log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                       
             
-            setTimeout(function(){
-                log.imarea.append(log.html({
-                    time: '2014-04-26 0:38',
-                    name: xxim.nowchat.name,
-                    face: xxim.nowchat.face,
-                    content: config.autoReplay[(Math.random()*config.autoReplay.length) | 0]
-                }));
-                log.imarea.scrollTop(log.imarea[0].scrollHeight);
-            }, 500);
-            
-            /*
-            that.json(config.api.sendurl, data, function(datas){
-            
+            config.json(config.api.sendurl, data, function(datas){
+                if (!datas['status']) {
+                    log.imarea.append('<li><div class="layim_chatsay layim_chattip">'+datas['msg']+'</div></li>');
+                    log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                }
             });
-            */
+            
         }
        
     };
@@ -463,7 +450,9 @@ xxim.transmit = function(){
     
     node.imwrite.keyup(function(e){
         if(e.keyCode === 13){
-            log.send();
+            if ((e.ctrlKey && config.sendType=='ctrlEnter') || (!e.ctrlKey && config.sendType=='enter')) {
+                log.send();
+            }
         }
     });
 };
