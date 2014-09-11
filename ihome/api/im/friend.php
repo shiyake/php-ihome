@@ -27,7 +27,7 @@
 		if ($rs2 = $_SGLOBAL['db']->fetch_array($query)) {
 			if(empty($rs2['name'])) $rs2['name'] = $rs2['username'];
 			if ($rs2['avatar']) {
-				$face = avatar($uid,'small',TRUE);
+				$face = avatar($uid,'big',TRUE);
 			} else {
 				$query = $_SGLOBAL['db']->query("SELECT sex FROM ".tname('spacefield')." WHERE uid='$uid' LIMIT 1");
 				if($gd = $_SGLOBAL['db']->result($query))
@@ -38,7 +38,7 @@
 				{
 					$gender = "m";
 				}
-				$face = UC_API.'/images/avatar/'.$gender.'_small_1.png';
+				$face = UC_API.'/images/avatar/'.$gender.'_big_1.png';
 			}
 			
 			$friend = array('id'=>$uid,'namequery'=>$rs2['name'].' '.Pinyin($rs2['name'],1).' '.$uid,'name'=>$rs2['name'],'face'=>$face);
