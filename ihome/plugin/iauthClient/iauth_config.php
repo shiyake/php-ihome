@@ -18,6 +18,5 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 
 /* ############# stop automaticly adding \ to \ ' "  ############# */
-set_magic_quotes_runtime(FALSE);
-ini_set(magic_quotes_runtime,0);
+ini_set('magic_quotes_runtime',0);
 ?>
