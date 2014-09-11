@@ -1,26 +1,32 @@
-    <script language="javascript" src="source/face.js" charset="utf-8"></script>
-    <script language="javascript" src="source/do_comment.js" charset="utf-8"></script>
+<!--{if $_GET['op'] == 'add' || $_GET['op'] == 'getcomment'}-->
+<script language="javascript" src="source/face.js" charset="utf-8"></script>
+    <script language="javascript" src="source/tree_comment.js" charset="utf-8"></script>
 	<form  method="post" 
 			class="form form-comment" 
 			style="padding: 5px;height:50px;"
-			action="cp.php?ac=doing&op=comment&doid=$doid&id=$id" >
+			action="cp.php?ac=treecomment&op=add&rootid={$rootid}&id={$id}" >
 		<input type="text" id="tree_message_{$rootid}_{$id}" 
 				name="message" value="评论..."
 				size="35" style="width:81%;" 
 				class="form-control t_input input-sm" 
-				onclick="jQuery('#tree_message_{$doid}_{$id}').css({'color':'#333'});if(this.value=='评论...') this.value='';" 
-				onkeydown="return ctrlEnter(event, 'docommform_btn_{$doid}_{$id}', 1);" 
+				onclick="jQuery('#tree_message_{$rootid}_{$id}').css({'color':'#333'});if(this.value=='评论...') this.value='';" 
+				onkeydown="return ctrlEnter(event, 'treecommform_btn_{$rootid}_{$id}', 1);" 
 				onfocus="at()">
 	<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
 		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
 		<input type="hidden" name="commentsubmit" value="true" />
         <a href="javascript:;" id="tree_face_{$rootid}_{$id}" class="drop_face comment_face"><div></div></a>
-        <div class="drop_face_menu" data-target="tree_message_{$doid}_{$id}"></div>
-		<input type="button" name="do_button" class="comment_click_btn submit btn btn-comments" id="treecommform_btn_{$doid}_{$id}" 
+        <div class="drop_face_menu" data-target="tree_message_{$rootid}_{$id}"></div>
+		<input type="button" name="root_button" class="comment_click_btn submit btn btn-comments" id="treecommform_btn_{$rootid}_{$id}" 
 				value="评论">
 		<br>
+        <input type="hidden" name="upid" id="upid_{$rootid}" value="0"/>
+        <input type="hidden" name="rootid" id="rootid" value="$rootid"/>
     
     <input type="hidden" name="formhash" class="hashform" value="<!--{eval echo formhash();}-->" />
 	</form>
-    <div id="__docommform_{$doid}_{$id}" style="display:none;"></div>
-
+    <div id="__rootcommform_{$rootid}_{$id}" style="display:none;"></div>
+<!--{if $_GET['op'] == 'getcomment'}-->
+<!--{template space_treecomment_li}-->
+<!--{/if}-->
+<!--{/if}-->

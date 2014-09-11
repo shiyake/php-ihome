@@ -46,14 +46,14 @@
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
                     <span class="floatright">
-                        <a href="javascript:;" data-rootid="cop{$op[id]}" id="do_tree_comment_cop{$op[id]}" onclick="treecomment_form('cop{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                        <a href="javascript:;" data-rootid="cop{$op[id]}" id="tree_comment_op_cop{$op[id]}" onclick="treecomment_form('cop{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
                     </span>
                 </div>
             </div>
-            <!--{eval $list = $treeclist["cop".$op[id]];}-->
+            <!--{eval $list = $opclist[$op[id]];}-->
             <div class="sub_doing fcomment do_document" id="treecomment_cop$op[id]" style="display:none;">
                 <span id="treecomment_form_cop{$op[id]}_0"></span>
-                <!--{template space_doing_li_index}-->
+                <!--{template space_treecomment_li}-->
             </div>
 
             <div class="clearfix"></div>

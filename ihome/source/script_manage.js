@@ -289,6 +289,19 @@ function userapp_delete(id, result) {
 	}
 }
 
+function treecomment_get(id, result) {
+	if(result) {
+		var ids = explode('_', id);
+		var rootid = ids[1];
+		var showid = id;
+        alert(showid);
+
+		$(showid).style.display = '';
+		$(showid).className = 'fcomment do_document is-visible';
+
+		ajaxget('cp.php?ac=treecomment&op=getcomment&rootid='+rootid, showid);
+	}
+}
 //do评论
 function docomment_get(id, result) {
 	if(result) {
