@@ -1,6 +1,7 @@
 <?php
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
+	include_once('verify.php');
  	$space = getspace($_SGLOBAL['supe_uid']);
 
 	$query = $_SGLOBAL['db']->query("select friend from ".tname('spacefield')." where uid='$_SGLOBAL[supe_uid]'");
@@ -23,7 +24,7 @@
 	$group = array();
 	for($i=0; $i<$length; $i++) {
 		$uid = $rs1[$i];
-		$query = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$uid'");
+		$query = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$uid' LIMIT 1");
 		if ($rs2 = $_SGLOBAL['db']->fetch_array($query)) {
 			if(empty($rs2['name'])) $rs2['name'] = $rs2['username'];
 			if ($rs2['avatar']) {
@@ -41,7 +42,7 @@
 				$face = UC_API.'/images/avatar/'.$gender.'_big_1.png';
 			}
 			
-			$friend = array('id'=>$uid,'namequery'=>$rs2['name'].' '.Pinyin($rs2['name'],1).' '.$uid,'name'=>$rs2['name'],'face'=>$face);
+			$friend = array('id'=>$uid,'namequery'=>Pinyin($rs2['name'],1),'name'=>$rs2['name'],'face'=>$face);
 			
 			$all[] = $friend;
 			if (in_array($uid, $onlineID)) {
@@ -53,15 +54,16 @@
 	}
 
 	if ($all) {
+		$count=1;
 		$result['status']=1;
 		$result['msg']='ok';
 		if ($online) {
-			$result['data'][]=array('name' => '在线好友', 'nums' => count($online), 'id' => 1, 'item' => $online);
+			$result['data'][]=array('name' => '在线好友', 'nums' => count($online), 'id' => 0, 'item' => $online);
 		}
-		$result['data'][]=array('name' => '全部好友', 'nums' => count($all), 'id' => 2, 'item' => $all);
+		$result['data'][]=array('name' => '全部好友', 'nums' => count($all), 'id' => $count++, 'item' => $all);
 		ksort($group);
 		foreach ($group as $key => $value) {
-			$result['data'][]=array('name' => $key, 'nums' => count($value), 'id' => 2, 'item' => $value);
+			$result['data'][]=array('name' => $key, 'nums' => count($value), 'id' => $count++, 'item' => $value);
 		}
 	} else {
 		$result['status']=0;
