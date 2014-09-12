@@ -2,6 +2,7 @@
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
  	include_once(S_ROOT.'./uc_client/client.php');
+	include_once('verify.php');
  	$space = getspace($_SGLOBAL['supe_uid']);
 
  	$filter = 'privatepm';

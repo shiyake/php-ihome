@@ -21,11 +21,21 @@ var config = {
         groups: 'plugin/layim/groups.json', //群组成员接口
         sendurl: 'api/im/send.php' //发送消息接口
     },
-    user: { //当前用户信息
-        name: '游客',
-        face: 'http://tp1.sinaimg.cn/1670071920/180/1287996904/1'
-    },
-    
+    user: ({ //当前用户信息
+        name: '僕',
+        face: 'http://ajaxload.info/cache/FF/FF/FF/00/00/00/5-0.gif',
+        init: function(){
+            var _this = this;
+            jQuery.get('api/im/aloha.php', function(data){
+                if (data.status) {
+                    _this.name=data.name;
+                    _this.face=data.face;
+                }
+            }, 'json');
+            return _this;
+        }
+    }).init(),
+    friends: [],
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
         'aloha'
@@ -60,7 +70,7 @@ xxim.tabs = function(index){
     node.tabs.eq(index).addClass('xxim_tabnow').siblings().removeClass('xxim_tabnow');
     node.list.eq(index).show().siblings('.xxim_list').hide();
     if(node.list.eq(index).find('li').length === 0){
-        xxim.getDates(index);
+        xxim.getData(index);
     }
 };
 
@@ -426,8 +436,15 @@ xxim.transmit = function(){
             
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
             
+            var fancyDate = function() {
+                var now = new Date();
+                now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
+
+                return now.toJSON().replace('T',' ').slice(0,-5);
+            };
+
             log.imarea.append(log.html({
-                time: '2014-04-26 0:37',
+                time: fancyDate(),
                 name: config.user.name,
                 face: config.user.face,
                 content: data.content
@@ -441,6 +458,9 @@ xxim.transmit = function(){
                     log.imarea.append('<li><div class="layim_chatsay layim_chattip">'+datas['msg']+'</div></li>');
                     log.imarea.scrollTop(log.imarea[0].scrollHeight);
                 }
+            }, function(e) {
+                log.imarea.append('<li><div class="layim_chatsay layim_chattip">这条可怜的消息在名为人生的旅途中迷失了方向~</div></li>');
+                log.imarea.scrollTop(log.imarea[0].scrollHeight);
             });
             
         }
@@ -503,12 +523,30 @@ xxim.event = function(){
     
     //搜索
     node.xximSearch.keyup(function(){
-        var val = jQuery(this).val().replace(/\s/g, '');
+        var val = jQuery(this).val().toLowerCase().replace(/\s/g, '');
         if(val !== ''){
             node.searchMian.show();
             node.closeSearch.show();
-            //此处的搜索ajax参考xxim.getDates
-            node.list.eq(3).html('<li class="xxim_errormsg">没有符合条件的结果</li>');
+
+            node.list.eq(2).html('');
+            var str = '';
+            var flag = 0;
+            for (var i = 0; i < config.friends.length; i++) {
+                str += '<li class="xxim_liston">'
+                        +'<ul class="xxim_chatlist">';
+                if (config.friends[i].namequery.indexOf(val) !== -1) {
+                    if (!flag) {
+                        flag = 1;
+                    }
+                    str += '<li data-id="'+ config.friends[i].id +'" class="xxim_childnode" type="one"><img src="'+ config.friends[i].face +'"  class="xxim_oneface"><span  class="xxim_onename">'+ config.friends[i].name +'</span></li>'; 
+                }
+                str += '</ul></li>';
+            };
+            if (flag) {
+                node.list.eq(2).html(str);
+            } else {
+                node.list.eq(2).html('<li class="xxim_errormsg">没有符合条件的结果</li>');
+            }
         } else {
             node.searchMian.hide();
             node.closeSearch.hide();
@@ -542,7 +580,7 @@ xxim.event = function(){
 };
 
 //请求列表数据
-xxim.getDates = function(index){
+xxim.getData = function(index){
     var api = [config.api.friend, config.api.chatlog],
         node = xxim.node, myf = node.list.eq(index);
     myf.addClass('loading');
@@ -552,6 +590,9 @@ xxim.getDates = function(index){
             if(myflen > 1){
                 if(index !== 1){
                     for(; i < myflen; i++){
+                        if (!config.friends.length && !index && datas.data[i].id == 1) {
+                            config.friends = datas.data[i].item;
+                        }
                         str += '<li data-id="'+ datas.data[i].id +'" class="xxim_parentnode">'
                             +'<h5><i></i><span class="xxim_parentname">'+ datas.data[i].name +'</span><em class="xxim_nums">（'+ datas.data[i].nums +'）</em></h5>'
                             +'<ul class="xxim_chatlist">';
@@ -565,7 +606,7 @@ xxim.getDates = function(index){
                     str += '<li class="xxim_liston">'
                         +'<ul class="xxim_chatlist">';
                     for(; i < myflen; i++){
-                        str += '<li data-id="'+ datas.data[i].id +'" class="xxim_childnode" type="one"><img src="'+ datas.data[i].face +'"  class="xxim_oneface"><span  class="xxim_onename">'+ datas.data[i].name +'</span><em class="xxim_time">'+ datas.data[i].time +'</em></li>'; 
+                        str += '<li data-id="'+ datas.data[i].id +'" class="xxim_childnode" type="one"><img src="'+ datas.data[i].face +'"  class="xxim_oneface"><em class="xxim_time">'+ datas.data[i].time +'</em><span  class="xxim_onename">'+ datas.data[i].name +'</span><span class="xxim_onehistory">'+datas.data[i].message+'</span></li>'; 
                     }
                     str += '</ul></li>';
                 }
@@ -603,7 +644,7 @@ xxim.view = (function(){
     dom[3].append(xximNode);
     
     xxim.renode();
-    xxim.getDates(0);
+    xxim.getData(0);
     xxim.event();
     xxim.layinit();
 }());
