@@ -42,7 +42,7 @@
 				$face = UC_API.'/images/avatar/'.$gender.'_big_1.png';
 			}
 			
-			$friend = array('id'=>$uid,'namequery'=>Pinyin($rs2['name'],1),'name'=>$rs2['name'],'face'=>$face);
+			$friend = array('id'=>$uid,'namequery'=>$rs2['name'].' '.Pinyin($rs2['name'],1),'name'=>$rs2['name'],'face'=>$face);
 			
 			$all[] = $friend;
 			if (in_array($uid, $onlineID)) {
