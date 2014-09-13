@@ -56,7 +56,7 @@ if ($count) {
         $cids[] = $value['id'];
         $clist[] = $value;
         realname_set($value['uid']);
-        realname_set($value['atdeptuid']);
+        realname_set($value['curuid']);
     }
 }
 
