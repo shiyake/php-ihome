@@ -46,6 +46,12 @@ if (submitcheck('commentsubmit')) {
         $commentarr['message'] = $message;
         $commentarr['dateline'] = $_SGLOBAL['timestamp'];
         inserttable('treecomments', $commentarr);
+        $addr = strrpos($rootid, "_");
+        $type = substr($rootid, 0, $addr);
+        $tid = intval(substr($rootid, $addr + 1));
+        if ($type == 'cop') {
+            $_SGLOBAL['db']->query("update ".tname("complain_op")." set replynum = replynum+1 where id = $tid");
+        }
         showmessage('do_success');
 
     }
@@ -67,6 +73,23 @@ if (submitcheck('commentsubmit')) {
         $one['layer'] = $tree->getLayer($id) * 2 -2;
         $one['style'] = "padding-left:${one['layer']}em;";
         $list[] = $one;
+    }
+} elseif ($_GET['op'] == 'delete') {
+    if (submitcheck('deletesubmit')) {
+        $query = $_SGLOBAL['db']->query("select * from ".tname('treecomments')." where id = '$id'");
+        if ($c = $_SGLOBAL['db']->fetch_array($query)) {
+            if ($c['rootid'] == $rootid && $c['uid'] == $_SGLOBAL['supe_uid']) {
+                $_SGLOBAL['db']->query("delete from ".tname("treecomments")." where id = '$id'");
+                $addr = strrpos($rootid, "_");
+                $type = substr($rootid, 0, $addr);
+                $tid = intval(substr($rootid, $addr + 1));
+                if ($type == 'cop') {
+                    $_SGLOBAL['db']->query("update ".tname("complain_op")." set replynum = replynum-1 where id = $tid");
+                }
+                showmessage('do_success');
+            }
+        }
+        showmessage('failed_to_delete_operation');
     }
 }
 realname_get();

@@ -289,12 +289,9 @@ function userapp_delete(id, result) {
 	}
 }
 
-function treecomment_get(id, result) {
+function treecomment_get(id, rootid, result) {
 	if(result) {
-		var ids = explode('_', id);
-		var rootid = ids[1];
 		var showid = id;
-        alert(showid);
 
 		$(showid).style.display = '';
 		$(showid).className = 'fcomment do_document is-visible';
@@ -376,10 +373,6 @@ function treecomment_form(rootid, id) {
 	}
 }
 
-function treecomment_form_close(rootid, id) {
-	var showid = 'treecomment_form_'+rootid+'_'+id;
-	$(showid).innerHTML = '';
-}
 
 //feed评论
 function feedcomment_get(feedid, result) {

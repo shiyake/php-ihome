@@ -556,6 +556,7 @@ $_SGLOBAL['msglang'] = array(
     'protect_email_send' => '已经向你的个人邮箱\\1发送了邮件，请查收，如果没有收到可以重新填写，然后发送',
     'not_to_use_old_face' => '亲，请不要尝试使用旧表情，我们的新表情很可爱有木有^_^',
     'delete_complain' => '诉求删除完成',
+    'error_op' => '操作不合法',
 );
 
 ?>
