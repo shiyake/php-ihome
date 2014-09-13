@@ -3,6 +3,10 @@
  	include_once(S_ROOT.'./source/function_space.php');
 	include_once('verify.php');
 
+	set_time_limit(0);
+	header("Connection: Keep-Alive");
+	header("Proxy-Connection: Keep-Alive");
+
  	$uid = $_SGLOBAL['supe_uid'];
 
  	$result = array();

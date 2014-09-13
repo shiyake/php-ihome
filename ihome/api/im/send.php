@@ -14,7 +14,7 @@
  	cknewuser();
 
  	$result = array();
- 	if ($type !== 'one') {
+ 	if ($type == 'one') {
  		if($touid) {
 			if(isblacklist($touid)) {
 				$result['status'] = 0;

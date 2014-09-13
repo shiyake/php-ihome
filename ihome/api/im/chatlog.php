@@ -1,27 +1,34 @@
 <?php
 	include_once('../../common.php');
  	include_once(S_ROOT.'./source/function_space.php');
- 	include_once(S_ROOT.'./uc_client/client.php');
 	include_once('verify.php');
- 	$space = getspace($_SGLOBAL['supe_uid']);
 
- 	$filter = 'privatepm';
-	$perpage = 50;
-	$page = 1;
-	
-	$rs1 = uc_pm_list($_SGLOBAL['supe_uid'], $page, $perpage, 'inbox', $filter, 100);
-	$pms = $rs1['data'];
+	$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where (msgfromid='".$_SGLOBAL['supe_uid']."' or msgtoid='".$_SGLOBAL['supe_uid']."') and msgfromid and !related order by dateline desc limit 100");
+	$pms = array();
+	$mem = array();
+	while ($r = $_SGLOBAL['db']->fetch_array($q)) {
+		$uid = intval($r['msgfromid'])^intval($r['msgtoid'])^intval($_SGLOBAL['supe_uid']);
+		if ($mem[$uid]) {
+			continue;
+		} else {
+			$mem[$uid] = 1;
+			$r['id'] = $uid;
+			$pms[] = $r;
+		}
+	}
 
 	$data = array();
 	$now = time();
 	$today = mktime(0,0,0);
 	$yesterday = $today - 24 * 60 * 60;
 	foreach ($pms as $value) {
-		$uid = intval($value['msgfromid']);
+		$uid = intval($value['id']);
 		$query = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$uid'");
 		if ($rs2 = $_SGLOBAL['db']->fetch_array($query)) {
-			$value['id'] = $uid;
-			$value['name'] = empty($rs2['name'])?$rs2['username']:$rs2['name'];
+			$datum = array();
+			$datum['id'] = $value['id'];
+			$datum['message'] = $value['message'];
+			$datum['name'] = empty($rs2['name'])?$rs2['username']:$rs2['name'];
 
 			if ($rs2['avatar']) {
 				$face = avatar($uid,'big',TRUE);
@@ -37,19 +44,20 @@
 				}
 				$face = UC_API.'/images/avatar/'.$gender.'_big_1.png';
 			}
-			$value['face'] = $face;
+			$datum['face'] = $face;
 
 			$past = $value['dateline'];
 			if ($past >= $now) {
-				$value['time'] = '现在';
+				$datum['time'] = '现在';
 			} else if ($past > $today) {
-				$value['time'] = date('H:i', $past);
+				$datum['time'] = date('H:i', $past);
 			} else if ($past > $yesterday) {
-				$value['time'] = '昨天';
+				$datum['time'] = '昨天';
 			} else {
-				$value['time'] = date('Y-m-d', $past);
+				$datum['time'] = date('Y-m-d', $past);
 			}
-			$data[] = $value;
+
+			$data[] = $datum;
 		}
 	}
 
