@@ -186,6 +186,8 @@ if(submitcheck('addsubmit')) {
                         'from' => $_SGLOBAL['supe_uid'],
                         'atuid' => $UserId,
                         'atuname' => $UserDept['department'],
+                        'curuid' => $UserId,
+                        'curusername' => $UserDept['department'],
                         'isreply' => 0,
                         'addtime' => $nowtime,
                         'dateline' => $dateline,
