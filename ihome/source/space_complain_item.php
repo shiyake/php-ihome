@@ -17,6 +17,10 @@ if ($complain) {
         if ($_SGLOBAL['supe_uid'] != $complain['uid']) {
             $space = getspace($complain['uid']);
         }
+    } else {
+        include_once(S_ROOT.'./source/function_delete.php');
+        deleteComplains(array($doid));
+        showmessage('complain_no_doing', "space.php?do=complain");
     }
     include_once(S_ROOT.'./source/class_tree.php');
     $tree = new tree();

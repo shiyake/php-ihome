@@ -34,7 +34,7 @@
     <!--{eval $loopIndex = 1;}--> 
     <!--{loop $clist $cp}-->
         <tr>
-            <td>$loopIndex</td>
+            <td><a href="space.php?do=complain_item&doid=$cp[doid]">$loopIndex</a></td>
             <td>{$_SN[$cp[uid]]}</td>
             <td>$cp[message]</td>
             <td><!--{date('m月d日 H:i',$cp[addtime])}--></td>
