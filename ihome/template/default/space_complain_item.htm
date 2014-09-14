@@ -1,0 +1,140 @@
+<!--{eval $_TPL['titles']=array('诉求');}-->
+<!--{template header}-->
+<!--{if $complain}-->
+<div id="content">
+<div class="complain_list">
+    <ol>
+        <li>
+            <div class="feed_li_avatar" style="float:left !important">
+                <div class="round_border head">
+                    <a href="space.php?uid=$complain[uid]"><!--{avatar($complain[uid],big,false,0,'feed')}--></a>
+                </div>
+                <div>
+                    <a href="space.php?uid=$complain[uid]">$_SN[$complain[uid]]</a>
+                </div>
+            </div>
+            <script src="source/docomment.js"></script> 
+            <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+                <span>$complain[message]</span>
+                <div class="feed_content clearfix"></div>
+                <div id="reply_content">
+                    <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
+                    <span class="floatright">
+                        <a href="javascript:;" data-doid="{$complain[doid]}" id="do_a_op_$doid" onclick="docomment_form($doid,0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                    </span>
+                </div>
+            </div>
+            <!--{eval $list = $doclist[$complain[doid]];}-->
+            <div class="sub_doing fcomment do_document" id="docomment_$doid" style="display:none;">
+                <span id="docomment_form_{$complain[doid]}_0"></span>
+                <!--{template space_doing_li_index}-->
+            </div>
+            <div class="clearfix"></div>
+        </li>
+        <!--{loop $complain_ops $op}-->
+        <!--{if $op[optype] == 2 || $op[optype] == 3 || $op[optype] == 4}-->
+        <li>
+        <!--{if $op[uid] == $complain[uid]}-->
+            <div class="feed_li_avatar" style="float:left !important">
+        <!--{else}-->
+            <div class="feed_li_avatar" style="float:right !important">
+        <!--{/if}-->
+                <div class="round_border head">
+                    <a href="space.php?uid=$dv[uid]"><!--{avatar($op[uid],big,false,0,'feed')}--></a>
+                </div>
+                <div>
+                    <a href="space.php?uid=$dv[uid]">$_SN[$op[uid]]</a>
+                </div>
+            </div>
+            <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+                <span>$op[message]</span>
+                <div class="feed_content clearfix"></div>
+                <div id="reply_content">
+                    <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
+                    <span class="floatright">
+                        <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
+                    </span>
+                </div>
+            </div>
+            <!--{eval $list = $opclist[$op[id]];}-->
+            <div class="sub_doing fcomment do_document" id="treecomment_cop_$op[id]" style="display:none;">
+                <span id="treecomment_form_cop_{$op[id]}_0"></span>
+                <!--{template space_treecomment_li}-->
+            </div>
+
+            <div class="clearfix"></div>
+        </li>
+        <!--{/if}-->
+        <!--{/loop}-->
+    </ol>
+    <!--{if $complain[status] == 0 && $complain[curuid] == $_SGLOBAL[supe_uid]}-->
+    <!--{template space_complain_op_feed}-->
+    <!--{/if}-->
+    <!--{if $complain[status] == 1 && $complain[uid] == $_SGLOBAL[supe_uid]}-->
+    <div>
+    <a href="cp.php?ac=complain&doid=$doid&op=down" id="complain_continue" onclick="ajaxmenu(event, this.id)" >踩</a>
+    <script type="text/javascript">
+        function continue_complain() {
+            if ($("continue_complain").style.display != "block") {
+                $("continue_complain").style.display = "block";
+            } else {
+                $("continue_complain").style.display = "none";
+            }
+        }
+    </script>
+    <a href="#" id="complain_continue" onclick="continue_complain();return false;" >继续诉求</a>
+    </div>
+    <!--{template space_complain_op_continue}-->
+    <!--{/if}-->
+</div>
+</div>
+<div id="sidebarbox">
+    <div class="sidebox">
+        <div style="text-align: center;font-size:18px;margin-top:20px">
+            <!--{if $complain[status] == 0}-->
+            <p>处理中</p>
+            <!--{elseif $complain[status] == 1}-->
+            <p>已处理</p>
+            <!--{else}-->
+            <p>已关闭</p>
+            <!--{/if}-->
+        </div>
+        <p style="text-align: center;font-size:18px;margin-top:20px">诉求状态变更历史</p>
+        <div style="text-align: center;">
+            <ol class="list-unstyled">
+                <li style="border-top: solid;">
+                <p>发起诉求</p>
+                <p><!--{date('Y年m月d日 H:i',$dv[dateline],1)}--></p>
+                </li>
+                <!--{loop $complain_ops $op}-->
+                <li style="border-top: solid;">
+                    <!--{if $op[optype] == 2}-->
+                    <p>回复诉求</p>
+                    <!--{elseif $op[optype] == 3}-->
+                    <p>转发诉求</p>
+                    <!--{elseif $op[optype] == 4}-->
+                    <p>继续诉求</p>
+                    <!--{elseif $op[optype] == 5}-->
+                    <p>踩诉求</p>
+                    <!--{elseif $op[optype] == 6}-->
+                    <p>关闭诉求</p>
+                    <!--{else}-->
+                    <p>未知动作</p>
+                    <!--{/if}-->
+                    <p><!--{date('Y年m月d日 H:i',$op[dateline],1)}--></p>
+
+                </li>
+                <!--{/loop}-->
+
+            </ol>
+        </div>
+    </div>
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+没有找到改诉求
+</p>
+<!--{/if}-->
+<!--{template footer}-->

@@ -289,6 +289,16 @@ function userapp_delete(id, result) {
 	}
 }
 
+function treecomment_get(id, rootid, result) {
+	if(result) {
+		var showid = id;
+
+		$(showid).style.display = '';
+		$(showid).className = 'fcomment do_document is-visible';
+
+		ajaxget('cp.php?ac=treecomment&op=getcomment&rootid='+rootid, showid);
+	}
+}
 //do评论
 function docomment_get(id, result) {
 	if(result) {
@@ -351,6 +361,18 @@ function docomment_form_close(doid, id) {
 	var showid = 'docomment_form_'+doid+'_'+id;
 	$(showid).innerHTML = '';
 }
+
+function treecomment_form(rootid, id) {
+	var showid = 'treecomment_form_'+rootid+'_'+id;
+	var divid = 'treecomment_' + rootid;
+	ajaxget('cp.php?ac=treecomment&op=add&rootid='+rootid+'&id='+id, showid);
+	if($(divid)) {
+        if($(divid).style.display!='block')
+		    $(divid).style.display = 'block';
+        else $(divid).style.display = 'none';
+	}
+}
+
 
 //feed评论
 function feedcomment_get(feedid, result) {

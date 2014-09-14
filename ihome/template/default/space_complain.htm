@@ -1,0 +1,69 @@
+<!--{eval $_TPL['titles']=array('诉求');}-->
+<!--{template header}-->
+
+<div id="content" style="border-right: none;">
+<h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_zuji.png">诉求</h4>
+<div class="tabs_header">
+    <ul class="tabs">
+        <li$actives[me] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的诉求</span></a></li>
+        <li$actives[all] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
+    </ul>
+</div>
+<div id="complain_list">
+<div class="h_status" style="margin-left:31px;border-bottom:none;margin-bottom:5px">
+<a $submenus[all] href="space.php?do=complain&view={$_GET[view]}&type=all">全部诉求</a>
+<a $submenus[running] href="space.php?do=complain&view={$_GET[view]}&type=running">处理中</a>
+<a $submenus[done] href="space.php?do=complain&view={$_GET[view]}&type=done">已处理</a>
+<a $submenus[closed] href="space.php?do=complain&view={$_GET[view]}&type=closed">已关闭</a>
+</div>
+
+<!--{if $clist}-->
+    <table class="complain_list">
+        <thead>
+            <tr>
+            <td style="width:10%">序号</td>
+            <td style="width:15%">诉求人</td>
+            <td style="width:20%">诉求内容</td>
+            <td style="width:20%">诉求时间</td>
+            <td style="width:15%">诉求部门</td>
+            <td style="width:10%">状态</td>
+            <td style="width:10%"></td>
+            </td>
+        </thead>
+        <tbody>
+    <!--{eval $loopIndex = 1;}--> 
+    <!--{loop $clist $cp}-->
+        <tr>
+            <td><a href="space.php?do=complain_item&doid=$cp[doid]">$loopIndex</a></td>
+            <td>{$_SN[$cp[uid]]}</td>
+            <td>$cp[message]</td>
+            <td><!--{date('m月d日 H:i',$cp[addtime])}--></td>
+            <td>{$_SN[$cp[curuid]]}</td>
+            <!--{if $cp[status] == 0}-->
+            <td>处理中</td>
+            <!--{elseif $cp[status] == 1}-->
+            <td>已处理</td>
+            <!--{elseif $cp[status] == 2}-->
+            <td>已关闭</td>
+            <!--{/if}-->
+            
+            <td>
+            <!--{if $cp[uid] == $_SGLOBAL[supe_uid]}-->
+            <a href="cp.php?ac=complain&op=delete&doid=$cp[doid]" id="complain_delete_{$cp[doid]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a>
+            <!--{/if}-->
+            </td>
+        </tr>
+    <!--{eval $loopIndex += 1;}--> 
+    <!--{/loop}-->
+        </tbody>
+    </table>
+    <div class="page" style="margin-bottom: 10px;">$multi</div>
+</div>
+<!--{else}-->
+<p class="no-content-tip">
+<img src="image/icons/no_status.png">
+<br>
+现在还没有诉求
+</p>
+<!--{/if}-->
+<!--{template footer}-->

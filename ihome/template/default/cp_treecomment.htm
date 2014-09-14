@@ -1,0 +1,50 @@
+<!--{template header}-->
+<!--{if $_GET['op'] == 'add' || $_GET['op'] == 'getcomment'}-->
+<script language="javascript" src="source/face.js" charset="utf-8"></script>
+    <script language="javascript" src="source/tree_comment.js" charset="utf-8"></script>
+	<form  method="post" 
+			class="form form-comment" 
+			style="padding: 5px;height:50px;"
+			action="cp.php?ac=treecomment&op=add&rootid={$rootid}&id={$id}" >
+		<input type="text" id="tree_message_{$rootid}_0" 
+				name="message" value="评论..."
+				size="35" style="width:81%;" 
+				class="form-control t_input input-sm" 
+				onclick="jQuery('#tree_message_{$rootid}_0').css({'color':'#333'});if(this.value=='评论...') this.value='';" 
+				onkeydown="return ctrlEnter(event, 'treecommform_btn_{$rootid}_0', 1);" 
+				onfocus="at()">
+	<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+		<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+		<input type="hidden" name="commentsubmit" value="true" />
+        <a href="javascript:;" id="tree_face_{$rootid}_0" class="drop_face comment_face"><div></div></a>
+        <div class="drop_face_menu" data-target="tree_message_{$rootid}_0"></div>
+		<input type="button" name="root_button" data-rootid="$rootid" class="comment_click_btn submit btn btn-comments" id="treecommform_btn_{$rootid}_0" 
+				value="评论">
+		<br>
+        <input type="hidden" name="upid" id="upid_{$rootid}" value="0"/>
+        <input type="hidden" name="rootid" id="rootid" value="$rootid"/>
+    
+    <input type="hidden" name="formhash" id="hashform_$rootid" class="hashform" value="<!--{eval echo formhash();}-->" />
+	</form>
+    <div id="__rootcommform_{$rootid}_0" style="display:none;"></div>
+<!--{if $_GET['op'] == 'getcomment'}-->
+<!--{template space_treecomment_li}-->
+<!--{/if}-->
+<!--{elseif $_GET['op'] == 'delete'}-->
+<h1>删除评论</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__treecommentform_{$rootid}_{$id}">
+	<form method="post" id="treecommentform_{$rootid}_{$id}" name="treecommentform" action="cp.php?ac=treecomment&op=delete&rootid=$rootid&id=$id">
+		<p>确定删除该评论吗？</p>
+		<div class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<button name="deletesubmit" type="submit" 
+					class="btn btn-sm btn-comments" 
+					value="true">确定</button>
+		</div>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+
+<!--{/if}-->
