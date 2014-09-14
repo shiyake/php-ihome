@@ -15,6 +15,7 @@ $upvote = $_GET['upvote'] ? trim($_GET['upvote']) : 0;
 
 parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $preURL);
 $preAc = $preURL['ac']?$preURL['ac']:'list';
+$category = $preURL['category']?$preURL['category']:'0';
 
 //app的基本信息
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')." WHERE id='$appsid' OR iauth_id='$appsid'");
@@ -23,6 +24,7 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     realname_set($value['applyuid'], $value['uname']);
     $app = $value;
     $appsid = $app['id'];
+    $accessible = $isSchoolNET || $app['category']==3;
 }else{
     showmessage('对不起，不存在该应用~!','plugin.php?pluginid=apps');
     exit();
@@ -70,6 +72,9 @@ if($resetauthorize){
 }
 
 
+// autoAuth
+$autoAuth = autoAuth($app['iauth_id']);
+
 //是否已经授权该应用
 $isAuthorized = FALSE;
 $hasShortcut = 0;
@@ -79,7 +84,7 @@ if($value = $_SGLOBAL['db']->fetch_array($query)) {
     $hasShortcut = intval($value['shortcut']);
 }
 
-if ($isAuthorized && !empty($_GET['shortcut'])) {
+if (($isAuthorized || $autoAuth) && !empty($_GET['shortcut'])) {
     $shortcut = $_GET['shortcut'] == 'add' ? 1 : 0;
     if ($shortcut == $hasShortcut) {
         echo 1;
@@ -89,6 +94,7 @@ if ($isAuthorized && !empty($_GET['shortcut'])) {
         $hasShortcut = $shortcut;
     }
 }
+
 
 //使用app
 if($gotoapp && $isAuthorized){
@@ -131,7 +137,7 @@ if($gotoapp && $isAuthorized){
 }
 
 //授权使用
-if($authorize && !$isAuthorized){
+if(($authorize || $autoAuth) && !$isAuthorized){
     if(!@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php')){
         header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");exit();
     }
@@ -205,6 +211,45 @@ if($authorize && !$isAuthorized){
         echo $app['url'];
         exit();
     }
+}
+
+
+function autoAuth($iauth_id)
+{
+    define("IAUTH_DB_USER","root");
+    define("IAUTH_DB_HOST","211.71.14.65");
+    define("IAUTH_DB_PASSWD","devihome");
+    define("IAUTH_DB_DB","iauthServer2");
+
+    define("IAUTH_VERSION",2.0);
+
+    define("IAUTH_TIME_OFFSET",120);
+    define("IAUTH_UAC_AUTH_DELAY_TIME",120);
+    define("IAUTH_WSC_AUTH_DELAY_TIME",60);
+    define("IAUTH_WSC_LOGIN_DELAY_TIME",60);
+
+    define("IAUTH_ERROR_LOG_FILE",dirname(__FILE__)."/debug/IAuthErrorLog");
+    define("IAUTH_ACCESS_LOG_FILE",dirname(__FILE__)."/debug/IAuthAccessLog");
+
+    //define("IAUTH_APP_INFO_PAGE",'http://211.71.14.65/plugin/iauth/debug/appcenter.php?ac=auth');
+    define("IAUTH_APP_INFO_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail');
+    define("IAUTH_SIMPLE_AUTH_CONFIRM_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail&isConfirm=1');
+
+    if(!@include_once(S_ROOT.'./plugin/iauth/IAuthCommon.php')){
+        header("Location:plugin.php?pluginid=apps&ac=detail&appsid=$appsid");exit();
+    }
+    $autoAuth = 0;
+    if ($iauth_id) {
+        try {
+            $autoAuth = GetAppInfo($iauth_id.'','auto_auth');
+            // showmessage($autoAuth);
+        } catch(IAuthException $e) {
+            $autoAuth = 0;
+            // echo $e->getMessage();
+            // exit();
+        }
+    }
+    return $autoAuth;
 }
 
 //提交评分

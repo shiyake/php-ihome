@@ -17,4 +17,6 @@ define("IAUTH_VERIFY_URL","http://i.buaa.edu.cn/plugin/iauth/verify.php");
 ini_set('display_errors',1);
 error_reporting(E_ALL);
 
+/* ############# stop automaticly adding \ to \ ' "  ############# */
+ini_set('magic_quotes_runtime',0);
 ?>

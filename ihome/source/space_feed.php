@@ -406,7 +406,9 @@ if($space['self'] && empty($start)) {
     $jsonstr = file_get_contents($url);
     $jsonarr = json_decode($jsonstr,ture);
     foreach ($jsonarr as $key => $value) {
-        $hotevent[] = $value[key];
+    	$value[url][org] = $value[key];
+    	$value[url][utf8] = urlencode($value[key]);
+        $hotevent[] = $value[url];
     }
     // print_r($hotevent);
     // exit();

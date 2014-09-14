@@ -28,8 +28,19 @@
           </div>
           <!-- end yingyong_eva -->
           <div class="quanli">
-            <!--{if !$isSchoolNET}-->
+            <!--{if !$accessible}-->
 			<div class="xiaowai">该服务只允许在校师生在校园网环境使用，谢谢~！</div>
+			<!--{elseif $autoAuth}-->
+			<!--{if $app[iauth_type]}-->
+			<div class="shiyong"><a class="btn btn-default" onclick="gourl();" href="javascript:void(0)">立即使用</a></div>
+			<!--{else}-->
+			<div class="shiyong"><a class="btn btn-default" onclick="useApp('$appsid');" href="javascript:void(0)">立即使用</a></div>
+			<!--{/if}-->
+			<!--{if $hasShortcut}-->
+			<div class="shortcut"><a class="btn btn-default danger" onclick="removeShortcut()" href="javascript:void(0);">从首页取消</a></div>
+			<!--{else}-->
+			<div class="shortcut"><a class="btn btn-default" onclick="addShortcut()" href="javascript:void(0);">添加至首页</a></div>
+			<!--{/if}-->
 			<!--{elseif $isAuthorized}-->
 			<!--{if $app[iauth_type]}-->
 			<div class="shiyong"><a class="btn btn-default" onclick="gourl();" href="javascript:void(0)">立即使用</a></div>
