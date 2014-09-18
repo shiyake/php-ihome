@@ -3,15 +3,18 @@
  	include_once(S_ROOT.'./source/function_space.php');
 	include_once('verify.php');
 
-	set_time_limit(0);
-	header("Connection: Keep-Alive");
-	header("Proxy-Connection: Keep-Alive");
-
  	$uid = $_SGLOBAL['supe_uid'];
 
  	$result = array();
+
  	$query = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$uid' LIMIT 1");
 	if ($rs = $_SGLOBAL['db']->fetch_array($query)) {
+		require 'Predis/Autoloader.php';
+		Predis\Autoloader::register();
+		$client = new Predis\Client();
+		$keyT = 'T'.$uid;
+		$client->incr($keyT);
+
 		if(empty($rs['name'])) $rs['name'] = $rs['username'];
 		$name = $rs['name'];
 

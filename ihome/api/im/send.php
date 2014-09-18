@@ -36,6 +36,20 @@
 		if($touid) {
 			$return = uc_pm_send($_SGLOBAL['supe_uid'], $touid, $subject, $content, 1, $pmid, 0);
 
+			require 'Predis/Autoloader.php';
+			Predis\Autoloader::register();
+			$client = new Predis\Client();
+			
+			$keyT = 'T'.$touid;
+			$value = $client->get($keyT);
+			if ($value) {
+				$keyR = 'R'.$touid;
+				if ($client->get($keyR)) {
+					sleep(3);
+				}
+				$client->set($keyR, $value);
+			}
+				
 			if($return > 0) {
 				smail($touid, '', cplang('friend_pm',array($_SN[$space['uid']], getsiteurl().'space.php?do=pm')), '', 'friend_pm');
 			}
@@ -68,7 +82,6 @@
 		echo json_encode($result);
 		exit();
  	}
-
  	
 	$result['status'] = 1;
 	$result['msg'] = 'aloha';

@@ -19,7 +19,9 @@ var config = {
         group: 'plugin/layim/group.json', //群组列表接口 
         chatlog: 'api/im/chatlog.php', //聊天记录接口
         groups: 'plugin/layim/groups.json', //群组成员接口
-        sendurl: 'api/im/send.php' //发送消息接口
+        sendurl: 'api/im/send.php', //发送消息接口
+        update: 'api/im/update.php',
+        leave: 'api/im/leave.php'
     },
     user: ({ //当前用户信息
         name: '僕',
@@ -36,6 +38,7 @@ var config = {
         }
     }).init(),
     friends: [],
+    friendInfo: {},
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
         'aloha'
@@ -392,6 +395,38 @@ xxim.getGroups = function(param){
     });
 };
 
+xxim.fancyDate = function(time) {
+    var date;
+    if (time) {
+        time = parseInt(time);
+        date = new Date(time);
+    } else {
+        date = new Date();
+    }
+    date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
+
+    return date.toJSON().replace('T',' ').slice(0,-5);
+};
+
+xxim.html = function(param, type){
+    return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
+        +'<div class="layim_chatuser">'
+            + function(){
+                if(type === 'me'){
+                    return '<span class="layim_chattime">'+ param.time +'</span>'
+                           +'<span class="layim_chatname">'+ param.name +'</span>'
+                           +'<img src="'+ param.face +'" >';
+                } else {
+                    return '<img src="'+ param.face +'" >'
+                           +'<span class="layim_chatname">'+ param.name +'</span>'
+                           +'<span class="layim_chattime">'+ param.time +'</span>';      
+                }
+            }()
+        +'</div>'
+        +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+    +'</li>';
+};
+
 //消息传输
 xxim.transmit = function(){
     var node = xxim.node, log = {};
@@ -414,37 +449,10 @@ xxim.transmit = function(){
             //此处皆为模拟
             var keys = xxim.nowchat.type + xxim.nowchat.id;
             
-            //聊天模版
-            log.html = function(param, type){
-                return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
-                    +'<div class="layim_chatuser">'
-                        + function(){
-                            if(type === 'me'){
-                                return '<span class="layim_chattime">'+ param.time +'</span>'
-                                       +'<span class="layim_chatname">'+ param.name +'</span>'
-                                       +'<img src="'+ param.face +'" >';
-                            } else {
-                                return '<img src="'+ param.face +'" >'
-                                       +'<span class="layim_chatname">'+ param.name +'</span>'
-                                       +'<span class="layim_chattime">'+ param.time +'</span>';      
-                            }
-                        }()
-                    +'</div>'
-                    +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
-                +'</li>';
-            };
-            
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
-            
-            var fancyDate = function() {
-                var now = new Date();
-                now.setHours(now.getHours() - now.getTimezoneOffset() / 60);
 
-                return now.toJSON().replace('T',' ').slice(0,-5);
-            };
-
-            log.imarea.append(log.html({
-                time: fancyDate(),
+            log.imarea.append(xxim.html({
+                time: xxim.fancyDate(),
                 name: config.user.name,
                 face: config.user.face,
                 content: data.content
@@ -474,6 +482,31 @@ xxim.transmit = function(){
                 log.send();
             }
         }
+    });
+};
+
+xxim.update = function(){
+    var data = {}, log = {};
+
+    config.json(config.api.update, data, function(ret){
+        if (ret && ret.status) {
+            for (var i = 0; i < ret.data.length; i++) {
+                var datum = ret.data[i];
+                if (xxim.chatbox) {
+                    log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
+                    log.imarea.append(xxim.html({
+                        time: xxim.fancyDate(datum.time),
+                        name: config.friendInfo[datum.id].name,
+                        face: config.friendInfo[datum.id].face,
+                        content: datum.message
+                    }, ''));
+                }
+            };
+            log.imarea.scrollTop(log.imarea[0].scrollHeight);
+        };
+        xxim.update();
+    }, function(e){
+        setTimeout(xxim.update, 5000);
     });
 };
 
@@ -592,6 +625,10 @@ xxim.getData = function(index){
                     for(; i < myflen; i++){
                         if (!config.friends.length && !index && datas.data[i].id == 1) {
                             config.friends = datas.data[i].item;
+                            for (var j = 0; j < config.friends.length; j++) {
+                                var friend = config.friends[j];
+                                config.friendInfo[friend.id] = {name: friend.name, face: friend.face};
+                            };
                         }
                         str += '<li data-id="'+ datas.data[i].id +'" class="xxim_parentnode">'
                             +'<h5><i></i><span class="xxim_parentname">'+ datas.data[i].name +'</span><em class="xxim_nums">（'+ datas.data[i].nums +'）</em></h5>'
@@ -627,6 +664,10 @@ xxim.getData = function(index){
 
 //渲染骨架
 xxim.view = (function(){
+    window.onbeforeunload = function(){
+        config.json(config.api.leave);
+    };
+
     var xximNode = xxim.layimNode = jQuery('<div id="xximmm" class="xxim_main">'
             +'<div class="xxim_top" id="xxim_top">'
             +'  <div class="xxim_search"><i></i><input id="xxim_searchkey" /><span id="xxim_closesearch">×</span></div>'
@@ -647,6 +688,7 @@ xxim.view = (function(){
     xxim.getData(0);
     xxim.event();
     xxim.layinit();
+    xxim.update();
 }());
 
 }(window);
