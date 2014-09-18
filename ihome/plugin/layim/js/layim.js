@@ -409,6 +409,9 @@ xxim.fancyDate = function(time) {
 };
 
 xxim.html = function(param, type){
+    var content = param.content;
+    content = content.replace(/\</g,"&lt;");
+    content = content.replace(/\>/g,"&gt;");
     return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
         +'<div class="layim_chatuser">'
             + function(){
@@ -423,7 +426,7 @@ xxim.html = function(param, type){
                 }
             }()
         +'</div>'
-        +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+        +'<div class="layim_chatsay">'+ content +'<em class="layim_zero"></em></div>'
     +'</li>';
 };
 
@@ -489,7 +492,7 @@ xxim.update = function(){
     var data = {}, log = {};
 
     config.json(config.api.update, data, function(ret){
-        if (ret && ret.status) {
+        if (ret && ret.status==1) {
             for (var i = 0; i < ret.data.length; i++) {
                 var datum = ret.data[i];
                 if (xxim.chatbox) {
@@ -500,9 +503,9 @@ xxim.update = function(){
                         face: config.friendInfo[datum.id].face,
                         content: datum.message
                     }, ''));
+                    log.imarea.scrollTop(log.imarea[0].scrollHeight);
                 }
             };
-            log.imarea.scrollTop(log.imarea[0].scrollHeight);
         };
         xxim.update();
     }, function(e){
