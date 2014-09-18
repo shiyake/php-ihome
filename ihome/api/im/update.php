@@ -36,7 +36,7 @@
 	while ($r = $_SGLOBAL['db']->fetch_array($q)) {
 		$datum = array();
 		$datum['id'] = $r['msgfromid'];
-		$datum['message'] = $r['message'];
+		$datum['message'] = htmlspecialchars($r['message']);
 		$datum['time'] = $r['dateline'].'000';
 
 		$data[] = $datum;

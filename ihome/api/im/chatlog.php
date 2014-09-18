@@ -27,7 +27,7 @@
 		if ($rs2 = $_SGLOBAL['db']->fetch_array($query)) {
 			$datum = array();
 			$datum['id'] = $value['id'];
-			$datum['message'] = $value['message'];
+			$datum['message'] = htmlspecialchars($value['message']);
 			$datum['name'] = empty($rs2['name'])?$rs2['username']:$rs2['name'];
 
 			if ($rs2['avatar']) {
