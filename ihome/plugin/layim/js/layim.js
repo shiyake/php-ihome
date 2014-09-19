@@ -43,6 +43,11 @@ var config = {
     autoReplay: [
         'aloha'
     ],
+    audio: [
+        'api/im/sound/nyaa.wav',
+        'api/im/sound/kuma.wav',
+        'api/im/sound/nanchatte.wav'
+    ],
     
     sendType: 'enter',
     
@@ -488,28 +493,47 @@ xxim.transmit = function(){
     });
 };
 
-xxim.update = function(){
+xxim.update = function(time){
     var data = {}, log = {};
+    if (time) {
+        data['time'] = time;
+    };
 
     config.json(config.api.update, data, function(ret){
+        var param;
         if (ret && ret.status==1) {
-            for (var i = 0; i < ret.data.length; i++) {
-                var datum = ret.data[i];
-                if (xxim.chatbox) {
+            if (xxim.chatbox) {
+                for (var i = 0; i < ret.data.length; i++) {
+                    var datum = ret.data[i];
                     log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
-                    log.imarea.append(xxim.html({
+                    if (log.imarea) {
+                        log.imarea.append(xxim.html({
                         time: xxim.fancyDate(datum.time),
                         name: config.friendInfo[datum.id].name,
                         face: config.friendInfo[datum.id].face,
                         content: datum.message
-                    }, ''));
-                    log.imarea.scrollTop(log.imarea[0].scrollHeight);
-                }
-            };
+                        }, ''));
+                        log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                    } else {
+                        //log the update
+                    }
+                };
+            } else {
+                //log all the updates
+            }
+            
+            if (config.audio.length) {
+                var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
+                // var audio = new Audio(config.audio[0]);
+                audio.play();
+            }
+        } else if (ret && ret.time) {
+            param = ret.time;
         };
-        xxim.update();
+        xxim.update(param);
     }, function(e){
-        setTimeout(xxim.update, 5000);
+        xxim.update();
+        // setTimeout(xxim.update, 5000);
     });
 };
 
