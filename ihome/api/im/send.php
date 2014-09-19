@@ -44,7 +44,7 @@
 			$value = $client->get($keyT);
 			if ($value) {
 				$keyR = 'R'.$touid;
-				$client->incrby($keyR, $value);
+				$client->set($keyR, $value);
 			}
 				
 			if($return > 0) {
