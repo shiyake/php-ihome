@@ -150,7 +150,31 @@ li{list-style:none;}
 .xxim_onehistory{line-height:20px; position:absolute; top:20px; left:40px;color:#AAA;}
 .xxim_time+.xxim_onename{line-height:15px;}
 
+.layim_min.layim_blink {
+	background-color: #FF8500;
 
+	-webkit-animation: blinker 1s linear infinite;
+    -moz-animation: blinker 1s linear infinite;
+    animation: blinker 1s linear infinite;
+}
+
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1.0; }
+}
 
 
 

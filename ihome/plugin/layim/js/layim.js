@@ -48,7 +48,7 @@ var config = {
         'api/im/sound/kuma.wav',
         'api/im/sound/nanchatte.wav'
     ],
-    
+    stash: [],
     sendType: 'enter',
     
     chating: {},
@@ -502,11 +502,11 @@ xxim.update = function(time){
     config.json(config.api.update, data, function(ret){
         var param;
         if (ret && ret.status==1) {
-            if (xxim.chatbox) {
+            if (xxim.chatbox && xxim.chatbox.is(':visible')) {
                 for (var i = 0; i < ret.data.length; i++) {
                     var datum = ret.data[i];
                     log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
-                    if (log.imarea) {
+                    if (log.imarea && log.imarea.is(':visible')) {
                         log.imarea.append(xxim.html({
                         time: xxim.fancyDate(datum.time),
                         name: config.friendInfo[datum.id].name,
@@ -515,13 +515,19 @@ xxim.update = function(time){
                         }, ''));
                         log.imarea.scrollTop(log.imarea[0].scrollHeight);
                     } else {
-                        //log the update
+                        config.stash.push(datum);
                     }
                 };
             } else {
-                //log all the updates
+                [].push.apply(config.stash, ret.data);
             }
             
+            if (config.stash.length) {
+                xxim.node.layimMin.addClass('layim_blink');
+                xxim.node.layimMin.html(config.stash.length+' 条未读消息哦~');
+                xxim.node.layimMin.show();
+            }
+
             if (config.audio.length) {
                 var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
                 // var audio = new Audio(config.audio[0]);
@@ -627,6 +633,7 @@ xxim.event = function(){
     
     //点击最小化栏
     node.layimMin.on('click', function(){
+        jQuery(this).removeClass('layim_blink');
         jQuery(this).hide();
         jQuery('#layim_chatbox').parents('.xubox_layer').show();
     });
