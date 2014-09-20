@@ -35,19 +35,22 @@
 		$return = 0;
 		if($touid) {
 			$return = uc_pm_send($_SGLOBAL['supe_uid'], $touid, $subject, $content, 1, $pmid, 0);
-
-			require 'Predis/Autoloader.php';
-			Predis\Autoloader::register();
-			$client = new Predis\Client();
-			
-			$keyT = 'T'.$touid;
-			$value = $client->get($keyT);
-			if ($value) {
-				$keyR = 'R'.$touid;
-				$client->set($keyR, $value);
-			}
 				
 			if($return > 0) {
+				require 'Predis/Autoloader.php';
+				Predis\Autoloader::register();
+				$client = new Predis\Client();
+				
+				$keyT = 'T'.$touid;
+				if ($client->exists($keyT)) {
+					$keyR = 'R'.$touid;
+					if ($client->exists($keyR)) {
+						$value = intval($client->get($keyR));
+						$return = $value > $return ? $value : $return;
+					}
+					
+					$client->set($keyR, $return);
+				}
 				smail($touid, '', cplang('friend_pm',array($_SN[$space['uid']], getsiteurl().'space.php?do=pm')), '', 'friend_pm');
 			}
 
