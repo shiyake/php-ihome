@@ -9,8 +9,12 @@
 
 	set_time_limit(0);
 
-	if ($_POST['time']) {
-		$startTime = intval($_POST['time']);
+	if ($_POST['version']) {
+		$version = intval($_POST['version']);
+	} else {
+		$q = $_SGLOBAL['db']->query("select max(pmid) from ".UC_DBTABLEPRE."pms where msgtoid='".$_SGLOBAL['supe_uid']."' and related");
+		$r = $_SGLOBAL['db']->result($q);
+		$version = intval($r);
 	}
 
 	$uid = $_SGLOBAL['supe_uid'];
@@ -29,14 +33,13 @@
 			break;
 		}
 		if ($client->exists($keyR)) {
+			$value = intval($client->get($keyR));
+			if ($value > $version) {
+				break;
+			}
 			if (connection_aborted()) {
 				exit();
 			}
-			$value = $client->decr($keyR);
-			if ($value <= 0) {
-				$client->del($keyR);
-			}
-			break;
 		}
 		if ($miss < 5000000) {
 			$miss += 1000;
@@ -51,9 +54,9 @@
 	if ($stopTime) {
 		$result = array();
 		$result['status'] = '0';
-		$result['time'] = $stopTime;
+		$result['version'] = $version;
 	} else {
-		$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where msgtoid='".$_SGLOBAL['supe_uid']."' and related and (dateline>".$startTime." or new) order by dateline limit 100");
+		$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where msgtoid='".$_SGLOBAL['supe_uid']."' and related and (pmid>".$version." or new) order by dateline limit 100");
 		$data = array();
 		while ($r = $_SGLOBAL['db']->fetch_array($q)) {
 			$datum = array();
@@ -63,14 +66,18 @@
 
 			$data[] = $datum;
 			$_SGLOBAL['db']->query("update ".UC_DBTABLEPRE."pms set new=0 where pmid='".$r['pmid']."'");
+
+			$version = intval($r['pmid']) > $version ? intval($r['pmid']) : $version;
 		}
 
 		$result = array();
 		if ($data) {
 			$result['status'] = '1';
 			$result['data'] = $data;
+			$result['version'] = $version;
 		} else {
 			$result['status'] = '0';
+			$result['version'] = $version;
 		}
 	}
 

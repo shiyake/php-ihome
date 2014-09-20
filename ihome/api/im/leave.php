@@ -8,9 +8,11 @@
 	Predis\Autoloader::register();
 	$client = new Predis\Client();
 	$keyT = 'T'.$uid;
+	$keyR = 'R'.$uid;
 	$value = $client->decr($keyT);
 
 	if ($value <= 0) {
 		$client->del($keyT);
+		$client->del($keyR);
 	}
 ?>

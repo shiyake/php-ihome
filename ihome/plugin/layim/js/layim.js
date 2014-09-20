@@ -48,7 +48,7 @@ var config = {
         'api/im/sound/kuma.wav',
         'api/im/sound/nanchatte.wav'
     ],
-    stash: [],
+    updates: 0,
     sendType: 'enter',
     
     chating: {},
@@ -493,10 +493,10 @@ xxim.transmit = function(){
     });
 };
 
-xxim.update = function(time){
+xxim.update = function(version){
     var data = {}, log = {};
-    if (time) {
-        data['time'] = time;
+    if (version) {
+        data['version'] = version;
     };
 
     config.json(config.api.update, data, function(ret){
@@ -515,16 +515,16 @@ xxim.update = function(time){
                         }, ''));
                         log.imarea.scrollTop(log.imarea[0].scrollHeight);
                     } else {
-                        config.stash.push(datum);
+                        
                     }
                 };
             } else {
-                [].push.apply(config.stash, ret.data);
+                config.updates += ret.data.length;
             }
             
-            if (config.stash.length) {
+            if (config.updates) {
                 xxim.node.layimMin.addClass('layim_blink');
-                xxim.node.layimMin.html(config.stash.length+' 条未读消息哦~');
+                xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');
                 xxim.node.layimMin.show();
             }
 
@@ -533,9 +533,10 @@ xxim.update = function(time){
                 // var audio = new Audio(config.audio[0]);
                 audio.play();
             }
-        } else if (ret && ret.time) {
-            param = ret.time;
-        };
+        }
+        if (ret && ret.version) {
+            param = ret.version;
+        }
         xxim.update(param);
     }, function(e){
         xxim.update();
@@ -633,6 +634,7 @@ xxim.event = function(){
     
     //点击最小化栏
     node.layimMin.on('click', function(){
+        config.updates = 0;
         jQuery(this).removeClass('layim_blink');
         jQuery(this).hide();
         jQuery('#layim_chatbox').parents('.xubox_layer').show();
