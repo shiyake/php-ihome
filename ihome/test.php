@@ -1,4 +1,5 @@
-<html>
+<?php
+phpinfo();?><html>
   <head>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">

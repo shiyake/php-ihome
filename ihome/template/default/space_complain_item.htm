@@ -52,6 +52,8 @@
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
                     <span class="floatright">
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" >顶<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a>
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" >踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a>
                         <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
                     </span>
                 </div>
@@ -67,12 +69,11 @@
         <!--{/if}-->
         <!--{/loop}-->
     </ol>
-    <!--{if $complain[status] == 0 && $complain[curuid] == $_SGLOBAL[supe_uid]}-->
+    <!--{if $complain[status] == 0 && $_SGLOBAL['mygroupid'] == 3}-->
     <!--{template space_complain_op_feed}-->
     <!--{/if}-->
     <!--{if $complain[status] == 1 && $complain[uid] == $_SGLOBAL[supe_uid]}-->
     <div>
-    <a href="cp.php?ac=complain&doid=$doid&op=down" id="complain_continue" onclick="ajaxmenu(event, this.id)" >踩</a>
     <script type="text/javascript">
         function continue_complain() {
             if ($("continue_complain").style.display != "block") {
