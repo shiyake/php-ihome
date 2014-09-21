@@ -5,15 +5,20 @@
 <h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_zuji.png">诉求</h4>
 <div class="tabs_header">
     <ul class="tabs">
+        <!--{if $space[groupid] == 3}-->
+        <li$actives[atme] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=atme"><span>我管理的诉求</span></a></li>
+        <!--{else}-->
         <li$actives[me] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的诉求</span></a></li>
+        <!--{/if}-->
         <li$actives[all] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
-        <li$actives[all] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank"><span>部门排行</span></a></li>
+        <li$actives[rank] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank"><span>部门排行</span></a></li>
     </ul>
 </div>
-<!--{if $_GET[view] == rank}-->
+<!--{if $_GET[view] == "rank"}-->
 <div id="complain_list">
-<ol>
+<ol style="list-unstyled">
 <!--{loop $deps $dep}-->
+<li>
 <div class="feed_li_avatar" style="float:left !important">
     <div class="round_border head">
         <a href="space.php?uid=$dep[uid]"><!--{avatar($dep[uid],big,false,0,'feed')}--></a>
@@ -21,7 +26,7 @@
 </div>
 <div style="float:right">
     <p>服务质量评分:$dep[score]</p>
-    <p>评价人数:<!--{eval echo $dep[upnum] + $dep[downnum]}--></p>
+    <p>评价人数:$dep[updownnum]</p>
     <!--{if $dep[allreplysecs] > 86400}-->
     <p>平均响应时间:<!--{eval echo intval($dep[allreplysecs]/86400)}-->天</p>
     <!--{elseif $dep[allreplysecs] > 3600}-->
@@ -35,6 +40,8 @@
 <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
     <span>$_SN[$dep[uid]]</span>
 </div>
+<div class="clearfix"></div>
+</li>
 <!--{/loop}-->
 </ol>
 </div>

@@ -25,7 +25,9 @@ if ($_GET['view'] == 'rank') {
     $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep"));
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $deps[] = $value;
+        realname_set($value['uid'], $value['username']);
     }
+    $actives = array('rank'=>' class="active"');
 } else {
     if (empty($_GET['type'])) {
         $_GET['type'] = 'done';
@@ -34,6 +36,10 @@ if ($_GET['view'] == 'rank') {
         $wheresql = "uid='$space[uid]'";
         $theurl = "space.php?uid=$space[uid]&do=$do&view=me&type=$_GET[type]";
         $actives = array('me'=>' class="active"');
+    } elseif ($_GET['view'] == 'atme') {
+        $wheresql = "curuid=$_SGLOBAL[supe_uid]";
+        $theurl = "space.php?do=$do&view=atme&type=$_GET[type]";
+        $actives = array('atme'=>' class="active"');
     } else {
         $wheresql = " 1 ";
         $theurl = "space.php?uid=$space[uid]&do=$do&view=all&type=$_GET[type]";
@@ -62,8 +68,8 @@ if ($_GET['view'] == 'rank') {
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
             $cids[] = $value['id'];
             $clist[] = $value;
-            realname_set($value['uid']);
-            realname_set($value['curuid']);
+            realname_set($value['uid'], $value['uname']);
+            realname_set($value['curuid'], $value['curusername']);
         }
     }
 
