@@ -21,7 +21,7 @@ if __name__ == '__main__':
                infos[item[1]][2] += 1
    print infos
    for k, v in infos.iteritems():
-       cursor.execute("update ihome_complain_dep set upnum = %d, downnum=%d, aversecs = %d, score = %d, lastupdate=%d where uid = %d" % (v[1], v[2], int(v[4]/v[3]), v[1] - v[2], int(time.time()), k)); 
+       cursor.execute("update ihome_complain_dep set upnum = %d, downnum=%d, updownnum=%d, aversecs = %d, score = %d, lastupdate=%d where uid = %d" % (v[1], v[2], v[1] + v[2], int(v[4]/v[3]), v[1] - v[2], int(time.time()), k)); 
        conn.commit()
 
 
