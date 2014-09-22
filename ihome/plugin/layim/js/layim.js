@@ -158,7 +158,7 @@ xxim.layinit = function(){
 };
 
 //聊天窗口
-xxim.popchat = function(param){
+xxim.popchat = function(param, status){
     var node = xxim.node, log = {};
     
     log.success = function(layero){
@@ -219,12 +219,13 @@ xxim.popchat = function(param){
             
             if(log.chatlist.find('li').length === 1){
                 log.chatlist.parent().hide();
-            } 
+            }
         });
         
         //聊天选项卡
         log.chatlist.on('click', 'li', function(){
             var othis = jQuery(this), dataType = othis.attr('type'), dataId = othis.attr('data-id');
+            othis.removeClass('layim_blink');
             xxim.tabchat(config.chating[dataType + dataId]);
         });
         
@@ -294,20 +295,29 @@ xxim.popchat = function(param){
             }, success: function(layero){
                 log.success(layero);
             }
-        })
+        });
+        if (status == 'hide') {
+            xxim.chatbox.parents('.xubox_layer').hide();
+        }
     } else {
         log.chatmore = xxim.chatbox.find('#layim_chatmore');
         log.chatarea = xxim.chatbox.find('#layim_chatarea');
         
         log.chatmore.show();
-        
-        log.chatmore.find('ul>li').removeClass('layim_chatnow');
-        log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'" class="layim_chatnow"><span>'+ param.name +'</span><em>×</em></li>');
-        
-        log.chatarea.find('.layim_chatview').removeClass('layim_chatthis');
-        log.chatarea.append('<ul class="layim_chatview layim_chatthis" id="layim_area'+ param.type + param.id +'"></ul>');
-        
-        xxim.tabchat(param);
+
+        if (status != 'hide') {
+            log.chatmore.find('ul>li').removeClass('layim_chatnow');
+            log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'" class="layim_chatnow"><span>'+ param.name +'</span><em>×</em></li>');
+            
+            log.chatarea.find('.layim_chatview').removeClass('layim_chatthis');
+            log.chatarea.append('<ul class="layim_chatview layim_chatthis" id="layim_area'+ param.type + param.id +'"></ul>');
+
+            xxim.tabchat(param);
+        } else {
+            log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'"><span>'+ param.name +'</span><em>×</em></li>');
+
+            log.chatarea.append('<ul class="layim_chatview" id="layim_area'+ param.type + param.id +'"></ul>');
+        }
     }
     
     //群组
@@ -502,26 +512,53 @@ xxim.update = function(version){
     config.json(config.api.update, data, function(ret){
         var param;
         if (ret && ret.status==1) {
-            if (xxim.chatbox && xxim.chatbox.is(':visible')) {
+            for (var i = 0; i < ret.data.length; i++) {
+                var datum = ret.data[i];
+                var key = 'one' + datum.id;
+                if(!config.chating[key]){
+                    if (!datum.name && config.friendInfo[datum.id]) {
+                        datum.name = config.friendInfo[datum.id].name;
+                    }
+                    if (!datum.face && config.friendInfo[datum.id]) {
+                        datum.face = config.friendInfo[datum.id].face;
+                    }
+                    var temp = {
+                        id: datum.id, //用户ID
+                        type: 'one',
+                        name: datum.name,  //用户名
+                        face: datum.face,  //用户头像
+                        href: config.hosts + 'space.php?uid=' + datum.id //用户主页
+                    };
+                    xxim.popchat(temp,'hide');
+                    config.chating[key] = temp;
+                    config.chatings++;
+                }
+            }
+            if (xxim.chatbox) {
                 for (var i = 0; i < ret.data.length; i++) {
                     var datum = ret.data[i];
                     log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
-                    if (log.imarea && log.imarea.is(':visible')) {
+                    if (log.imarea) {
                         log.imarea.append(xxim.html({
                         time: xxim.fancyDate(datum.time),
-                        name: config.friendInfo[datum.id].name,
-                        face: config.friendInfo[datum.id].face,
+                        name: datum.name || config.friendInfo[datum.id].name,
+                        face: datum.face || config.friendInfo[datum.id].face,
                         content: datum.message
                         }, ''));
-                        log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                        if (log.imarea.is(':visible')) {
+                            log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                        } else {
+                            xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
+                        }
                     } else {
-                        
+
                     }
-                };
-            } else {
-                config.updates += ret.data.length;
+                }
+                if (!xxim.chatbox.is(':visible')) {
+                    config.updates += ret.data.length;
+                }
             }
-            
+
             if (config.updates) {
                 xxim.node.layimMin.addClass('layim_blink');
                 xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');

@@ -29,7 +29,7 @@
 	$keyR = 'R'.$uid;
 	while (1) {
 		if (time()-$startTime>52) {
-			$stopTime = time();
+			// $stopTime = time();
 			break;
 		}
 		if ($client->exists($keyR)) {
@@ -51,11 +51,11 @@
 		exit();
 	}
 	
-	if ($stopTime) {
-		$result = array();
-		$result['status'] = '0';
-		$result['version'] = $version;
-	} else {
+	// if ($stopTime) {
+	// 	$result = array();
+	// 	$result['status'] = '0';
+	// 	$result['version'] = $version;
+	// } else {
 		$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where msgtoid='".$_SGLOBAL['supe_uid']."' and related and (pmid>".$version." or new) order by dateline limit 100");
 		$data = array();
 		while ($r = $_SGLOBAL['db']->fetch_array($q)) {
@@ -64,6 +64,31 @@
 			$datum['message'] = htmlspecialchars($r['message']);
 			$datum['time'] = $r['dateline'].'000';
 
+			$fuid = intval($datum['id']);
+			if (getfriendstatus($fuid, $uid) < 0) {
+				$q1 = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$fuid'");
+				if ($r1 = $_SGLOBAL['db']->fetch_array($q1)) {
+					$datum['name'] = empty($r1['name'])?$r1['username']:$r1['name'];
+
+					if ($r1['avatar']) {
+						$face = avatar($fuid,'big',TRUE);
+					} else {
+						$query = $_SGLOBAL['db']->query("SELECT sex FROM ".tname('spacefield')." WHERE uid='$fuid' LIMIT 1");
+						if($gd = $_SGLOBAL['db']->result($query))
+						{
+							if($gd==1) $gender = 'm'; else $gender='f';
+						}
+						else
+						{
+							$gender = "m";
+						}
+						$face = UC_API.'/images/avatar/'.$gender.'_big_1.png';
+					}
+					$datum['face'] = $face;
+				}
+			}
+			
+		
 			$data[] = $datum;
 			$_SGLOBAL['db']->query("update ".UC_DBTABLEPRE."pms set new=0 where pmid='".$r['pmid']."'");
 
@@ -79,7 +104,7 @@
 			$result['status'] = '0';
 			$result['version'] = $version;
 		}
-	}
+	// }
 
 	$update = json_encode($result);
 	echo $update;
