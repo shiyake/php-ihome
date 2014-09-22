@@ -545,9 +545,10 @@ if(!empty($_GET['show']))	{
 }
 
 //获得最新10条已处理的诉求信息
-$complainQuery = $_SGLOBAL['db']->query("SELECT replytime,doid,atdepartment,atdeptuid FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=1 GROUP BY doid ORDER BY replytime DESC LIMIT 10");
+$complainQuery = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." order by dateline DESC LIMIT 10");
 while ($complain = $_SGLOBAL['db']->fetch_array($complainQuery)) {
-	$complain['replytime'] = date("Y-m-d H:i",$complain['replytime']);
+	$complain['dateline'] = date("Y-m-d H:i",$complain['dateline']);
+    realname_set($complain['uid'], $complain['username']);
 	$Complains[] = $complain;
 }
 
