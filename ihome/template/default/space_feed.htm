@@ -461,20 +461,17 @@ showcalendar();
 </script>
 <div class="sidebox">
 	<h4 class="title" style="margin-bottom:12px">
-		<p class="r_option" style="margin-top:2px;">
-		<!--{if $isLeader}-->
-		<a href="plugin.php?pluginid=complain" target="_blank">我管理的</a>
-		<!--{else}-->
-		<a href="space.php?uid=$space[uid]&do=feed&view=complain">我的</a>
-		<!--{/if}-->
-		</p>
 		诉求信息
 	</h4>
 	<ul class="complain" id="show_complain">
 		<div id="reply_bag">
 			<div id="scroll_top">
 				<!--{loop $Complains $key=>$value}-->
-				<li><p><a href="space.php?uid=$value[atdeptuid]">$value[atdepartment]</a> 回复了<a href="space.php?do=doing&doid=$value[doid]" target="_blank">一条用户诉求</a></p><p class="bag_replytime">$value[replytime]</p></li>
+				<li><p><a href="space.php?uid=$value[uid]">$_SN[$value[uid]]</a> <!--{if $value[optype] == 2}-->回复
+                <!--{elseif $value[optype] == 3}-->转发
+                <!--{elseif $value[optype] == 4}-->继续
+                <!--{elseif $value[optype] == 5}-->踩
+                <!--{/if}-->了<a href="space.php?do=complain_item&doid=$value[doid]" target="_blank">一条用户诉求</a></p><p class="bag_replytime">$value[dateline]</p></li>
 				<!--{/loop}-->
 			</div>
 		</div>
