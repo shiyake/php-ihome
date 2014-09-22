@@ -4,7 +4,7 @@ import MySQLdb, time, sys
 
 if __name__ == '__main__':
    curtime = int(time.time()) - 3600 * 3;
-   conn = MySQLdb.connect(host="localhost", user='root', passwd='nameLR9969', db='ihome', port=3306, charset='utf8')
+   conn = MySQLdb.connect(host=config.dbhost, user='root', passwd='nameLR9969', db='ihome', port=config.dbport, charset='utf8')
    cursor = conn.cursor()
    infos = {}
    cursor.execute("select uid, lastupdate, upnum, downnum, allreplynum, allreplysecs from ihome_complain_dep")
