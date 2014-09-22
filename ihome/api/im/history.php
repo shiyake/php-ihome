@@ -8,7 +8,7 @@
 	$result['status'] = 0;
 	if ($_POST['id']) {
 		$fuid = intval($_POST['id']);
-		$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where msgtoid in ($uid, $fuid) and msgfromid in ($uid, $fuid) and related and !new order by pmid limit 30");
+		$q = $_SGLOBAL['db']->query("select * from ".UC_DBTABLEPRE."pms where msgtoid in ($uid, $fuid) and msgfromid in ($uid, $fuid) and related and !new order by pmid desc limit 30");
 
 		$data = array();
 		while ($r = $_SGLOBAL['db']->fetch_array($q)) {

@@ -130,8 +130,8 @@ li{list-style:none;}
 .layim_tool{position:relative; height:35px; line-height:35px; padding-left:10px; background-color:#F3F3F3;}
 .layim_tool i{position:relative; top:10px; display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:15px; height:15px; margin-right:10px; cursor:pointer;}
 .layim_tool .layim_addface{background-position:-5px -20px;}
-.layim_tool .layim_addimage{background-position:-47px -20px;}
-.layim_tool .layim_addfile{background-position:-25px -20px;}
+.layim_tool .layim_addimage{background-position:-47px -20px;display:none;}
+.layim_tool .layim_addfile{background-position:-25px -20px;display:none;}
 .layim_tool .layim_seechatlog{position:absolute; right:15px;}
 .layim_tool .layim_seechatlog i{background-position:-70px -20px;}
 .layim_write{display:block; border:none; width:98%; height:90px; line-height:20px; margin:5px auto 0;}
