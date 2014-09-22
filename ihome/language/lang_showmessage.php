@@ -558,6 +558,7 @@ $_SGLOBAL['msglang'] = array(
     'delete_complain' => '诉求删除完成',
     'error_op' => '操作不合法',
     'complain_no_doing' => '找不到对应的足迹',
+    'updown_again' => '你已经赞或者踩过了',
 );
 
 ?>
