@@ -277,6 +277,12 @@ if($type == 'forleaders' && $superuid == 3){
 			$value['addtime'] = date("Y-m-d H:i",$value['addtime']);
 			realname_set($value['uid'], $value['uname']);
 			$value['atuname'] = $_POWERINFO[$value['atuid']]['department'];
+			if (!$value['isreply']) {
+				$exist = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('doing')." WHERE doid=".$value['doid']));
+				if (!$exist) {
+					continue;
+				}
+			}
 			$Complains[] = $value;
 		}
 		$multi = multi($count, $perpage, $page, $mpurl);

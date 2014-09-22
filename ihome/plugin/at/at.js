@@ -13,6 +13,31 @@ jq(document).ready(function(){
                 choose: "data-insert"
             });
         });
+
+        jq("#mood-switch .complain").click(function(){
+            friendurl = 'data/powerlevel/powerlevel.json';
+            jq.getJSON(friendurl,function(friends){
+                //alert(friends[0].name);
+                jq('textarea#message,textarea#comment_message').atWho('@',{
+                    data:friends,
+                    limit:10,
+                    tpl: "<li rel='tooltip' data-placement='right' data-toggle='tooltip' title='${department}' data-value='${namequery}' data-insert='${department}(${dept_uid})'>${department}(${dept_uid})</li>",
+                    choose: "data-insert"
+                });
+            });
+        });
+        jq("#mood-switch .status").click(function(){
+            friendurl = jq('input.friendurl_r')[0].value;
+            jq.getJSON(friendurl,function(friends){
+                //alert(friends[0].name);
+                jq('textarea#message,textarea#comment_message').atWho('@',{
+                    data:friends,
+                    limit:10,
+                    tpl: "<li data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
+                    choose: "data-insert"
+                });
+            });
+        });
     }
 })
 
