@@ -21,7 +21,8 @@ var config = {
         groups: 'plugin/layim/groups.json', //群组成员接口
         sendurl: 'api/im/send.php', //发送消息接口
         update: 'api/im/update.php',
-        leave: 'api/im/leave.php'
+        leave: 'api/im/leave.php',
+        history: 'api/im/history.php'
     },
     user: ({ //当前用户信息
         name: '僕',
@@ -320,6 +321,34 @@ xxim.popchat = function(param, status){
         }
     }
     
+    config.json(config.api.history, {id: param.id}, function(ret){
+        if (ret && ret.status == 1) {
+            log.imarea = xxim.chatbox.find('#layim_area'+ param.type + param.id);
+
+            for (var i = 0; i < ret.data.length; i++) {
+                var datum = ret.data[i];
+                if (datum.id == param.id) {
+                    log.imarea.append(xxim.html({
+                        time: xxim.fancyDate(datum.time, 'long'),
+                        name: param.name,
+                        face: param.face,
+                        content: datum.message
+                    }, ''));
+                } else {
+                    log.imarea.append(xxim.html({
+                        time: xxim.fancyDate(datum.time, 'long'),
+                        name: config.user.name,
+                        face: config.user.face,
+                        content: datum.message
+                    }, 'me'));
+                }
+                
+            }
+            log.imarea.append('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
+            log.imarea.scrollTop(log.imarea[0].scrollHeight);
+        }
+    });
+
     //群组
     log.chatgroup = xxim.chatbox.find('#layim_groups');
     if(param.type === 'group'){
@@ -347,6 +376,9 @@ xxim.tabchat = function(param){
     xxim.chatbox.find('.layim_names').text(param.name);
     
     xxim.chatbox.find('.layim_seechatlog').attr('href', config.chatlogurl + param.id);
+
+    var chatthis = xxim.chatbox.find('.layim_chatthis');
+    chatthis.scrollTop(chatthis[0].scrollHeight);
    
     log.groups = xxim.chatbox.find('.layim_groups');
     if(param.type === 'group'){
@@ -410,7 +442,7 @@ xxim.getGroups = function(param){
     });
 };
 
-xxim.fancyDate = function(time) {
+xxim.fancyDate = function(time, type) {
     var date;
     if (time) {
         time = parseInt(time);
@@ -420,7 +452,11 @@ xxim.fancyDate = function(time) {
     }
     date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
 
-    return date.toJSON().replace('T',' ').slice(0,-5);
+    var start = 0;
+    if (type != 'long') {
+        start = -13;
+    }
+    return date.toJSON().replace('T',' ').slice(start,-5);
 };
 
 xxim.html = function(param, type){
@@ -675,6 +711,8 @@ xxim.event = function(){
         jQuery(this).removeClass('layim_blink');
         jQuery(this).hide();
         jQuery('#layim_chatbox').parents('.xubox_layer').show();
+        var chatthis = jQuery('#layim_chatbox').find('.layim_chatthis');
+        chatthis.scrollTop(chatthis[0].scrollHeight);
     });
     
     
