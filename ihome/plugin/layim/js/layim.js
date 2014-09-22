@@ -264,7 +264,7 @@ xxim.popchat = function(param, status){
             +'        <ul class="layim_chatview layim_chatthis"  id="layim_area'+ param.type + param.id +'"></ul>'
             +'    </div>'
             +'    <div class="layim_tool">'
-            +'        <i class="layim_addface" title="发送表情"></i>'
+            +'        <i class="layim_addface drop_face" title="发送表情"></i>'
             +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
             +'        <a href="javascript:;"><i class="layim_addfile" title="上传附件"></i></a>'
             +'        <a href="" target="_blank" class="layim_seechatlog"><i></i>聊天记录</a>'
@@ -324,18 +324,20 @@ xxim.popchat = function(param, status){
     config.json(config.api.history, {id: param.id}, function(ret){
         if (ret && ret.status == 1) {
             log.imarea = xxim.chatbox.find('#layim_area'+ param.type + param.id);
-
-            for (var i = 0; i < ret.data.length; i++) {
+            if (ret.data.length > log.imarea.children().size()) {
+                log.imarea.prepend('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
+            }
+            for (var i = log.imarea.children().size(); i < ret.data.length; i++) {
                 var datum = ret.data[i];
                 if (datum.id == param.id) {
-                    log.imarea.append(xxim.html({
+                    log.imarea.prepend(xxim.html({
                         time: xxim.fancyDate(datum.time, 'long'),
                         name: param.name,
                         face: param.face,
                         content: datum.message
                     }, ''));
                 } else {
-                    log.imarea.append(xxim.html({
+                    log.imarea.prepend(xxim.html({
                         time: xxim.fancyDate(datum.time, 'long'),
                         name: config.user.name,
                         face: config.user.face,
@@ -344,7 +346,6 @@ xxim.popchat = function(param, status){
                 }
                 
             }
-            log.imarea.append('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
             log.imarea.scrollTop(log.imarea[0].scrollHeight);
         }
     });
@@ -410,7 +411,7 @@ xxim.popchatbox = function(othis){
     
     var chatbox = jQuery('#layim_chatbox');
     if(chatbox[0]){
-        node.layimMin.hide();
+        node.layimMin.removeClass('layim_blink').hide();
         chatbox.parents('.xubox_layer').show();
     }
 };
