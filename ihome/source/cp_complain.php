@@ -176,7 +176,7 @@ if ($_GET['op'] == 'delete') {
                 }
                 updatetable('complain', array('curuid'=>$_POST['relay_depid'], 'lastopid'=>$opid), array('doid'=>$doid));
             } elseif ($optype == 2 && $_SGLOBAL['supe_uid'] == $complain['curuid']) {
-                updatetable('complain', array('status'=>1, 'lastopid'=>$opid), array('doid'=>$doid));
+                updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp']), array('doid'=>$doid));
                 if ($complain['lastopid'] == 0) {
                     $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $_SGLOBAL[supe_uid]");
                     $dep = $_SGLOBAL['db']->fetch_array($result);

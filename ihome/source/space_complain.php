@@ -18,11 +18,26 @@ $cids = array();
 $clist = array();
 
 if (empty($_GET['view'])) {
-    $_GET['view'] = 'me';//我的诉求
+    if ($_SGLOBAL['member']['groupid'] != 3) {
+        $_GET['view'] = 'me';//我的诉求
+    } else {
+        $_GET['view'] = 'atme';//我管理的诉求
+    }
 }
 if ($_GET['view'] == 'rank') {
     $deps = array();
-    $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep"));
+    $submenus = array();
+    if ($_GET['type'] == 'score') {
+        $order = " order by score ";
+        $submenus['score']=' class = "active"';
+    } elseif ($_GET['type'] == 'updownnum') {
+        $order = " order by updownnum ";
+        $submenus['updownnum']=' class = "active"';
+    } else {
+        $order = " order by aversecs ";
+        $submenus['aversecs']=' class = "active"';
+    }
+    $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $deps[] = $value;
         realname_set($value['uid'], $value['username']);
@@ -30,7 +45,7 @@ if ($_GET['view'] == 'rank') {
     $actives = array('rank'=>' class="active"');
 } else {
     if (empty($_GET['type'])) {
-        $_GET['type'] = 'done';
+        $_GET['type'] = 'running';
     }
     if($_GET['view'] == 'me') {
         $wheresql = "uid='$space[uid]'";
