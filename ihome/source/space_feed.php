@@ -410,7 +410,8 @@ if($space['self'] && empty($start)) {
         )
     );
     $context = stream_context_create($opts);
-    $jsonstr = file_get_contents($url, false, $context);
+    //$jsonstr = file_get_contents($url, false, $context);
+    $jsonstr = '';
     if ($jsonstr){
         $jsonarr = json_decode($jsonstr,ture);
         foreach ($jsonarr as $key => $value) {

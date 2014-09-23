@@ -461,6 +461,13 @@ showcalendar();
 </script>
 <div class="sidebox">
 	<h4 class="title" style="margin-bottom:12px">
+        <p class="r_option" style="margin-top:2px;">
+        <!--{if $_SGLOBAL['isdept'] == 1}-->
+        <a href="space.php?do=complain&view=atme" target="_blank">我管理的</a>
+        <!--{else}-->
+        <a href="space.php?do=complain&view=me">我的</a>
+        <!--{/if}-->
+        </p>
 		诉求信息
 	</h4>
 	<ul class="complain" id="show_complain">
