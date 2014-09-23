@@ -403,14 +403,23 @@ if($space['self'] && empty($start)) {
     $doname = 'http://ring.cnbigdata.org';
     $param = '/api/ihometopic2?num=8';
     $url = $doname . $param;
-    $jsonstr = file_get_contents($url);
-    $jsonarr = json_decode($jsonstr,ture);
-    foreach ($jsonarr as $key => $value) {
-    	$value[url][org] = $value[key];
-    	$value[url][utf8] = urlencode($value[key]);
-        $hotevent[] = $value[url];
+    $opts = array(
+        'http'=>array(
+        'method'=>"GET",
+        'timeout'=>5
+        )
+    );
+    $context = stream_context_create($opts);
+    $jsonstr = file_get_contents($url, false, $context);
+    if ($jsonstr){
+        $jsonarr = json_decode($jsonstr,ture);
+        foreach ($jsonarr as $key => $value) {
+            $value[url][org] = $value[key];
+            $value[url][utf8] = urlencode($value[key]);
+            $hotevent[] = $value[url];
+        }
     }
-    // print_r($hotevent);
+//    // print_r($hotevent);
     // exit();
 // }
 // hot();
