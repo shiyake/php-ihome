@@ -10,8 +10,10 @@
 	set_time_limit(0);
 
 	if ($_POST['version']) {
+		$hajime = 0;
 		$version = intval($_POST['version']);
 	} else {
+		$hajime = 1;
 		$q = $_SGLOBAL['db']->query("select max(pmid) from ".UC_DBTABLEPRE."pms where msgtoid='".$_SGLOBAL['supe_uid']."' and related");
 		$r = $_SGLOBAL['db']->result($q);
 		$version = intval($r);
@@ -27,24 +29,26 @@
 
 	$miss = 0;
 	$keyR = 'R'.$uid;
-	while (1) {
-		if (time()-$startTime>52) {
-			// $stopTime = time();
-			break;
-		}
-		if ($client->exists($keyR)) {
-			$value = intval($client->get($keyR));
-			if ($value > $version) {
+	if (!$hajime) {
+		while (1) {
+			if (time()-$startTime>52) {
+				// $stopTime = time();
 				break;
 			}
-			if (connection_aborted()) {
-				exit();
+			if ($client->exists($keyR)) {
+				$value = intval($client->get($keyR));
+				if ($value > $version) {
+					break;
+				}
+				if (connection_aborted()) {
+					exit();
+				}
 			}
+			if ($miss < 5000000) {
+				$miss += 1000;
+			}
+			usleep($miss);
 		}
-		if ($miss < 5000000) {
-			$miss += 1000;
-		}
-		usleep($miss);
 	}
 
 	if (connection_aborted()) {

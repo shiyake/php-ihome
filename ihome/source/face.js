@@ -56,22 +56,34 @@
         jq(target).get(0).selectionEnd = strHead.length + faceText.length;
     }
 
-    function popover_menu(e, height, width, html) {
+    function popover_menu(e, height, width, html, source) {
         e = e.next(".drop_face_menu");
         if (e.html() == "") {
             e.html(html);
             e.css({
                 "display": "block"
             });
-            e.stop().animate({
-                "width": width + "px"
-            }, 100, function() {
+            if (source == 'im') {
                 e.stop().animate({
                     "height": height + "px"
                 }, 50, function() {
-                    e.addClass("face_menu_opened");
+                    e.stop().animate({
+                        "width": width + "px"
+                    }, 100, function() {
+                        e.addClass("face_menu_opened");
+                    });
                 });
-            });
+            } else {
+                e.stop().animate({
+                    "width": width + "px"
+                }, 100, function() {
+                    e.stop().animate({
+                        "height": height + "px"
+                    }, 50, function() {
+                        e.addClass("face_menu_opened");
+                    });
+                });
+            }
         }
     }
 
@@ -131,7 +143,11 @@
         e.preventDefault();
         popover_menu(jq(this), 208, 393, pop_info(14,57,1));
     });
-    
+    jq(document).on("click", ".layim_addface", function(e) {
+        e.preventDefault();
+        popover_menu(jq(this), 208, 393, pop_info(14,57,1), 'im');
+    });
+
 	jq(document).on("click",".face_header_a",function(e){
 		e.preventDefault();
 		var num = jq(this).data("num");

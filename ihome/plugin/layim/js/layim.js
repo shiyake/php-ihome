@@ -264,7 +264,8 @@ xxim.popchat = function(param, status){
             +'        <ul class="layim_chatview layim_chatthis"  id="layim_area'+ param.type + param.id +'"></ul>'
             +'    </div>'
             +'    <div class="layim_tool">'
-            +'        <i class="layim_addface drop_face" title="发送表情"></i>'
+            +'        <i class="layim_addface" title="发送表情"></i>'
+            +'        <div class="drop_face_menu" data-target="layim_write" style="margin-top:-245px;"></div>'
             +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
             +'        <a href="javascript:;"><i class="layim_addfile" title="上传附件"></i></a>'
             +'        <a href="" target="_blank" class="layim_seechatlog"><i></i>聊天记录</a>'
@@ -324,10 +325,12 @@ xxim.popchat = function(param, status){
     config.json(config.api.history, {id: param.id}, function(ret){
         if (ret && ret.status == 1) {
             log.imarea = xxim.chatbox.find('#layim_area'+ param.type + param.id);
-            if (ret.data.length > log.imarea.children().size()) {
+            var oldMessage = ret.data.length;
+            var newMessage = log.imarea.children().size();
+            if (oldMessage > newMessage) {
                 log.imarea.prepend('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
             }
-            for (var i = log.imarea.children().size(); i < ret.data.length; i++) {
+            for (var i = newMessage; i < ret.data.length; i++) {
                 var datum = ret.data[i];
                 if (datum.id == param.id) {
                     log.imarea.prepend(xxim.html({
@@ -462,8 +465,10 @@ xxim.fancyDate = function(time, type) {
 
 xxim.html = function(param, type){
     var content = param.content;
-    content = content.replace(/\</g,"&lt;");
-    content = content.replace(/\>/g,"&gt;");
+    content = content.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/\[([ab])m:(\d+):\]/g, function(match,p1,p2){
+        p1 = p1.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
+        return '<img src="image/face_new/face_'+p1+'/'+p2+'.gif">';
+    });
     return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
         +'<div class="layim_chatuser">'
             + function(){
@@ -801,6 +806,9 @@ xxim.view = (function(){
     xxim.event();
     xxim.layinit();
     xxim.update();
+    jQuery.get('source/face.js', {}, function(data){
+        eval(data);
+    });
 }());
 
 }(window);

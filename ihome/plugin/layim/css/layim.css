@@ -111,7 +111,7 @@ li{list-style:none;}
 .layim_chatuser .layim_chatname{max-width:230px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
 .layim_chatuser .layim_chattime{color:#999; padding-left:10px;}
 .layim_chatsay{position:relative; float:left; margin:0 15px; padding:10px; line-height:20px; background-color:#F3F3F3; border-radius:3px; clear:both;white-space: pre;}
-.layim_chatsay.layim_chattip{width: 95%;text-align: center;background-color: #BDBDBD;}
+.layim_chatsay.layim_chattip{width: 95%;text-align: center;background-color: #f1f1f1;}
 .layim_chatsay .layim_zero{left:5px; top:-8px; border-width:8px; border-right-style:solid; border-right-color:#F3F3F3;}
 .layim_chateme .layim_chatuser{float:right;}
 .layim_chateme .layim_chatuser *{padding-right:0; padding-left:10px;}
