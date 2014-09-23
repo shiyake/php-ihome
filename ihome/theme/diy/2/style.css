@@ -3,7 +3,6 @@ body { background-color:#a4dcf9 !important; color:#333333 !important; }
 a { color:#2b96e1; }
 #mainareafg a { color:#2b96e1;}
 .header_resident,.header_score { color:#333333;}
-body,div, th, td, input, select, button { border-color:#D1E3AB; }
 #app_sidebar { background-color:transparent;  }
 #main { background-color:#eef7fb; }
 .menu li a { color:#ffffff !important;}
