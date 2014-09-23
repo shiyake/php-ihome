@@ -182,6 +182,12 @@ function checkauth() {
 		clearcookie();
 	} else {
 		$_SGLOBAL['username'] = $member['username'];
+        $query = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where dept_uid=$_SGLOBAL[supe_uid]");
+        if ($result = $_SGLOBAL['db']->fetch_array($query)) {
+            $_SGLOBAL['isdept'] = $result['isdept'];
+        } else {
+            $_SGLOBAL['isdept'] = 0;
+        }
 	}
 }
 

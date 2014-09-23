@@ -69,7 +69,7 @@
         <!--{/if}-->
         <!--{/loop}-->
     </ol>
-    <!--{if $complain[status] == 0 && $_SGLOBAL['mygroupid'] == 3}-->
+    <!--{if $complain[status] == 0 && $_SGLOBAL['isdept'] == 1}-->
     <!--{template space_complain_op_feed}-->
     <!--{/if}-->
     <!--{if $complain[status] == 1 && $complain[uid] == $_SGLOBAL[supe_uid]}-->

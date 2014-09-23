@@ -18,7 +18,7 @@ $cids = array();
 $clist = array();
 
 if (empty($_GET['view'])) {
-    if ($_SGLOBAL['member']['groupid'] != 3) {
+    if ($_SGLOBAL['isdept'] == 0) {
         $_GET['view'] = 'me';//我的诉求
     } else {
         $_GET['view'] = 'atme';//我管理的诉求
@@ -49,7 +49,7 @@ if ($_GET['view'] == 'rank') {
     }
     if($_GET['view'] == 'me') {
         $wheresql = "uid='$space[uid]'";
-        $theurl = "space.php?uid=$space[uid]&do=$do&view=me&type=$_GET[type]";
+        $theurl = "space.php?do=$do&view=me&type=$_GET[type]";
         $actives = array('me'=>' class="active"');
     } elseif ($_GET['view'] == 'atme') {
         $wheresql = "curuid=$_SGLOBAL[supe_uid]";
@@ -57,7 +57,7 @@ if ($_GET['view'] == 'rank') {
         $actives = array('atme'=>' class="active"');
     } else {
         $wheresql = " 1 ";
-        $theurl = "space.php?uid=$space[uid]&do=$do&view=all&type=$_GET[type]";
+        $theurl = "space.php?do=$do&view=all&type=$_GET[type]";
         $actives = array('all'=>' class="active"');
     }
     $submenus = array();
