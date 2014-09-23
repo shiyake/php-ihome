@@ -842,7 +842,7 @@ div #tagcloud span.w1 {
 #feedback {
     bottom: 0;
     left: 50%;
-    margin-left: 505px;
+    margin-left: -588px;
     position: fixed;
 }
 
