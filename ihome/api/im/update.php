@@ -9,7 +9,7 @@
 
 	set_time_limit(0);
 
-	if ($_POST['version']) {
+	if (isset($_POST['version'])) {
 		$hajime = 0;
 		$version = intval($_POST['version']);
 	} else {

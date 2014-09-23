@@ -547,7 +547,7 @@ xxim.transmit = function(){
 
 xxim.update = function(version){
     var data = {}, log = {};
-    if (version) {
+    if (typeof version !== "undefined") {
         data['version'] = version;
     };
 
@@ -613,7 +613,7 @@ xxim.update = function(version){
                 audio.play();
             }
         }
-        if (ret && ret.version) {
+        if (ret && (typeof ret.version !== "undefined")) {
             param = ret.version;
         }
         xxim.update(param);
