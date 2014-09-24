@@ -47,7 +47,7 @@ var config = {
     audio: [
         'api/im/sound/nyaa.wav',
         'api/im/sound/kuma.wav',
-        'api/im/sound/nanchatte.wav'
+        'api/im/sound/feuer.wav'
     ],
     updates: 0,
     sendType: 'enter',
@@ -417,6 +417,15 @@ xxim.popchatbox = function(othis){
         node.layimMin.removeClass('layim_blink').hide();
         chatbox.parents('.xubox_layer').show();
     }
+
+    jQuery("#layim_chatbox").hover(
+        function () {
+            jQuery('body').css('overflow','hidden');
+        },
+        function () {
+            jQuery('body').css('overflow','auto');
+        }
+    );
 };
 
 //请求群员
