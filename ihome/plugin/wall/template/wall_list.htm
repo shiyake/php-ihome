@@ -2,12 +2,56 @@
 <style>
     .exchange_all_sort_list {
         height:auto;
+        padding: 0;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .exchange_all_sort_list .wall_img{
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-radius: 15px 15px 0 0;
+        width: 100%;
+        height: 150px;
+    }
+    .exchange_all_sort_list .wall_status{
+        position: absolute;
+        width: 68px;
+        height: 27px;
+        float: right;
+        background-color: rgba(0,0,0,0.6);
+        color: #fff;
+        text-align: center;
+        border-radius: 15px;
+        left: 165px;
+        top: 12px;
+        font-size: 13px;
+        line-height: 26px;
+    }
+    .exchange_all_sort_list a img {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px 15px 0 0;
+    }
+    .exchange_all_sort_list>.wall_dec{
+        background-color: #fff;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-radius: 0 0 10px 10px;
+        padding: 15px;
+        color: #777;
+        font-size: 12px;
+    }
+    .exchange_all_sort_list>.wall_dec dt{
+        margin-bottom: 5px;
+    }
+    .exchange_all_sort_list>.wall_dec .wall_dec_title{
+        color: #333;
     }
     #container .item{
-        width: 48%;
+        width: 246px;
         background-color:#f8f8f8;
         border-radius:10px;
-        box-shadow:0 1px 0 #d5d0d0;
     }
     .exchange_all_sort_title_new{
         width:150px;
@@ -56,13 +100,19 @@
 
 <div class= "exchange_all">
 	<div class= "exchange_all_sort">
-		<div style="padding:5px 20px;float:right;font-size:14px;"><a href="plugin.php?pluginid=wall&ac=apply" style="text-decoration:none;">申请足迹墙</a></div>
-        <div class= "exchange_all_sort_title exchange_all_sort_title_new"><h4>足迹墙<h4></div>
+		<div style="padding:5px 20px;float:right;font-size:14px;padding-right:0"><a href="plugin.php?pluginid=wall&ac=apply" style="text-decoration:none;">申请足迹墙</a></div>
+        <!--<div class= "exchange_all_sort_title exchange_all_sort_title_new"><h4>足迹墙<h4></div>-->
+        <h4 class="title title10" style="margin-left:20px;margin-bottom:20px;"><img class="pic10" src="image/icons/icon_wall.png" />i北航墙</h4>
         <div id="container">
 			<!--{loop $WallList $key $value}-->
-			<div class= "exchange_all_sort_list item" style="margin:10px 0 0 10px">
-			<a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track" title="{$value[wallname]}"><!--{if $value[picture] != 'image/nopic.gif'}--><img src="$value[picture]" width=100 height=100 /><!--{else}--><img src="plugin/wall/image/default_wall.gif" /><!--{/if}--></a>
-			<dt>名称：<a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track">$value[wallname]</a></dt><dt>开始时间：<!--{eval echo date('Y-m-d H:i',$value[starttime])}--></dt><dt>结束时间：<!--{eval echo date("Y-m-d H:i", $value[endtime])}--></dt><dt>说明：$value[content]</dt>
+			<div class= "exchange_all_sort_list item" style="margin:10px 0 15px 20px">
+            <div class="wall_status">$value[status]</div>
+            <div class="wall_img">
+			<a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track" title="{$value[wallname]}"><!--{if $value[picture] != 'image/nopic.gif'}--><img src="$value[picture]" width=100 height=100 /><!--{else}--><img src="plugin/wall/image/default_wall.png" /><!--{/if}--></a>
+            </div>
+            <div class="wall_dec">
+			<dt style="color:#01b6f9;font-size:14px;"><a href="plugin.php?pluginid=wall&wallid=$value[id]&ac=track">$value[wallname]</a></dt><dt><span class="wall_dec_title">开始时间：</span><!--{eval echo date('Y-m-d H:i',$value[starttime])}--></dt><dt><span class="wall_dec_title">结束时间：</span><!--{eval echo date("Y-m-d H:i", $value[endtime])}--></dt><dt style="line-height:20px;"><span class="wall_dec_title">说明：</span>$value[content]</dt>
+            </div>
 			</div>
 			<!--{/loop}-->
         </div>
