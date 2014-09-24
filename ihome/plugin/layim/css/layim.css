@@ -23,7 +23,7 @@ li{list-style:none;}
 .xxim_search{position:relative; padding-left:40px; height:40px; border-bottom:1px solid #DCDCDC; background-color:#fff;}
 .xxim_search i{left:10px; top:12px; width:16px; height:16px; background-position:-175px -40px;}
 .xxim_search input{border:none; background:none; width: 180px; margin-top:10px; line-height:20px;}
-.xxim_search span{display:none; position:absolute; right:10px; top:10px; height:18px; line-height:18px; padding:0 2px; background-color:#AFAFAF; color:#fff; cursor:pointer; border-radius:2px; font-size:12px; font-weight:900;}
+.xxim_search span{display:none; position:absolute; right:10px; top:10px; width:16px; height:18px; line-height:18px; padding:0 2px; background-color:#AFAFAF; color:#fff; cursor:pointer; border-radius:2px; font-size:12px; font-weight:900; text-align:center;}
 .xxim_search span:hover{background-color:#FCBE00;}
 
 /* 主面板tab */
@@ -94,7 +94,7 @@ li{list-style:none;}
 .layim_chatlist li{padding:0 20px 0 10px;}
 .layim_chatlist li:hover{background-color:#E3E3E3;}
 .layim_chatlist li span{display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:90px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
-.layim_chatlist li em{display:none; position:absolute; top:6px; right:10px; height:18px; line-height:18px; padding:0 3px; font-weight:900; border-radius:3px;}
+.layim_chatlist li em{display:none; position:absolute; top:6px; right:10px; width:16px; height:18px; line-height:18px; padding:0 3px; font-weight:900; border-radius:3px; text-align:center;}
 .layim_chatlist li em:hover{background-color: #FCBE00; color:#fff;}
 .layim_chatlist .layim_chatnow,.layim_chatlist .layim_chatnow:hover{/*border-top:1px solid #D9D9D9; border-bottom:1px solid #D9D9D9;*/ background-color:#fff;}
 .layim_chat{}
@@ -110,8 +110,8 @@ li{list-style:none;}
 .layim_chatuser img{width:30px; height:30px;box-sizing:initial;}
 .layim_chatuser .layim_chatname{max-width:230px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
 .layim_chatuser .layim_chattime{color:#999; padding-left:10px;}
-.layim_chatsay{position:relative; float:left; margin:0 15px; padding:10px; line-height:20px; background-color:#F3F3F3; border-radius:3px; clear:both;white-space: pre;}
-.layim_chatsay.layim_chattip{width: 95%;text-align: center;background-color: #f1f1f1;}
+.layim_chatsay{position:relative; float:left; margin:0 15px; padding:10px; line-height:20px; background-color:#F3F3F3; border-radius:5px; clear:both;white-space: pre-wrap;}
+.layim_chatsay.layim_chattip{width: 50%;left: 23%;text-align: center; color:#A8A9A9; background-color: #E9EBEC;}
 .layim_chatsay .layim_zero{left:5px; top:-8px; border-width:8px; border-right-style:solid; border-right-color:#F3F3F3;}
 .layim_chateme .layim_chatuser{float:right;}
 .layim_chateme .layim_chatuser *{padding-right:0; padding-left:10px;}
