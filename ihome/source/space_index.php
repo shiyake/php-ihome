@@ -386,5 +386,4 @@ function show_credit() {
 		$_SGLOBAL['db']->query("UPDATE ".tname('show')." SET credit=credit-1 WHERE uid='$space[uid]' AND credit>0");
 	}
 }
-
 ?>
