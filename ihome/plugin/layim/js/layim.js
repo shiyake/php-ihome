@@ -185,6 +185,7 @@ xxim.popchat = function(param, status){
             xxim.chatbox = null;
             config.chating = {};
             config.chatings = 0;
+            jQuery('body').css('overflow','auto');
         });
         
         //关闭某个聊天
