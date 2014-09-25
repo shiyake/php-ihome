@@ -36,6 +36,7 @@
 		$result['status'] = 1;
 		$result['name'] = $name;
 		$result['face'] = $face;
+		$result['id'] = $uid;
 
 		echo json_encode($result);
 		exit();
