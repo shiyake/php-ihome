@@ -72,5 +72,10 @@
 	
 	$friends = json_encode($result);
 	echo $friends;
+
+	$fp = fopen(S_ROOT.'./data/im/friends_'.$_SGLOBAL['supe_uid'].'.json', 'w');
+	fwrite($fp, $friends);
+	fclose($fp);
+	
 	exit();
 ?>

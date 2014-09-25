@@ -9,7 +9,7 @@
                 <div class="round_border head">
                     <a href="space.php?uid=$complain[uid]"><!--{avatar($complain[uid],big,false,0,'feed')}--></a>
                 </div>
-                <div>
+                <div style="text-align: center;">
                     <a href="space.php?uid=$complain[uid]">$_SN[$complain[uid]]</a>
                 </div>
             </div>
@@ -96,7 +96,7 @@
 </div>
 <div id="sidebarbox">
     <div class="sidebox">
-        <div style="text-align: center;font-size:18px;margin-top:20px">
+        <div class="rubber_stamp">
             <!--{if $complain[status] == 0}-->
             <p>处理中</p>
             <!--{elseif $complain[status] == 1}-->
@@ -105,15 +105,15 @@
             <p>已关闭</p>
             <!--{/if}-->
         </div>
-        <p style="text-align: center;font-size:18px;margin-top:20px">诉求状态变更历史</p>
+        <div style="clear:both;"></div>
         <div style="text-align: center;">
             <ol class="list-unstyled">
-                <li style="border-top: solid;">
+                <li>
                 <p>发起诉求</p>
-                <p><!--{date('Y年m月d日 H:i',$dv[dateline],1)}--></p>
+                <p class="status-time"><!--{date('Y年m月d日 H:i',$dv[dateline],1)}--></p>
                 </li>
                 <!--{loop $complain_ops $op}-->
-                <li style="border-top: solid;">
+                <li>
                     <!--{if $op[optype] == 2}-->
                     <p>回复诉求</p>
                     <!--{elseif $op[optype] == 3}-->
@@ -127,7 +127,7 @@
                     <!--{else}-->
                     <p>未知动作</p>
                     <!--{/if}-->
-                    <p><!--{date('Y年m月d日 H:i',$op[dateline],1)}--></p>
+                    <p class="status-time"><!--{date('Y年m月d日 H:i',$op[dateline],1)}--></p>
 
                 </li>
                 <!--{/loop}-->
