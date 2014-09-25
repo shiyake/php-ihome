@@ -752,7 +752,7 @@ xxim.getData = function(index){
     if (index == 0) {
         var delta = 6*60*60*1000;
         var now = new Date().getTime();
-        var cached = parseInt(localStorage.getItem('friends_cache')) || 0;
+        var cached = parseInt(localStorage.getItem('friends_cache_'+config.user.id)) || 0;
         
         if (now - cached < delta && config.user.id) {
             func = function(url, data, callback, error){
@@ -773,7 +773,10 @@ xxim.getData = function(index){
             var i = 0, myflen = datas.data.length, str = '', item;
             if(myflen > 1){
                 if(index == 0){
-                    localStorage.setItem('friends_cache', new Date().getTime());
+                    if (config.user.id) {
+                        localStorage.setItem('friends_cache_'+config.user.id, new Date().getTime());
+                    };
+                    
                     for(; i < myflen; i++){
                         if (!config.friends.length && !index && datas.data[i].id == 1) {
                             config.friends = datas.data[i].item;
