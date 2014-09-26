@@ -1,0 +1,39 @@
+
+<!--{if !empty($list)}-->
+	<ol class="list-unstyled">
+<!--{else}-->
+	<div>
+<!--{/if}-->
+<!--{eval $i=0;}-->
+<!--{eval $l=count($list);}-->
+<!--{loop $list $value}-->
+<!--{if $value[uid]}-->
+<!--{eval $i=$i+1;}-->
+<!--{if $i==$l}-->
+<li class="comment_last">
+<!--{else}-->
+<li> 
+<!--{/if}-->
+	<div>
+	<div style="display:inline-block;width:100%;">
+        <a href="space.php?uid=$value[uid]" style="float:left;"><!--{eval echo avatar($value[uid],"small",false,1);}--></a>
+        <div style="float:left;margin-left:10px;width:353px;">
+        <a>{$_SN[$value[uid]]}</a>: $value[message] 
+			<div style="margin-top:10px;">
+	        <span class="doingtime gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span> 
+		<!--{if $value[uid]==$_SGLOBAL[supe_uid] || $dv['uid']==$_SGLOBAL[supe_uid]}--> <a style="float:right;" href="cp.php?ac=treecomment&op=delete&rootid=$value[rootid]&id=$value[id]" id="treecomment_delete_{$value[rootid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a><!--{/if}-->
+	        <span style="color:#ccc;float:right;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+	        <script language="javascript" src="source/comment_goback.js"></script>
+	        <a href="javascript:;" onclick="jq1('#tree_message_{$value[rootid]}_0').css({'color':'#333'});document.getElementById('tree_message_{$value[rootid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：';jq1('#upid_{$value[rootid]}').val({$value['id']});" class="re" style="float:right;">回复</a>
+	        </div>
+	<span id="docomment_form_{$value[doid]}_{$value[id]}"></span>
+	</div>
+	</div>
+</li>
+<!--{/if}-->
+<!--{/loop}-->
+<!--{if !empty($list)}-->
+</ol>
+<!--{else}-->
+</div>
+<!--{/if}-->
