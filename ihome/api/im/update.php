@@ -28,7 +28,7 @@
 	$client = new Predis\Client();
 
 	$miss = 0;
-	$keyR = 'R'.$uid;
+	$keyR = 'ihome_R'.$uid;
 	if (!$hajime) {
 		while (1) {
 			if (time()-$startTime>52) {
