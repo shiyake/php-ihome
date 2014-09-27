@@ -196,7 +196,7 @@ if(submitcheck('addsubmit')) {
                     );
                     inserttable('complain', $complain, 0);
                     //Í¨Öª±»@µÄ²¿ÃÅ,ÓÐÓÃ»§Í¶Ëß
-                    $note = cplang('note_complain_buchu', array("space.php?do=doing&doid=$newdoid",date('Y-m-d H:i' ,$dateline)));
+                    $note = cplang('note_complain_buchu', array("space.php?do=complain_item&doid=$newdoid",date('Y-m-d H:i' ,$nowtime+3600*24)));
                     notification_complain_add($UserId, 'complain', $note);
                     $complainOK = TRUE;
                 }else{
@@ -211,7 +211,7 @@ if(submitcheck('addsubmit')) {
             }
         }
         if($complainOK){//Í¨ÖªÓÃ»§ËßÇó·¢Æð³É¹¦
-            $note = cplang('note_complain_user_success', array("space.php?do=doing&doid=$newdoid"));
+            $note = cplang('note_complain_user_success', array("space.php?do=complain_item&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
             getreward('complain', 1, $_SGLOBAL['supe_uid']);
         }
