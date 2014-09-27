@@ -176,7 +176,6 @@ if(submitcheck('addsubmit')) {
                 $UserDept = isDepartment($UserId ,1);
                 if($UserDept){
                     $nowtime = time();
-                    $dateline = strtotime("+1 days", $nowtime);
                     $complain = array(
                         'doid' => $newdoid,
                         'uid' => $_SGLOBAL['supe_uid'],
@@ -186,11 +185,9 @@ if(submitcheck('addsubmit')) {
                         'from' => $_SGLOBAL['supe_uid'],
                         'atuid' => $UserId,
                         'atuname' => $UserDept['department'],
-                        'curuid' => $UserId,
-                        'curusername' => $UserDept['department'],
                         'isreply' => 0,
                         'addtime' => $nowtime,
-                        'dateline' => $dateline,
+                        'dateline' => $nowtime,
                         'expire' => 0,
                         'times' => 1,
                         'issendmsg' =>0,

@@ -44,6 +44,9 @@ if ($complain) {
     $deps = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         if (empty($value['name'])) $value['name'] = $value['username'];
+        if ($value["uid"] == $_SGLOBAL['supe_uid']) {
+            continue;
+        }
         $deps[] = $value;
     }
     $query = $_SGLOBAL['db']->query("select * from ".tname('complain_op')." where doid=$doid");
