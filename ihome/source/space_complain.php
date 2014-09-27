@@ -28,10 +28,10 @@ if ($_GET['view'] == 'rank') {
     $deps = array();
     $submenus = array();
     if ($_GET['type'] == 'score') {
-        $order = " order by score ";
+        $order = " order by score desc ";
         $submenus['score']=' class = "active"';
     } elseif ($_GET['type'] == 'updownnum') {
-        $order = " order by updownnum ";
+        $order = " order by updownnum desc ";
         $submenus['updownnum']=' class = "active"';
     } else {
         $order = " order by aversecs ";

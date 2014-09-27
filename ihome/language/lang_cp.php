@@ -358,7 +358,11 @@ $_SGLOBAL['cplang'] = array(
     'common_hometown' => '你们都是来自\\1',
     'mtag_add_thread' => '发起了新话题<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>群组:<a href="space.php?do=mtag&tagid=\\3">\\4</a>',
     'mtag_invite_note' => '邀请您加入群组<a href="space.php?do=mtag&tagid=\\1">\\2</a>',
-    'event_invite_note' => '邀请您参加活动<a href="space.php?do=event&id=\\1">\\2</a>'
+    'event_invite_note' => '邀请您参加活动<a href="space.php?do=event&id=\\1">\\2</a>',
+    'complain_relay' => '\\1 转发了<a href="\\2">一个诉求</a>给您，请您及时处理',
+    'complain_down' => '您回复过的诉求被诉求人踩了，请您再看一下这个<a href="\\1">诉求</a>',
+    'complain_continue' => '您回复的诉求，诉求人又继续诉求了新的信息，请您看一下这个的<a href="\\1">诉求</a>',
+    'complain_reply' => '有部门回复了你的诉求，你可以看一下这个<a href="\\1">诉求</a>',
 );
 
 ?>

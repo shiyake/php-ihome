@@ -38,7 +38,9 @@ if ($_GET['op'] == 'delete') {
         inserttable("complain_op_updown", $downarr);
         $_SGLOBAL['db']->query("update ".tname('complain_op')." set downnum=downnum+1 where id=$opid");
         if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $complain['lastopid'] == $opid && $complain['status'] == 1) {
-            updatetable('complain', array('status' => 0, 'dateline'=>$_SGLOBAL['timestamp', 'times'=>1, 'issendmsg'=>0), array('id'=>$complain['id']));
+            updatetable('complain', array('status' => 0, 'dateline'=>$_SGLOBAL['timestamp'], 'times'=>1, 'issendmsg'=>0), array('id'=>$complain['id']));
+            $note = cplang("complain_down", array("space.php?do=complain_item&doid=$complain[doid]"));
+            notification_complain_add($complain["atuid"], "complain", $note);
             $oparr = array();
             $oparr['doid'] = $doid;
             $oparr['message'] = '';
@@ -115,6 +117,9 @@ if ($_GET['op'] == 'delete') {
         //Ìæ»»±íÇé
         $message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
         $message = preg_replace("/\<br.*?\>/is", ' ', $message);
+        if (strlen($message) < 1) {
+            showmessage('should_write_that', $_SGLOBAL['refer'], 3);
+        }
         $optype = empty($_POST['optype'])?2:intval($_POST['optype']);
         $doid = intval($_POST['doid']);
         $oparr = array();
@@ -131,6 +136,8 @@ if ($_GET['op'] == 'delete') {
                 showmessage('error_op');
             }
             inserttable('complain_op', $oparr);
+            $note = cplang("complain_continue", array("space.php?do=complain_item&doid=$complain[doid]"));
+            notification_complain_add($complain["atuid"], "complain", $note);
             showmessage('do_success', $_POST['refer'], 0);
         }
     }
@@ -186,20 +193,26 @@ if ($_GET['op'] == 'delete') {
             if ($optype != 3 && $optype != 2) {
                 showmessage('error_op');
             }
+            if ($complain['relay_times'] >= 3 && $optype == 3) {
+                showmessage('complain_relay_too_much', $_POST['refer'], 3);
+            }
             $opid = inserttable('complain_op', $oparr, true);
+            
+            $note = cplang('complain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
+            notification_complain_add($complain['uid'], 'complain', $note);
             if ($optype == 3) {
                 if ($complain["atuid"] != $_SGLOBAL['supe_uid']) {
                     showmessage('error_op');
                 }
-                if ($complain['relay_times'] >= 3) {
-                    showmessage('complain_relay_too_much', $_POST['refer'], 3);
-                }
+                
                 $query = $_SGLOBAL['db']->query("select * from ".tname("space")." where uid = $_POST[relay_depid]");
                 $relay_dep = $_SGLOBAL['db']->fetch_array($query);
                 if (empty($relay_dep)) {
                     showmessage('error_op');
                 }
-                updatetable('complain', array('atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['username'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'lastopid'=>$opid, "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1), array('doid'=>$doid));
+                updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'lastopid'=>$opid, "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1), array('doid'=>$doid));
+                $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
+                notification_complain_add($_POST['relay_depid'], 'complain', $note);
             } elseif ($optype == 2 && $_SGLOBAL['supe_uid'] == $complain['atuid']) {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp']), array('doid'=>$doid));
                 if ($complain['lastopid'] == 0) {
