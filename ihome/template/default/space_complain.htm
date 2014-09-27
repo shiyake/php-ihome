@@ -1,15 +1,5 @@
 <!--{eval $_TPL['titles']=array('诉求');}-->
 <!--{template header}-->
-<style>
-    #complain_list .h_status a {
-        margin-right: 3px;
-        text-decoration: none;
-    }
-    #complain_list td {
-        height: 30px;
-        min-height: 30px;
-    }
-</style>
 <div id="content" style="border-right: none;width:100%;padding-right:40px;">
 <h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_appeal.png">诉求</h4>
 <div class="tabs_header">
@@ -32,7 +22,7 @@
 </div>
 
 
-<ol style="list-unstyled">
+<ol class="dept_rank" style="list-unstyled">
 <!--{loop $deps $dep}-->
 <li>
 <div class="feed_li_avatar" style="float:left !important">
@@ -40,21 +30,21 @@
         <a href="space.php?uid=$dep[uid]"><!--{avatar($dep[uid],big,false,0,'feed')}--></a>
     </div>
 </div>
-<div style="float:right">
-    <p>服务质量评分:$dep[score]</p>
-    <p>评价人数:$dep[updownnum]</p>
+<div class="dept_score" style="float:right">
+    <p>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[score]</span></p>
+    <p>评 价 人 数:&nbsp;<span class="dept_score_detail">$dep[updownnum]</span></p>
     <!--{if $dep[allreplysecs] > 86400}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/86400)}-->天</p>
+    <p>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/86400)}-->天</span></p>
     <!--{elseif $dep[allreplysecs] > 3600}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/3600)}-->小时</p>
+    <p>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/3600)}-->小时</span></p>
     <!--{elseif $dep[allreplysecs] > 60}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/60)}-->分钟</p>
+    <p>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/60)}-->分钟</span></p>
     <!--{else}-->
-    <p>平均响应时间:{$dep[allreplysecs]}秒</p>
+    <p>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[allreplysecs]}秒</span></p>
     <!--{/if}-->
 </div>
 <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
-    <span>$_SN[$dep[uid]]</span>
+    <a href="space.php?uid=$dep[uid]">$_SN[$dep[uid]]</a>
 </div>
 <div class="clearfix"></div>
 </li>
@@ -88,10 +78,10 @@
     <!--{loop $clist $cp}-->
         <tr>
             <td><a href="space.php?do=complain_item&doid=$cp[doid]">$loopIndex</a></td>
-            <td>{$_SN[$cp[uid]]}</td>
-            <td>$cp[message]</td>
+            <td rel="tooltip">{$_SN[$cp[uid]]}</td>
+            <td rel="tooltip">$cp[message]</td>
             <td><!--{date('m月d日 H:i',$cp[addtime])}--></td>
-            <td>{$_SN[$cp[atuid]]}</td>
+            <td rel="tooltip">{$_SN[$cp[atuid]]}</td>
             <!--{if $cp[status] == 0}-->
             <td>处理中</td>
             <!--{elseif $cp[status] == 1}-->
@@ -111,6 +101,9 @@
         </tbody>
     </table>
     <div class="page" style="margin-bottom: 10px;">$multi</div>
+    <script>
+        jQuery('td[rel="tooltip"]').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+    </script>
 </div>
 <!--{else}-->
 <p class="no-content-tip">

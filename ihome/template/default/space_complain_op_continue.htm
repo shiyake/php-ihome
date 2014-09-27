@@ -2,16 +2,8 @@
 <script language="javascript" src="plugin/at/jquery.form.js"></script>
 <div id="continue_complain" style="display:none">
     <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=continue&doid=$doid">
-        <div style="float:left">
-            <div class="round_border head">
-                <a href="space.php?uid=$_SGLOBAL[supe_uid]"><!--{avatar($_SGLOBAL[supe_uid],big,false,0,'feed')}--></a>
-            </div>
-            <div>
-                <a href="space.php?uid=$_SGLOBAL[supe_uid]">$_SN[$_SGLOBAL[supe_uid]]</a>
-            </div>
-        </div>
         <div >
-            <div class="mood_statement">
+            <div class="mood_statement" style="display:none">
                 <div class="mood_say_something">
                     <input type="hidden" id="optype" name="optype" value="4" />
                     <ul id="mood-switch" class="nav nav-mood pull-left">
@@ -28,13 +20,13 @@
                     <!--{/loop}-->
                 </select>
             </div>
-            <textarea class="mood_textarea" id="message" name="message"></textarea>
-            <div class="demo" style="padding-left:70px">
+            <textarea class="mood_textarea" id="message" name="message" style="margin-top:10px;"></textarea>
+            <div class="demo">
                 <div class="btn drop_face" id="face_smell">
                     <a href="javascript:;"><img src="image/icons/statues_face_normal.png" width="30" height="30" align="absmiddle" title="插入表情" /></a>
 
                 </div>
-                <div class="drop_face_menu" data-target="message"></div>
+                <div class="drop_face_menu" data-target="message" style="margin-top:40px;margin-left:5px;"></div>
                 <div id="at_friends_box">
                     <div id="search_at_friends">
                         <input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />

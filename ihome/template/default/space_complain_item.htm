@@ -10,12 +10,12 @@
                 <div class="round_border head">
                     <a href="space.php?uid=$complain[uid]"><!--{avatar($complain[uid],big,false,0,'feed')}--></a>
                 </div>
-                <div style="text-align: center;">
-                    <a href="space.php?uid=$complain[uid]">$_SN[$complain[uid]]</a>
+                <div>
+                    <a href="space.php?uid=$complain[uid]" style="text-align:center;width:75px;overflow:hidden;display:inline-block;text-overflow:ellipsis;white-space:nowrap;" title="$_SN[$complain[uid]]">$_SN[$complain[uid]]</a>
                 </div>
             </div>
             <script src="source/docomment.js"></script> 
-            <div class="feed_li_inner bubble arrow_l" style="overflow:hidden;letter-spaceing:0x5px;">
+            <div class="feed_li_inner bubble arrow_l" style="letter-spaceing:0x5px;">
                 <span>$complain[message]</span>
                 <div class="feed_content clearfix"></div>
                 <div id="reply_content">
@@ -43,14 +43,14 @@
                 <div class="round_border head">
                     <a href="space.php?uid=$dv[uid]"><!--{avatar($op[uid],big,false,0,'feed')}--></a>
                 </div>
-                <div style="text-align: center;">
-                    <a href="space.php?uid=$dv[uid]">$_SN[$op[uid]]</a>
+                <div>
+                    <a href="space.php?uid=$dv[uid]" style="text-align:center;width:75px;overflow:hidden;display:inline-block;text-overflow:ellipsis;white-space:nowrap;" title="$_SN[$op[uid]]">$_SN[$op[uid]]</a>
                 </div>
             </div>
             <!--{if $op[uid] == $complain[uid]}-->
-            <div class="feed_li_inner bubble arrow_l" style="overflow:hidden;letter-spaceing:0x5px;">
+            <div class="feed_li_inner bubble arrow_l" style="letter-spaceing:0x5px;">
             <!--{else}-->
-            <div class="feed_li_inner bubble arrow_r" style="overflow:hidden;letter-spaceing:0x5px;">
+            <div class="feed_li_inner bubble arrow_r" style="letter-spaceing:0x5px;">
             <!--{/if}-->
                 <!--{if $op[optype] == 2}-->
                 <p>操作类型：回复</p>
@@ -93,7 +93,7 @@
             }
         }
     </script>
-    <a href="#" id="complain_continue" onclick="continue_complain();return false;" >继续诉求</a>
+    <a href="#" id="complain_continue" onclick="continue_complain();return false;" style="margin-left:10px;">继续诉求</a>
     </div>
     <!--{template space_complain_op_continue}-->
     <!--{/if}-->

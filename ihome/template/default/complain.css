@@ -13,5 +13,27 @@
     padding: 8px 10px;
     color: #777;
     line-height: 150%;
+    white-space: nowrap;
     overflow: hidden;
+    max-width: 100px;
+	text-overflow: ellipsis;
+}
+#complain_list .h_status a {
+    margin-right: 3px;
+    text-decoration: none;
+}
+.complain_list {
+	margin-bottom: 20px;
+}
+.dept_rank li {
+	margin-bottom: 10px;
+}
+.dept_rank .dept_score {
+	color: #777;
+	margin-top: 10px;
+	word-spacing: 0.3em;
+}
+.dept_score_detail {
+	color: #333;
+	float: right;
 }
