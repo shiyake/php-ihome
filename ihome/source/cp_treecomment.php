@@ -37,7 +37,7 @@ if (submitcheck('commentsubmit')) {
         $message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
         $message = preg_replace("/\<br.*?\>/is", ' ', $message);  
         if(strlen($message) < 1) {
-            showmessage('should_write_that');
+            showmessage('should_write_that', $_SGLOBAL['refer'], 3);
         }
         $commentarr = array();
         $commentarr['rootid'] = $rootid;

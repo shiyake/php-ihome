@@ -47,7 +47,12 @@
                 </div>
             </div>
             <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
-                <span>$op[message]</span>
+                <!--{if $op[optype] == 2}-->
+                <p>操作类型：回复</p>
+                <!--{elseif $op[optype] == 3}-->
+                <p>操作类型：转发</p>
+                <!--{/if}-->
+                <span>内容：$op[message]</span>
                 <div class="feed_content clearfix"></div>
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>

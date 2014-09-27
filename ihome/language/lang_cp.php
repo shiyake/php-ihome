@@ -58,12 +58,14 @@ $_SGLOBAL['cplang'] = array(
 	'note_complain_credit_failed' => '【温馨提示】您的积分不够,诉求发起失败,已转成普通<a href="\\1" target="_blank">记录</a>!',
 	
 	'note_complain_buchu' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,如不及时处理,此诉求将于\\2上报给负责人处',
-	'note_complain_buchu1' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,如不及时处理,此诉求将于\\2上报给处长处',
-	'note_complain_buchu2' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长处',
+	'note_complain_buchu1' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,已上报给处长，如不及时处理,此诉求将于\\2上报给主管副校长',
+	'note_complain_buchu2' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长',
+	'note_complain_buchu3' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处',
 	'note_complain_chuzhang' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>待处理，如不及时处理，此诉求将于\\2上报给主管副校长处',
-	'note_complain_chuzhang2' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长处',
-	'note_complain_chuzhang3' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处',
+	'note_complain_chuzhang1' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长处',
+	'note_complain_chuzhang2' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处',
 	'note_complain_fuxiaozhang' => '【温馨提示】\\3有<a href="\\1" target="_blank">一条诉求</a>未处理,如不及时处理,此诉求将于\\2上报给校长处',
+	'note_complain_fuxiaozhang1' => '【温馨提示】\\3有<a href="\\1" target="_blank">一条诉求</a>未处理,已上报给校长处',
 	'note_complain_xiaozhang' => '【温馨提示】\\2有<a href="\\1" target="_blank">一条诉求</a>未处理',
 	
 	
@@ -356,7 +358,11 @@ $_SGLOBAL['cplang'] = array(
     'common_hometown' => '你们都是来自\\1',
     'mtag_add_thread' => '发起了新话题<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>群组:<a href="space.php?do=mtag&tagid=\\3">\\4</a>',
     'mtag_invite_note' => '邀请您加入群组<a href="space.php?do=mtag&tagid=\\1">\\2</a>',
-    'event_invite_note' => '邀请您参加活动<a href="space.php?do=event&id=\\1">\\2</a>'
+    'event_invite_note' => '邀请您参加活动<a href="space.php?do=event&id=\\1">\\2</a>',
+    'complain_relay' => '\\1 转发了<a href="\\2">一个诉求</a>给您，请您及时处理',
+    'complain_down' => '您回复过的诉求被诉求人踩了，请您再看一下这个<a href="\\1">诉求</a>',
+    'complain_continue' => '您回复的诉求，诉求人又继续诉求了新的信息，请您看一下这个的<a href="\\1">诉求</a>',
+    'complain_reply' => '有部门回复了你的诉求，你可以看一下这个<a href="\\1">诉求</a>',
 );
 
 ?>
