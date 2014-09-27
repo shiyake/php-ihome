@@ -93,3 +93,30 @@
 	padding: 10px 0;
 	background-color: #f5f5f5;
 }
+.feed_li_inner.bubble .complain_comment {
+	float:left;
+	margin-left:10px;
+	width:353px !important;
+}
+#complain_op_form {
+	margin-left: 10px;
+}
+#complain_op_form textarea, #complain_op_form .demo, #complain_op_form .mood_say_something {
+	margin-left: 0;
+}
+#complain_op_form .demo .drop_face {
+	float: left;
+}
+#complain_op_form .demo .mood_submit {
+	float: left;
+}
+#complain_op_form .demo .mood_submit button {
+	padding: 1px 12px;
+	font-size: 16px;
+	margin-left: 6px;
+}
+#complain_op_form label {
+	color:#777;
+	font-weight: normal;
+	margin-right: 12px;
+}
