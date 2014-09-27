@@ -52,7 +52,7 @@ if ($_GET['view'] == 'rank') {
         $theurl = "space.php?do=$do&view=me&type=$_GET[type]";
         $actives = array('me'=>' class="active"');
     } elseif ($_GET['view'] == 'atme') {
-        $wheresql = "curuid=$_SGLOBAL[supe_uid]";
+        $wheresql = "atuid=$_SGLOBAL[supe_uid]";
         $theurl = "space.php?do=$do&view=atme&type=$_GET[type]";
         $actives = array('atme'=>' class="active"');
     } else {
@@ -84,7 +84,7 @@ if ($_GET['view'] == 'rank') {
             $cids[] = $value['id'];
             $clist[] = $value;
             realname_set($value['uid'], $value['uname']);
-            realname_set($value['curuid'], $value['curusername']);
+            realname_set($value['atuid'], $value['curusername']);
         }
     }
 

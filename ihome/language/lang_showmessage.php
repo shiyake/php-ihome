@@ -559,6 +559,7 @@ $_SGLOBAL['msglang'] = array(
     'error_op' => '操作不合法',
     'complain_no_doing' => '找不到对应的足迹',
     'updown_again' => '你已经赞或者踩过了',
+    'complain_relay_too_much' => '转发不能超过3次',
 );
 
 ?>
