@@ -14,6 +14,11 @@ if ($_GET['op'] == 'delete') {
     }
 } elseif ($_GET['op'] == 'down') {
     $confirm = isset($_GET['confirm']) ? 1 : 0;
+    $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
+    $complain = $_SGLOBAL['db']->fetch_array($query);
+    if (empty($complain)) {
+        showmessage('error_op');
+    }
     if (submitcheck('down') || $confirm) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
@@ -55,10 +60,20 @@ if ($_GET['op'] == 'delete') {
     }
 } elseif ($_GET['op'] == 'up') {
     $confirm = isset($_GET['confirm']) ? 1 : 0;
+    $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
+    $complain = $_SGLOBAL['db']->fetch_array($query);
+    if (empty($complain)) {
+        showmessage('error_op');
+    }
     if (submitcheck('up') || $confirm) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
         if (empty($op)) {
+            showmessage('error_op');
+        }
+        $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
+        $complain = $_SGLOBAL['db']->fetch_array($query);
+        if (empty($complain)) {
             showmessage('error_op');
         }
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op_updown")." where opid = $op[id] and uid = $_SGLOBAL[supe_uid] and updown = 1");
@@ -83,6 +98,7 @@ if ($_GET['op'] == 'delete') {
             $oparr['username'] = $_SGLOBAL['supe_username'];
             $oparr['optype'] = 6;
             $oparr['dateline'] = $_SGLOBAL['timestamp'];
+            $oparr['opvalue'] = 1;
             inserttable("complain_op", $oparr);
         }
         showmessage('do_success', $_POST['refer'], 0);
@@ -144,6 +160,10 @@ if ($_GET['op'] == 'delete') {
         }
     }
     showmessage('error_op');
+} elseif ($_GET['op'] == 'updateduty') {
+    if (submitcheck("updateduty")) {
+        updatetable("complain_dep", array('depduty'=>$_POST['duty']), array('uid'=>$_POST['uid']));
+    }
 } elseif ($_GET['op'] == 'add') {
     if (submitcheck('addsubmit')) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
@@ -188,6 +208,7 @@ if ($_GET['op'] == 'delete') {
         $oparr['username'] = $_SGLOBAL['supe_username'];
         $oparr['optype'] = $optype;
         $oparr['dateline'] = $_SGLOBAL['timestamp'];
+        $oparr['opvalue'] = $_POST['relay_depid'];
         if (empty($_POST['relay_depid'])) {
             showmessage('error_op');
         }
@@ -212,7 +233,7 @@ if ($_GET['op'] == 'delete') {
                 if (empty($relay_dep)) {
                     showmessage('error_op');
                 }
-                updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'lastopid'=>$opid, "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1), array('doid'=>$doid));
+                updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'dateline'=>$_SGLOBAL['timestamp'], "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1), array('doid'=>$doid));
                 $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
                 notification_complain_add($_POST['relay_depid'], 'complain', $note);
             } elseif ($optype == 2 && $_SGLOBAL['supe_uid'] == $complain['atuid']) {
