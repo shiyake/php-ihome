@@ -62,8 +62,10 @@
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
                     <span class="floatright">
+                        <!--{if $op[uid] != $complain[uid]}-->
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;顶<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <!--{/if}-->
                         <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
                     </span>
                 </div>
@@ -88,8 +90,10 @@
         function continue_complain() {
             if ($("continue_complain").style.display != "block") {
                 $("continue_complain").style.display = "block";
+                $("complain_continue").innerHTML = "收起";
             } else {
                 $("continue_complain").style.display = "none";
+                $("complain_continue").innerHTML = "继续诉求";
             }
         }
     </script>
@@ -105,7 +109,11 @@
         <h4 class="title">诉求状态</h4>
         <!--{if $complain[status] == 0}-->
         <div class="complain_status complain_doing">
+            <!--{if $_SGLOBAL[isdept] == 1}-->
+            <p>未处理</p>
+            <!--{else}-->
             <p>处理中</p>
+            <!--{/if}-->
         <!--{elseif $complain[status] == 1}-->
         <div class="complain_status complain_done">
             <p>已处理</p>
