@@ -448,7 +448,7 @@ jQuery.noConflict();
 	<div class="bdrcontent">
 		<div class="title">
 			<!--{eval $doing_map=array(1=>"部处",3=>"处长",7=>"副校长",10=>"校长");}-->
-			<h3>从 $startDay 到 $endDay ，处理阶段{$doing_map[$_GET['times']]}，总共 <font color="#FF0000">$totalNum</font> 条诉求，已处理 <font color="#FF0000">$isreplyNum</font> 条</h3>
+			<h3>从 $startDay 到 $endDay ，处理阶段{$doing_map[$_GET['times']]}，总共 <font color="#FF0000">$totalNum</font> 条诉求，处理中<font color="#FF0000">$runningNum</font>条 已处理 <font color="#FF0000">$doneNum</font>条 已关闭 <font color="#FF0000">$closeNum</font> 条</h3>
 		</div>
 		<style>
 			.red-bold {
@@ -480,7 +480,7 @@ jQuery.noConflict();
 			  <td>$value[done]</td>
 			  <td>$value[close]</td>
 			  <td>
-			  <a href="admincp.php?uid=$value[atuid]&ac=complain&type=complains">详情</a>
+			  <a href="admincp.php?atuname=$value[department]&ac=complain&type=complains">详情</a>
 			  </td>
 			</tr>
 			<!--{/loop}-->
