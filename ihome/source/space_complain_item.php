@@ -54,6 +54,9 @@ if ($complain) {
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $complain_ops[] = $value;
         realname_set($value['uid'], $value['username']);
+        if ($value['optype'] == 3) {
+            realname_set(intval($value['opvalue']), '');
+        }
     }
     $commenttree = new tree();
     foreach($complain_ops as $op) {

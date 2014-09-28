@@ -19,7 +19,11 @@
 <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 <div class="popupmenu_inner" id="__complainform_{$doid}">
     <form method="post" id="complainform_{$doid}" name="complainform" action="cp.php?ac=complain&op=down&doid=$doid&opid=$opid">
+        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $complain['lastopid'] == $opid && $complain['status'] == 1)}-->
         <p>点踩会重启诉求，确定吗？</p>
+        <!--{else}-->
+        <p>确定点踩吗？</p>
+        <!--{/if}-->
         <div class="btn_line">
         <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
         <button name="down" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
@@ -32,7 +36,11 @@
 <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 <div class="popupmenu_inner" id="__complainform_{$doid}">
     <form method="post" id="complainform_{$doid}" name="complainform" action="cp.php?ac=complain&op=up&doid=$doid&opid=$opid">
+        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $complain['lastopid'] == $opid && $complain['status'] == 1)}-->
         <p>点顶会结束诉求，确定吗？</p>
+        <!--{else}-->
+        <p>确定点顶吗？</p>
+        <!--{/if}-->
         <div class="btn_line">
         <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
         <button name="up" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
