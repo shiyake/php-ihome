@@ -260,13 +260,12 @@ if($type == 'forleaders' && $superuid == 3){
         $wheresql .= " and temp.status=$status";
 	}
 	$where = " WHERE ".$wheresql;
-    var_dump($where);
 	
 	$mpurl = "admincp.php?uid=$uid&uname=$uname&message=$message&atuname=$atuname&status=$status&ac=complain&type=complains";
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atuid) FROM ".tname('complain')." temp".$where), 0);
 	if($count) {
 		include_once S_ROOT.'./data/powerlevel/powerlevel.php';
-		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." GROUP BY atuid LIMIT $start,$perpage");
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$value['addtime'] = date("Y-m-d H:i",$value['addtime']);
 			realname_set($value['uid'], $value['uname']);
