@@ -27,7 +27,10 @@
     <input type="hidden" name="formhash" id="hashform_$rootid" class="hashform" value="<!--{eval echo formhash();}-->" />
 	</form>
     <div id="__rootcommform_{$rootid}_0" style="display:none;"></div>
-<!--{if $_GET['op'] == 'getcomment'}-->
+<!--{eval $modifiedDoing = strrpos($_SERVER['HTTP_REFERER'], 'do=complain_item')}-->
+<!--{if $modifiedDoing !== false}-->
+<!--{template space_complaincomment_li}-->
+<!--{elseif $_GET['op'] == 'getcomment'}-->
 <!--{template space_treecomment_li}-->
 <!--{/if}-->
 <!--{elseif $_GET['op'] == 'delete'}-->

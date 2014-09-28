@@ -41,9 +41,9 @@
 				Predis\Autoloader::register();
 				$client = new Predis\Client();
 				
-				$keyT = 'T'.$touid;
+				$keyT = 'ihome_T'.$touid;
 				if ($client->exists($keyT)) {
-					$keyR = 'R'.$touid;
+					$keyR = 'ihome_R'.$touid;
 					if ($client->exists($keyR)) {
 						$value = intval($client->get($keyR));
 						$return = $value > $return ? $value : $return;

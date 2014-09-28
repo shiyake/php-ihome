@@ -1,9 +1,7 @@
 <!--{eval $_TPL['titles']=array('诉求');}-->
 <!--{template header}-->
-
-<div id="content" style="border-right: none;width:100%;padding-right:40px;">
 <h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_appeal.png">诉求</h4>
-<div class="tabs_header">
+<div class="tabs_header" style="margin-bottom:5px;">
     <ul class="tabs">
         <!--{if $_SGLOBAL[isdept] == 1}-->
         <li$actives[atme] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=atme"><span>我管理的诉求</span></a></li>
@@ -11,41 +9,50 @@
         <li$actives[me] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的诉求</span></a></li>
         <!--{/if}-->
         <li$actives[all] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
-        <li$actives[rank] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank"><span>部门排行</span></a></li>
+        <li$actives[rank] stype="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank&type=score"><span>部门排行</span></a></li>
     </ul>
 </div>
+<div id="content" style="border-right: none;width:100%;padding-right:40px;">
 <!--{if $_GET[view] == "rank"}-->
 <div id="complain_list">
-<div class="h_status" style="margin-left:31px;border-bottom:none;margin-bottom:5px">
+<div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
 <a $submenus[score] href="space.php?do=complain&view={$_GET[view]}&type=score">服务质量</a>
 <a $submenus[updownnum] href="space.php?do=complain&view={$_GET[view]}&type=updownnum">评价人数</a>
 <a $submenus[aversecs] href="space.php?do=complain&view={$_GET[view]}&type=aversecs">平均响应时间</a>
 </div>
 
 
-<ol style="list-unstyled">
+<ol class="dept_rank" style="list-unstyled">
 <!--{loop $deps $dep}-->
 <li>
 <div class="feed_li_avatar" style="float:left !important">
-    <div class="round_border head">
+    <div class="head">
         <a href="space.php?uid=$dep[uid]"><!--{avatar($dep[uid],big,false,0,'feed')}--></a>
     </div>
 </div>
-<div style="float:right">
-    <p>服务质量评分:$dep[score]</p>
-    <p>评价人数:$dep[updownnum]</p>
+<div class="dept_op">
+    <a href="space.php?uid=$dep[uid]">去串个门</a>
+    <a href="cp.php?ac=poke&amp;op=send&amp;uid=$dep[uid]" id="a_poke_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="打招呼">打个招呼</a>
+    <a href="cp.php?ac=friend&amp;op=add&amp;uid=$dep[uid]" id="a_friend_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="加好友">加为好友</a>
+    <a href="cp.php?ac=pm&amp;uid=$dep[uid]" id="a_pm_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)">发送消息</a>
+</div>
+<div class="dept_center">
+<div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+    <a href="space.php?uid=$dep[uid]">$_SN[$dep[uid]]</a>
+</div>
+<div class="dept_score">
+    <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[score]</span></span>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[updownnum]</span></span>
     <!--{if $dep[allreplysecs] > 86400}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/86400)}-->天</p>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/86400)}-->天</span></span>
     <!--{elseif $dep[allreplysecs] > 3600}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/3600)}-->小时</p>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/3600)}-->小时</span></span>
     <!--{elseif $dep[allreplysecs] > 60}-->
-    <p>平均响应时间:<!--{eval echo intval($dep[aversecs]/60)}-->分钟</p>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/60)}-->分钟</span></span>
     <!--{else}-->
-    <p>平均响应时间:{$dep[allreplysecs]}秒</p>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[allreplysecs]}秒</span></span>
     <!--{/if}-->
 </div>
-<div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
-    <span>$_SN[$dep[uid]]</span>
 </div>
 <div class="clearfix"></div>
 </li>
@@ -54,9 +61,13 @@
 </div>
 <!--{else}-->
 <div id="complain_list">
-<div class="h_status" style="margin-left:31px;border-bottom:none;margin-bottom:5px">
+<div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
 <a $submenus[all] href="space.php?do=complain&view={$_GET[view]}&type=all">全部诉求</a>
+<!--{if $_SGLOBAL[isdept] == 1}-->
+<a $submenus[running] href="space.php?do=complain&view={$_GET[view]}&type=running">未处理</a>
+<!--{else}-->
 <a $submenus[running] href="space.php?do=complain&view={$_GET[view]}&type=running">处理中</a>
+<!--{/if}-->
 <a $submenus[done] href="space.php?do=complain&view={$_GET[view]}&type=done">已处理</a>
 <a $submenus[closed] href="space.php?do=complain&view={$_GET[view]}&type=closed">已关闭</a>
 </div>
@@ -65,26 +76,31 @@
     <table class="complain_list">
         <thead>
             <tr>
-            <td style="width:10%">序号</td>
-            <td style="width:15%">诉求人</td>
-            <td style="width:20%">诉求内容</td>
-            <td style="width:20%">诉求时间</td>
-            <td style="width:15%">诉求部门</td>
-            <td style="width:10%">状态</td>
-            <td style="width:10%"></td>
+            <td width="60%">诉求内容</td>
+            <td>诉求人</td>
+            <td>诉求部门</td>
+            <td>状态</td>
+            <td>操作</td>
             </td>
         </thead>
         <tbody>
     <!--{eval $loopIndex = 1;}--> 
     <!--{loop $clist $cp}-->
+        <!--{if $loopIndex % 2}-->
         <tr>
-            <td><a href="space.php?do=complain_item&doid=$cp[doid]">$loopIndex</a></td>
-            <td>{$_SN[$cp[uid]]}</td>
-            <td>$cp[message]</td>
-            <td><!--{date('m月d日 H:i',$cp[addtime])}--></td>
-            <td>{$_SN[$cp[atuid]]}</td>
+        <!--{else}-->
+        <tr class="alt">
+        <!--{/if}-->
+            <td class="info_tip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
+            <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
+            <!--{date('m-d H:i',$cp[addtime])}--></td>
+            <td><a href="space.php?uid=$cp[atuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
             <!--{if $cp[status] == 0}-->
+            <!--{if $_SGLOBAL[isdept] == 1}-->
+            <td>未处理</td>
+            <!--{else}-->
             <td>处理中</td>
+            <!--{/if}-->
             <!--{elseif $cp[status] == 1}-->
             <td>已处理</td>
             <!--{elseif $cp[status] == 2}-->
@@ -102,6 +118,9 @@
         </tbody>
     </table>
     <div class="page" style="margin-bottom: 10px;">$multi</div>
+    <script>
+        jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+    </script>
 </div>
 <!--{else}-->
 <p class="no-content-tip">

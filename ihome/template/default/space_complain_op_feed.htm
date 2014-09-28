@@ -6,67 +6,63 @@
         var moodSwitch = jQuery("#mood-switch");
         var jqSubmit = jQuery("#add");
         var jqoptype = jQuery("#optype");
-        moodSwitch.on("click", "a", function() {
-            moodSwitch.find("li").removeClass("active");
-
-            var type = jQuery(this.parentNode).addClass("active");
-            jqSubmit.html(type.hasClass("reply")?'回复':'转发');
-            jqoptype.val(type.hasClass("reply")?'2':'3');
-            if (type.hasClass("reply")) {
-                jQuery("#reply_dep").css("display","none");
-            } else {
+        jQuery("input[name=mood_op]:radio").change(function(){
+            if(jQuery(this).val() == "3") {
+                jqSubmit.html('转发诉求');
+                jqoptype.val('3');
                 jQuery("#reply_dep").css("display","block");
+                jQuery(".forward_tip").css("display","initial");
+                jQuery("#complain_op_form .forward").css("display","initial");
+                jQuery("#complain_op_form textarea").css("width","463px");
+                jQuery("#complain_op_form .demo").css("margin-left","70px");
+            } else {
+                jqSubmit.html('回复诉求');
+                jqoptype.val('2');
+                jQuery("#reply_dep").css("display","none");
+                jQuery(".forward_tip").css("display","none");
+                jQuery("#complain_op_form .forward").css("display","none");
+                jQuery("#complain_op_form textarea").css("width","518px");
+                jQuery("#complain_op_form .demo").css("margin-left","0");
             }
         });
     });
 </script>
 <div>
     <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=add&doid=$doid">
-        <div style="float:left">
-            <div class="round_border head">
-                <a href="space.php?uid=$_SGLOBAL[supe_uid]"><!--{avatar($_SGLOBAL[supe_uid],big,false,0,'feed')}--></a>
-            </div>
-            <div>
-                <a href="space.php?uid=$_SGLOBAL[supe_uid]">$_SN[$_SGLOBAL[supe_uid]]</a>
-            </div>
-        </div>
         <div >
             <div class="mood_statement">
                 <div class="mood_say_something">
                     <input type="hidden" id="optype" name="optype" value="2" />
-                    <ul id="mood-switch" class="nav nav-mood pull-left">
-                        <li class="active reply">
-                            <a href="#">处理诉求</a>
-                        </li>
-                        <!--{if $complain[atuid] == $_SGLOBAL[supe_uid]}-->
-                        <li class="relay">
-                            <a href="#">转发诉求</a>
-                        </li>
-                        <!--{/if}-->
-                    </ul>
+                    <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;处理诉求</label>
+                    <!--{if $complain[curuid] == $_SGLOBAL[supe_uid]}-->
+                    <label><input type="radio" name="mood_op" value="3">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
+                    <span class="forward_tip" style="display:none;">提示：诉求只能被转发三次</span>
+                    <!--{/if}-->
                 </div>
             </div>
-            <div id="reply_dep" style="display:none">
-                <select style="margin-left:30px" name="relay_depid">
+            <div id="reply_dep" style="display:none;padding-bottom:16px;">
+                <label class="forward" for="relay_depid">转发部门</label>
+                <select name="relay_depid" id="relay_depid">
                     <!--{loop $deps $dep}-->
                     <option value="$dep[uid]">$dep['name']</option>
                     <!--{/loop}-->
                 </select>
             </div>
+            <label class="forward" for="message" style="display:none;vertical-align:top;">回复诉求者</label>
             <textarea class="mood_textarea" id="message" name="message"></textarea>
-            <div class="demo" style="padding-left:70px">
+            <div class="demo">
                 <div class="btn drop_face" id="face_smell">
                     <a href="javascript:;"><img src="image/icons/statues_face_normal.png" width="30" height="30" align="absmiddle" title="插入表情" /></a>
 
                 </div>
-                <div class="drop_face_menu" data-target="message"></div>
+                <div class="drop_face_menu" data-target="message" style="margin-top:40px;margin-left:5px;"></div>
                 <div id="at_friends_box">
                     <div id="search_at_friends">
                         <input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
                     </div>
                 </div>
                 <div class="mood_submit">
-                    <button type="submit" id="add" name="add">回复</button>
+                    <button type="submit" id="add" name="add">回复诉求</button>
                 </div>
             </div>
         </div>

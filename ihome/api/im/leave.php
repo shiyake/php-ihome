@@ -7,8 +7,8 @@
  	require 'Predis/Autoloader.php';
 	Predis\Autoloader::register();
 	$client = new Predis\Client();
-	$keyT = 'T'.$uid;
-	$keyR = 'R'.$uid;
+	$keyT = 'ihome_T'.$uid;
+	$keyR = 'ihome_R'.$uid;
 	$value = $client->decr($keyT);
 
 	if ($value <= 0) {

@@ -12,7 +12,7 @@
 		require 'Predis/Autoloader.php';
 		Predis\Autoloader::register();
 		$client = new Predis\Client();
-		$keyT = 'T'.$uid;
+		$keyT = 'ihome_T'.$uid;
 		$client->incr($keyT);
 
 		if(empty($rs['name'])) $rs['name'] = $rs['username'];
@@ -36,6 +36,7 @@
 		$result['status'] = 1;
 		$result['name'] = $name;
 		$result['face'] = $face;
+		$result['id'] = $uid;
 
 		echo json_encode($result);
 		exit();

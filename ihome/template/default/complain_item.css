@@ -1,10 +1,128 @@
+#content {
+	padding-bottom: 95px;
+}
 .complain_list ol {
     margin: 0 ;
     padding: 0;
     list-style: none;
 }
-.complain_list ol li {
+.complain_list>ol>li {
     padding: 10px;
     width:100%;
-    border-bottom: 1px solid #dcdcdc;
+}
+.sidebox .list-unstyled li {
+    padding: 6px 0;
+    margin-left: -2px;
+}
+.sidebox .list-unstyled li p:not(.status-time) {
+	font-size: 14px;
+	padding-bottom: 3px;
+}
+.sidebox .status-time {
+	color: #999;
+}
+.complain_status {
+	width: 70px;
+	height: 30px;
+	padding: 6px 17px;
+}
+.complain_status.complain_doing {
+	color: #006b93;
+	background-color: #d3f1fb;
+}
+.complain_status.complain_done {
+	color: #007457;
+	background-color: #d2f6ec;
+}
+.complain_status.complain_closed {
+	color: #777;
+	background-color: #ededed;
+}
+.feed_li_inner.bubble {
+	padding: 20px;
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	width: 83%;
+}
+.feed_li_inner.bubble.arrow_l {
+	float: right;
+}
+.feed_li_inner.bubble.arrow_r {
+	float: left;
+}
+.bubble.arrow_l:before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 8px solid;
+	left: 104px;
+	border-color: transparent;
+	border-right-color: #f5f5f5;
+}
+.bubble.arrow_r:before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 8px solid;
+	right: 104px;
+	border-color: transparent;
+	border-left-color: #f5f5f5;
+}
+.feed_li_inner.bubble .fcomment {
+	left: 0;
+	top: 12px;
+	border: none;
+}
+.feed_li_inner.bubble .fcomment:before {
+	content: '';
+	width: 440px;
+	height: 10px;
+	border-top: 1px solid #dcdcdc;
+	display: block;
+	margin-left: -20px;
+}
+.feed_li_inner.bubble .fcomment .input-sm {
+	width: 78% !important;
+}
+.feed_li_inner.bubble .fcomment form {
+	padding: 0 !important;
+	width: 101%;
+}
+.feed_li_inner.bubble .fcomment li {
+	border: none;
+	border-top: 1px solid #dcdcdc;
+	padding: 10px 0;
+	background-color: #f5f5f5;
+}
+.feed_li_inner.bubble .complain_comment {
+	float:left;
+	margin-left:10px;
+	width:353px !important;
+}
+#complain_op_form {
+	margin-left: 10px;
+}
+#complain_op_form textarea, #complain_op_form .demo, #complain_op_form .mood_say_something {
+	margin-left: 0;
+}
+#complain_op_form .demo .drop_face {
+	float: left;
+}
+#complain_op_form .demo .mood_submit {
+	float: left;
+}
+#complain_op_form .demo .mood_submit button {
+	padding: 1px 12px;
+	font-size: 16px;
+	margin-left: 6px;
+}
+#complain_op_form label {
+	color:#777;
+	font-weight: normal;
+	margin-right: 12px;
+}
+.forward_tip {
+	color:#777;
 }
