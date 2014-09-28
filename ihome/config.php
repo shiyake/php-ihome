@@ -5,7 +5,7 @@ function __env($key, $default="") {
     return (empty($value)) ? $default : $value;
 }
 
-$DEFAULT_HOST = "hd2";
+$DEFAULT_HOST = "localhost";
 $DEFAULT_USER = "root";
 $DEFAULT_PWD = "nameLR9969";
 
@@ -56,7 +56,7 @@ define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', '`ihome`.ihomeuser_');
 define('UC_DBCONNECT', '0');
 define('UC_KEY', '95Y7z9K754j2ned29ca0B9Bdj5D2V2Q2Ld2ar033fdZbD7nfBdJ1Mfj1UeybW4W7');
-define('UC_API', 'http://icenter.limijiaoyin.com/');
+define('UC_API', 'http://icenter.limijiaoyin.com');
 define('UC_CHARSET', 'utf-8');
 define('UC_IP', 'localhost');
 define('UC_APPID', '1');

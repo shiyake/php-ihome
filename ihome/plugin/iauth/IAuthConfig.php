@@ -15,8 +15,8 @@ define("IAUTH_ERROR_LOG_FILE",dirname(__FILE__)."/debug/IAuthErrorLog");
 define("IAUTH_ACCESS_LOG_FILE",dirname(__FILE__)."/debug/IAuthAccessLog");
 
 //define("IAUTH_APP_INFO_PAGE",'http://211.71.14.65/plugin/iauth/debug/appcenter.php?ac=auth');
-define("IAUTH_APP_INFO_PAGE",'http://ihometest.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail');
-define("IAUTH_SIMPLE_AUTH_CONFIRM_PAGE",'http://ihometest.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail&isConfirm=1');
+define("IAUTH_APP_INFO_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail');
+define("IAUTH_SIMPLE_AUTH_CONFIRM_PAGE",'http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail&isConfirm=1');
 /* ################## debug mode ################## */
 define("ON",1);
 define("OFF",0);

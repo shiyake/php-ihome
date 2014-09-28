@@ -1,5 +1,4 @@
 <?php 
-    ini_set('include_path','/usr/share/pear');
  	if (!$_SGLOBAL['supe_uid']) {
  		$result = array();
  		$result['status'] = 0;
