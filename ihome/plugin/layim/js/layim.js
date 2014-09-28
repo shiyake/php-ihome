@@ -819,9 +819,6 @@ xxim.getData = function(index){
 
 //渲染骨架
 xxim.view = function(){
-    if (window.location.search === "?ac=f4ae5e165ac192f85f49146c80dfadb3") {
-        return;
-    };
     window.onbeforeunload = function(){
         config.json(config.api.leave);
     };
