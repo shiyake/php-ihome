@@ -94,7 +94,7 @@
             <td class="info_tip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
             <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
             <!--{date('m-d H:i',$cp[addtime])}--></td>
-            <td><a href="space.php?uid=$cp[curuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
+            <td><a href="space.php?uid=$cp[atuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
             <!--{if $cp[status] == 0}-->
             <!--{if $_SGLOBAL[isdept] == 1}-->
             <td>未处理</td>
