@@ -25,14 +25,17 @@ var config = {
         history: 'api/im/history.php'
     },
     user: ({ //当前用户信息
+        id: 0,
         name: '僕',
         face: 'http://ajaxload.info/cache/FF/FF/FF/00/00/00/5-0.gif',
         init: function(){
             var _this = this;
             jQuery.get('api/im/aloha.php', function(data){
                 if (data.status) {
+                    _this.id = data.id;
                     _this.name=data.name;
                     _this.face=data.face;
+                    xxim.view();
                 }
             }, 'json');
             return _this;
@@ -185,6 +188,7 @@ xxim.popchat = function(param, status){
             xxim.chatbox = null;
             config.chating = {};
             config.chatings = 0;
+            jQuery('body').css('overflow','auto');
         });
         
         //关闭某个聊天
@@ -743,11 +747,36 @@ xxim.getData = function(index){
     var api = [config.api.friend, config.api.chatlog],
         node = xxim.node, myf = node.list.eq(index);
     myf.addClass('loading');
-    config.json(api[index], {}, function(datas){
+
+    var func = config.json;
+    if (index == 0) {
+        var delta = 6*60*60*1000;
+        var now = new Date().getTime();
+        var cached = parseInt(localStorage.getItem('friends_cache_'+config.user.id)) || 0;
+        
+        if (now - cached < delta && config.user.id) {
+            func = function(url, data, callback, error){
+                return jQuery.ajax({
+                    type: 'GET',
+                    url: 'data/im/friends_'+config.user.id+'.json',
+                    data: data,
+                    dataType: 'json',
+                    success: callback,
+                    error: error
+                })
+            };
+        }
+    }
+
+    func(api[index], {}, function(datas){
         if(datas.status === 1){
             var i = 0, myflen = datas.data.length, str = '', item;
             if(myflen > 1){
-                if(index !== 1){
+                if(index == 0){
+                    if (config.user.id) {
+                        localStorage.setItem('friends_cache_'+config.user.id, new Date().getTime());
+                    };
+                    
                     for(; i < myflen; i++){
                         if (!config.friends.length && !index && datas.data[i].id == 1) {
                             config.friends = datas.data[i].item;
@@ -789,7 +818,7 @@ xxim.getData = function(index){
 };
 
 //渲染骨架
-xxim.view = (function(){
+xxim.view = function(){
     window.onbeforeunload = function(){
         config.json(config.api.leave);
     };
@@ -818,7 +847,7 @@ xxim.view = (function(){
     jQuery.get('source/face.js', {}, function(data){
         eval(data);
     });
-}());
+};
 
 }(window);
 
