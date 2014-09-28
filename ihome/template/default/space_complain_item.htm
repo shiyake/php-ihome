@@ -52,19 +52,24 @@
             <!--{else}-->
             <div class="feed_li_inner bubble arrow_r" style="letter-spaceing:0x5px;">
             <!--{/if}-->
-                <!--{if $op[optype] == 2}-->
-                <p>操作类型：回复</p>
-                <!--{elseif $op[optype] == 3}-->
+                <!--{if $op[optype] == 3}-->
                 <p>操作类型：转发</p>
+                <span>转发理由：$op[message]</span>
+                <!--{else}-->
+                <span>$op[message]</span>
                 <!--{/if}-->
-                <span>内容：$op[message]</span>
                 <div class="feed_content clearfix"></div>
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
                     <span class="floatright">
                         <!--{if $op[uid] != $complain[uid]}-->
+                        <!--{if $complain[uid] == $_SGLOBAL[supe_uid]}-->
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;顶<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <!--{else}-->
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up&confirm=1" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id);setTimeout(function(){location.reload()},2000);" ><img src="image/icons/icon_good.png"/>&nbsp;顶<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down&confirm=1" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id);setTimeout(function(){location.reload()},2000);" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <!--{/if}-->
                         <!--{/if}-->
                         <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
                     </span>
@@ -139,9 +144,9 @@
                     <!--{elseif $op[optype] == 4}-->
                     <p>继续诉求</p>
                     <!--{elseif $op[optype] == 5}-->
-                    <p>踩诉求</p>
+                    <p>重启诉求(点踩)</p>
                     <!--{elseif $op[optype] == 6}-->
-                    <p>关闭诉求</p>
+                    <p>结束诉求(点赞)</p>
                     <!--{else}-->
                     <p>未知动作</p>
                     <!--{/if}-->

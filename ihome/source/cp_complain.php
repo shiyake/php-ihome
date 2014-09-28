@@ -13,7 +13,8 @@ if ($_GET['op'] == 'delete') {
         showmessage('do_success', $_POST['refer'], 0);
     }
 } elseif ($_GET['op'] == 'down') {
-    if (submitcheck('down')) {
+    $confirm = isset($_GET['confirm']) ? 1 : 0;
+    if (submitcheck('down') || $confirm) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
         if (empty($op)) {
@@ -53,7 +54,8 @@ if ($_GET['op'] == 'delete') {
         showmessage('do_success', $_POST['refer'], 0);
     }
 } elseif ($_GET['op'] == 'up') {
-    if (submitcheck('up')) {
+    $confirm = isset($_GET['confirm']) ? 1 : 0;
+    if (submitcheck('up') || $confirm) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
         if (empty($op)) {
