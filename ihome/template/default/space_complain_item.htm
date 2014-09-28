@@ -53,7 +53,7 @@
             <div class="feed_li_inner bubble arrow_r" style="letter-spaceing:0x5px;">
             <!--{/if}-->
                 <!--{if $op[optype] == 3}-->
-                <p>操作类型：转发</p>
+                <p>操作类型：转发给$_SN[$op["opvalue"]]</p>
                 <span>转发理由：$op[message]</span>
                 <!--{else}-->
                 <span>$op[message]</span>
@@ -146,7 +146,13 @@
                     <!--{elseif $op[optype] == 5}-->
                     <p>重启诉求(点踩)</p>
                     <!--{elseif $op[optype] == 6}-->
+                    <!--{if $op[opvalue] == 1}-->
                     <p>结束诉求(点赞)</p>
+                    <!--{elseif $op[opvalue] == 2}-->
+                    <p>结束诉求(超时)</p>
+                    <!--{else}-->
+                    <p>结束诉求</p>
+                    <!--{/if}-->
                     <!--{else}-->
                     <p>未知动作</p>
                     <!--{/if}-->

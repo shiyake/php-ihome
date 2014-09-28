@@ -14,6 +14,7 @@ while ($result = $_SGLOBAL['db']->fetch_array($complains)) {
     $oparr['message'] = '';
     $oparr['optype'] = 6;
     $oparr['dateline'] = $_SGLOBAL['timestamp'];
+    $oparr['opvalue'] = 2;
     inserttable("complain_op", $oparr);
     $num += 1;
 }
