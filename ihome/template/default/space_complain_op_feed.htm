@@ -14,7 +14,7 @@
                 jQuery(".forward_tip").css("display","initial");
                 jQuery("#complain_op_form .forward").css("display","initial");
                 jQuery("#complain_op_form textarea").css("width","463px");
-                jQuery("#complain_op_form .demo").css("margin-left","70px");
+                jQuery("#complain_op_form .demo").css("margin-left","56px");
             } else {
                 jqSubmit.html('回复诉求');
                 jqoptype.val('2');
@@ -22,7 +22,7 @@
                 jQuery(".forward_tip").css("display","none");
                 jQuery("#complain_op_form .forward").css("display","none");
                 jQuery("#complain_op_form textarea").css("width","518px");
-                jQuery("#complain_op_form .demo").css("margin-left","0");
+                jQuery("#complain_op_form .demo").css("margin-left","-5px");
             }
         });
     });
@@ -34,7 +34,7 @@
                 <div class="mood_say_something">
                     <input type="hidden" id="optype" name="optype" value="2" />
                     <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;处理诉求</label>
-                    <!--{if $complain[curuid] == $_SGLOBAL[supe_uid]}-->
+                    <!--{if $complain[atuid] == $_SGLOBAL[supe_uid]}-->
                     <label><input type="radio" name="mood_op" value="3">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
                     <span class="forward_tip" style="display:none;">提示：诉求只能被转发三次</span>
                     <!--{/if}-->
@@ -48,9 +48,9 @@
                     <!--{/loop}-->
                 </select>
             </div>
-            <label class="forward" for="message" style="display:none;vertical-align:top;">回复诉求者</label>
+            <label class="forward" for="message" style="display:none;vertical-align:top;">转发理由</label>
             <textarea class="mood_textarea" id="message" name="message"></textarea>
-            <div class="demo">
+            <div class="demo" style="margin-left:-5px;">
                 <div class="btn drop_face" id="face_smell">
                     <a href="javascript:;"><img src="image/icons/statues_face_normal.png" width="30" height="30" align="absmiddle" title="插入表情" /></a>
 
