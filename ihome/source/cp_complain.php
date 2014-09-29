@@ -164,6 +164,7 @@ if ($_GET['op'] == 'delete') {
     if (submitcheck("updateduty")) {
         updatetable("complain_dep", array('depduty'=>htmlentities($_POST['duty'])), array('uid'=>$_POST['uid']));
         updatetable("powerlevel", array('depduty'=>htmlentities($_POST['duty'])), array('dept_uid'=>$_POST['uid']));
+        updatePowerlevelFile();
     }
 } elseif ($_GET['op'] == 'add') {
     if (submitcheck('addsubmit')) {
