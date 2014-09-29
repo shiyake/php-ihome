@@ -3112,7 +3112,8 @@ runlog("debug", "log:".print_r($flog, true));
 				$powerjson = array(
 					'department' => $PowerArray['department'],
 					'dept_uid' => $PowerArray['dept_uid'],
-					'namequery' => $PowerArray['department'].' '.Pinyin($PowerArray['department'],1).' '.$PowerArray['dept_uid']
+					'namequery' => $PowerArray['department'].' '.Pinyin($PowerArray['department'],1).' '.$PowerArray['dept_uid'],
+					'depduty' => $PowerArray['depduty']
 				);
 				$powerJsons[] = $powerjson;
 			}

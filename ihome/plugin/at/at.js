@@ -21,7 +21,7 @@ jq(document).ready(function(){
                 jq('textarea#message,textarea#comment_message').atWho('@',{
                     data:friends,
                     limit:10,
-                    tpl: "<li rel='tooltip' data-placement='right' data-toggle='tooltip' title='${department}' data-value='${namequery}' data-insert='${department}(${dept_uid})'>${department}(${dept_uid})</li>",
+                    tpl: "<li rel='tooltip' data-placement='right' data-toggle='tooltip' title='${depduty}' data-value='${namequery}' data-insert='${department}(${dept_uid})'>${department}(${dept_uid})</li>",
                     choose: "data-insert"
                 });
             });

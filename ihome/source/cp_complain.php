@@ -163,6 +163,7 @@ if ($_GET['op'] == 'delete') {
 } elseif ($_GET['op'] == 'updateduty') {
     if (submitcheck("updateduty")) {
         updatetable("complain_dep", array('depduty'=>htmlentities($_POST['duty'])), array('uid'=>$_POST['uid']));
+        updatetable("powerlevel", array('depduty'=>htmlentities($_POST['duty'])), array('dept_uid'=>$_POST['uid']));
     }
 } elseif ($_GET['op'] == 'add') {
     if (submitcheck('addsubmit')) {
