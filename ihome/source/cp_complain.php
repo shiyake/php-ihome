@@ -162,7 +162,7 @@ if ($_GET['op'] == 'delete') {
     showmessage('error_op');
 } elseif ($_GET['op'] == 'updateduty') {
     if (submitcheck("updateduty")) {
-        updatetable("complain_dep", array('depduty'=>$_POST['duty']), array('uid'=>$_POST['uid']));
+        updatetable("complain_dep", array('depduty'=>htmlentities($_POST['duty'])), array('uid'=>$_POST['uid']));
     }
 } elseif ($_GET['op'] == 'add') {
     if (submitcheck('addsubmit')) {
