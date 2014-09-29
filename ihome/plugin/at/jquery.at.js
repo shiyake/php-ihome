@@ -295,7 +295,9 @@ var jq = jQuery.noConflict();
           jq("#add").prop("disabled", true);
         });
         jq("#"+this.id.slice(1)).on("hide",function() {
-          jq("#add").prop("disabled", false);
+          if(!jq('#add').hasClass('askbag')) {
+            jq("#add").prop("disabled", false);
+          }
         });
         $menu = this.jqo().find('ul');
         return $menu.on('mouseenter.view', 'li', function(e) {
@@ -406,7 +408,11 @@ var jq = jQuery.noConflict();
       var el;
       try {
         return el = tpl.replace(/\$\{([^\}]*)\}/g, function(tag, key, pos) {
-          return map[key];
+          if (map[key]) {
+            return map[key].replace(/'/g,'&prime;').replace(/"/g,'&quot;');
+          } else {
+            return "";
+          }
         });
       } catch (error) {
         return "";

@@ -94,6 +94,9 @@
             var updated_detail = jQuery('#my_dept_duty').val();
             if (origin_detail !== updated_detail) {
                 jQuery.post('cp.php?ac=complain&op=updateduty', {updateduty: true, duty: updated_detail, uid:$_SGLOBAL['supe_uid'], formhash: "$formhash"}, function() {
+                    if (updated_detail.length === 0) {
+                        updated_detail = "(暂无介绍)";
+                    };
                     jQuery(__this).removeClass('icon-ok').addClass('icon-pencil');
                     jQuery('#my_dept_detail_info').text(updated_detail).show();
                     jQuery('#my_dept_duty').hide();
