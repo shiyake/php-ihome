@@ -419,14 +419,21 @@ function getIpDetails(){
     //}else{
     //    $result = True;
     //}
+    $opts = array(
+        'http'=>array(
+        'method'=>"GET",
+        'timeout'=>1
+        )
+    );
+    $context = stream_context_create($opts);
     $get_ip_url = 'http://freegeoip.net/json/'.$onlineip;
-    $result = file_get_contents($get_ip_url);
+    $result = file_get_contents($get_ip_url,false,$context);
     $result = json_decode($result,1);
     return $result;
 }
 function is_overseas()	{
 	$var = getIpDetails();
-	if($var['country_code']!='CN' && $var['country_code']!='RD')	{
+	if($var && $var['country_code']!='CN' && $var['country_code']!='RD')	{
 		return true;
 	}
 	return false;

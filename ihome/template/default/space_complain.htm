@@ -25,6 +25,10 @@
 <ol class="dept_rank" style="list-unstyled">
 <!--{loop $deps $dep}-->
 <li>
+<!--{if !$dep[rank]}-->
+<!--{eval $dep[rank] = $deps_rank_mine}-->
+<!--{/if}-->
+<span class="dept_rank_index">$dep['rank']</span>
 <div class="feed_li_avatar" style="float:left !important">
     <div class="head">
         <a href="space.php?uid=$dep[uid]"><!--{avatar($dep[uid],big,false,0,'feed')}--></a>
@@ -53,8 +57,21 @@
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[allreplysecs]}秒</span></span>
     <!--{/if}-->
 </div>
-<div>
-<p>部门职能：$dep['depduty']</p>
+<div class="dept_detail">
+<div class="dept_detail_tip">
+    <span>部门职能：</span>
+</div>
+<!--{if empty($dep['depduty'])}-->
+<!--{eval $dep['depduty']='(暂无介绍)'}-->
+<!--{/if}-->
+<!--{if $dep[uid]==$_SGLOBAL[supe_uid]}-->
+<span class="dept_detail_info" id="my_dept_detail_info">$dep['depduty']</span>
+<textarea name="duty" id="my_dept_duty" cols="66" rows="3" maxlength="100" style="display:none;">$dep['depduty']</textarea>
+<i class="dept_detail_edit icon-pencil"></i>
+<i class="dept_detail_edit_cancel icon-remove" style="display:none;"></i>
+<!--{else}-->
+<div class="dept_detail_info">$dep['depduty']</div>
+<!--{/if}-->
 </div>
 </div>
 <div class="clearfix"></div>
@@ -62,6 +79,42 @@
 <!--{/loop}-->
 </ol>
 </div>
+<!--{if $_SGLOBAL[isdept] == 1}-->
+<!--{eval $formhash = formhash();}-->
+<script>
+    jQuery('.dept_detail_edit').click(function(){
+        if (jQuery(this).hasClass('icon-pencil')) {
+            jQuery(this).removeClass('icon-pencil').addClass('icon-ok');
+            jQuery('.dept_detail_edit_cancel').show();
+            jQuery('#my_dept_detail_info').hide();
+            jQuery('#my_dept_duty').show();
+        } else {
+            var __this = this;
+            var origin_detail = jQuery('#my_dept_detail_info').text();
+            var updated_detail = jQuery('#my_dept_duty').val();
+            if (origin_detail !== updated_detail) {
+                jQuery.post('cp.php?ac=complain&op=updateduty', {updateduty: true, duty: updated_detail, uid:$_SGLOBAL['supe_uid'], formhash: "$formhash"}, function() {
+                    jQuery(__this).removeClass('icon-ok').addClass('icon-pencil');
+                    jQuery('#my_dept_detail_info').text(updated_detail).show();
+                    jQuery('#my_dept_duty').hide();
+                    jQuery('.dept_detail_edit_cancel').hide();
+                });
+            } else {
+                jQuery(__this).removeClass('icon-ok').addClass('icon-pencil');
+                jQuery('#my_dept_detail_info').show();
+                jQuery('#my_dept_duty').hide();
+                jQuery('.dept_detail_edit_cancel').hide();
+            }
+        }
+    });
+    jQuery('.dept_detail_edit_cancel').click(function(){
+        jQuery('.dept_detail_edit').removeClass('icon-ok').addClass('icon-pencil');
+        jQuery('.dept_detail_edit_cancel').hide();
+        jQuery('#my_dept_detail_info').show();
+        jQuery('#my_dept_duty').hide();
+    });
+</script>
+<!--{/if}-->
 <!--{else}-->
 <div id="complain_list">
 <div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
