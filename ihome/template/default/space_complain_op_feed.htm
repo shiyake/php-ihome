@@ -33,10 +33,12 @@
             <div class="mood_statement">
                 <div class="mood_say_something">
                     <input type="hidden" id="optype" name="optype" value="2" />
-                    <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;处理诉求</label>
                     <!--{if $complain[atuid] == $_SGLOBAL[supe_uid]}-->
+                    <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;处理诉求</label>
                     <label><input type="radio" name="mood_op" value="3">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
                     <span class="forward_tip" style="display:none;">提示：诉求只能被转发三次</span>
+                    <!--{else}-->
+                    <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
                     <!--{/if}-->
                 </div>
             </div>
