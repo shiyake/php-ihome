@@ -104,6 +104,9 @@
 #complain_op_form {
 	margin-left: 10px;
 }
+#complain_op_form div.mood_say_something input {
+	margin-left: 2px;
+}
 #complain_op_form textarea, #complain_op_form .demo, #complain_op_form .mood_say_something {
 	margin-left: 0;
 }
