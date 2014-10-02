@@ -45,12 +45,34 @@ table.complain_list {
     width: 115px;
 }
 .dept_rank .dept_center {
+    width: 70%;
     margin: 10px;
     float: left;
 }
+.dept_center .feed_li_inner {
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+.dept_center .dept_detail {
+    padding-top: 5px;
+    margin-left: 10px;
+    max-height: 60px;
+    overflow: hidden;
+}
+.dept_detail .dept_detail_tip {
+    float: left;
+}
+.dept_detail .dept_detail_info {
+    color: #575757;
+    padding-left: 5px;
+    width: 427px;
+    overflow: hidden;
+}
+.dept_detail i {
+    cursor: pointer;
+}
 .dept_rank .dept_score {
 	color: #777;
-	margin-top: 10px;
     margin-left: 10px;
 }
 .dept_rank .dept_op {
@@ -60,4 +82,15 @@ table.complain_list {
 .dept_rank .dept_op a {
     padding: 5px 0;
     display: block;
+}
+.dept_rank_index {
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-left: 15px;
+    width: 27px;
+    height: 30px;
+    line-height: 26px;
+    background: url(../../image/icons/rank_bg.png) center center no-repeat;
+    position: absolute;
 }
