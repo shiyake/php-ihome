@@ -226,9 +226,13 @@ if($type == 'forleaders' && $superuid == 3){
 		$multi = multi($count, $perpage, $page, $mpurl);
 	}
 	
-
-	
-	
+}elseif($type == 'cloud'){
+    $tab = 5;
+    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . " group by tag_word");
+    $tags = array();
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $tags[] = $value;
+    }
 	
 }elseif($type == 'complains'){
 	$tab = 1;
@@ -275,6 +279,26 @@ if($type == 'forleaders' && $superuid == 3){
 		$multi = multi($count, $perpage, $page, $mpurl);
 		realname_get();
 	}
+} elseif ($type == "deprank") {
+    if ($_GET['subtype'] == 'score') {
+        $order = " order by score desc ";
+        $submenus['score'] = ' class = "active"';
+    } elseif ($_GET['subtype'] == 'updownnum') {
+        $order = " order by updownnum desc ";
+        $submenus['updownnum'] = ' class="active"';
+    } else {
+        $order = " order by aversecs ";
+        $submenus['aversecs'] = ' class="active"';
+    }
+    $deps = array();
+    $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
+    $rank = 1;
+    while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+        $value["rank"]=$rank;
+        $rank += 1;
+        $deps[] = $value;
+        realname_set($value['uid'], $value['username']);
+    }
 
 }else{
 	$tab = 0;
@@ -331,6 +355,7 @@ if(!isset($tab)) {
 } else {
 	$mpurl .= '&tab='.$tab;
 }
+realname_get();
 include_once template("admin/tpl/complain");
 
 

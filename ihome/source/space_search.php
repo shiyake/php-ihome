@@ -335,6 +335,6 @@ else if ($search_type =='complain') {
 	$dolist = resort($itemids, $dolist);
 	$_TPL['css'] = 'doing';
 	realname_get();
-	include_once template("space_search_doing");
+	include_once template("space_search_complain");
 }
 ?>

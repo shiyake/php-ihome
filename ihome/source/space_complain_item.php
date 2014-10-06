@@ -51,12 +51,14 @@ if ($complain) {
     }
     $query = $_SGLOBAL['db']->query("select * from ".tname('complain_op')." where doid=$doid");
     $complain_ops = array();
+    $opids = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $complain_ops[] = $value;
         realname_set($value['uid'], $value['username']);
         if ($value['optype'] == 3) {
             realname_set(intval($value['opvalue']), '');
         }
+        $opids[] = $value['id'];
     }
     $commenttree = new tree();
     foreach($complain_ops as $op) {
@@ -69,6 +71,14 @@ if ($complain) {
             $commenttree->setNode($value['id'], $value['upid'], $value);
         }
     }
+    $opupdowns = array();
+    if (!empty($opids)) {
+        $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op_updown")." where opid in (". implode(",", $opids).") and uid = $_SGLOBAL[supe_uid]");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $opupdowns[$value["opid"]] = true;
+        }
+    }
+
     $opclist = array();
     foreach ($complain_ops as $op) {
         $opclist[$op['id']] = array();
