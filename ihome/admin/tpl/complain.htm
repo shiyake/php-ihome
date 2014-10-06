@@ -13,6 +13,67 @@
 		text-align: center;
 	}
 	#official_msg,#mobile_msg,#up_uid_msg,#dept_uid_msg{color:#FF0000;padding-left:3px;}
+    .dept_rank li {
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid #dcdcdc;
+        height: 117px;
+    }
+    .dept_rank .head img {
+        border-radius: 10px 0 0 10px;
+        height: 115px;
+        width: 115px;
+    }
+    .dept_rank .dept_center {
+        width: 70%;
+        margin: 10px;
+        float: left;
+    }
+    .dept_center .feed_li_inner {
+        padding-top: 2px;
+        padding-bottom: 5px;
+    }
+    .dept_center .dept_detail {
+        padding-top: 5px;
+        margin-left: 10px;
+        max-height: 60px;
+        overflow: hidden;
+    }
+    .dept_detail .dept_detail_tip {
+        float: left;
+    }
+    .dept_detail .dept_detail_info {
+        color: #575757;
+        padding-left: 5px;
+        width: 427px;
+        overflow: hidden;
+    }
+    .dept_detail i {
+        cursor: pointer;
+    }
+    .dept_rank .dept_score {
+        color: #777;
+        margin-left: 10px;
+    }
+    .dept_rank .dept_op {
+        float: right;
+        padding: 4px 12px;
+    }
+    .dept_rank .dept_op a {
+        padding: 5px 0;
+        display: block;
+    }
+    .dept_rank_index {
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        margin-left: 15px;
+        width: 27px;
+        height: 30px;
+        line-height: 26px;
+        background: url(../../image/icons/rank_bg.png) center center no-repeat;
+        position: absolute;
+    }
 	</style>
 	<div class="tabs_header">
 		<ul class="tabs">
@@ -20,6 +81,8 @@
 			<li$actives[1]><a href="admincp.php?ac=$ac&type=complains"><span>诉求记录</span></a></li>
 			<li$actives[2]><a href="admincp.php?ac=$ac&type=setting"><span>管理设置</span></a></li>
 			<li$actives[3]><a href="admincp.php?ac=$ac&type=forleaders"><span>For leaders</span></a></li>
+			<li$actives[4]><a href="admincp.php?ac=$ac&type=deprank"><span>部门排行</span></a></li>
+			<li$actives[5]><a href="admincp.php?ac=$ac&type=cloud"><span>诉求云</span></a></li>
 		</ul>
 	</div>
 		
@@ -265,6 +328,96 @@ jQuery.noConflict();
 	<div class="footactions">
 		<div class="pages">$multi</div>
 	</div>
+    <!--{elseif $type=='deprank'}-->
+<div id="complain_list">
+<div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+<a $submenus[score] href="admincp.php?ac=complain&type=deprank&subtype=score">服务质量</a>
+<a $submenus[updownnum] href="admincp.php?ac=complain&type=deprank&subtype=updownnum">评价人数</a>
+<a $submenus[aversecs] href="admincp.php?ac=complain&type=deprank&subtype=aversecs">平均响应时间</a>
+</div>
+
+
+<ol class="dept_rank" style="list-unstyled">
+<!--{loop $deps $dep}-->
+<li>
+<span class="dept_rank_index">$dep['rank']</span>
+<div class="feed_li_avatar" style="float:left !important">
+    <div class="head">
+        <a href="space.php?uid=$dep[uid]"><!--{avatar($dep[uid],big,false,0,'feed')}--></a>
+    </div>
+</div>
+<div class="dept_op">
+    <a href="space.php?uid=$dep[uid]">去串个门</a>
+    <a href="cp.php?ac=poke&amp;op=send&amp;uid=$dep[uid]" id="a_poke_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="打招呼">打个招呼</a>
+    <a href="cp.php?ac=friend&amp;op=add&amp;uid=$dep[uid]" id="a_friend_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="加好友">加为好友</a>
+    <a href="cp.php?ac=pm&amp;uid=$dep[uid]" id="a_pm_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)">发送消息</a>
+</div>
+<div class="dept_center">
+<div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
+    <a href="space.php?uid=$dep[uid]">$_SN[$dep[uid]]</a>
+</div>
+<div class="dept_score">
+    <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[score]</span></span>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[updownnum]</span></span>
+    <!--{if $dep[allreplysecs] > 86400}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/86400)}-->天</span></span>
+    <!--{elseif $dep[allreplysecs] > 3600}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/3600)}-->小时</span></span>
+    <!--{elseif $dep[allreplysecs] > 60}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/60)}-->分钟</span></span>
+    <!--{else}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[allreplysecs]}秒</span></span>
+    <!--{/if}-->
+</div>
+<div class="dept_detail">
+<div class="dept_detail_tip">
+    <span>部门职能：</span>
+</div>
+<!--{if empty($dep['depduty'])}-->
+<!--{eval $dep['depduty']='(暂无介绍)'}-->
+<!--{/if}-->
+<!--{if $dep[uid]==$_SGLOBAL[supe_uid]}-->
+<span class="dept_detail_info" id="my_dept_detail_info">$dep['depduty']</span>
+<textarea name="duty" id="my_dept_duty" cols="66" rows="3" maxlength="100" style="display:none;">$dep['depduty']</textarea>
+<i class="dept_detail_edit icon-pencil"></i>
+<i class="dept_detail_edit_cancel icon-remove" style="display:none;"></i>
+<!--{else}-->
+<div class="dept_detail_info">$dep['depduty']</div>
+<!--{/if}-->
+</div>
+</div>
+<div class="clearfix"></div>
+</li>
+<!--{/loop}-->
+</ol>
+</div>
+<!--{elseif $type == 'cloud'}-->
+    <div style="text-align:center; padding-top:10px;">
+        <!--	<img src="plugin/complain/images/ciyun.jpg" />-->
+        <div id="tagcloud" style="width:990px;height:400px;background:#fff;">
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            var words = [
+            <!--{if $tags}-->
+            <!--{loop $tags $key $value}-->
+            <!--{if $value['intend']=='uname'}-->
+            {text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            <!--{else}-->
+            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            <!--{/if}-->
+            <!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+            <!--{/loop}-->
+            <!--{/if}-->];
+            jQuery(function(){
+                jQuery('#tagcloud').jQCloud(words,{
+                    delayedMode:true
+                });
+            });
+
+        </script>
+    </div>
+
+
 	<!--{elseif $type=='forleaders'}-->
 <script type="text/javascript">
 

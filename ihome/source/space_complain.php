@@ -59,6 +59,13 @@ if ($_GET['view'] == 'rank') {
         realname_set($value['uid'], $value['username']);
     }
     $actives = array('rank'=>' class="active"');
+} elseif ($_GET['view'] == 'cloud') {
+    $actives = array('cloud'=>' class="active"');
+    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . " group by tag_word");
+    $tags = array();
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $tags[] = $value;
+    }
 } else {
     if (empty($_GET['type'])) {
         $_GET['type'] = 'running';
