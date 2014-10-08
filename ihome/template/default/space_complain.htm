@@ -10,6 +10,7 @@
         <!--{/if}-->
         <li$actives[all] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
         <li$actives[rank] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank&type=score"><span>部门排行</span></a></li>
+        <li$actives[cloud] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=cloud"><span>诉求云</span></a></li>
     </ul>
 </div>
 <div id="content" style="border-right: none;width:100%;padding-right:40px;">
@@ -118,6 +119,32 @@
     });
 </script>
 <!--{/if}-->
+<!--{elseif $_GET['view'] == 'cloud'}-->
+    <div style="text-align:center; padding-top:10px;">
+        <!--	<img src="plugin/complain/images/ciyun.jpg" />-->
+        <div id="tagcloud" style="width:990px;height:400px;background:#fff;">
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            var words = [
+            <!--{if $tags}-->
+            <!--{loop $tags $key $value}-->
+            <!--{if $value['intend']=='uname'}-->
+            {text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            <!--{else}-->
+            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            <!--{/if}-->
+            <!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+            <!--{/loop}-->
+            <!--{/if}-->];
+            jQuery(function(){
+                jQuery('#tagcloud').jQCloud(words,{
+                    delayedMode:true
+                });
+            });
+
+        </script>
+    </div>
+
 <!--{else}-->
 <div id="complain_list">
 <div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">

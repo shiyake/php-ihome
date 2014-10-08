@@ -121,6 +121,11 @@ if($CurrentTime - $FileModTime > 3600){
 		$atfriends[$count++] = array('uid'=>$value['uid'],'namequery'=>$value['name'].' '.Pinyin($value['name'],1).' '.$value['uid'],'name'=>$value['name'],'avatar'=>'');
 	}
 
+    $query = $_SGLOBAL['db']->query("select uid,name,username from ".tname("space")." as a, ".tname("powerlevel")." as b where b.dept_uid = a.uid and b.isdept = 1 "); 
+	while($value = $_SGLOBAL['db']->fetch_array($query)){
+		if(empty($value['name'])) $value['name'] = $value['username'];
+		$atfriends[$count++] = array('uid'=>$value['uid'],'namequery'=>$value['name'].' '.Pinyin($value['name'],1).' '.$value['uid'],'name'=>$value['name'],'avatar'=>'');
+	}
 
 
 	$friends = json_encode($atfriends);
