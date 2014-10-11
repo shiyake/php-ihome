@@ -239,7 +239,7 @@ if ($_GET['op'] == 'delete') {
                 $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
                 notification_complain_add($_POST['relay_depid'], 'complain', $note);
             } elseif ($optype == 2 && $_SGLOBAL['supe_uid'] == $complain['atuid']) {
-                updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp']), array('doid'=>$doid));
+                updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('doid'=>$doid));
                 if ($complain['lastopid'] == 0) {
                     $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $_SGLOBAL[supe_uid]");
                     $dep = $_SGLOBAL['db']->fetch_array($result);
