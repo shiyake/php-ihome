@@ -9,7 +9,7 @@ if __name__ == '__main__':
     conn = MySQLdb.connect(host=config.dbhost, user='root', passwd='nameLR9969', db='ihome', port=config.dbport, charset='utf8')
     cursor = conn.cursor()
     chinesere = re.compile(ur'[\u4e00-\u9fff]+')
-    starttime = int(time.time() - 3600 * 2);
+    starttime = int(time.time() - 3600 * 1);
     datestr = datetime.datetime.now().strftime("%Y%m%d")
     cursor.execute("select message from ihome_complain where addtime > %d" % starttime)
     results = {}
