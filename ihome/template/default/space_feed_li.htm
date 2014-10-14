@@ -206,6 +206,17 @@
 		<!--{if empty($_TPL[hidden_menu])}-->
 				<span class="floatright">	
 		<!--{if empty($value['image_2'])}-->
+			<!--{if $value['canUpvote']}-->
+				<a href="javascript:;" onclick="upvote($value[feedid])" id="feed_up_$value[feedid]" style="margin-left:5px;"><img src="image/icons/icon-good.png"/>&nbsp;<!--{if $value['upvotes']>0}-->赞($value['upvotes'])<!--{else}-->赞<!--{/if}--></a>
+		        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
+		        <span class="pipe">|</span>
+		        <!--{/if}-->
+			<!--{elseif $value['upvotes']}-->
+				<a href="javascript:;" id="feed_up_$value[feedid]" style="margin-left:5px;color:gray;cursor:default;"><img src="image/icons/icon-good.png"/>&nbsp;赞($value['upvotes'])</a>
+		        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
+		        <span class="pipe">|</span>
+		        <!--{/if}-->
+			<!--{/if}-->
 			<!--{if $value['idtype']=='doid'}-->
 				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>       
                 <!--{if $value['uid'] != $_SGLOBAL['supe_uid']}-->
@@ -234,7 +245,7 @@
 		<!--{/if}-->
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_hot]) && $value[hot]}-->
-        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
+        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))||$value['canUpvote']||$value['upvotes']}-->
         <span class="pipe" style="float:right;">|</span>
         <!--{/if}-->
         <a style="float:right;" href="cp.php?ac=feed&feedid=$value[feedid]"><img src="image/icons/icon-hot.png"/>&nbsp;热度$value[hot]</a>
