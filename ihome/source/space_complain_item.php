@@ -75,7 +75,7 @@ if ($complain) {
     if (!empty($opids)) {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op_updown")." where opid in (". implode(",", $opids).") and uid = $_SGLOBAL[supe_uid]");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            $opupdowns[$value["opid"]] = true;
+            $opupdowns[$value["opid"]] = $value['updown'];
         }
     }
 
