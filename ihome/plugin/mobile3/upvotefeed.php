@@ -1,6 +1,6 @@
 <?php 
 /*
-说明： 输入为feedid，uid
+说明： 输入为feedid，userid
 输出为点赞数（点完）或-1
 当是自己的状态或者已经点过，则返回-1
 */
@@ -12,6 +12,7 @@
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE feedid=".$feedid.' limit 1');
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$upvotes = intval($value['upvotes']);
+			$uid = intval($value['uid']);
 			$upvoters = $value['upvoters'];
 			if ($value['icon']=='doing' && isComplainOrNot($value['id'],$_SGLOBAL['db'])) {
 				echo '-1';
