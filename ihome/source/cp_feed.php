@@ -150,9 +150,9 @@ if($_GET['op'] == 'delete') {
 					'uid' => $uid,
 					'type' => "systemnote",
 					'new' => 1,
-					'authorid' => 0,
+					'authorid' => $me,
 					'author' => $name,
-					'note' => '<a href="space.php?uid='.$me.'">'.$name.'</a> 赞了你的状态',
+					'note' => '赞了你的<a href="space.php?do=feeddetail&feedid='.$feedid.'">动态</a>',
 					'dateline' => $_SGLOBAL['timestamp']
 				);
 				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
@@ -175,9 +175,9 @@ if($_GET['op'] == 'delete') {
 				'uid' => $uid,
 				'type' => "systemnote",
 				'new' => 1,
-				'authorid' => 0,
+				'authorid' => $me,
 				'author' => $name,
-				'note' => '<a href="space.php?uid='.$me.'">'.$name.'</a> 赞了你的状态',
+				'note' => '赞了你的<a href="space.php?do=feeddetail&feedid='.$feedid.'">动态</a>',
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
