@@ -2,6 +2,7 @@
 
 <div class="mainarea">
 <div class="maininner">
+    <script language="javascript" type="text/javascript" src="admin/tpl/My97DatePicker/WdatePicker.js"></script>
 	<style type="text/css">
 	th {
 		text-align: right;
@@ -77,12 +78,12 @@
 	</style>
 	<div class="tabs_header">
 		<ul class="tabs">
-			<li$actives[0]><a href="admincp.php?ac=$ac&type=baseinfo"><span>基本信息</span></a></li>
-			<li$actives[1]><a href="admincp.php?ac=$ac&type=complains"><span>诉求记录</span></a></li>
-			<li$actives[2]><a href="admincp.php?ac=$ac&type=setting"><span>管理设置</span></a></li>
-			<li$actives[3]><a href="admincp.php?ac=$ac&type=forleaders"><span>For leaders</span></a></li>
+			<li$actives[0]><a href="admincp.php?ac=$ac&type=baseinfo"><span>诉求统计</span></a></li>
+			<li$actives[1]><a href="admincp.php?ac=$ac&type=complains"><span>诉求列表</span></a></li>
 			<li$actives[4]><a href="admincp.php?ac=$ac&type=deprank"><span>部门排行</span></a></li>
 			<li$actives[5]><a href="admincp.php?ac=$ac&type=cloud"><span>诉求云</span></a></li>
+			<li$actives[2]><a href="admincp.php?ac=$ac&type=setting"><span>管理设置</span></a></li>
+			<li$actives[3]><a href="admincp.php?ac=$ac&type=forleaders"><span>代理</span></a></li>
 		</ul>
 	</div>
 		
@@ -93,16 +94,30 @@
 			<div class="block style4">
 			  <table width="750" height="123" cellpadding="3" cellspacing="3">
 				<tr>
+				  <th width="100">诉求人姓名</th>
+				  <td width="100"><input type="text" id="uname" name="uname" value="$uname"></td>
 				  <th width="100">用户UID</th>
-				  <td width="250">
-				  <input type="text" name="uid" id="uid" value="$uid" size="10"><span id="dept_uid_msg">用户UID</span></td>
-				  <th width="100">诉求人</th>
-				  <td width="300"><input type="text" id="uname" name="uname" value="$uname"><span id="up_uid_msg">诉求人姓名</span></td>
+				  <td width="100">
+				  <input type="text" name="uid" id="uid" value="$uid" size="10"></td>
 				</tr>
 				<tr>
 				  <th>诉求部门</th>
-				  <td><input type="text" name="atuname" id="atuname" value="$atuname" size="10"><span id="up_uid_msg">部门名称</span></td>
-				  <th>当前处理阶段</th>
+                  <td><select name="atuname">
+                    <option value="">==所有==</option>
+                    <!--{loop $deps $value}-->
+                    <option value="$value[dept_uid]" <!--{if $_GET["atuname"] == $value["dept_uid"]}--> selected="selected" <!--{/if}--> >$value[department]</option>
+                    <!--{/loop}-->
+                    </select></td>
+                    <th>诉求状态</th>
+				  <td>
+				  <select name="status">
+					<option value="">==所有==</option>
+					<option value="0" <!--{if $status === "0"}-->selected="selected"<!--{/if}-->>处理中</option>
+					<option value="1" <!--{if $status == 1}-->selected="selected"<!--{/if}-->>已处理</option>
+					<option value="2" <!--{if $status == 2}-->selected="selected"<!--{/if}-->>已关闭</option>
+				  </select>
+				  </td>
+				  <th>上报阶段</th>
 				  <td><select name="times">
                   <option value="">==所有==</option>
                   
@@ -113,17 +128,12 @@
                   </td>
 				</tr>
 				<tr>
-				  <th>处理状况</th>
-				  <td>
-				  <select name="status">
-					<option value="">==所有==</option>
-					<option value="0" <!--{if $status === "0"}-->selected="selected"<!--{/if}-->>处理中</option>
-					<option value="1" <!--{if $status == 1}-->selected="selected"<!--{/if}-->>已处理</option>
-					<option value="2" <!--{if $status == 2}-->selected="selected"<!--{/if}-->>已关闭</option>
-				  </select>
-				  </td>
-				  <th></th>
-				  <td></td>
+                <th>起始时间</th>
+                <td>
+                  <input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$startDay"></td>
+                <th>起始时间</th>
+                <td>
+                  <input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$endDay"></td>
 				</tr>
 				<tr>
 				  <td colspan="4" style="text-align:center;">
@@ -318,7 +328,7 @@ jQuery.noConflict();
 			  <td><!--{if $value[isdept] == '1'}-->部门<!--{else}-->领导<!--{/if}--></td>
 			  <td><!--{if $value[mobile] == '0'}-->无<!--{else}-->$value[mobile]<!--{/if}--></td>
 			  <td>
-			  <a href="admincp.php?ac=complain&type=setting&op=edit&pid=$value[pid]&dept_uid=$value[dept_uid]&department=$value[department]&up_uid=$value[up_uid]&official=$value[official]&isdept=$value[isdept]&mobile=$value[mobile]">编辑</a>/
+			  <a href="admincp.php?ac=complain&type=setting&op=edit&pid=$value[pid]&dept_uid=$value[dept_uid]&department=$value[department]&up_uid=$value[up_uid]&official=$value[official]&isdept=$value[isdept]&mobile=$value[mobile]">编辑</a>
 			  <a href="admincp.php?ac=complain&type=setting&pid=$value[pid]&op=delete" onclick="return confirm('删除后无法恢复,确定要删除吗?')">删除</a></td>
 			</tr>
 			<!--{/loop}-->
@@ -584,8 +594,10 @@ jQuery.noConflict();
 				  </select>
 				  </td>
 				  <th>起止时间</th>
-				  <td><input type="text" name="starttime" id="starttime" value="$startDay" size="10"> ~ 
-				  <input type="text" name="endtime" id="endtime" value="$endDay" size="10"> (YYYY-MM-DD)</td>
+                  <td>
+                  <input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$startDay">~
+                  <input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$endDay">
+                  </td>
 				</tr>
 				<tr>
 				  <td colspan="4" style="text-align:center;">
