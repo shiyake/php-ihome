@@ -245,8 +245,21 @@ if($type == 'forleaders' && $superuid == 3){
 	$start = ($page-1)*$perpage;
 	//检查开始数
 	ckstart($start, $perpage);
+
+	$firstday = date("Y-m-01" ,time());
+	$nowday = date("Y-m-d");
+	$startDay = $_GET['starttime'] ? trim($_GET['starttime']) : $firstday;
+	$endDay = $_GET['endtime'] ? trim($_GET['endtime']) : $nowday;
 	
+
 	$wheresql = '1';
+    $startTime = strtotime($startDay);
+	$endTime = strtotime($endDay);
+	$endTime = strtotime("+1 days",$endTime);
+	
+
+	$wheresql .= " AND addtime<".$endTime." AND addtime>".$startTime;
+
 	$isSearch = FALSE;
 	if($uid = $_GET['uid'] ? trim($_GET['uid']) : ''){
 		$wheresql .= " AND temp.uid=$uid";
@@ -258,12 +271,18 @@ if($type == 'forleaders' && $superuid == 3){
 		$wheresql .= " AND temp.times = $times";
 	}
 	if($atuname = $_GET['atuname'] ? trim($_GET['atuname']) : ''){
-		$wheresql .= " AND temp.atuname like '%$atuname%'";
+        $wheresql .= " AND temp.atuid = $_GET[atuname]";
 	}
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
         $wheresql .= " and temp.status=$status";
 	}
 	$where = " WHERE ".$wheresql;
+
+    $query = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where isdept = 1");
+    $deps = array();
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $deps[] = $value;
+    }
 	
 	$mpurl = "admincp.php?uid=$uid&uname=$uname&message=$message&atuname=$atuname&status=$status&ac=complain&type=complains";
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atuid) FROM ".tname('complain')." temp".$where), 0);
