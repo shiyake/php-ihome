@@ -75,7 +75,7 @@ if ($_GET['view'] == 'rank') {
         $theurl = "space.php?do=$do&view=me&type=$_GET[type]";
         $actives = array('me'=>' class="active"');
     } elseif ($_GET['view'] == 'atme') {
-        $wheresql = "atuid=$_SGLOBAL[supe_uid]";
+        $wheresql = "(atuid=$_SGLOBAL[supe_uid] or relayed_by like '%,$_SGLOBAL[supe_uid],%')";
         $theurl = "space.php?do=$do&view=atme&type=$_GET[type]";
         $actives = array('atme'=>' class="active"');
     } else {
@@ -85,13 +85,13 @@ if ($_GET['view'] == 'rank') {
     }
     $submenus = array();
     if ($_GET['type'] == 'running') {
-        $wheresql .= ' and status = 0 ';
+        $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
-        $wheresql .= ' and status = 1 ';
+        $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
-        $wheresql .= ' and status = 2 ';
+        $wheresql .= " and status = 2 ";
         $submenus['closed']=' class = "active"';
     } else {
         $submenus['all']=' class = "active"';

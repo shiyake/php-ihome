@@ -235,7 +235,12 @@ if ($_GET['op'] == 'delete') {
                 if (empty($relay_dep)) {
                     showmessage('error_op');
                 }
-                updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'dateline'=>$_SGLOBAL['timestamp'], "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1), array('doid'=>$doid));
+                if ($complain['relayed_by']) {
+                    $relayed_by = $complain['relayed_by'].$_SGLOBAL['supe_uid'].',';
+                } else {
+                    $relayed_by = ','.$_SGLOBAL['supe_uid'].',';
+                }
+                updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'dateline'=>$_SGLOBAL['timestamp'], "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1, "relayed_by"=>$relayed_by), array('doid'=>$doid));
                 $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
                 notification_complain_add($_POST['relay_depid'], 'complain', $note);
             } elseif ($optype == 2 && $_SGLOBAL['supe_uid'] == $complain['atuid']) {
