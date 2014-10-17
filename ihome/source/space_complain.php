@@ -85,10 +85,18 @@ if ($_GET['view'] == 'rank') {
     }
     $submenus = array();
     if ($_GET['type'] == 'running') {
-        $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
+        } else {
+            $wheresql .= " and status = 0 ";
+        }
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
-        $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
+        } else {
+            $wheresql .= " and status = 1 ";
+        }
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
         $wheresql .= " and status = 2 ";
