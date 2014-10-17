@@ -118,7 +118,7 @@ function accessLog( $str ){
 
     $lineToWrite = $time.' '.$ip.' '.$str.' '.$filename."\n";
 
-    $file = fopen(IAUTH_ACCESS_LOG_FILE,'a');
+    $file = @fopen(IAUTH_ACCESS_LOG_FILE,'a');
     if ($file){
 	fwrite( $file,  $lineToWrite );
 	fclose( $file );

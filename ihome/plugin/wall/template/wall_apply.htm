@@ -1,18 +1,18 @@
 <!--{template header}-->
 <style>
-	.red{color:red;}
+	.red{color:#333;}
 	select{padding:1px;}
-	dl{display:block;margin-bottom: 14px;font-size: 14px;}
+	dl{display:block;margin-bottom: 20px;font-size: 12px;}
 	dl dd, dl dt{display:inline-block;_display:inline;}
-	dl dd{text-align: right;width:100px;}
-	.input_box{height:23px;width:250px;}
-	.a_time{width:120px;}
-	.a_intro{width: 300px;}
-	.a_cover{width: 60px;height: 25px;opacity: 0;cursor:pointer;margin-left: -65px;}
-	.a_intro_t{position: relative;top: -20px;}
+	dl dd{text-align: right;width:100px;margin-right:15px}
+	.input_box{height:23px;width:350px;}
+	.a_time{width:220px;}
+	.a_intro{width: 350px;height:100px}
+	.a_cover{width: 60px;height: 25px;cursor:pointer;}
+	.a_intro_t{position: relative;top: -85px;}
 	.upload{width: 84px;height: 25px;background:#3a9c78;border:1px solid #1e513e; padding: 4px 16px;border-radius: 12px;cursor: pointer;margin-top:-3px;}
-	.track{width:600px;margin:20px auto;}
-		.track h2{text-align:center;font-size:18px;font-weight:bold;letter-spacing:2px;font-family: 微软雅黑;margin-bottom: 30px;}
+	.track{width:100%;min-height:1000px}
+		.track h2{text-align:center;font-size:18px;font-weight:normal;padding-top:15px;letter-spacing:2px;font-family: 微软雅黑;margin-bottom: 30px;}
 </style>
 	<link rel="stylesheet" href="plugin/at/jquery-ui-1.10.2/themes/base/jquery.ui.all.css">
 	<script language="javascript" type="text/javascript" src="plugin/at/jquery-1.8.2.min.js"></script>
@@ -20,7 +20,7 @@
 	<script src="plugin/at/jquery-ui-1.10.2/ui/jquery.ui.widget.js"></script>
 	<script src="plugin/at/jquery-ui-1.10.2/ui/jquery.ui.datepicker.js"></script>
 <div class="track">
-	<h2>i北航足迹墙申请</h2>
+    <h4 class="title title10" style="margin-left:20px;margin-bottom:25px;"><img class="pic10" src="image/icons/icon_wall.png" />i北航墙</h4>
 	<form method="post" action="$theurl" enctype="multipart/form-data"  onsubmit="return checkSubmit();">
 		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
 		<div>
@@ -138,21 +138,19 @@
 				<dd class="a_intro_t">活动简介</dd>
 				<dt>
 					<textarea id="a_intro" class="a_intro" name="a_intro" onBlur="checkDesc()" ></textarea>
-					<span class="red">(10-200字)</span><br><span id="checkdesc">&nbsp;</span>
+					<span class="red" style="position:relative;top:-87px;">(10-200字)&nbsp;&nbsp;</span><span style="position:relative;top:-87px;" id="checkdesc">&nbsp;</span>
 				</dt>
 			</dl>
 			<dl>
 				<dd>活动封面</dd>
 				<dt>
-					<span class="upload">上传</span>
 					<input class="a_cover" type="file" name="poster" size="1"/>
-					图片将上传到您的默认相册
 				</dt>
 			</dl>
 		</div>
-		<div>
-			<input type="submit" id="applysubmit" name="applysubmit" value="提交" class="submit" />
-			<p class="red">提交后如需修改，请申请人向ihome公共主页发送私信进行说明！</p>
+		<div style="margin-left:115px">
+			<input type="submit" id="applysubmit" name="applysubmit" value="提交" class="submit btn btn-sm btn-comments" />
+			<span style="margin-top:20px;margin-left:5px"class="red">提交后如需修改，请申请人向ihome公共主页发送私信进行说明！</span>
 			<input type="hidden" name="uid" size="10" value="$_SGLOBAL['supe_uid']" />
 		</div>
 	</form>
@@ -189,7 +187,7 @@ $('#a_s_time,#a_e_time').datepicker("option", "dateFormat", "yy-mm-dd");
 	 	var cu = $('#checkdesc');
 	 	var unLen = desc.length;
 	 	if(unLen < 10 || unLen > 200) {
-	 		warning(cu, unLen < 10 ? '描述小于10个文字' : '描述超过 200 个文字');
+	 		warning(cu, unLen < 10 ? '小于10个文字' : '超过 200 个文字');
 	 		return false;
 	 	}else{
 	 		checkpass(cu,'');

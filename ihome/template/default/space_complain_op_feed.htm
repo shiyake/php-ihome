@@ -1,0 +1,79 @@
+<script language="javascript" src="source/face.js"></script>
+<script language="javascript" src="plugin/at/jquery.form.js"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(function($) {
+        var moodSwitch = jQuery("#mood-switch");
+        var jqSubmit = jQuery("#add");
+        var jqoptype = jQuery("#optype");
+        jQuery("input[name=mood_op]:radio").change(function(){
+            if(jQuery(this).val() == "3") {
+                jqSubmit.html('转发诉求');
+                jqoptype.val('3');
+                jQuery("#reply_dep").css("display","block");
+                jQuery(".forward_tip").css("display","initial");
+                jQuery("#complain_op_form .forward").css("display","initial");
+                jQuery("#complain_op_form textarea").css("width","463px");
+                jQuery("#complain_op_form .demo").css("margin-left","56px");
+            } else {
+                jqSubmit.html('回复诉求');
+                jqoptype.val('2');
+                jQuery("#reply_dep").css("display","none");
+                jQuery(".forward_tip").css("display","none");
+                jQuery("#complain_op_form .forward").css("display","none");
+                jQuery("#complain_op_form textarea").css("width","518px");
+                jQuery("#complain_op_form .demo").css("margin-left","-5px");
+            }
+        });
+    });
+</script>
+<div>
+    <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=add&doid=$doid">
+        <div >
+            <div class="mood_statement">
+                <div class="mood_say_something">
+                    <input type="hidden" id="optype" name="optype" value="2" />
+                    <!--{if $complain[atuid] == $_SGLOBAL[supe_uid] && $complain[relay_times] < 3}-->
+                    <label><input checked="checked" type="radio" name="mood_op" value="2" class="enAt">&nbsp;处理诉求</label>
+                    <label><input type="radio" name="mood_op" value="3" class="disAt">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
+                    <span class="forward_tip" style="display:none;">提示：诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次</span>
+                    <!--{else}-->
+                    <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
+                    <!--{/if}-->
+                </div>
+            </div>
+            <div id="reply_dep" style="display:none;padding-bottom:16px;">
+                <label class="forward" for="relay_depid">转发部门</label>
+                <select name="relay_depid" id="relay_depid">
+                    <!--{loop $deps $dep}-->
+                    <option value="$dep[uid]">$dep['name']</option>
+                    <!--{/loop}-->
+                </select>
+            </div>
+            <label class="forward" for="message" style="display:none;vertical-align:top;">转发理由</label>
+            <textarea class="mood_textarea" id="message" name="message"></textarea>
+            <div class="demo" style="margin-left:-5px;">
+                <div class="btn drop_face" id="face_smell">
+                    <a href="javascript:;"><img src="image/icons/statues_face_normal.png" width="30" height="30" align="absmiddle" title="插入表情" /></a>
+
+                </div>
+                <div class="drop_face_menu" data-target="message" style="margin-top:40px;margin-left:5px;"></div>
+                <div id="at_friends_box">
+                    <div id="search_at_friends">
+                        <input id="input_friends_name" class="form-control input-sm" type="text" onfocus="if(this.value=='搜索要@的好友') this.value='';" onblur="if(this.value=='') this.value='搜索要@的好友';" value="搜索要@的好友" name="friend_name" />
+                    </div>
+                </div>
+                <div class="mood_submit">
+                    <button type="submit" id="add" name="add">回复诉求</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="addsubmit" value="true" />
+        <input type="hidden" name="doid" value="$doid" />
+        <input type="hidden" name="refer" value="$theurl" />
+        <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+        <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+    </form>
+</div>
+

@@ -182,6 +182,12 @@ function checkauth() {
 		clearcookie();
 	} else {
 		$_SGLOBAL['username'] = $member['username'];
+        $query = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where dept_uid=$_SGLOBAL[supe_uid]");
+        if ($result = $_SGLOBAL['db']->fetch_array($query)) {
+            $_SGLOBAL['isdept'] = $result['isdept'];
+        } else {
+            $_SGLOBAL['isdept'] = 0;
+        }
 	}
 }
 
@@ -413,14 +419,21 @@ function getIpDetails(){
     //}else{
     //    $result = True;
     //}
+    $opts = array(
+        'http'=>array(
+        'method'=>"GET",
+        'timeout'=>1
+        )
+    );
+    $context = stream_context_create($opts);
     $get_ip_url = 'http://freegeoip.net/json/'.$onlineip;
-    $result = file_get_contents($get_ip_url);
+    $result = file_get_contents($get_ip_url,false,$context);
     $result = json_decode($result,1);
     return $result;
 }
 function is_overseas()	{
 	$var = getIpDetails();
-	if($var['country_code']!='CN' && $var['country_code']!='RD')	{
+	if($var && $var['country_code']!='CN' && $var['country_code']!='RD')	{
 		return true;
 	}
 	return false;
@@ -560,7 +573,8 @@ function checkperm($permtype) {
 			if(empty($_SGLOBAL['member'])) getmember();
 			$gid = getgroupid($_SGLOBAL['member']['experience'], $_SGLOBAL['member']['groupid']);
 			if(!@include_once(S_ROOT.'./data/data_usergroup_'.$gid.'.php')) {
-				#usergroup_cache();
+	            include_once(S_ROOT.'./source/function_cache.php');
+				usergroup_cache();
 				@include_once(S_ROOT.'./data/data_usergroup_'.$gid.'.php');
 			}
 
@@ -1641,7 +1655,7 @@ function runlog($file, $log, $halt=0) {
 	}
 
 	//处理头像
-	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary,$lazy) {
+	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary='',$lazy='') {
 		global $_SCONFIG, $_SN, $_SGLOBAL;
 		$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'small';
 		$avatarfile = avatar_file($uid, $size);
@@ -3098,7 +3112,8 @@ runlog("debug", "log:".print_r($flog, true));
 				$powerjson = array(
 					'department' => $PowerArray['department'],
 					'dept_uid' => $PowerArray['dept_uid'],
-					'namequery' => $PowerArray['department'].' '.Pinyin($PowerArray['department'],1).' '.$PowerArray['dept_uid']
+					'namequery' => $PowerArray['department'].' '.Pinyin($PowerArray['department'],1).' '.$PowerArray['dept_uid'],
+					'depduty' => $PowerArray['depduty']
 				);
 				$powerJsons[] = $powerjson;
 			}

@@ -45,7 +45,9 @@
 			<!--{if !$value['image_2']}-->	
 			<!--{if $value['image_1'] && !$value['body_template']}-->
 			<!-- 图片 -->
-			<!--{eval $value['image_1']=substr($value['image_1'],0,strlen($value['image_1'])-10);}-->
+			<!--{if strstr($value['image_1'],".thumb.jpg")}-->
+            <!--{eval $value['image_1']=substr($value['image_1'],0,strlen($value['image_1'])-10);}-->
+            <!--{/if}-->
 			<a href="$value[image_1_link]"{$value[target]}><img src="$value[image_1]" class="summaryimg shareImg" /></a>
 			<!--{elseif $value['body_template'] && $value['image_1']}-->
             <!--{if strstr($value['image_1'],".thumb.jpg")}-->

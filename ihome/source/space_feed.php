@@ -403,14 +403,24 @@ if($space['self'] && empty($start)) {
     $doname = 'http://ring.cnbigdata.org';
     $param = '/api/ihometopic2?num=8';
     $url = $doname . $param;
-    $jsonstr = file_get_contents($url);
-    $jsonarr = json_decode($jsonstr,ture);
-    foreach ($jsonarr as $key => $value) {
-    	$value[url][org] = $value[key];
-    	$value[url][utf8] = urlencode($value[key]);
-        $hotevent[] = $value[url];
+    $opts = array(
+        'http'=>array(
+        'method'=>"GET",
+        'timeout'=>5
+        )
+    );
+    $context = stream_context_create($opts);
+    //$jsonstr = file_get_contents($url, false, $context);
+    $jsonstr = '';
+    if ($jsonstr){
+        $jsonarr = json_decode($jsonstr,ture);
+        foreach ($jsonarr as $key => $value) {
+            $value[url][org] = $value[key];
+            $value[url][utf8] = urlencode($value[key]);
+            $hotevent[] = $value[url];
+        }
     }
-    // print_r($hotevent);
+//    // print_r($hotevent);
     // exit();
 // }
 // hot();
@@ -545,9 +555,10 @@ if(!empty($_GET['show']))	{
 }
 
 //获得最新10条已处理的诉求信息
-$complainQuery = $_SGLOBAL['db']->query("SELECT replytime,doid,atdepartment,atdeptuid FROM ".tname('complain')." USE INDEX(doid) WHERE isreply=1 GROUP BY doid ORDER BY replytime DESC LIMIT 10");
+$complainQuery = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." order by dateline DESC LIMIT 10");
 while ($complain = $_SGLOBAL['db']->fetch_array($complainQuery)) {
-	$complain['replytime'] = date("Y-m-d H:i",$complain['replytime']);
+	$complain['dateline'] = date("Y-m-d H:i",$complain['dateline']);
+    realname_set($complain['uid'], $complain['username']);
 	$Complains[] = $complain;
 }
 
