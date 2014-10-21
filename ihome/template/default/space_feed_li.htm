@@ -1,4 +1,8 @@
+<!--{if $complain_msg}-->
+<li data-msg="$complain_msg" class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
+<!--{else}-->
 <li class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
+<!--{/if}-->
 	<div class="feed_li_avatar info-card" 
 		data-provide="info-card" data-uid="$value[uid]">
     	<div class="round_border head">
