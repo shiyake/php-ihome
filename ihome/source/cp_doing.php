@@ -169,6 +169,7 @@ if(submitcheck('addsubmit')) {
             $isComplain = FALSE;
             $note = cplang('note_complain_credit_failed', array("space.php?do=doing&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            $complain_msg = 'note_complain_credit_failed';
         }
         foreach($UserIds as $UserId){
             if($isComplain){
@@ -213,6 +214,7 @@ if(submitcheck('addsubmit')) {
         if($complainOK){//Í¨ÖªÓÃ»§ËßÇó·¢Æð³É¹¦
             $note = cplang('note_complain_user_success', array("space.php?do=complain_item&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            $complain_msg = 'note_complain_user_success';
             getreward('complain', 1, $_SGLOBAL['supe_uid']);
         }
         if(!$complainOK && $isComplain){//ËßÇó·¢ÆðÊ§°Ü
@@ -222,6 +224,7 @@ if(submitcheck('addsubmit')) {
             } else {
                 $note = cplang('note_complain_user_failed', array("space.php?do=doing&doid=$newdoid"));
                 notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+                $complain_msg = 'note_complain_user_failed';
             }
         }
         //ÒÔÉÏ´¦ÀíÍ¶ËßÐÅÏ¢//////////////////////////
