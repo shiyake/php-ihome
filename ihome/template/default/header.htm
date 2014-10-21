@@ -305,6 +305,13 @@ jq(function(){
     <!--<!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->-->
     <!--广告-->
     <!---0_0---------->
+    <div id="client">
+        <div id="close_client">关闭</div>
+        <div class="img">            
+            <img class="client_s" src="image/client_s.jpg" alt="">
+            <img class="client_l" src="image/client_l.jpg" alt="" style="display:none">
+        </div>
+    </div>
     <div id="feedback"><a href="space.php?uid=665&do=mtag&tagid=2985"><img src="image/feedback.png"/></a></div>
     <div id="back" style="display:none;" title="回到顶部"></div>
     <div class="navbar-fixed-top navbar-ihome" style="z-index:9999">
@@ -421,6 +428,21 @@ jq(function(){
             </ul>
         </div>
     </div>
+    <script>
+        jq('#close_client').click(function(){
+            jq('#client').hide();
+        });
+        jq('#client .img').hover(function() {
+            jq('.client_s').hide();
+            jq('#close_client').hide();
+            jq('.client_l').show();
+        });
+        jq('#client .img').mouseleave(function() {
+            jq('.client_l').hide();
+            jq('.client_s').show();
+            jq('#close_client').show();
+        });
+    </script>
 </div>
 <!--{if !empty($_SGLOBAL[supe_uid])}-->
 <a href="/cp.php?ac=theme&op=diy2"><div id="diy"></div></a>

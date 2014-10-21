@@ -845,7 +845,24 @@ div #tagcloud span.w1 {
     margin-left: -588px;
     position: fixed;
 }
-
+#client {
+    bottom: 80px;
+    left: 50%;
+    margin-left: -588px;
+    position: fixed;
+    z-index: 999;
+}
+#client img {
+    border-radius: 5px;
+    border: 3px solid #3AC9F4;
+}
+img.client_s {
+    width: 84px;
+}
+#close_client {
+    cursor: pointer;
+    text-align: right;
+}
 #register_public #applysubmit {
     overflow: hidden;
     display: inline-block;
