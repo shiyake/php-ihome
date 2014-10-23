@@ -72,6 +72,7 @@ if($count) {
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['uid'], $value['username']);
 		$doids[] = $value['doid'];
+		$value['isComplain'] = isComplainOrNot($value['doid'],$_SGLOBAL['db']);
 		$dolist[] = $value;
 	}
 }

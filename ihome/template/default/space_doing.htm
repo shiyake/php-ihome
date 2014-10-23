@@ -31,6 +31,10 @@
                             <span class="pipe">|</span>
                             <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)"><img style="margin-bottom:2px;"src="image/icons/icon-report.png"/>&nbsp;举报</a>
                             <!--{/if}-->
+                            <!--{if $dv[isComplain]}-->
+                            <span class="pipe">|</span>
+                            <a href="space.php?do=complain_item&doid=$dv[doid]" id="a_view_doit_$dv[doid]"><img style="margin-bottom:2px;"src="image/icons/icon-appeal.png">&nbsp;详情</a>
+                            <!--{/if}-->
                         </span>
                     </div>
                 </div>
