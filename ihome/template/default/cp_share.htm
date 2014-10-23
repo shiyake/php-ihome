@@ -108,6 +108,7 @@
         <textarea id="general-input" name="general" class="form-contral t_input" style="display:block;margin-bottom:-8px;border-radius:5px;width:350px;height:64px;" onkeydown="ctrlEnter(event, 'sharesubmit_btn')" onkeyup="showPreview(this.value, 'quote')" onfocus="at()"></textarea>  <!--{if $_SGLOBAL[inajax]}-->
         <a href="javascript:;" class="drop_face comment_face head_insert"><div style="top:14px;"></div></a>
     <div class="drop_face_menu" data-target="general-input"></div>	
+
     <div>       <button name="sharesubmit_btn" id="sharesubmit_btn" type="button" class="btn btn-sm btn-comments submit" style="margin-top:-17px;float:right;" value="true" onclick="ajaxpost('shareform_{$id}', 'showreward', 2000);">分享</button>
 		<!--{else}-->
 		<button name="sharesubmit_btn" id="sharesubmit_btn" type="submit" class="btn btn-sm btn-comments submit" value="true">分享</button></div>
