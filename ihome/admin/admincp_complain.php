@@ -228,7 +228,14 @@ if($type == 'forleaders' && $superuid == 3){
 	
 }elseif($type == 'cloud'){
     $tab = 5;
-    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . " group by tag_word");
+    
+    $firstday = date("Ym01" ,time());
+	$nowday = date("Ymd");
+	$startDay = $_GET['starttime'] ? trim($_GET['starttime']) : $firstday;
+	$endDay = $_GET['endtime'] ? trim($_GET['endtime']) : $nowday;
+	
+
+    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . "  where datatime >= '$startDay' and datatime < '$endDay' group by tag_word");
     $tags = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $tags[] = $value;
@@ -299,6 +306,7 @@ if($type == 'forleaders' && $superuid == 3){
 		realname_get();
 	}
 } elseif ($type == "deprank") {
+	$tab = 4;
     if ($_GET['subtype'] == 'score') {
         $order = " order by score desc ";
         $submenus['score'] = ' class = "active"';
