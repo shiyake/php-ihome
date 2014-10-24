@@ -31,10 +31,11 @@ if(($StartAM < time() && $EndAM > time()) || ($StartPM < time() && $EndPM > time
 
 $nowtime = time();
 //从complain表中筛选出已到期.但尚未处理的投诉记录
-$ComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE isreply=0 AND dateline<=$nowtime AND expire=0 AND times<10");
+$ComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE status=0 AND times<10");
 while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 	//根据投诉记录,取得被投诉部门的的信息
 	$UserArray = isDepartment($result['atuid'] ,0);
+    if ($result['times'] == 
 	//根据被投诉部门的的信息,取得上级部门的信息
 	$up_arr = explode("," , $UserArray['up_uid']);
 	$UpUserArray = isDepartment($up_arr[0] ,0);
@@ -177,7 +178,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 		echo '通知处理完毕~!<br />';
 		//将已报告上级的原投诉记录标记为过期
 		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET ontrack=1 WHERE doid='$result[doid]'");
-		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET expire=1 WHERE id='$result[id]' AND isreply=0");
+		$_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(id) SET expire=1 WHERE id='$result[id]' AND status=0");
 		echo '原纪录已标记为过期~!<br />';
 	}
 }
@@ -236,9 +237,9 @@ function sendDeptMessage(){
 	GLOBAL $_SGLOBAL;
 	$nowtime = time();
 	$addtime = strtotime("-6 hours", $nowtime);
-	$DeptComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE isreply=0 AND addtime<'$addtime' AND times=1 AND issendmsg=0 GROUP BY atuid");
+	$DeptComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE status=0 AND addtime<'$addtime' AND times=1 AND issendmsg=0 GROUP BY atuid");
 	while($result = $_SGLOBAL['db']->fetch_array($DeptComplainQuery)) {
-		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('complain')." USE INDEX(atuid) WHERE atuid=$result[atuid] AND isreply=0 AND issendmsg=0 AND times=1"), 0);
+		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('complain')." USE INDEX(atuid) WHERE atuid=$result[atuid] AND status=0 AND issendmsg=0 AND times=1"), 0);
 		$dept = isDepartment($result['atuid'] ,0);
 		
 		$uid = $dept['dept_uid'];

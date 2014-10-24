@@ -18,7 +18,7 @@ function iauth_verify( $url ='' ){
     /*################ 生成header ################*/
     $params = GetHeaderParams();
     if (empty($params['hash']) || ($params['hash']!=$hash))
-        die('hash not match: '.print_r(CoString($pTmp)));
+        die('hash not match: '.CoString($pTmp));
     $params['url']= $url;
     $params['ip']= $_SERVER['REMOTE_ADDR'];
     $header = array('Authorization:'.CoString( $params, ',', '"'));

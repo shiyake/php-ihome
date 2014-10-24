@@ -49,7 +49,7 @@ if($_SCONFIG['allowrewrite'] && isset($_GET['rewrite'])) {
 }
 
 //允许动作
-$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation','feeddetail');
+$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation','feeddetail','complain','complain_item');
 
 //获取变量
 $isinvite = 0;
@@ -121,6 +121,11 @@ if($CurrentTime - $FileModTime > 3600){
 		$atfriends[$count++] = array('uid'=>$value['uid'],'namequery'=>$value['name'].' '.Pinyin($value['name'],1).' '.$value['uid'],'name'=>$value['name'],'avatar'=>'');
 	}
 
+    $query = $_SGLOBAL['db']->query("select uid,name,username from ".tname("space")." as a, ".tname("powerlevel")." as b where b.dept_uid = a.uid and b.isdept = 1 "); 
+	while($value = $_SGLOBAL['db']->fetch_array($query)){
+		if(empty($value['name'])) $value['name'] = $value['username'];
+		$atfriends[$count++] = array('uid'=>$value['uid'],'namequery'=>$value['name'].' '.Pinyin($value['name'],1).' '.$value['uid'],'name'=>$value['name'],'avatar'=>'');
+	}
 
 
 	$friends = json_encode($atfriends);

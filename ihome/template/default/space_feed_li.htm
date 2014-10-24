@@ -1,4 +1,8 @@
+<!--{if $complain_msg}-->
+<li data-msg="$complain_msg" class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
+<!--{else}-->
 <li class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
+<!--{/if}-->
 	<div class="feed_li_avatar info-card" 
 		data-provide="info-card" data-uid="$value[uid]">
     	<div class="round_border head">
@@ -45,7 +49,9 @@
 			<!--{if !$value['image_2']}-->	
 			<!--{if $value['image_1'] && !$value['body_template']}-->
 			<!-- 图片 -->
-			<!--{eval $value['image_1']=substr($value['image_1'],0,strlen($value['image_1'])-10);}-->
+			<!--{if strstr($value['image_1'],".thumb.jpg")}-->
+            <!--{eval $value['image_1']=substr($value['image_1'],0,strlen($value['image_1'])-10);}-->
+            <!--{/if}-->
 			<a href="$value[image_1_link]"{$value[target]}><img src="$value[image_1]" class="summaryimg shareImg" /></a>
 			<!--{elseif $value['body_template'] && $value['image_1']}-->
             <!--{if strstr($value['image_1'],".thumb.jpg")}-->

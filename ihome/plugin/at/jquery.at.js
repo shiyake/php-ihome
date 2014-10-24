@@ -291,6 +291,14 @@ var jq = jQuery.noConflict();
         if (!_isNil(this.jqo())) return;
         tpl = "<div id='" + this.id.slice(1) + "' class='at-view'><ul id='" + this.id.slice(1) + "-ul'></ul></div>";
         jq("body").append(tpl);
+        jq("#"+this.id.slice(1)).on("show",function() {
+          jq("#add").prop("disabled", true);
+        });
+        jq("#"+this.id.slice(1)).on("hide",function() {
+          if(!jq('#add').hasClass('askbag')) {
+            jq("#add").prop("disabled", false);
+          }
+        });
         $menu = this.jqo().find('ul');
         return $menu.on('mouseenter.view', 'li', function(e) {
           $menu.find('.cur').removeClass('cur');
@@ -380,6 +388,7 @@ var jq = jQuery.noConflict();
           log("AtView.render", li);
           return $ul.append(_highlighter(li, holder.query.text));
         });
+        $ul.children().tooltip();
         this.show();
         return $ul.find("li:eq(0)").addClass("cur");
       }
@@ -399,7 +408,11 @@ var jq = jQuery.noConflict();
       var el;
       try {
         return el = tpl.replace(/\$\{([^\}]*)\}/g, function(tag, key, pos) {
-          return map[key];
+          if (map[key]) {
+            return map[key].replace(/'/g,'&prime;').replace(/"/g,'&quot;');
+          } else {
+            return "";
+          }
         });
       } catch (error) {
         return "";

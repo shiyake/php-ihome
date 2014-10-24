@@ -16,7 +16,7 @@ a:hover { text-decoration: underline; }
 			#wall_poster {width:180px;height:180px;float:left;}
 				.poster_avatar {padding:15px}
 					#wall_poster img {width:150px;height:150px;}
-				.poster_name{font-size:32px;width:150px;font-weight:bold;position:relative;bottom:30px;background:rgba(7,22,131,0.25);color:white;text-align:center;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+				.poster_name{font-size:24px;line-height:32px;height:32px;width:150px;font-weight:bold;position:relative;bottom:30px;background:rgba(7,22,131,0.25);color:white;text-align:center;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 			#wall_message {width:784px;height:180px;float:right;overflow:hidden;}
 			.text{font-size:48px;position:relative;}
 			.posttextouter{height: 100%; position: relative;width: 100%; }

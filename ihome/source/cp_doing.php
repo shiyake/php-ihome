@@ -169,6 +169,7 @@ if(submitcheck('addsubmit')) {
             $isComplain = FALSE;
             $note = cplang('note_complain_credit_failed', array("space.php?do=doing&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            $complain_msg = 'note_complain_credit_failed';
         }
         foreach($UserIds as $UserId){
             if($isComplain){
@@ -176,7 +177,6 @@ if(submitcheck('addsubmit')) {
                 $UserDept = isDepartment($UserId ,1);
                 if($UserDept){
                     $nowtime = time();
-                    $dateline = strtotime("+1 days", $nowtime);
                     $complain = array(
                         'doid' => $newdoid,
                         'uid' => $_SGLOBAL['supe_uid'],
@@ -188,7 +188,7 @@ if(submitcheck('addsubmit')) {
                         'atuname' => $UserDept['department'],
                         'isreply' => 0,
                         'addtime' => $nowtime,
-                        'dateline' => $dateline,
+                        'dateline' => $nowtime,
                         'expire' => 0,
                         'times' => 1,
                         'issendmsg' =>0,
@@ -197,7 +197,7 @@ if(submitcheck('addsubmit')) {
                     );
                     inserttable('complain', $complain, 0);
                     //Í¨Öª±»@µÄ²¿ÃÅ,ÓÐÓÃ»§Í¶Ëß
-                    $note = cplang('note_complain_buchu', array("space.php?do=doing&doid=$newdoid",date('Y-m-d H:i' ,$dateline)));
+                    $note = cplang('note_complain_buchu', array("space.php?do=complain_item&doid=$newdoid",date('Y-m-d H:i' ,$nowtime+3600*24)));
                     notification_complain_add($UserId, 'complain', $note);
                     $complainOK = TRUE;
                 }else{
@@ -212,8 +212,9 @@ if(submitcheck('addsubmit')) {
             }
         }
         if($complainOK){//Í¨ÖªÓÃ»§ËßÇó·¢Æð³É¹¦
-            $note = cplang('note_complain_user_success', array("space.php?do=doing&doid=$newdoid"));
+            $note = cplang('note_complain_user_success', array("space.php?do=complain_item&doid=$newdoid"));
             notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+            $complain_msg = 'note_complain_user_success';
             getreward('complain', 1, $_SGLOBAL['supe_uid']);
         }
         if(!$complainOK && $isComplain){//ËßÇó·¢ÆðÊ§°Ü
@@ -223,6 +224,7 @@ if(submitcheck('addsubmit')) {
             } else {
                 $note = cplang('note_complain_user_failed', array("space.php?do=doing&doid=$newdoid"));
                 notification_complain_add($_SGLOBAL['supe_uid'], 'complain', $note);
+                $complain_msg = 'note_complain_user_failed';
             }
         }
         //ÒÔÉÏ´¦ÀíÍ¶ËßÐÅÏ¢//////////////////////////
@@ -547,6 +549,7 @@ elseif ($_GET['op'] == 'getcomment') {
             $list[] = $one;
         }
     }
+    $isComplain = isComplainOrNot($doid,$_SGLOBAL['db']);
     realname_get();
 }
 
