@@ -549,6 +549,7 @@ elseif ($_GET['op'] == 'getcomment') {
             $list[] = $one;
         }
     }
+    $isComplain = isComplainOrNot($doid,$_SGLOBAL['db']);
     realname_get();
 }
 
