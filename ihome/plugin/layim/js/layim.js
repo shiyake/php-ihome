@@ -48,9 +48,9 @@ var config = {
         'aloha'
     ],
     audio: [
-        'api/im/sound/nyaa.wav',
-        'api/im/sound/kuma.wav',
-        'api/im/sound/feuer.wav'
+        // 'api/im/sound/nyaa.wav',
+        // 'api/im/sound/kuma.wav',
+        // 'api/im/sound/feuer.wav'
     ],
     updates: 0,
     sendType: 'enter',

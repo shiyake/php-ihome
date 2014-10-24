@@ -102,8 +102,25 @@
 </div>
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
+    <style>
+        #bdshare>a, #bdshare>span {
+            height: 25px !important;
+        }
+    </style>
+    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+        <a class="bds_qzone"></a>
+        <a class="bds_tsina"></a>
+        <a class="bds_tqq"></a>
+        <a class="bds_renren"></a>
+        <span class="bds_more"></span>
+    </div>
+    <script type="text/javascript" id="bdshare_js" data="type=tools&uid=0" ></script>
+    <script type="text/javascript" id="bdshell_js"></script>
+    <script type="text/javascript">
+        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+    </script>
 	<div style="text-align: right; padding-top:10px; ">
-		<a href="cp.php?ac=share&type=blog&id=$blog[blogid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">分享</a>
+		<a href="cp.php?ac=share&type=blog&id=$blog[blogid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">站内分享</a>
 		<!--{if $_SGLOBAL[supe_uid] == $blog[uid]}-->
 			<!--{if $_SGLOBAL[magic][bgimage]}-->
 			<img src="image/magic/bgimage.small.gif" class="magicicon">
@@ -141,6 +158,7 @@
 		<!--{/if}-->
 
 		<!--{if $_SGLOBAL[supe_uid] == $blog[uid] || checkperm('manageblog')}-->
+        <span class="pipe">|</span>
 		<a href="cp.php?ac=topic&op=join&id=$blog[blogid]&idtype=blogid" id="a_topicjoin_$blog[blogid]" onclick="ajaxmenu(event, this.id)">凑热闹</a><span class="pipe">|</span>
 		<a href="cp.php?ac=blog&blogid=$blog[blogid]&op=edit">编辑</a><span class="pipe">|</span>
 		<a href="cp.php?ac=blog&blogid=$blog[blogid]&op=delete" id="blog_delete_$blog[blogid]" onclick="ajaxmenu(event, this.id)">删除</a><span class="pipe">|</span>
