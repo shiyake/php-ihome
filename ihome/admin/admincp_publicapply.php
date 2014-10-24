@@ -41,6 +41,7 @@ if($op==''){
 elseif($op=='details'){
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE appid=$appid");	
 	$value = $_SGLOBAL['db']->fetch_array($query);
+	header('Content-Type: text/html; charset=utf-8');
 	echo '登录名:'.$value['username'].'<br>';
 	echo '主页名:'.$value['name'].'<br>';
 	echo '理由:'.$value['reason'].'<br>';
