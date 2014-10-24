@@ -20,7 +20,8 @@
                     <div id="reply_content">
                         <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
                         <span class="floatright">
-                            <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
+                            <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> 
+                            <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
                             <span class="pipe">|</span>
                             <!--{else}-->
                             <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
@@ -31,12 +32,17 @@
                             <span class="pipe">|</span>
                             <a href="cp.php?ac=common&op=report&idtype=doid&uid=$dv[uid]&id=$dv[doid]" id="a_report_doit_$dv[doid]" onclick="ajaxmenu(event, this.id, 1)"><img style="margin-bottom:2px;"src="image/icons/icon-report.png"/>&nbsp;举报</a>
                             <!--{/if}-->
+                            <!--{if $dv[isComplain]}-->
+                            <span class="pipe">|</span>
+                            <a href="space.php?do=complain_item&doid=$dv[doid]" id="a_view_doit_$dv[doid]"><img style="margin-bottom:2px;"src="image/icons/icon-appeal.png">&nbsp;详情</a>
+                            <!--{/if}-->
                         </span>
                     </div>
                 </div>
             <!--{eval $list = $clist[$doid];}-->
                 <div class="sub_doing fcomment do_document" id="docomment_$doid" style="display:none;">
                     <span id="docomment_form_{$doid}_0"></span>
+                    <!--{eval $isComplain = $dv[isComplain]}-->
                     <!--{template space_doing_li_index}-->
                 </div>
             </li>

@@ -47,6 +47,9 @@
 </style>
 <link rel="shortcut icon" href="image/logo_title.png" />
 <link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]" />
+<link rel="stylesheet" type="text/css" href="plugin/layim/css/layim.css" />
+<link rel="stylesheet" type="text/css" href="plugin/layim/css/layer.css" />
+
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/html5shiv.min.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/respond.min.js"></script>
         <script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
@@ -68,7 +71,8 @@
         <script language="javascript" type="text/javascript" src="source/main.js"></script>
         <script language="javascript" type="text/javascript" src="source/infocard.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/dist/js/bootstrap.min.js"></script>
-		
+        <script language="javascript" type="text/javascript" src="plugin/layim/js/layer.min.js" defer></script>
+        <script language="javascript" type="text/javascript" src="plugin/layim/js/layim.js" defer></script>
         <!--<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>-->
 
 		<script type="text/javascript">
@@ -301,6 +305,13 @@ jq(function(){
     <!--<!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->-->
     <!--广告-->
     <!---0_0---------->
+    <div id="client">
+        <div id="close_client">关闭</div>
+        <div class="img">            
+            <img class="client_s" src="image/client_s.jpg" alt="">
+            <img class="client_l" src="image/client_l.jpg" alt="" style="display:none">
+        </div>
+    </div>
     <div id="feedback"><a href="space.php?uid=665&do=mtag&tagid=2985"><img src="image/feedback.png"/></a></div>
     <div id="back" style="display:none;" title="回到顶部"></div>
     <div class="navbar-fixed-top navbar-ihome" style="z-index:9999">
@@ -417,6 +428,21 @@ jq(function(){
             </ul>
         </div>
     </div>
+    <script>
+        jq('#close_client').click(function(){
+            jq('#client').hide();
+        });
+        jq('#client .img').hover(function() {
+            jq('.client_s').hide();
+            jq('#close_client').hide();
+            jq('.client_l').show();
+        });
+        jq('#client .img').mouseleave(function() {
+            jq('.client_l').hide();
+            jq('.client_s').show();
+            jq('#close_client').show();
+        });
+    </script>
 </div>
 <!--{if !empty($_SGLOBAL[supe_uid])}-->
 <a href="/cp.php?ac=theme&op=diy2"><div id="diy"></div></a>
@@ -464,7 +490,8 @@ jq(function(){
                                 <li><img src="image/icons/icon_activity.png"/><a href="space.php?do=event">活动</a><!--<em><a href="cp.php?ac=event" class="gray">发起</a></em>--></li>
                                 <li><img src="image/icons/icon_group.png"><a href="space.php?do=mtag">群组</a></li>
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
-                                <li class="last_show"><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
+                                <li><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
+                                <li class="last_show"><img src="image/icons/icon_appeal.png"/><a href="space.php?do=complain">诉求</a></li>
                             </ul>
                             <div class="left_line_my_act" id="my_defaultapp_toggle" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开官方应用">官方应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>
                             <div class="l_line" style="width:30px;"></div><div class="r_line" style="margin-left:119px;"></div>
@@ -540,6 +567,7 @@ jq(function(){
                                 <li><img src="image/icons/icon_group.png"/><a href="space.php?do=mtag">群组</a></li>
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
                                 <li><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
+                                <li><img src="image/icons/icon_public.png"/><a href="space.php?do=complain">诉求</a></li>
                             </ul>
                             <div class="showMessage" style="display:none;">
                                 <div class="message" style="display:none;">

@@ -555,6 +555,11 @@ $_SGLOBAL['msglang'] = array(
     'protect_email_update_success' => '密保邮箱设置成功',
     'protect_email_send' => '已经向你的个人邮箱\\1发送了邮件，请查收，如果没有收到可以重新填写，然后发送',
     'not_to_use_old_face' => '亲，请不要尝试使用旧表情，我们的新表情很可爱有木有^_^',
+    'delete_complain' => '诉求删除完成',
+    'error_op' => '操作不合法',
+    'complain_no_doing' => '找不到对应的足迹',
+    'updown_again' => '你已经赞或者踩过了',
+    'complain_relay_too_much' => '转发不能超过3次',
 );
 
 ?>

@@ -179,8 +179,8 @@ elseif ($filetype == 'attach') {
                 'aid'=>$feed_file['aid']
 			);
             
-            //nameºÍsizeÊÇÏÔÊ¾ÓÃµÄ
-            //aidÓëpathÊÇ´æ´¢ÓÃµÄ
+            //nameÂºÃsizeÃŠÃ‡ÃÃ”ÃŠÂ¾Ã“ÃƒÂµÃ„
+            //aidÃ“Ã«pathÃŠÃ‡Â´Ã¦Â´Â¢Ã“ÃƒÂµÃ„
             echo json_encode($arr);
             exit();
         }
@@ -222,17 +222,17 @@ if($eventid){
 }
 
 if(submitcheck('albumsubmit')) {
-    //´´½¨Ïà²á
+    //Â´Â´Â½Â¨ÃÃ Â²Ã¡
     if($_POST['albumop'] == 'creatalbum') {
         $_POST['albumname'] = empty($_POST['albumname'])?'':getstr($_POST['albumname'], 50, 1, 1);
         if(empty($_POST['albumname'])) $_POST['albumname'] = gmdate('Ymd');
 
         $_POST['friend'] = intval($_POST['friend']);
 
-        //ÒþË½
+        //Ã’Ã¾Ã‹Â½
         $_POST['target_ids'] = '';
         if($_POST['friend'] == 2) {
-            //ÌØ¶¨ºÃÓÑ
+            //ÃŒÃ˜Â¶Â¨ÂºÃƒÃ“Ã‘
             $uids = array();
             $names = empty($_POST['target_names'])?array():explode(' ', str_replace(array(cplang('tab_space'), "\r\n", "\n", "\r"), ' ', $_POST['target_names']));
             if($names) {
@@ -242,14 +242,14 @@ if(submitcheck('albumsubmit')) {
                 }
             }
             if(empty($uids)) {
-                $_POST['friend'] = 3;//½ö×Ô¼º¿É¼û
+                $_POST['friend'] = 3;//Â½Ã¶Ã—Ã”Â¼ÂºÂ¿Ã‰Â¼Ã»
             } else {
                 $_POST['target_ids'] = implode(',', $uids);
             }
         } elseif($_POST['friend'] == 4) {
-            //¼ÓÃÜ
+            //Â¼Ã“ÃƒÃœ
             $_POST['password'] = trim($_POST['password']);
-            if($_POST['password'] == '') $_POST['friend'] = 0;//¹«¿ª
+            if($_POST['password'] == '') $_POST['friend'] = 0;//Â¹Â«Â¿Âª
         }
         if($_POST['friend'] !== 2) {
             $_POST['target_ids'] = '';
@@ -258,7 +258,7 @@ if(submitcheck('albumsubmit')) {
             $_POST['password'] = '';
         }
 
-        //´´½¨Ïà²á
+        //Â´Â´Â½Â¨ÃÃ Â²Ã¡
         $setarr = array();
         $setarr['albumname'] = $_POST['albumname'];
         $setarr['uid'] = $_SGLOBAL['supe_uid'];
@@ -270,7 +270,7 @@ if(submitcheck('albumsubmit')) {
 
         $albumid = inserttable('album', $setarr, 1);
 
-        //¸üÐÂÓÃ»§Í³¼Æ
+        //Â¸Ã¼ÃÃ‚Ã“ÃƒÂ»Â§ÃÂ³Â¼Ã†
         if(empty($space['albumnum'])) {
             $space['albumnum'] = getcount('album', array('uid'=>$space['uid']));
             $albumnumsql = "albumnum=".$space['albumnum'];
@@ -298,7 +298,7 @@ if(submitcheck('albumsubmit')) {
 
 } elseif(submitcheck('uploadsubmit')) {
 
-    //ÉÏ´«Í¼Æ¬
+    //Ã‰ÃÂ´Â«ÃÂ¼Ã†Â¬
     $albumid = $picid = 0;
 
     if(!checkperm('allowupload')) {
@@ -312,7 +312,7 @@ if(submitcheck('albumsubmit')) {
         }
     }
 
-    //ÉÏ´«
+    //Ã‰ÃÂ´Â«
     $_POST['topicid'] = topic_check($_POST['topicid'], 'pic');
     $uploadfiles = pic_save($_FILES['attach'], $_POST['albumid'], $_POST['pic_title'], $_POST['topicid']);
     if($uploadfiles && is_array($uploadfiles)) {
@@ -345,9 +345,8 @@ if(submitcheck('albumsubmit')) {
     exit();
 
 } elseif(submitcheck('viewAlbumid')) {
-
-    //ÉÏ´«Íê³É·¢ËÍfeed
-    if($eventid){//Ìøµ½»î¶¯Ò³Ãæ
+    //Ã‰ÃÂ´Â«ÃÃªÂ³Ã‰Â·Â¢Ã‹Ãfeed
+    if($eventid){//ÃŒÃ¸ÂµÂ½Â»Ã®Â¶Â¯Ã’Â³ÃƒÃ¦
 
         $imgs = array();
         $imglinks = array();
@@ -368,13 +367,13 @@ if(submitcheck('albumsubmit')) {
 
     } else {	
 
-        //Ïà²áfeed
+        //ÃÃ Â²Ã¡feed
         if(ckprivacy('upload', 1)) {
             include_once(S_ROOT.'./source/function_feed.php');
             feed_publish($_POST['opalbumid'], 'albumid');
         }
 
-        //µ¥¸öÍ¼Æ¬feed
+        //ÂµÂ¥Â¸Ã¶ÃÂ¼Ã†Â¬feed
         if($_POST['topicid']) {
             topic_join($_POST['topicid'], $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
             $url = "space.php?do=topic&topicid=$_POST[topicid]&view=pic";
@@ -389,36 +388,36 @@ if(submitcheck('albumsubmit')) {
         ckspacelog();
         showmessage('no_privilege');
     }
-    //ÊµÃûÈÏÖ¤
+    //ÃŠÂµÃƒÃ»ÃˆÃÃ–Â¤
     ckrealname('album');
 
-    //ÊÓÆµÈÏÖ¤
+    //ÃŠÃ“Ã†ÂµÃˆÃÃ–Â¤
     ckvideophoto('album');
 
-    //ÐÂÓÃ»§¼ûÏ°
+    //ÃÃ‚Ã“ÃƒÂ»Â§Â¼Ã»ÃÂ°
     cknewuser();
 
     $siteurl = getsiteurl();
 
-    //»ñÈ¡Ïà²á
+    //Â»Ã±ÃˆÂ¡ÃÃ Â²Ã¡
     $albums = getalbums($_SGLOBAL['supe_uid']);
 
-    //¼¤»î
+    //Â¼Â¤Â»Ã®
     $actives = ($_GET['op'] == 'flash' || $_GET['op'] == 'cam')?array($_GET['op']=>' class="active"'):array('js'=>' class="active"');
 
-    //¿Õ¼ä´óÐ¡
+    //Â¿Ã•Â¼Ã¤Â´Ã³ÃÂ¡
     $maxattachsize = checkperm('maxattachsize');
     if(!empty($maxattachsize)) {
-        $maxattachsize = $maxattachsize + $space['addsize'];//¶îÍâ¿Õ¼ä
+        $maxattachsize = $maxattachsize + $space['addsize'];//Â¶Ã®ÃÃ¢Â¿Ã•Â¼Ã¤
         $haveattachsize = formatsize($maxattachsize - $space['attachsize']);
     } else {
         $haveattachsize = 0;
     }
 
-    //ºÃÓÑ×é
+    //ÂºÃƒÃ“Ã‘Ã—Ã©
     $groups = getfriendgroup();
 
-    //ÈÈÄÖ
+    //ÃˆÃˆÃ„Ã–
     $topic = array();
     $topicid = $_GET['topicid'] = intval($_GET['topicid']);
     if($topicid) {
@@ -428,7 +427,7 @@ if(submitcheck('albumsubmit')) {
 
 }
 
-//Ä£°æ
+//Ã„Â£Â°Ã¦
 include_once template("cp_upload");
 
 ?>

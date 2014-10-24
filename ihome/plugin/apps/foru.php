@@ -50,7 +50,7 @@ if($collegeid_len == 8){
 $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('apps')."$wheresql ORDER BY clicktime DESC");
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$value['logo'] = $value['logo'] ? $_SC['attachurl'].$value['logo'] : 'plugin/apps/images/app.gif';
-	$value['tuisong'] = ($value['score'] + $value['score_easy'] + $value['score_service'] + $value['score_speed']) * $value['modders'] + $value['usernumber'] + $value['promot'];
+	$value['tuisong'] = ($value['score'] + $value['score_easy'] + $value['score_service'] + $value['score_speed']) * $value['modders'] + $value['usernumber'] + $value['promote'];
 	switch($value['type']){
 		case 1:
 			$value['type'] = '教学类';

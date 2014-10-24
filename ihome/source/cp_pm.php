@@ -17,7 +17,7 @@ include_once S_ROOT.'./uc_client/client.php';
 
 if($_GET['op'] == 'checknewpm') {
 
-	//检查当前用户
+	//录矛虏茅碌卤脟掳脫脙禄搂
 	if($_SGLOBAL['supe_uid']) {
 		$ucnewpm = uc_pm_checknew($_SGLOBAL['supe_uid']);
 		if($_SGLOBAL['member']['newpm'] != $ucnewpm) {
@@ -43,16 +43,16 @@ if($_GET['op'] == 'checknewpm') {
 	
 } elseif($_GET['op'] == 'send') {
 
-	//判断是否发布太快
+	//脜脨露脧脢脟路帽路垄虏录脤芦驴矛
 	$waittime = interval_check('post');
 	if($waittime > 0) {
 		showmessage('operating_too_fast','',1,array($waittime));
 	}
 	
-	//新用户见习
+	//脨脗脫脙禄搂录没脧掳
 	cknewuser();
 	
-	//黑名单
+	//潞脷脙没碌楼
 	if($touid) {
 		if(isblacklist($touid)) {
 			showmessage('is_blacklist');
@@ -61,7 +61,7 @@ if($_GET['op'] == 'checknewpm') {
 
 	if(submitcheck('pmsubmit')) {
 
-		//发送消息
+		//路垄脣脥脧没脧垄
 		$username = empty($_POST['username'])?'':$_POST['username'];
 
 		$message = trim($_POST['message']);
@@ -72,10 +72,10 @@ if($_GET['op'] == 'checknewpm') {
 
 		$return = 0;
 		if($touid) {
-			//直接给一个用户发PM
+			//脰卤陆脫赂酶脪禄赂枚脫脙禄搂路垄PM
 			$return = uc_pm_send($_SGLOBAL['supe_uid'], $touid, $subject, $message, 1, $pmid, 0);
 
-			//发送邮件通知
+			//路垄脣脥脫脢录镁脥篓脰陋
 			if($return > 0) {
 				smail($touid, '', cplang('friend_pm',array($_SN[$space['uid']], getsiteurl().'space.php?do=pm')), '', 'friend_pm');
 			}
@@ -93,7 +93,7 @@ if($_GET['op'] == 'checknewpm') {
 				$return = uc_pm_send($_SGLOBAL['supe_uid'], implode(',', $newusers), $subject, $message, 1, $pmid, 1);
 			}
 
-			//发送邮件通知
+			//路垄脣脥脫脢录镁脥篓脰陋
 			$touid = 0;
 			if($return > 0) {
 				$query = $_SGLOBAL['db']->query('SELECT uid FROM '.tname('space').' WHERE username IN ('.simplode($users).')');
@@ -105,7 +105,7 @@ if($_GET['op'] == 'checknewpm') {
 		}
 
 		if($return > 0) {
-			//更新最后发布时间
+			//赂眉脨脗脳卯潞贸路垄虏录脢卤录盲
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET lastpost='$_SGLOBAL[timestamp]' WHERE uid='$_SGLOBAL[supe_uid]'");
             
             showmessage('do_success', $_POST['url'],2);
@@ -127,14 +127,14 @@ if($_GET['op'] == 'checknewpm') {
 	
 } else {
 	
-	//新用户见习
+	//脨脗脫脙禄搂录没脧掳
 	cknewuser();
 
 	if(!checkperm('allowpm')) {
 		ckspacelog();
 		showmessage('no_privilege');
 	}
-	//发送
+	//路垄脣脥
 	$friends = array();
 	if($space['friendnum']) {
 		$query = $_SGLOBAL['db']->query("SELECT fuid AS uid, fusername AS username FROM ".tname('friend')." WHERE uid=$_SGLOBAL[supe_uid] AND status='1' ORDER BY num DESC, dateline DESC LIMIT 0,100");

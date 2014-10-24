@@ -28,10 +28,12 @@ class tree {
 	}
 	
 	function getList(&$tree, $root= 0) {
-		foreach($this->child[$root] as $key => $id) {
-			$tree[] = $id;
-			if($this->child[$id]) $this->getList($tree, $id);
-		}
+        if (!empty($this->child[$root])) {
+            foreach($this->child[$root] as $key => $id) {
+                $tree[] = $id;
+                if($this->child[$id]) $this->getList($tree, $id);
+            }
+        }
 	}
 	
 	function getValue($id) {

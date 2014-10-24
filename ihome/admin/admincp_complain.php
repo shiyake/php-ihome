@@ -226,9 +226,13 @@ if($type == 'forleaders' && $superuid == 3){
 		$multi = multi($count, $perpage, $page, $mpurl);
 	}
 	
-
-	
-	
+}elseif($type == 'cloud'){
+    $tab = 5;
+    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . " group by tag_word");
+    $tags = array();
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $tags[] = $value;
+    }
 	
 }elseif($type == 'complains'){
 	$tab = 1;
@@ -241,8 +245,21 @@ if($type == 'forleaders' && $superuid == 3){
 	$start = ($page-1)*$perpage;
 	//检查开始数
 	ckstart($start, $perpage);
+
+	$firstday = date("Y-m-01" ,time());
+	$nowday = date("Y-m-d");
+	$startDay = $_GET['starttime'] ? trim($_GET['starttime']) : $firstday;
+	$endDay = $_GET['endtime'] ? trim($_GET['endtime']) : $nowday;
 	
+
 	$wheresql = '1';
+    $startTime = strtotime($startDay);
+	$endTime = strtotime($endDay);
+	$endTime = strtotime("+1 days",$endTime);
+	
+
+	$wheresql .= " AND addtime<".$endTime." AND addtime>".$startTime;
+
 	$isSearch = FALSE;
 	if($uid = $_GET['uid'] ? trim($_GET['uid']) : ''){
 		$wheresql .= " AND temp.uid=$uid";
@@ -250,44 +267,65 @@ if($type == 'forleaders' && $superuid == 3){
 	if($uname = $_GET['uname'] ? trim($_GET['uname']) : ''){
 		$wheresql .= " AND temp.uname like '%$uname%'";
 	}	
-	if($message = $_GET['message'] ? trim($_GET['message']) : ''){
-		$wheresql .= " AND temp.atdepartment like '%$message%'";
+	if($times = $_GET['times'] ? trim($_GET['times']) : ''){
+		$wheresql .= " AND temp.times = $times";
 	}
 	if($atuname = $_GET['atuname'] ? trim($_GET['atuname']) : ''){
-		$wheresql .= " AND temp.atuname like '%$atuname%'";
+        $wheresql .= " AND temp.atuname = '$_GET[atuname]'";
 	}
-	if($isreply = $_GET['isreply'] ? trim($_GET['isreply']) : ''){
-		if($isreply == 1){
-			$isreply = 1;
-			$wheresql .= " AND temp.isreply=$isreply";
-		}elseif($isreply == 2){
-			$isreply = 0;
-			$wheresql .= " AND temp.isreply=$isreply";
-		}
+	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
+        $wheresql .= " and temp.status=$status";
 	}
 	$where = " WHERE ".$wheresql;
+
+    $query = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where isdept = 1");
+    $deps = array();
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $deps[] = $value;
+    }
 	
-	$mpurl = "admincp.php?uid=$uid&uname=$uname&message=$message&atuname=$atuname&ac=complain&type=complains";
-	//echo $where;exit();
-	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atdeptuid) FROM ".tname('complain')." temp".$where), 0);
+	$mpurl = "admincp.php?uid=$uid&uname=$uname&message=$message&atuname=$atuname&status=$status&ac=complain&type=complains";
+	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atuid) FROM ".tname('complain')." temp".$where), 0);
 	if($count) {
-		include S_ROOT.'./data/powerlevel/powerlevel.php';
-		$query = $_SGLOBAL['db']->query("SELECT * FROM (SELECT * FROM ".tname('complain')." USE INDEX(id) ORDER BY id DESC) temp".$where." GROUP BY doid,atdeptuid ORDER BY doid DESC LIMIT $start,$perpage");
+		include_once S_ROOT.'./data/powerlevel/powerlevel.php';
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." ORDER BY addtime desc LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$value['addtime'] = date("Y-m-d H:i",$value['addtime']);
 			realname_set($value['uid'], $value['uname']);
-			$value['atuname'] = $_POWERINFO[$value['atuid']]['department'];
+			$value['atuname'] = $value['atdepartment'];
 			$Complains[] = $value;
 		}
 		$multi = multi($count, $perpage, $page, $mpurl);
 		realname_get();
 	}
+} elseif ($type == "deprank") {
+    if ($_GET['subtype'] == 'score') {
+        $order = " order by score desc ";
+        $submenus['score'] = ' class = "active"';
+    } elseif ($_GET['subtype'] == 'updownnum') {
+        $order = " order by updownnum desc ";
+        $submenus['updownnum'] = ' class="active"';
+    } else {
+        $order = " order by aversecs ";
+        $submenus['aversecs'] = ' class="active"';
+    }
+    $deps = array();
+    $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
+    $rank = 1;
+    while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+        $value["rank"]=$rank;
+        $rank += 1;
+        $deps[] = $value;
+        realname_set($value['uid'], $value['username']);
+    }
 
 }else{
 	$tab = 0;
 	$complains = array();
 	$totalNum = 0;
-	$isreplyNum = 0;
+	$runningNum = 0;
+    $doneNum = 0;
+    $closeNum = 0;
 	
 	$firstday = date("Y-m-01" ,time());
 	$nowday = date("Y-m-d");
@@ -301,33 +339,33 @@ if($type == 'forleaders' && $superuid == 3){
 	$times = $_GET['times'] ? trim($_GET['times']) : 0;
 
 	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
-	
 	if($times != 0)
-		$sql_where .= " AND expire=0 AND times=".$times;
-	$query = $_SGLOBAL['db']->query("SELECT * FROM (SELECT * FROM ".tname('complain')." USE INDEX(id) ORDER BY id DESC) temp ".$sql_where." GROUP BY doid,atdeptuid ORDER BY doid DESC");
+		$sql_where .= " AND times=".$times;
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp ".$sql_where);
 	
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-		if(isset($complains[$value['atdeptuid']])){
-			$complains[$value['atdeptuid']]['total']++;
-			if($value['isreply']){
-				$complains[$value['atdeptuid']]['isreply']++;
-				$isreplyNum++;
-			}
-		}else{
-			$complains[$value['atdeptuid']]['department'] = $value['atdepartment'];
-			$complains[$value['atdeptuid']]['atdeptuid'] = $value['atdeptuid'];
-			$complains[$value['atdeptuid']]['total'] = 1;
-			$complains[$value['atdeptuid']]['isreply'] = 0;
-			if($value['isreply']){
-				$complains[$value['atdeptuid']]['isreply']++;
-				$isreplyNum++;
-			}
+		if(!isset($complains[$value['atuid']])){
+			$complains[$value['atuid']]['department'] = $value['atdepartment'];
+			$complains[$value['atuid']]['atuid'] = $value['atuid'];
+			$complains[$value['atuid']]['total'] = 0;
+			$complains[$value['atuid']]['running'] = 0;
+			$complains[$value['atuid']]['done'] = 0;
+			$complains[$value['atuid']]['close'] = 0;
 		}
+        $complains[$value['atuid']]['total']++;
 		$totalNum++;
+        if ($value['status'] == 0) {
+            $complains[$value['atuid']]['running']++;
+            $runningNum++;
+        } elseif ($value['status'] == 1) {
+            $complains[$value['atuid']]['done']++;
+            $doneNum++;
+        } else {
+            $complains[$value['atuid']]['close']++;
+            $closeNum++;
+        }
 	}
 	$complains = array_sort($complains ,'total');
-	//print_r($complains);exit;
-	
 }
 //激活
 $actives = array($tab => ' class="active"');
@@ -336,6 +374,7 @@ if(!isset($tab)) {
 } else {
 	$mpurl .= '&tab='.$tab;
 }
+realname_get();
 include_once template("admin/tpl/complain");
 
 
