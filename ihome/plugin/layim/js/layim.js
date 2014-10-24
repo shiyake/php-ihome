@@ -623,7 +623,8 @@ xxim.update = function(version){
 
             if (config.audio.length) {
                 // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
-                var audio = new Audio(config.audio[0]);
+                var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
+                var audio = new Audio(config.audio[track]);
                 audio.play();
             }
         }
