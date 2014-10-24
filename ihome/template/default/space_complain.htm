@@ -48,9 +48,7 @@
 <div class="dept_score">
     <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[score]</span></span>
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[updownnum]</span></span>
-    <!--{if $dep[allreplysecs] > 86400}-->
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/86400)}-->天</span></span>
-    <!--{elseif $dep[allreplysecs] > 3600}-->
+    <!--{if $dep[allreplysecs] > 3600}-->
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/3600)}-->小时</span></span>
     <!--{elseif $dep[allreplysecs] > 60}-->
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/60)}-->分钟</span></span>
@@ -122,7 +120,7 @@
 <!--{elseif $_GET['view'] == 'cloud'}-->
     <div style="text-align:center; padding-top:10px;">
         <!--	<img src="plugin/complain/images/ciyun.jpg" />-->
-        <div id="tagcloud" style="width:990px;height:400px;background:#fff;">
+        <div id="tagcloud" style="width:100%;height:400px;background:#fff;">
         </div>
         <script type="text/javascript" charset="utf-8">
             var words = [
