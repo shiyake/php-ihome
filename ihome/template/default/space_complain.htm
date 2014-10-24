@@ -26,9 +26,6 @@
 <ol class="dept_rank" style="list-unstyled">
 <!--{loop $deps $dep}-->
 <li>
-<!--{if !$dep[rank]}-->
-<!--{eval $dep[rank] = $deps_rank_mine}-->
-<!--{/if}-->
 <span class="dept_rank_index">$dep['rank']</span>
 <div class="feed_li_avatar" style="float:left !important">
     <div class="head">
