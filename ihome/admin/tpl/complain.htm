@@ -150,6 +150,7 @@
 		<table cellspacing="2" cellpadding="2" class="listtable">
 		  <tbody>
 			<tr class="line">
+			  <th>序号</th>
 			  <th>姓名</th>
 			  <th>诉求信息</th>
 			  <th>发起时间</th>
@@ -158,6 +159,7 @@
 			</tr>
 			<!--{loop $Complains $key=>$value}-->
 			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+                <td><a href="space.php?do=complain_item&doid=$value[doid]" target="_blank"><!--{eval echo intval($key+1)}--></a></td>
 			  <td style="width:110px;"><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
 			  <td style="">$value[message]</td>
 			  <td style="width:125px;">$value[addtime]</td>
@@ -172,14 +174,13 @@
                 校长
                 <!--{/if}-->
               </td>
-			  <td style="width:60px;"><a href="space.php?do=complain_item&doid=$value[doid]" target="_blank">
-              <!--{if $value[status] == '0'}-->
+			  <td style="width:60px;">              <!--{if $value[status] == '0'}-->
               处理中
               <!--{elseif $value[status] == 1}-->
               已处理
               <!--{else}-->
               已关闭
-              <!--{/if}--></a></td>
+              <!--{/if}--></td>
 			</tr>
 			<!--{/loop}-->
 		  </tbody>
@@ -339,7 +340,7 @@ jQuery.noConflict();
 		<div class="pages">$multi</div>
 	</div>
     <!--{elseif $type=='deprank'}-->
-<div id="complain_list">
+<div class="bdrcontent">
 <div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
 <a $submenus[score] href="admincp.php?ac=complain&type=deprank&subtype=score">服务质量</a>
 <a $submenus[updownnum] href="admincp.php?ac=complain&type=deprank&subtype=updownnum">评价人数</a>
@@ -402,9 +403,30 @@ jQuery.noConflict();
 </ol>
 </div>
 <!--{elseif $type == 'cloud'}-->
-    <div style="text-align:center; padding-top:10px;">
+    <div style="padding: 1em; border: 1px solid #FF8E00; zoom: 1;">
+		<form id="from1" method="get" action="admincp.php?ac=complain&type=cloud">
+			<div class="block style4">
+			  <table width="750" height="123" cellpadding="3" cellspacing="3">
+				<tr>
+				  <th>起止时间</th>
+                  <td>
+                  <input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyyMMdd',alwaysUseStartDate:true})" value="$startDay">~
+                  <input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyyMMdd',alwaysUseStartDate:true})" value="$endDay">
+                  </td>
+				  <td>
+				  <input type="hidden" name="ac" value="complain">
+				  <input type="hidden" name="type" value="cloud">
+                  <input type="submit" name="submit" value="确定" class="submit"></td>
+				</tr>
+			  </table>
+			</div>
+		</form>
+	</div>
+
+    <div class="bdrcontent" style="text-align:center;">
         <!--	<img src="plugin/complain/images/ciyun.jpg" />-->
-        <div id="tagcloud" style="width:990px;height:400px;background:#fff;">
+        <p style="text-align:left;">从{$startDay}到{$endDay}诉求云</p>
+        <div id="tagcloud" style="height:400px;width:800px;background:#fff;">
         </div>
         <script type="text/javascript" charset="utf-8">
             var words = [
