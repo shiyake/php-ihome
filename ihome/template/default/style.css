@@ -346,7 +346,7 @@ div #tagcloud span.w1 {
 .showMessage {
     font-size:18px;
     width:280px;
-    height:100px;
+    min-height:100px;
     background:#000;
     color:#fff;
     position:fixed;
@@ -366,10 +366,10 @@ div #tagcloud span.w1 {
     z-index:2;
     top:50%;
     width:146px;
-    height:56px;
+    min-height:56px;
     left:50%;
     margin-left:-73px;
-    margin-top:-28px;
+    padding: 23px 0;
 }
 .showMessage .message div{
     display:inline-block;
@@ -377,7 +377,7 @@ div #tagcloud span.w1 {
 .showMessage .message {
     text-align:center;
     position:relative;
-    margin-top:-25px;
+    /*margin-top:-25px;*/
     top:50%;
     opacity:1;
 }
