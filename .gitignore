@@ -1,4 +1,6 @@
 ihome/data/assets
+ihome/data/log
+ihome/data/temp
 *.pyc
 *.swp
 node_modules

@@ -48,6 +48,7 @@ var config = {
         'aloha'
     ],
     audio: [
+        'api/im/sound/msg.wav',
         'api/im/sound/nyaa.wav',
         'api/im/sound/kuma.wav',
         'api/im/sound/feuer.wav'
@@ -621,8 +622,9 @@ xxim.update = function(version){
             }
 
             if (config.audio.length) {
-                var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
-                // var audio = new Audio(config.audio[0]);
+                // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
+                var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
+                var audio = new Audio(config.audio[track]);
                 audio.play();
             }
         }

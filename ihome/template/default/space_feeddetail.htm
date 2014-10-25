@@ -1,0 +1,34 @@
+<!--{eval $_TPL['titles'] = array('动态');}-->
+<!--{template header}-->
+
+<div id="content" style="border-right:none;">
+	<!--{if $list}-->
+    <style>
+        ol.list-unstyled li div a {
+            margin-right: 0 !important;
+        }
+    </style>
+    <ul style="margin-top:30px">
+	<!--{loop $list $value}-->
+    <!--{eval $v = $value}-->
+    <!--{template space_feed_li}-->
+    <!--{/loop}-->
+    <script>
+        jq(function(){
+            if ($value['num']) {
+                jq('#do_a_op_'+$v['id']).click();
+                jq('#feedcomment_a_op_'+$v['feedid']).click();
+            };
+        });
+    </script>
+    </ul>
+	<!--{else}-->
+    <p class="no-content-tip">
+    <img src="image/icons/no_status.png">
+    <br>
+    现在还没有动态
+    </p>
+	<!--{/if}-->
+</div>
+
+<!--{template footer}-->

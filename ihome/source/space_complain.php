@@ -37,23 +37,10 @@ if ($_GET['view'] == 'rank') {
         $order = " order by aversecs ";
         $submenus['aversecs']=' class = "active"';
     }
-    $deps_rank_mine = 0;
     $deps_rank_count = 0;
-    if ($_SGLOBAL['isdept']) {
-        $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . " where uid=$_SGLOBAL[supe_uid] " . $order . "limit 1");
-        if ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            $value['rank'] = 0;
-            $deps[] = $value;
-            realname_set($value['uid'], $value['username']);
-        }
-    }
     $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $deps_rank_count++;
-        if ($_SGLOBAL['isdept'] && !$deps_rank_mine && $value['uid'] == $_SGLOBAL['supe_uid']) {
-            $deps_rank_mine = $deps_rank_count;
-            continue;
-        }
         $value['rank'] = $deps_rank_count;
         $deps[] = $value;
         realname_set($value['uid'], $value['username']);
@@ -85,10 +72,18 @@ if ($_GET['view'] == 'rank') {
     }
     $submenus = array();
     if ($_GET['type'] == 'running') {
-        $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
+        } else {
+            $wheresql .= " and status = 0 ";
+        }
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
-        $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
+        } else {
+            $wheresql .= " and status = 1 ";
+        }
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
         $wheresql .= " and status = 2 ";

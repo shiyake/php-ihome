@@ -599,3 +599,29 @@ function getgroup(gid) {
 		});
 	}
 }
+
+function upvote(feedid) {
+	if (isNaN(feedid)) { return; }
+	var _this = jq('#feed_up_'+feedid);
+	_this.removeAttr('onclick');
+	_this.unbind('click');
+	jq.get('cp.php?ac=feed&op=upvote&feedid='+feedid, function(data){
+		if (data=='-1') {
+			_this.click(function(){
+				upvote(feedid);
+			});
+		} else if (!isNaN(data)) {
+			var upvotes = parseInt(data);
+			var content = _this.html();
+			_this.html(content.replace(/赞.*/,"赞("+upvotes+")")).css({
+				'color':'gray',
+				'cursor':'default'
+			});
+		} else {
+			_this.click(function(){
+				upvote(feedid);
+			});
+		}
+		
+	});
+}
