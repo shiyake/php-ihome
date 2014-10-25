@@ -2,6 +2,9 @@
 
 include_once("./common.php");
 
+$log = Logger::getLogger("update_dep_rank");
+$log->debug("update dep rank");
+
 $caltime = $_SGLOBAL['timestamp'] - 3600*3;
 $query = $_SGLOBAL['db']->query("select * from ihome_complain_dep");
 $depinfos = array();
@@ -22,4 +25,5 @@ while ($result = $_SGLOBAL['db']->fetch_array($query)) {
 
 foreach ($depinfos as $uid => $info) {
     updatetable("complain_dep", array("upnum"=>$info['upnum'], "downnum"=>$info['downnum'], "updownnum"=>$info['upnum']+$info['downnum'], "aversecs"=>intval($info['allreplysecs']/$info['allreplynum']), "score"=>intval($info['upnum']-$info['downnum'])), array('uid'=>$uid));
+    $log->debug("update dep rank $uid upnum $info[upnum] downum $info[downnum]");
 }
