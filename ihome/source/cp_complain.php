@@ -296,14 +296,14 @@ if ($_GET['op'] == 'delete') {
                         $arr['upnum'] = 0;
                         $arr['downnum'] = 0;
                         $arr['allreplynum'] = 1;
-                        $arr['allreplysecs'] = $_SGLOBAL['timestamp'] - $complain['addtime'];
+                        $arr['allreplysecs'] = $_SGLOBAL['timestamp'] - $complain['dateline'];
                         $arr['score'] = 0;
                         $arr['aversecs'] = 0;
                         $arr['lastupdate'] = 0;
                         inserttable('complain_dep', $arr);
                     } else {
                         $arr['allreplynum'] = $dep['allreplynum'] + 1;
-                        $arr['allreplysecs'] = $dep['allreplysecs'] + $_SGLOBAL['timestamp'] - $complain['addtime'];
+                        $arr['allreplysecs'] = $dep['allreplysecs'] + $_SGLOBAL['timestamp'] - $complain['dateline'];
                         updatetable("complain_dep", $arr, array('uid'=>$_SGLOBAL['supe_uid']));
                     }
                 }
