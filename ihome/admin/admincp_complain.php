@@ -295,7 +295,7 @@ if($type == 'forleaders' && $superuid == 3){
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atuid) FROM ".tname('complain')." temp".$where), 0);
 	if($count) {
 		include_once S_ROOT.'./data/powerlevel/powerlevel.php';
-		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." LIMIT $start,$perpage");
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." ORDER BY addtime desc LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$value['addtime'] = date("Y-m-d H:i",$value['addtime']);
 			realname_set($value['uid'], $value['uname']);

@@ -123,6 +123,74 @@ if($_GET['op'] == 'delete') {
 	$query = $_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('feed')." WHERE $wheresql AND dateline > $time");
 	echo current(($_SGLOBAL['db']->fetch_array($query)));
 	exit();	
+} elseif($_GET['op'] == 'upvote') {
+	$feedid = empty($_GET['feedid'])?0:intval($_GET['feedid']);
+	if ($feedid) {
+		$me = intval($_SGLOBAL['supe_uid']);
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE feedid=".$feedid.' limit 1');
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$upvotes = intval($value['upvotes']);
+			$uid = intval($value['uid']);
+			$upvoters = $value['upvoters'];
+			if ($value['icon']=='doing' && isComplainOrNot($value['id'],$_SGLOBAL['db'])) {
+				echo '-1';
+				exit();
+			}
+
+			$icon2name = array('doing' => '足迹', 'album' => '照片', 'poll' => '投票', 'blog' => '日志', 'share' => '分享');
+			$needle = ','.$me.',';
+			if (!$upvoters && $me != $uid) {
+				$upvoters = $needle;
+				$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
+
+				$q = $_SGLOBAL['db']->query("SELECT username, name from ".tname('space')." where uid=".$me);
+				$data = $_SGLOBAL['db']->fetch_array($q);
+				$name = $data['name'] ? $data['name'] : $data['username'];
+				$setarr = array(
+					'uid' => $uid,
+					'type' => "systemnote",
+					'new' => 1,
+					'authorid' => $me,
+					'author' => $name,
+					'note' => '赞了你的<a href="space.php?do=feeddetail&feedid='.$feedid.'">动态</a>',
+					'dateline' => $_SGLOBAL['timestamp']
+				);
+				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
+				inserttable('notification', $setarr);
+
+				echo '1';
+				exit();
+			}
+			if ($me == $uid || strrpos($upvoters,$needle) !== false) {
+				echo '-1';
+				exit();
+			}
+			$upvoters .= $me.',';
+			$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
+			
+			$q = $_SGLOBAL['db']->query("SELECT username, name from ".tname('space')." where uid=".$me);
+			$data = $_SGLOBAL['db']->fetch_array($q);
+			$name = $data['name'] ? $data['name'] : $data['username'];
+			$setarr = array(
+				'uid' => $uid,
+				'type' => "systemnote",
+				'new' => 1,
+				'authorid' => $me,
+				'author' => $name,
+				'note' => '赞了你的<a href="space.php?do=feeddetail&feedid='.$feedid.'">动态</a>',
+				'dateline' => $_SGLOBAL['timestamp']
+			);
+			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
+			inserttable('notification', $setarr);
+
+			$upvotes += 1;
+			echo $upvotes;
+			exit();
+		}
+	} else {
+		echo '-1';
+		exit();
+	}
 } else {
 	$url = "space.php?uid=$feed[uid]";
 	switch ($feed['idtype']) {

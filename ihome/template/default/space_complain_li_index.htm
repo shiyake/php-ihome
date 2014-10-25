@@ -20,9 +20,7 @@
         <div class="complain_comment">
         <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>: $value[message] 
 	        <div style="margin-top:10px;">
-	        <span class="doingtime gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span> 
-		<!--{if $value[uid]==$_SGLOBAL[supe_uid] || $dv['uid']==$_SGLOBAL[supe_uid]}--> <a style="float:right;" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a>
-	        <span style="color:#ccc;float:right;">&nbsp;&nbsp;|&nbsp;&nbsp;</span><!--{/if}-->
+	        <span class="doingtime gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
 	        <script language="javascript" src="source/comment_goback.js"></script>
 	        <a href="javascript:;" onclick="jq1('#do_message_{$value[doid]}_0').css({'color':'#333'});document.getElementById('do_message_{$value[doid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re" style="float:right;">回复</a>
 	        </div>

@@ -471,6 +471,7 @@ if($_GET['view'] == 'hot') {
 	//热点
 	foreach ($feed_list as $value) {
 		$value = mkfeed($value);
+		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
 		$list['today'][] = $value;
 	}
 } elseif($_GET['view'] == 'me') {
@@ -478,6 +479,7 @@ if($_GET['view'] == 'hot') {
 	foreach ($feed_list as $value) {
 		if($hotlist[$value['feedid']]) continue;
 		$value = mkfeed($value);
+		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
 		if($value['dateline']>=$_SGLOBAL['today']) {
 			$list['today'][] = $value;
 		} elseif ($value['dateline']>=$_SGLOBAL['today']-3600*24) {
@@ -489,26 +491,46 @@ if($_GET['view'] == 'hot') {
 	}
 } else {
 	//好友、全站
-	foreach ($feed_list as $values) {
-		$actors = array();
-		$a_value = array();
-		foreach ($values as $value) {
-			if(empty($a_value)) {
-				$a_value = $value;
-			}
-			$actors[] = "<a href=\"space.php?uid=$value[uid]\">".$_SN[$value['uid']]."</a>";
-		}
-		if($hotlist[$a_value['feedid']]) continue;
-		$a_value = mkfeed($a_value, $actors);
-		if($a_value['dateline']>=$_SGLOBAL['today']) {
-			$list['today'][] = $a_value;
-		} elseif ($a_value['dateline']>=$_SGLOBAL['today']-3600*24) {
-			$list['yesterday'][] = $a_value;
-		} else {
-			$theday = sgmdate('Y-m-d', $a_value['dateline']);
-			$list[$theday][] = $a_value;
-		}
+	// foreach ($feed_list as $values) {
+	// 	$actors = array();
+	// 	$a_value = array();
+	// 	foreach ($values as $value) {
+	// 		if(empty($a_value)) {
+	// 			$a_value = $value;
+	// 		}
+	// 		$actors[] = "<a href=\"space.php?uid=$value[uid]\">".$_SN[$value['uid']]."</a>";
+	// 	}
+	// 	if($hotlist[$a_value['feedid']]) continue;
+	// 	$a_value = mkfeed($a_value, $actors);
+	// 	$a_value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$a_value['uid'],$a_value['upvoters']);
+	// 	if($a_value['dateline']>=$_SGLOBAL['today']) {
+	// 		$list['today'][] = $a_value;
+	// 	} elseif ($a_value['dateline']>=$_SGLOBAL['today']-3600*24) {
+	// 		$list['yesterday'][] = $a_value;
+	// 	} else {
+	// 		$theday = sgmdate('Y-m-d', $a_value['dateline']);
+	// 		$list[$theday][] = $a_value;
+	// 	}
 		
+	// }
+	$feed_list_expanded = array();
+	foreach ($feed_list as $values) {
+		foreach ($values as $value) {
+			$feed_list_expanded[] = $value;
+		}
+	}
+	foreach ($feed_list_expanded as $value) {
+		if($hotlist[$value['feedid']]) continue;
+		$value = mkfeed($value);
+		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
+		if($value['dateline']>=$_SGLOBAL['today']) {
+			$list['today'][] = $value;
+		} elseif ($value['dateline']>=$_SGLOBAL['today']-3600*24) {
+			$list['yesterday'][] = $value;
+		} else {
+			$theday = sgmdate('Y-m-d', $value['dateline']);
+			$list[$theday][] = $value;
+		}		
 	}
 	//应用
 	foreach ($appfeed_list as $values) {
@@ -608,6 +630,25 @@ function my_showgift() {
 	if($_SCONFIG['my_showgift'] && $_SGLOBAL['my_userapp'][$_SGLOBAL['gift_appid']]) {
 		echo '<script language="javascript" type="text/javascript" src="http://gift.manyou-apps.com/recommend.js"></script>';
 	}
+}
+
+function canUpvote($me,$feed) {
+	global $_SGLOBAL;
+	
+	$me = intval($me);
+	$uid = intval($feed['uid']);
+	$upvoters = $feed['upvoters'];
+	if ($feed['icon']=='doing' && isComplainOrNot($feed['id'],$_SGLOBAL['db'])) {
+		return 0;
+	}
+	if (!$upvoters && $me != $uid) {
+		return 1;
+	}
+	$needle = ','.$me.',';
+	if ($me == $uid || strrpos($upvoters,$needle) !== false) {
+		return 0;
+	}
+	return 1;
 }
 
 ?>

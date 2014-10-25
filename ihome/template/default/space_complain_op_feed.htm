@@ -37,8 +37,10 @@
                     <label><input checked="checked" type="radio" name="mood_op" value="2" class="enAt">&nbsp;处理诉求</label>
                     <label><input type="radio" name="mood_op" value="3" class="disAt">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
                     <span class="forward_tip" style="display:none;">提示：诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次</span>
-                    <!--{else}-->
+                    <!--{elseif $complain[atuid] == $_SGLOBAL[supe_uid]}-->
                     <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
+                    <!--{else}-->
+                    <label style="display:none"><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
                     <!--{/if}-->
                 </div>
             </div>
@@ -64,7 +66,11 @@
                     </div>
                 </div>
                 <div class="mood_submit">
+                    <!--{if $complain[atuid] == $_SGLOBAL[supe_uid]}-->
                     <button type="submit" id="add" name="add">回复诉求</button>
+                    <!--{else}-->
+                    <button type="submit" id="add" name="add">回复</button>
+                    <!--{/if}-->
                 </div>
             </div>
         </div>

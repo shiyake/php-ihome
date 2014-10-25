@@ -154,6 +154,27 @@ if ($_GET['op'] == 'delete') {
                 showmessage('error_op');
             }
             inserttable('complain_op', $oparr);
+
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." WHERE doid='$doid'");
+            $updo = $_SGLOBAL['db']->fetch_array($query);
+            $updo['id'] = intval($updo['id']);
+            $updo['grade'] = intval($updo['grade']);
+            $setarr = array(
+                'doid' => $updo['doid'],
+                'upid' => $updo['id'],
+                'uid' => $_SGLOBAL['supe_uid'],
+                'username' => $_SGLOBAL['supe_username'],
+                'dateline' => $_SGLOBAL['timestamp'],
+                'message' => $message,
+                'ip' => getonlineip(),
+                'grade' => $updo['grade']+1
+            );
+            if($updo['grade'] >= 3) {
+                $setarr['upid'] = $updo['upid'];
+            }
+            $newid = inserttable('docomment', $setarr, 1);
+            $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
+
             $note = cplang("complain_continue", array("space.php?do=complain_item&doid=$complain[doid]"));
             notification_complain_add($complain["atuid"], "complain", $note);
             showmessage('do_success', $_POST['refer'], 0);
@@ -222,7 +243,27 @@ if ($_GET['op'] == 'delete') {
                 showmessage('complain_relay_too_much', $_POST['refer'], 3);
             }
             $opid = inserttable('complain_op', $oparr, true);
-            
+
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." WHERE doid='$doid'");
+            $updo = $_SGLOBAL['db']->fetch_array($query);
+            $updo['id'] = intval($updo['id']);
+            $updo['grade'] = intval($updo['grade']);
+            $setarr = array(
+                'doid' => $updo['doid'],
+                'upid' => $updo['id'],
+                'uid' => $_SGLOBAL['supe_uid'],
+                'username' => $_SGLOBAL['supe_username'],
+                'dateline' => $_SGLOBAL['timestamp'],
+                'message' => $message,
+                'ip' => getonlineip(),
+                'grade' => $updo['grade']+1
+            );
+            if($updo['grade'] >= 3) {
+                $setarr['upid'] = $updo['upid'];
+            }
+            $newid = inserttable('docomment', $setarr, 1);
+            $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
+
             $note = cplang('complain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
             notification_complain_add($complain['uid'], 'complain', $note);
             if ($optype == 3) {

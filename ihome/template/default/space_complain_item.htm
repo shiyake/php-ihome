@@ -65,8 +65,9 @@
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
                     <span class="floatright">
+
                         <!--{if $op[optype] == 2}-->
-                        <!--{if isset($opupdowns[$op[id]])}-->
+                        <!--{if isset($opupdowns[$op[id]]) || $op[uid] == $_SGLOBAL[supe_uid]}-->
                         <!--{if $opupdowns[$op[id]] == 1}-->
                         <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good_clicked.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
@@ -87,6 +88,7 @@
                         <!--{/if}-->
                         <!--{/if}-->
                         <!--{/if}-->
+
                         <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
                     </span>
                 </div>
