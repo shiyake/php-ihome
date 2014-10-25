@@ -31,6 +31,8 @@ function addNeedSend($uid, $nexttime, $msg, $userInfo) {
         $needSend[$uid]['mobile'] = $userInfo['mobile'];
     }
 }
+$log = Logger::getLogger("checkcomplain");
+$log->debug("check complain");
 
 $nowtime = time();
 //从complain表中筛选出已到期.但尚未处理的投诉记录
@@ -43,7 +45,6 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         echo "bad atuid $result[atuid]";
         continue;
     }
-    var_dump($result);
     if ($result['times'] == 1) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
@@ -53,6 +54,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             updatetable('complain', array("issendmsg"=>1), array("id"=>$result['id']));
             $note = cplang("note_complain_buchu", array($complain_url, date('Y-m-d H:i', $nexttime)));
             notification_complain_add($result['atuid'], 'complain', $note);
+            $log->debug("complain doid $result[doid] send message buchu");
         }
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
@@ -64,6 +66,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             notification_complain_add($UserArray['dept_uid'], 'complain', $note);
             $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
             notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
+            $log->debug("complain doid $result[doid] send message chuzhang");
         }
     } elseif ($result['times'] == 3 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
@@ -87,6 +90,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
         $note = cplang('note_complain_fuxiaozhang', array($complain_url, date('Y-m-d H:i', $nexttime), $result['atdepartment']));
         notification_complain_add($UpUserArray2['dept_uid'], 'complain', $note);
+        $log->debug("complain doid $result[doid] send message fuxiaozhang");
     } elseif ($result['times'] == 7 && $nowtime - $result['dateline'] > 7 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
@@ -115,6 +119,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         notification_complain_add($UpUserArray2['dept_uid'], 'complain', $note);
         $note = cplang('note_complain_xiaozhang', array($complain_url, date('Y-m-d H:i', $nexttime), $result['atdepartment']));
         notification_complain_add($UpUserArray3['dept_uid'], 'complain', $note);
+        $log->debug("complain doid $result[doid] send message xiaozhang");
 
     }
     var_dump($needSend);
@@ -124,9 +129,9 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 
 
 //发送上次发送未成功的短信
-sendDelayMsg();
+//sendDelayMsg();
 
-sendMobileMsg();
+//sendMobileMsg();
 
 //写入记录文件,以便查看定时任务是否正常执行
 $fp = fopen("data/log/checkcomplain.log", "a+"); 
