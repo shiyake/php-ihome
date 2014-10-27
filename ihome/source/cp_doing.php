@@ -65,6 +65,10 @@ if(submitcheck('addsubmit')) {
     //var_dump($isComplain);exit();
     $message = rawurldecode(getstr($_POST['message'], 1000, 1, 1, 1, 2));
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$message, $matches, PREG_SET_ORDER);
+    if ($isComplain && count($matches) != 1) {
+        echo "complain_count_error";
+        exit;
+    }
     foreach($matches as $value){
         $TmpString = $value[0]; 
         $TmpName = $value[1]; 

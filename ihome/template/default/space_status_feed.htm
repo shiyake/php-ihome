@@ -188,6 +188,10 @@ jQuery(function ($) {
 						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>没有权限</div>";
 						Message_out(message);
 						break;
+					case 'complain_count_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
+						Message_out(message);
+						break;
 					default:
 						//$("#feed_div > ul").prepend(data);
 						Status_show(data);
