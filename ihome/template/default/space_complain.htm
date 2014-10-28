@@ -176,7 +176,9 @@
             <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
             <!--{date('m-d H:i',$cp[addtime])}--></td>
             <td><a href="space.php?uid=$cp[atuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
-            <!--{if $cp[status] == 0}-->
+            <!--{if $cp[status] != 2 && $_SGLOBAL[isdept] == 1 && $cp[atuid] != $_SGLOBAL[supe_uid] && strrpos($cp[relayed_by],",".$_SGLOBAL[supe_uid].",") !== false}-->
+            <td>已转发</td>
+            <!--{elseif $cp[status] == 0}-->
             <!--{if $_SGLOBAL[isdept] == 1}-->
             <td>未处理</td>
             <!--{else}-->
