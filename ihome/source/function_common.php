@@ -407,6 +407,7 @@ function getuid($name) {
 
 //获取IP对应的国家,判断是否为国外用户
 function getIpDetails(){
+	return false;
     $onlineip = getonlineip();
     //include("geoip.inc.php");
     //include_once(S_ROOT.'./source/geoip.inc.php');

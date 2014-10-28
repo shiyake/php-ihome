@@ -157,6 +157,7 @@ jQuery(function ($) {
         }
         var jqDoingForm = $("#doingform");
 		var jqShowimg = $('#showimg');
+		jq('#add').text(jq('#add').text().substring(0,2)+'中...').attr('disabled','disabled');
 		jqDoingForm.ajaxSubmit({
 			dataType:  'html',
 			success: function(data) {
@@ -199,9 +200,11 @@ jQuery(function ($) {
 						$('#datapicpath').val('');
 						$('#datapicid').val('');
 				}
+				jq('#add').text(jq('#add').text().substring(0,2)).removeAttr('disabled');
 				//$("#feed_div > ul").prepend(data);
 			},
 			error:function(xhr){
+				jq('#add').text(jq('#add').text().substring(0,2)).removeAttr('disabled');
 				alert(xhr.responseText);
 			}
 		});

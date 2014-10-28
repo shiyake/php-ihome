@@ -23,16 +23,28 @@ if ($_GET['op'] == 'delete') {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
         if (empty($op)) {
+            if ($confirm) {
+                echo 'error_op';
+                exit();
+            }
             showmessage('error_op');
         }
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
         $complain = $_SGLOBAL['db']->fetch_array($query);
         if (empty($complain)) {
+            if ($confirm) {
+                echo 'error_op';
+                exit();
+            }
             showmessage('error_op');
         }
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op_updown")." where opid = $op[id] and uid = $_SGLOBAL[supe_uid] and updown = 2");
         $down = $_SGLOBAL['db']->fetch_array($query);
         if (!empty($down)) {
+            if ($confirm) {
+                echo 'updown_again';
+                exit();
+            }
             showmessage('updown_again', $_POST['refer'], 1);
         }
         $downarr = array();
@@ -56,6 +68,14 @@ if ($_GET['op'] == 'delete') {
             $oparr['dateline'] = $_SGLOBAL['timestamp'];
             inserttable("complain_op", $oparr);
         }
+        if ($confirm) {
+            $q = $_SGLOBAL['db']->query("select downnum from ".tname('complain_op')." where id=$opid");
+            if($r = $_SGLOBAL['db']->fetch_array($q)){
+                $num = $r['downnum'];
+                echo $num;
+                exit();
+            }
+        }
         showmessage('do_success', $_POST['refer'], 0);
     }
 } elseif ($_GET['op'] == 'up') {
@@ -69,16 +89,28 @@ if ($_GET['op'] == 'delete') {
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." where id = $opid");
         $op = $_SGLOBAL['db']->fetch_array($query);
         if (empty($op)) {
+            if ($confirm) {
+                echo 'error_op';
+                exit();
+            }
             showmessage('error_op');
         }
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid = $doid");
         $complain = $_SGLOBAL['db']->fetch_array($query);
         if (empty($complain)) {
+            if ($confirm) {
+                echo 'error_op';
+                exit();
+            }
             showmessage('error_op');
         }
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain_op_updown")." where opid = $op[id] and uid = $_SGLOBAL[supe_uid] and updown = 1");
         $up = $_SGLOBAL['db']->fetch_array($query);
         if (!empty($up)) {
+            if ($confirm) {
+                echo 'updown_again';
+                exit();
+            }
             showmessage('updown_again', $_POST['refer'], 1);
         }
         $downarr = array();
@@ -100,6 +132,14 @@ if ($_GET['op'] == 'delete') {
             $oparr['dateline'] = $_SGLOBAL['timestamp'];
             $oparr['opvalue'] = 1;
             inserttable("complain_op", $oparr);
+        }
+        if ($confirm) {
+            $q = $_SGLOBAL['db']->query("select upnum from ".tname('complain_op')." where id=$opid");
+            if($r = $_SGLOBAL['db']->fetch_array($q)){
+                $num = $r['upnum'];
+                echo $num;
+                exit();
+            }
         }
         showmessage('do_success', $_POST['refer'], 0);
     }
