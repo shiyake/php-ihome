@@ -207,7 +207,8 @@ if ($_GET['op'] == 'delete') {
                 'dateline' => $_SGLOBAL['timestamp'],
                 'message' => $message,
                 'ip' => getonlineip(),
-                'grade' => $updo['grade']+1
+                'grade' => $updo['grade']+1,
+                'complainBorn' => 1
             );
             if($updo['grade'] >= 3) {
                 $setarr['upid'] = $updo['upid'];
@@ -296,7 +297,8 @@ if ($_GET['op'] == 'delete') {
                 'dateline' => $_SGLOBAL['timestamp'],
                 'message' => $message,
                 'ip' => getonlineip(),
-                'grade' => $updo['grade']+1
+                'grade' => $updo['grade']+1,
+                'complainBorn' => 1
             );
             if($updo['grade'] >= 3) {
                 $setarr['upid'] = $updo['upid'];
