@@ -308,6 +308,14 @@
 		<textarea name="depduty" id="depduty" maxlength="100" rows="5" style="width:70%;border-radius:5px;padding:6px;">$dept['depduty']</textarea>
 	</td>
 </tr>
+<script>
+	jQuery('form#person-config-form').submit(function(){
+		var telephone = jQuery.trim(jQuery('#telephone').val());
+		var office = jQuery.trim(jQuery('#office').val());
+		var depduty = jQuery.trim(jQuery('#depduty').val());
+		if (!telephone || !office || !depduty) {alert('请完整填写部门信息');return false;}
+	});
+</script>
 <!--{/if}-->
 
 <!--{if $_SGLOBAL['overseas'] == 'overseas' }-->
