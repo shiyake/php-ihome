@@ -293,6 +293,31 @@
 	</td>
 </tr>
 
+<!--{if $isdept}-->
+<tr>
+	<th>办公电话</th>
+	<td><input type="text" name="telephone" id="telephone" class="t_input" style="width:70%" value="$dept[telephone]"></td>
+</tr>
+<tr>
+	<th>办公地点</th>
+	<td><input type="text" name="office" id="office" class="t_input" style="width:70%" value="$dept[office]"></td>
+</tr>
+<tr>
+	<th style="vertical-align:top">部门职能:</th>
+	<td>
+		<textarea name="depduty" id="depduty" maxlength="100" rows="5" style="width:70%;border-radius:5px;padding:6px;">$dept['depduty']</textarea>
+	</td>
+</tr>
+<script>
+	jQuery('form#person-config-form').submit(function(){
+		var telephone = jQuery.trim(jQuery('#telephone').val());
+		var office = jQuery.trim(jQuery('#office').val());
+		var depduty = jQuery.trim(jQuery('#depduty').val());
+		if (!telephone || !office || !depduty) {alert('请完整填写部门信息');return false;}
+	});
+</script>
+<!--{/if}-->
+
 <!--{if $_SGLOBAL['overseas'] == 'overseas' }-->
 <script>
 	jQuery(function(){

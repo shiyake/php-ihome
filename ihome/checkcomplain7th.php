@@ -87,59 +87,6 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
         notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
         $log->debug("complain doid $result[doid] send message chuzhang");
-    } elseif ($result['times'] == 3 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
-        $up_arr = explode("," , $UserArray['up_uid']);
-        $UpUserArray = isDepartment($up_arr[0] ,0);
-        if (empty($UpUserArray)) {
-            continue;
-        }
-        $up_arr = explode("," , $UpUserArray['up_uid']);
-        $UpUserArray2 = isDepartment($up_arr[0] ,0);
-        if (empty($UpUserArray2)) {
-            continue;
-        }
-        $nexttime = $result['dateline'] + 24 * 3600 * 7;
-        addNeedSend($result,$UpUserArray2['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给校长,请您安排处理", $UpUserArray2);
-        updatetable("complain", array("issendmsg"=>1, "times"=>7), array("id"=>$result['id']));
-        $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '副校长'));
-        notification_complain_add($result['uid'], 'complain', $note);
-        $note = cplang("note_complain_buchu2", array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UserArray['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_chuzhang1', array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_fuxiaozhang', array($complain_url, date('Y-m-d H:i', $nexttime), $result['atdepartment']));
-        notification_complain_add($UpUserArray2['dept_uid'], 'complain', $note);
-        $log->debug("complain doid $result[doid] send message fuxiaozhang");
-    } elseif ($result['times'] == 7 && $nowtime - $result['dateline'] > 7 * 24 * 3600) {
-        $up_arr = explode("," , $UserArray['up_uid']);
-        $UpUserArray = isDepartment($up_arr[0] ,0);
-        if (empty($UpUserArray)) {
-            continue;
-        }
-        $up_arr = explode("," , $UpUserArray['up_uid']);
-        $UpUserArray2 = isDepartment($up_arr[0] ,0);
-        if (empty($UpUserArray2)) {
-            continue;
-        }
-        $up_arr = explode("," , $UpUserArray2['up_uid']);
-        $UpUserArray3 = isDepartment($up_arr[0] ,0);
-        if (empty($UpUserArray3)) {
-            continue;
-        }
-        addNeedSend($result,$UpUserArray3['dept_uid'], $nexttime, "条诉求未处理,请您安排处理", $UpUserArray3);
-        updatetable("complain", array("issendmsg"=>1, "times"=>10), array("id"=>$result['id']));
-        $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '校长'));
-        notification_complain_add($result['uid'], 'complain', $note);
-        $note = cplang("note_complain_buchu3", array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UserArray['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_chuzhang2', array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_fuxiaozhang1', array($complain_url, date('Y-m-d H:i', $nexttime), $result['atdepartment']));
-        notification_complain_add($UpUserArray2['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_xiaozhang', array($complain_url, date('Y-m-d H:i', $nexttime), $result['atdepartment']));
-        notification_complain_add($UpUserArray3['dept_uid'], 'complain', $note);
-        $log->debug("complain doid $result[doid] send message xiaozhang");
-
     }
     var_dump($needSend);
 }
@@ -148,7 +95,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
 
 
 //发送上次发送未成功的短信
-// sendDelayMsg();
+sendDelayMsg();
 
 sendMobileMsg();
 
@@ -202,7 +149,7 @@ function sendMobileMsg(){
                 'num' => 1,
                 'atuname' => 'system'
             );
-            // $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
+            $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
             if($SendResult)  {
                 $MobileMsg['issend'] = 1;
                 $MobileMsg['sendtime']=time();

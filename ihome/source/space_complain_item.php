@@ -25,13 +25,15 @@ if ($complain) {
     include_once(S_ROOT.'./source/class_tree.php');
     $tree = new tree();
 
-    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." USE INDEX(dateline) WHERE doid = $doid ORDER BY dateline");
+    $dv['replynum'] = 0;
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." USE INDEX(dateline) WHERE doid = $doid and !complainBorn ORDER BY dateline");
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         realname_set($value['uid'], $value['username']);
         if (empty($value['upid'])) {
             $value['upid'] = "do$doid";
         }
         $tree->setNode($value['id'], $value['upid'], $value);
+        $dv['replynum']++;
     }
     $values = $tree->getChilds("do$doid");
     foreach ($values as $key=>$id) {

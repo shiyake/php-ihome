@@ -31,7 +31,16 @@ if($_GET['op'] == 'base') {
 			'resideprovince' => getstr($_POST['resideprovince'], 20, 1, 1),
 			'residecity' => getstr($_POST['residecity'], 20, 1, 1)
 		);
-		
+		if (isDepartment($_SGLOBAL['supe_uid'])) {
+			$arr = array(
+				'telephone' => shtmlspecialchars($_POST['telephone']),
+				'office' => shtmlspecialchars($_POST['office']),
+				'depduty' => shtmlspecialchars($_POST['depduty']),
+			);
+			updatetable('powerlevel', $arr, array('dept_uid'=>$_SGLOBAL['supe_uid']));
+			updatetable('complain_dep', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
+        	updatePowerlevelFile();
+		}
 		//性别
 		$_POST['sex'] = intval($_POST['sex']);
 		if($_POST['sex'] && empty($space['sex'])) $setarr['sex'] = $_POST['sex'];
@@ -262,6 +271,11 @@ if($_GET['op'] == 'base') {
 		$friendarr[$value['subtype']][$value['friend']] = ' selected';
 	}
 
+	$isdept = False;
+	$dept = isDepartment($_SGLOBAL['supe_uid']);
+	if($dept) {
+		$isdept = True;
+	}
 
 } elseif ($_GET['op'] == 'contact') {
 	
