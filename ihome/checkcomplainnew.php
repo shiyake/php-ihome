@@ -22,7 +22,7 @@ echo '任务初始化完毕~!<br />';
 
 $needSend = array();
 
-function addNeedSend($complain, $uid, $nexttime, $msg, $userInfo) {
+function addNeedSend($complain, $uid, $nexttime, $msg, $userInfo, $cc) {
     global $needSend;
     $atuid = $complain['atuid'];
     if (!array_key_exists($uid, $needSend) || !array_key_exists($atuid, $needSend[$uid])|| $nexttime < $needSend[$uid][$atuid]['dateline']) {
@@ -30,6 +30,7 @@ function addNeedSend($complain, $uid, $nexttime, $msg, $userInfo) {
         $needSend[$uid][$atuid]['dateline'] = $nexttime;
         $needSend[$uid][$atuid]['msg'] = $msg;
         $needSend[$uid][$atuid]['mobile'] = $userInfo['mobile'];
+        $needSend[$uid][$atuid]['cc'] = $cc;
         if (!array_key_exists('count', $needSend[$uid][$atuid])) {
             $needSend[$uid][$atuid]['count'] = 0;
             $needSend[$uid][$atuid]['name'] = $complain['atuname'];
@@ -56,7 +57,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if ($result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 6 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600;
-            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.date('Y-m-d H:i', $nexttime).'上报给处长,请您及时处理', $UserArray);
+            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.date('Y-m-d H:i', $nexttime).'上报给处长,请您及时处理', $UserArray, array());
             updatetable('complain', array("issendmsg"=>1), array("id"=>$result['id']));
             $note = cplang("note_complain_buchu", array($complain_url, date('Y-m-d H:i', $nexttime)));
             notification_complain_add($result['atuid'], 'complain', $note);
@@ -64,8 +65,8 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         }
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
-            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray);
-            updatetable("complain", array("issendmsg"=>1, "times"=>2), array("id"=>$result['id']));
+            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
+            updatetable("complain", array("issendmsg"=>0, "times"=>3), array("id"=>$result['id']));
             $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
             notification_complain_add($result['uid'], 'complain', $note);
             $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
@@ -74,12 +75,12 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
             $log->debug("complain doid $result[doid] send message chuzhang");
         }
-    } elseif ($result['times'] == 2 && $nowtime - $result['dateline'] > 2 * 24 * 3600) {
+    } elseif ($result['times'] == 3 && $result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 2 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         $nexttime = $result['dateline'] + 24 * 3600 * 3;
-        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray);
-        updatetable("complain", array("issendmsg"=>1, "times"=>3), array("id"=>$result['id']));
+        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
+        updatetable("complain", array("issendmsg"=>1), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
         notification_complain_add($result['uid'], 'complain', $note);
         $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
@@ -87,7 +88,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
         notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
         $log->debug("complain doid $result[doid] send message chuzhang");
-    } elseif ($result['times'] == 3 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
+    } elseif ($result['times'] == 3 && $result['issendmsg'] == 1 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if (empty($UpUserArray)) {
@@ -99,7 +100,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             continue;
         }
         $nexttime = $result['dateline'] + 24 * 3600 * 7;
-        addNeedSend($result,$UpUserArray2['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给校长,请您安排处理", $UpUserArray2);
+        addNeedSend($result,$UpUserArray2['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给校长,请您安排处理", $UpUserArray2, array($result['atuid'] => $UserArray['mobile'], $UpUserArray['dept_uid'] => $UpUserArray['mobile']));
         updatetable("complain", array("issendmsg"=>1, "times"=>7), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '副校长'));
         notification_complain_add($result['uid'], 'complain', $note);
@@ -126,7 +127,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         if (empty($UpUserArray3)) {
             continue;
         }
-        addNeedSend($result,$UpUserArray3['dept_uid'], $nexttime, "条诉求未处理,请您安排处理", $UpUserArray3);
+        addNeedSend($result,$UpUserArray3['dept_uid'], $nexttime, "条诉求未处理,请您安排处理", $UpUserArray3, array($result['atuid'] => $UserArray['mobile'], $UpUserArray['dept_uid'] => $UpUserArray['mobile'], $UpUserArray2['dept_uid'] => $UpUserArray2['mobile']));
         updatetable("complain", array("issendmsg"=>1, "times"=>10), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '校长'));
         notification_complain_add($result['uid'], 'complain', $note);
@@ -208,6 +209,35 @@ function sendMobileMsg(){
                 $MobileMsg['sendtime']=time();
             }
             inserttable('mobilemsg', $MobileMsg, 0);
+
+            foreach ($info['cc'] as $ccuid => $ccmobile) {
+                if ($atuid == $ccuid) {
+                    $header = '【温馨提示】您好,您';
+                } else {
+                    $header = '【温馨提示】领导您好,'.$info['name'];
+                }
+                $content = $header.'有'.$info['count'].$info['msg'];
+                $mobile = M_decode($ccmobile,$aeskeyMobile);
+                $sendtime = '';
+                
+                //将发送信息存入数据库
+                $MobileMsg = array(
+                    'issend' => 0,
+                    'uid' => $ccuid,
+                    'tomobile' => $ccmobile,
+                    'content' => $content,
+                    'addtime' => time(),
+                    'sendtime' => $sendtime,
+                    'num' => 1,
+                    'atuname' => 'system'
+                );
+                // $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
+                if($SendResult)  {
+                    $MobileMsg['issend'] = 1;
+                    $MobileMsg['sendtime']=time();
+                }
+                inserttable('mobilemsg', $MobileMsg, 0);
+            }
         }
 	}
 }

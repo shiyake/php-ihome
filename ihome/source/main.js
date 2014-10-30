@@ -39,14 +39,15 @@
 	});
 	//左边栏我的活动隐藏与显示
 	jq(function() {
-		var memHeight = jq("#my_shortcutapp").height();
+		var memDefaultHeight = jq("#my_defaultapp").height();
+		var memShortcutHeight = jq("#my_shortcutapp").height();
 		jq("#my_defaultapp_toggle").click(function() {
 			if (jq("#my_defaultapp").css("display") == "none") {
 				jq("#my_defaultapp").css({
 					"display": "block"
 				});
 				jq("#my_defaultapp").stop().animate({
-					"height": "322px"
+					"height": memDefaultHeight
 				},
 				300);
 				jq("#my_shortcutapp,#my_shortcutapp_toggle").css({
@@ -83,7 +84,7 @@
 					"display": "block"
 				});
 				jq("#my_shortcutapp").stop().animate({
-					"height": memHeight
+					"height": memShortcutHeight
 				},
 				300);
 			} else {
