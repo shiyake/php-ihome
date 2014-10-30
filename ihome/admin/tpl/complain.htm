@@ -174,7 +174,10 @@
                 校长
                 <!--{/if}-->
               </td>
-			  <td style="width:60px;">              <!--{if $value[status] == '0'}-->
+			  <td style="width:60px;">
+			  <!--{if $value[status] == '0' && $value[times] == 10}-->
+              <span style="color:red">未处理</span>
+              <!--{elseif $value[status] == '0'}-->
               处理中
               <!--{elseif $value[status] == 1}-->
               已处理

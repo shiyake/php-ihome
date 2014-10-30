@@ -66,7 +66,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
             addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
-            updatetable("complain", array("issendmsg"=>1, "times"=>2), array("id"=>$result['id']));
+            updatetable("complain", array("issendmsg"=>0, "times"=>3), array("id"=>$result['id']));
             $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
             notification_complain_add($result['uid'], 'complain', $note);
             $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
@@ -75,12 +75,12 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
             $log->debug("complain doid $result[doid] send message chuzhang");
         }
-    } elseif ($result['times'] == 2 && $nowtime - $result['dateline'] > 2 * 24 * 3600) {
+    } elseif ($result['times'] == 3 && $result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 2 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         $nexttime = $result['dateline'] + 24 * 3600 * 3;
         addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
-        updatetable("complain", array("issendmsg"=>1, "times"=>3), array("id"=>$result['id']));
+        updatetable("complain", array("issendmsg"=>1), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
         notification_complain_add($result['uid'], 'complain', $note);
         $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
@@ -88,7 +88,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
         notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
         $log->debug("complain doid $result[doid] send message chuzhang");
-    } elseif ($result['times'] == 3 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
+    } elseif ($result['times'] == 3 && $result['issendmsg'] == 1 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if (empty($UpUserArray)) {

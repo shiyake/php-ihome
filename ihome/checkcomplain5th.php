@@ -52,7 +52,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         echo "bad atuid $result[atuid]";
         continue;
     }
-    if ($result['times'] == 3 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
+    if ($result['times'] == 3 && $result['issendmsg'] == 1 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if (empty($UpUserArray)) {
