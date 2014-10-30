@@ -65,6 +65,10 @@ if(submitcheck('addsubmit')) {
     //var_dump($isComplain);exit();
     $message = rawurldecode(getstr($_POST['message'], 1000, 1, 1, 1, 2));
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$message, $matches, PREG_SET_ORDER);
+    if ($isComplain && count($matches) != 1) {
+        echo "complain_count_error";
+        exit;
+    }
     foreach($matches as $value){
         $TmpString = $value[0]; 
         $TmpName = $value[1]; 
@@ -418,7 +422,8 @@ if(submitcheck('addsubmit')) {
         'dateline' => $_SGLOBAL['timestamp'],
         'message' => $message,
         'ip' => getonlineip(),
-        'grade' => $updo['grade']+1
+        'grade' => $updo['grade']+1,
+        'complainBorn' => $updo['complainBorn'] || 0
     );
     //×î¶à²ã¼¶
     if($updo['grade'] >= 3) {
@@ -528,9 +533,18 @@ elseif ($_GET['op'] == 'getcomment') {
     $list = array();
     $highlight = 0;
     $count = 0;
+
+    $complainPage = 0;
+    parse_str(parse_url($_POST['refer'],PHP_URL_QUERY),$pageFrom);
+    if ($pageFrom['do'] == 'complain_item') {
+        $complainPage = 1;
+    }
     if(empty($_GET['close'])) {
         $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." WHERE doid='$doid' ORDER BY dateline");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            if ($complainPage && $value['complainBorn']) {
+                continue;
+            }
             realname_set($value['uid'], $value['username']);
             $tree->setNode($value['id'], $value['upid'], $value);
             $count++;

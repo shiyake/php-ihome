@@ -372,6 +372,8 @@ $_GET['view'] = 'me';
 
 $_TPL['css'] = 'space';
 
+$dept = isDepartment($space['uid']);
+
 include_once template("space_index");
 
 //ﾾﾺﾼￛￅￅￃ￻

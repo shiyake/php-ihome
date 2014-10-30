@@ -140,10 +140,16 @@ jQuery(function ($) {
 		e.preventDefault();
 
 		var jqMessage = $("#message").val();
-		if(jqMessage === "") {
+		if(jqMessage === "" ) {
 			$("#mood_feed").addClass("invalid");
 			return;
 		}
+
+		if (jq('#add').hasClass('askbag') && jqMessage.match(/@.*?\(\d+\)/g).length !== 1) {
+			var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
+			Message_out(message);
+			return false;
+		};
 
         if(jqMessage.indexOf("[em:")!=-1) {
             alert("亲，请不要尝试使用旧表情，新表情很可耐不是吗^_^");
@@ -151,6 +157,7 @@ jQuery(function ($) {
         }
         var jqDoingForm = $("#doingform");
 		var jqShowimg = $('#showimg');
+		jq('#add').text(jq('#add').text().substring(0,2)+'中...').attr('disabled','disabled');
 		jqDoingForm.ajaxSubmit({
 			dataType:  'html',
 			success: function(data) {
@@ -182,6 +189,10 @@ jQuery(function ($) {
 						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>没有权限</div>";
 						Message_out(message);
 						break;
+					case 'complain_count_error':
+						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
+						Message_out(message);
+						break;
 					default:
 						//$("#feed_div > ul").prepend(data);
 						Status_show(data);
@@ -189,9 +200,11 @@ jQuery(function ($) {
 						$('#datapicpath').val('');
 						$('#datapicid').val('');
 				}
+				jq('#add').text(jq('#add').text().substring(0,2)).removeAttr('disabled');
 				//$("#feed_div > ul").prepend(data);
 			},
 			error:function(xhr){
+				jq('#add').text(jq('#add').text().substring(0,2)).removeAttr('disabled');
 				alert(xhr.responseText);
 			}
 		});

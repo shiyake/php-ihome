@@ -525,6 +525,16 @@ xxim.transmit = function(){
             
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
 
+            var track = parseInt(localStorage.iTrack) || 0;
+            if (!track && /长尾景虎|阿斯图里亚斯|Asturias|回老家结婚/.test(data.content)) {
+                track = Math.floor(Math.random()*config.audio.length);
+                localStorage.iTrack = track;
+                if (track) {
+                    var audio = new Audio(config.audio[track]);
+                    audio.play();
+                }
+            }
+
             log.imarea.append(xxim.html({
                 time: xxim.fancyDate(),
                 name: config.user.name,
