@@ -65,7 +65,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         }
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
-            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']);
+            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
             updatetable("complain", array("issendmsg"=>1, "times"=>2), array("id"=>$result['id']));
             $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
             notification_complain_add($result['uid'], 'complain', $note);
@@ -79,7 +79,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         $nexttime = $result['dateline'] + 24 * 3600 * 3;
-        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']);
+        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
         updatetable("complain", array("issendmsg"=>1, "times"=>3), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
         notification_complain_add($result['uid'], 'complain', $note);
