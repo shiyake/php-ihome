@@ -103,11 +103,11 @@
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
     <div class="bdsharebuttonbox" data-tag="share_1" style="float:left">
-        <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+        <a class="bds_qzone"></a>
         <a class="bds_sqq" data-cmd="sqq"></a>
         <a class="bds_weixin" data-cmd="weixin"></a>
         <a class="bds_tsina" data-cmd="tsina"></a>
-        <a class="bds_renren" data-cmd="renren"></a>
+        <a class="bds_renren"></a>
         <a class="bds_tqq" data-cmd="tqq"></a>
     </div>
     <script>
@@ -116,7 +116,7 @@
                 bdText : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
                 bdDesc : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
                 bdUrl : location.href,
-                bdPic : '',
+                // bdPic : location.origin + '/image/logo_title.png',
                 bdSign : 'off'
             },
             share : [{
@@ -124,6 +124,25 @@
             }]
         };
         with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+        jQuery('.bds_renren').click(function(){
+            var baseUrl = 'http://widget.renren.com/dialog/share?';
+            baseUrl += 'resourceUrl=' + encodeURIComponent(location.href);
+            baseUrl += '&srcUrl='+encodeURIComponent(location.href);
+            baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/logo_title.png');
+            baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+            baseUrl += '&description='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+
+            window.open(baseUrl);
+        });
+        jQuery('.bds_qzone').click(function(){
+            var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
+            baseUrl += 'url=' + encodeURIComponent(location.href);
+            baseUrl += '&summary='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+            baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+            baseUrl += '&site='+encodeURIComponent(location.href);
+
+            window.open(baseUrl);
+        });
     </script>
 	<div style="text-align: right; padding-top:10px; ">
 		<a href="cp.php?ac=share&type=blog&id=$blog[blogid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">站内分享</a>

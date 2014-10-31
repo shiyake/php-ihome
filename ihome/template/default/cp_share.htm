@@ -111,20 +111,22 @@
     	<div class="drop_face_menu" data-target="general-input"></div>	
 		<!--{if $_GET['type']=='doing' || $_GET['type'] == 'blog'}-->
 		<div class="bdsharebuttonbox" data-tag="share_1" style="position:absolute;bottom:9px;left:40px;display:none">
-			<a class="bds_qzone" data-cmd="qzone" href="#"></a>
+			<a class="bds_qzone"></a>
 			<a class="bds_sqq" data-cmd="sqq"></a>
 			<a class="bds_weixin" data-cmd="weixin"></a>
 			<a class="bds_tsina" data-cmd="tsina"></a>
-			<a class="bds_renren" data-cmd="renren"></a>
+			<a class="bds_renren"></a>
 			<a class="bds_tqq" data-cmd="tqq"></a>
 		</div>
 		<!--{if $_GET['type']=='doing'}-->
 		<!--{eval $bdContent = strip_tags($value[body_template])}-->
+		<!--{eval $bdUrl = '/space.php?do=doing&doid='.$id}-->
 		<!--{elseif $_GET['type']=='blog'}-->
 		<!--{eval $bdContent = $_SN[$blog[uid]].':'.$blog[subject]}-->
+		<!--{eval $bdUrl = '/space.php?uid='.$blog[uid].'&do=blog&id='.$id}-->
 		<!--{/if}-->
 		<!--{eval $version = rand(100000,999999)}-->
-		<div id="bdshare_content" data-id="$id" data-content="$bdContent"></div>
+		<div id="bdshare_content" data-content="$bdContent" data-url="$bdUrl"></div>
 		<script src="source/bdshare.js" reload="1" charset="UTF-8"></script>
 		<script src="http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=$version" reload="1"></script>
 		<!--{/if}-->
