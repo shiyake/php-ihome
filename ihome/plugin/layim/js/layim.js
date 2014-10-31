@@ -189,7 +189,6 @@ xxim.popchat = function(param, status){
             xxim.chatbox = null;
             config.chating = {};
             config.chatings = 0;
-            jQuery('body').css('overflow','auto');
         });
         
         //关闭某个聊天
@@ -423,14 +422,17 @@ xxim.popchatbox = function(othis){
         chatbox.parents('.xubox_layer').show();
     }
 
-    jQuery("#layim_chatbox").hover(
-        function () {
-            jQuery('body').css('overflow','hidden');
-        },
-        function () {
-            jQuery('body').css('overflow','auto');
+    jQuery(".layim_chatthis").on('scroll touchmove mousewheel', function(e){
+        var delta = e.originalEvent.wheelDelta;
+        if ((delta < 0 && this.clientHeight + this.scrollTop == this.scrollHeight) ||
+            (delta > 0 && this.scrollTop == 0)) {
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
         }
-    );
+
+        return true;
+    });
 };
 
 //请求群员
