@@ -80,8 +80,6 @@
             <li>活跃：$isonline</li>
             <!--{/if}-->
             <!--{if $dept}-->
-				<li>办公电话：<div><!--{if $dept[telephone]}-->&nbsp;&nbsp;<!--{/if}-->$dept[telephone]</div></li>
-				<li>办公地点：<div><!--{if $dept[office]}-->&nbsp;&nbsp;<!--{/if}-->$dept[office]</div></li>
 				<li>部门职能：<div><!--{if $dept[depduty]}-->&nbsp;&nbsp;<!--{/if}-->$dept[depduty]</div></li>
             <!--{else}-->
 				<!--{if $space[sex]}-->
@@ -323,7 +321,7 @@
 
 		<ul class="tabs">
 			<li class='active'><a href="#space_feed" id="space_feed_tab">动态</a></li>
-			<li><a href="#space_info"><!--{if $dept}-->部门职能<!--{else}-->个人资料<!--{/if}--></a></li>
+			<li><a href="#space_info"><!--{if $dept}-->部门资料<!--{else}-->个人资料<!--{/if}--></a></li>
 			<li><a href="#space_photo">相册</a></li>
 			<!--{if $space[self]}-->
 			<li class="comment">
