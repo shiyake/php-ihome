@@ -105,20 +105,24 @@
 	</ul>
     <!--{eval $where=$arr[body_data][userby]}-->
     <script language="javascript" src="source/face.js"></script>
-        <textarea id="general-input" name="general" class="form-contral t_input" style="display:block;margin-bottom:-8px;border-radius:5px;width:350px;height:64px;" onkeydown="ctrlEnter(event, 'sharesubmit_btn')" onkeyup="showPreview(this.value, 'quote')" onfocus="at()"></textarea>  <!--{if $_SGLOBAL[inajax]}-->
+        <textarea id="general-input" name="general" class="form-contral t_input" style="display:block;margin-bottom:-8px;border-radius:5px;width:350px;height:64px;" onkeydown="ctrlEnter(event, 'sharesubmit_btn')" onkeyup="showPreview(this.value, 'quote')" onfocus="at()"></textarea>
+        <!--{if $_SGLOBAL[inajax]}-->
         <a href="javascript:;" class="drop_face comment_face head_insert"><div style="top:14px;"></div></a>
     	<div class="drop_face_menu" data-target="general-input"></div>	
-		<!--{if $_GET['type']=='doing'}-->
-		<div class="bdsharebuttonbox" data-tag="share_1" style="position:absolute;bottom:9px;left:40px;">
-			<a class="bds_mshare" data-cmd="mshare"></a>
+		<!--{if $_GET['type']=='doing' || $_GET['type'] == 'blog'}-->
+		<div class="bdsharebuttonbox" data-tag="share_1" style="position:absolute;bottom:9px;left:40px;display:none">
 			<a class="bds_qzone" data-cmd="qzone" href="#"></a>
+			<a class="bds_sqq" data-cmd="sqq"></a>
+			<a class="bds_weixin" data-cmd="weixin"></a>
 			<a class="bds_tsina" data-cmd="tsina"></a>
-			<a class="bds_baidu" data-cmd="baidu"></a>
 			<a class="bds_renren" data-cmd="renren"></a>
 			<a class="bds_tqq" data-cmd="tqq"></a>
-			<a class="bds_more" data-cmd="more"></a>
 		</div>
+		<!--{if $_GET['type']=='doing'}-->
 		<!--{eval $bdContent = strip_tags($value[body_template])}-->
+		<!--{elseif $_GET['type']=='blog'}-->
+		<!--{eval $bdContent = $_SN[$blog[uid]].':'.$blog[subject]}-->
+		<!--{/if}-->
 		<!--{eval $version = rand(100000,999999)}-->
 		<div id="bdshare_content" data-id="$id" data-content="$bdContent"></div>
 		<script src="source/bdshare.js" reload="1" charset="UTF-8"></script>
@@ -127,6 +131,11 @@
 		<div>
 			<button name="sharesubmit_btn" id="sharesubmit_btn" type="button" class="btn btn-sm btn-comments submit" style="margin-top:-17px;float:right;" value="true" onclick="ajaxpost('shareform_{$id}', 'showreward', 2000);">站内分享</button>
 		</div>
+		<!--{if $_GET['type']=='doing' || $_GET['type'] == 'blog'}-->
+		<div>
+			<button type="button" class="btn btn-sm btn-comments submit" style="margin-top:-17px;float:right;margin-right:3px;" onclick="jQuery('.bdsharebuttonbox').show()">站外分享</button>
+		</div>
+		<!--{/if}-->
 		<!--{else}-->
 		<div><button name="sharesubmit_btn" id="sharesubmit_btn" type="submit" class="btn btn-sm btn-comments submit" value="true">分享</button></div>
 		<!--{/if}-->

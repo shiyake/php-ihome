@@ -102,22 +102,28 @@
 </div>
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
-    <style>
-        #bdshare>a, #bdshare>span {
-            height: 25px !important;
-        }
-    </style>
-    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-        <a class="bds_qzone"></a>
-        <a class="bds_tsina"></a>
-        <a class="bds_tqq"></a>
-        <a class="bds_renren"></a>
-        <span class="bds_more"></span>
+    <div class="bdsharebuttonbox" data-tag="share_1" style="float:left">
+        <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+        <a class="bds_sqq" data-cmd="sqq"></a>
+        <a class="bds_weixin" data-cmd="weixin"></a>
+        <a class="bds_tsina" data-cmd="tsina"></a>
+        <a class="bds_renren" data-cmd="renren"></a>
+        <a class="bds_tqq" data-cmd="tqq"></a>
     </div>
-    <script type="text/javascript" id="bdshare_js" data="type=tools&uid=0" ></script>
-    <script type="text/javascript" id="bdshell_js"></script>
-    <script type="text/javascript">
-        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+    <script>
+        window._bd_share_config = {
+            common : {
+                bdText : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
+                bdDesc : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
+                bdUrl : location.href,
+                bdPic : '',
+                bdSign : 'off'
+            },
+            share : [{
+                "bdSize" : 16
+            }]
+        };
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
     </script>
 	<div style="text-align: right; padding-top:10px; ">
 		<a href="cp.php?ac=share&type=blog&id=$blog[blogid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">站内分享</a>

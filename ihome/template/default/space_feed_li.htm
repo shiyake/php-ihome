@@ -225,8 +225,9 @@
 		        <!--{/if}-->
 			<!--{/if}-->
 			<!--{if $value['idtype']=='doid'}-->
-				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>       
-                <!--{if $value['uid'] != $_SGLOBAL['supe_uid']}-->
+				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>  
+				<!--{eval $iscp = isComplainOrNot($value['id'],$_SGLOBAL['db'])}-->     
+                <!--{if $value['uid'] != $_SGLOBAL['supe_uid'] && !$iscp}-->
 				<span class="pipe">|</span>
 				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
                 <!--else-->
