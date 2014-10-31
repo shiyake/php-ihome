@@ -323,7 +323,7 @@
 
 		<ul class="tabs">
 			<li class='active'><a href="#space_feed" id="space_feed_tab">动态</a></li>
-			<li><a href="#space_info">个人资料</a></li>
+			<li><a href="#space_info"><!--{if $dept}-->部门职能<!--{else}-->个人资料<!--{/if}--></a></li>
 			<li><a href="#space_photo">相册</a></li>
 			<!--{if $space[self]}-->
 			<li class="comment">
@@ -375,6 +375,11 @@
 
 		<div id="space_info" style="display: none">
 			<table class="infotable">
+			<!--{if $dept}-->
+				<tr><td>办公电话：$dept[telephone]</td></tr>
+				<tr><td>办公地点：$dept[office]</td></tr>
+				<tr><td>部门职能：$dept[depduty]</td></tr>
+			<!--{else}-->
 			<!--{if $space[profile_base]}-->
 				<tr>
 					<td class="td_title" colspan="2">基本资料</td>
@@ -488,6 +493,7 @@
 				</tr>
 			<!--{/if}-->
 			<!--{/loop}-->
+			<!--{/if}-->
 			<!--{/if}-->
 			</table>
 		</div>
