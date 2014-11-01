@@ -169,7 +169,7 @@ if($type == 'forleaders' && $superuid == 3){
         $where .= " and up_uid = $up_uid";
     }
     if ($official != "") {
-        $where .= " and official like '$official'";
+        $where .= " and official like '%{$official}%'";
     }
     if ($isdept != "") {
         $where .= " and isdept = $isdept";
