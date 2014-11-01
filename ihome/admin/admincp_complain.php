@@ -163,13 +163,13 @@ if($type == 'forleaders' && $superuid == 3){
         $where .= " and dept_uid = $dept_uid";
     }
     if ($department != "") {
-        $where .= " and department = $department";
+        $where .= " and department like '%{$department}%'";
     }
     if ($up_uid != "") {
         $where .= " and up_uid = $up_uid";
     }
     if ($official != "") {
-        $where .= " and official = $official";
+        $where .= " and official like '$official'";
     }
     if ($isdept != "") {
         $where .= " and isdept = $isdept";
