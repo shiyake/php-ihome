@@ -3792,3 +3792,8 @@ a.shortcutname + a {
     float: left;
     margin-right: 10px;
 }
+.a_share_group>div a {
+    margin: 6px 6px 6px 0;
+    display: block;
+    width: 100%;
+}
