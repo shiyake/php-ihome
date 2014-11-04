@@ -102,6 +102,7 @@
 </div>
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
+    <!--{eval $bdDesc = substr(strip_tags($blog[message]),0,200).'...'}-->
     <div class="bdsharebuttonbox" data-tag="share_1" style="float:left">
         <a class="bds_qzone"></a>
         <a class="bds_sqq" data-cmd="sqq"></a>
@@ -114,7 +115,7 @@
         window._bd_share_config = {
             common : {
                 bdText : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
-                bdDesc : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
+                bdDesc : "$bdDesc",
                 bdUrl : location.href,
                 // bdPic : location.origin + '/image/logo_title.png',
                 bdSign : 'off'
@@ -130,14 +131,14 @@
             baseUrl += '&srcUrl='+encodeURIComponent(location.href);
             baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
             baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
-            baseUrl += '&description='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+            baseUrl += '&description='+"$bdDesc";
 
             window.open(baseUrl);
         });
         jQuery('.bds_qzone').click(function(){
             var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
             baseUrl += 'url=' + encodeURIComponent(location.href);
-            baseUrl += '&summary='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+            baseUrl += '&summary='+"$bdDesc";
             baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
             baseUrl += '&site='+encodeURIComponent(location.href);
 

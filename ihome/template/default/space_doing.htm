@@ -23,7 +23,7 @@
                             <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}--> 
                             <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
                             <span class="pipe">|</span>
-                            <!--{else}-->
+                            <!--{elseif !$dv[isComplain]}-->
                             <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
                             <span class="pipe">|</span>
                             <!--{/if}-->

@@ -518,6 +518,10 @@ status message end-->
 						});
                 	});
                 	function social_share(id){
+                		if (jQuery('#a_share_group_'+id).is(":visible")) {
+                			jQuery('#a_share_group_'+id).hide();
+                			return;
+                		};
                 		jQuery('.a_share_group').hide();
                 		jQuery('#a_share_group_'+id).show();
                 		
@@ -543,7 +547,7 @@ status message end-->
 					        baseUrl += 'resourceUrl=' + encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
-					        baseUrl += '&title='+bdContent + ' - 北航ihome';
+					        baseUrl += '&title='+'来自北航ihome';
 					        baseUrl += '&description='+bdContent + ' - 北航ihome';
 
 					        window.open(baseUrl);

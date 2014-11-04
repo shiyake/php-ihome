@@ -58,7 +58,7 @@
                             <!--{if $dv[uid]==$_SGLOBAL[supe_uid]}-->
                             <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
                             <span class="pipe">|</span>
-                            <!--{else}-->
+                            <!--{elseif !$dv[isComplain]}-->
                             <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
                             <span class="pipe">|</span>
                             <!--{/if}-->
@@ -146,9 +146,21 @@
                             <a href="cp.php?ac=doing&op=delete&doid=$doid&id=$dv[id]" id="doing_delete_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" class="re">删除</a> 
                             <span class="pipe">|</span>
                             <!--{/if}-->
-                            <!--{else}-->
-                            <a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" id="doing_share_{$doid}_{$dv[id]}" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
+                            <!--{elseif !$dv[isComplain]}-->
+                            <a href="javascript:void(0)" onclick="social_share($doid)" class="social_share"><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
                             <span class="pipe">|</span>
+                            <!--{eval $bdContent = strip_tags($_SN[$dv[uid]].':'.$dv[message])}-->
+                            <!--{eval $bdUrl = '/space.php?do=doing&doid='.$doid}-->
+                            <div id="bdshare_content_$doid" data-content="$bdContent" data-url="$bdUrl" style="display:none"></div>
+                            <div id="a_share_group_$doid"  class="bdsharebuttonbox a_share_group" data-tag="share_1" style="display:none;position:absolute;background:#fff;border:1px solid #dcdcdc;border-radius:3px;padding:0 5px;">
+                                <div><a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="doing_share_{$doid}_{$dv[id]}" style="background:none;padding:0;"><img src="image/icons/icon-share.png"/>&nbsp;站内分享</a></div>
+                                <div><a class="bds_qzone">QQ空间</a></div>
+                                <div><a class="bds_sqq" data-cmd="sqq">QQ好友</a></div>
+                                <div><a class="bds_weixin" data-cmd="weixin">微信</a></div>
+                                <div><a class="bds_tsina" data-cmd="tsina">新浪微博</a></div>
+                                <div><a class="bds_renren">人人</a></div>
+                                <div><a class="bds_tqq" data-cmd="tqq">腾讯微博</a></div>
+                            </div>
                             <!--{/if}-->
                             <a href="javascript:;" onclick="docomment_form($doid, 0);" id="do_a_op_$dv[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
                             <!--{if $dv[uid]!=$_SGLOBAL[supe_uid]}-->
@@ -171,6 +183,57 @@
             </li>
 		<!--{/loop}-->
 		</ol>
+        <script>
+            jQuery(function(){
+                jQuery(document).click(function(e){
+                    if(jQuery(e.target).is('.a_share_group'))return;
+                    if(jQuery(e.target).is('.social_share'))return;
+                    jQuery('.a_share_group').hide();
+                });
+            });
+            function social_share(id){
+                jQuery('.a_share_group').hide();
+                jQuery('#a_share_group_'+id).show();
+                
+                window._bd_share_main = undefined;
+                var bdUrl = jQuery('#bdshare_content_'+id).data('url');
+                var bdContent = jQuery('#bdshare_content_'+id).data('content');
+                var temp = /(.*?)\s*(?:：|:)\s*(.*)/.exec(bdContent);
+                bdContent = temp[2] + ' - ' + temp[1];
+                window._bd_share_config = {
+                    common : {
+                        bdText : bdContent + ' - 北航ihome',
+                        bdDesc : bdContent + ' - 北航ihome',
+                        bdUrl : location.origin + bdUrl,
+                        bdSign : 'off'
+                    },
+                    share : [{
+                        "bdSize" : 16
+                    }]
+                };
+                bdContent = encodeURIComponent(bdContent);
+                jQuery('#a_share_group_'+id+' .bds_renren').click(function(){
+                    var baseUrl = 'http://widget.renren.com/dialog/share?';
+                    baseUrl += 'resourceUrl=' + encodeURIComponent(location.origin + bdUrl);
+                    baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
+                    baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
+                    baseUrl += '&title='+bdContent + ' - 北航ihome';
+                    baseUrl += '&description='+bdContent + ' - 北航ihome';
+
+                    window.open(baseUrl);
+                });
+                jQuery('#a_share_group_'+id+' .bds_qzone').click(function(){
+                    var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
+                    baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
+                    baseUrl += '&summary='+bdContent + ' - 北航ihome';
+                    baseUrl += '&title='+bdContent + ' - 北航ihome';
+                    baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
+
+                    window.open(baseUrl);
+                });
+                with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+            }
+        </script>
 		<div class="page" style="margin-bottom: 10px;">$multi</div>
 	</div>
 	<!--{else}-->
