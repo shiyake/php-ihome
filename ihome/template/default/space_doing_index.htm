@@ -155,7 +155,7 @@
                             <div id="a_share_group_$doid"  class="bdsharebuttonbox a_share_group" data-tag="share_1" style="display:none;position:absolute;background:#fff;border:1px solid #dcdcdc;border-radius:3px;padding:0 5px;">
                                 <div><a href="cp.php?ac=share&type=doing&id=$doid&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="doing_share_{$doid}_{$dv[id]}" style="background:none;padding:0;"><img src="image/icons/icon-share.png"/>&nbsp;站内分享</a></div>
                                 <div><a class="bds_qzone">QQ空间</a></div>
-                                <div><a class="bds_sqq" data-cmd="sqq">QQ好友</a></div>
+                                <div><a class="bds_sqq">QQ好友</a></div>
                                 <div><a class="bds_weixin" data-cmd="weixin">微信</a></div>
                                 <div><a class="bds_tsina" data-cmd="tsina">新浪微博</a></div>
                                 <div><a class="bds_renren">人人</a></div>
@@ -217,7 +217,7 @@
                     baseUrl += 'resourceUrl=' + encodeURIComponent(location.origin + bdUrl);
                     baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
                     baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
-                    baseUrl += '&title='+bdContent + ' - 北航ihome';
+                    baseUrl += '&title='+'来自北航ihome';
                     baseUrl += '&description='+bdContent + ' - 北航ihome';
 
                     window.open(baseUrl);
@@ -226,8 +226,17 @@
                     var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
                     baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
                     baseUrl += '&summary='+bdContent + ' - 北航ihome';
-                    baseUrl += '&title='+bdContent + ' - 北航ihome';
+                    baseUrl += '&title='+'来自北航ihome';
                     baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
+
+                    window.open(baseUrl);
+                });
+                jQuery('#a_share_group_'+id+' .bds_sqq').click(function(){
+                    var baseUrl = 'http://connect.qq.com/widget/shareqq/index.html?';
+                    baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
+                    baseUrl += '&title='+'来自北航ihome';
+                    baseUrl += '&desc='+bdContent + ' - 北航ihome';
+                    baseUrl += '&site=baidu';
 
                     window.open(baseUrl);
                 });

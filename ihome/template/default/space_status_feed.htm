@@ -556,8 +556,17 @@ status message end-->
 					        var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
 					        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&summary='+bdContent + ' - 北航ihome';
-					        baseUrl += '&title='+bdContent + ' - 北航ihome';
+					        baseUrl += '&title='+'来自北航ihome';
 					        baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
+
+					        window.open(baseUrl);
+					    });
+					    jQuery('#a_share_group_'+id+' .bds_sqq').click(function(){
+					        var baseUrl = 'http://connect.qq.com/widget/shareqq/index.html?';
+					        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
+					        baseUrl += '&title='+'来自北航ihome';
+					        baseUrl += '&desc='+bdContent + ' - 北航ihome';
+					        baseUrl += '&site=baidu';
 
 					        window.open(baseUrl);
 					    });
