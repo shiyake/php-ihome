@@ -57,7 +57,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if ($result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 6 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600;
-            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.date('m月d日H时', $nexttime).'上报给负责人处', $UserArray, array(), 1);
+            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.fancyDate($nexttime).'上报给负责人处', $UserArray, array(), 1);
             updatetable('complain', array("issendmsg"=>1), array("id"=>$result['id']));
             $note = cplang("note_complain_buchu", array($complain_url, date('Y-m-d H:i', $nexttime)));
             notification_complain_add($result['atuid'], 'complain', $note);
@@ -65,7 +65,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         }
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
-            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".date('m月d日H时', $nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
+            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".fancyDate($nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
             updatetable("complain", array("issendmsg"=>0, "times"=>3), array("id"=>$result['id']));
             $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
             notification_complain_add($result['uid'], 'complain', $note);
@@ -79,7 +79,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         $nexttime = $result['dateline'] + 24 * 3600 * 3;
-        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".date('m月d日H时', $nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
+        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".fancyDate($nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
         updatetable("complain", array("issendmsg"=>1), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
         notification_complain_add($result['uid'], 'complain', $note);
@@ -100,7 +100,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
             continue;
         }
         $nexttime = $result['dateline'] + 24 * 3600 * 7;
-        addNeedSend($result,$UpUserArray2['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".date('m月d日H时', $nexttime)."上报给校长处.", $UpUserArray2, array($result['atuid'] => $UserArray['mobile'].',1', $UpUserArray['dept_uid'] => $UpUserArray['mobile'].',3'), 7);
+        addNeedSend($result,$UpUserArray2['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".fancyDate($nexttime)."上报给校长处.", $UpUserArray2, array($result['atuid'] => $UserArray['mobile'].',1', $UpUserArray['dept_uid'] => $UpUserArray['mobile'].',3'), 7);
         updatetable("complain", array("issendmsg"=>1, "times"=>7), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '副校长'));
         notification_complain_add($result['uid'], 'complain', $note);
@@ -240,7 +240,7 @@ function sendMobileMsg(){
                         break;
                 }
                 if ($info['level'] != 10) {
-                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处,若不处理,将于'.date('m月d日H时', $info['dateline']).'上报给'.$next.'处.';
+                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处,若不处理,将于'.fancyDate($info['dateline']).'上报给'.$next.'处.';
                 } else {
                     $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处.';
                 }
@@ -281,6 +281,13 @@ function insertMsg($mobile, $uid, $tomobile, $content, $sendtime) {
     inserttable('mobilemsg', $MobileMsg, 0);
 }
 
+function fancyDate($time) {
+    $hajime = mktime(9,3);
+    if (time()<$hajime) {
+        return date('m月d日H时', $time);
+    }
+    return date('Y-m-d H:i', $time);
+}
 
 function addMobileMsg($tomobile ,$content ,$uid ,$atuname , $level, $isIgnoreWeekend = 0){
     GLOBAL $_SGLOBAL;
