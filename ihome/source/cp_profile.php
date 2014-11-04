@@ -41,6 +41,14 @@ if($_GET['op'] == 'base') {
 			updatetable('complain_dep', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
         	updatePowerlevelFile();
 		}
+		if ($space['groupid'] == 3) {
+			$arr = array(
+				'telephone' => shtmlspecialchars($_POST['telephone']),
+				'office' => shtmlspecialchars($_POST['office']),
+				'depduty' => shtmlspecialchars($_POST['depduty']),
+			);
+			updatetable('space', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
+		}
 		//性别
 		$_POST['sex'] = intval($_POST['sex']);
 		if($_POST['sex'] && empty($space['sex'])) $setarr['sex'] = $_POST['sex'];
