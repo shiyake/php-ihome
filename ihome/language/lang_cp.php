@@ -69,7 +69,7 @@ $_SGLOBAL['cplang'] = array(
 	'note_complain_xiaozhang' => '【温馨提示】\\2有<a href="\\1" target="_blank">一条诉求</a>未处理',
 	
 	
-	'note_complain_user' => '【温馨提示】您发布的<a href="\\1" target="_blank">一条诉求</a>由于\\2未及时回复.已上报给\\3处',
+	'note_complain_user' => '【温馨提示】您发起的<a href="\\1" target="_blank">一条诉求</a>由于\\2未及时回复.已上报给\\3处',
 	
 	
 	'note_doingcomplain_at' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理，此诉求将于\\2上报给负责人处',
