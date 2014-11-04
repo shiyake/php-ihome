@@ -3793,7 +3793,11 @@ a.shortcutname + a {
     margin-right: 10px;
 }
 .a_share_group>div a {
+    padding-left: 21px;
     margin: 6px 6px 6px 0;
     display: block;
     width: 100%;
+}
+.a_share_group {
+    z-index: 999;
 }

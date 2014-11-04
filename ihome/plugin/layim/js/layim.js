@@ -472,11 +472,10 @@ xxim.fancyDate = function(time, type) {
     }
     date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
 
-    var start = 0;
     if (type != 'long') {
-        start = -13;
+        return date.toJSON().replace(/.*T/,'').replace(/:[^:]*Z/,'');
     }
-    return date.toJSON().replace('T',' ').slice(start,-5);
+    return date.toJSON().replace(/T/,' ').replace(/:[^:]*Z/,'');
 };
 
 xxim.html = function(param, type){

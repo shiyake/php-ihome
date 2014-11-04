@@ -22,15 +22,15 @@ echo '任务初始化完毕~!<br />';
 
 $needSend = array();
 
-function addNeedSend($complain, $uid, $nexttime, $msg, $userInfo, $cc) {
+function addNeedSend($complain, $uid, $nexttime, $msg, $userInfo, $cc, $level) {
     global $needSend;
     $atuid = $complain['atuid'];
     if (!array_key_exists($uid, $needSend) || !array_key_exists($atuid, $needSend[$uid])|| $nexttime < $needSend[$uid][$atuid]['dateline']) {
-        $needSend[$uid] = array();
         $needSend[$uid][$atuid]['dateline'] = $nexttime;
         $needSend[$uid][$atuid]['msg'] = $msg;
         $needSend[$uid][$atuid]['mobile'] = $userInfo['mobile'];
         $needSend[$uid][$atuid]['cc'] = $cc;
+        $needSend[$uid][$atuid]['level'] = $level;
         if (!array_key_exists('count', $needSend[$uid][$atuid])) {
             $needSend[$uid][$atuid]['count'] = 0;
             $needSend[$uid][$atuid]['name'] = $complain['atuname'];
@@ -57,7 +57,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if ($result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 6 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600;
-            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.date('Y-m-d H:i', $nexttime).'上报给处长,请您及时处理', $UserArray, array());
+            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.date('m月d日H时', $nexttime).'上报给负责人处', $UserArray, array(), 1);
             updatetable('complain', array("issendmsg"=>1), array("id"=>$result['id']));
             $note = cplang("note_complain_buchu", array($complain_url, date('Y-m-d H:i', $nexttime)));
             notification_complain_add($result['atuid'], 'complain', $note);
@@ -65,7 +65,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         }
         if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
             $nexttime = $result['dateline'] + 24 * 3600 * 3;
-            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
+            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".date('m月d日H时', $nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
             updatetable("complain", array("issendmsg"=>0, "times"=>3), array("id"=>$result['id']));
             $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
             notification_complain_add($result['uid'], 'complain', $note);
@@ -79,7 +79,7 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         $nexttime = $result['dateline'] + 24 * 3600 * 3;
-        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".date('Y-m-d H:i', $nexttime)."上报给主管副校长,请您安排处理", $UpUserArray, array($result['atuid'] => $UserArray['mobile']));
+        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,如不及时处理,最早的一条将于".date('m月d日H时', $nexttime)."上报给主管副校长处.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
         updatetable("complain", array("issendmsg"=>1), array("id"=>$result['id']));
         $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '处长'));
         notification_complain_add($result['uid'], 'complain', $note);
@@ -89,8 +89,8 @@ while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
         notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
         $log->debug("complain doid $result[doid] send message chuzhang");
     }
-    var_dump($needSend);
 }
+var_dump($needSend);
 //以上处理投诉的逐级汇报//////////////////////
 
 
@@ -126,69 +126,107 @@ function sendDelayMsg(){
 
 function sendMobileMsg(){
     global $needSend;
+    $aeskeyMobile = getAESKey('Mobile');
 //给领导集中发送短信通知
     foreach ($needSend as $uid => $allmsg) {
+        $mergedContent = '【温馨提示】领导您好,';
+        $mergedMobile = '';
         foreach ($allmsg as $atuid => $info) {
-            if ($atuid == $uid) {
-                $header = '【温馨提示】您好,您';
-            } else {
-                $header = '【温馨提示】领导您好,'.$info['name'];
-            }
-            $content = $header.'有'.$info['count'].$info['msg'];
-            $aeskeyMobile = getAESKey('Mobile');
-            $mobile = M_decode($info['mobile'],$aeskeyMobile);
-            $sendtime = '';
-            
-            //将发送信息存入数据库
-            $MobileMsg = array(
-                'issend' => 0,
-                'uid' => $uid,
-                'tomobile' => $info['mobile'],
-                'content' => $content,
-                'addtime' => time(),
-                'sendtime' => $sendtime,
-                'num' => 1,
-                'atuname' => 'system'
-            );
-            $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
-            if($SendResult)  {
-                $MobileMsg['issend'] = 1;
-                $MobileMsg['sendtime']=time();
-            }
-            inserttable('mobilemsg', $MobileMsg, 0);
-
-            foreach ($info['cc'] as $ccuid => $ccmobile) {
-                if ($atuid == $ccuid) {
+            $present = '';
+            $next = '';
+            switch ($info['level']) {
+                case 1:
                     $header = '【温馨提示】您好,您';
-                } else {
+                    $present = '部处';
+                    $next = '单位负责人';
+                    break;
+                case 3:
+                    $header = '【温馨提示】领导您好,您单位';
+                    $present = '单位负责人';
+                    $next = '主管副校长';
+                    break;
+                case 7:
                     $header = '【温馨提示】领导您好,'.$info['name'];
-                }
+                    $present = '主管副校长';
+                    $next = '校长';
+                    break;
+                case 10:
+                    if ($mergedMobile) {
+                        $mergedContent .= '、'.$info['name'].'有'.$info['count'].'条';
+                    } else {
+                        $mergedMobile = $info['mobile'];
+                        $mergedContent = '【温馨提示】领导您好,'.$info['name'].'有'.$info['count'].'条';
+                    }
+                    $present = '校长';
+                    $next = '校长';
+                    break;
+                default:
+                    $header = '【温馨提示】领导您好,'.$info['name'];
+                    break;
+            }
+
+            if ($info['level'] != 10) {
                 $content = $header.'有'.$info['count'].$info['msg'];
+                $mobile = M_decode($info['mobile'],$aeskeyMobile);
+                $sendtime = '';
+                
+                insertMsg($mobile, $uid, $info['mobile'], $content, $sendtime);
+            }
+
+            foreach ($info['cc'] as $ccuid => $ccmix) {
+                list($ccmobile, $cclevel) = explode(',',$ccmix);
+                switch ($cclevel) {
+                    case 1:
+                        $header = '【温馨提示】您好,您';
+                        break;
+                    case 3:
+                        $header = '【温馨提示】领导您好,您单位';
+                        break;
+                    default:
+                        $header = '【温馨提示】领导您好,'.$info['name'];
+                        break;
+                }
+                if ($info['level'] != 10) {
+                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处,若不处理,将于'.date('m月d日H时', $info['dateline']).'上报给'.$next.'处.';
+                } else {
+                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处.';
+                }
+
                 $mobile = M_decode($ccmobile,$aeskeyMobile);
                 $sendtime = '';
                 
-                //将发送信息存入数据库
-                $MobileMsg = array(
-                    'issend' => 0,
-                    'uid' => $ccuid,
-                    'tomobile' => $ccmobile,
-                    'content' => $content,
-                    'addtime' => time(),
-                    'sendtime' => $sendtime,
-                    'num' => 1,
-                    'atuname' => 'system'
-                );
-                $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
-                if($SendResult)  {
-                    $MobileMsg['issend'] = 1;
-                    $MobileMsg['sendtime']=time();
-                }
-                inserttable('mobilemsg', $MobileMsg, 0);
+                insertMsg($mobile, $ccuid, $ccmobile, $content, $sendtime);
             }
         }
-	}
+        if ($mergedMobile) {
+            $content = $mergedContent.'诉求未处理.';
+            $mobile = M_decode($mergedMobile,$aeskeyMobile);
+            $sendtime = '';
+            
+            insertMsg($mobile, $uid, $mergedMobile, $content, $sendtime);
+        }
+    }
 }
 
+function insertMsg($mobile, $uid, $tomobile, $content, $sendtime) {
+    //将发送信息存入数据库
+    $MobileMsg = array(
+        'issend' => 0,
+        'uid' => $uid,
+        'tomobile' => $tomobile,
+        'content' => $content,
+        'addtime' => time(),
+        'sendtime' => $sendtime,
+        'num' => 1,
+        'atuname' => 'system'
+    );
+    $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
+    if($SendResult) {
+        $MobileMsg['issend'] = 1;
+        $MobileMsg['sendtime']=time();
+    }
+    inserttable('mobilemsg', $MobileMsg, 0);
+}
 
 
 function addMobileMsg($tomobile ,$content ,$uid ,$atuname , $level, $isIgnoreWeekend = 0){
