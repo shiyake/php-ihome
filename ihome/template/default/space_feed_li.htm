@@ -14,6 +14,7 @@
     		<p class="name" style="display: none">
     			<a href='#'></a>
     		</p>
+			<p class="duty" style="display: none"></p>
 			<p class="edu" style="display: none"></p>
 			<p class="department" style="display: none"></p>
 			<p style='margin-top: 20px; text-align:center;'>
@@ -224,10 +225,23 @@
 		        <!--{/if}-->
 			<!--{/if}-->
 			<!--{if $value['idtype']=='doid'}-->
-				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>       
-                <!--{if $value['uid'] != $_SGLOBAL['supe_uid']}-->
+				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>  
+				<!--{eval $iscp = isComplainOrNot($value['id'],$_SGLOBAL['db'])}-->     
+                <!--{if $value['uid'] != $_SGLOBAL['supe_uid'] && !$iscp}-->
 				<span class="pipe">|</span>
-				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]" ><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
+				<a href="javascript:void(0)" onclick="social_share($value[feedid])" class="social_share"><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
+				<!--{eval $bdContent = strip_tags($value[title_template])}-->
+        		<!--{eval $bdUrl = '/space.php?do=doing&doid='.$value[id]}-->
+        		<div id="bdshare_content_$value[feedid]" data-content="$bdContent" data-url="$bdUrl"></div>
+				<div id="a_share_group_$value[feedid]"  class="bdsharebuttonbox a_share_group" data-tag="share_1" style="display:none;position:absolute;right:0;background:#fff;border:1px solid #dcdcdc;border-radius:3px;padding:0 5px;">
+					<div><a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]" style="background:none;padding:0;"><img src="image/icons/icon-share.png"/>&nbsp;站内分享</a></div>
+					<div><a class="bds_qzone">QQ空间</a></div>
+		            <div><a class="bds_sqq">QQ好友</a></div>
+		            <div><a class="bds_weixin" data-cmd="weixin">微信</a></div>
+		            <div><a class="bds_tsina" data-cmd="tsina">新浪微博</a></div>
+		            <div><a class="bds_renren">人人</a></div>
+		            <div><a class="bds_tqq" data-cmd="tqq">腾讯微博</a></div>
+				</div>
                 <!--else-->
                 <!--{/if}-->
 			<!--{elseif $value[body_data][video_origin]}-->
