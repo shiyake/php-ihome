@@ -102,7 +102,8 @@
 </div>
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
-    <!--{eval $bdDesc = substr(strip_tags($blog[message]),0,200).'...'}-->
+    <!--{eval $blog_msg = preg_replace('/\s+/',' ',strip_tags($blog[message]))}-->
+    <!--{eval $bdDesc = mb_substr($blog_msg,0,100,mb_detect_encoding($blog_msg)).'...'}-->
     <div class="bdsharebuttonbox" data-tag="share_1" style="float:left">
         <a class="bds_qzone"></a>
         <a class="bds_sqq" data-cmd="sqq"></a>
