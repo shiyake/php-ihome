@@ -505,6 +505,7 @@ li.notify a {
     float: left;
     width: 170px;
     overflow: hidden;
+    min-height: 700px;
 }
 #app_sidebar {
     width: 150px;
@@ -3790,4 +3791,13 @@ a.shortcutname + a {
 .complain_tip {
     float: left;
     margin-right: 10px;
+}
+.a_share_group>div a {
+    padding-left: 21px;
+    margin: 6px 6px 6px 0;
+    display: block;
+    width: 100%;
+}
+.a_share_group {
+    z-index: 999;
 }

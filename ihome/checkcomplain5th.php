@@ -2,21 +2,21 @@
 include_once('./common.php');
 
 if(is_numeric($_SERVER['QUERY_STRING'])) {
-    showmessage('enter_the_space', "space.php?uid=$_SERVER[QUERY_STRING]", 0);
+	showmessage('enter_the_space', "space.php?uid=$_SERVER[QUERY_STRING]", 0);
 }
 
 //二级域名
 if(!isset($_GET['do']) && $_SCONFIG['allowdomain']) {
-    $hostarr = explode('.', $_SERVER['HTTP_HOST']);
-    $domainrootarr = explode('.', $_SCONFIG['domainroot']);
-    if(count($hostarr) > 2 && count($hostarr) > count($domainrootarr) && $hostarr[0] != 'www' && !isholddomain($hostarr[0])) {
-        showmessage('enter_the_space', $_SCONFIG['siteallurl'].'space.php?domain='.$hostarr[0], 0);
-    }
+	$hostarr = explode('.', $_SERVER['HTTP_HOST']);
+	$domainrootarr = explode('.', $_SCONFIG['domainroot']);
+	if(count($hostarr) > 2 && count($hostarr) > count($domainrootarr) && $hostarr[0] != 'www' && !isholddomain($hostarr[0])) {
+		showmessage('enter_the_space', $_SCONFIG['siteallurl'].'space.php?domain='.$hostarr[0], 0);
+	}
 }
 
 /*
-*   定时检查诉求记录的处理情况
-*   2013-04-18
+*	定时检查诉求记录的处理情况
+*	2013-04-18
 */
 echo '任务初始化完毕~!<br />';
 
@@ -45,50 +45,14 @@ $nowtime = time();
 //从complain表中筛选出已到期.但尚未处理的投诉记录
 $ComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE status=0 AND times<10");
 while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
-    //根据投诉记录,取得被投诉部门的的信息
+	//根据投诉记录,取得被投诉部门的的信息
     $complain_url = "space.php?do=complain_item&doid=$result[doid]";
-    $UserArray = isDepartment($result['atuid'] ,0);
+	$UserArray = isDepartment($result['atuid'] ,0);
     if (empty($UserArray)) {
         echo "bad atuid $result[atuid]";
         continue;
     }
-    if ($result['times'] == 1) {
-        $up_arr = explode("," , $UserArray['up_uid']);
-        $UpUserArray = isDepartment($up_arr[0] ,0);
-        if ($result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 6 * 3600) {
-            $nexttime = $result['dateline'] + 24 * 3600;
-            addNeedSend($result,$result['atuid'], $nexttime, '条诉求未处理,最早的一条将于'.fancyDate($nexttime).'上报给负责人,请您及时处理.', $UserArray, array(), 1);
-            updatetable('complain', array("issendmsg"=>1), array("id"=>$result['id']));
-            $note = cplang("note_complain_buchu", array($complain_url, date('Y-m-d H:i', $nexttime)));
-            notification_complain_add($result['atuid'], 'complain', $note);
-            $log->debug("complain doid $result[doid] send message buchu");
-        }
-        if ($UpUserArray && $nowtime - $result['dateline'] > 24 * 3600) {
-            $nexttime = $result['dateline'] + 24 * 3600 * 3;
-            addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".fancyDate($nexttime)."上报给主管副校长,请您安排处理.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
-            updatetable("complain", array("issendmsg"=>0, "times"=>3), array("id"=>$result['id']));
-            $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '负责人'));
-            notification_complain_add($result['uid'], 'complain', $note);
-            $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
-            notification_complain_add($UserArray['dept_uid'], 'complain', $note);
-            $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
-            notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
-            $log->debug("complain doid $result[doid] send message chuzhang");
-        }
-    } elseif ($result['times'] == 3 && $result['issendmsg'] == 0 && $nowtime - $result['dateline'] > 2 * 24 * 3600) {
-        $up_arr = explode("," , $UserArray['up_uid']);
-        $UpUserArray = isDepartment($up_arr[0] ,0);
-        $nexttime = $result['dateline'] + 24 * 3600 * 3;
-        addNeedSend($result,$UpUserArray['dept_uid'], $nexttime, "条诉求待处理,最早的一条将于".fancyDate($nexttime)."上报给主管副校长,请您安排处理.", $UpUserArray, array($result['atuid'] => $UserArray['mobile'].',1'), 3);
-        updatetable("complain", array("issendmsg"=>1), array("id"=>$result['id']));
-        $note = cplang("note_complain_user", array($complain_url, $result['atdepartment'], '负责人'));
-        notification_complain_add($result['uid'], 'complain', $note);
-        $note = cplang("note_complain_buchu1", array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UserArray['dept_uid'], 'complain', $note);
-        $note = cplang('note_complain_chuzhang', array($complain_url, date('Y-m-d H:i', $nexttime)));
-        notification_complain_add($UpUserArray['dept_uid'], 'complain', $note);
-        $log->debug("complain doid $result[doid] send message chuzhang");
-    } elseif ($result['times'] == 3 && $result['issendmsg'] == 1 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
+    if ($result['times'] == 3 && $result['issendmsg'] == 1 && $nowtime - $result['dateline'] > 3 * 24 * 3600) {
         $up_arr = explode("," , $UserArray['up_uid']);
         $UpUserArray = isDepartment($up_arr[0] ,0);
         if (empty($UpUserArray)) {
@@ -149,32 +113,32 @@ var_dump($needSend);
 
 
 //发送上次发送未成功的短信
-// sendDelayMsg();
+sendDelayMsg();
 
 sendMobileMsg();
 
 //写入记录文件,以便查看定时任务是否正常执行
 $fp = fopen("data/log/checkcomplain.log", "a+"); 
-fwrite($fp, date("Y-m-d H:i:s") . "     检测完毕！\n"); 
+fwrite($fp, date("Y-m-d H:i:s") . "		检测完毕！\n"); 
 fclose($fp); 
 echo '任务执行完毕~!<br />';
 
 function sendDelayMsg(){
 //发送上次发送未成功的短信
-    GLOBAL $_SGLOBAL;
-    $MsgQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('mobilemsg')." WHERE issend=0 AND atuname='system'");
-    while($MsgArray = $_SGLOBAL['db']->fetch_array($MsgQuery)){
-        $content = $MsgArray['content'];
-        $aeskeyMobile = getAESKey('Mobile');
-        $mobile = M_decode($MsgArray['tomobile'],$aeskeyMobile);
+	GLOBAL $_SGLOBAL;
+	$MsgQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('mobilemsg')." WHERE issend=0 AND atuname='system'");
+	while($MsgArray = $_SGLOBAL['db']->fetch_array($MsgQuery)){
+		$content = $MsgArray['content'];
+		$aeskeyMobile = getAESKey('Mobile');
+		$mobile = M_decode($MsgArray['tomobile'],$aeskeyMobile);
         echo $mobile;
-        $sendtime = '';
+		$sendtime = '';
         $SendResult = sendsms($mobile,'未完成',$content); 
         if($SendResult)  {
             $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET issend=1 WHERE msgid=$MsgArray[msgid]");
         }
-    }
-    echo '堆积的短信发送完毕~!<br />';
+	}
+	echo '堆积的短信发送完毕~!<br />';
 }
 
 function sendMobileMsg(){
@@ -272,7 +236,7 @@ function insertMsg($mobile, $uid, $tomobile, $content, $sendtime) {
         'num' => 1,
         'atuname' => 'system'
     );
-    // $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
+    $SendResult=sendsms($mobile,'网络信息中心发领导',$content);
     if($SendResult) {
         $MobileMsg['issend'] = 1;
         $MobileMsg['sendtime']=time();
@@ -289,29 +253,29 @@ function fancyDate($time) {
 }
 
 function addMobileMsg($tomobile ,$content ,$uid ,$atuname , $level, $isIgnoreWeekend = 0){
-    GLOBAL $_SGLOBAL;
-    $Msg = $_SGLOBAL['db']->query("SELECT msgid FROM ".tname('mobilemsg')." WHERE atuname='$atuname' AND issend=0 AND uid='$uid'");
-    if($MsgArray = $_SGLOBAL['db']->fetch_array($Msg)){
-        $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num+1 WHERE msgid=$MsgArray[msgid]");
-    }else{
-        $nowtime = time();
-        $sendtime = '';
-        //将发送信息存入数据库
-        $MobileMsg = array(
-            'issend' => 0,
-            'uid' => $uid,
-            'tomobile' => $tomobile,
-            'content' => $content,
-            'addtime' => $nowtime,
-            'sendtime' => $sendtime,
-            'num' => 1,
-            'atuname' => $atuname,
-            'level' => $level
-        );
-        //入库
-        inserttable('mobilemsg', $MobileMsg, 0);
-    }
-    echo '短信入库完毕~!<br />';
+	GLOBAL $_SGLOBAL;
+	$Msg = $_SGLOBAL['db']->query("SELECT msgid FROM ".tname('mobilemsg')." WHERE atuname='$atuname' AND issend=0 AND uid='$uid'");
+	if($MsgArray = $_SGLOBAL['db']->fetch_array($Msg)){
+		$_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." SET num=num+1 WHERE msgid=$MsgArray[msgid]");
+	}else{
+		$nowtime = time();
+		$sendtime = '';
+		//将发送信息存入数据库
+		$MobileMsg = array(
+			'issend' => 0,
+			'uid' => $uid,
+			'tomobile' => $tomobile,
+			'content' => $content,
+			'addtime' => $nowtime,
+			'sendtime' => $sendtime,
+			'num' => 1,
+			'atuname' => $atuname,
+			'level' => $level
+		);
+		//入库
+		inserttable('mobilemsg', $MobileMsg, 0);
+	}
+	echo '短信入库完毕~!<br />';
 }
 
 ?>

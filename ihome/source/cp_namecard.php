@@ -16,6 +16,10 @@
 		if($uid != $space['uid']){
 			$result['common'] = getcommonfriendlist($space['uid'],$uid,1);
 		}
+		$dept = isDepartment($uid);
+		if ($dept) {
+			$result['duty'] = $dept['depduty'];
+		}
 		$result = json_encode($result);
 		$result = preg_replace("#\\\u([0-9a-f]+)#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $result);
 		echo $result;

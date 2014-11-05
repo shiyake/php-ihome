@@ -174,7 +174,8 @@
                 校长
                 <!--{/if}-->
               </td>
-			  <td style="width:60px;">              <!--{if $value[status] == '0'}-->
+			  <td style="width:60px;">
+              <!--{if $value[status] == '0'}-->
               处理中
               <!--{elseif $value[status] == 1}-->
               已处理
@@ -301,6 +302,7 @@ jQuery.noConflict();
 				  <input type="submit" name="submit" value="修改" class="submit">
 				  <!--{else}-->
 				  <input type="submit" name="submit" value="添加" class="submit">
+				  <input type="submit" name="submit" value="搜索" >
 				  <!--{/if}-->
 				  </td>
 				</tr>

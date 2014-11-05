@@ -116,7 +116,20 @@
 				</div>
 				
 				<div class="title">
-					<a href="cp.php?ac=share&type=blog&id=$value[blogid]"  style="float:right; width:50px;"id="a_share_$value[blogid]" onclick="ajaxmenu(event, this.id, 1)">分享</a>
+					<a href="javascript:void(0);" class="social_share" onclick="social_share($value[blogid])" style="float:right;width:50px;">分享</a>
+					<!--{eval $bdContent = $_SN[$value[uid]].':'.$value[subject]}-->
+        			<!--{eval $bdUrl = '/space.php?uid='.$value[uid].'&do=blog&id='.$value[blogid]}-->
+        			<!--{eval $bdDesc = substr(strip_tags($value[message]),0,200).'...'}-->
+	        		<div id="bdshare_content_$value[blogid]" data-content="$bdContent" data-url="$bdUrl" data-desc="$bdDesc"></div>
+					<div id="a_share_group_$value[blogid]"  class="bdsharebuttonbox a_share_group" data-tag="share_1" style="display:none;position:absolute;margin-top:20px;right:-15px;background:#fff;border:1px solid #dcdcdc;border-radius:3px;padding:0 5px;">
+						<div><a href="cp.php?ac=share&type=blog&id=$value[blogid]" id="a_share_$value[blogid]" onclick="ajaxmenu(event, this.id, 1)" style="background:none;padding:0;"><img src="image/icons/icon-share.png"/>&nbsp;站内分享</a></div>
+						<div><a class="bds_qzone">QQ空间</a></div>
+			            <div><a class="bds_sqq" data-cmd="sqq">QQ好友</a></div>
+			            <div><a class="bds_weixin" data-cmd="weixin">微信</a></div>
+			            <div><a class="bds_tsina" data-cmd="tsina">新浪微博</a></div>
+			            <div><a class="bds_renren">人人</a></div>
+			            <div><a class="bds_tqq" data-cmd="tqq">腾讯微博</a></div>
+					</div>
 					<h4><a href="space.php?uid=$value[uid]&do=$do&id=$value[blogid]" <!--{if $value[magiccolor]}--> class="magiccolor$value[magiccolor]"<!--{/if}-->>$value[subject]</a></h4>
 					<div style="margin-top:10px;">
 					<!--{if $value['friend']}-->
@@ -146,7 +159,58 @@
 		<!--{/if}-->
 		</ul>
 	</div>
-	
+	<script>
+		jQuery(function(){
+    		jQuery(document).click(function(e){
+			    if(jQuery(e.target).is('.a_share_group'))return;
+			    if(jQuery(e.target).is('.social_share'))return;
+			    jQuery('.a_share_group').hide();
+			});
+    	});
+    	function social_share(id){
+    		jQuery('.a_share_group').hide();
+    		jQuery('#a_share_group_'+id).show();
+    		
+			window._bd_share_main = undefined;
+			var bdUrl = jQuery('#bdshare_content_'+id).data('url');
+			var bdContent = jQuery('#bdshare_content_'+id).data('content');
+			var bdDesc = jQuery('#bdshare_content_'+id).data('desc');
+			var temp = /(.*?)\s*(?:：|:)\s*(.*)/.exec(bdContent);
+			bdContent = temp[2] + ' - ' + temp[1];
+			window._bd_share_config = {
+				common : {
+					bdText : bdContent + ' - 北航ihome',
+					bdDesc : bdDesc,
+					bdUrl : location.origin + bdUrl,
+					bdSign : 'off'
+				},
+				share : [{
+					"bdSize" : 16
+				}]
+			};
+			bdContent = encodeURIComponent(bdContent);
+		    jQuery('#a_share_group_'+id+' .bds_renren').click(function(){
+		        var baseUrl = 'http://widget.renren.com/dialog/share?';
+		        baseUrl += 'resourceUrl=' + encodeURIComponent(location.origin + bdUrl);
+		        baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
+		        baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
+		        baseUrl += '&title='+bdContent + ' - 北航ihome';
+		        baseUrl += '&description='+bdDesc;
+
+		        window.open(baseUrl);
+		    });
+		    jQuery('#a_share_group_'+id+' .bds_qzone').click(function(){
+		        var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
+		        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
+		        baseUrl += '&summary='+bdDesc;
+		        baseUrl += '&title='+bdContent + ' - 北航ihome';
+		        baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
+
+		        window.open(baseUrl);
+		    });
+		    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+		}
+	</script>
 	<div class="page" style="padding-bottom:20px;">$multi</div>
 	
 	<!--{else}-->
