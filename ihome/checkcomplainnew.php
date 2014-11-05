@@ -189,7 +189,7 @@ function sendMobileMsg(){
             $next = '';
             switch ($info['level']) {
                 case 1:
-                    $header = '【温馨提示】领导您好,您';
+                    $header = '【温馨提示】领导您好,'.$info['name'];
                     $present = '部处';
                     $next = '单位负责人';
                     break;
@@ -228,20 +228,22 @@ function sendMobileMsg(){
 
             foreach ($info['cc'] as $ccuid => $ccmix) {
                 list($ccmobile, $cclevel) = explode(',',$ccmix);
-                switch ($cclevel) {
-                    case 1:
-                        $header = '【温馨提示】领导您好,您';
-                        break;
-                    default:
-                        $header = '【温馨提示】领导您好,'.$info['name'];
-                        break;
-                }
-                if ($info['level'] != 10) {
-                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.',若不处理,将于'.fancyDate($info['dateline']).'上报给'.$next.'.';
-                } else {
-                    $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'.';
-                }
-                
+                // switch ($cclevel) {
+                //     case 1:
+                //         $header = '【温馨提示】领导您好,您';
+                //         break;
+                //     default:
+                //         $header = '【温馨提示】领导您好,'.$info['name'];
+                //         break;
+                // }
+                // if ($info['level'] != 10) {
+                //     $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处,若不处理,将于'.fancyDate($info['dateline']).'上报给'.$next.'.';
+                // } else {
+                //     $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处.';
+                // }
+                $header = '【温馨提示】领导您好,'.$info['name'];
+                $content = $header.'有'.$info['count'].'条诉求在规定的时间内未处理,已上报给'.$present.'处.';
+
                 $mobile = M_decode($ccmobile,$aeskeyMobile);
                 $sendtime = '';
                 
