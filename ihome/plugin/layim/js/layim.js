@@ -189,7 +189,6 @@ xxim.popchat = function(param, status){
             xxim.chatbox = null;
             config.chating = {};
             config.chatings = 0;
-            jQuery('body').css('overflow','auto');
         });
         
         //关闭某个聊天
@@ -423,14 +422,17 @@ xxim.popchatbox = function(othis){
         chatbox.parents('.xubox_layer').show();
     }
 
-    jQuery("#layim_chatbox").hover(
-        function () {
-            jQuery('body').css('overflow','hidden');
-        },
-        function () {
-            jQuery('body').css('overflow','auto');
+    jQuery(".layim_chatthis").on('scroll touchmove mousewheel', function(e){
+        var delta = e.originalEvent.wheelDelta;
+        if ((delta < 0 && this.clientHeight + this.scrollTop == this.scrollHeight) ||
+            (delta > 0 && this.scrollTop == 0)) {
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
         }
-    );
+
+        return true;
+    });
 };
 
 //请求群员
@@ -470,11 +472,10 @@ xxim.fancyDate = function(time, type) {
     }
     date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
 
-    var start = 0;
     if (type != 'long') {
-        start = -13;
+        return date.toJSON().replace(/.*T/,'').replace(/:[^:]*Z/,'');
     }
-    return date.toJSON().replace('T',' ').slice(start,-5);
+    return date.toJSON().replace(/T/,' ').replace(/:[^:]*Z/,'');
 };
 
 xxim.html = function(param, type){
@@ -524,6 +525,16 @@ xxim.transmit = function(){
             var keys = xxim.nowchat.type + xxim.nowchat.id;
             
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+
+            var track = parseInt(localStorage.iTrack) || 0;
+            if (!track && /长尾景虎|阿斯图里亚斯|Asturias|回老家结婚/.test(data.content)) {
+                track = Math.floor(Math.random()*config.audio.length);
+                localStorage.iTrack = track;
+                if (track) {
+                    var audio = new Audio(config.audio[track]);
+                    audio.play();
+                }
+            }
 
             log.imarea.append(xxim.html({
                 time: xxim.fancyDate(),

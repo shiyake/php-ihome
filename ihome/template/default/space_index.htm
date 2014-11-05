@@ -79,20 +79,25 @@
             <!--{if $isonline}-->
             <li>活跃：$isonline</li>
             <!--{/if}-->
-			<!--{if $space[sex]}-->
-				<li>性别：$space[sex]</li>
-			<!--{/if}-->
-			
-			<!--{if $space[residecity]}-->
-				<li>居住：$space[residecity]</li>
-			<!--{/if}-->
+            <!--{if $dept || $space[groupid]==3}-->
+			<!--{eval $depduty = $dept ? $dept[depduty] : $space[depduty]}-->
+				<li>部门职能：<div><!--{if $depduty}-->&nbsp;&nbsp;<!--{/if}-->$depduty</div></li>
+            <!--{else}-->
+				<!--{if $space[sex]}-->
+					<li>性别：$space[sex]</li>
+				<!--{/if}-->
+				
+				<!--{if $space[residecity]}-->
+					<li>居住：$space[residecity]</li>
+				<!--{/if}-->
 
-			<!--{if $space[birthcity]}-->
-				<li>家乡：$space[birthcity]</li>
-			<!--{/if}-->
+				<!--{if $space[birthcity]}-->
+					<li>家乡：$space[birthcity]</li>
+				<!--{/if}-->
 
-			<!--{if $space[college]}-->
-				<li>院系：$space[college]</li>
+				<!--{if $space[college]}-->
+					<li>院系：$space[college]</li>
+				<!--{/if}-->
 			<!--{/if}-->
 		</ul>
 
@@ -317,7 +322,7 @@
 
 		<ul class="tabs">
 			<li class='active'><a href="#space_feed" id="space_feed_tab">动态</a></li>
-			<li><a href="#space_info">个人资料</a></li>
+			<li><a href="#space_info"><!--{if $dept || $space[groupid]==3}-->部门资料<!--{else}-->个人资料<!--{/if}--></a></li>
 			<li><a href="#space_photo">相册</a></li>
 			<!--{if $space[self]}-->
 			<li class="comment">
@@ -369,6 +374,14 @@
 
 		<div id="space_info" style="display: none">
 			<table class="infotable">
+			<!--{if $dept || $space[groupid]==3}-->
+			<!--{eval $telephone = $dept ? $dept[telephone] : $space[telephone]}-->
+			<!--{eval $office = $dept ? $dept[office] : $space[office]}-->
+			<!--{eval $depduty = $dept ? $dept[depduty] : $space[depduty]}-->
+				<tr><td>办公电话：$telephone</td></tr>
+				<tr><td>办公地点：$office</td></tr>
+				<tr><td>部门职能：$depduty</td></tr>
+			<!--{else}-->
 			<!--{if $space[profile_base]}-->
 				<tr>
 					<td class="td_title" colspan="2">基本资料</td>
@@ -482,6 +495,7 @@
 				</tr>
 			<!--{/if}-->
 			<!--{/loop}-->
+			<!--{/if}-->
 			<!--{/if}-->
 			</table>
 		</div>

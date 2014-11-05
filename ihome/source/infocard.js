@@ -59,13 +59,17 @@
 				self.data = data;
 				self.$inner.find(".name a").html(data.name)
 				self.$inner.find(".name").show();
-				if (data.edu) {
-					self.$inner.find(".edu").html(data.edu).show();
+				if ('duty' in data) {
+					self.$inner.find(".duty").html("部门职能：" + (data.duty||'(暂无简介)')).show();
+				} else {
+					if (data.edu) {
+						self.$inner.find(".edu").html(data.edu).show();
+					}
+					if (data.work) {
+						self.$inner.find(".department").html("单位：" + data.work).show();
+					}
 				}
-				if (data.work) {
-					self.$inner.find(".department").html("单位：" + data.work).show();
-				}
-
+				
 				if (self.actived) {
 					self.$el.addClass("active");
 				}

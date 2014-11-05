@@ -293,6 +293,34 @@
 	</td>
 </tr>
 
+<!--{if $isdept || $_SGLOBAL['member']['groupid']==3}-->
+<!--{eval $telephone = $isdept ? $dept[telephone] : $space[telephone]}-->
+<!--{eval $office = $isdept ? $dept[office] : $space[office]}-->
+<!--{eval $depduty = $isdept ? $dept[depduty] : $space[depduty]}-->
+<tr>
+	<th>办公电话</th>
+	<td><input type="text" name="telephone" id="telephone" class="t_input" style="width:70%" value="$telephone"></td>
+</tr>
+<tr>
+	<th>办公地点</th>
+	<td><input type="text" name="office" id="office" class="t_input" style="width:70%" value="$office"></td>
+</tr>
+<tr>
+	<th style="vertical-align:top">部门职能:</th>
+	<td>
+		<textarea name="depduty" id="depduty" maxlength="100" rows="5" style="width:70%;border-radius:5px;padding:6px;">$depduty</textarea>
+	</td>
+</tr>
+<script>
+	jQuery('form#person-config-form').submit(function(){
+		var telephone = jQuery.trim(jQuery('#telephone').val());
+		var office = jQuery.trim(jQuery('#office').val());
+		var depduty = jQuery.trim(jQuery('#depduty').val());
+		if (!telephone || !office || !depduty) {alert('请完整填写部门信息');return false;}
+	});
+</script>
+<!--{/if}-->
+
 <!--{if $_SGLOBAL['overseas'] == 'overseas' }-->
 <script>
 	jQuery(function(){

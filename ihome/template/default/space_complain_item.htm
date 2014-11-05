@@ -37,7 +37,7 @@
         <!--{loop $complain_ops $op}-->
         <!--{eval $op_index++;}-->
         <!--{if $op[optype] == 2 || $op[optype] == 3 || $op[optype] == 4}-->
-        <li>
+        <li id="complain_op_$op[id]">
         <!--{if $op[uid] == $complain[uid] && $op[optype] == 4}-->
             <div class="feed_li_avatar" style="float:left !important">
         <!--{else}-->
@@ -83,8 +83,8 @@
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <!--{else}-->
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up&confirm=1" id="complain_up_$op[id]"  onclick="ajaxmenu(event, this.id);setTimeout(function(){jq.get(location.href,function(data){jq('.complain_list>ol').html(jq(data).find('.complain_list>ol').html());jq('.sidebox').html(jq(data).find('.sidebox').html());})},1000);" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down&confirm=1" id="complain_down_$op[id]"  onclick="ajaxmenu(event, this.id);setTimeout(function(){jq.get(location.href,function(data){jq('.complain_list>ol').html(jq(data).find('.complain_list>ol').html());jq('.sidebox').html(jq(data).find('.sidebox').html());})},1000);" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="refreshComplainOp($doid,$op[id],'up');return false;" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="refreshComplainOp($doid,$op[id],'down');return false;" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <!--{/if}-->
                         <!--{/if}-->
                         <!--{/if}-->
@@ -103,11 +103,27 @@
         </li>
         <!--{/if}-->
         <!--{/loop}-->
+        <script>
+            function refreshComplainOp(doid,opid,updown) {
+                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&op='+updown+'&confirm=1';
+                jq('#complain_up_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+                jq('#complain_down_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+                if (updown != 'up' && updown != 'down') {return false;}
+                jq.get(s,function(data){
+                    count = parseInt(data) || 0;
+                    if (count) {
+                        var content = jq('#complain_'+updown+'_'+opid).html().replace(/(good|bad)\.png/g,'$1_clicked\.png').replace(/(踩|赞).*/g,'$1('+count+')');
+                        jq('#complain_'+updown+'_'+opid).html(content);
+                    }
+                })
+            }
+        </script>
     </ol>
     <!--{if $complain[status] == 0 && $_SGLOBAL['isdept'] == 1}-->
     <!--{template space_complain_op_feed}-->
     <!--{/if}-->
     <!--{if $complain[status] == 1 && $complain[uid] == $_SGLOBAL[supe_uid]}-->
+    <!--
     <div>
     <script type="text/javascript">
         function continue_complain() {
@@ -122,6 +138,7 @@
     </script>
     <a href="#" id="complain_continue" onclick="continue_complain();return false;" style="margin-left:10px;">继续诉求</a>
     </div>
+    -->
     <!--{template space_complain_op_continue}-->
     <!--{/if}-->
 </div>
