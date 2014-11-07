@@ -304,7 +304,7 @@ if($type == 'forleaders' && $superuid == 3){
 		$wheresql .= " AND times = $times";
 	}
 	if($atuname = $_GET['atuname'] ? trim($_GET['atuname']) : ''){
-        $wheresql .= " AND atuid = $_GET[atuname]";
+        $wheresql .= " AND atuname = '$_GET[atuname]'";
 	}
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
         $wheresql .= " and status=$status";

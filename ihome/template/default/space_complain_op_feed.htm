@@ -28,7 +28,7 @@
     });
 </script>
 <div>
-    <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=add&doid=$doid">
+    <form method="post" id="complain_op_form" action="cp.php?ac=complain&op=add&doid=$doid&cpid=$cpid">
         <div >
             <div class="mood_statement">
                 <div class="mood_say_something">
@@ -46,12 +46,39 @@
             </div>
             <div id="reply_dep" style="display:none;padding-bottom:16px;">
                 <label class="forward" for="relay_depid">转发部门</label>
-                <select name="relay_depid" id="relay_depid">
+                <input type="hidden" id="relay_depid_real" name="relay_depid" value="0">
+                <input type="text" id="relay_depid">
+                <ul id="relay_depids">
                     <!--{loop $deps $dep}-->
-                    <option value="$dep[uid]">$dep['name']</option>
+                    <!--{eval $pin = Pinyin($dep['name'],'utf8')}-->
+                    <li data-value="$dep[name] $pin" data-id="$dep[uid]">$dep['name']</li>
                     <!--{/loop}-->
-                </select>
+                </ul>
             </div>
+            <script>
+                jQuery(function(){
+                    jQuery("#relay_depid").focus(function(event) {
+                        jQuery("#relay_depids").show();
+                    });
+                    jQuery("#relay_depid").blur(function(event) {
+                        jQuery("#relay_depids").hide();
+                    });
+                    jQuery("#relay_depid").keyup(function(event) {
+                        var val = jQuery(this).val().toLowerCase().replace(/\s/g, '');
+                        jQuery("#relay_depids li").each(function(){
+                            var el = jQuery(this);
+                            el.show();
+                            if (el.data('value').indexOf(val) === -1) {
+                                el.hide();
+                            }
+                        });
+                    });
+                    jQuery("#relay_depids li").mousedown(function(event) {
+                        jQuery("#relay_depid").val(jQuery(this).text());
+                        jQuery("#relay_depid_real").val(jQuery(this).data('id'));
+                    });
+                });
+            </script>
             <label class="forward" for="message" style="display:none;vertical-align:top;">转发理由</label>
             <textarea class="mood_textarea" id="message" name="message"></textarea>
             <div class="demo" style="margin-left:-5px;">

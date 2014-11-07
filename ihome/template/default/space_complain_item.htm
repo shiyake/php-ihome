@@ -80,11 +80,14 @@
                         <!--{/if}-->
                         <!--{else}-->
                         <!--{if $complain[uid] == $_SGLOBAL[supe_uid] && $complain['lastopid'] == $op[id] && $complain['status'] == 1}-->
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <!--{elseif in_array($op[id], $hints)}-->
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=up&hint=1" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=down&hint=1" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <!--{else}-->
-                        <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="refreshComplainOp($doid,$op[id],'up');return false;" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="refreshComplainOp($doid,$op[id],'down');return false;" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="refreshComplainOp($doid,$op[id],$cpid,'up');return false;" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="refreshComplainOp($doid,$op[id],$cpid,'down');return false;" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
                         <!--{/if}-->
                         <!--{/if}-->
                         <!--{/if}-->
@@ -104,8 +107,8 @@
         <!--{/if}-->
         <!--{/loop}-->
         <script>
-            function refreshComplainOp(doid,opid,updown) {
-                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&op='+updown+'&confirm=1';
+            function refreshComplainOp(doid,opid,cpid,updown) {
+                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&cpid='+cpid+'&op='+updown+'&confirm=1';
                 jq('#complain_up_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
                 jq('#complain_down_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
                 if (updown != 'up' && updown != 'down') {return false;}
@@ -157,6 +160,9 @@
         <!--{elseif $complain[status] == 1}-->
         <div class="complain_status complain_done">
             <p>已处理</p>
+        <!--{elseif $complain[status] == 3}-->
+        <div class="complain_status complain_done">
+            <p>已转发</p>
         <!--{else}-->
         <div class="complain_status complain_closed">
             <p>已关闭</p>

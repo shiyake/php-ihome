@@ -65,10 +65,10 @@ if(submitcheck('addsubmit')) {
     //var_dump($isComplain);exit();
     $message = rawurldecode(getstr($_POST['message'], 1000, 1, 1, 1, 2));
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$message, $matches, PREG_SET_ORDER);
-    if ($isComplain && count($matches) != 1) {
-        echo "complain_count_error";
-        exit;
-    }
+    // if ($isComplain && count($matches) != 1) {
+    //     echo "complain_count_error";
+    //     exit;
+    // }
     foreach($matches as $value){
         $TmpString = $value[0]; 
         $TmpName = $value[1]; 
@@ -84,7 +84,9 @@ if(submitcheck('addsubmit')) {
             $at_friend= "space.php?uid=".$UserId;
             if($ValidValue != false){
                 $message = str_replace($ValidValue, "<a href=$at_friend>@".$realname."</a> ", $message);
-                $UserIds[] = $UserId;
+                if (!in_array($UserId, $UserIds)) {
+                    $UserIds[] = $UserId;
+                }
             }
         }
     }	
@@ -379,7 +381,9 @@ if(submitcheck('addsubmit')) {
             $at_friend= "space.php?uid=".$UserId;
             if($ValidValue != false){
                 $message = str_replace($ValidValue, "<a href=$at_friend>@".$realname."</a> ", $message);
-                $UserIds[] = $UserId;
+                if (!in_array($UserId, $UserIds)) {
+                    $UserIds[] = $UserId;
+                }
             }
         }
     }	

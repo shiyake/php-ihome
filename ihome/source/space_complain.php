@@ -66,7 +66,7 @@ if ($_GET['view'] == 'rank') {
         $theurl = "space.php?do=$do&view=atme&type=$_GET[type]";
         $actives = array('atme'=>' class="active"');
     } else {
-        $wheresql = " 1 ";
+        $wheresql = " status!=3 ";
         $theurl = "space.php?do=$do&view=all&type=$_GET[type]";
         $actives = array('all'=>' class="active"');
     }
@@ -80,7 +80,7 @@ if ($_GET['view'] == 'rank') {
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
         if ($_GET['view'] == 'atme') {
-            $wheresql .= " and (status = 1 or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
+            $wheresql .= " and (status = 1 or (atuid=$_SGLOBAL[supe_uid] and status = 3) or (atuid!=$_SGLOBAL[supe_uid] and relayed_by like '%,$_SGLOBAL[supe_uid],%'))";
         } else {
             $wheresql .= " and status = 1 ";
         }
