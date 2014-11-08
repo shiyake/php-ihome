@@ -6,10 +6,10 @@ if (!defined('iBUAA')) {
 
 $doid = empty($_GET['doid'])?0:intval($_GET['doid']);
 $cpid = empty($_GET['cpid'])?0:intval($_GET['cpid']);
-$query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and id = $cpid");
+$query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and id = $cpid and status!=4");
 $complain=$_SGLOBAL['db']->fetch_array($query);
 if (!$complain) {
-    $query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid");
+    $query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and status!=4");
     $complain=$_SGLOBAL['db']->fetch_array($query);
     if ($complain) {
         $cpid = $complain['id'];

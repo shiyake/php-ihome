@@ -318,17 +318,31 @@ if ($_GET['op'] == 'delete') {
                     showmessage('error_op');
                 }
 
+                updatetable('complain', array("status"=>3, 'lastopid'=>$opid), array('id'=>$cpid));
+
                 $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid=$doid and atuid=$_POST[relay_depid] and status != 3");
                 $already = $_SGLOBAL['db']->fetch_array($query);
-                if ($already) {
-                    updatetable('complain', array("status"=>3, 'lastopid'=>$opid), array('id'=>$cpid));
-                } else {
+                if (!$already) {
                     if ($complain['relayed_by']) {
                         $relayed_by = $complain['relayed_by'].$_SGLOBAL['supe_uid'].',';
                     } else {
                         $relayed_by = ','.$_SGLOBAL['supe_uid'].',';
                     }
-                    updatetable('complain', array('atdeptuid'=>$_POST['relay_depid'], 'atuid'=>$_POST['relay_depid'], "atuname"=>$relay_dep['name'], "atdepartment"=>$relay_dep['name'], "atdeptuid"=>$_POST['relay_depid'], 'dateline'=>$_SGLOBAL['timestamp'], "times"=>1, "issendmsg"=>0, "relay_times"=>$complain['relay_times']+1, "relayed_by"=>$relayed_by), array('id'=>$cpid));
+                    
+                    $newComplain = $complain;
+                    unset($newComplain['id']);
+                    $newComplain['atdeptuid'] = $_POST['relay_depid'];
+                    $newComplain['atuid'] = $_POST['relay_depid'];
+                    $newComplain['atuname'] = $relay_dep['name'];
+                    $newComplain['atdepartment'] = $relay_dep['name'];
+                    $newComplain['atdeptuid'] = $_POST['relay_depid'];
+                    $newComplain['dateline'] = $_SGLOBAL['timestamp'];
+                    $newComplain['times'] = 1;
+                    $newComplain['issendmsg'] = 0;
+                    $newComplain['relay_times'] = $complain['relay_times']+1;
+                    $newComplain['relayed_by'] = $relayed_by;
+                    inserttable('complain', $newComplain);
+
                     $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]&cpid=$cpid"));
                     notification_complain_add($_POST['relay_depid'], 'complain', $note);
                 }
