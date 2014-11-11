@@ -79,14 +79,14 @@ if ($_GET['view'] == 'rank') {
         }
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
-        if ($_GET['view'] == 'atme') {
-            $wheresql .= " and status in (1,3)";
-        } else {
-            $wheresql .= " and status = 1 ";
-        }
+        $wheresql .= " and status = 1 ";
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
-        $wheresql .= " and status = 2 ";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and status in (2,3)";
+        } else {
+            $wheresql .= " and status = 2 ";
+        }
         $submenus['closed']=' class = "active"';
     } else {
         $submenus['all']=' class = "active"';

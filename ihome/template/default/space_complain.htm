@@ -132,8 +132,6 @@
             <td><a href="space.php?uid=$cp[atuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
             <!--{if $cp[status] == 3}-->
             <td>已转发</td>
-            <!--{elseif $cp[status] != 2 && $_SGLOBAL[isdept] == 1 && $cp[atuid] != $_SGLOBAL[supe_uid] && strrpos($cp[relayed_by],",".$_SGLOBAL[supe_uid].",") !== false}-->
-            <td>已转发</td>
             <!--{elseif $cp[status] == 0}-->
                 <!--{if $_SGLOBAL[isdept] == 1}-->
                 <td>未处理</td>
