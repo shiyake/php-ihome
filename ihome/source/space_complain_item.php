@@ -57,11 +57,22 @@ if ($complain) {
         $one['style'] = "padding-left:{$one['layer']}em;";
         $doclist[$doid][] = $one;
     }
+
+    $legalEntity = 0;
+    if ($_SGLOBAL['isdept'] == 1) {
+        $legalEntity = $_SGLOBAL['supe_uid'];
+    } else {
+        $q = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where dept_uid=$complain[atuid]");
+        if (($r = $_SGLOBAL['db']->fetch_array($q)) && in_array("$_SGLOBAL[supe_uid]", explode(',',$r['up_uid']))) {
+            $legalEntity = $r['dept_uid'];
+        }
+    }
+
     $query = $_SGLOBAL['db']->query("select a.uid as uid,a.name as name,a.username as username from ".tname('space')." as a,".tname("powerlevel")." as b where a.uid = b.dept_uid and b.isdept = 1");
     $deps = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         if (empty($value['name'])) $value['name'] = $value['username'];
-        if ($value["uid"] == $_SGLOBAL['supe_uid']) {
+        if ($value["uid"] == $_SGLOBAL['supe_uid'] || $value["uid"] == $legalEntity) {
             continue;
         }
         $deps[] = $value;

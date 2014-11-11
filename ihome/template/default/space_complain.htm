@@ -157,6 +157,13 @@
     <div class="page" style="margin-bottom: 10px;">$multi</div>
     <script>
         jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+        jQuery('#complain_list a').click(function(e){
+            e.stopPropagation();
+        });
+        jQuery('#complain_list tbody tr').click(function(){
+            jQuery('#complain_list td').css({'overflow':'hidden','white-space':'nowrap'});
+            jQuery(this).children('td').css({'overflow':'initial','white-space':'initial'});
+        });
     </script>
 </div>
 <!--{else}-->

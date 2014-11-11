@@ -9,6 +9,9 @@ table.complain_list {
     margin: 5px 0 20px;
     width: 100%;
 }
+.complain_list tr {
+    cursor: pointer;
+}
 .complain_list td {
     padding: 8px 10px;
     color: #777;

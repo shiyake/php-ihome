@@ -33,11 +33,11 @@
             <div class="mood_statement">
                 <div class="mood_say_something">
                     <input type="hidden" id="optype" name="optype" value="2" />
-                    <!--{if $complain[atuid] == $_SGLOBAL[supe_uid] && $complain[relay_times] < 3}-->
+                    <!--{if $complain[atuid] == $legalEntity && $complain[relay_times] < 3}-->
                     <label><input checked="checked" type="radio" name="mood_op" value="2" class="enAt">&nbsp;处理诉求</label>
                     <label><input type="radio" name="mood_op" value="3" class="disAt">&nbsp;转发诉求</label>&nbsp;&nbsp;&nbsp;
                     <span class="forward_tip" style="display:none;">提示：诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次</span>
-                    <!--{elseif $complain[atuid] == $_SGLOBAL[supe_uid]}-->
+                    <!--{elseif $complain[atuid] == $legalEntity}-->
                     <label><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
                     <!--{else}-->
                     <label style="display:none"><input checked="checked" type="radio" name="mood_op" value="2">&nbsp;回复诉求</label>
@@ -46,12 +46,14 @@
             </div>
             <div id="reply_dep" style="display:none;padding-bottom:16px;">
                 <label class="forward" for="relay_depid">转发部门</label>
-                <input type="hidden" id="relay_depid_real" name="relay_depid" value="0">
+                <input type="hidden" id="relay_depid_real" name="relay_depid" value="$_SGLOBAL[supe_uid]">
                 <input type="text" id="relay_depid">
                 <ul id="relay_depids">
+                    <!--{eval $relay_deps = ','}-->
                     <!--{loop $deps $dep}-->
                     <!--{eval $pin = Pinyin($dep['name'],'utf8')}-->
                     <li data-value="$dep[name] $pin" data-id="$dep[uid]">$dep['name']</li>
+                    <!--{eval $relay_deps .= $dep['name'].',' }-->
                     <!--{/loop}-->
                 </ul>
             </div>
@@ -77,6 +79,22 @@
                         jQuery("#relay_depid").val(jQuery(this).text());
                         jQuery("#relay_depid_real").val(jQuery(this).data('id'));
                     });
+
+                    jQuery('#complain_op_form').submit(function(event) {
+                        if (!trim(jQuery('#message').val())) {
+                            alert('至少说点什么吧');
+                            return false;
+                        }
+                        if (jQuery("#optype").val() == '3') {
+                            var relay_depid = jQuery('#relay_depid_real').val();
+                            var relay_dep = ','+jQuery('#relay_depid').val()+',';
+                            if (relay_depid == "$_SGLOBAL[supe_uid]" || "$relay_deps".indexOf(relay_dep) == -1) {
+                                alert('请选择正确的部门');
+                                return false;
+                            }
+                        }
+                        return true;
+                    });
                 });
             </script>
             <label class="forward" for="message" style="display:none;vertical-align:top;">转发理由</label>
@@ -93,7 +111,7 @@
                     </div>
                 </div>
                 <div class="mood_submit">
-                    <!--{if $complain[atuid] == $_SGLOBAL[supe_uid]}-->
+                    <!--{if $complain[atuid] == $legalEntity}-->
                     <button type="submit" id="add" name="add">回复诉求</button>
                     <!--{else}-->
                     <button type="submit" id="add" name="add">回复</button>
