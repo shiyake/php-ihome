@@ -115,6 +115,9 @@
             <td>诉求人</td>
             <td>诉求部门</td>
             <td>状态</td>
+            <!--{if $_GET['type'] == 'running'}-->
+            <td>阶段</td>
+            <!--{/if}-->
             <td>操作</td>
             </td>
         </thead>
@@ -137,6 +140,15 @@
                 <td>未处理</td>
                 <!--{else}-->
                 <td>处理中</td>
+                <!--{/if}-->
+                <!--{if $cp[times] == 1}-->
+                <td>部门</td>
+                <!--{elseif $cp[times] == 3}-->
+                <td>负责人</td>
+                <!--{elseif $cp[times] == 7}-->
+                <td>副校长</td>
+                <!--{else}-->
+                <td>校长</td>
                 <!--{/if}-->
             <!--{elseif $cp[status] == 1}-->
             <td>已处理</td>

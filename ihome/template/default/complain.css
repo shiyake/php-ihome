@@ -9,7 +9,7 @@ table.complain_list {
     margin: 5px 0 20px;
     width: 100%;
 }
-.complain_list tr {
+.complain_list tbody tr {
     cursor: pointer;
 }
 .complain_list td {

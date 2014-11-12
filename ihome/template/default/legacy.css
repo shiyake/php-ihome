@@ -3801,3 +3801,22 @@ a.shortcutname + a {
 .a_share_group {
     z-index: 999;
 }
+#at-view ul {
+    max-width: 198px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+#at-view ::-webkit-scrollbar, #reply_dep ::-webkit-scrollbar {
+    width: 6px;
+}
+ 
+#at-view ::-webkit-scrollbar-track, #reply_dep ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1); 
+    border-radius: 3px;
+}
+ 
+#at-view ::-webkit-scrollbar-thumb, #reply_dep ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
