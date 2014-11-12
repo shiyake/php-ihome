@@ -316,8 +316,6 @@ if ($_GET['op'] == 'delete') {
             $newid = inserttable('docomment', $setarr, 1);
             $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
 
-            $note = cplang('complain_reply', array("space.php?do=complain_item&doid=$complain[doid]&cpid=$cpid"));
-            notification_complain_add($complain['uid'], 'complain', $note);
             if ($optype == 3) {
                 if ($complain["atuid"] != $legalEntity) {
                     showmessage('error_op');
@@ -352,9 +350,9 @@ if ($_GET['op'] == 'delete') {
                     $newComplain['issendmsg'] = 0;
                     $newComplain['relay_times'] = $complain['relay_times']+1;
                     $newComplain['relayed_by'] = $relayed_by;
-                    inserttable('complain', $newComplain);
+                    $newComplainId = inserttable('complain', $newComplain, 1);
 
-                    $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]&cpid=$cpid"));
+                    $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]&cpid=$newComplainId"));
                     notification_complain_add($_POST['relay_depid'], 'complain', $note);
                 }
             } elseif ($optype == 2 && $legalEntity == $complain['atuid']) {
@@ -380,6 +378,9 @@ if ($_GET['op'] == 'delete') {
                         updatetable("complain_dep", $arr, array('uid'=>$legalEntity));
                     }
                 }
+
+                $note = cplang('complain_reply', array("space.php?do=complain_item&doid=$complain[doid]&cpid=$cpid"));
+                notification_complain_add($complain['uid'], 'complain', $note);
             }
             showmessage('do_success', $_POST['refer'], 0);
         }
