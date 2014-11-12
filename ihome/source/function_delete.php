@@ -208,7 +208,7 @@ function deletefeeds($feedids) {
 
 function deleteComplains($doids){
 	global $_SGLOBAL;
-	$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid in (".simplode($doids).")");
+	$_SGLOBAL['db']->query("UPDATE ".tname('complain')." SET status=4 WHERE doid in (".simplode($doids).")");
 }
 
 //É¾³ý·ÖÏí

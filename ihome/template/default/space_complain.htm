@@ -115,6 +115,9 @@
             <td>诉求人</td>
             <td>诉求部门</td>
             <td>状态</td>
+            <!--{if $_GET['type'] == 'running'}-->
+            <td>阶段</td>
+            <!--{/if}-->
             <td>操作</td>
             </td>
         </thead>
@@ -126,18 +129,27 @@
         <!--{else}-->
         <tr class="alt">
         <!--{/if}-->
-            <td class="info_tip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
+            <td class="info_tip"><a href="space.php?do=complain_item&doid=$cp[doid]&cpid=$cp[id]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
             <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
             <!--{date('m-d H:i',$cp[addtime])}--></td>
             <td><a href="space.php?uid=$cp[atuid]" class="info_tip">{$_SN[$cp[atuid]]}</a></td>
-            <!--{if $cp[status] != 2 && $_SGLOBAL[isdept] == 1 && $cp[atuid] != $_SGLOBAL[supe_uid] && strrpos($cp[relayed_by],",".$_SGLOBAL[supe_uid].",") !== false}-->
+            <!--{if $cp[status] == 3}-->
             <td>已转发</td>
             <!--{elseif $cp[status] == 0}-->
-            <!--{if $_SGLOBAL[isdept] == 1}-->
-            <td>未处理</td>
-            <!--{else}-->
-            <td>处理中</td>
-            <!--{/if}-->
+                <!--{if $_SGLOBAL[isdept] == 1}-->
+                <td>未处理</td>
+                <!--{else}-->
+                <td>处理中</td>
+                <!--{/if}-->
+                <!--{if $cp[times] == 1}-->
+                <td>部门</td>
+                <!--{elseif $cp[times] == 3}-->
+                <td>负责人</td>
+                <!--{elseif $cp[times] == 7}-->
+                <td>副校长</td>
+                <!--{else}-->
+                <td>校长</td>
+                <!--{/if}-->
             <!--{elseif $cp[status] == 1}-->
             <td>已处理</td>
             <!--{elseif $cp[status] == 2}-->
@@ -157,6 +169,13 @@
     <div class="page" style="margin-bottom: 10px;">$multi</div>
     <script>
         jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+        jQuery('#complain_list a').click(function(e){
+            e.stopPropagation();
+        });
+        jQuery('#complain_list tbody tr').click(function(){
+            jQuery('#complain_list td').css({'overflow':'hidden','white-space':'nowrap'});
+            jQuery(this).children('td').css({'overflow':'initial','white-space':'initial'});
+        });
     </script>
 </div>
 <!--{else}-->

@@ -5,12 +5,20 @@ if (!defined('iBUAA')) {
 }
 
 $doid = empty($_GET['doid'])?0:intval($_GET['doid']);
-$query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid");
+$cpid = empty($_GET['cpid'])?0:intval($_GET['cpid']);
+$query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and id = $cpid and status!=4");
 $complain=$_SGLOBAL['db']->fetch_array($query);
+if (!$complain) {
+    $query=$_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and status!=4");
+    $complain=$_SGLOBAL['db']->fetch_array($query);
+    if ($complain) {
+        $cpid = $complain['id'];
+    }
+}
 $dv=null;
 $doclist= array();
 if ($complain) {
-    $theurl = "space.php?do=complain_item&doid=$doid";
+    $theurl = "space.php?do=complain_item&doid=$doid&cpid=$cpid";
     $query=$_SGLOBAL['db']->query("select * from ".tname('doing')." where doid = $doid");
     $dv= $_SGLOBAL['db']->fetch_array($query);
     if ($dv) {
@@ -22,6 +30,13 @@ if ($complain) {
         deleteComplains(array($doid));
         showmessage('complain_no_doing', "space.php?do=complain");
     }
+
+    $hints = array();
+    $q = $_SGLOBAL['db']->query("select * from ".tname('complain')." where doid = $doid and status=1");
+    while ($r = $_SGLOBAL['db']->fetch_array($q)) {
+        $hints[] = $r['lastopid'];
+    }
+
     include_once(S_ROOT.'./source/class_tree.php');
     $tree = new tree();
 
@@ -42,11 +57,22 @@ if ($complain) {
         $one['style'] = "padding-left:{$one['layer']}em;";
         $doclist[$doid][] = $one;
     }
+
+    $legalEntity = 0;
+    if ($_SGLOBAL['isdept'] == 1) {
+        $legalEntity = $_SGLOBAL['supe_uid'];
+    } else {
+        $q = $_SGLOBAL['db']->query("select * from ".tname("powerlevel")." where dept_uid=$complain[atuid]");
+        if (($r = $_SGLOBAL['db']->fetch_array($q)) && in_array("$_SGLOBAL[supe_uid]", explode(',',$r['up_uid']))) {
+            $legalEntity = $r['dept_uid'];
+        }
+    }
+
     $query = $_SGLOBAL['db']->query("select a.uid as uid,a.name as name,a.username as username from ".tname('space')." as a,".tname("powerlevel")." as b where a.uid = b.dept_uid and b.isdept = 1");
     $deps = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         if (empty($value['name'])) $value['name'] = $value['username'];
-        if ($value["uid"] == $_SGLOBAL['supe_uid']) {
+        if ($value["uid"] == $_SGLOBAL['supe_uid'] || $value["uid"] == $legalEntity) {
             continue;
         }
         $deps[] = $value;
@@ -55,6 +81,9 @@ if ($complain) {
     $complain_ops = array();
     $opids = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        if ($complain['status']==3 && $value['id']>$complain['lastopid']) {
+            continue;
+        }
         $complain_ops[] = $value;
         realname_set($value['uid'], $value['username']);
         if ($value['optype'] == 3) {
