@@ -5,7 +5,7 @@
 
 @define('iBUAA', TRUE);
 define('D_BUG', '1');
-define('D_BUG', '0');
+//define('D_BUG', '0');
 @define('IN_UCHOME', TRUE);
 
 D_BUG?error_reporting(7):error_reporting(0);
