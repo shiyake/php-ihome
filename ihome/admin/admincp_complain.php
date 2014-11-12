@@ -315,9 +315,12 @@ if($type == 'forleaders' && $superuid == 3){
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
 		$status = intval($_GET['status']);
 		switch ($status) {
+			case 1:
+				$wheresql .= " and status in (1,3)";
+				break;
 			case 2:
-				$wheresql .= " and status in (2,3,4)";
-				break;			
+				$wheresql .= " and status in (2,4)";
+				break;
 			default:
 				$wheresql .= " and status=$status";
 				break;
@@ -405,7 +408,7 @@ if($type == 'forleaders' && $superuid == 3){
         if ($value['status'] == 0) {
             $complains[$value['atuid']]['running']++;
             $runningNum++;
-        } elseif ($value['status'] == 1) {
+        } elseif ($value['status'] == 1 || $value['status'] == 3) {
             $complains[$value['atuid']]['done']++;
             $doneNum++;
         } else {

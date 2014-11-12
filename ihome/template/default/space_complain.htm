@@ -141,6 +141,7 @@
                 <!--{else}-->
                 <td>处理中</td>
                 <!--{/if}-->
+                <!--{if $_GET['type'] == 'running'}-->
                 <!--{if $cp[times] == 1}-->
                 <td>部门</td>
                 <!--{elseif $cp[times] == 3}-->
@@ -149,6 +150,7 @@
                 <td>副校长</td>
                 <!--{else}-->
                 <td>校长</td>
+                <!--{/if}-->
                 <!--{/if}-->
             <!--{elseif $cp[status] == 1}-->
             <td>已处理</td>
