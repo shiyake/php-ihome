@@ -436,21 +436,21 @@ if(submitcheck('addsubmit')) {
     $newid = inserttable('docomment', $setarr, 1);
     //¸üÐÂ»Ø¸´Êý
     $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
-    $isReplyComplain = FALSE;
-    $nowtime = time();
-    $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
-    if($UserDept){
-        $isComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment,ontrack,times FROM ".tname('complain')." USE INDEX(doid) WHERE doid='$updo[doid]' AND isreply=0 AND atuid IN($UserDept[official]) ORDER BY times DESC LIMIT 1");
-        if($isComplainArray = $_SGLOBAL['db']->fetch_array($isComplainQuery)){
-            $level = intval($isComplainArray['times']);
-            $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET isreply=1,replytime='$nowtime' WHERE doid='$updo[doid]' AND atuid IN ($UserDept[official])");
-            $isReplyComplain = TRUE;
-            if ($isComplainArray['ontrack']) {
-                $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET ontrack=0 WHERE doid='$updo[doid]'");
-                $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
-            }
-        }
-	}
+ //    $isReplyComplain = FALSE;
+ //    $nowtime = time();
+ //    $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
+ //    if($UserDept){
+ //        $isComplainQuery = $_SGLOBAL['db']->query("SELECT atdepartment,ontrack,times FROM ".tname('complain')." USE INDEX(doid) WHERE doid='$updo[doid]' AND isreply=0 AND atuid IN($UserDept[official]) ORDER BY times DESC LIMIT 1");
+ //        if($isComplainArray = $_SGLOBAL['db']->fetch_array($isComplainQuery)){
+ //            $level = intval($isComplainArray['times']);
+ //            $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET isreply=1,replytime='$nowtime' WHERE doid='$updo[doid]' AND atuid IN ($UserDept[official])");
+ //            $isReplyComplain = TRUE;
+ //            if ($isComplainArray['ontrack']) {
+ //                $_SGLOBAL['db']->query("UPDATE ".tname('complain')." USE INDEX(doid) SET ontrack=0 WHERE doid='$updo[doid]'");
+ //                $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
+ //            }
+ //        }
+	// }
 	/*
     $isReplyComplain = FALSE;
     $nowtime = time();
@@ -472,13 +472,13 @@ if(submitcheck('addsubmit')) {
 	
 	*/
 	if($updo['uid'] != $_SGLOBAL['supe_uid']) {
-        if($isReplyComplain){
-            $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
-            notification_complain_add($updo['uid'], 'complain', $note, $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
-        }else{
+        // if($isReplyComplain){
+        //     $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
+        //     notification_complain_add($updo['uid'], 'complain', $note, $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
+        // }else{
             $note = cplang('note_doing_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
             notification_add($updo['uid'], 'doing', $note);
-        }
+        // }
         //½±Àø»ý·Ö
         getreward('comment',1, 0, 'doing'.$updo['doid']);
     }
