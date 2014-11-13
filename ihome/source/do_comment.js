@@ -72,11 +72,20 @@ jq1(function(){
         }
     }
     jq1(document).on("click",".comment_click_btn",function() {
-        var myId=jq1(this).attr('id');
+        var $this = jq1(this);
+        if (!$this.hasClass('disabled')) {
+            $this.addClass('disabled');
+        }
+        var myId=$this.attr('id');
         res=isdoorfeed(myId);
         if(res.length == 2) {
             id = res[0];
             doid = res[1];
+            if (trim(jq1("#do_message_"+doid+"_"+id).val()) == '') {
+                show('fail');
+                jq($this).removeClass('disabled');
+                return;
+            }
             jq1.post("cp.php?ac=doing&op=comment&doid="+doid+"&id="+id+"&inajax=1",{
                 "message":jq1("#do_message_"+doid+"_"+id).val(),
                 "commentsubmit":"true",
@@ -86,15 +95,20 @@ jq1(function(){
                 if(str.indexOf("进行的操作完成了")>0){
                     show('complate');
                     docomment_get('docomment_'+doid,1);
-                    
                 }
                 else {
                     show('fail');
+                    jq($this).removeClass('disabled');
                 }
             },"xml");
         }
         else if(res.length == 1) {
             id = res[0];
+            if (trim(jq1("#feedmessage_"+id).val()) == '') {
+                show('fail');
+                jq($this).removeClass('disabled');
+                return;
+            }
             jq1.post("cp.php?ac=feed&feedid="+id+"&inajax=1",{
                 "message":jq1("#feedmessage_"+id).val(),
                 "commentsubmit":"true",
@@ -109,6 +123,7 @@ jq1(function(){
                 }
                 else {
                     show('fail');
+                    jq($this).removeClass('disabled');
                 }
             },"xml");
         }
