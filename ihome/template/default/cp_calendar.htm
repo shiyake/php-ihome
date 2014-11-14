@@ -1,0 +1,103 @@
+<!--{template header}-->
+<!--{if $op == 'delete'}-->
+<h1>删除日历</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__deletecalendar_{$calendar_id}">
+<form method="post" id="deletecalendar_{$calendar_id}" action="cp.php?ac=calendar&op=delete&calendar_id=$calendar_id">
+	<p>确定删除指定的日历吗？</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+		<input type="hidden" name="deletesubmit" value="true" />
+        <button name="btnsubmit" type="button" 
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('deletecalendar_{$calendar_id}', 'calendar_delete', 2000)">确定</button>
+	</p>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+<!--{elseif $op == "calendar"}-->	
+	<div class="calendar">
+        <a href="#" onclick="showcalendar('$premonth'); this.blur(); return false;">
+		    <div id="calendar_pre" class="floatleft goleft">
+            </div>
+        </a>
+        <a href="#" onclick="showcalendar('$nextmonth'); this.blur(); return false;">
+		    <div id="calendar_next" class="floatright goright">
+            </div>
+        </a>
+		<span id="thecalendar_year">$year</span>年 <span id="thecalendar_month">$month</span>月
+		<ul>
+			<li class="calendarli calendarweek">日</li>
+			<li class="calendarli calendarweek">一</li>
+			<li class="calendarli calendarweek">二</li>
+			<li class="calendarli calendarweek">三</li>
+			<li class="calendarli calendarweek">四</li>
+			<li class="calendarli calendarweek">五</li>
+			<li class="calendarli calendarweek">六</li>	
+			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
+			<!--{loop $days $key $value}-->		
+            <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
+            <li class="calendarli on_today">$key</li>
+            <!--{elseif $value[count]}-->		
+            <!--{if $value[class]=="on_today"}-->
+            <!--{eval $class="on_today onlink"}-->
+            <!--{else}-->
+            <!--{eval $class="onlink"}-->
+            <!--{/if}-->
+            <li class="calendarli $class" onmouseover="$('day_$key').style.display='block';" onmouseout="$('day_$key').style.display='none';">
+            <!--wangnan<img class="calendar_red_point" src="template/default/image/red_point.png"></img>-->
+            <a href="$url&date=$year-$month-$key">$key</a>
+				<div class="dayevents" id="day_$key" style="display:none;">
+					<ul class="news_list">
+                        <!--{eval $num=0}-->    
+                        <!--{loop $value[arrangement] $arrangement}-->
+                        <!--{eval $num++}-->
+                        <li class="dayeventsli">
+                        <div class="dayeventstitle"><img style="width:18px;margin-top:-5px;" src="image/alert.png"></img>&nbsp;&nbsp;事件&nbsp;{$num}</div>
+                        <a href="space.php?do=arrangement&id=$arrangement[arrangementid]">$arrangement[subject]</a>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                </li>
+                <!--{else}-->
+                <li class="calendarli">$key</li>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </ul>
+        </div>
+ <!--{else}-->
+ 	<!--{if $_GET['op'] == 'add'}-->
+    <h1>添加日历</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__addcalendar_{$calendar_id}">
+        <form id="addcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
+            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+            	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="button" 
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addcalendar_{$calendar_id}', 'calendar_add', 2000)">确定</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+            <input type="hidden" name="makefeed1" id="makefeed1" value="1">
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{else}-->
+    <h1>编辑日历</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__editcalendar_{$calendar_id}">
+        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
+            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+            	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="button" 
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('editcalendar_{$calendar_id}', 'calendar_edit', 2000)">确定</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+             <input type="hidden" name="makefeed1" id="makefeed1" value="1">
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+<!--{/if}-->
+<!--{template footer}-->
