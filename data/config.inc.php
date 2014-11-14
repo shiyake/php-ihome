@@ -1,7 +1,7 @@
 <?php 
 define('UC_DBHOST', 'localhost');
 define('UC_DBUSER', 'root');
-define('UC_DBPW', 'nameLR9969');
+define('UC_DBPW', 'root');
 define('UC_DBNAME', 'ihome');
 define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', 'ihomeuser_');
