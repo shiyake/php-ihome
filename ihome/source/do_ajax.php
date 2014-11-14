@@ -18,7 +18,7 @@ if($op == 'comment') {
 		$ajax_edit = 0;
 	}
 
-	//ÆÀÂÛ
+	//ï¿½ï¿½ï¿½ï¿½
 	$list = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE $cidsql authorid='$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -39,15 +39,35 @@ if($op == 'comment') {
 		$value = $_SGLOBAL['db']->fetch_array($query);
 	}
 	
-	//»ñÈ¡ÓÃ»§
+	//ï¿½ï¿½È¡ï¿½Ã»ï¿½
 	$groups = getfriendgroup();
 	
 	if(empty($value['gid'])) $value['gid'] = 0;
 	$group =$groups[$value['gid']];
-	
+} elseif($op == 'calendar'){
+    //èŽ·å–æ—¥åŽ†
+    $calendar_id = empty($_GET['calendar_id'])  ? 0 :intval($_GET['calendar_id']);
+    if($calendar_id) {
+        $cidsql = "id='$calendar_id' AND";
+        $ajax_edit = 1;
+    } else {
+        $cidsql = '';
+        $ajax_edit = 0;
+    }
+    
+    $list = array();
+    if(!empty($calendar_id)){
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('calendar')." WHERE $cidsql uid='$_SGLOBAL[supe_uid]' LIMIT 0,1");
+    }else{
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('calendar')." WHERE uid='$_SGLOBAL[supe_uid]' order by id asc");
+    }
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $list[] = $value;
+    }
+    $isAjax = 1;
 } elseif($op == 'getfriendname') {
 	
-	//»ñÈ¡ÓÃ»§µÄºÃÓÑ·Ö×éÃû
+	//ï¿½ï¿½È¡ï¿½Ã»ï¿½ï¿½Äºï¿½ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½
 	$groupname = '';
 	$group = intval($_GET['group']);
 	
@@ -59,13 +79,13 @@ if($op == 'comment') {
 	
 } elseif($op == 'getmtagmember') {
 	
-	//»ñÈ¡ÓÃ»§µÄºÃÓÑ·Ö×éÃû
+	//ï¿½ï¿½È¡ï¿½Ã»ï¿½ï¿½Äºï¿½ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('tagspace')." WHERE tagid='$tagid' AND uid='$uid'");
 	$tagspace = $_SGLOBAL['db']->fetch_array($query);
 	
 } elseif($op == 'share') {
 
-	//ÆÀÂÛ
+	//ï¿½ï¿½ï¿½ï¿½
 	$list = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('share')." WHERE uid='$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -88,7 +108,7 @@ if($op == 'comment') {
 		$ajax_edit = 0;
 	}
 	
-	//ÆÀÂÛ
+	//ï¿½ï¿½ï¿½ï¿½
 	$list = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('post')." $pidsql ORDER BY dateline DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -108,7 +128,7 @@ if($op == 'comment') {
 	}
 	
 	$perpage = 10;
-	//¼ì²é¿ªÊ¼Êý
+	//ï¿½ï¿½é¿ªÊ¼ï¿½ï¿½
 	ckstart($start, $perpage);
 
 	$count = 0;
@@ -133,7 +153,7 @@ if($op == 'comment') {
 		if ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			realname_set($value['uid'], $value['username']);
 			$value['icon'] = 'plus';
-			//×Ô¶¯Õ¹¿ª×î¶à20¸öÆÀÂÛ
+			//ï¿½Ô¶ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if($value['replynum'] > 0 && ($value['replynum'] < 20 || $doid == $value['doid'])) {
 				$doids[] = $value['doid'];
 				$value['icon'] = 'minus';
@@ -180,7 +200,7 @@ if($op == 'comment') {
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$_SGLOBAL['db']->query("DELETE FROM ".tname('myinvite')." WHERE hash='$hash' AND touid='$_SGLOBAL[supe_uid]'");
 		
-		//Í³¼Æ¸üÐÂ
+		//Í³ï¿½Æ¸ï¿½ï¿½ï¿½
 		$myinvitenum = getcount('myinvite', array('touid'=>$_SGLOBAL['supe_uid']));
 		updatetable('space', array('myinvitenum'=>$myinvitenum), array('uid'=>$_SGLOBAL['supe_uid']));
 		

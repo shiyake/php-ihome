@@ -1,0 +1,14 @@
+/* CSS Document */
+.news_list {
+    line-height: 190%;
+	 min-height: 172px;
+    overflow: hidden;
+    width: 190px;
+}
+.news_list li {
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+    padding: 0;
+}
