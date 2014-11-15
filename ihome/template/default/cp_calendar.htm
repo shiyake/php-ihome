@@ -36,7 +36,9 @@
 			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
 			<!--{loop $days $key $value}-->		
             <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
-            <li class="calendarli on_today">$key</li>
+            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key">
+                <li class="calendarli on_today">$key</li>
+            </a>
             <!--{elseif $value[count]}-->		
             <!--{if $value[class]=="on_today"}-->
             <!--{eval $class="on_today onlink"}-->
@@ -60,7 +62,7 @@
                 </div>
                 </li>
                 <!--{else}-->
-                <li class="calendarli">$key</li>
+                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key"><li class="calendarli">$key</li></a>
                 <!--{/if}-->
                 <!--{/loop}-->
             </ul>

@@ -100,8 +100,8 @@
     
 <!--{/if}-->
     <script type="text/javascript">
-        var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
         j11(function () {
+            var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
             initFc('content', showFcMoment);
         });
 
@@ -113,8 +113,8 @@
             var fShowFirstDay = parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e'));
             var fHiddenDays = [parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e')),
                 parseInt(j11.fullCalendar.moment(middleDate).add(4, 'days').format('e'))];
-
             fc.fullCalendar({
+                defaultDate : middleDate,
                 height: 1100,
                 contentHeight: 770,
                 header: false,
@@ -129,6 +129,7 @@
                 editable : true,
                 firstDay : fShowFirstDay,
                 hiddenDays : fHiddenDays,
+                eventDurationEditable : false,
                 events : '/cp.php?ac=calendar&op=getCalendarInfo&calendar_id=$value[id]',
                 eventClick : function(calEvent, jsEvent, view){
                     var eaId = 'eventID' + calEvent.id;
