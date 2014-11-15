@@ -10,6 +10,8 @@ if(!defined('iBUAA')) {
 $op = !empty($_GET['op']) && in_array($_GET['op'],array('index','add')) ? trim($_GET['op']) : 'index';
 
 $uid = $_SGLOBAL['supe_uid'];
+//日历的中间显示那一天  2014-11-10
+$showFcDate = isset($_GET['showFcDate']) ? $_GET['showFcDate'] : date('Y-m-d');
 
 if($op == 'index'){
     //默认打开日历功能

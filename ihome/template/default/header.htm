@@ -257,6 +257,7 @@ jq(function(){
 		
 		jq.getJSON("cp.php?ac=public&op=checkpublic", function(json){
 			var html = '';
+            if(!json) return null;
 			jq.each(json, function(i,item){
 				html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype='+item.type+'&touid='+item.uid+'"><i class="icon-user" style="margin-right:11px"></i>'+item.name+'</a></li>';
 			});

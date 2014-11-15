@@ -944,10 +944,10 @@ function runlog($file, $log, $halt=0) {
 				$tpl = "template/$_SCONFIG[template]/$name";
 			}
 			$objfile = S_ROOT.'./data/tpl_cache/'.str_replace('/','_',$tpl).'.php';
-			if(!file_exists($objfile)) {
+			//if(!file_exists($objfile)) {
 				include_once(S_ROOT.'./source/function_template.php');
 				parse_template($tpl);
-			}
+			//}
 		}
 		return $objfile;
 	}

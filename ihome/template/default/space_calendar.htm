@@ -2,6 +2,7 @@
 <!--{template header}-->
 
 <!--{if !empty($_SGLOBAL[inajax])}-->
+
 	<div id="space_blog" class="feed">
 		<h3 class="feed_header">
 			<a href="cp.php?ac=arrangement" class="r_option" target="_blank" style="font-size:14px;">发布新安排</a>
@@ -28,6 +29,15 @@
 <!--{else}-->
 
 
+<script type="text/javascript" src="plugin/fullcalendar/lib/jquery.min.js"></script>
+        <script type="text/javascript">
+            var j11 = jQuery.noConflict();
+        </script>
+<script type="text/javascript" src="plugin/fullcalendar/lib/moment.min.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/zh-cn.js"></script>
+<link rel="stylesheet" href="plugin/fullcalendar/fullcalendar.min.css">
+
 <h4 class="title title30">日历
     <div class="r_option">
         <a style="font-size:14px;line-height:30px;" href="cp.php?ac=arrangement">发布新安排</a>
@@ -53,18 +63,8 @@
             width:60px;
         }
 </style>
-<div id="content" style="padding-left:10px;margin-top:-15px;border-right:none">
-    
-	<!--{if $count}-->
-	<div class="entry_list" style="margin-left:10px;">
-		<ul>
-		
-		</ul>
-	</div>
 
-	<!--{else}-->
-    <div style="margin-top:75px;text-align:center;"><img src="image/icons/no_status.png"/><p style="color:#777;">还没有相关的日历。</p></div>
-	<!--{/if}-->
+<div id="content" style="padding-left:10px;margin-top: 10px;border-right:none;background: #ffffff;">
 
 </div>
 
@@ -99,5 +99,76 @@
     </div>
     
 <!--{/if}-->
-	
+    <script type="text/javascript">
+        var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
+        j11(function () {
+            initFc('content', showFcMoment);
+        });
+
+        var fc = null;
+        var lastClickEventJSEvent = null;
+        function initFc(id, middleDate){
+            fc = j11('#' + id);
+            middleDate ? null : middleDate = j11.fullCalendar.moment();
+            var fShowFirstDay = parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e'));
+            var fHiddenDays = [parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e')),
+                parseInt(j11.fullCalendar.moment(middleDate).add(4, 'days').format('e'))];
+
+            fc.fullCalendar({
+                height: 1100,
+                contentHeight: 770,
+                header: false,
+                lang: 'zh-cn',
+                defaultView: 'agendaWeek',
+                allDaySlot: false,
+                axisFormat : 'H:00',
+                minTime : '07:00:00',
+                maxTime : '22:00:00',
+                columnFormat : 'M-D ddd',
+//                weekends : false,
+                editable : true,
+                firstDay : fShowFirstDay,
+                hiddenDays : fHiddenDays,
+                events : '/cp.php?ac=calendar&op=getCalendarInfo&calendar_id=$value[id]',
+                eventClick : function(calEvent, jsEvent, view){
+                    var eaId = 'eventID' + calEvent.id;
+                    j11(jsEvent.target).attr('id', eaId);
+                    j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=$value[id]&calendar_info_id=' + calEvent.id);
+                    ajaxmenu(jsEvent, eaId);
+                    lastClickEventJSEvent = jsEvent;
+                },
+                dayClick: function(date, jsEvent, view) {
+                    var eaId = 'addEvent' + date.format('HHMDHm');
+                    var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=$value[id]',
+                        'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
+                    j11(jsEvent.target).parent().after(htmlA);
+                    ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
+                }
+            });
+        }
+
+        function beforeShowAddEventHtmlA(eaId){
+            j11('#content #' + eaId).remove();//移除添加的定位标签a
+        }
+
+        function showEditEvent(eventID, href){
+            var eaID = 'editEventMenu' + eventID;
+            j11(lastClickEventJSEvent.target).attr('id', eaID);
+            j11(lastClickEventJSEvent.target).attr('href', href);
+            ajaxmenu(lastClickEventJSEvent, eaID);
+        }
+
+        function addEventOK(res){
+            location.reload();
+        }
+        function editEventOK(res, a){
+            location.reload();
+        }
+        function deleteEvent(calendar_id, eventID){
+            var url = '/cp.php?ac=calendar&op=deleteEvent';
+            j11.getJSON(url, {'calendar_id' : calendar_id, 'calendar_info_id' : eventID}, function(res){
+                location.reload();
+            });
+        }
+    </script>
 <!--{template footer}-->
