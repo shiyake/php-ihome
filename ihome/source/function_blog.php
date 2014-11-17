@@ -4,11 +4,11 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-//Ìí¼Ó²©¿Í
+//ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
 function arrangement_post($POST, $olds=array()) {
 	global $_SGLOBAL, $_SC, $space;
 	
-	//²Ù×÷Õß½ÇÉ«ÇÐ»»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½É«ï¿½Ð»ï¿½
 	$isself = 1;
 	if(!empty($olds['uid']) && $olds['uid'] != $_SGLOBAL['supe_uid']) {
 		$isself = 0;
@@ -17,16 +17,16 @@ function arrangement_post($POST, $olds=array()) {
 		$_SGLOBAL['supe_username'] = addslashes($olds['username']);
 	}
 
-	//±êÌâ
+	//ï¿½ï¿½ï¿½ï¿½
 	$POST['subject'] = getstr(trim($POST['subject']), 80, 1, 1, 1);
 	if(strlen($POST['subject'])<1) $POST['subject'] = sgmdate('Y-m-d');
 	//$POST['friend'] = intval($POST['friend']);
 	
 	$starttime = $POST['starttime']? strtotime($POST['starttime']) : $_SGLOBAL['timestamp']+3600;
 	$POST['tag'] = shtmlspecialchars(trim($POST['tag']));
-	$POST['tag'] = getstr($POST['tag'], 500, 1, 1, 1);	//Óï´ÊÆÁ±Î
+	$POST['tag'] = getstr($POST['tag'], 500, 1, 1, 1);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//ÄÚÈÝ
+	//ï¿½ï¿½ï¿½ï¿½
 	if($_SGLOBAL['mobile']) {
 		$POST['message'] = getstr($POST['message'], 0, 1, 0, 1, 1);
 	} else {
@@ -42,27 +42,27 @@ function arrangement_post($POST, $olds=array()) {
 	}
 	$message = $POST['message'];
 	
-	//Ö÷±í
+	//ï¿½ï¿½ï¿½ï¿½
 	$arrangementarr = array(
 		'subject' => $POST['subject'],
 		'noreply' => empty($_POST['noreply'])?0:1
 	);
 	
-	//¸öÈË·ÖÀà
+	//ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½
 	if($POST['arrangementclass'] != $olds['classid']) {
 		$arrangementarr['classid'] = intval($POST['arrangementclass']);
 	}
 
-	//¿ªÊ¼Ê±¼ä
+	//ï¿½ï¿½Ê¼Ê±ï¿½ï¿½
 	if(strtotime($POST['starttime']) != $olds['starttime']) {
 		$arrangementarr['starttime'] = $starttime;
 	}
 	
 
-	//±êÌâÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	$titlepic = '';
 	
-	//»ñÈ¡ÉÏ´«µÄÍ¼Æ¬
+	//ï¿½ï¿½È¡ï¿½Ï´ï¿½ï¿½ï¿½Í¼Æ¬
 	$uploads = array();
 	if(!empty($POST['picids'])) {
 		$picids = array_keys($POST['picids']);
@@ -80,7 +80,7 @@ function arrangement_post($POST, $olds=array()) {
 		}
 	}
 
-	//²åÈëÎÄÕÂ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if($uploads) {
 		preg_match_all("/\<img\s.*?\_uchome\_localimg\_([0-9]+).+?src\=\"(.+?)\"/i", $message, $mathes);
 		if(!empty($mathes[1])) {
@@ -99,23 +99,23 @@ function arrangement_post($POST, $olds=array()) {
 				$message = str_replace($idsearchs, 'uchomelocalimg[]', $message);
 			}
 		}
-		//Î´²åÈëÎÄÕÂ
+		//Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		foreach ($uploads as $value) {
 			$picurl = pic_get($value['filepath'], $value['thumb'], $value['remote'], 0);
 			$message .= "<div class=\"uchome-message-pic\"><img src=\"$picurl\"><p>$value[title]</p></div>";
 		}
 	}
 	
-	//Ã»ÓÐÌîÐ´ÈÎºÎ¶«Î÷
+	//Ã»ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ÎºÎ¶ï¿½ï¿½ï¿½
 	$ckmessage = preg_replace("/(\<div\>|\<\/div\>|\s|\&nbsp\;|\<br\>|\<p\>|\<\/p\>)+/is", '', $message);
 	if(empty($ckmessage)) {
 		return false;
 	}
 	
-	//Ìí¼Óslashes
+	//ï¿½ï¿½ï¿½slashes
 	$message = addslashes($message);
 	
-	//´ÓÄÚÈÝÖÐ¶ÁÈ¡Í¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½È¡Í¼Æ¬
 	if(empty($titlepic)) {
 		$titlepic = getmessagepic($message);
 		$arrangementarr['picflag'] = 0;
@@ -130,7 +130,7 @@ function arrangement_post($POST, $olds=array()) {
 	$tagarr = array();
 	if($POST['tag'] != $oldtagstr) {
 		if(!empty($olds['tag'])) {
-			//ÏÈ°ÑÒÔÇ°µÄ¸øÇåÀíµô
+			//ï¿½È°ï¿½ï¿½ï¿½Ç°ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			$oldtags = array();
 			$query = $_SGLOBAL['db']->query("SELECT tagid, blogid FROM ".tname('tagblog')." WHERE blogid='$blogid'");
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -142,12 +142,12 @@ function arrangement_post($POST, $olds=array()) {
 			}
 		}
 		$tagarr = tag_batch($blogid, $POST['tag']);
-		//¸üÐÂ¸½±íÖÐµÄtag
+		//ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½Ðµï¿½tag
 		$fieldarr['tag'] = empty($tagarr)?'':addslashes(serialize($tagarr));
 	}
 
 	if($olds) {
-		//¸üÐÂ
+		//ï¿½ï¿½ï¿½ï¿½
 		updatetable('blogfield', $fieldarr, array('blogid'=>$blogid));
 	} else {
 		$fieldarr['blogid'] = $blogid;
@@ -161,7 +161,7 @@ function arrangement_post($POST, $olds=array()) {
 showmessage($str);*/
 	
 	if($olds['arrangementid']) {
-		//¸üÐÂ
+		//ï¿½ï¿½ï¿½ï¿½
 		$arrangementid = $olds['arrangementid'];
 		updatetable('arrangement', $arrangementarr, array('arrangementid'=>$arrangementid));
 		
@@ -177,10 +177,10 @@ showmessage($str);*/
 	
 	$arrangementarr['arrnagementid'] = $arrangementid;
 
-	//¿Õ¼ä¸üÐÂ
+	//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
 	/*if($isself) {
 		if($olds) {
-			//¿Õ¼ä¸üÐÂ
+			//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET updatetime='$_SGLOBAL[timestamp]' WHERE uid='$_SGLOBAL[supe_uid]'");
 		} else {
 			if(empty($space['blognum'])) {
@@ -189,31 +189,68 @@ showmessage($str);*/
 			} else {
 				$blognumsql = 'blognum=blognum+1';
 			}
-			//»ý·Ö
+			//ï¿½ï¿½ï¿½
 			$reward = getreward('publishblog', 0);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$blognumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
 			
-			//Í³¼Æ
+			//Í³ï¿½ï¿½
 			updatestat('blog');
 		}
 	}*/
 	
-	//²úÉúfeed
+	//ï¿½ï¿½ï¿½ï¿½feed
 	if($POST['makefeed1']) {
 		include_once(S_ROOT.'./source/function_feed.php');
 		feed_publish($arrangementid, 'arrangementid', $olds?0:1);
 	}
-	//½ÇÉ«ÇÐ»»
+	//ï¿½ï¿½É«ï¿½Ð»ï¿½
 	if(!empty($__SGLOBAL)) $_SGLOBAL = $__SGLOBAL;
 
 	return $arrangementarr;
 }
 
-//Ìí¼Ó²©¿Í
+function calendar_post($POST,$olds=array()){
+	global $_SGLOBAL, $_SC, $space;
+	$isself = 1;
+	if(!empty($olds['uid']) && $olds['uid'] != $_SGLOBAL['supe_uid']) {
+		$isself = 0;
+		$__SGLOBAL = $_SGLOBAL;
+		$_SGLOBAL['supe_uid'] = $olds['uid'];
+	}
+	//ï¿½ï¿½ï¿½ï¿½
+	$POST['subject'] = trim($POST['subject']);
+
+	//ï¿½ï¿½ï¿½ï¿½
+	$calendararr = array(
+			'calendar_name' => $POST['subject'],
+	);
+	
+	if($olds['id']) {
+		$calendar_id = $olds['id'];
+		updatetable('calendar', $calendararr, array('id'=>$calendar_id));
+	} else {
+		$calendararr['uid'] = $_SGLOBAL['supe_uid'];
+		$calendararr['dateline'] = empty($POST['dateline'])?$_SGLOBAL['timestamp']:$POST['dateline'];
+		$calendar_id = inserttable('calendar', $calendararr, 1);
+	}
+	
+	$calendararr['id'] = $calendar_id;
+	//ï¿½ï¿½ï¿½ï¿½feed
+	if($POST['makefeed1']) {
+		include_once(S_ROOT.'./source/function_feed.php');
+		feed_publish($calendar_id, 'calendar', $olds ? 0:1);
+	}
+	//ï¿½ï¿½É«ï¿½Ð»ï¿½
+	if(!empty($__SGLOBAL)) $_SGLOBAL = $__SGLOBAL;
+
+	return $calendararr;
+}
+
+//ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
 function blog_post($POST, $olds=array()) {
 	global $_SGLOBAL, $_SC, $space;
 	
-	//²Ù×÷Õß½ÇÉ«ÇÐ»»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½É«ï¿½Ð»ï¿½
 	$isself = 1;
 	if(!empty($olds['uid']) && $olds['uid'] != $_SGLOBAL['supe_uid']) {
 		$isself = 0;
@@ -222,15 +259,15 @@ function blog_post($POST, $olds=array()) {
 		$_SGLOBAL['supe_username'] = addslashes($olds['username']);
 	}
 
-	//±êÌâ
+	//ï¿½ï¿½ï¿½ï¿½
 	$POST['subject'] = getstr(trim($POST['subject']), 80, 1, 1, 1);
 	if(strlen($POST['subject'])<1) $POST['subject'] = sgmdate('Y-m-d');
 	$POST['friend'] = intval($POST['friend']);
 	
-	//ÒþË½
+	//ï¿½ï¿½Ë½
 	$POST['target_ids'] = '';
 	if($POST['friend'] == 2) {
-		//ÌØ¶¨ºÃÓÑ
+		//ï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½
 		$uids = array();
 		$names = empty($_POST['target_names'])?array():explode(' ', str_replace(cplang('tab_space'), ' ', $_POST['target_names']));
 		if($names) {
@@ -240,14 +277,14 @@ function blog_post($POST, $olds=array()) {
 			}
 		}
 		if(empty($uids)) {
-			$POST['friend'] = 3;//½ö×Ô¼º¿É¼û
+			$POST['friend'] = 3;//ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½É¼ï¿½
 		} else {
 			$POST['target_ids'] = implode(',', $uids);
 		}
 	} elseif($POST['friend'] == 4) {
-		//¼ÓÃÜ
+		//ï¿½ï¿½ï¿½ï¿½
 		$POST['password'] = trim($POST['password']);
-		if($POST['password'] == '') $POST['friend'] = 0;//¹«¿ª
+		if($POST['password'] == '') $POST['friend'] = 0;//ï¿½ï¿½ï¿½ï¿½
 	}
 	if($POST['friend'] !== 2) {
 		$POST['target_ids'] = '';
@@ -257,9 +294,9 @@ function blog_post($POST, $olds=array()) {
 	}
 
 	$POST['tag'] = shtmlspecialchars(trim($POST['tag']));
-	$POST['tag'] = getstr($POST['tag'], 500, 1, 1, 1);	//Óï´ÊÆÁ±Î
+	$POST['tag'] = getstr($POST['tag'], 500, 1, 1, 1);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//ÄÚÈÝ
+	//ï¿½ï¿½ï¿½ï¿½
 	if($_SGLOBAL['mobile']) {
 		$POST['message'] = getstr($POST['message'], 0, 1, 0, 1, 1);
 	} else {
@@ -275,10 +312,10 @@ function blog_post($POST, $olds=array()) {
 	}
 	$message = $POST['message'];
 
-	//¸öÈË·ÖÀà
+	//ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½
 	if(empty($olds['classid']) || $POST['classid'] != $olds['classid']) {
 		if(!empty($POST['classid']) && substr($POST['classid'], 0, 4) == 'new:') {
-			//·ÖÀàÃû
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			$classname = shtmlspecialchars(trim(substr($POST['classid'], 4)));
 			$classname = getstr($classname, 0, 1, 1, 1);
 			if(empty($classname)) {
@@ -302,12 +339,12 @@ function blog_post($POST, $olds=array()) {
 		$classid = $olds['classid'];
 	}
 	if($classid && empty($classname)) {
-		//ÊÇ·ñÊÇ×Ô¼ºµÄ
+		//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½
 		$classname = getcount('class', array('classid'=>$classid, 'uid'=>$_SGLOBAL['supe_uid']), 'classname');
 		if(empty($classname)) $classid = 0;
 	}
 	
-	//Ö÷±í
+	//ï¿½ï¿½ï¿½ï¿½
 	$blogarr = array(
 		'subject' => $POST['subject'],
 		'classid' => $classid,
@@ -316,10 +353,10 @@ function blog_post($POST, $olds=array()) {
 		'noreply' => empty($_POST['noreply'])?0:1
 	);
 
-	//±êÌâÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	$titlepic = '';
 	
-	//»ñÈ¡ÉÏ´«µÄÍ¼Æ¬
+	//ï¿½ï¿½È¡ï¿½Ï´ï¿½ï¿½ï¿½Í¼Æ¬
 	$uploads = array();
 	if(!empty($POST['picids'])) {
 		$picids = array_keys($POST['picids']);
@@ -337,7 +374,7 @@ function blog_post($POST, $olds=array()) {
 		}
 	}
 	
-	//²åÈëÎÄÕÂ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if($uploads) {
 		preg_match_all("/\<img\s.*?\_uchome\_localimg\_([0-9]+).+?src\=\"(.+?)\"/i", $message, $mathes);
 		if(!empty($mathes[1])) {
@@ -356,34 +393,34 @@ function blog_post($POST, $olds=array()) {
 				$message = str_replace($idsearchs, 'uchomelocalimg[]', $message);
 			}
 		}
-		//Î´²åÈëÎÄÕÂ
+		//Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		foreach ($uploads as $value) {
 			$picurl = pic_get($value['filepath'], $value['thumb'], $value['remote'], 0);
 			$message .= "<div class=\"uchome-message-pic\"><img src=\"$picurl\"><p>$value[title]</p></div>";
 		}
 	}
 	
-	//Ã»ÓÐÌîÐ´ÈÎºÎ¶«Î÷
+	//Ã»ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ÎºÎ¶ï¿½ï¿½ï¿½
 	$ckmessage = preg_replace("/(\<div\>|\<\/div\>|\s|\&nbsp\;|\<br\>|\<p\>|\<\/p\>)+/is", '', $message);
 	if(empty($ckmessage)) {
 		return false;
 	}
 	
-	//Ìí¼Óslashes
+	//ï¿½ï¿½ï¿½slashes
 	$message = addslashes($message);
 	
-	//´ÓÄÚÈÝÖÐ¶ÁÈ¡Í¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½È¡Í¼Æ¬
 	if(empty($titlepic)) {
 		$titlepic = getmessagepic($message);
 		$blogarr['picflag'] = 0;
 	}
 	$blogarr['pic'] = $titlepic;
 	
-	//ÈÈ¶È
+	//ï¿½È¶ï¿½
 	if(checkperm('manageblog')) {
 		$blogarr['hot'] = intval($POST['hot']);
 	}
-	//¸½¼þ
+	//ï¿½ï¿½ï¿½ï¿½
 	if($_POST['attachid']&&$_POST['attachpath']&&$_POST['attachname']&&$_POST['attachsize'])
 	{
 		$blogarr['attachid'] = $_POST['attachid'];
@@ -392,7 +429,7 @@ function blog_post($POST, $olds=array()) {
 		$blogarr['attachsize'] = $_POST['attachsize'];
 	}	
 	if($olds['blogid']) {
-		//¸üÐÂ
+		//ï¿½ï¿½ï¿½ï¿½
 		$blogid = $olds['blogid'];
 		updatetable('blog', $blogarr, array('blogid'=>$blogid));
 		
@@ -401,7 +438,7 @@ function blog_post($POST, $olds=array()) {
 		$blogarr['uid'] = $olds['uid'];
 		$blogarr['username'] = $olds['username'];
 	} else {
-		//²ÎÓëÈÈÄÖ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		$blogarr['topicid'] = topic_check($POST['topicid'], 'blog');
 
 		$blogarr['uid'] = $_SGLOBAL['supe_uid'];
@@ -412,7 +449,7 @@ function blog_post($POST, $olds=array()) {
 	
 	$blogarr['blogid'] = $blogid;
 	
-	//¸½±í	
+	//ï¿½ï¿½ï¿½ï¿½	
 	$fieldarr = array(
 		'message' => $message,
 		'postip' => getonlineip(),
@@ -426,7 +463,7 @@ function blog_post($POST, $olds=array()) {
 	$tagarr = array();
 	if($POST['tag'] != $oldtagstr) {
 		if(!empty($olds['tag'])) {
-			//ÏÈ°ÑÒÔÇ°µÄ¸øÇåÀíµô
+			//ï¿½È°ï¿½ï¿½ï¿½Ç°ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			$oldtags = array();
 			$query = $_SGLOBAL['db']->query("SELECT tagid, blogid FROM ".tname('tagblog')." WHERE blogid='$blogid'");
 			while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -438,12 +475,12 @@ function blog_post($POST, $olds=array()) {
 			}
 		}
 		$tagarr = tag_batch($blogid, $POST['tag']);
-		//¸üÐÂ¸½±íÖÐµÄtag
+		//ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½Ðµï¿½tag
 		$fieldarr['tag'] = empty($tagarr)?'':addslashes(serialize($tagarr));
 	}
 
 	if($olds) {
-		//¸üÐÂ
+		//ï¿½ï¿½ï¿½ï¿½
 		updatetable('blogfield', $fieldarr, array('blogid'=>$blogid));
 	} else {
 		$fieldarr['blogid'] = $blogid;
@@ -451,10 +488,10 @@ function blog_post($POST, $olds=array()) {
 		inserttable('blogfield', $fieldarr);
 	}
 
-	//¿Õ¼ä¸üÐÂ
+	//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
 	if($isself) {
 		if($olds) {
-			//¿Õ¼ä¸üÐÂ
+			//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET updatetime='$_SGLOBAL[timestamp]' WHERE uid='$_SGLOBAL[supe_uid]'");
 		} else {
 			if(empty($space['blognum'])) {
@@ -463,33 +500,33 @@ function blog_post($POST, $olds=array()) {
 			} else {
 				$blognumsql = 'blognum=blognum+1';
 			}
-			//»ý·Ö
+			//ï¿½ï¿½ï¿½
 			$reward = getreward('publishblog', 0);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$blognumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
 			
-			//Í³¼Æ
+			//Í³ï¿½ï¿½
 			updatestat('blog');
 		}
 	}
 	
-	//²úÉúfeed
+	//ï¿½ï¿½ï¿½ï¿½feed
 	if($POST['makefeed']) {
 		include_once(S_ROOT.'./source/function_feed.php');
 		feed_publish($blogid, 'blogid', $olds?0:1);
 	}
 	
-	//ÈÈÄÖ
+	//ï¿½ï¿½ï¿½ï¿½
 	if(empty($olds) && $blogarr['topicid']) {
 		topic_join($blogarr['topicid'], $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
 	}
 
-	//½ÇÉ«ÇÐ»»
+	//ï¿½ï¿½É«ï¿½Ð»ï¿½
 	if(!empty($__SGLOBAL)) $_SGLOBAL = $__SGLOBAL;
 
 	return $blogarr;
 }
 
-//´¦Àítag
+//ï¿½ï¿½ï¿½ï¿½tag
 function tag_batch($blogid, $tags) {
 	global $_SGLOBAL;
 
@@ -537,11 +574,11 @@ function tag_batch($blogid, $tags) {
 	return $tagarr;
 }
 
-//»ñÈ¡ÈÕÖ¾Í¼Æ¬
+//ï¿½ï¿½È¡ï¿½ï¿½Ö¾Í¼Æ¬
 function getmessagepic($message) {
 	$pic = '';
 	$message = stripslashes($message);
-	$message = preg_replace("/\<img src=\".*?image\/face\/(.+?).gif\".*?\>\s*/is", '', $message);	//ÒÆ³ý±íÇé·û
+	$message = preg_replace("/\<img src=\".*?image\/face\/(.+?).gif\".*?\>\s*/is", '', $message);	//ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ï¿½
 	preg_match("/src\=[\"\']*([^\>\s]{25,105})\.(jpg|gif|png)/i", $message, $mathes);
 	if(!empty($mathes[1]) || !empty($mathes[2])) {
 		$pic = "{$mathes[1]}.{$mathes[2]}";
@@ -549,7 +586,7 @@ function getmessagepic($message) {
 	return addslashes($pic);
 }
 
-//ÆÁ±Îhtml
+//ï¿½ï¿½ï¿½ï¿½html
 function checkhtml($html) {
 	$html = stripslashes($html);
 	if(!checkperm('allowhtml')) {
@@ -562,7 +599,7 @@ function checkhtml($html) {
 		$replaces[] = '&gt;';
 		
 		if($ms[1]) {
-			$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed';//ÔÊÐíµÄ±êÇ©
+			$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed';//ï¿½ï¿½ï¿½ï¿½Ä±ï¿½Ç©
 			$ms[1] = array_unique($ms[1]);
 			foreach ($ms[1] as $value) {
 				$searchs[] = "&lt;".$value."&gt;";
@@ -592,12 +629,12 @@ function checkhtml($html) {
 	return $html;
 }
 
-//ÊÓÆµ±êÇ©´¦Àí
+//ï¿½ï¿½Æµï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½
 function blog_bbcode($message) {
 	$message = preg_replace("/\[flash\=?(media|real)*\](.+?)\[\/flash\]/ie", "blog_flash('\\2', '\\1')", $message);
 	return $message;
 }
-//ÊÓÆµ
+//ï¿½ï¿½Æµ
 function blog_flash($swf_url, $type='') {
 	$width = '520';
 	$height = '390';
