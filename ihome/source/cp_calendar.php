@@ -140,7 +140,81 @@ if($op == 'delete') {
         //链接
         $url = $_GET['url'] ? preg_replace("/date=[\d\-]+/", '', $_GET['url']) : "space.php?do=calendar";
 
-}else {
+}elseif($op == 'getCalendarInfo'){
+
+    $start_t = isset($_GET['start']) ? strtotime($_GET['start']) : strtotime('Y-m-d', strtotime('-2 day'));
+    $end_t = isset($_GET['end']) ? strtotime($_GET['end']) : strtotime('Y-m-d', strtotime('+2 day'));
+    $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}");
+
+    $event = array();
+    while ($val = $_SGLOBAL['db']->fetch_array($query)) {
+        $item = array();
+        $item['id'] = $val['id'];
+        $item['title'] = $val['content'] . ' --- ' . $val['place'];
+        $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
+        $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
+        $event[] = $item;
+    }
+    echo json_encode($event);
+    exit();
+}elseif($op == 'addEventDo') {
+    //添加事件
+    if (submitcheck('calendarEventBtn') && !empty($calendar)) {
+        $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
+        $dateline = time();
+
+        $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`) ' .
+            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline})";
+        $_SGLOBAL['db']->query($sql);
+        showmessage('do_success', "space.php?do=calendar");
+    }
+    showmessage('do_error');
+}elseif($op == 'editEvent'){
+    isset($_GET['calendar_info_id']) && !empty($calendar) ? $calendar_info_id = $_GET['calendar_info_id'] : showmessage('do_error');
+    if(submitcheck('calendarEditEventBtn') ){
+
+        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}' where id = {$calendar_info_id}";
+
+        $_SGLOBAL['db']->query($sql);
+
+        showmessage('do_success', "space.php?do=calendar");
+    }else{
+        $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
+        $query = $_SGLOBAL['db']->query($sql);
+        $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
+        $calendarInfo['start_d'] = date('m/d/Y', $calendarInfo['start_t']);
+        $calendarInfo['start_w'] = date('H', $calendarInfo['start_t']) >= 12 ? '下午' : '上午' . date('H:i', $calendarInfo['start_t']);
+        $calendarInfo['end_d'] = date('m/d/Y', $calendarInfo['end_t']);
+        $calendarInfo['end_w'] = date('H', $calendarInfo['end_t']) >= 12 ? '下午' : '上午';
+        $calendarInfo['end_w'] .= date('H:i', $calendarInfo['end_t']);
+    }
+}elseif($op == 'showEvent'){
+
+    if(empty($calendar) || !isset($_GET['calendar_info_id']))
+        showmessage('do_error');
+    $calendar_info_id = $_GET['calendar_info_id'];
+    $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
+    $query = $_SGLOBAL['db']->query($sql);
+    $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
+
+    $calendarInfo['show_date'] = date('m月d日', $calendarInfo['start_t']);
+    $calendarInfo['show_date'] .= '（周' . getWeekName(date('w', $calendarInfo['start_t'])) . '），';
+    $calendarInfo['show_date'] .= date('H', $calendarInfo['start_t']) >= 12 ? '下午' : '上午';
+    $calendarInfo['show_date'] .= date('H:i', $calendarInfo['start_t']) . ' - ';
+    $calendarInfo['show_date'] .= date('H', $calendarInfo['end_t']) >= 12 ? '下午' : '上午';
+    $calendarInfo['show_date'] .= date('H:i', $calendarInfo['end_t']);
+
+}elseif($op == 'deleteEvent'){
+    if(!empty($calendar) && isset($_GET['calendar_info_id'])){
+        $sql = 'delete from ' . tname('calendar_info') . " where id = {$_GET['calendar_info_id']}";
+        $_SGLOBAL['db']->query($sql);
+        echo json_encode(array('status' => 1));
+    }else
+        echo json_encode(array('status' => 1));
+    exit();
+}
+else {
     //添加编辑日历
     //菜单激活
     $menuactives = array('space'=>' class="active"');
@@ -148,4 +222,30 @@ if($op == 'delete') {
 
 include_once template("cp_calendar");
 
+function getWeekName($w){
+    switch($w){
+        case 0:
+            $w = '日';
+            break;
+        case 1:
+            $w = '一';
+            break;
+        case 2:
+            $w = '二';
+            break;
+        case 3:
+            $w = '三';
+            break;
+        case 4:
+            $w = '四';
+            break;
+        case 5:
+            $w = '五';
+            break;
+        case 6:
+            $w = '六';
+            break;
+    }
+    return $w;
+}
 ?>
