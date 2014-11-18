@@ -226,6 +226,7 @@ $_SGLOBAL['cplang'] = array(
 	'feed_blog' => '{actor} 发表了新日志',
 	'feed_arrangement' => '{actor} 发布了一篇新的校园日历',
 	'feed_calendar' => '{actor} 发布了新日历',
+	'calendar_send_msg' => '日历<a href="\\1" target="_blank">\\2</a>事件还有\\3分钟后开始',
 	'feed_poll' => '{actor} 发起了新投票',
 	'note_poll_finish' => '您发起的<a href="\\1" target="_blank">《\\2》</a>的投票已结束,<a href="\\1" target="_blank">去写写投票总结</a>',
 	'take_part_in_the_voting' => '{actor} 参与了 {touser} 的{reward}投票 <a href="{url}" target="_blank">{subject}</a>',
