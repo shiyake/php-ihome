@@ -139,7 +139,13 @@
 
             var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo';
             var calendarId = location.search.match(/&id=(\d+)/);
-            if(calendarId) eventUrl += '&calendar_id=' + calendarId[1];
+            if(calendarId){
+                calendarId = calendarId[1];
+                eventUrl += '&calendar_id=' + calendarId;
+            }else{
+                calendarId = 0;
+            }
+
 
             fc.fullCalendar({
                 defaultDate : middleDate,
@@ -162,13 +168,13 @@
                 eventClick : function(calEvent, jsEvent, view){
                     var eaId = 'eventID' + calEvent.id;
                     j11(jsEvent.target).attr('id', eaId);
-                    j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=$value[id]&calendar_info_id=' + calEvent.id);
+                    j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
                     ajaxmenu(jsEvent, eaId);
                     lastClickEventJSEvent = jsEvent;
                 },
                 dayClick: function(date, jsEvent, view) {
                     var eaId = 'addEvent' + date.format('HHMDHm');
-                    var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=$value[id]',
+                    var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
                         'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
                     j11(jsEvent.target).parent().after(htmlA);
                     ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');

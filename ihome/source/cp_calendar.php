@@ -12,6 +12,10 @@ $calendar = array();
 if($calendar_id) {
     $query = $_SGLOBAL['db']->query("SELECT * from ".tname('calendar')." WHERE id='$calendar_id'");
     $calendar = $_SGLOBAL['db']->fetch_array($query);
+} else {
+    $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar') . ' where `uid` = ' . $_SGLOBAL['supe_uid'] . ' order by `dateline` limit 1');
+    $calendar = $_SGLOBAL['db']->fetch_array($query);
+    $calendar_id = $calendar['id'];
 }
 //权限检查
 if(empty($calendar)) {
@@ -144,12 +148,6 @@ if($op == 'delete') {
     $start_t = isset($_GET['start']) ? strtotime($_GET['start']) : strtotime('Y-m-d', strtotime('-2 day'));
     $end_t = isset($_GET['end']) ? strtotime($_GET['end']) : strtotime('Y-m-d', strtotime('+2 day'));
 
-    if($calendar_id == 0){
-        $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar') . ' where `uid` = ' . $_SGLOBAL['supe_uid'] . ' order by `dateline` limit 1');
-        $calendar = $_SGLOBAL['db']->fetch_array($query);
-        $calendar_id = $calendar['id'];
-    }
-
     $sql = 'select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}";
     $query = $_SGLOBAL['db']->query($sql);
 
@@ -185,7 +183,7 @@ if($op == 'delete') {
         $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
         $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
         $bgcolor = isset($_POST['bgcolor']) ? trim($_POST['bgcolor'], '#') : '924420';
-        
+
         $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
