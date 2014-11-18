@@ -14,7 +14,7 @@ if($op == 'index'){
     $row = $_SGLOBAL['db']->query('select * from '.tname('calendar')." where uid=".$uid." order by id desc limit 1");
     $my_calendar = $_SGLOBAL['db']->fetch_row($row);
     if(empty($my_calendar)){
-        $_SGLOBAL['db']->query("insert into ".tname('calendar')."(uid,calendar_name,dateline) values (".$uid.",'我的日历',".time().")");
+        $_SGLOBAL['db']->query("insert into ".tname('calendar')."(uid,calendar_name,dateline) values (".$uid.",'鎴戠殑鏃ュ巻',".time().")");
         $id = $_SGLOBAL['db'] -> insert_id();
     }else{
         $id = $my_calendar['id'];
