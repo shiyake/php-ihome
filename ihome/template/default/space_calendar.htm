@@ -27,7 +27,7 @@
 	</div>
 <!--{else}-->
 
-
+<script language="javascript" type="text/javascript" src="source/script_calendar.js"></script>
 <script type="text/javascript" src="plugin/fullcalendar/lib/jquery.min.js"></script>
         <script type="text/javascript">
             var j11 = jQuery.noConflict();
@@ -72,11 +72,11 @@
         </div>
         
 	<script type="text/javascript" charset="$_SC[charset]">
-		function showcalendar(month){
+		function showcalendar_new(month){
 			var month = month ? "&month="+month : "";
 			ajaxget('cp.php?ac=calendar&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->&calendar_id=$id', 'calendar_info');
 		}
-		showcalendar();
+		showcalendar_new();
 	</script>
     
     <div class="sidebox" style="position:absolute;right:0; top:280px;border-bottom:none;margin-top:20px;">
