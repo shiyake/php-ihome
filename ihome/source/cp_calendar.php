@@ -160,7 +160,7 @@ if($op == 'delete') {
         $item['title'] = $val['content'] . ' --- ' . $val['place'];
         $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
         $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
-        $item['color'] = $val['bgcolor'];
+        $item['color'] = '#' . $val['bgcolor'];
         $event[] = $item;
     }
     echo json_encode($event);
@@ -170,10 +170,11 @@ if($op == 'delete') {
     if (submitcheck('calendarEventBtn') && !empty($calendar)) {
         $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
         $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
+        $bgcolor = isset($_POST['bgcolor']) ? trim($_POST['bgcolor'], '#') : '924420';
         $dateline = time();
 
-        $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`) ' .
-            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline})";
+        $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`, `bgcolor`) ' .
+            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
         $_SGLOBAL['db']->query($sql);
         showmessage('do_success', "space.php?do=calendar");
     }
@@ -183,7 +184,9 @@ if($op == 'delete') {
     if(submitcheck('calendarEditEventBtn') ){
         $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
         $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
-        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}' where id = {$calendar_info_id}";
+        $bgcolor = isset($_POST['bgcolor']) ? trim($_POST['bgcolor'], '#') : '924420';
+        
+        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
 

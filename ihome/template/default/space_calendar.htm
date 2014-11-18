@@ -43,24 +43,47 @@
     </div>    
 </h4>
 <style>
-    .h_status a{
-       color:#777;
-       margin-right:5px;
-   }
-   .h_status .active {
-       color:#01B6F9;
-   }
-   .avatar48 {
-            height:64px;
-            width:64px;
-            border-radius:50%;
-            border:2px solid #fff;
-            box-shadow:3px 5px 4px -2px rgb(220, 220, 220);
-        }
-        .avatar48 img {
-            height:60px;
-            width:60px;
-        }
+    .h_status a {
+        color: #777;
+        margin-right: 5px;
+    }
+
+    .h_status .active {
+        color: #01B6F9;
+    }
+    .avatar48 {
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+    }
+    .avatar48 img {
+        height: 60px;
+        width: 60px;
+    }
+    .eventColor{
+        position: relative;
+        border: 1px solid #000;
+        cursor: pointer;
+        height: 14px;
+        margin: 0 2.5px;
+        width: 14px;
+        vertical-align: top;
+        display: inline-block;
+    }
+    .eventColorActive{
+        background: url(/image/combined_v46_vr.png);
+        background-position: -95px -50px;
+        height: 10px;
+        width: 10px;
+        left: -1px;
+        top: -1px;
+        margin: 3px;
+        overflow: hidden;
+        position: relative;
+        vertical-align: top;
+    }
 </style>
 
 <div id="content" style="padding-left:10px;margin-top: 10px;border-right:none;background: #ffffff;">
@@ -96,13 +119,13 @@
 	</ul>
 
     </div>
-    
 <!--{/if}-->
 
     <script type="text/javascript">
         j11(function () {
             var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
             initFc('content', showFcMoment);
+
         });
 
         var fc = null;
@@ -155,6 +178,19 @@
 
         function beforeShowAddEventHtmlA(eaId){
             j11('#content #' + eaId).remove();//移除添加的定位标签a
+
+            j11('label').delegate('.eventColor', 'mouseover', function(){
+                j11(this).css('border-color', '#000');
+            });
+            j11('label').delegate('.eventColor', 'mouseout', function(){
+                j11(this).css('border-color', j11(this).css('background-color'));
+            });
+            j11('label').delegate('.eventColor', 'click', function(){
+                j11('.eventColorActive').remove();
+                j11('.eventColorActiveInput').remove();
+                j11(this).append(j11('<div>', {'class' : 'eventColorActive'}));
+                j11(this).append(j11('<input>', {'type' : 'hidden', 'value' : j11(this).css('background-color'), 'name' : 'bgcolor', 'class' : 'eventColorActiveInput'}));
+            });
         }
 
         function showEditEvent(eventID, href){
