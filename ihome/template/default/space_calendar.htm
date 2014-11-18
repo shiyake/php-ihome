@@ -113,6 +113,11 @@
             var fShowFirstDay = parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e'));
             var fHiddenDays = [parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e')),
                 parseInt(j11.fullCalendar.moment(middleDate).add(4, 'days').format('e'))];
+
+            var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo';
+            var calendarId = location.search.match(/&id=(\d+)/);
+            if(calendarId) eventUrl += '&calendar_id=' + calendarId[1];
+
             fc.fullCalendar({
                 defaultDate : middleDate,
                 height: 1100,
@@ -130,7 +135,7 @@
                 firstDay : fShowFirstDay,
                 hiddenDays : fHiddenDays,
                 eventDurationEditable : false,
-                events : '/cp.php?ac=calendar&op=getCalendarInfo&calendar_id=$value[id]',
+                events : eventUrl,
                 eventClick : function(calEvent, jsEvent, view){
                     var eaId = 'eventID' + calEvent.id;
                     j11(jsEvent.target).attr('id', eaId);

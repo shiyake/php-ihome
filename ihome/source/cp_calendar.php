@@ -141,10 +141,17 @@ if($op == 'delete') {
         $url = $_GET['url'] ? preg_replace("/date=[\d\-]+/", '', $_GET['url']) : "space.php?do=calendar";
 
 }elseif($op == 'getCalendarInfo'){
-
     $start_t = isset($_GET['start']) ? strtotime($_GET['start']) : strtotime('Y-m-d', strtotime('-2 day'));
     $end_t = isset($_GET['end']) ? strtotime($_GET['end']) : strtotime('Y-m-d', strtotime('+2 day'));
-    $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}");
+
+    if($calendar_id == 0){
+        $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar') . ' where `uid` = ' . $_SGLOBAL['supe_uid'] . ' order by `dateline` limit 1');
+        $calendar = $_SGLOBAL['db']->fetch_array($query);
+        $calendar_id = $calendar['id'];
+    }
+
+    $sql = 'select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}";
+    $query = $_SGLOBAL['db']->query($sql);
 
     $event = array();
     while ($val = $_SGLOBAL['db']->fetch_array($query)) {
@@ -153,6 +160,7 @@ if($op == 'delete') {
         $item['title'] = $val['content'] . ' --- ' . $val['place'];
         $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
         $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
+        $item['color'] = $val['bgcolor'];
         $event[] = $item;
     }
     echo json_encode($event);
