@@ -181,8 +181,9 @@ if($op == 'delete') {
 }elseif($op == 'editEvent'){
     isset($_GET['calendar_info_id']) && !empty($calendar) ? $calendar_info_id = $_GET['calendar_info_id'] : showmessage('do_error');
     if(submitcheck('calendarEditEventBtn') ){
-
-        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}' where id = {$calendar_info_id}";
+        $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
+        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
 
@@ -191,10 +192,9 @@ if($op == 'delete') {
         $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
         $query = $_SGLOBAL['db']->query($sql);
         $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
-        $calendarInfo['start_d'] = date('m/d/Y', $calendarInfo['start_t']);
-        $calendarInfo['start_w'] = date('H', $calendarInfo['start_t']) >= 12 ? '下午' : '上午' . date('H:i', $calendarInfo['start_t']);
-        $calendarInfo['end_d'] = date('m/d/Y', $calendarInfo['end_t']);
-        $calendarInfo['end_w'] = date('H', $calendarInfo['end_t']) >= 12 ? '下午' : '上午';
+        $calendarInfo['start_d'] = date('Y-m-d', $calendarInfo['start_t']);
+        $calendarInfo['start_w'] = date('H:i', $calendarInfo['start_t']);
+        $calendarInfo['end_d'] = date('Y-m-d', $calendarInfo['end_t']);
         $calendarInfo['end_w'] .= date('H:i', $calendarInfo['end_t']);
     }
 }elseif($op == 'showEvent'){
