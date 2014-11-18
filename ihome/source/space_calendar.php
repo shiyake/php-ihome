@@ -1,32 +1,32 @@
 <?php
 /**
- * æ—¥åŽ†åŠŸèƒ½æ¨¡å—
+ * ÈÕÀú¹¦ÄÜÄ£¿é
  */
 if(!defined('iBUAA')) {
     exit('Access Denied');
 }
 
-//æ“ä½œåŠ¨ä½œ
+//²Ù×÷¶¯×÷
 $op = !empty($_GET['op']) && in_array($_GET['op'],array('index','add')) ? trim($_GET['op']) : 'index';
 
 $uid = $_SGLOBAL['supe_uid'];
 
-//æ—¥åŽ†çš„ä¸­é—´æ˜¾ç¤ºé‚£ä¸€å¤©  2014-11-10
+//ÈÕÀúµÄÖÐ¼äÏÔÊ¾ÄÇÒ»Ìì  2014-11-10
 $showFcDate = isset($_GET['showFcDate']) ? $_GET['showFcDate'] : date('Y-m-d');
 
 
 if($op == 'index'){
-    //é»˜è®¤æ‰“å¼€æ—¥åŽ†åŠŸèƒ½
-    //æ£€æŸ¥å½“æ—¶ç”¨æˆ·æ˜¯å¦æœ‰æ—¥åŽ†ï¼Œå¦‚æ²¡æœ‰æ—¥åŽ†ï¼Œè‡ªåŠ¨åˆ›å»ºé»˜è®¤æ—¥åŽ†
+    //Ä¬ÈÏ´ò¿ªÈÕÀú¹¦ÄÜ
+    //¼ì²éµ±Ê±ÓÃ»§ÊÇ·ñÓÐÈÕÀú£¬ÈçÃ»ÓÐÈÕÀú£¬×Ô¶¯´´½¨Ä¬ÈÏÈÕÀú
     $row = $_SGLOBAL['db']->query('select * from '.tname('calendar')." where uid=".$uid." order by id desc limit 1");
     $my_calendar = $_SGLOBAL['db']->fetch_row($row);
     if(empty($my_calendar)){
-        $_SGLOBAL['db']->query("insert into ".tname('calendar')."(uid,calendar_name,dateline) values (".$uid.",'æˆ‘çš„æ—¥åŽ†',".time().")");
+        $_SGLOBAL['db']->query("insert into ".tname('calendar')."(uid,calendar_name,dateline) values (".$uid.",'ÎÒµÄÈÕÀú',".time().")");
         $id = $_SGLOBAL['db'] -> insert_id();
     }else{
         $id = $my_calendar['id'];
     }
-    //èŽ·å–æ‰€æœ‰æ—¥åŽ†åˆ—è¡¨ï¼Œç”¨äºŽå‰å°å±•å‡º
+    //»ñÈ¡ËùÓÐÈÕÀúÁÐ±í£¬ÓÃÓÚÇ°Ì¨Õ¹³ö
     $list_query = $_SGLOBAL['db']->query("select * from ".tname('calendar')." where uid={$uid} order by id asc");
     while($row = $_SGLOBAL['db']->fetch_array($list_query)){
         $list[] = $row;
