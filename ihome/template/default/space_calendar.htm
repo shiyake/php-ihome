@@ -125,7 +125,7 @@
         j11(function () {
             var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
             initFc('content', showFcMoment);
-
+            bindMenuColorEvent();
         });
 
         var fc = null;
@@ -176,22 +176,24 @@
                     var eaId = 'addEvent' + date.format('HHMDHm');
                     var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
                         'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
-                    j11(jsEvent.target).parent().after(htmlA);
+                    j11(jsEvent.target).append(htmlA);
                     ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
                 }
             });
         }
 
         function beforeShowAddEventHtmlA(eaId){
-            j11('#content #' + eaId).remove();//移除添加的定位标签a
+            //j11('#content #' + eaId).remove();//移除添加的定位标签a
+        }
 
-            j11('label').delegate('.eventColor', 'mouseover', function(){
+        function bindMenuColorEvent(){
+            j11('#append_parent').delegate('.eventColor', 'mouseover', function(){
                 j11(this).css('border-color', '#000');
             });
-            j11('label').delegate('.eventColor', 'mouseout', function(){
+            j11('#append_parent').delegate('.eventColor', 'mouseout', function(){
                 j11(this).css('border-color', j11(this).css('background-color'));
             });
-            j11('label').delegate('.eventColor', 'click', function(){
+            j11('#append_parent').delegate('.eventColor', 'click', function(){
                 j11('.eventColorActive').remove();
                 j11('.eventColorActiveInput').remove();
                 j11(this).append(j11('<div>', {'class' : 'eventColorActive'}));
