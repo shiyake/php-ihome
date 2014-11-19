@@ -122,10 +122,12 @@
 <!--{/if}-->
 
     <script type="text/javascript">
+        var clickDate = '';
+        var clickDayEvent = null;
         j11(function () {
             var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
             initFc('content', showFcMoment);
-            bindMenuColorEvent();
+            bindMenuEvent();
         });
 
         var fc = null;
@@ -145,8 +147,6 @@
             }else{
                 calendarId = 0;
             }
-
-
             fc.fullCalendar({
                 defaultDate : middleDate,
                 height: 1100,
@@ -166,13 +166,17 @@
                 eventDurationEditable : false,
                 events : eventUrl,
                 eventClick : function(calEvent, jsEvent, view){
+                    removeNoneMenu();
                     var eaId = 'eventID' + calEvent.id;
                     j11(jsEvent.target).attr('id', eaId);
                     j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
-                    ajaxmenu(jsEvent, eaId);
+                    ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
                     lastClickEventJSEvent = jsEvent;
                 },
                 dayClick: function(date, jsEvent, view) {
+                    removeNoneMenu();
+                    clickDate = date;
+                    clickDayEvent = jsEvent;
                     var eaId = 'addEvent' + date.format('HHMDHm');
                     var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
                         'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
@@ -182,11 +186,25 @@
             });
         }
 
-        function beforeShowAddEventHtmlA(eaId){
-            //j11('#content #' + eaId).remove();//移除添加的定位标签a
+        function removeNoneMenu(){
+            j11('#append_parent>.popupmenu_popup').remove();
         }
 
-        function bindMenuColorEvent(){
+        function beforeShowAddEventHtmlA(eaId){
+            //j11('#content #' + eaId).remove();//移除添加的定位标签a
+            if(!j11('#start_d')){
+                setTimeout(beforeShowAddEventHtmlA, 500);
+                return false;
+            }
+
+            var showDate = clickDate.format('YYYY-M-D');
+            j11('#start_d').val(showDate);
+            j11('#end_d').val(showDate);
+            showDateTime(j11('#start_t'), showDate);
+            showDateTime(j11('#end_t'), showDate);
+        }
+
+        function bindMenuEvent(){
             j11('#append_parent').delegate('.eventColor', 'mouseover', function(){
                 j11(this).css('border-color', '#000');
             });
@@ -199,18 +217,40 @@
                 j11(this).append(j11('<div>', {'class' : 'eventColorActive'}));
                 j11(this).append(j11('<input>', {'type' : 'hidden', 'value' : j11(this).css('background-color'), 'name' : 'bgcolor', 'class' : 'eventColorActiveInput'}));
             });
+
+            j11('#calendar').delegate(' td', 'click', function(){
+                var sDate = j11('#start_d').val();
+                var eDate = j11('#end_d').val();
+                showDateTime(j11('#start_t'), sDate);
+                showDateTime(j11('#end_t'), eDate);
+
+                var sUnix = new Number(j11.fullCalendar.moment(sDate, 'YYYY-MM-DD').format('X'));
+                var eUnix = new Number(j11.fullCalendar.moment(eDate, 'YYYY-MM-DD').format('X'));
+                if (sUnix > eUnix) {
+                    j11('#end_d').parent().addClass('has-error');
+                } else {
+                    j11('#end_d').parent().removeClass('has-error');
+                }
+            });
         }
 
-        function showEditEvent(eventID, href){
-            var eaID = 'editEventMenu' + eventID;
-            j11(lastClickEventJSEvent.target).attr('id', eaID);
-            j11(lastClickEventJSEvent.target).attr('href', href);
-            ajaxmenu(lastClickEventJSEvent, eaID);
+        function showDateTime(obj, date){
+            if(!date) date = clickDate.format('YYYY-M-D');
+            obj.html('');
+            var st = parseInt(j11.fullCalendar.moment(date + ' 7:00', 'YYYY-M-D H:mm').format('X')) * 1000;
+            var et = parseInt(j11.fullCalendar.moment(date + ' 21:00', 'YYYY-M-D H:mm').format('X')) * 1000;
+            var i = st;
+            do{
+                var html = j11.fullCalendar.moment(i).format('aHH:mm');
+                obj.append(j11('<option>', {'html' : html, 'value' : i}));
+                i += 60 * 30 * 1000;
+            }while(i <= et);
         }
 
-        function addEventOK(res){
+        function addEventOK(){
             location.reload();
         }
+
         function editEventOK(res, a){
             location.reload();
         }
@@ -220,6 +260,7 @@
                 location.reload();
             });
         }
+
     </script>
 
 <!--{template footer}-->
