@@ -53,7 +53,7 @@ if($isfounder) {
 }
 
 
-
+$acs[4] = array();
 if(($_SGLOBAL['member']['groupid']==1) || $isfounder) {
 	$acs[4] = array('jifen_lb','jifen_lp','jifen_pl','jifen_cj','jifen_dhlog','jifen_cjlog','software_lb');
 }
@@ -97,15 +97,30 @@ $m_groupid = $_SGLOBAL['member']['groupid'];
 $megroup = $_SGLOBAL['usergroup'][$m_groupid];
 $megroup['manageuserapp'] = $megroup['manageapp'];
 
+$gifted_menus = array();
+$gifted_extra = array();
+$q = $_SGLOBAL['db']->query("select * from ".tname('proxy')." where uid=$_SGLOBAL[supe_uid]");
+if ($r = $_SGLOBAL['db']->fetch_array($q)) {
+	for ($i=0; $i < 6; $i++) { 
+		if ($r['menu_'.$i]) {
+			$gifted_menus[] = $i;
+		}
+	}
+	$gifted_extra = explode(',',$r['extra']);
+}
 for($i=0; $i<3; $i++) {
 	foreach ($acs[$i] as $value) {
-		if($isfounder || $megroup['manageconfig'] || $megroup['manage'.$value]) {
+		if($isfounder || $megroup['manageconfig'] || $megroup['manage'.$value] || in_array($i, $gifted_menus) || in_array($value, $gifted_extra)) {
 			$needlogin = 1;
 			$menus[$i][$value] = 1;
 			$_SGLOBAL['usergroup'][$m_groupid]['manage'.$value] = 1;
 
 		}
 	}
+}
+$isProxy = 0;
+if (!$isfounder && !$megroup['manageconfig'] && in_array(0, $gifted_menus)) {
+	$isProxy = 1;
 }
 
 //管理空间
