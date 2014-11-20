@@ -845,8 +845,8 @@ xxim.view = function(){
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
             +'</div>'
             +'<ul class="xxim_bottom" id="xxim_bottom">'
-            +'<li class="xxim_mymsg" id="xxim_mymsg" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
-            +'<li class="xxim_hide" id="xxim_hide"><i></i></li>'
+            +'<li class="xxim_mymsg" id="xxim_mymsg" data-toggle="tooltip" data-placement="top" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
+            +'<li class="xxim_hide" id="xxim_hide" data-toggle="tooltip" data-placement="top" title="折叠切换"><i></i></li>'
             +'<div class="layim_min" id="layim_min"></div>'
         +'</ul>'
     +'</div>');
@@ -859,6 +859,10 @@ xxim.view = function(){
     xxim.update();
     jQuery.get('source/face.js', {}, function(data){
         eval(data);
+    });
+    jQuery('[data-toggle="tooltip"]').tooltip();
+    jQuery('.xxim_bottom').click(function(){
+        jQuery('.xxim_bottom .tooltip').hide();
     });
 };
 
