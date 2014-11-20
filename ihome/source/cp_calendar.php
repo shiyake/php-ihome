@@ -166,8 +166,9 @@ if($op == 'delete') {
 }elseif($op == 'addEventDo') {
     //添加事件
     if (submitcheck('calendarEventBtn') && !empty($calendar)) {
-        $start_time = strtotime($_POST['start_d'] . ' ' . date($_POST['start_t'] / 1000, 'H:i') . ':00');
-        $end_time = strtotime($_POST['end_d'] . ' ' . date($_POST['end_t'] / 1000, 'H:i') . ':00');
+
+        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
         $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '#924420';
         $dateline = time();
 
@@ -180,8 +181,8 @@ if($op == 'delete') {
 }elseif($op == 'editEvent'){
     isset($_GET['calendar_info_id']) && !empty($calendar) ? $calendar_info_id = $_GET['calendar_info_id'] : showmessage('do_error');
     if(submitcheck('calendarEditEventBtn') ){
-        $start_time = strtotime($_POST['start_d'] . ' ' . date($_POST['start_t'] / 1000, 'H:i') . ':00');
-        $end_time = strtotime($_POST['end_d'] . ' ' . date($_POST['end_t'] / 1000, 'H:i') . ':00');
+        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
         $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '924420';
 
         $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";

@@ -161,25 +161,17 @@
             <div style="padding: 20px 30px;">
                 <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="$calendarInfo['content']" /></label>
                 <br/><label>时间：<br/>
-                <input name="start_d" id="start_d" value="$calendarInfo['start_d']" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[start_t])}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <select name="start_t" id="start_t">
-                <!--{eval for($i=7;$i<=22;$i++){ }-->
-                <option value="<!--{$i}-->:00" <!--{if $i.':00' == $calendarInfo[start_w]}-->selected="selected"<!--{/if}-->><!--{if $i>=7 && $i<12}-->上午<!--{elseif $i>=12 && $i<18}-->下午<!--{else}-->晚上<!--{/if}-->$i:00</option>
-                <!--{if $i<22}-->
-                <option value="<!--{$i}-->:30" <!--{if $i.':30' == $calendarInfo[start_w]}-->selected="selected"<!--{/if}-->><!--{if $i>=7 && $i<12}-->上午<!--{elseif $i>=12 && $i<18}-->下午<!--{else}-->晚上<!--{/if}-->$i:30</option>
-                <!--{/if}-->
-                <!--{eval } }-->
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="start_d" id="start_d" value="$calendarInfo['start_d']" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[start_t])}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="start_t" id="start_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
                 </select>
+                </div>
                 到：
-                <input name="end_d" id="end_d" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[end_t])}-->')" value="$calendarInfo['end_d']" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <select name="end_t" id="end_t">
-                <!--{eval for($i=7;$i<=22;$i++){ }-->
-                <option value="<!--{$i}-->:00" <!--{if $i.':00' == $calendarInfo[end_w]}-->selected="selected"<!--{/if}-->><!--{if $i>=7 && $i<12}-->上午<!--{elseif $i>=12 && $i<18}-->下午<!--{else}-->晚上<!--{/if}-->$i:00</option>
-                <!--{if $i<22}-->
-                <option value="<!--{$i}-->:30" <!--{if $i.':30' == $calendarInfo[end_w]}-->selected="selected"<!--{/if}-->><!--{if $i>=7 && $i<12}-->上午<!--{elseif $i>=12 && $i<18}-->下午<!--{else}-->晚上<!--{/if}-->$i:30</option>
-                <!--{/if}-->
-                <!--{eval } }-->
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="end_d" id="end_d" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[end_t])}-->')" value="$calendarInfo['end_d']" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="end_t" id="end_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
                 </select>
+                </div>
                 </label><br/>
                 <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
                 <label>颜色：
@@ -226,8 +218,8 @@
             </div>
             <hr style="margin-top: 0;"/>
             <p class="btn_line" style="float:right; margin-bottom:5px;">
-                <input type="hidden" name="start_t" value="$calendarInfo['start_t']">
-                <input type="hidden" name="end_t" value="$calendarInfo['end_t']">
+                <!--<input type="hidden" name="start_t" value="$calendarInfo['start_t']">
+                <input type="hidden" name="end_t" value="$calendarInfo['end_t']">-->
                 <button name="btnsubmit" type="button"
                         class="btn btn-sm" value="true" onclick="deleteEvent($calendar_id, $calendar_info_id);hideMenu();">删除</button>
                 <button type="button"

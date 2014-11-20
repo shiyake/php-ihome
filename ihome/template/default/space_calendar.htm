@@ -122,7 +122,7 @@
 <!--{/if}-->
 
     <script type="text/javascript">
-        var clickDate = '';
+        var clickDate = {};
         var clickDayEvent = null;
         j11(function () {
             var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
@@ -168,14 +168,15 @@
                 eventClick : function(calEvent, jsEvent, view){
                     removeNoneMenu();
                     var eaId = 'eventID' + calEvent.id;
+                    clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
                     j11(jsEvent.target).attr('id', eaId);
                     j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
-                    ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
+                    ajaxmenu(jsEvent, eaId);
                     lastClickEventJSEvent = jsEvent;
                 },
                 dayClick: function(date, jsEvent, view) {
                     removeNoneMenu();
-                    clickDate = date;
+                    clickDate = {'start': date, 'end' : date, 'type' : 'add'};
                     clickDayEvent = jsEvent;
                     var eaId = 'addEvent' + date.format('HHMDHm');
                     var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
@@ -193,15 +194,16 @@
         function beforeShowAddEventHtmlA(eaId){
             //j11('#content #' + eaId).remove();//移除添加的定位标签a
             if(!j11('#start_d')){
-                setTimeout(beforeShowAddEventHtmlA, 500);
+                setTimeout(beforeShowAddEventHtmlA, 1000);
                 return false;
             }
 
-            var showDate = clickDate.format('YYYY-M-D');
-            j11('#start_d').val(showDate);
-            j11('#end_d').val(showDate);
-            showDateTime(j11('#start_t'), showDate);
-            showDateTime(j11('#end_t'), showDate);
+            var sDate = clickDate.start.format('YYYY-MM-DD');
+            var eDate = clickDate.end.format('YYYY-MM-DD');
+            j11('#start_d').val(sDate);
+            j11('#end_d').val(eDate);
+            showDateTime(j11('#start_t'), sDate, clickDate.start);
+            showDateTime(j11('#end_t'), eDate, clickDate.end);
         }
 
         function bindMenuEvent(){
@@ -234,17 +236,35 @@
             });
         }
 
-        function showDateTime(obj, date){
-            if(!date) date = clickDate.format('YYYY-M-D');
+        function showDateTime(obj, date, selectedTime){
             obj.html('');
+            if(clickDate.type == 'edit'){
+                selectedTime = selectedTime.format('X') * 1000;
+            }else{
+                selectedTime = null;
+            }
+
             var st = parseInt(j11.fullCalendar.moment(date + ' 7:00', 'YYYY-M-D H:mm').format('X')) * 1000;
             var et = parseInt(j11.fullCalendar.moment(date + ' 21:00', 'YYYY-M-D H:mm').format('X')) * 1000;
             var i = st;
             do{
                 var html = j11.fullCalendar.moment(i).format('aHH:mm');
-                obj.append(j11('<option>', {'html' : html, 'value' : i}));
+                var op = j11('<option>', {'html' : html, 'value' : i});
+                if(selectedTime && selectedTime == i){
+                    op.attr('selected','selected');
+                }
+                obj.append(op);
                 i += 60 * 30 * 1000;
             }while(i <= et);
+        }
+
+        function showEditEvent(eventID, href){
+            var eaID = 'editEventMenu' + eventID;
+            j11(lastClickEventJSEvent.target).attr('id', eaID);
+            j11(lastClickEventJSEvent.target).attr('href', href);
+            ajaxmenu(lastClickEventJSEvent, eaID);
+
+            beforeShowAddEventHtmlA();
         }
 
         function addEventOK(){
