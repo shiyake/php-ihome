@@ -591,9 +591,11 @@ if(!empty($_GET['show']))	{
 $complainQuery = $_SGLOBAL['db']->query("select * from ".tname("complain_op")." order by dateline DESC LIMIT 10");
 while ($complain = $_SGLOBAL['db']->fetch_array($complainQuery)) {
 	$complain['dateline'] = date("Y-m-d H:i",$complain['dateline']);
-	if (empty($_SN[$complain['uid']])) {
-		$_SN[$complain['uid']] = getUsername($complain['uid'],$_SGLOBAL['db']);
-	}
+	if (!$complain['uid']) {
+	    realname_set($complain['uid'], $complain['username']);
+	} elseif (empty($_SN[$complain['uid']])) {
+        $_SN[$complain['uid']] = getUsername($complain['uid'],$_SGLOBAL['db']);
+    }
 	$Complains[] = $complain;
 }
 
