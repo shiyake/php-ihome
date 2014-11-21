@@ -37,11 +37,23 @@
 <script type="text/javascript" src="plugin/fullcalendar/zh-cn.js"></script>
 <link rel="stylesheet" href="plugin/fullcalendar/fullcalendar.min.css">
 
-<h4 class="title title30">日历
+<div class="title title30">
+    <div class="fc fc-right" style="width: 550px;display: inline-block;background: #ffffff;">
+        <span style="font-size: 18px;">日历</span>
+        <div class="fc-button-group" style="float: right;">
+            <button type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left" id="cPrev">
+                <span class="fc-icon fc-icon-left-single-arrow"></span>
+            </button>
+            <button type="button" class="fc-next-button fc-button fc-state-default fc-corner-right" id="cNext">
+                <span class="fc-icon fc-icon-right-single-arrow"></span>
+            </button>
+        </div>
+    </div>
+
     <div class="r_option">
         <a style="font-size:14px;line-height:30px;" href="cp.php?ac=arrangement">发布新安排</a>
     </div>    
-</h4>
+</div>
 <style>
     .h_status a {
         color: #777;
@@ -87,7 +99,6 @@
 </style>
 
 <div id="content" style="padding-left:10px;margin-top: 10px;border-right:none;background: #ffffff;">
-
 </div>
 
 	<div class="sidebox" style="position:absolute;right:0;border-bottom:none;margin-top:20px;">
@@ -124,20 +135,20 @@
     <script type="text/javascript">
         var clickDate = {};
         var clickDayEvent = null;
+        var caDefaultDate = "$showFcDate";
         j11(function () {
-            var showFcMoment = j11.fullCalendar.moment("$showFcDate", 'YYYY-M-D');
-            initFc('content', showFcMoment);
+            resetCa();
             bindMenuEvent();
         });
 
         var fc = null;
         var lastClickEventJSEvent = null;
         function initFc(id, middleDate){
-            fc = j11('#' + id);
+            fc = j11(id);
             middleDate ? null : middleDate = j11.fullCalendar.moment();
-            var fShowFirstDay = parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e'));
-            var fHiddenDays = [parseInt(j11.fullCalendar.moment(middleDate).subtract(2, 'days').format('e')),
-                parseInt(j11.fullCalendar.moment(middleDate).add(4, 'days').format('e'))];
+            var fShowFirstDay = parseInt(middleDate.subtract(2, 'day').format('e'));
+            var h1 = parseInt(middleDate.add(6, 'day').format('e'));
+            var fHiddenDays = [fShowFirstDay, h1];
 
             var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo';
             var calendarId = location.search.match(/&id=(\d+)/);
@@ -148,7 +159,7 @@
                 calendarId = 0;
             }
             fc.fullCalendar({
-                defaultDate : middleDate,
+                defaultDate : moment(caDefaultDate, 'YYYY-MM-DD'),
                 height: 1100,
                 contentHeight: 770,
                 header: false,
@@ -236,15 +247,48 @@
             });
 
             j11('#append_parent').delegate('#start_t', 'change', function(){
+                showDateTime(j11('#end_t'), j11('#end_d').val(), j11.fullCalendar.moment(j11('#end_d').val(), 'YYYY-MM-DD'));
                 var thisTimeStamp = j11(this).val();
-                thisTimeStamp = new Number(thisTimeStamp);
-                showDateTime(j11('#end_t'), moment.utc(thisTimeStamp).format('YYYY-M-D'), moment.utc(thisTimeStamp));
                 var endSelect = j11('#end_t>option');
                 j11.each(endSelect, function(i, n){
                     var n = j11(n);
                     if(n.val() <= thisTimeStamp) n.remove();
                 });
             });
+
+
+            j11('#cPrev').mouseover(function(){
+                j11('#cPrev').addClass('fc-state-hover');
+            });
+            j11('#cPrev').mouseout(function(){
+                j11('#cPrev').removeClass('fc-state-hover');
+            });
+            j11('#cNext').mouseover(function(){
+                j11('#cNext').addClass('fc-state-hover');
+            });
+            j11('#cNext').mouseout(function(){
+                j11('#cNext').removeClass('fc-state-hover');
+            });
+            j11('#cPrev').click(function(){
+                resetCa('-')
+            });
+            j11('#cNext').click(function(){
+                resetCa('+')
+            });
+        }
+
+        function resetCa(type){
+            var timestamp = new Number(j11.fullCalendar.moment(caDefaultDate, 'YYYY-MM-DD').format('X'));
+            if(type == '+'){
+                timestamp += 86400 * 5;
+            }else if(type == '-'){
+                timestamp -= 86400 * 5;
+            }
+            timestamp = j11.fullCalendar.moment(timestamp * 1000);
+            j11('#content').html('');
+            caDefaultDate = timestamp.format('YYYY-MM-DD');
+            j11('#content').fullCalendar('destroy');
+            initFc('#content', timestamp);
         }
 
         function showDateTime(obj, date, selectedTime){
