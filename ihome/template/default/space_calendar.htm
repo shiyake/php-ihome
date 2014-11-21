@@ -223,8 +223,8 @@
             j11('#calendar').delegate(' td', 'click', function(){
                 var sDate = j11('#start_d').val();
                 var eDate = j11('#end_d').val();
-                showDateTime(j11('#start_t'), sDate);
-                showDateTime(j11('#end_t'), eDate);
+                showDateTime(j11('#start_t'), sDate, clickDate.start);
+                showDateTime(j11('#end_t'), eDate, clickDate.end);
 
                 var sUnix = new Number(j11.fullCalendar.moment(sDate, 'YYYY-MM-DD').format('X'));
                 var eUnix = new Number(j11.fullCalendar.moment(eDate, 'YYYY-MM-DD').format('X'));
@@ -234,23 +234,33 @@
                     j11('#end_d').parent().removeClass('has-error');
                 }
             });
+
+            j11('#append_parent').delegate('#start_t', 'change', function(){
+                var thisTimeStamp = j11(this).val();
+                thisTimeStamp = new Number(thisTimeStamp);
+                showDateTime(j11('#end_t'), moment.utc(thisTimeStamp).format('YYYY-M-D'), moment.utc(thisTimeStamp));
+                var endSelect = j11('#end_t>option');
+                j11.each(endSelect, function(i, n){
+                    var n = j11(n);
+                    if(n.val() <= thisTimeStamp) n.remove();
+                });
+            });
         }
 
         function showDateTime(obj, date, selectedTime){
             obj.html('');
             if(clickDate.type == 'edit'){
-                selectedTime = selectedTime.format('X') * 1000;
+                selectedTime = selectedTime.format('H:m');
             }else{
                 selectedTime = null;
             }
-
             var st = parseInt(j11.fullCalendar.moment(date + ' 7:00', 'YYYY-M-D H:mm').format('X')) * 1000;
             var et = parseInt(j11.fullCalendar.moment(date + ' 21:00', 'YYYY-M-D H:mm').format('X')) * 1000;
             var i = st;
             do{
                 var html = j11.fullCalendar.moment(i).format('aHH:mm');
                 var op = j11('<option>', {'html' : html, 'value' : i});
-                if(selectedTime && selectedTime == i){
+                if(selectedTime && selectedTime == j11.fullCalendar.moment(i).format('H:m')){
                     op.attr('selected','selected');
                 }
                 obj.append(op);
@@ -262,9 +272,7 @@
             var eaID = 'editEventMenu' + eventID;
             j11(lastClickEventJSEvent.target).attr('id', eaID);
             j11(lastClickEventJSEvent.target).attr('href', href);
-            ajaxmenu(lastClickEventJSEvent, eaID);
-
-            beforeShowAddEventHtmlA();
+            ajaxmenu(lastClickEventJSEvent, eaID, 0, 0, 'beforeShowAddEventHtmlA');
         }
 
         function addEventOK(){
