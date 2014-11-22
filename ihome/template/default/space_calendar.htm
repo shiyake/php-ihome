@@ -213,8 +213,8 @@
             var eDate = clickDate.end.format('YYYY-MM-DD');
             j11('#start_d').val(sDate);
             j11('#end_d').val(eDate);
-            showDateTime(j11('#start_t'), sDate, clickDate.start);
-            showDateTime(j11('#end_t'), eDate, clickDate.end);
+            showDateTime(j11('#start_t'), sDate, clickDate.start,'start_t');
+            showDateTime(j11('#end_t'), eDate, clickDate.end,'end_t');
         }
 
         function bindMenuEvent(){
@@ -247,12 +247,13 @@
             });
 
             j11('#append_parent').delegate('#start_t', 'change', function(){
-                showDateTime(j11('#end_t'), j11('#end_d').val(), j11.fullCalendar.moment(j11('#end_d').val(), 'YYYY-MM-DD'));
+                showDateTime(j11('#end_t'), j11('#end_d').val(), j11.fullCalendar.moment(j11('#end_d').val(), 'YYYY-MM-DD'),'end_t');
                 var thisTimeStamp = j11(this).val();
                 var endSelect = j11('#end_t>option');
                 j11.each(endSelect, function(i, n){
                     var n = j11(n);
                     if(n.val() <= thisTimeStamp) n.remove();
+					if(parseInt(n.val()) == (parseInt(thisTimeStamp)+2*60*30*1000)) n.attr('selected','selected');
                 });
             });
 
@@ -291,7 +292,7 @@
             initFc('#content', timestamp);
         }
 
-        function showDateTime(obj, date, selectedTime){
+        function showDateTime(obj, date, selectedTime,str){
             obj.html('');
             if(clickDate.type == 'edit'){
                 selectedTime = selectedTime.format('H:m');
@@ -299,7 +300,7 @@
                 selectedTime = null;
             }
             var st = parseInt(j11.fullCalendar.moment(date + ' 7:00', 'YYYY-M-D H:mm').format('X')) * 1000;
-            var et = parseInt(j11.fullCalendar.moment(date + ' 21:00', 'YYYY-M-D H:mm').format('X')) * 1000;
+            var et = parseInt(j11.fullCalendar.moment(date + ' 22:00', 'YYYY-M-D H:mm').format('X')) * 1000;
             var i = st;
             do{
                 var html = j11.fullCalendar.moment(i).format('aHH:mm');
@@ -307,6 +308,9 @@
                 if(selectedTime && selectedTime == j11.fullCalendar.moment(i).format('H:m')){
                     op.attr('selected','selected');
                 }
+				if(str && str == 'end_t' && i==(st+60*30*1000*2)){
+					op.attr('selected','selected');
+				}
                 obj.append(op);
                 i += 60 * 30 * 1000;
             }while(i <= et);
