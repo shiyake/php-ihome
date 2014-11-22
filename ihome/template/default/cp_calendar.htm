@@ -71,13 +71,13 @@
  	<!--{if $_GET['op'] == 'add'}-->
     <h1>添加日历</h1>
     <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
-    <div class="popupmenu_inner" id="__addcalendar_{$calendar_id}">
-        <form id="addcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
+    <div class="popupmenu_inner" id="__addcalendar_">
+        <form id="addcalendar_" name="titleform" action="cp.php?ac=calendar&op=add" method="post">
              名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="" />
             <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
             	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
                 <button name="btnsubmit" type="button" 
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addcalendar_{$calendar_id}', 'calendar_add', 2000)">确定</button>
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addcalendar_', 'calendar_add', 2000)">确定</button>
                 <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
             </p>
             <input type="hidden" name="makefeed1" id="makefeed1" value="1">

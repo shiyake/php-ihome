@@ -47,7 +47,7 @@ if(submitcheck('calendarbutton')) {
     if($waittime > 0) {
         showmessage('operating_too_fast','',1,array($waittime));
     }
-    if(empty($calendar['id'])) {
+    if(empty($calendar['id']) || $op == 'add') {
         $calendar = array();
     } else {
         if(!checkperm('allowblog')) {
