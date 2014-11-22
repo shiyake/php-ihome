@@ -12,7 +12,7 @@ $t = time();
 $lang = cplang('calendar_send_msg');
 while($row = $_SGLOBAL['db']->fetch_array($query)){
     $calendar_id = $row['id'];
-    $sql = "select * from ".tname('calendar_info')." where calendar_id={$calendar_id}";
+    $sql = "select * from ".tname('calendar_info')." where calendar_id={$calendar_id} and is_send_msg=0";
     $new_query = $_SGLOBAL['db']->query($sql);
     while($val = $_SGLOBAL['db']->fetch_array($new_query)){
         if($val['start_t']-$t <= 600){
