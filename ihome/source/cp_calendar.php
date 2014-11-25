@@ -63,6 +63,23 @@ if(submitcheck('calendarbutton')) {
     include_once(S_ROOT.'./source/function_blog.php');
     if($newarrangement = calendar_post($_POST, $calendar)) {
         $url = 'space.php?uid='.$newarrangement['uid'].'&do=calendar&id='.$newarrangement['id'];
+        //检测是否有ICS文件日历需要导入
+        if(!empty($_FILES) && !empty($_FILES['ics_file']['tmp_name'])){
+           $file_type = substr($_FILES['ics_file']['name'],strrpos($_FILES['ics_file']['name'],'.')+1);
+           if(strtolower($file_type) == 'ics'){
+               //如果为ICALENDAR格式文件，则开始进行导入
+               include S_ROOT.'./source/vendor/autoload.php';
+               $calendar = Sabre\VObject\Reader::read(file_get_contents($_FILES['ics_file']['tmp_name']));
+               foreach($calendar->vevent as $event) {
+                   $start_t = active_date((string)$event->dtstart);
+                   $end_t = !empty($event->dtend) ? active_date((string)$event->dtend) : $start_t + 3600;
+                   $date = array('calendar_id'=>$newarrangement['id'],'content'=>(string)$event->summary,'start_t'=>$start_t,
+                                 'end_t' => $end_t,'dateline'=>time()
+                   );
+                   inserttable('calendar_info', $date);
+               }
+           }
+        }
         showmessage('do_success', $url, 0);
     } else {
         showmessage('that_should_at_least_write_things');
@@ -257,5 +274,19 @@ function getWeekName($w){
             break;
     }
     return $w;
+}
+/**
+ * 格式化ICS文件里的时间格式
+ * @param string $string
+ */
+function active_date($string){
+    $s = explode("T",$string);
+    $y = substr($s[0],0,4);
+    $m = substr($s[0],4,2);
+    $d = substr($s[0],6,2);
+    $h = substr($s[1],0,2);
+    $f = substr($s[1],3,2);
+    $s = substr($s[1],5,2);
+    return mktime($h,$f,$s,$m,$d,$y);
 }
 ?>

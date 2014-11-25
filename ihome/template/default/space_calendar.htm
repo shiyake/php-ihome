@@ -108,7 +108,7 @@
 	<script type="text/javascript" charset="$_SC[charset]">
 		function showcalendar_new(month){
 			var month = month ? "&month="+month : "";
-			ajaxget('cp.php?ac=calendar&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->&calendar_id=$id', 'calendar_info');
+			ajaxget('cp.php?ac=calendar&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->&calendar_id=<!--{eval echo $id;}-->', 'calendar_info');
 		}
 		showcalendar_new();
 	</script>
@@ -336,6 +336,17 @@
                 location.reload();
             });
         }
+		function check_ics_file(){
+			var file = jq("#ics_file").val();
+			if(file.length!=0){
+				var ext = file.substr(file.indexOf('.')+1);
+				if(ext != 'ics'){
+					jq('#ics_error').html("请选择Icalendar格式的文件");
+					return false
+				}
+			}
+			return true;
+		}
 
     </script>
 

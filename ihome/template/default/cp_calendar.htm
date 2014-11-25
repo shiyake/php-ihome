@@ -36,7 +36,7 @@
 			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
 			<!--{loop $days $key $value}-->		
             <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
-            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key">
+            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id">
                 <li class="calendarli on_today">$key</li>
             </a>
             <!--{elseif $value[count]}-->		
@@ -62,7 +62,7 @@
                 </div>
                 </li>
                 <!--{else}-->
-                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key"><li class="calendarli">$key</li></a>
+                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id"><li class="calendarli">$key</li></a>
                 <!--{/if}-->
                 <!--{/loop}-->
             </ul>
@@ -72,12 +72,18 @@
     <h1>添加日历</h1>
     <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
     <div class="popupmenu_inner" id="__addcalendar_">
-        <form id="addcalendar_" name="titleform" action="cp.php?ac=calendar&op=add" method="post">
-             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="" />
-            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+        <form id="addcalendar_" name="titleform" action="cp.php?ac=calendar&op=add" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:200px;" name="subject" value="" />
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                <span id="ics_error" style="color:#F00"></span>
+                </span>
+             </p>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
             	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
-                <button name="btnsubmit" type="button" 
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addcalendar_', 'calendar_add', 2000)">确定</button>
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
                 <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
             </p>
             <input type="hidden" name="makefeed1" id="makefeed1" value="1">
@@ -89,12 +95,18 @@
     <h1>编辑日历</h1>
     <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
     <div class="popupmenu_inner" id="__editcalendar_{$calendar_id}">
-        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
+        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
              名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
-            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                <span id="ics_error" style="color:#F00"></span>
+                </span>
+             </p>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
             	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
-                <button name="btnsubmit" type="button"
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('editcalendar_{$calendar_id}', 'calendar_edit', 2000)">确定</button>
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
                 <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
             </p>
              <input type="hidden" name="makefeed1" id="makefeed1" value="1">
