@@ -338,12 +338,17 @@
         }
 		function check_ics_file(){
 			var file = jq("#ics_file").val();
+			var subject = jq("#subject").val();
 			if(file.length!=0){
 				var ext = file.substr(file.indexOf('.')+1);
 				if(ext != 'ics'){
-					jq('#ics_error').html("请选择Icalendar格式的文件");
+					jq('#ics_error').html("请选择iCalendar格式的文件");
 					return false
 				}
+			}
+			if(subject.length == 0){
+				jq('#ics_error').html("请输入简历名称");
+				return false
 			}
 			return true;
 		}
