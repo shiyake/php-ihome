@@ -1,0 +1,35 @@
+<!--{template header}-->
+<link type="text/css" rel="stylesheet" href="template/default/job.css" />
+<div class="job_grid" id="content" style="border-right:none;width:800px;">
+	<div class="head">
+		<div class="title">
+			<img src="image/icons/icon_job_max.png" alt="" width="20" height="20" />
+			<span>就业互助</span>
+		</div>
+		<a class="pbtn" href="job.php?do=nei&m=add">发布职位</a>
+	</div>
+	<div class="tab">
+		<a href="job.php">招聘职位</a>
+		<a href="job.php?do=hui">招聘会</a>
+		<a href="job.php?do=nei">站内招聘</a>
+		<a href="job.php?do=myfav">我的收藏</a>
+		<a href="job.php?do=publish">我发布的职位</a>
+	</div>
+	<div class="main_grid nei_grid">
+		{loop $jobs $r}
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="job.php?do=nei&m=view&id={$r[id]}" target="_blank">{$r[title]}</a>
+			</div>
+			<div class="sub_body">
+				<div class="time">截止时间：{$r[endtime]}</div>
+				<div class="desc">{$r[description]}</div>
+			</div>
+		</div>
+		{/loop}
+	</div>
+	<div class="page" style="padding-bottom:20px;">
+		{$pagination}
+	</div>
+</div>
+<!--{template footer}-->

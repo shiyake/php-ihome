@@ -12,6 +12,7 @@ $_SGLOBAL['cplang'] = array(
 	'feed_comment_image' => '{actor} 评论了 {touser} 的图片',
 	'feed_comment_video' => '{actor} 评论了 {touser} 上传的视频',
 	'feed_comment_blog' => '{actor} 评论了 {touser} 的日志 {blog}',
+	'feed_comment_job' => '{actor} 评论了 {touser} 的工作 {job}',
 	'feed_comment_arrangement' => '{actor} 评论了 {touser} 的校园日历 {arrangement}',
 	'feed_comment_poll' => '{actor} 评论了 {touser} 的投票 {poll}',
 	'feed_comment_event' => '{actor} 在 {touser} 组织的活动 {event} 中留言了',
@@ -26,6 +27,8 @@ $_SGLOBAL['cplang'] = array(
 	'note_video_comment_reply' => '回复了你的<a href="\\1" target="_blank">视频评论</a>',
 	'note_blog_comment' => '评论了你的日志 <a href="\\1" target="_blank">\\2</a>',
 	'note_blog_comment_reply' => '回复了你的<a href="\\1" target="_blank">日志评论</a>',
+	'note_job_comment' => '评论了你的工作 <a href="\\1" target="_blank">\\2</a>',
+	'note_job_comment_reply' => '回复了你的<a href="\\1" target="_blank">工作评论</a>',
 	'note_arrangement_comment' => '评论了你的校园日历 <a href="\\1" target="_blank">\\2</a>',
 	'note_arrangement_comment_reply' => '回复了你的<a href="\\1" target="_blank">校园日历评论</a>',
 	'note_poll_comment' => '评论了你的投票 <a href="\\1" target="_blank">\\2</a>',
@@ -105,6 +108,7 @@ $_SGLOBAL['cplang'] = array(
 	'poke_subject' => '<a href="\\2" target="_blank">\\1 向你打招呼</a>',
 	'mtag_reply' => '<a href="\\2" target="_blank">\\1 回复了你的话题</a>',
 	'event_comment' => '<a href="\\2" target="_blank">\\1 评论了你的活动</a>',
+	'job_comment' => '<a href="\\2" target="_blank">\\1 评论了你的工作</a>',
 
 	'friend_pm_reply' => '\\1 回复了你的私信',
 	'comment_friend_reply' => '\\1 回复了你的留言',
@@ -114,6 +118,7 @@ $_SGLOBAL['cplang'] = array(
 	'poll_comment_reply' => '\\1 回复了你的投票评论',
 	'share_comment_reply' => '\\1 回复了你的分享评论',
 	'event_comment_reply' => '\\1 回复了你的活动评论',
+	'job_comment_reply' => '\\1 回复了你的工作评论',
     //公共主页
 	'note_public_apply' => '有新的公共主页申请，<a href="\\1" target="_blank">请点击处理</a>',
 	'note_no_mtag' => '有新的校友等待激活认证，<a href="\\1" target="_blank">请你点击以下链接，接受校友认证</a>',

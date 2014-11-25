@@ -7,7 +7,7 @@ function __env($key, $default="") {
 
 $DEFAULT_HOST = "localhost";
 $DEFAULT_USER = "root";
-$DEFAULT_PWD = "nameLR9969";
+$DEFAULT_PWD = "";
 
 $host = __env("IHOME_DBHOST", $DEFAULT_HOST);
 $user = __env("IHOME_DBUSER", $DEFAULT_USER);

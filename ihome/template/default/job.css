@@ -1,0 +1,198 @@
+.job_grid {
+	padding-left:20px;
+}
+.job_grid .head {
+	overflow:hidden;
+	margin-top:20px;
+}
+.job_grid .head .title {
+	float:left;
+	width:200px;
+	font-size:16px;
+	line-height:30px;
+	color:#333;
+}
+.job_grid .head .title img {
+	vertical-align:middle;
+}
+.job_grid .head .pbtn {
+	float:right;
+	color:#0099ff;
+	font-size:12px;
+	margin:14px 5px 0 0;
+}
+.job_grid .tab {
+	overflow:hidden;
+	margin-top:20px;
+	border-bottom:1px solid #ddd;
+	padding-bottom:5px;
+}
+.job_grid .tab a {
+	float:left;
+	width:110px;
+	text-align:center;
+	margin-right:15px;
+	line-height:30px;
+	height:30px;
+	font-size:12px;
+	color:#333;
+}
+.job_grid .tab a.active, .job_grid .tab a:hover {
+	text-decoration:none;
+	font-weight:bold;
+	background:#f2f2f2;
+}
+.job_grid .search {
+	margin-top:20px;
+	overflow:hidden;
+}
+.job_grid .search .sort {
+	float:left;
+}
+.job_grid .search .sort a {
+	float:left;
+	width:40px;
+	height:26px;
+	border:1px solid #ddd;
+	color:#333;
+	line-height:26px;
+	font-size:12px;
+	text-align:center;
+}
+.job_grid .search .sort a:hover {
+	text-decoration:none;
+}
+.job_grid .search .sort a.active {
+	color:#fff;
+	background-color:#0099FF;
+	border:none;
+}
+.job_grid .search .select {
+	margin-left:20px;
+	float:left;
+	height:26px;
+	line-height:26px;
+}
+.job_grid .search .select label {
+	font-weight:normal;
+}
+.job_grid .search .select select {
+	height:26px;
+	width:120px;
+}
+.job_grid .grid {
+	padding:15px;
+	margin-top:20px;
+	border:1px solid #ccc;
+	border-radius:10px;
+}
+.job_grid .grid .sub_head {
+	margin-bottom:15px;
+	height:20px;
+	line-height:20px;
+}
+.job_grid .grid .sub_head a.title {
+	font-size:16px;
+	color:#21c1fc;
+	margin-right:10px;
+	float:left;
+}
+.job_grid .grid .sub_head span {
+	float:left;
+	width:40px;
+	height:18px;
+	border:1px solid #797979;
+	border-radius:5px;
+	text-align:center;
+	line-height:18px;
+	color:#333;
+	margin-top:1px;
+}
+.job_grid .grid .sub_body {
+	font-size:12px;
+	color:#333;
+}
+.job_grid .grid .sub_body span {
+	margin-right:20px;
+}
+
+/*站内招聘样式*/
+.job_grid .nei_grid .grid .sub_head {
+	margin-bottom:5px;
+}
+.job_grid .nei_grid .grid .time {
+	color:#333;
+}
+.job_grid .nei_grid .grid .desc {
+	color:#666;
+}
+
+/*发布招聘页面*/
+.add_form {
+	margin-top:10px;
+}
+.add_form .form-grid {
+	margin:10px 0;
+	overflow:hidden;
+}
+.add_form .form-grid label {
+	float:left;
+	width:75px;
+	text-align:right;
+	font-weight:normal;
+	line-height:25px;
+	margin-right:10px;
+}
+.add_form .form-grid label em {
+	margin-right:5px;
+	color:red;
+}
+.add_form .form-grid input {
+	float:left;
+	height:25px;
+	line-height:25px;
+	padding-left:5px;
+	vertical-align:middle;
+	width:377px;
+}
+
+/*view job page*/
+.view_job_grid {
+	margin-top:20px;
+}
+.view_head {
+	background-color:#F1F1F1;
+	margin-bottom:20px;
+	padding:15px;
+}
+.view_head .title {
+	margin-bottom:8px;
+	overflow:hidden;
+}
+.view_head .title h1 {
+	font-size:16px;
+	color:#333;
+	font-weight:normal;
+	float:left;
+}
+.view_head .title span {
+	width:40px;
+	border:1px solid #222;
+	border-radius:5px;
+	height:18px;
+	float:left;
+	text-align:center;
+	line-height:18px;
+	margin-left:10px;
+	color:#333;
+}
+.view_job_grid .manage_btns {
+	text-align:right;
+	margin:20px 0 0;
+	border-bottom:1px solid #ddd;
+	padding-bottom:5px;
+}
+.view_job_grid .manage_btns .sep {
+	margin:0 20px;
+	color:#01b6f9;
+}

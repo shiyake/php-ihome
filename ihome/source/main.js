@@ -46,7 +46,7 @@
 					"display": "block"
 				});
 				jq("#my_defaultapp").stop().animate({
-					"height": "322px"
+					"height": "342px"
 				},
 				300);
 				jq("#my_shortcutapp,#my_shortcutapp_toggle").css({

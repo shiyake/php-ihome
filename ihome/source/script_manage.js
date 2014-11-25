@@ -38,6 +38,7 @@ function share_add(sid, result) {
 //添加评论
 function comment_add(id, result) {
 	result=1;
+	console.log('done');return false;
     if(result) {
 		var obj = $('comment_ul');
 		var newli = document.createElement("div");
