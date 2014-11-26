@@ -114,7 +114,7 @@ xxim.expend = function(){
         node.layimTop.stop().animate({height: 0}, config.aniTime, function(){
             node.xximon.addClass('xxim_off');
             try{
-                localStorage.layimState = 1;
+                sessionStorage.layimState = 1;
             }catch(e){}
             xxim.layimNode.attr({state: 1});
             node.layimFooter.addClass('xxim_expend');
@@ -126,7 +126,7 @@ xxim.expend = function(){
         node.layimTop.show().stop().animate({height: config.height}, config.aniTime, function(){
             node.xximon.removeClass('xxim_off');
             try{
-                localStorage.layimState = 2;
+                sessionStorage.layimState = 2;
             }catch(e){}
             xxim.layimNode.removeAttr('state');
             node.layimFooter.removeClass('xxim_expend');
@@ -143,13 +143,10 @@ xxim.layinit = function(){
     
     //主界面
     try{
-        /*
-        if(!localStorage.layimState){       
-            config.aniTime = 0;
-            localStorage.layimState = 1;
-        }
-        */
-        if(localStorage.layimState === '1'){
+        // if(!sessionStorage.layimState){
+            sessionStorage.layimState = 1;
+        // }
+        if(sessionStorage.layimState === '1'){
             xxim.layimNode.attr({state: 1});
             node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
