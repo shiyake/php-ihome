@@ -134,6 +134,7 @@
                 </select>
                 </div>
                 </label><br/>
+                <label>日历：<select name="calendar_select_id"><!--{loop $calendar_list $key $c}--><option value="$c[id]">$c[calendar_name]</option><!--{/loop}--></select></label><br/>
                 <label>地点：<input name="place" value="" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
                 <label>颜色：
                     <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
@@ -185,6 +186,7 @@
                 </select>
                 </div>
                 </label><br/>
+                <label>日历：<select name="calendar_select_id"><!--{loop $calendar_list $key $c}--><option value="$c[id]" <!--{if $calendar_id==$c[id]}-->selected="selected"<!--{/if}-->>$c[calendar_name]</option><!--{/loop}--></select></label><br/>
                 <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
                 <label>颜色：
                     <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
@@ -226,6 +228,7 @@
             <div style="padding: 20px 30px;">
                 <p style="font-size: 20px;width: 250px;">$calendarInfo['content']</p>
                 <p>$calendarInfo['show_date']</p>
+                <p>日历：<!--{loop $calendar_list $key $c}--><!--{if $calendar_id==$c[id]}-->$c[calendar_name]<!--{/if}--><!--{/loop}-->
                 <p>地点： $calendarInfo['place']</p>
             </div>
             <hr style="margin-top: 0;"/>

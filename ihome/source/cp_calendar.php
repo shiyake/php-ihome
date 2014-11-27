@@ -190,7 +190,7 @@ if($op == 'delete') {
         $dateline = time();
 
         $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`, `bgcolor`) ' .
-            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
+            " values ('{$_POST['calendar_select_id']}', '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
         $_SGLOBAL['db']->query($sql);
         showmessage('do_success', "space.php?do=calendar");
     }
@@ -202,7 +202,7 @@ if($op == 'delete') {
         $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
         $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '924420';
 
-        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
+        $sql = 'update ' . tname('calendar_info') . " set `calendar_id`='{$_POST['calendar_select_id']}', `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
 
@@ -247,6 +247,12 @@ else {
     $menuactives = array('space'=>' class="active"');
 }
 
+if($op == 'addEvent' || $op == 'editEvent' || $op == 'showEvent'){
+    $list_query = $_SGLOBAL['db']->query("select * from ".tname('calendar')." where uid={$_SGLOBAL['supe_uid']} order by id asc");
+    while($row = $_SGLOBAL['db']->fetch_array($list_query)){
+        $calendar_list[] = $row;
+    }
+}
 include_once template("cp_calendar");
 
 function getWeekName($w){
