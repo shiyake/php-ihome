@@ -47,9 +47,12 @@ switch($m) {
 		}
 		//update viewcount
 		$update = $db->query(sprintf('update %s set viewcount=viewcount+1 where id=%d', tname('job'), $id));
-		$perpage = 10;
-		$cmt_count_query = $db->query(sprintf("select count(*) cnt from %s where idtype='jobid'", tname('comment')));;
-		$cmt_query = $db->query(sprintf("select * from %s where idtype='jobid' and id=$id limit $perpage", tname('comment')));
+		$perpage = 5;
+		$page = intval($_GET['page']);
+		$page = max($page, 1);
+		$offset = ($page - 1) * $perpage;
+		$cmt_count_query = $db->query(sprintf("select count(*) cnt from %s where idtype='jobid' and id=$id", tname('comment')));;
+		$cmt_query = $db->query(sprintf("select * from %s where idtype='jobid' and id=$id order by cid desc limit $offset,$perpage", tname('comment')));
 		$total_count = $db->fetch_array($cmt_count_query);
 		$total_count = $total_count['cnt'];
 		$list = array();
@@ -57,7 +60,7 @@ switch($m) {
 		{
 			$list[] = $row;
 		}
-		$multi = multi($total_count, $perpage, 1);
+		$multi = multi($total_count, $perpage, $page, 'job.php?do=nei&m=view&id=17');
 		include template('job_nei');
 		break;
 	case 'add':

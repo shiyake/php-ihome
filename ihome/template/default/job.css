@@ -1,3 +1,7 @@
+/*fix style.css*/
+.tabs li {
+	width:150px;
+}
 .job_grid {
 	padding-left:20px;
 }
@@ -162,8 +166,11 @@
 }
 .view_head {
 	background-color:#F1F1F1;
-	margin-bottom:20px;
+	margin-bottom:10px;
 	padding:15px;
+}
+.view_dead_time {
+	padding:5px;
 }
 .view_head .title {
 	margin-bottom:8px;

@@ -5,17 +5,29 @@
 <div class="job_grid" id="content" style="border-right:none;width:800px;">
 	<div class="head">
 		<div class="title">
-			<img src="image/icons/icon_job_max.png" alt="" width="20" height="20" />
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
 			<span>就业互助</span>
 		</div>
 		<a class="pbtn" href="job.php?do=nei&m=add">发布职位</a>
 	</div>
-	<div class="tab">
-		<a href="job.php">招聘职位</a>
-		<a href="job.php?do=hui">招聘会</a>
-		<a href="job.php?do=nei">站内招聘</a>
-		<a href="job.php?do=myfav">我的收藏</a>
-		<a href="job.php?do=publish">我发布的职位</a>
+	<div class="tabs_header" style="margin-left:0;">
+		<ul class="tabs">
+			<li>
+				<a href="job.php"><span>招聘职位</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=hui"><span>招聘会</span></a>
+			</li>
+			<li class="active">
+				<a href="job.php?do=nei"><span>站内招聘</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=myfav"><span>我的收藏</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=publish"><span>我发布的职位</span></a>
+			</li>
+		</ul>
 	</div>
 	<div class="search">
 		<div class="sort">
@@ -44,20 +56,41 @@
 <div class="job_grid" id="content" style="border-right:none;width:800px;">
 	<div class="head">
 		<div class="title">
-			<img src="image/icons/icon_job_max.png" alt="" width="20" height="20" />
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
 			<span>就业互助</span>
 		</div>
 		<a class="pbtn" href="job.php?do=nei">返回上一页</a>
 	</div>
-	
+	<div class="tabs_header" style="margin-left:0;">
+		<ul class="tabs">
+			<li>
+				<a href="job.php"><span>招聘职位</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=hui"><span>招聘会</span></a>
+			</li>
+			<li class="active">
+				<a href="job.php?do=nei"><span>站内招聘</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=myfav"><span>我的收藏</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=publish"><span>我发布的职位</span></a>
+			</li>
+		</ul>
+	</div>
 	<div class="view_job_grid">
 		<div class="view_head">
 			<div class="title">
 				<h1>{$result['title']}</h1>
 			</div>
 			<div class="time">
-				发布于{$result['createtime']}
+				发布于<!--{eval echo substr($result['createtime'], 0, -3)}-->
 			</div>
+		</div>
+		<div class="view_dead_time">
+			截止时间：<!--{eval echo substr($result['endtime'], 0, -3)}-->
 		</div>
 		<div class="view_body">
 			{$result['content']}
@@ -70,8 +103,6 @@
 			<span class="sep">|</span>
 			{/if}
 			<!--
-			<a href="">赞</a>
-			<span class="sep">|</span>
 			<a href="cp.php?ac=share&type=blog&id=723" id="a_share" onclick="ajaxmenu(event,this.id,1)">分享</a>
 			<span class="sep">|</span>
 			-->
@@ -167,7 +198,7 @@
 <div class="job_grid" id="content" style="border-right:none;width:800px;">
 	<div class="head">
 		<div class="title">
-			<img src="image/icons/icon_job_max.png" alt="" width="20" height="20" />
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
 			<span>就业互助</span>
 		</div>
 		<a class="pbtn" href="job.php?do=nei">返回上一页</a>
@@ -180,7 +211,8 @@
 			</div>
 			<div class="form-grid">
 				<label><em>*</em>截止时间：</label>
-				<input type="text" placeholder="2014-10-10 11:11" style="width:150px;" name="deadtime" value="{$job[endtime]}" />
+				<script type="text/javascript" src="source/script_calendar.js" charset="$_SC[charset]"></script>
+				<input type="text" value="<!--{eval echo sgmdate('Y-m-d H:i', $job[endtime])}-->" onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" style="width:150px;" name="deadtime" />
 			</div>
 			<div class="form-grid">
 				<label><em>*</em>简短描述：</label>
