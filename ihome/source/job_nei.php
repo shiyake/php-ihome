@@ -60,7 +60,7 @@ switch($m) {
 		{
 			$list[] = $row;
 		}
-		$multi = multi($total_count, $perpage, $page, 'job.php?do=nei&m=view&id=17');
+		$multi = multi($total_count, $perpage, $page, 'job.php?do=nei&m=view&id=' . $id);
 		include template('job_nei');
 		break;
 	case 'add':
