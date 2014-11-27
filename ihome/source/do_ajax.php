@@ -75,7 +75,7 @@ if($op == 'comment') {
         $sql = "select * from ".tname('calendar_info')." where calendar_id=".$row['id']." and is_alert=0";
         $s = $_SGLOBAL['db']->query($sql);
         while($val = $_SGLOBAL['db']->fetch_array($s)){
-            if($val['start_t']-$t <= 600){
+            if($val['start_t']-$t <= 600 && $val['start_t'] - $t > 0){
                 $m = ceil(($val['start_t'] - $t)/60);
                 $msg[] = '日历“'.$row['calendar_name'].'”的事件“'.$val['content'].'”还有'.$m."分钟开始\r\n";
                 $sql = "update ".tname('calendar_info')." set is_alert=1 where id=".$val['id'];
