@@ -267,6 +267,15 @@ if(submitcheck('addsubmit')) {
         }
     }
     $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET ".implode(',', $setarr)." WHERE uid='$_SGLOBAL[supe_uid]'");
+    $title_template = cplang(cplang('feed_doing_title'));
+    $title_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
+    $body_template = $body_data = '';
+    if ($complainOK) {
+        $title_template = cplang(cplang('feed_complain'));
+        $title_data = '';
+        $body_template = '{message}';
+        $body_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
+    }
     //ÊÂ¼þfeed
     if($add_doing) {
         if($picid && $filepath) {
@@ -276,10 +285,10 @@ if(submitcheck('addsubmit')) {
                 'uid' => $_SGLOBAL['supe_uid'],
                 'username' => $_SGLOBAL['supe_username'],
                 'dateline' => $_SGLOBAL['timestamp'],
-                'title_template' => cplang('feed_doing_title'),
-                'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$message)))),
-                'body_template' => '',
-                'body_data' => '',
+                'title_template' => $title_template,
+                'title_data' => $title_data,
+                'body_template' => $body_template,
+                'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
                 'fromdevice' => 'web',
@@ -294,10 +303,10 @@ if(submitcheck('addsubmit')) {
                 'uid' => $_SGLOBAL['supe_uid'],
                 'username' => $_SGLOBAL['supe_username'],
                 'dateline' => $_SGLOBAL['timestamp'],
-                'title_template' => cplang('feed_doing_title'),
-                'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$message)))),
-                'body_template' => '',
-                'body_data' => '',
+                'title_template' => $title_template,
+                'title_data' => $title_data,
+                'body_template' => $body_template,
+                'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
                 'fromdevice' => 'web'

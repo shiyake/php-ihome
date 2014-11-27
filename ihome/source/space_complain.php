@@ -37,11 +37,23 @@ if ($_GET['view'] == 'rank') {
         $order = " order by aversecs ";
         $submenus['aversecs']=' class = "active"';
     }
+
+    $myfeedfriend = array();
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spacefield')." WHERE uid=$_SGLOBAL[supe_uid] limit 1"); 
+    $value = $_SGLOBAL['db']->fetch_array($query);
+    if(!empty($value['feedfriend'])){
+        $myfeedfriend= explode(",", $value['feedfriend']);
+        $myfeedfriend = array_flip(array_flip($myfeedfriend));
+    }
     $deps_rank_count = 0;
     $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $deps_rank_count++;
         $value['rank'] = $deps_rank_count;
+        $value['infeed'] = 0;
+        if(in_array($value['uid'], $myfeedfriend)) {
+            $value['infeed'] = 1;
+        }
         $deps[] = $value;
         realname_set($value['uid'], $value['username']);
     }
