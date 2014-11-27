@@ -386,6 +386,13 @@ if ($_GET['op'] == 'delete') {
         }
     }
     showmessage('error_op');
+} elseif ($_GET['op'] == 'credit') {
+    $need = 0;
+    $remain = intval($space['credit']);
+    $q = $_SGLOBAL['db']->query('select * from '.tname('creditrule')." where action='complain' limit 1");
+    if (($r = $_SGLOBAL['db']->fetch_array($q)) && (intval($r['credit']) > $remain)) {
+        $need = intval($r['credit']);
+    }
 }
 include template("cp_complain");
 ?>

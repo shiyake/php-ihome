@@ -53,5 +53,15 @@
         <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
     </form>
 </div>
+<!--{elseif ($_GET['op'] == 'credit') && $need}-->
+<h1>发送诉求失败</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__complainform_{$doid}">
+    <p>您的当前积分为<!--{eval echo $remain}-->，不足<!--{eval echo $need}-->积分，无法发送诉求</p>
+    <a href="cp.php?ac=credit&op=rule">了解如何获取积分请点击这里</a>
+    <div class="btn_line">
+    <a href="javascript:hideMenu();" class="btn btn-sm btn-comments">确定</a>
+    </div>
+</div>
 <!--{/if}-->
 <!--{template footer}-->
