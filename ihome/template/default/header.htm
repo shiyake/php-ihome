@@ -217,6 +217,20 @@ jq1(document).ready(function(){
 function searchSubmit()	{
     jq("#head_search").submit()
 }
+function check_calendar(){
+	var url = 'do.php?ac=ajax&op=checkcalendarstart&rand='+Math.random();
+	jq.getJSON(url,function(data){
+		if(data.data_staus>0){
+			var msg = '';
+			for(var i=0;i<data.date.length;i++){
+				msg += data.date[i];
+			}
+			if(msg.length >0){
+				alert(msg);
+			}
+		}
+	});
+}
 jq(function(){	
         jq("#at_friends").hover(function(){
             jq(this).children("img").attr("src","image/icons/at-icon2.png");
@@ -263,6 +277,7 @@ jq(function(){
 			});
 			jq("#for-public").before(html);
             });
+			setInterval("check_calendar()",10000);
 });
 </script>
 <!--<script language="javascript" type="text/javascript">

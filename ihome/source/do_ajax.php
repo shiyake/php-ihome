@@ -65,7 +65,28 @@ if($op == 'comment') {
         $list[] = $value;
     }
     $isAjax = 1;
-} elseif($op == 'getfriendname') {
+}elseif($op == 'checkcalendarstart'){
+    //检测日历事件是否到达开始时间，如到达时间，则返回数据，并进行提醒
+    $uid = $_SGLOBAL['supe_uid'];
+    $list_query = $_SGLOBAL['db']->query("select * from ".tname('calendar')." where uid=$uid order by id asc");
+    $t = time();
+    $msg = array();
+    while($row = $_SGLOBAL['db']->fetch_array($list_query)){
+        $sql = "select * from ".tname('calendar_info')." where calendar_id=".$row['id']." and is_alert=0";
+        $s = $_SGLOBAL['db']->query($sql);
+        while($val = $_SGLOBAL['db']->fetch_array($s)){
+            if($val['start_t']-$t <= 600){
+                $m = ceil(($val['start_t'] - $t)/60);
+                $msg[] = '日历“'.$row['calendar_name'].'”的事件“'.$val['content'].'”还有'.$m."分钟开始\r\n";
+                $sql = "update ".tname('calendar_info')." set is_alert=1 where id=".$val['id'];
+                $_SGLOBA['db']->query($sql);
+            }
+        }
+    }
+    header('Content-Type: application/json');
+    exit(json_encode(array('date'=>$msg,'info'=>'','data_staus'=>1)));
+    $isAjax = 1;
+}elseif($op == 'getfriendname') {
 	
 	//��ȡ�û��ĺ��ѷ�����
 	$groupname = '';
