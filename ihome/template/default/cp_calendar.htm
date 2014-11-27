@@ -36,7 +36,7 @@
 			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
 			<!--{loop $days $key $value}-->		
             <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
-            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key">
+            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id">
                 <li class="calendarli on_today">$key</li>
             </a>
             <!--{elseif $value[count]}-->		
@@ -62,7 +62,7 @@
                 </div>
                 </li>
                 <!--{else}-->
-                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key"><li class="calendarli">$key</li></a>
+                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id"><li class="calendarli">$key</li></a>
                 <!--{/if}-->
                 <!--{/loop}-->
             </ul>
@@ -71,13 +71,19 @@
  	<!--{if $_GET['op'] == 'add'}-->
     <h1>添加日历</h1>
     <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
-    <div class="popupmenu_inner" id="__addcalendar_{$calendar_id}">
-        <form id="addcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
-             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
-            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+    <div class="popupmenu_inner" id="__addcalendar_">
+        <form id="addcalendar_" name="titleform" action="cp.php?ac=calendar&op=add" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:200px;" name="subject" value="" />
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                </span>
+             </p>
+              <span id="ics_error" style="color:#F00"></span>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
             	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
-                <button name="btnsubmit" type="button" 
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addcalendar_{$calendar_id}', 'calendar_add', 2000)">确定</button>
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
                 <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
             </p>
             <input type="hidden" name="makefeed1" id="makefeed1" value="1">
@@ -89,12 +95,18 @@
     <h1>编辑日历</h1>
     <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
     <div class="popupmenu_inner" id="__editcalendar_{$calendar_id}">
-        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post">
+        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
              名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
-            <p class="btn_line" style="float:right; margin-top:30px; margin-bottom:5px;">
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                </span>
+             </p>
+             <span id="ics_error" style="color:#F00"></span>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
             	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
-                <button name="btnsubmit" type="button"
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('editcalendar_{$calendar_id}', 'calendar_edit', 2000)">确定</button>
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
                 <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
             </p>
              <input type="hidden" name="makefeed1" id="makefeed1" value="1">
@@ -110,13 +122,36 @@
             <div style="padding: 20px 30px;">
                 <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="" /></label>
                 <br/><label>时间：<br/>
-                <input name="start_d" value="2014-11-14" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <input name="start_t" value="10:30" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <div style="display: inline-block;width: 195px;" class="form-group ">
+                <input name="start_d" id="start_d" value="<!--{date('Y-m-d')}-->" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d')}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="start_t" id="start_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
                 到：
-                <input name="end_d" value="2014-11-14" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <input name="end_t" value="12:30" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="end_d" id="end_d" value="<!--{date('Y-m-d')}-->" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="end_t" id="end_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
                 </label><br/>
-                <label>地点：<input name="place" value="" class="t_input form-control input-sm" style="display:inline;width:250px;"></label>
+                <label>地点：<input name="place" value="" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
+                <label>颜色：
+                    <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
+                        <div class="eventColorActive"></div>
+                        <input class="eventColorActiveInput" type="hidden" name="bgcolor" value="#924420">
+                    </div>
+                    <div class="eventColor" style="border-color: #5484ED;background-color: #5484ED;"></div>
+                    <div class="eventColor" style="background-color: #A4BDFC;border-color: #A4BDFC;"></div>
+                    <div class="eventColor" style="background-color: #46D6DB;border-color: #46D6DB;"></div>
+                    <div class="eventColor" style="background-color: #7AE7BF;border-color: #7AE7BF;"></div>
+                    <div class="eventColor" style="background-color: #51B749;border-color: #51B749;"></div>
+                    <div class="eventColor" style="background-color: #FBD75B;border-color: #FBD75B;"></div>
+                    <div class="eventColor" style="background-color: #FFB878;border-color: #FFB878;"></div>
+                    <div class="eventColor" style="background-color: #FF887C;border-color: #FF887C;"></div>
+                    <div class="eventColor" style="background-color: #DC2127;border-color: #DC2127;"></div>
+                    <div class="eventColor" style="background-color: #DBADFF;border-color: #DBADFF;"></div>
+                    <div class="eventColor" style="background-color: #E1E1E1;border-color: #E1E1E1;"></div>
+                </label>
             </div>
             <hr style="margin-top: 0;"/>
             <p class="btn_line" style="float:right; margin-bottom:5px;">
@@ -138,13 +173,36 @@
             <div style="padding: 20px 30px;">
                 <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="$calendarInfo['content']" /></label>
                 <br/><label>时间：<br/>
-                <input name="start_d" value="$calendarInfo['start_d']" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <input name="start_t" value="$calendarInfo['start_w']" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="start_d" id="start_d" value="$calendarInfo['start_d']" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[start_t])}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="start_t" id="start_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
                 到：
-                <input name="end_d" value="$calendarInfo['end_d']" class="t_input form-control input-sm" style="display:inline;width:80px;">&nbsp;&nbsp;
-                <input name="end_t" value="$calendarInfo['end_w']" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="end_d" id="end_d" value="$calendarInfo['end_d']" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="end_t" id="end_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
                 </label><br/>
-                <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label>
+                <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
+                <label>颜色：
+                    <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
+                        <div class="eventColorActive"></div>
+                        <input class="eventColorActiveInput" type="hidden" name="bgcolor" value="#924420">
+                    </div>
+                    <div class="eventColor" style="border-color: #5484ED;background-color: #5484ED;"></div>
+                    <div class="eventColor" style="background-color: #A4BDFC;border-color: #A4BDFC;"></div>
+                    <div class="eventColor" style="background-color: #46D6DB;border-color: #46D6DB;"></div>
+                    <div class="eventColor" style="background-color: #7AE7BF;border-color: #7AE7BF;"></div>
+                    <div class="eventColor" style="background-color: #51B749;border-color: #51B749;"></div>
+                    <div class="eventColor" style="background-color: #FBD75B;border-color: #FBD75B;"></div>
+                    <div class="eventColor" style="background-color: #FFB878;border-color: #FFB878;"></div>
+                    <div class="eventColor" style="background-color: #FF887C;border-color: #FF887C;"></div>
+                    <div class="eventColor" style="background-color: #DC2127;border-color: #DC2127;"></div>
+                    <div class="eventColor" style="background-color: #DBADFF;border-color: #DBADFF;"></div>
+                    <div class="eventColor" style="background-color: #E1E1E1;border-color: #E1E1E1;"></div>
+                </label>
             </div>
             <hr style="margin-top: 0;"/>
             <p class="btn_line" style="float:right; margin-bottom:5px;">
@@ -172,8 +230,8 @@
             </div>
             <hr style="margin-top: 0;"/>
             <p class="btn_line" style="float:right; margin-bottom:5px;">
-                <input type="hidden" name="start_t" value="$calendarInfo['start_t']">
-                <input type="hidden" name="end_t" value="$calendarInfo['end_t']">
+                <!--<input type="hidden" name="start_t" value="$calendarInfo['start_t']">
+                <input type="hidden" name="end_t" value="$calendarInfo['end_t']">-->
                 <button name="btnsubmit" type="button"
                         class="btn btn-sm" value="true" onclick="deleteEvent($calendar_id, $calendar_info_id);hideMenu();">删除</button>
                 <button type="button"
@@ -184,6 +242,5 @@
         </form>
     </div>
     <!--{/if}-->
-
 <!--{/if}-->
 <!--{template footer}-->

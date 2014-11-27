@@ -12,6 +12,10 @@ $calendar = array();
 if($calendar_id) {
     $query = $_SGLOBAL['db']->query("SELECT * from ".tname('calendar')." WHERE id='$calendar_id'");
     $calendar = $_SGLOBAL['db']->fetch_array($query);
+} else {
+    $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar') . ' where `uid` = ' . $_SGLOBAL['supe_uid'] . ' order by `dateline` limit 1');
+    $calendar = $_SGLOBAL['db']->fetch_array($query);
+    $calendar_id = $calendar['id'];
 }
 //权限检查
 if(empty($calendar)) {
@@ -43,7 +47,7 @@ if(submitcheck('calendarbutton')) {
     if($waittime > 0) {
         showmessage('operating_too_fast','',1,array($waittime));
     }
-    if(empty($calendar['id'])) {
+    if(empty($calendar['id']) || $op == 'add') {
         $calendar = array();
     } else {
         if(!checkperm('allowblog')) {
@@ -59,6 +63,23 @@ if(submitcheck('calendarbutton')) {
     include_once(S_ROOT.'./source/function_blog.php');
     if($newarrangement = calendar_post($_POST, $calendar)) {
         $url = 'space.php?uid='.$newarrangement['uid'].'&do=calendar&id='.$newarrangement['id'];
+        //检测是否有ICS文件日历需要导入
+        if(!empty($_FILES) && !empty($_FILES['ics_file']['tmp_name'])){
+           $file_type = substr($_FILES['ics_file']['name'],strrpos($_FILES['ics_file']['name'],'.')+1);
+           if(strtolower($file_type) == 'ics'){
+               //如果为ICALENDAR格式文件，则开始进行导入
+               include S_ROOT.'./source/vendor/autoload.php';
+               $calendar = Sabre\VObject\Reader::read(file_get_contents($_FILES['ics_file']['tmp_name']));
+               foreach($calendar->vevent as $event) {
+                   $start_t = active_date((string)$event->dtstart);
+                   $end_t = !empty($event->dtend) ? active_date((string)$event->dtend) : $start_t + 3600;
+                   $date = array('calendar_id'=>$newarrangement['id'],'content'=>(string)$event->summary,'start_t'=>$start_t,
+                                 'end_t' => $end_t,'dateline'=>time()
+                   );
+                   inserttable('calendar_info', $date);
+               }
+           }
+        }
         showmessage('do_success', $url, 0);
     } else {
         showmessage('that_should_at_least_write_things');
@@ -141,10 +162,11 @@ if($op == 'delete') {
         $url = $_GET['url'] ? preg_replace("/date=[\d\-]+/", '', $_GET['url']) : "space.php?do=calendar";
 
 }elseif($op == 'getCalendarInfo'){
-
     $start_t = isset($_GET['start']) ? strtotime($_GET['start']) : strtotime('Y-m-d', strtotime('-2 day'));
     $end_t = isset($_GET['end']) ? strtotime($_GET['end']) : strtotime('Y-m-d', strtotime('+2 day'));
-    $query = $_SGLOBAL['db']->query('select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}");
+
+    $sql = 'select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}";
+    $query = $_SGLOBAL['db']->query($sql);
 
     $event = array();
     while ($val = $_SGLOBAL['db']->fetch_array($query)) {
@@ -153,6 +175,7 @@ if($op == 'delete') {
         $item['title'] = $val['content'] . ' --- ' . $val['place'];
         $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
         $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
+        $item['color'] = $val['bgcolor'];
         $event[] = $item;
     }
     echo json_encode($event);
@@ -160,12 +183,14 @@ if($op == 'delete') {
 }elseif($op == 'addEventDo') {
     //添加事件
     if (submitcheck('calendarEventBtn') && !empty($calendar)) {
-        $start_time = strtotime($_POST['start_d'] . ' ' . $_POST['start_t'] . ':00');
-        $end_time = strtotime($_POST['end_d'] . ' ' . $_POST['end_t'] . ':00');
+
+        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
+        $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '#924420';
         $dateline = time();
 
-        $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`) ' .
-            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline})";
+        $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`, `bgcolor`) ' .
+            " values ({$calendar_id}, '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
         $_SGLOBAL['db']->query($sql);
         showmessage('do_success', "space.php?do=calendar");
     }
@@ -173,8 +198,11 @@ if($op == 'delete') {
 }elseif($op == 'editEvent'){
     isset($_GET['calendar_info_id']) && !empty($calendar) ? $calendar_info_id = $_GET['calendar_info_id'] : showmessage('do_error');
     if(submitcheck('calendarEditEventBtn') ){
+        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
+        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
+        $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '924420';
 
-        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}' where id = {$calendar_info_id}";
+        $sql = 'update ' . tname('calendar_info') . " set `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
 
@@ -183,10 +211,9 @@ if($op == 'delete') {
         $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
         $query = $_SGLOBAL['db']->query($sql);
         $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
-        $calendarInfo['start_d'] = date('m/d/Y', $calendarInfo['start_t']);
-        $calendarInfo['start_w'] = date('H', $calendarInfo['start_t']) >= 12 ? '下午' : '上午' . date('H:i', $calendarInfo['start_t']);
-        $calendarInfo['end_d'] = date('m/d/Y', $calendarInfo['end_t']);
-        $calendarInfo['end_w'] = date('H', $calendarInfo['end_t']) >= 12 ? '下午' : '上午';
+        $calendarInfo['start_d'] = date('Y-m-d', $calendarInfo['start_t']);
+        $calendarInfo['start_w'] = date('H:i', $calendarInfo['start_t']);
+        $calendarInfo['end_d'] = date('Y-m-d', $calendarInfo['end_t']);
         $calendarInfo['end_w'] .= date('H:i', $calendarInfo['end_t']);
     }
 }elseif($op == 'showEvent'){
@@ -247,5 +274,19 @@ function getWeekName($w){
             break;
     }
     return $w;
+}
+/**
+ * 格式化ICS文件里的时间格式
+ * @param string $string
+ */
+function active_date($string){
+    $s = explode("T",$string);
+    $y = substr($s[0],0,4);
+    $m = substr($s[0],4,2);
+    $d = substr($s[0],6,2);
+    $h = substr($s[1],0,2);
+    $f = substr($s[1],3,2);
+    $s = substr($s[1],5,2);
+    return mktime($h,$f,$s,$m,$d,$y);
 }
 ?>
