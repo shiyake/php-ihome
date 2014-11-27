@@ -183,6 +183,8 @@ $_SGLOBAL['cplang'] = array(
 	'note_share_doing' => '分享了你的<a href="\\1" target="_blank">一条记录</a>',
 	'share_blog' => '分享了一篇日志',
 	'note_share_blog' => '分享了你的日志 <a href="\\1" target="_blank">\\2</a>',
+	'share_job' => '分享了一篇招聘信息',
+	'note_share_job' => '分享了你的招聘信息 <a href="\\1" target="_blank">\\2</a>',
 	'share_arrangement' => '分享了一篇校园日历',
 	'note_share_arrangement' => '分享了你的校园日历 <a href="\\1" target="_blank">\\2</a>',
 	'share_album' => '分享了一个相册',

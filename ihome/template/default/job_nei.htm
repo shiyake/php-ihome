@@ -102,11 +102,11 @@
 			<a data-href="job.php?do=nei&m=delete&id={$result['id']}" href="javascript:;" id="del_btn">删除</a>
 			<span class="sep">|</span>
 			{/if}
-			<!--
-			<a href="cp.php?ac=share&type=blog&id=723" id="a_share" onclick="ajaxmenu(event,this.id,1)">分享</a>
+			<a href="cp.php?ac=share&type=job&id={$result['id']}" id="a_share" onclick="ajaxmenu(event,this.id,1)">分享</a>
 			<span class="sep">|</span>
-			-->
 			<a href="javascript:;" data-id="{$result[id]}" id="fav_btn">收藏</a>
+			<span class="sep">|</span>
+			<a onclick="ajaxmenu(event, this.id, 1)" id="a_report" href="cp.php?ac=common&op=report&idtype=jobid&id={$result['id']}" class="">举报</a>
 		</div>
 		<script type="text/javascript">
 			(function($){
