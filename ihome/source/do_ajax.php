@@ -79,7 +79,7 @@ if($op == 'comment') {
                 $m = ceil(($val['start_t'] - $t)/60);
                 $msg[] = '日历“'.$row['calendar_name'].'”的事件“'.$val['content'].'”还有'.$m."分钟开始\r\n";
                 $sql = "update ".tname('calendar_info')." set is_alert=1 where id=".$val['id'];
-                $_SGLOBA['db']->query($sql);
+                $_SGLOBAL['db']->query($sql);
             }
         }
     }
