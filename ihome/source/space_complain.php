@@ -66,55 +66,77 @@ if ($_GET['view'] == 'rank') {
         $tags[] = $value;
     }
 } else {
+    $wheresql = "status!= 4";
     if (empty($_GET['type'])) {
         $_GET['type'] = 'running';
     }
     if($_GET['view'] == 'me') {
-        $wheresql = "uid='$space[uid]' and status!=4";
+        $wheresql .= " and uid='$space[uid]'";
         $theurl = "space.php?do=$do&view=me&type=$_GET[type]";
         $actives = array('me'=>' class="active"');
     } elseif ($_GET['view'] == 'atme') {
-        $wheresql = "atuid='$_SGLOBAL[supe_uid]' and status!=4";
+        $wheresql .= " and atuid='$_SGLOBAL[supe_uid]'";
         $theurl = "space.php?do=$do&view=atme&type=$_GET[type]";
         $actives = array('atme'=>' class="active"');
     } else {
-        $wheresql = " status in (0,1,2)";
         $theurl = "space.php?do=$do&view=all&type=$_GET[type]";
         $actives = array('all'=>' class="active"');
     }
     $submenus = array();
     if ($_GET['type'] == 'running') {
-        if ($_GET['view'] == 'atme') {
-            $wheresql .= " and status = 0 and atuid=$_SGLOBAL[supe_uid]";
-        } else {
-            $wheresql .= " and status = 0 ";
-        }
+        $wheresql .= " and status = 0 ";
         $submenus['running']=' class = "active"';
     } elseif ($_GET['type'] == 'done') {
-        if ($_GET['view'] == 'atme' || $_GET['view'] == 'me') {
-            $wheresql .= " and status in (1,3)";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where atuid='$_SGLOBAL[supe_uid]' and status in (0,2))";
         } else {
-            $wheresql .= " and status = 1 ";
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status in (0,2))";
         }
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
-        $wheresql .= " and status = 2 ";
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where atuid='$_SGLOBAL[supe_uid]' and status in (0,1))";
+        } else {
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status in (0,1))";
+        }
         $submenus['closed']=' class = "active"';
     } else {
         $submenus['all']=' class = "active"';
     }
-    $count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("select count(*) from ".tname('complain')." where $wheresql"), 0);
-
+    $count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("select count(distinct doid) from ".tname('complain')." where $wheresql"), 0);
     if ($count) {
-        $query = $_SGLOBAL['db']->query("select * from ".tname('complain')." $f_index
+        $query = $_SGLOBAL['db']->query("select distinct doid from ".tname('complain')."
                     where $wheresql
-                    order by addtime desc
+                    order by doid desc
                     limit $start,$perpage");
+        $doids = array();
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            $cids[] = $value['id'];
-            $clist[] = $value;
-            realname_set($value['uid'], $value['uname']);
-            realname_set($value['atuid'], $value['curusername']);
+            $doids[] = $value['doid'];
+        }
+        $memdoid = 0;
+        if ($doids) {
+            $query = $_SGLOBAL['db']->query("select * from ".tname('complain')."
+                    where doid in (".implode(',',$doids).")
+                    order by doid desc, id desc");
+            while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+                realname_set($value['uid'], $value['uname']);
+                realname_set($value['atuid'], $value['atuname']);
+                if ($memdoid == $value['doid']) {
+                    if (!in_array($value['atuid'], $clist[count($clist)-1]['atuid'])) {
+                        $clist[count($clist)-1]['atuid'][] = $value['atuid'];
+                        $clist[count($clist)-1]['atuname'][] = $value['atuname'];
+                        $clist[count($clist)-1]['times'][] = $value['times'];
+                        $clist[count($clist)-1]['status'][] = $value['status'];
+                    }
+                } else {
+                    $memdoid = $value['doid'];
+                    $value['atuid'] = array($value['atuid']);
+                    $value['atuname'] = array($value['atuname']);
+                    $value['times'] = array($value['times']);
+                    $value['status'] = array($value['status']);
+                    $clist[] = $value;
+                }
+            }
         }
     }
 
