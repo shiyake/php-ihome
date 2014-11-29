@@ -45,6 +45,12 @@ switch($m) {
 		{
 			showmessage('Job_Not_Found');
 		}
+		//增加用户是否收藏
+		$uid = $_SGLOBAL['supe_uid'];
+		$fav_query = $db->query(sprintf('select id from %s where uid=%d and jobid=%d', tname('job_fav'), $uid, $id));
+		$fav = $db->fetch_array($fav_query);
+		$result['is_fav'] = is_array($fav) && isset($fav['id']);
+
 		//update viewcount
 		$update = $db->query(sprintf('update %s set viewcount=viewcount+1 where id=%d', tname('job'), $id));
 		$perpage = 5;

@@ -39,7 +39,7 @@
 		{loop $result $r}
 		<div class="grid">
 			<div class="sub_head">
-				<a class="title" href="job.php?do=nei&m=view&id={$r[id]}" target="_blank">{$r[title]}</a>
+				<a class="title" href="job.php?do=nei&m=view&id={$r[id]}">{$r[title]}</a>
 			</div>
 			<div class="sub_body">
 				<div class="time">截止时间：{$r[endtime]}</div>
@@ -104,7 +104,11 @@
 			{/if}
 			<a href="cp.php?ac=share&type=job&id={$result['id']}" id="a_share" onclick="ajaxmenu(event,this.id,1)">分享</a>
 			<span class="sep">|</span>
+			{if $result['is_fav']}
+			<a href="javascript:;" data-id="{$result[id]}" data-fav="1" id="fav_btn">已收藏</a>
+			{else}
 			<a href="javascript:;" data-id="{$result[id]}" id="fav_btn">收藏</a>
+			{/if}
 			<span class="sep">|</span>
 			<a onclick="ajaxmenu(event, this.id, 1)" id="a_report" href="cp.php?ac=common&op=report&idtype=jobid&id={$result['id']}" class="">举报</a>
 		</div>
@@ -212,7 +216,7 @@
 			<div class="form-grid">
 				<label><em>*</em>截止时间：</label>
 				<script type="text/javascript" src="source/script_calendar.js" charset="$_SC[charset]"></script>
-				<input type="text" value="<!--{eval echo sgmdate('Y-m-d H:i', $job[endtime])}-->" onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" style="width:150px;" name="deadtime" />
+				<input type="text" value="<!--{eval echo isset($job[endtime])?date('Y-m-d H:i', strtotime($job[endtime])) : sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp]);}-->" onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" style="width:150px;" name="deadtime" />
 			</div>
 			<div class="form-grid">
 				<label><em>*</em>简短描述：</label>
