@@ -15,7 +15,7 @@ while($row = $_SGLOBAL['db']->fetch_array($query)){
     $sql = "select * from ".tname('calendar_info')." where calendar_id={$calendar_id} and is_send_msg=0";
     $new_query = $_SGLOBAL['db']->query($sql);
     while($val = $_SGLOBAL['db']->fetch_array($new_query)){
-        if($val['start_t']-$t <= 600){
+        if($val['start_t']-$t <= 600 && $val['start_t']-$t > 0){
             $min = ceil(($val['start_t'] - $t)/60);
             $note = cplang('calendar_send_msg',array('space.php?do=calendar&calendar_id='.$row['id'],$row['calendar_name'],$min));
             notification_add($row['uid'],'calendar',$note);
