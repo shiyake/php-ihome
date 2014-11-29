@@ -106,7 +106,8 @@ switch($m) {
 		//删除数据
 		$db->query(sprintf("delete from %s where id=%d", tname('job'), $id));
 		$db->query(sprintf("delete from %s where jobid=%d", tname('job_content_3'), $id));
-		$db->query(sprintf("delete from %s where idtype='jobid' and id=%d", tname('comment'), $id));
+		$db->query(sprintf("delete from %s where jobid=%d", tname('job_fav'), $id));//删除收藏信息
+		$db->query(sprintf("delete from %s where idtype='jobid' and id=%d", tname('comment'), $id));//删除评论
 		showmessage('删除成功', $index_url);
 		break;
 	case 'sync':
