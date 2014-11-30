@@ -1,0 +1,80 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	<form method="get" action="admincp.php">
+		<div class="block style4">
+			<table cellspacing="3" cellpadding="3">
+				<tr>
+					<th>发布人</th>
+					<td>
+						<input type="text" name="username" value="{$_GET[username]}" />
+					</td>
+				</tr>
+				<tr>
+					<th>发布时间</th>
+					<td>
+						<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+						<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<input type="hidden" name="ac" value="job">
+						<input type="submit" name="searchsubmit" value="搜索" class="submit" style="padding:0 10px;">
+					</th>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+<!--{if $list}-->
+
+	<form method="post" id="batchform" action="admincp.php?ac=job">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><td width="25">&nbsp;</td><th>标题</th><th width="80">操作</th></tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+				<input type="checkbox" name="ids[]" value="$value[id]">
+			</td>
+			<td>
+				<a href="job.php?do=nei&m=view&id={$value[id]}" target="_blank">$value[title]</a>
+				<p class="gray">
+					<a href="admincp.php?ac=job&username=$value[username]">$value[username]</a>
+					&nbsp;&nbsp;{$value[createtime]}
+					<br>回复({$value[replynum]}) / 查看({$value[viewcount]})
+				</p>
+			</td>
+			<td>
+				<a href="job.php?do=nei&m=edit&id={$value[id]}" target="_blank">编辑</a>&nbsp;
+				<!--<a href="admincp.php?ac=comment&id=$value[id]&idtype=jobid">评论</a>-->
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">全选
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<input type="hidden" name="op" value="batchDelete" />
+		<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->
