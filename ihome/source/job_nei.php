@@ -103,7 +103,7 @@ switch($m) {
 		{
 			showmessage('该数据不存在', $index_url);
 		}
-		if ($info['uid'] != $_SGLOBAL['supe_uid'])
+		if ($member['groupid'] != 1 && $info['uid'] != $_SGLOBAL['supe_uid'])
 		{
 			showmessage('不能删除不属于您的工作信息', $index_url);
 		}
