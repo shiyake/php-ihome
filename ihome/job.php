@@ -1,7 +1,9 @@
 <?php
 header('Content-type:text/html;charset=utf8');
-error_reporting(E_ALL);ini_set('display_errors', 1);
+//error_reporting(E_ALL);ini_set('display_errors', 1);
 include './common.php';
+
+date_default_timezone_set('Asia/Shanghai');
 
 checklogin();
 

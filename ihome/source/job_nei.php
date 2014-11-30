@@ -22,7 +22,7 @@ switch($m) {
 		}
 		$page = max($page, 1);
 		$perpage = 10;
-		$offset = ($page - 1) * $perpage;
+		$offset = ($page - 1) * $perpage;	
 		$query = $db->query(sprintf("select j.id,j.title,jc.endtime,jc.description from %s j right join %s jc on j.id=jc.jobid where j.type=3 order by {$sort_field} desc limit $offset,$perpage", tname("job"), tname("job_content_3")));
 		$result = array();
 		while ($row = $db->fetch_array($query))
@@ -76,13 +76,18 @@ switch($m) {
 		$id = intval($_GET['id']);
 		if ($id <= 0)
 		{
-			showmessage('该数据不存在');
+			showmessage('该数据不存在', $index_url);
 		}
 		$query = $db->query(sprintf("select j.id,j.title,j.uid,j.replynum,j.createtime,jc.endtime,jc.description,jc.content from %s j right join %s jc on j.id=jc.jobid where j.id={$id} limit 1", tname('job'), tname('job_content_3')));
 		$job = $db->fetch_array($query);
 		if (!is_array($job) || !isset($job['id']))
 		{
-			showmessage('该数据不存在');
+			showmessage('该数据不存在', $index_url);
+		}
+		$job_uid = $job['uid'];
+		if ($member['groupid'] != 1 && $job_uid != $memer['uid'])
+		{
+			showmessage('您没有编辑权限', $index_url);
 		}
 		include template('job_nei');
 		break;
@@ -136,11 +141,13 @@ switch($m) {
 				break;
 			}
 			$dead_int_time = strtotime($deadtime);
+			/*
 			if ($dead_int_time < $now_time)
 			{
 				$rets['msg'] = '截止时间不能小于当前时间';
 				break;
 			}
+			*/
 			if (!is_string($description) || empty($description))
 			{
 				$rets['msg'] = '请输入描述信息';
@@ -160,6 +167,7 @@ switch($m) {
 					'title' => $title,
 					'viewcount' => 0,
 					'uid' => $uid,
+					'username' => $member['username'],
 					'type' => 3,
 					'createtime' => $now
 				);
