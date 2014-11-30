@@ -63,3 +63,8 @@
 <?PHP exit;?>	2014-11-30 13:52:30		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}POST{formhash=f77806f9;ids=a:2:{i:0;s:2:"24";i:1;s:2:"23";};mpurl=admincp.php?ac=job;op=batchDelete;batchsubmit=批量删除;}
 <?PHP exit;?>	2014-11-30 13:52:32		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
 <?PHP exit;?>	2014-11-30 13:54:12		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 14:08:43		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 14:08:49		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}POST{formhash=f77806f9;mpurl=admincp.php?ac=job;op=batchDelete;batchsubmit=批量删除;}
+<?PHP exit;?>	2014-11-30 14:09:04		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 14:09:08		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}POST{formhash=f77806f9;mpurl=admincp.php?ac=job;op=batchDelete;batchsubmit=批量删除;}
+<?PHP exit;?>	2014-11-30 14:09:09		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}

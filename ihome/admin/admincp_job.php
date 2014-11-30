@@ -9,6 +9,10 @@ $db = $_SGLOBAL['db'];
 if (isset($_POST['op']) && $_POST['op'] == 'batchDelete')
 {
 	$ids = $_POST['ids'];
+	if (!is_array($ids) || empty($ids))
+	{
+		showmessage('您没选择任何删除的id', $mpurl);
+	}
 	$ids_str = implode(',', $ids);
 
 	//删除数据
