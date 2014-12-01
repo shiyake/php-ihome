@@ -25,6 +25,19 @@
 	width: 70px;
 	height: 30px;
 	padding: 6px 17px;
+	margin-bottom: 6px;
+}
+.complain_dep {
+	width: 111px;
+	height: 30px;
+	padding: 6px;
+	margin-bottom: 6px;
+}
+.complain_dep p {
+	color: #666;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .complain_status.complain_doing {
 	color: #006b93;
@@ -151,4 +164,7 @@
 #relay_depids li:hover {
 	background: #3366FF;
 	color: white;
+}
+.all_complain_deps, .all_complain_status {
+	display: inline-table;
 }

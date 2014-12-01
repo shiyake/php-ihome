@@ -150,19 +150,18 @@
     <a href="space.php?do=complain" class="r_option complain_ret" style="margin-top:30px;margin-right:15px;">返回我的诉求列表</a>
     <div class="sidebox" style="border:none;margin-top:88px;">
         <h4 class="title">诉求状态</h4>
-        <div>
+        <div class="all_complain_deps">
         <!--{loop $complain[atuname] $atuname}-->
-            <div>
-                <p><!--{eval echo $atuname}--></p>
+            <div class="complain_dep">
+                <p title="$atuname"><!--{eval echo $atuname}--></p>
             </div>
         <!--{/loop}-->
-        </div>
+        </div><div class="all_complain_status">
         <!--{if $_SGLOBAL[isdept] == 1}-->
         <!--{eval $doing_text = '未处理'}-->
         <!--{else}-->
         <!--{eval $doing_text = '处理中'}-->
         <!--{/if}-->
-        <div>
         <!--{loop $complain[status] $status}-->
         <!--{if $status == 0}-->
         <div class="complain_status complain_doing">
