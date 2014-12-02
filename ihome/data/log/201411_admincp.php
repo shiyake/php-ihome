@@ -68,3 +68,16 @@
 <?PHP exit;?>	2014-11-30 14:09:04		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
 <?PHP exit;?>	2014-11-30 14:09:08		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}POST{formhash=f77806f9;mpurl=admincp.php?ac=job;op=batchDelete;batchsubmit=批量删除;}
 <?PHP exit;?>	2014-11-30 14:09:09		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 20:54:17		127.0.0.1	3	/admincp.php	
+<?PHP exit;?>	2014-11-30 20:55:20		127.0.0.1	3	/admincp.php	
+<?PHP exit;?>	2014-11-30 20:55:25		127.0.0.1	3	/admincp.php?ac=userimport	GET{ac=userimport;}
+<?PHP exit;?>	2014-11-30 20:55:30		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 20:55:37		127.0.0.1	3	/admincp.php?ac=blog	GET{ac=blog;}
+<?PHP exit;?>	2014-11-30 20:55:40		127.0.0.1	3	/admincp.php?ac=album	GET{ac=album;}
+<?PHP exit;?>	2014-11-30 20:55:45		127.0.0.1	3	/admincp.php?ac=blog	GET{ac=blog;}
+<?PHP exit;?>	2014-11-30 21:04:17		127.0.0.1	3	/admincp.php?ac=comment&id=722&idtype=blogid	GET{ac=comment;id=722;idtype=blogid;}
+<?PHP exit;?>	2014-11-30 21:04:22		127.0.0.1	3	/admincp.php?ac=job	GET{ac=job;}
+<?PHP exit;?>	2014-11-30 21:04:39		127.0.0.1	3	/admincp.php?ac=job&page=2	GET{ac=job;page=2;}
+<?PHP exit;?>	2014-11-30 21:04:42		127.0.0.1	3	/admincp.php?ac=job&page=1	GET{ac=job;page=1;}
+<?PHP exit;?>	2014-11-30 21:05:55		127.0.0.1	3	/admincp.php?ac=job&page=2	GET{ac=job;page=2;}
+<?PHP exit;?>	2014-11-30 21:05:58		127.0.0.1	3	/admincp.php?ac=job&page=1	GET{ac=job;page=1;}
