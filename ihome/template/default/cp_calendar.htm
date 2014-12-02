@@ -1,0 +1,249 @@
+<!--{template header}-->
+<!--{if $op == 'delete'}-->
+<h1>删除日历</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__deletecalendar_{$calendar_id}">
+<form method="post" id="deletecalendar_{$calendar_id}" action="cp.php?ac=calendar&op=delete&calendar_id=$calendar_id">
+	<p>确定删除指定的日历吗？</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+		<input type="hidden" name="deletesubmit" value="true" />
+        <button name="btnsubmit" type="button" 
+				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('deletecalendar_{$calendar_id}', 'calendar_delete', 2000)">确定</button>
+	</p>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+<!--{elseif $op == "calendar"}-->	
+	<div class="calendar">
+        <a href="#" onclick="showcalendar('$premonth'); this.blur(); return false;">
+		    <div id="calendar_pre" class="floatleft goleft">
+            </div>
+        </a>
+        <a href="#" onclick="showcalendar('$nextmonth'); this.blur(); return false;">
+		    <div id="calendar_next" class="floatright goright">
+            </div>
+        </a>
+		<span id="thecalendar_year">$year</span>年 <span id="thecalendar_month">$month</span>月
+		<ul>
+			<li class="calendarli calendarweek">日</li>
+			<li class="calendarli calendarweek">一</li>
+			<li class="calendarli calendarweek">二</li>
+			<li class="calendarli calendarweek">三</li>
+			<li class="calendarli calendarweek">四</li>
+			<li class="calendarli calendarweek">五</li>
+			<li class="calendarli calendarweek">六</li>	
+			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
+			<!--{loop $days $key $value}-->		
+            <!--{if !strcmp($value[class],"on_today")&& !$value[count]}-->
+            <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id">
+                <li class="calendarli on_today">$key</li>
+            </a>
+            <!--{elseif $value[count]}-->		
+            <!--{if $value[class]=="on_today"}-->
+            <!--{eval $class="on_today onlink"}-->
+            <!--{else}-->
+            <!--{eval $class="onlink"}-->
+            <!--{/if}-->
+            <li class="calendarli $class" onmouseover="$('day_$key').style.display='block';" onmouseout="$('day_$key').style.display='none';">
+            <!--wangnan<img class="calendar_red_point" src="template/default/image/red_point.png"></img>-->
+            <a href="$url&date=$year-$month-$key">$key</a>
+				<div class="dayevents" id="day_$key" style="display:none;">
+					<ul class="news_list">
+                        <!--{eval $num=0}-->    
+                        <!--{loop $value[arrangement] $arrangement}-->
+                        <!--{eval $num++}-->
+                        <li class="dayeventsli">
+                        <div class="dayeventstitle"><img style="width:18px;margin-top:-5px;" src="image/alert.png"></img>&nbsp;&nbsp;事件&nbsp;{$num}</div>
+                        <a href="space.php?do=arrangement&id=$arrangement[arrangementid]">$arrangement[subject]</a>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                </li>
+                <!--{else}-->
+                <a href="/space.php?do=calendar&showFcDate=$year-$month-$key&id=$calendar_id"><li class="calendarli">$key</li></a>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </ul>
+        </div>
+ <!--{else}-->
+ 	<!--{if $_GET['op'] == 'add'}-->
+    <h1>添加日历</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__addcalendar_">
+        <form id="addcalendar_" name="titleform" action="cp.php?ac=calendar&op=add" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:200px;" name="subject" value="" />
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                </span>
+             </p>
+              <span id="ics_error" style="color:#F00"></span>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
+            	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+            <input type="hidden" name="makefeed1" id="makefeed1" value="1">
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+    <!--{if $_GET['op'] == 'edit'}-->
+    <h1>编辑日历</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__editcalendar_{$calendar_id}">
+        <form id="editcalendar_{$calendar_id}" name="titleform" action="cp.php?ac=calendar&calendar_id=$calendar_id" method="post" enctype="multipart/form-data" onsubmit="return check_ics_file();">
+             名称：<input type="text" class="t_input form-control input-sm" id="subject" style="display:inline;width:100px;" name="subject" value="$calendar[calendar_name]" />
+             <p style="margin-top:5px;">
+             	<a href="javascript:void(0)" onclick="jq('#ics_files').show();"><font color="#000">+导入日历</font></a>
+                <span id="ics_files" style="display:none;">
+                <input type="file" name="ics_file" id="ics_file" class="t_input form-control input-sm" style="width:200px; margin-top:10px;" />
+                </span>
+             </p>
+             <span id="ics_error" style="color:#F00"></span>
+            <p class="btn_line" style="float:right; margin-top:10px; margin-bottom:5px;">
+            	<input type="hidden" name="calendarbutton" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="submit" class="btn btn-sm btn-comments" value="true">确定</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+             <input type="hidden" name="makefeed1" id="makefeed1" value="1">
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+    <!--{if $_GET['op'] == 'addEvent'}-->
+    <h1>添加事件</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__calendarAddEvent_{$calendar_id}">
+        <form id="calendarAddEvent_{$calendar_id}" name="calendarAddEvent" action="cp.php?ac=calendar&op=addEventDo&calendar_id=$calendar_id" method="post">
+            <div style="padding: 20px 30px;">
+                <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="" /></label>
+                <br/><label>时间：<br/>
+                <div style="display: inline-block;width: 195px;" class="form-group ">
+                <input name="start_d" id="start_d" value="<!--{date('Y-m-d')}-->" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d')}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="start_t" id="start_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
+                到：
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="end_d" id="end_d" value="<!--{date('Y-m-d')}-->" class="t_input form-control input-sm" style="display:none;width:80px;">
+                <select name="end_t" id="end_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
+                </label><br/>
+                <label>日历：<select name="calendar_select_id"><!--{loop $calendar_list $key $c}--><option value="$c[id]">$c[calendar_name]</option><!--{/loop}--></select></label><br/>
+                <label>地点：<input name="place" value="" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
+                <label>颜色：
+                    <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
+                        <div class="eventColorActive"></div>
+                        <input class="eventColorActiveInput" type="hidden" name="bgcolor" value="#924420">
+                    </div>
+                    <div class="eventColor" style="border-color: #5484ED;background-color: #5484ED;"></div>
+                    <div class="eventColor" style="background-color: #A4BDFC;border-color: #A4BDFC;"></div>
+                    <div class="eventColor" style="background-color: #46D6DB;border-color: #46D6DB;"></div>
+                    <div class="eventColor" style="background-color: #7AE7BF;border-color: #7AE7BF;"></div>
+                    <div class="eventColor" style="background-color: #51B749;border-color: #51B749;"></div>
+                    <div class="eventColor" style="background-color: #FBD75B;border-color: #FBD75B;"></div>
+                    <div class="eventColor" style="background-color: #FFB878;border-color: #FFB878;"></div>
+                    <div class="eventColor" style="background-color: #FF887C;border-color: #FF887C;"></div>
+                    <div class="eventColor" style="background-color: #DC2127;border-color: #DC2127;"></div>
+                    <div class="eventColor" style="background-color: #DBADFF;border-color: #DBADFF;"></div>
+                    <div class="eventColor" style="background-color: #E1E1E1;border-color: #E1E1E1;"></div>
+                </label>
+            </div>
+            <hr style="margin-top: 0;"/>
+            <p class="btn_line" style="float:right; margin-bottom:5px;">
+                <input type="hidden" name="calendarEventBtn" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="button"
+                        class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('calendarAddEvent_{$calendar_id}', 'addEventOK', 2000)">添加</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+
+<!--{if $_GET['op'] == 'editEvent'}-->
+    <h1>编辑事件</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__calendarEditEvent_{$calendar_id}">
+        <form id="calendarEditEvent_{$calendar_id}" name="calendarEditEvent" action="cp.php?ac=calendar&op=editEvent&calendar_id=$calendar_id&calendar_info_id=$calendar_info_id" method="post">
+            <div style="padding: 20px 30px;">
+                <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="$calendarInfo['content']" /></label>
+                <br/><label>时间：<br/>
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="start_d" id="start_d" value="$calendarInfo['start_d']" onclick="showcalendar(event, this, 0, '<!--{date('Y-m-d',$calendarInfo[start_t])}-->')" class="t_input form-control input-sm" style="display:inline;width:80px;">
+                <select name="start_t" id="start_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
+                到：
+                <div style="display: inline-block;width: 195px;" class="form-group">
+                <input name="end_d" id="end_d" value="$calendarInfo['end_d']" class="t_input form-control input-sm" style="display:none;width:80px;">
+                <select name="end_t" id="end_t" class="form-control" style="height: 30px;display: inline;font-size: 12px;width: 105px;">
+                </select>
+                </div>
+                </label><br/>
+                <label>日历：<select name="calendar_select_id"><!--{loop $calendar_list $key $c}--><option value="$c[id]" <!--{if $calendar_id==$c[id]}-->selected="selected"<!--{/if}-->>$c[calendar_name]</option><!--{/loop}--></select></label><br/>
+                <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label><br/><br/>
+                <label>颜色：
+                    <div class="eventColor" style="border-color: #924420;background-color: #D06B64;">
+                        <div class="eventColorActive"></div>
+                        <input class="eventColorActiveInput" type="hidden" name="bgcolor" value="#924420">
+                    </div>
+                    <div class="eventColor" style="border-color: #5484ED;background-color: #5484ED;"></div>
+                    <div class="eventColor" style="background-color: #A4BDFC;border-color: #A4BDFC;"></div>
+                    <div class="eventColor" style="background-color: #46D6DB;border-color: #46D6DB;"></div>
+                    <div class="eventColor" style="background-color: #7AE7BF;border-color: #7AE7BF;"></div>
+                    <div class="eventColor" style="background-color: #51B749;border-color: #51B749;"></div>
+                    <div class="eventColor" style="background-color: #FBD75B;border-color: #FBD75B;"></div>
+                    <div class="eventColor" style="background-color: #FFB878;border-color: #FFB878;"></div>
+                    <div class="eventColor" style="background-color: #FF887C;border-color: #FF887C;"></div>
+                    <div class="eventColor" style="background-color: #DC2127;border-color: #DC2127;"></div>
+                    <div class="eventColor" style="background-color: #DBADFF;border-color: #DBADFF;"></div>
+                    <div class="eventColor" style="background-color: #E1E1E1;border-color: #E1E1E1;"></div>
+                </label>
+            </div>
+            <hr style="margin-top: 0;"/>
+            <p class="btn_line" style="float:right; margin-bottom:5px;">
+                <input type="hidden" name="calendarEditEventBtn" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="button"
+                        class="btn btn-sm" value="true" onclick="deleteEvent($calendar_id, $calendar_info_id);hideMenu();">删除</button>
+                <button name="btnsubmit" type="button"
+                        class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('calendarEditEvent_{$calendar_id}', 'editEventOK', 2000)">提交</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+
+<!--{if $_GET['op'] == 'showEvent'}-->
+    <h1>事件</h1>
+    <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+    <div class="popupmenu_inner" id="__calendarShowEvent_{$calendar_id}">
+        <form id="calendarShowEvent_{$calendar_id}" name="calendarShowEvent" action="cp.php?ac=calendar&op=showEvent&calendar_id=$calendar_id&calendar_info_id=$calendar_info_id" method="post">
+            <div style="padding: 20px 30px;">
+                <p style="font-size: 20px;width: 250px;">$calendarInfo['content']</p>
+                <p>$calendarInfo['show_date']</p>
+                <p>日历：<!--{loop $calendar_list $key $c}--><!--{if $calendar_id==$c[id]}-->$c[calendar_name]<!--{/if}--><!--{/loop}-->
+                <p>地点： $calendarInfo['place']</p>
+            </div>
+            <hr style="margin-top: 0;"/>
+            <p class="btn_line" style="float:right; margin-bottom:5px;">
+                <!--<input type="hidden" name="start_t" value="$calendarInfo['start_t']">
+                <input type="hidden" name="end_t" value="$calendarInfo['end_t']">-->
+                <button name="btnsubmit" type="button"
+                        class="btn btn-sm" value="true" onclick="deleteEvent($calendar_id, $calendar_info_id);hideMenu();">删除</button>
+                <button type="button"
+                        class="btn btn-sm btn-comments" value="true" onclick="showEditEvent($calendar_info_id, 'cp.php?ac=calendar&op=editEvent&calendar_id=$calendar_id&calendar_info_id=$calendar_info_id');hideMenu();">编辑</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </p>
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+        </form>
+    </div>
+    <!--{/if}-->
+<!--{/if}-->
+<!--{template footer}-->
