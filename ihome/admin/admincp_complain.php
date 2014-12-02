@@ -268,6 +268,12 @@ if($type == 'forleaders' && $superuid == 3){
     }
 	
 }elseif($type == 'complains'){
+	$removedoid = $_GET['remove'] ? intval($_GET['remove']) : 0;
+	if ($removedoid) {
+		include_once(S_ROOT.'./source/function_delete.php');
+        deletedoings(array($removedoid));
+        showmessage('do_success', $_SERVER['HTTP_REFERER']);
+	}
 	$tab = 1;
 	$Complains = array();//存放complain记录
 	
@@ -307,7 +313,18 @@ if($type == 'forleaders' && $superuid == 3){
         $wheresql .= " AND atuid = $_GET[atuname]";
 	}
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
-        $wheresql .= " and status=$status";
+		$status = intval($_GET['status']);
+		switch ($status) {
+			case 1:
+				$wheresql .= " and status in (1,3)";
+				break;
+			case 2:
+				$wheresql .= " and status in (2,4)";
+				break;
+			default:
+				$wheresql .= " and status=$status";
+				break;
+		}
 	}
 	$where = " WHERE ".$wheresql;
 
@@ -391,7 +408,7 @@ if($type == 'forleaders' && $superuid == 3){
         if ($value['status'] == 0) {
             $complains[$value['atuid']]['running']++;
             $runningNum++;
-        } elseif ($value['status'] == 1) {
+        } elseif ($value['status'] == 1 || $value['status'] == 3) {
             $complains[$value['atuid']]['done']++;
             $doneNum++;
         } else {

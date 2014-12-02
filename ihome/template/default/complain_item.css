@@ -129,3 +129,26 @@
 .forward_tip {
 	color:#777;
 }
+#relay_depid {
+	width: 150px;
+}
+#relay_depids {
+	display: none;
+	position: absolute;
+	width: 152px;
+	max-height: 290px;
+	overflow-y: auto;
+	left: 92px;
+	background: white;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+#relay_depids li {
+	padding: 5px 10px;
+	border-bottom: 1px solid #DDD;
+	cursor: pointer;
+}
+#relay_depids li:hover {
+	background: #3366FF;
+	color: white;
+}

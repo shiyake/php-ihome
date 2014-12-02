@@ -152,18 +152,19 @@
 			<tr class="line">
 			  <th>序号</th>
 			  <th>姓名</th>
-			  <th>诉求信息</th>
+			  <th width="50%">诉求信息</th>
 			  <th>发起时间</th>
 			  <th>上报阶段</th>
 			  <th>处理状况</th>
+			  <th>操作</th>
 			</tr>
 			<!--{loop $Complains $key=>$value}-->
 			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
-                <td><a href="space.php?do=complain_item&doid=$value[doid]" target="_blank"><!--{eval echo intval($key+1)}--></a></td>
-			  <td style="width:110px;"><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
-			  <td style="">$value[message]</td>
-			  <td style="width:125px;">$value[addtime]</td>
-			  <td style="width:160px;">
+                <td><!--{if $value[status]!=4}--><a href="space.php?do=complain_item&doid=$value[doid]" target="_blank"><!--{eval echo intval($key+1)}--></a><!--{else}--><!--{eval echo intval($key+1)}--><!--{/if}--></td>
+			  <td><a href=space.php?uid=$value[uid]>$_SN[$value[uid]]</a></td>
+			  <td>$value[message]</td>
+			  <td>$value[addtime]</td>
+			  <td>
                 <!--{if $value[times] == 1}-->
                 部处
                 <!--{elseif $value[times] == 3}-->
@@ -174,14 +175,19 @@
                 校长
                 <!--{/if}-->
               </td>
-			  <td style="width:60px;">
+			  <td>
               <!--{if $value[status] == '0'}-->
               处理中
               <!--{elseif $value[status] == 1}-->
               已处理
+              <!--{elseif $value[status] == 3}-->
+              已转发
+              <!--{elseif $value[status] == 4}-->
+              已删除
               <!--{else}-->
               已关闭
               <!--{/if}--></td>
+              <td><!--{if $value[status]!=4}--><a href="$_SERVER[REQUEST_URI]&remove=$value[doid]">删除</a><!--{/if}--></td>
 			</tr>
 			<!--{/loop}-->
 		  </tbody>
@@ -669,7 +675,7 @@ jQuery.noConflict();
 			  <td>$value[done]</td>
 			  <td>$value[close]</td>
 			  <td>
-			  <a href="admincp.php?atuname=$value[department]&ac=complain&type=complains">详情</a>
+			  <a href="admincp.php?atuname=$value[atuid]&ac=complain&type=complains&starttime=$startDay&endtime=$endDay">详情</a>
 			  </td>
 			</tr>
 			<!--{/loop}-->

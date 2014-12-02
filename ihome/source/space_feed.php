@@ -471,6 +471,17 @@ if($_GET['view'] == 'hot') {
 	//热点
 	foreach ($feed_list as $value) {
 		$value = mkfeed($value);
+		if ($value['icon'] == 'share') {
+			$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('share')." WHERE sid=$value[id]");
+			$s = $_SGLOBAL['db']->fetch_array($q);
+            $value['origin_doid'] = 0;
+			if ($s && $s['type'] == 'doing') {
+                $iscp = isComplainOrNot($s['id'],$_SGLOBAL['db']);
+                if ($iscp) {
+                	$value['origin_doid'] = $s['id'];
+                }
+			}
+		}
 		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
 		$list['today'][] = $value;
 	}
@@ -479,6 +490,17 @@ if($_GET['view'] == 'hot') {
 	foreach ($feed_list as $value) {
 		if($hotlist[$value['feedid']]) continue;
 		$value = mkfeed($value);
+		if ($value['icon'] == 'share') {
+			$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('share')." WHERE sid=$value[id]");
+			$s = $_SGLOBAL['db']->fetch_array($q);
+            $value['origin_doid'] = 0;
+			if ($s && $s['type'] == 'doing') {
+                $iscp = isComplainOrNot($s['id'],$_SGLOBAL['db']);
+                if ($iscp) {
+                	$value['origin_doid'] = $s['id'];
+                }
+			}
+		}
 		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
 		if($value['dateline']>=$_SGLOBAL['today']) {
 			$list['today'][] = $value;
@@ -522,6 +544,17 @@ if($_GET['view'] == 'hot') {
 	foreach ($feed_list_expanded as $value) {
 		if($hotlist[$value['feedid']]) continue;
 		$value = mkfeed($value);
+		if ($value['icon'] == 'share') {
+			$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname('share')." WHERE sid=$value[id]");
+			$s = $_SGLOBAL['db']->fetch_array($q);
+            $value['origin_doid'] = 0;
+			if ($s && $s['type'] == 'doing') {
+                $iscp = isComplainOrNot($s['id'],$_SGLOBAL['db']);
+                if (!$iscp) {
+                	$value['origin_doid'] = $s['id'];
+                }
+			}
+		}
 		$value['canUpvote'] = canUpvote($_SGLOBAL['supe_uid'],$value);
 		if($value['dateline']>=$_SGLOBAL['today']) {
 			$list['today'][] = $value;
