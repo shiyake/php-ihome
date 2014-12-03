@@ -119,7 +119,9 @@
 					<a href="javascript:void(0);" class="social_share" onclick="social_share($value[blogid])" style="float:right;width:50px;">分享</a>
 					<!--{eval $bdContent = $_SN[$value[uid]].':'.$value[subject]}-->
         			<!--{eval $bdUrl = '/space.php?uid='.$value[uid].'&do=blog&id='.$value[blogid]}-->
-	        		<div id="bdshare_content_$value[blogid]" data-content="$bdContent" data-url="$bdUrl"></div>
+        			<!--{eval $blog_msg = preg_replace('/\s+/',' ',strip_tags($value[message]))}-->
+        			<!--{eval $bdDesc = mb_substr($blog_msg,0,100,mb_detect_encoding($blog_msg)).'...'}-->
+	        		<div id="bdshare_content_$value[blogid]" data-content="$bdContent" data-url="$bdUrl" data-desc="$bdDesc"></div>
 					<div id="a_share_group_$value[blogid]"  class="bdsharebuttonbox a_share_group" data-tag="share_1" style="display:none;position:absolute;margin-top:20px;right:-15px;background:#fff;border:1px solid #dcdcdc;border-radius:3px;padding:0 5px;">
 						<div><a href="cp.php?ac=share&type=blog&id=$value[blogid]" id="a_share_$value[blogid]" onclick="ajaxmenu(event, this.id, 1)" style="background:none;padding:0;"><img src="image/icons/icon-share.png"/>&nbsp;站内分享</a></div>
 						<div><a class="bds_qzone">QQ空间</a></div>
@@ -173,12 +175,13 @@
 			window._bd_share_main = undefined;
 			var bdUrl = jQuery('#bdshare_content_'+id).data('url');
 			var bdContent = jQuery('#bdshare_content_'+id).data('content');
+			var bdDesc = jQuery('#bdshare_content_'+id).data('desc');
 			var temp = /(.*?)\s*(?:：|:)\s*(.*)/.exec(bdContent);
 			bdContent = temp[2] + ' - ' + temp[1];
 			window._bd_share_config = {
 				common : {
 					bdText : bdContent + ' - 北航ihome',
-					bdDesc : bdContent + ' - 北航ihome',
+					bdDesc : bdDesc,
 					bdUrl : location.origin + bdUrl,
 					bdSign : 'off'
 				},
@@ -193,14 +196,14 @@
 		        baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
 		        baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
 		        baseUrl += '&title='+bdContent + ' - 北航ihome';
-		        baseUrl += '&description='+bdContent + ' - 北航ihome';
+		        baseUrl += '&description='+bdDesc;
 
 		        window.open(baseUrl);
 		    });
 		    jQuery('#a_share_group_'+id+' .bds_qzone').click(function(){
 		        var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
 		        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
-		        baseUrl += '&summary='+bdContent + ' - 北航ihome';
+		        baseUrl += '&summary='+bdDesc;
 		        baseUrl += '&title='+bdContent + ' - 北航ihome';
 		        baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
 

@@ -145,11 +145,11 @@ jQuery(function ($) {
 			return;
 		}
 
-		if (jq('#add').hasClass('askbag') && jqMessage.match(/@.*?\(\d+\)/g).length !== 1) {
-			var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
-			Message_out(message);
-			return false;
-		};
+		// if (jq('#add').hasClass('askbag') && jqMessage.match(/@.*?\(\d+\)/g).length !== 1) {
+		// 	var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
+		// 	Message_out(message);
+		// 	return false;
+		// };
 
         if(jqMessage.indexOf("[em:")!=-1) {
             alert("亲，请不要尝试使用旧表情，新表情很可耐不是吗^_^");
@@ -189,10 +189,10 @@ jQuery(function ($) {
 						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>没有权限</div>";
 						Message_out(message);
 						break;
-					case 'complain_count_error':
-						var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
-						Message_out(message);
-						break;
+					// case 'complain_count_error':
+					// 	var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能选一个部门</div>";
+					// 	Message_out(message);
+					// 	break;
 					default:
 						//$("#feed_div > ul").prepend(data);
 						Status_show(data);
@@ -518,6 +518,10 @@ status message end-->
 						});
                 	});
                 	function social_share(id){
+                		if (jQuery('#a_share_group_'+id).is(":visible")) {
+                			jQuery('#a_share_group_'+id).hide();
+                			return;
+                		};
                 		jQuery('.a_share_group').hide();
                 		jQuery('#a_share_group_'+id).show();
                 		
@@ -543,7 +547,7 @@ status message end-->
 					        baseUrl += 'resourceUrl=' + encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&srcUrl='+ encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
-					        baseUrl += '&title='+bdContent + ' - 北航ihome';
+					        baseUrl += '&title='+'来自北航ihome';
 					        baseUrl += '&description='+bdContent + ' - 北航ihome';
 
 					        window.open(baseUrl);
@@ -552,8 +556,17 @@ status message end-->
 					        var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
 					        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
 					        baseUrl += '&summary='+bdContent + ' - 北航ihome';
-					        baseUrl += '&title='+bdContent + ' - 北航ihome';
+					        baseUrl += '&title='+'来自北航ihome';
 					        baseUrl += '&site='+encodeURIComponent(location.origin + bdUrl);
+
+					        window.open(baseUrl);
+					    });
+					    jQuery('#a_share_group_'+id+' .bds_sqq').click(function(){
+					        var baseUrl = 'http://connect.qq.com/widget/shareqq/index.html?';
+					        baseUrl += 'url=' + encodeURIComponent(location.origin + bdUrl);
+					        baseUrl += '&title='+'来自北航ihome';
+					        baseUrl += '&desc='+bdContent + ' - 北航ihome';
+					        baseUrl += '&site=baidu';
 
 					        window.open(baseUrl);
 					    });

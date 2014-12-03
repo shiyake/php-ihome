@@ -49,7 +49,7 @@ if($_SCONFIG['allowrewrite'] && isset($_GET['rewrite'])) {
 }
 
 //允许动作
-$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation','feeddetail','complain','complain_item');
+$dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag', 'friend', 'wall', 'tag', 'notice', 'share', 'topic', 'home', 'pm', 'event', 'poll', 'top', 'info', 'videophoto','public','arrangement', 'search','recommendpublic', 'recommendation','feeddetail','complain','complain_item','calendar');
 
 //获取变量
 $isinvite = 0;
@@ -94,7 +94,7 @@ if($do == 'home') {
 
 $friendurl_w = S_ROOT."./data/assets/data_".$_SGLOBAL[supe_uid].".json";
 $friendurl_r = "data/assets/data_".$_SGLOBAL[supe_uid].".json";
-$FileModTime = filemtime($friendurl_w);
+$FileModTime = @filemtime($friendurl_w);
 $CurrentTime = time();
 if($CurrentTime - $FileModTime > 3600){
 	$atfriends = array();

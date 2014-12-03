@@ -109,6 +109,40 @@ function feed_delete(id, result) {
 		
 	}
 }
+//编辑一个日历
+function calendar_add(id,result){
+	result=1;
+    if(result) {
+		var ids = explode('_', id);
+		var obj = $('my_calendar_list');
+		var x = new Ajax();
+		x.get('do.php?ac=ajax&op=calendar', function(s){
+			obj.innerHTML = s;
+		});
+	}
+}
+//编辑一个日历
+function calendar_edit(id,result){
+	result=1;
+    if(result) {
+		var ids = explode('_', id);
+		var cid = ids[1];
+		var obj = $('calendar_list_'+ cid +'_li');
+		var x = new Ajax();
+		x.get('do.php?ac=ajax&op=calendar&calendar_id='+ cid, function(s){
+			obj.innerHTML = s;
+		});
+	}
+}
+//删除一个日历
+function calendar_delete(id,result){
+	if(result) {
+		var ids = explode('_', id);
+		var feedid = ids[1];
+		var obj = $('calendar_list_'+ feedid +'_li');
+		obj.style.display = "none";
+	}
+}
 
 //删除分享
 function share_delete(id, result) {
