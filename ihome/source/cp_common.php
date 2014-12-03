@@ -76,6 +76,9 @@ if($op == 'logout') {
         case 'doid':
             $query = $_SGLOBAL['db']->query("select * from ".tname("doing")." where doid=$_GET[id]");
             break;
+		case 'jobid':
+            $query = $_SGLOBAL['db']->query("select * from ".tname("job")." where id=$_GET[id]");
+            break;
         case 'uid':
             $_GET['uid'] = $_GET['id'];
             break;
@@ -90,7 +93,7 @@ if($op == 'logout') {
         }
     }
 	
-	if(!in_array($_GET['idtype'], array('picid', 'blogid', 'albumid', 'tagid', 'tid', 'sid', 'uid', 'pid', 'eventid', 'comment', 'post', 'doid')) || empty($_GET['id'])) {
+	if(!in_array($_GET['idtype'], array('picid', 'blogid', 'albumid', 'tagid', 'tid', 'sid', 'uid', 'pid', 'eventid', 'comment', 'post', 'doid', 'jobid')) || empty($_GET['id'])) {
 		showmessage('report_error');
 	}
 	//获取举报记录

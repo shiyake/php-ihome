@@ -1,5 +1,4 @@
 <?php
-
 include_once('./common.php');
 //showmessage("test");
 /*
@@ -67,7 +66,6 @@ if($_SGLOBAL['supe_uid']) {
 }
 
 if(empty($_SCONFIG['networkpublic'])) {
-	
 	$cachefile = S_ROOT.'./data/cache_index.txt';
 	$cachetime = @filemtime($cachefile);
 	

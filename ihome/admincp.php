@@ -41,7 +41,7 @@ $isfounder = ckfounder($_SGLOBAL['supe_uid']);
 
 $acs = array(
 	array('index','config', 'privacy', 'ip', 'spam', 'hotuser', 'defaultuser', 'usergroup', 'credit', 'magic', 'magiclog', 'profield', 'ad', 'userapp'),
-	array('tag', 'mtag', 'event', 'report', 'space', 'userimport'),
+	array('tag', 'mtag', 'event', 'report', 'space', 'userimport', 'job'),
 	array('cache', 'network', 'profilefield', 'eventclass', 'click', 'task', 'censor', 'stat', 'block', 'cron', 'app', 'log','wallmanage','publicapply','publictype','recommendpublic','complain','apps','loginbg','ad4app','map','overseas','asst'),
 	array('feed', 'blog', 'album', 'pic', 'comment', 'thread', 'post', 'doing', 'share', 'poll','wallcontentmanage','mtaginvite'),
 );
