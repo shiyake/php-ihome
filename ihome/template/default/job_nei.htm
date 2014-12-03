@@ -1,0 +1,337 @@
+
+<!--{template header}-->
+<link type="text/css" rel="stylesheet" href="template/default/job.css" />
+<!--{if $m == 'index'}-->
+<div class="job_grid" id="content" style="border-right:none;width:800px;">
+	<div class="head">
+		<div class="title">
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
+			<span>就业互助</span>
+		</div>
+		<a class="pbtn" href="job.php?do=nei&m=add">发布职位</a>
+	</div>
+	<div class="tabs_header" style="margin-left:0;">
+		<ul class="tabs">
+			<li>
+				<a href="job.php"><span>招聘职位</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=hui"><span>招聘会</span></a>
+			</li>
+			<li class="active">
+				<a href="job.php?do=nei"><span>站内招聘</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=myfav"><span>我的收藏</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=publish"><span>我发布的职位</span></a>
+			</li>
+		</ul>
+	</div>
+	<div class="search">
+		<div class="sort">
+			<a href="job.php?do=nei&sort=new"{if $sort == 'new'} class="active"{/if} style="border-right:none;">最新</a>
+			<a href="job.php?do=nei&sort=hot"{if $sort == 'hot'} class="active"{/if} style="border-left:none;">最热</a>
+		</div>
+	</div>
+	<div class="main_grid nei_grid">
+		{loop $result $r}
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="job.php?do=nei&m=view&id={$r[id]}">{$r[title]}</a>
+			</div>
+			<div class="sub_body">
+				<div class="time">截止时间：{$r[endtime]}</div>
+				<div class="desc">{$r[description]}</div>
+			</div>
+		</div>
+		{/loop}
+	</div>
+	<div class="page" style="padding-bottom:20px;">
+		{$pagination}
+	</div>
+</div>
+{elseif $m == 'view'}
+<div class="job_grid" id="content" style="border-right:none;width:800px;">
+	<div class="head">
+		<div class="title">
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
+			<span>就业互助</span>
+		</div>
+		<a class="pbtn" href="job.php?do=nei">返回上一页</a>
+	</div>
+	<div class="tabs_header" style="margin-left:0;">
+		<ul class="tabs">
+			<li>
+				<a href="job.php"><span>招聘职位</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=hui"><span>招聘会</span></a>
+			</li>
+			<li class="active">
+				<a href="job.php?do=nei"><span>站内招聘</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=myfav"><span>我的收藏</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=publish"><span>我发布的职位</span></a>
+			</li>
+		</ul>
+	</div>
+	<div class="view_job_grid">
+		<div class="view_head">
+			<div class="title">
+				<h1>{$result['title']}</h1>
+			</div>
+			<div class="time">
+				发布于<!--{eval echo substr($result['createtime'], 0, -3)}-->
+			</div>
+		</div>
+		<div class="view_dead_time">
+			截止时间：<!--{eval echo substr($result['endtime'], 0, -3)}-->
+		</div>
+		<div class="view_body">
+			{$result['content']}
+		</div>
+		<div class="manage_btns">
+			{if $result['uid'] == $_SGLOBAL['supe_uid']}
+			<a href="job.php?do=nei&m=edit&id={$result['id']}">编辑</a>
+			<span class="sep">|</span>
+			<a data-href="job.php?do=nei&m=delete&id={$result['id']}" href="javascript:;" id="del_btn">删除</a>
+			<span class="sep">|</span>
+			{/if}
+			<a href="cp.php?ac=share&type=job&id={$result['id']}" id="a_share" onclick="ajaxmenu(event,this.id,1)">分享</a>
+			<span class="sep">|</span>
+			{if $result['is_fav']}
+			<a href="javascript:;" data-id="{$result[id]}" data-fav="1" id="fav_btn">已收藏</a>
+			{else}
+			<a href="javascript:;" data-id="{$result[id]}" id="fav_btn">收藏</a>
+			{/if}
+			<span class="sep">|</span>
+			<a onclick="ajaxmenu(event, this.id, 1)" id="a_report" href="cp.php?ac=common&op=report&idtype=jobid&id={$result['id']}" class="">举报</a>
+		</div>
+		<script type="text/javascript">
+			(function($){
+				var fav_btn = $('#fav_btn'),
+					del_btn = $('#del_btn');
+				
+				del_btn.click(function(e){
+					if (!confirm('您真的要删除?')) {
+						e.preventDefault();
+						return false;
+					}
+					location.href = $(this).data('href');
+				});
+				
+				fav_btn.click(function(){
+					var _this = $(this),
+						id = parseInt(_this.data('id')),
+						d = parseInt(_this.data('fav'));
+
+					if (d === 1) {
+						alert('您已经收藏该工作！');
+						return false;
+					}
+					$.post('job.php?do=fav&id=' + id, function(resp){
+						if (resp.ret == 0) {
+							alert('收藏成功');
+							_this.text('已收藏').data('fav', 1)
+						} else {
+							alert(resp.msg);
+						}
+					}, 'json');
+				});
+			})(jQuery);
+			
+		</script>
+
+		<div class="comments" id="div_main_content">
+			<style>
+				.info_comment {
+					width:91%;
+				}
+				#content {
+					width:initial;
+					border:none;
+				}
+				.quickpost textarea {
+					width:100%;
+					height:100px;
+					border-radius:10px;
+				}
+				#comment_ul {
+					margin-top:20px;
+				}
+				#comment_ul li {
+					border-bottom:1px solid #dcdcdc;
+				}
+			</style>
+			 <h5>
+            评论 (<span id="comment_replynum">{$result[replynum]}</span> 个评论)</h5>
+			<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">
+				<script language="javascript" src="source/face.js"></script>
+
+				<textarea id="comment_message" class="t_input form-control" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="margin-top:5px;" onfocus="at()"></textarea>
+				<input type="hidden" name="refer" value="job.php?do=nei&m=view&id=$id" />
+				<input type="hidden" name="id" value="$id">
+				<input type="hidden" name="idtype" value="jobid">
+				<input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+				<input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+				<input type="hidden" name="commentsubmit" value="true" />
+				<input type="hidden" id="comment_prepend"/>
+				<a href="javascript:;" class="drop_face comment_face" title="插入表情"><div></div></a>
+				<div class="drop_face_menu" data-target="comment_message"></div>
+				<input type="button" id="commentsubmit_btn" name="commentsubmit_btn" style="margin-left:10px;" class="submit btn btn-comments" value="评论" onclick="ajaxpost('quickcommentform_{$id}', 'comment_add')" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			</form>
+			<div class="comments_list" id="comment">
+				<ul id="comment_ul">
+					<!--{loop $list $value}-->
+					<!--{template space_comment_li_blog}-->
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="page">$multi</div>
+		</div>
+	</div>
+</div>
+
+<!--{else}-->
+<div class="job_grid" id="content" style="border-right:none;width:800px;">
+	<div class="head">
+		<div class="title">
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
+			<span>就业互助</span>
+		</div>
+		<a class="pbtn" href="job.php?do=nei">返回上一页</a>
+	</div>
+	<div class="add_form">
+		<form action="job.php?do=nei&m=sync" method="post">
+			<div class="form-grid">
+				<label><em>*</em>标题：</label>
+				<input type="text" placeholder="标题" name="title" value="{$job[title]}" />
+			</div>
+			<div class="form-grid">
+				<label><em>*</em>截止时间：</label>
+				<script type="text/javascript" src="source/script_calendar.js" charset="$_SC[charset]"></script>
+				<input type="text" value="<!--{eval echo isset($job[endtime])?date('Y-m-d H:i', strtotime($job[endtime])) : sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp]);}-->" onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" style="width:150px;" name="deadtime" />
+			</div>
+			<div class="form-grid">
+				<label><em>*</em>简短描述：</label>
+				<textarea name="description" style="width:377px;padding-left:5px;height:100px;">{$job[description]}</textarea>
+			</div>
+			<div class="form-grid">
+				<label><em>*</em>内容：</label>
+				<script language="javascript" src="image/editor/editor_function.js"></script>
+				<a id="doodleBox" href="magic.php?mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor" style="display:none"></a>
+				<textarea class="userData" name="message" id="uchome-ttHtmlEditor" style="height:100%;width:100%;display:none;border:0px">
+				<!--{if empty($job[content])}-->
+				<table class="" cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="50%"><span style="color:#666;">公司名称：</span>北京厘米脚印科技有限公司</td>
+					<td width="50%"><span style="color:#666;">公司性质：</span>国企</td>
+				</tr>
+				<tr>
+					<td><span style="color:#666;">公司行业：</span>互联网</td>
+					<td><span style="color:#666;">公司规模：</span>10~99人</td>
+				</tr>
+				<tr>
+					<td><span style="color:#666;">学历要求：</span>硕士</td>
+					<td><span style="color:#666;">每周最好实习天数：</span>4</td>
+				</tr>
+				<tr>
+					<td><span style="color:#666;">薪资待遇：</span>10k ~ 15k</td>
+					<td><span style="color:#666;">实习最短周期：</span>周</td>
+				</tr>
+				<tr>
+					<td colspan="2"><span style="color:#666;">专业要求：</span>计算机技术与工程、信息管理与信息安全、通信工程、计算机技术与工程、信息管理与信息安全、通信工程</td>
+				</tr>
+			</table>
+			<h2 style="margin-top:20px;font-size:16px;margin-bottom:10px;">联系方式：</h2>
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="50%"><span style="color:#666;">联系电话：</span>010-88888888</td>
+					<td width="50%"><span style="color:#666;">邮箱地址：</span><a href="mailto:hr@limijiaoyin.com">mailto:hr@limijiaoyin.com</a></td>
+				</tr>
+				<tr>
+					<td><span style="color:#666;">公司网址：</span><a href="http://www.baidu.com">http://www.baidu.com</a></td>
+					<td><span style="color:#666;">公司地址：</span>北京回龙观首开智慧社1号楼2单元1510</td>
+				</tr>
+			</table>
+			<h2 style="margin-top:20px;font-size:16px;margin-bottom:10px;">职位描述：</h2>
+			<ul>
+				<li style="line-height:20px">
+					1.精通 Python Web 相关技术（Python, Django, MySQL, CSS, Html, Javascript），能够独立开发 Python Web，并且曾经独立开发过比较复杂的Python Web。 
+				</li>
+				<li style="line-height:20px">
+					2.能够独立的写出健壮、结构合理、经过性能优化的程序，并且曾经对程序进行过持续重构和性能优化。 
+				</li>
+				<li style="line-height:20px">
+					3.有很好的团队合作能力，愿意和团队合作完成高质量的产品。
+				</li>
+			</ul>
+				<!--{else}-->
+				{$job[content]}
+				<!--{/if}-->
+				</textarea>
+				<iframe src="editor.php?charset=utf-8&allowhtml=1&doodle=" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:620px;border: 1px solid #C5C5C5;float:left;" height="400"></iframe>
+			</div>
+			<div class="form-grid" style="margin-top:10px;">
+				<label>&nbsp;</label>
+				<input type="hidden" name="id" value="{if $id}$id{else}0{/if}" />
+				<input type="button" class="submit btn btn-comments btn-sm" style="height:auto;width:100px;padding:0;line-height:30px;text-align:center;" value="保存发布" id="issuance">
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+
+	jQuery('#issuance').click(function(e){
+		edit_save();
+		var $ = jQuery,
+			title = $.trim($('input[name=title]').val()),
+			deadtime = $.trim($('input[name=deadtime]').val()),
+			description = $.trim($('textarea[name=description]').val()),
+			message = $.trim($('textarea[name=message]').val()),
+			id  = parseInt($('input[name=id]').val()),
+			action = $(this).closest('form').attr('action');
+
+		e.preventDefault();
+		if (title.length == 0) {
+			alert('请输入标题');
+			return false;
+		}
+		if (deadtime.length == 0) {
+			alert('请输入截止时间');
+			return false;
+		}
+		if (description.length == 0) {
+			alert('请输入描述信息');
+			return false;
+		}
+		if (message.length == 0) {
+			alert('请输入内容');
+			return false;
+		}
+		
+		var post_data = {
+			title : title,
+			deadtime : deadtime,
+			description : description,
+			id : id,
+			message : message
+		};
+		$.post(action, post_data, function(resp){
+			if (resp.ret == 0) {
+				location.href = 'job.php?do=nei';
+			} else {
+				alert(resp.msg);
+				return false;
+			}
+		}, 'json');
+	})
+	</script>
+</div>
+<!--{/if}-->
+<!--{template footer}-->

@@ -229,6 +229,7 @@ $_SGLOBAL['msglang'] = array(
 	'share_does_not_exist' => '指定的分享不存在',
 	'doing_does_not_exist' => '指定的记录不存在',
 	'blog_does_not_exist' => '指定的日志不存在',
+	'job_does_not_exist' => '指定的就业信息不存在',
 	'arrangement_does_not_exist' => '指定的日志不存在',
 	'logs_can_not_share' => '指定的日志因隐私设置不能够被分享',
 	'album_does_not_exist' => '指定的相册不存在',

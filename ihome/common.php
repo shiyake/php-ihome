@@ -4,7 +4,7 @@
 */
 
 @define('iBUAA', TRUE);
-define('D_BUG', '1');
+//define('D_BUG', '1');
 define('D_BUG', '0');
 @define('IN_UCHOME', TRUE);
 
