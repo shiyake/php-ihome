@@ -160,6 +160,7 @@ if(empty($isinvite) && empty($_SCONFIG['networkpublic'])) {
 //showmessage($uid);
 
 //获取空间
+
 if($uid) {
 	$space = getspace($uid, 'uid');
 } elseif ($username) {

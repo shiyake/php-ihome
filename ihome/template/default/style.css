@@ -24,7 +24,7 @@
     text-decoration:none;
 }
 .app_list li:hover {
-    text-decoration:underline;
+    text-decoration:none;
 }
 .app_list li img {
     height:28px;

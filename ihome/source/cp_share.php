@@ -58,10 +58,10 @@ if($_GET['op'] == 'delete') {
 	
 	//视频认证
 	ckvideophoto('share');
-
+	
 	//新用户见习
 	cknewuser();
-
+	
 	$type = empty($_GET['type'])?'':$_GET['type'];
 
 	$id = empty($_GET['id'])?0:intval($_GET['id']);
@@ -506,6 +506,36 @@ if($_GET['op'] == 'delete') {
 			$note_message = cplang('note_share_poll', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']));
 			
 			$hotarr = array('pid', $poll['pid'], $poll['hotuser']);
+			break;
+		case 'job':
+			$query = $_SGLOBAL['db']->query("SELECT j.*,jc.description FROM ".tname('job')." j left join ".tname('job_content_3')." jc on j.id=jc.jobid where j.id=$id");
+			if(!$job = $_SGLOBAL['db']->fetch_array($query)) {
+				showmessage('job_does_not_exist');
+			}
+
+			if($job['uid'] == $space['uid']) {
+				showmessage('share_not_self');
+			}
+			//黑名单
+			if(isblacklist($job['uid'])) {
+				showmessage('is_blacklist');
+			}
+
+			//实名
+			realname_set($job['uid']);
+			realname_get();
+
+			$arr['title_template'] = cplang('share_job');
+			$arr['body_template'] = '<b>{subject}</b><br>{username}<br>{message}';
+			$arr['body_data'] = array(
+                'userby' => $_SN[$job['uid']],
+                'subject' => "<a href=\"job.php?do=nei&m=view&id={$job['id']}\">$job[title]</a>",
+				'username' => "<a href=\"space.php?uid=$job[uid]\">".$_SN[$job['uid']]."</a>",
+				'message' => getstr($job['description'], 150, 0, 1, 0, 0, -1)
+			);
+			//通知
+			$note_uid = $job['uid'];
+			$note_message = cplang('note_share_blog', array("job.php?do=nei&m=view&id={$job['id']}", $job['title']));
 			break;
 		default:
 			//获得feed
