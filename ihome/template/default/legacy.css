@@ -499,6 +499,7 @@ li.notify a {
 }
 #main {
     width: 100%;
+	overflow:hidden;
 }
 #app_sidebarbox {
     display: block;
