@@ -19,7 +19,9 @@ if (!in_array($do, $valid_do))
 {
 	$do = 'index';
 }
-
+if (in_array($do, array('index','hui'))) {
+        $do = 'nei';
+}
 if ($do === 'fav')
 {
 	$rets = array(
