@@ -25,18 +25,27 @@ if (empty($_GET['view'])) {
     }
 }
 if ($_GET['view'] == 'rank') {
+    $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
+    $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
+    $endtime += 18*3600;
     $deps = array();
     $submenus = array();
-    if ($_GET['type'] == 'score') {
-        $order = " order by score desc ";
-        $submenus['score']=' class = "active"';
-    } elseif ($_GET['type'] == 'updownnum') {
-        $order = " order by updownnum desc ";
-        $submenus['updownnum']=' class = "active"';
-    } else {
-        $order = " order by aversecs ";
+    $wheresql = " where dateline>=$starttime and dateline<$endtime ";
+
+    if ($_GET['type'] == 'aversecs') {
+        $order = " order by iru desc, realaversecs ";
         $submenus['aversecs']=' class = "active"';
+    } elseif ($_GET['type'] == 'updownnum') {
+        $order = " order by realupdownnum desc ";
+        $submenus['updownnum']=' class = "active"';
+    } elseif ($_GET['type'] == 'complainnum') {
+        $order = " order by realcomplainnum desc ";
+        $submenus['complainnum']=' class = "active"';
+    } else {
+        $order = " order by realscore desc ";
+        $submenus['score']=' class = "active"';
     }
+    $order .= ", realscore desc ";
 
     $myfeedfriend = array();
     $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spacefield')." WHERE uid=$_SGLOBAL[supe_uid] limit 1"); 
@@ -45,17 +54,39 @@ if ($_GET['view'] == 'rank') {
         $myfeedfriend= explode(",", $value['feedfriend']);
         $myfeedfriend = array_flip(array_flip($myfeedfriend));
     }
+
+    $count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("select count(*) from ".tname('complain_dep')), 0);
+    $depduty = array();
+    $query = $_SGLOBAL['db']->query("select uid, depduty from ".tname("complain_dep"));
+    while ($result = $_SGLOBAL['db']->fetch_array($query)) {
+        $depduty[$result['uid']] = $result['depduty'];
+    }
+
+    $ranked_deps = array(0);
     $deps_rank_count = 0;
-    $query = $_SGLOBAL['db']->query("select * from ".tname("complain_dep") . $order);
+    $query = $_SGLOBAL['db']->query("select uid, username, sum(upnum) realupnum, sum(downnum) realdownnum, (sum(upnum)-sum(downnum)) realscore, sum(updownnum) realupdownnum, sum(complainnum) realcomplainnum, sum(replynum) realreplynum, sum(replysecs) realreplysecs, (sum(replynum)/sum(replynum)) iru, (sum(replysecs)/sum(replynum)) realaversecs from ".tname("complain_dep_rank") . $wheresql . " group by uid " . $order);
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-        $deps_rank_count++;
-        $value['rank'] = $deps_rank_count;
+        $value['rank'] = ++$deps_rank_count;
         $value['infeed'] = 0;
         if(in_array($value['uid'], $myfeedfriend)) {
             $value['infeed'] = 1;
         }
+        $ranked_deps[] = $value['uid'];
+        $value['depduty'] = $depduty[$value['uid']];
         $deps[] = $value;
         realname_set($value['uid'], $value['username']);
+    }
+    if ($deps_rank_count < $count) {
+        $query = $_SGLOBAL['db']->query("select uid, username, depduty, 0 realscore, 0 realupdownnum, 0 realcomplainnum from ".tname("complain_dep")." where uid not in (".implode(',',$ranked_deps).")");
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $value['rank'] = ++$deps_rank_count;
+            $value['infeed'] = 0;
+            if(in_array($value['uid'], $myfeedfriend)) {
+                $value['infeed'] = 1;
+            }
+            $deps[] = $value;
+            realname_set($value['uid'], $value['username']);
+        }
     }
     $actives = array('rank'=>' class="active"');
 } elseif ($_GET['view'] == 'cloud') {

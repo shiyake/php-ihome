@@ -1,5 +1,18 @@
 <!--{eval $_TPL['titles']=array('诉求');}-->
 <!--{template header}-->
+<script type="text/javascript" src="plugin/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="plugin/moment/locale/zh-cn.js"></script>
+<script type="text/javascript" src="plugin/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="plugin/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+<style>
+    .datetimepicker {
+        margin-left: 6px;
+        padding: 3px 6px;
+        border: 1px solid #cccccc;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
 <h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_appeal.png">诉求</h4>
 <div class="tabs_header" style="margin-bottom:5px;">
     <ul class="tabs">
@@ -9,20 +22,36 @@
         <li$actives[me] style="width:105px;"><a href="space.php?uid=$space[uid]&do=$do&view=me"><span>我的诉求</span></a></li>
         <!--{/if}-->
         <li$actives[all] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有人的诉求</span></a></li>
-        <li$actives[rank] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank&type=score"><span>部门排行</span></a></li>
+        <li$actives[rank] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=rank"><span>部门排行</span></a></li>
         <li$actives[cloud] style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=cloud"><span>诉求云</span></a></li>
     </ul>
 </div>
 <div id="content" style="border-right: none;width:100%;padding-right:40px;">
 <!--{if $_GET[view] == "rank"}-->
 <div id="complain_list">
-<div class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+<div id="dep_rank_filter" class="h_status row" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+起始时间<input type="text" class="datetimepicker" id="starttime">
+&nbsp;&nbsp;结束时间<input type="text" class="datetimepicker" id="endtime">
 <a $submenus[score] href="space.php?do=complain&view={$_GET[view]}&type=score">服务质量</a>
 <a $submenus[updownnum] href="space.php?do=complain&view={$_GET[view]}&type=updownnum">评价人数</a>
+<a $submenus[complainnum] href="space.php?do=complain&view={$_GET[view]}&type=complainnum">评价人数</a>
 <a $submenus[aversecs] href="space.php?do=complain&view={$_GET[view]}&type=aversecs">平均响应时间</a>
 </div>
-
-
+<script>
+    jQuery(function(){
+        jQuery("#dep_rank_filter a").click(function(){
+            var starttime = jQuery("#starttime").val();
+            var endtime = jQuery("#endtime").val();
+            var _this = this;
+            jQuery.post(this.href, {starttime: starttime, endtime: endtime}, function(data) {
+                jQuery("#dep_rank_filter a").removeClass('active');
+                jQuery(_this).addClass('active');
+                jQuery("#complain_list .dept_rank").html(jQuery(data).find("#complain_list .dept_rank").html());
+            });
+            return false;
+        });
+    });
+</script>
 <ol class="dept_rank" style="list-unstyled">
 <!--{loop $deps $dep}-->
 <li>
@@ -47,14 +76,17 @@
     <a href="space.php?uid=$space[uid]&do=doing&view=all&atuid=$dep[uid]">$_SN[$dep[uid]]</a>
 </div>
 <div class="dept_score">
-    <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[score]</span></span>
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[updownnum]</span></span>
-    <!--{if $dep[allreplysecs] > 3600}-->
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/3600)}-->小时</span></span>
-    <!--{elseif $dep[allreplysecs] > 60}-->
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[aversecs]/60)}-->分钟</span></span>
+    <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[realscore]</span></span>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[realupdownnum]</span></span>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>诉求数量:&nbsp;<span class="dept_score_detail">$dep[realcomplainnum]</span></span>
+    <!--{if $dep[realreplysecs] > 3600}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[realaversecs]/3600)}-->小时</span></span>
+    <!--{elseif $dep[realreplysecs] > 60}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[realaversecs]/60)}-->分钟</span></span>
+    <!--{elseif $dep[realreplysecs]}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[realreplysecs]}秒</span></span>
     <!--{else}-->
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[allreplysecs]}秒</span></span>
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">-</span></span>
     <!--{/if}-->
 </div>
 <div class="dept_detail">
@@ -219,4 +251,46 @@
 </p>
 <!--{/if}-->
 <!--{/if}-->
+<script>
+    jQuery(function(){
+        var endtime = new Date(parseInt("$endtime"+"000"));
+        jQuery.fn.datetimepicker.defaults = {
+            pickDate: true,                 //en/disables the date picker
+            pickTime: false,                 //en/disables the time picker
+            useMinutes: false,               //en/disables the minutes picker
+            useSeconds: false,               //en/disables the seconds picker
+            useCurrent: true,               //when true, picker will set the value to the current date/time     
+            minuteStepping:1,               //set the minute stepping
+            minDate:'20140909',               //set a minimum date
+            maxDate: endtime,     //set a maximum date (defaults to today +100 years)
+            showToday: true,                 //shows the today indicator
+            language:'zh-cn',                  //sets language locale
+            defaultDate: endtime,                 //sets a default date, accepts js dates, strings and moment objects
+            disabledDates:[],               //an array of dates that cannot be selected
+            enabledDates:[],                //an array of dates that can be selected
+            icons: {
+                time: 'glyphicon glyphicon-time',
+                date: 'glyphicon glyphicon-calendar',
+                up:   'glyphicon glyphicon-chevron-up',
+                down: 'glyphicon glyphicon-chevron-down'
+            },
+            useStrict: false,               //use "strict" when validating dates  
+            sideBySide: false,              //show the date and time picker side by side
+            daysOfWeekDisabled:[]          //for example use daysOfWeekDisabled: [0,6] to disable weekends
+        };
+        var hajime = new Date(endtime.getFullYear(), endtime.getMonth(), 1);
+        jQuery('#starttime').datetimepicker({
+            defaultDate: hajime
+        });
+        jQuery('#endtime').datetimepicker({
+            minDate: hajime
+        });
+        jQuery("#starttime").on("dp.change",function (e) {
+           jQuery('#endtime').data("DateTimePicker").setMinDate(e.date);
+        });
+        jQuery("#endtime").on("dp.change",function (e) {
+           jQuery('#starttime').data("DateTimePicker").setMaxDate(e.date);
+        });
+    });
+</script>
 <!--{template footer}-->
