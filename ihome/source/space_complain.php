@@ -90,8 +90,23 @@ if ($_GET['view'] == 'rank') {
     }
     $actives = array('rank'=>' class="active"');
 } elseif ($_GET['view'] == 'cloud') {
+    $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
+    $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
+    $atuid = empty($_POST['atuid'])?0:$_POST['atuid'];
+
+    $startDay = date('Ymd', $starttime);
+    $endDay = date('Ymd', $endtime);
+    $wheresql = " where atuid=$atuid and datatime >= '$startDay' and datatime <= '$endDay' ";
+
+    $deps = array();
+    $query = $_SGLOBAL['db']->query("select uid, username from ".tname("complain_dep"));
+    while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+        $deps[] = $value['uid'];
+        realname_set($value['uid'], $value['username']);
+    }
+
     $actives = array('cloud'=>' class="active"');
-    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud") . " group by tag_word");
+    $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud"). $wheresql." group by atuid, tag_word");
     $tags = array();
     while ($value = $_SGLOBAL['db']->fetch_array($query)) {
         $tags[] = $value;
