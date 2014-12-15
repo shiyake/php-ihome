@@ -57,7 +57,10 @@
                     <!--{/if}-->
                 <!--{/if}-->
 	        <!--{/if}-->
+            <!--{if !$value[complainBorn] && $value[uid]==$_SGLOBAL[supe_uid]}--> <a style="margin-left:10px;float:right" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a><!--{/if}-->
+            <!--{if $value[uid]!=$_SGLOBAL[supe_uid]}-->
 	        		<a href="javascript:;" onclick="jq1('#do_message_{$value[doid]}_0').css({'color':'#333'});document.getElementById('do_message_{$value[doid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re">回复</a>
+            <!--{/if}-->
 	        </span>
 	        </div>
         </div>
