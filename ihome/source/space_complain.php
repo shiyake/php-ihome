@@ -113,6 +113,41 @@ if ($_GET['view'] == 'rank') {
     }
 } else {
     $wheresql = "status!= 4";
+    if ($_GET['view'] == 'all') {
+        if (empty($_POST['starttime'])) {
+            $_POST['starttime'] = $_GET['starttime'];
+            $_POST['endtime'] = $_GET['endtime'];
+        }
+        $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
+        $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
+        $atuid = isset($_POST['atuid'])?$_POST['atuid']:(isset($_GET['atuid'])?$_GET['atuid']:0);
+        $atuid = intval($atuid);
+
+        $startDay = date('Ymd', $starttime);
+        $endDay = date('Ymd', $endtime);
+
+        $endtime += 24*3600-1;
+        $deps = array();
+        $query = $_SGLOBAL['db']->query("select uid, username from ".tname("complain_dep"));
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $deps[] = $value['uid'];
+            realname_set($value['uid'], $value['username']);
+        }
+        $wheresql .= " and addtime>=$starttime and addtime<=$endtime";
+        if ($atuid) {
+            $wheresql .= " and atuid=$atuid";
+        }
+
+        $query = $_SGLOBAL['db']->query("select tag_word as text, sum(tag_count) as weight from ".tname("complain_tagcloud"). " where atuid=$atuid and datatime >= '$startDay' and datatime <= '$endDay' group by atuid, tag_word");
+        $tags = array();
+        while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $tags[] = $value;
+        }
+
+        $dep_selected = array();
+        $dep_selected[$atuid] = ' selected';
+    }
+
     if (empty($_GET['type'])) {
         $_GET['type'] = 'running';
     }
@@ -127,6 +162,9 @@ if ($_GET['view'] == 'rank') {
     } else {
         $theurl = "space.php?do=$do&view=all&type=$_GET[type]";
         $actives = array('all'=>' class="active"');
+    }
+    if ($_GET['view'] == 'all') {
+        $theurl .= "&starttime=$_POST[starttime]&endtime=$_POST[endtime]&atuid=$atuid";
     }
     $submenus = array();
     if ($_GET['type'] == 'running') {
@@ -188,7 +226,7 @@ if ($_GET['view'] == 'rank') {
 
     //分页
     $ajaxdiv = 'tab_content_'.$_GET['do'];
-    $multi = multi($count, $perpage, $page, $theurl.'&space='.$_GET['space'], $ajaxdiv);
+    $multi = multi($count, $perpage, $page, $theurl, $ajaxdiv);
 }
 //实名
 realname_get();

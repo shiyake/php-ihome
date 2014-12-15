@@ -78,7 +78,7 @@
 </div>
 <div class="dept_center">
 <div class="feed_li_inner" style="overflow:hidden;letter-spaceing:0x5px;">
-    <a href="space.php?uid=$space[uid]&do=doing&view=all&atuid=$dep[uid]">$_SN[$dep[uid]]</a>
+    <a href="space.php?&do=complain&view=all&type=all&atuid=$dep[uid]">$_SN[$dep[uid]]</a>
 </div>
 <div class="dept_score">
     <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[realscore]</span></span>
@@ -158,7 +158,21 @@
 <a $submenus[done] href="space.php?do=complain&view={$_GET[view]}&type=done">已处理</a>
 <a $submenus[closed] href="space.php?do=complain&view={$_GET[view]}&type=closed">已关闭</a>
 </div>
+<!--{if $_GET[view] == 'all'}-->
+<div class="complain_list_filter">
+起始时间<input type="text" class="datetimepicker" id="starttime" readonly="readonly">
+&nbsp;&nbsp;结束时间<input type="text" class="datetimepicker" id="endtime" readonly="readonly">
+&nbsp;&nbsp;部门
+<select name="cloud_dep" id="cloud_dep">
+    <option value="0" $dep_selected[0]>全部</option>
+    <!--{loop $deps $dep}-->
+    <option value="$dep" $dep_selected[$dep]>$_SN[$dep]</option>
+    <!--{/loop}-->
+</select>
+</div>
+<!--{/if}-->
 
+<div class="complain_list_container">
 <!--{if $clist}-->
     <table class="complain_list">
         <thead>
@@ -192,7 +206,7 @@
                 <!--{else}-->
                 <!--{eval $brflag = 1}-->
                 <!--{/if}-->
-                <a href="space.php?uid=$space[uid]&do=doing&view=all&atuid=$atuid" class="info_tip">{$_SN[$atuid]}</a>
+                <a href="space.php?do=complain&view=all&type=all&atuid=$atuid" class="dep_complain info_tip">{$_SN[$atuid]}</a>
                 <!--{/loop}-->
             </td>
             <td>
@@ -248,7 +262,7 @@
         </tbody>
     </table>
     <div class="page" style="margin-bottom: 10px;">$multi</div>
-    <script>
+    <script class="reload_script">
         jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
         jQuery('#complain_list a').click(function(e){
             e.stopPropagation();
@@ -259,6 +273,30 @@
         });
     </script>
 </div>
+<div id="complain_cloud" style="text-align:center; padding-top:10px;">
+    <!--    <img src="plugin/complain/images/ciyun.jpg" />-->
+    <div id="tagcloud" style="width:100%;height:400px;background:#fff;">
+    </div>
+    <script id="tags" class="reload_script" type="text/javascript" charset="utf-8">
+        var words = [
+        <!--{if $tags}-->
+        <!--{loop $tags $key $value}-->
+        <!--{if $value['intend']=='uname'}-->
+        {text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$startDay&endtime=$endDay"}
+        <!--{else}-->
+        {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$startDay&endtime=$endDay"}
+        <!--{/if}-->
+        <!--{if $key < count($tags) - 1}-->,<!--{/if}-->
+        <!--{/loop}-->
+        <!--{/if}-->];
+        jQuery(function(){
+            jQuery('#tagcloud').jQCloud(words,{
+                delayedMode:true
+            });
+        });
+
+    </script>
+</div>
 <!--{else}-->
 <p class="no-content-tip">
 <img src="image/icons/no_status.png">
@@ -266,6 +304,7 @@
 现在还没有诉求
 </p>
 <!--{/if}-->
+</div>
 <!--{/if}-->
 <script>
     jQuery(function(){
@@ -294,7 +333,7 @@
             sideBySide: false,              //show the date and time picker side by side
             daysOfWeekDisabled:[]          //for example use daysOfWeekDisabled: [0,6] to disable weekends
         };
-        var hajime = new Date(endtime.getFullYear(), endtime.getMonth(), 1);
+        var hajime = new Date(parseInt("$starttime"+"000"));
         jQuery('#starttime').datetimepicker({
             defaultDate: hajime
         });
@@ -307,6 +346,8 @@
             updateCloud();
             <!--{elseif $_GET['view'] == 'rank'}-->
             updateRank();
+            <!--{elseif $_GET['view'] == 'all'}-->
+            updateList();
             <!--{/if}-->
         });
         jQuery("#endtime").on("dp.change",function (e) {
@@ -315,6 +356,8 @@
             updateCloud();
             <!--{elseif $_GET['view'] == 'rank'}-->
             updateRank();
+            <!--{elseif $_GET['view'] == 'all'}-->
+            updateList();
             <!--{/if}-->
         });
     });
@@ -346,6 +389,26 @@
             jQuery("#complain_list .dept_rank").html(jQuery(data).find("#complain_list .dept_rank").html());
         });    
     }
+    <!--{elseif $_GET['view'] == 'all'}-->
+    function updateList () {
+        var starttime = jQuery("#starttime").val();
+        var endtime = jQuery("#endtime").val();
+        var href = location.href;
+        var atuid = jQuery("#cloud_dep").val();
+
+        href = href.replace(/page=\d+/g,'');
+        jQuery.post(href, {starttime: starttime, endtime: endtime, atuid: atuid}, function(data) {
+            jQuery(".complain_list_container").html(jQuery(data).find(".complain_list_container").html());
+            jQuery("#complain_cloud").html(jQuery(data).find("#complain_cloud").html());
+            var dom = jQuery(data);
+            dom.filter('script.reload_script').each(function() {
+                 jQuery.globalEval(this.text || this.textContent || this.innerHTML || '');
+            });
+        });
+    }
+    jQuery("#cloud_dep").change(function(event) {
+        updateList();
+    });
     <!--{/if}-->
 </script>
 <!--{template footer}-->
