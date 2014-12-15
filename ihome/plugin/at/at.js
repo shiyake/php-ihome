@@ -82,4 +82,15 @@ function at(){
   //           choose: "data-insert"
   //       });
 	});
+
+}
+
+function complain_at(deps) {
+    var deps = JSON.parse(deps);
+    jq('textarea#complain_op_msg').atWho('@',{
+        data: deps,
+        limit:100,
+        tpl: "<li data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
+        choose: "data-insert"
+    });
 }

@@ -93,7 +93,7 @@ if ($complain) {
         $v = array('name'=>$value['name'], 'uid'=>$value['uid'], 'namequery'=>$value['name'].' '.Pinyin($value['name'],1).' '.$value['uid']);
         $deps[] = $v;
     }
-    $deps = json_encode($deps);
+    $deps = str_replace('"', '&quot;',json_encode($deps));
 
     $query = $_SGLOBAL['db']->query("select * from ".tname('complain_op')." where doid=$doid");
     $complain_ops = array();

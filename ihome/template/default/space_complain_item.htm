@@ -27,11 +27,11 @@
                         <div class="complain_op">
                             <script language="javascript" src="source/face.js" charset="utf-8"></script>
                             <!--{if $legalEntity && in_array($legalEntity, $complain[atuid]) && $complain[status][array_search($legalEntity, $complain[atuid])] == 0}-->
-                            <textarea name="message" id="complain_op_msg" onkeydown="auto_grow(this)" style="width:93%" onfocus="complain_at()"></textarea>
+                            <textarea name="message" id="complain_op_msg" onkeydown="auto_grow(this)" style="width:93%" onfocus="complain_at('$deps')"></textarea>
                             <a href="javascript:;" class="drop_face comment_face"><div></div></a>
                             <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
                             <div class="reply pull-right">
-                                <span class="forward_tip">提示：<!--{if !$complain[relay_times]}-->不可转发<!--{else}-->诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次<!--{/if}--></span>
+                                <span class="forward_tip">提示：<!--{if $complain[relay_times]>=3}-->不可转发<!--{else}-->诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次<!--{/if}--></span>
                                 <button type="button" id="reply_doing" name="add" value="1">进行中</button>
                                 <button type="button" id="reply_done" name="add" value="2">完成</button>
                             </div>
@@ -63,7 +63,7 @@
                     var type = jQuery(this).val();
                     var msg = trim(jQuery('#complain_op_msg').val());
                     jQuery('#complain_op_form button').addClass('disabled').attr('disabled','disabled');
-                    if (!msg) {
+                    if (!msg || !trim(msg.replace(/@.*?\(\d+\)/g,''))) {
                         show('say_something');
                     } else if (type && (msg.match(/@.*?\(\d+\)/g)||"").length > 1) {
                         show('relay_too_much');
@@ -98,15 +98,6 @@
                     }
                 });
             });
-            function complain_at() {
-                var deps = JSON.parse('$deps');
-                jq('textarea#complain_op_msg').atWho('@',{
-                    data: deps,
-                    limit:100,
-                    tpl: "<li data-value='${namequery}' data-insert='${name}(${uid})'>${name}(${uid})</li>",
-                    choose: "data-insert"
-                });
-            }
             function enableButtons() {
                 jQuery('#complain_op_form button').removeClass('disabled').removeAttr('disabled');
             }
