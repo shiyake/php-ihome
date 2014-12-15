@@ -555,9 +555,6 @@ elseif ($_GET['op'] == 'getcomment') {
     if(empty($_GET['close'])) {
         $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." WHERE doid='$doid' ORDER BY dateline");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            if ($complainPage && $value['complainBorn']) {
-                continue;
-            }
             realname_set($value['uid'], $value['username']);
             $tree->setNode($value['id'], $value['upid'], $value);
             $count++;

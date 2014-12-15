@@ -130,9 +130,9 @@
             <!--{if $tags}-->
             <!--{loop $tags $key $value}-->
             <!--{if $value['intend']=='uname'}-->
-            {text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            {text: "$value['text']", weight:$value['weight'], link:"/plugin.php?uid=&uname=&message=$value['text']&atuname=&isreply=3&type=complains&pluginid=complain&submit=搜索&starttime=$startDay&endtime=$endDay"}
             <!--{else}-->
-            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$_GET['starttime']&endtime=$_GET['endtime']"}
+            {text: "$value['text']", weight:$value['weight'], link:"/space.php?do=search&query=$value['text']&type=complain&starttime=$startDay&endtime=$endDay"}
             <!--{/if}-->
             <!--{if $key < count($tags) - 1}-->,<!--{/if}-->
             <!--{/loop}-->
@@ -341,7 +341,7 @@
         var starttime = jQuery("#starttime").val();
         var endtime = jQuery("#endtime").val();
         var href = jQuery("#dep_rank_filter a.active").attr('href');
-        
+
         jQuery.post(href, {starttime: starttime, endtime: endtime}, function(data) {
             jQuery("#complain_list .dept_rank").html(jQuery(data).find("#complain_list .dept_rank").html());
         });    

@@ -242,7 +242,9 @@
 		            <div><a class="bds_renren">人人</a></div>
 		            <div><a class="bds_tqq" data-cmd="tqq">腾讯微博</a></div>
 				</div>
-                <!--else-->
+                <!--{elseif $iscp}-->
+                <span class="pipe">|</span>
+                <a href="space.php?do=complain_item&doid=$value[id]" id="a_view_doit_$value[id]"><img style="margin-bottom:2px;"src="image/icons/icon-appeal.png">&nbsp;详情</a>
                 <!--{/if}-->
 			<!--{elseif $value[body_data][video_origin]}-->
 				<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>

@@ -49,10 +49,7 @@ $space[spacenote]
     <input type="hidden" name="formhash" class="hashform" value="<!--{eval echo formhash();}-->" />
 	</form>
     <div id="__docommform_{$doid}_{$id}" style="display:none;"></div>
-<!--{eval $modifiedDoing = strrpos($_SERVER['HTTP_REFERER'], 'do=complain_item')}-->
-<!--{if $modifiedDoing !== false}-->
-<!--{template space_complain_li_index}-->
-<!--{elseif $_GET['op'] == 'getcomment'}-->
+<!--{if $_GET['op'] == 'getcomment'}-->
 <!--{template space_doing_li_index}-->
 <!--{/if}-->
 

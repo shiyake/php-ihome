@@ -3557,7 +3557,7 @@ div.active_checkseccode {
     color: #c0c0c0;
     font-size: 16px;
 }
-#reply_content a {
+#reply_content a, .complain_comment a {
     text-decoration: none;
 }
 .dropdown-menu.notifications-wrap {

@@ -114,31 +114,6 @@
 	margin-left:10px;
 	width:353px !important;
 }
-#complain_op_form {
-	margin-left: 10px;
-}
-#complain_op_form div.mood_say_something input {
-	margin-left: 2px;
-}
-#complain_op_form textarea, #complain_op_form .demo, #complain_op_form .mood_say_something {
-	margin-left: 0;
-}
-#complain_op_form .demo .drop_face {
-	float: left;
-}
-#complain_op_form .demo .mood_submit {
-	float: left;
-}
-#complain_op_form .demo .mood_submit button {
-	padding: 1px 12px;
-	font-size: 16px;
-	margin-left: 6px;
-}
-#complain_op_form label {
-	color:#777;
-	font-weight: normal;
-	margin-right: 12px;
-}
 .forward_tip {
 	color:#777;
 }
@@ -167,4 +142,41 @@
 }
 .all_complain_deps, .all_complain_status {
 	display: inline-table;
+}
+.complain_op {
+	margin-bottom: 10px;
+}
+#complain_op_msg {
+	display: inline-block;
+	border-radius: 5px;
+	padding: 6px 12px;
+	height: 29px;
+	overflow: hidden;
+	vertical-align: bottom;
+}
+.complain_op .reply {
+	margin: 5px 0 10px 0;
+}
+#complain_op_form button {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 20px;
+	background-color: #65d8bb;
+	color: #FFF;
+	border: none;
+	padding: 5px 10px;
+}
+#complain_op_form button.disabled {
+	opacity: 0.5;
+}
+#complain_op_form button:not(.disabled):hover {
+	background-color: #2fb895;
+}
+.complain_op .comment {
+	display: inline-block;
+}
+#complain_op_form .drop_face {
+	display: inline-block;
+	margin-bottom: 5px;
 }
