@@ -4,10 +4,11 @@
 */
 
 @define('iBUAA', TRUE);
-define('D_BUG', '1');
-define('D_BUG', '0');
+//@define('D_BUG', '1');
+@define('D_BUG', '0');
 @define('IN_UCHOME', TRUE);
 
+date_default_timezone_set('Asia/Shanghai');
 D_BUG?error_reporting(7):error_reporting(0);
 set_magic_quotes_runtime(0);
 

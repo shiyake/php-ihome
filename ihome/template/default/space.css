@@ -136,7 +136,10 @@
 #ubar { 
     float: left; 
     margin: 0px; 
-    width: 170px; 
+    width: 150px; 
+    position: relative;
+    top:-230px;
+    left:10px;
 }
 /*#space_page #content { 
 margin: 0; 
@@ -274,10 +277,12 @@ a#i_rss {
 .nn a { 
     margin: 0 10px; 
 }
-/****************************Ä¬ÈÏÖ÷Ìâ±³¾° by xuxing 20120608**********************************/
+/****************************é»˜è®¤ä¸»é¢˜èƒŒæ™¯ by xuxing 20120608**********************************/
 #space_page #mainarea { 
     padding: 0; 
     background: #FFF; 
+    margin-top:30px;
+    position:static;
 } 
 #space_page .a_share{
     width:50px

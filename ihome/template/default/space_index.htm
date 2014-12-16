@@ -7,7 +7,7 @@
 	}
 	*/
 	.feed_li_inner {
-		width:468px !important;
+		width:620px !important;
 	}
     .sub_doing {
         width:471px;
@@ -16,8 +16,24 @@
     .sub_doing .form-control {
         width:81% !important;
     }
+    #mainarea {
+        padding: 0;
+        height: auto;
+        width: 970px;
+        border-radius: 0px;
+        margin-left:0px;
+        background-color:#FFFFFF;
+    }
     #content {
-        border-left:1px solid #dcdcdc;
+        padding-bottom: 95px;
+        min-height: 1110px;
+        float: left;
+        margin-left: -350px;
+        margin-top: 0px;
+        width: 759px;
+        padding: 0px 20px;
+        border-right: 1px solid #ccc;
+        position: relative;
     }
     .tooltip-inner {
 	    width: initial !important;
@@ -31,6 +47,11 @@
 	    width: initial !important;
 		height: initial !important;
 	}
+    #a_friend_li {
+        padding:2px;
+        border-radius:0px;
+        margin-left:4px;
+    }
 </style>
 
 
@@ -53,104 +74,89 @@
     </style>
     <!--{/if}-->
     <div class="profile-header"></div>
+
+    <div class="profile-extra-wrapper">
+        <div class="profile-extra">
+            <div class="signature">
+                <p>
+                    要坚持党的先进性，走向国际化。
+                </p>
+            </div> 
+
+            <!--{if $space[self]}-->
+            <div class="operation-self">
+                <p class="operation-box-self">
+                    <a href="cp.php">
+                        <i class="icon-cog"></i>
+                    </a>
+                </p>
+            </div>
+            <!--{else}-->
+            <div class="operation-other">
+                    <ul class='operation-list clearfix' style="text-align: center">
+                        <li><a href="#comment" onclick="space_activate_comment();return false;">给我留言</a></li>
+                        <li><a href="cp.php?ac=poke&op=send&uid=$space[uid]" id="a_poke" onclick="ajaxmenu(event, this.id, 1)">打个招呼</a></li>
+                        <li><a href="cp.php?ac=pm&uid=$space[uid]" id="a_pm" onclick="ajaxmenu(event, this.id, 1)">发送消息</a></li>
+                    </ul>
+                    <ul class='operation-list clearfix' style="text-align: center">
+                        <!--{if $space[groupid]!=3 && $space['isfriend']}-->
+                        <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">解除好友</a></li>
+                        <!--{elseif $followflag}-->
+                        <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">取消关注</a></li>
+                        <!--{/if}-->
+
+                        <li><a href="cp.php?ac=common&op=report&idtype=uid&id=$space[uid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">违规举报</a></li>
+
+                        <!--{if checkperm('managename')||checkperm('managespacegroup')||checkperm('managespaceinfo')||checkperm('managespacecredit')||checkperm('managespacenote')}-->
+                       <li><a href="admincp.php?ac=space&op=manage&uid=$space[uid]" id="a_manage">管理用户</a></li>
+                       <!--{/if}-->
+                    <!--
+                       <li>
+                            <a href="cp.php?ac=share&type=space&id=$space[uid]" 
+                                onclick="ajaxmenu(event, this.id, 1)">分享用户</a></li>
+                    -->
+                       <li>
+                            <a href="rss.php?uid=$space[uid]" title="订阅 RSS">订阅用户</a>
+                       </li>
+                    </ul>
+                <!--{/if}-->
+            </div>
+        </div>
+    </div>
+
     <div id="ubar">
-		<div class="profile-avatar">
-			<!--{avatar($space[uid],big)}-->
-		</div>
-		<div id="spaceindex_name">
-				<p style="font-size: 18px;">
-					$space[name]
-					<!--{if $_SCONFIG[realname]}-->
-					<!--{if $space[namestatus]}-->
-					<span class="icon-certificated" style="margin-left: 3px"></span>
-					<!--{/if}-->
-					<!--{/if}-->
-				</p>
-
-				<p style="font-size: 12px">$space[viewnum]次访问</p>
-		</div>
-
-		<ul class='infolist'>
-		 	<li>组别：<a href="cp.php?ac=credit&op=usergroup">{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}</a></li>
-			<li>创建：<!--{date('Y-m-d',$space[dateline],1)}--></li>
-            <li>登录：<!--{if $space[lastlogin]}--><!--{date('Y-m-d',$space[lastlogin],1)}--><!--{/if}-->
-
-            </li>
-            <!--{if $isonline}-->
-            <li>活跃：$isonline</li>
+        <div class="profile-board">
+            <div class="profile-avatar">
+                <!--{avatar($space[uid],big)}-->
+            </div>
+            <div class="gap-line"></div>
+            <div class="profile-statistic">
+                <div id="view-count">
+                    <p>$space[viewnum]</p>
+                    <p>访问</p>
+                </div>            
+                <div id="credit">
+                    <p>$space[credit]</p> 
+                    <p>积分</p> 
+                </div>            
+            </div>    
+        </div>
+        <div class="profile-sex-birth">
+            <p>
+            <!--{if $space[sex]}-->
+                $space[sex]生
             <!--{/if}-->
-			<!--{if $space[sex]}-->
-				<li>性别：$space[sex]</li>
-			<!--{/if}-->
-			
-			<!--{if $space[residecity]}-->
-				<li>居住：$space[residecity]</li>
-			<!--{/if}-->
-
-			<!--{if $space[birthcity]}-->
-				<li>家乡：$space[birthcity]</li>
-			<!--{/if}-->
-
-			<!--{if $space[college]}-->
-				<li>院系：$space[college]</li>
-			<!--{/if}-->
-		</ul>
-
-		<!--{if $space[self]}-->
-		<p style="padding-left: 4px; font-size: 12px; width: 130px; margin: 0 auto;">
-			<a href="cp.php?ac=profile" target="_blank">
-				<span class="edit_profile"></span>编辑个人资料
-			</a>
-		</p>
-		<!--{else}-->
-		<ul class='infolist operlist clearfix' style="text-align: center">
-            <li><a href="#comment" onclick="space_activate_comment();return false;">给我留言</a></li>
-            <li><a href="cp.php?ac=poke&op=send&uid=$space[uid]" id="a_poke" onclick="ajaxmenu(event, this.id, 1)">打个招呼</a></li>
-            <li><a href="cp.php?ac=pm&uid=$space[uid]" id="a_pm" onclick="ajaxmenu(event, this.id, 1)">发送消息</a></li>
-
-            <!--{if $space[groupid]!=3 && $space['isfriend']}-->
-            <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">解除好友</a></li>
-            <!--{elseif $followflag}-->
-            <li><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">取消关注</a></li>
+            <!--{if $space[sex] && $space[birth]}-->
+                ，
             <!--{/if}-->
-
-            <li><a href="cp.php?ac=common&op=report&idtype=uid&id=$space[uid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">违规举报</a></li>
-
-            <!--{if checkperm('managename')||checkperm('managespacegroup')||checkperm('managespaceinfo')||checkperm('managespacecredit')||checkperm('managespacenote')}-->
-           <li><a href="admincp.php?ac=space&op=manage&uid=$space[uid]" id="a_manage">管理用户</a></li>
-           <!--{/if}-->
-		<!--
-           <li>
-           		<a href="cp.php?ac=share&type=space&id=$space[uid]" 
-           			onclick="ajaxmenu(event, this.id, 1)">分享用户</a></li>
-		-->
-           <li>
-            	<a href="rss.php?uid=$space[uid]" title="订阅 RSS">订阅用户</a>
-           </li>
-		</ul>
-		<p style="font-size: 14px; width: 130px; margin: 0 auto; text-align: center">
-        	<!--{if $space[groupid]!=3 && !$space['isfriend']}-->
-            <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
-            	class="btn btn-follow btn-large" 
-            	id="a_friend_li" onclick="ajaxmenu(event, this.id, 1)">
-            	加为好友
-            </a>
-            <!--{elseif $space[groupid]==3 && !$followflag}-->
-		<script>
-		function space_refresh_page() {
-			window.location = window.location;
-		}
-		</script>
-            <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
-            	class="btn btn-follow btn-large" 
-            	id="a_friend_li" onclick="ajaxmenu(event, this.id, 1, 1000, 'space_refresh_page')">
-            	添加关注
-            </a>
+            <!--{if $space[birth]}-->
+                $space[birth]
             <!--{/if}-->
-        </p>
-        <!--{/if}-->
+            </p>
+        </div>
+            
 
-		<!-- comment starts
+        <!-- comment starts 
 		<div id="space_avatar">
 			<!--{if $space[magicstar] && $space[magicexpire]>$_SGLOBAL[timestamp]}-->
 			<div class="magicstar">
@@ -276,7 +282,59 @@
 		comment ends-->
 
 	</div>
-	<div id="mainarea" class="clearfix">
+
+    <div class="profile-info">
+        <p style="font-size: 18px;">
+            $space[name]
+            <!--{if $_SCONFIG[realname]}-->
+            <!--{if $space[namestatus]}-->
+            <span class="icon-certificated" style="margin-left: 3px"></span>
+            <!--{/if}-->
+            <!--{/if}-->
+
+            <!--{if !$space[self]}-->
+                <!--{if $space[groupid]!=3 && !$space['isfriend']}-->
+                <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
+                    class="btn btn-follow btn-large" 
+                    id="a_friend_li" onclick="ajaxmenu(event, this.id, 1)">
+                    加为好友
+                </a>
+                <!--{elseif $space[groupid]==3 && !$followflag}-->
+            <script>
+            function space_refresh_page() {
+                window.location = window.location;
+            }
+            </script>
+                <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
+                    class="btn btn-follow btn-large" 
+                    id="a_friend_li" onclick="ajaxmenu(event, this.id, 1, 1000, 'space_refresh_page')">
+                    添加关注
+                </a>
+                <!--{/if}-->
+            <!--{/if}-->
+        </p>
+        <ul class='infolist'>
+            <li>组别：<a href="cp.php?ac=credit&op=usergroup">{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}</a></li>
+            <li>院系：<!--{if $space[college]}--><!--{$space[college]}--><!--{/if}--></li>
+            <li>班级：<!--{if $space[class]}--><!--{$space[class]}--><!--{/if}--></li>
+            <li>家乡：<!--{if $space[birthcity]}-->$space[birthcity]<!--{/if}--></li>
+        </ul>
+
+        <!--{if $space[self]}-->
+        <div class="profile-edit">
+            <p> 
+                <a href="cp.php?ac=profile" target="_blank">
+                    <span class="edit_profile"></span>编辑个人资料
+                </a>
+            </p>
+        </div>
+        <!--{/if}-->
+
+        <div class="clearfix"></div>
+    </div>
+
+
+	<div id="mainarea" class="clearfix" style="">
 		<div id="content" class="clearfix">
 			
 		<!--
