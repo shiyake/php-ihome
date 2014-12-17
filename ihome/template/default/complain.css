@@ -98,8 +98,10 @@ table.complain_list {
     background: url(../../image/icons/rank_bg.png) center center no-repeat;
     position: absolute;
 }
-.complain_list_filter {
+.complain_list_filter, .rank_time_filter {
+    color: #777;
     margin-left: 23px;
+    margin-bottom: 10px;
 }
 .complain_list_container .page a {
     color: #01b6f9;

@@ -90,7 +90,7 @@
 }
 .feed_li_inner.bubble .fcomment:before {
 	content: '';
-	width: 440px;
+	width: 439px;
 	height: 10px;
 	border-top: 1px solid #dcdcdc;
 	display: block;
@@ -179,4 +179,7 @@
 #complain_op_form .drop_face {
 	display: inline-block;
 	margin-bottom: 5px;
+}
+a.complain_plain_comment {
+	color: #DB5F7C !important;
 }

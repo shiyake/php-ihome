@@ -35,12 +35,14 @@
 <!--{if $_GET[view] == "rank"}-->
 <div id="complain_list">
 <div id="dep_rank_filter" class="h_status row" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-起始时间<input type="text" class="datetimepicker" id="starttime" readonly="readonly">
-&nbsp;&nbsp;结束时间<input type="text" class="datetimepicker" id="endtime" readonly="readonly">
 <a $submenus[score] href="space.php?do=complain&view={$_GET[view]}&type=score">服务质量</a>
 <a $submenus[updownnum] href="space.php?do=complain&view={$_GET[view]}&type=updownnum">评价人数</a>
 <a $submenus[complainnum] href="space.php?do=complain&view={$_GET[view]}&type=complainnum">评价人数</a>
 <a $submenus[aversecs] href="space.php?do=complain&view={$_GET[view]}&type=aversecs">平均响应时间</a>
+</div>
+<div class="rank_time_filter">
+    起始时间<input type="text" class="datetimepicker" id="starttime" readonly="readonly">
+    &nbsp;&nbsp;结束时间<input type="text" class="datetimepicker" id="endtime" readonly="readonly">
 </div>
 <script>
     jQuery(function(){
@@ -195,7 +197,7 @@
         <!--{else}-->
         <tr class="alt">
         <!--{/if}-->
-            <td class="info_tip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
+            <td class="info_tip" data-toggle="tooltip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
             <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
             <!--{date('m-d H:i',$cp[addtime])}--></td>
             <td>
@@ -263,13 +265,16 @@
     </table>
     <div class="page" style="margin-bottom: 10px;">$multi</div>
     <script class="reload_script">
-        jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
-        jQuery('#complain_list a').click(function(e){
-            e.stopPropagation();
-        });
-        jQuery('#complain_list tbody tr').click(function(){
-            jQuery('#complain_list td').css({'overflow':'hidden','white-space':'nowrap'});
-            jQuery(this).children('td').css({'overflow':'initial','white-space':'initial'});
+        jQuery(function() {
+            jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+            jQuery('#complain_list a').click(function(e){
+                e.stopPropagation();
+            });
+            jQuery('#complain_list tbody tr').click(function(){
+                jQuery('#complain_list td').css({'overflow':'hidden','white-space':'nowrap'});
+                jQuery(this).children('td').css({'overflow':'initial','white-space':'initial'});
+            });
+            jQuery('[data-toggle="tooltip"]').tooltip({container:'body'});
         });
     </script>
 </div>
@@ -316,7 +321,7 @@
             useSeconds: false,               //en/disables the seconds picker
             useCurrent: true,               //when true, picker will set the value to the current date/time     
             minuteStepping:1,               //set the minute stepping
-            minDate:'20140909',               //set a minimum date
+            minDate:'20130505',               //set a minimum date
             maxDate: endtime,     //set a maximum date (defaults to today +100 years)
             showToday: true,                 //shows the today indicator
             language:'zh-cn',                  //sets language locale
@@ -390,13 +395,12 @@
         });    
     }
     <!--{elseif $_GET['view'] == 'all'}-->
-    function updateList () {
+    function updateList (href) {
         var starttime = jQuery("#starttime").val();
         var endtime = jQuery("#endtime").val();
-        var href = location.href;
+        href = href || location.href;
         var atuid = jQuery("#cloud_dep").val();
 
-        href = href.replace(/page=\d+/g,'');
         jQuery.post(href, {starttime: starttime, endtime: endtime, atuid: atuid}, function(data) {
             jQuery(".complain_list_container").html(jQuery(data).find(".complain_list_container").html());
             jQuery("#complain_cloud").html(jQuery(data).find("#complain_cloud").html());
@@ -404,10 +408,18 @@
             dom.filter('script.reload_script').each(function() {
                  jQuery.globalEval(this.text || this.textContent || this.innerHTML || '');
             });
+            jQuery('.page a').on('click', function(event) {
+                event.preventDefault();
+                updateList(jQuery(this).attr('href'));
+            });
         });
     }
     jQuery("#cloud_dep").change(function(event) {
         updateList();
+    });
+    jQuery('.page a').on('click', function(event) {
+        event.preventDefault();
+        updateList(jQuery(this).attr('href'));
     });
     <!--{/if}-->
 </script>

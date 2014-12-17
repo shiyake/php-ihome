@@ -18,7 +18,7 @@
 	<div style="display:inline-block;width:100%;">
         <a href="space.php?uid=$value[uid]" style="float:left;"><!--{eval echo avatar($value[uid],"small",false,1);}--></a>
         <div class="complain_comment">
-        <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>: $value[message] 
+        <a <!--{if !($value[complainBorn] && $value[complainopid])}-->class="complain_plain_comment"<!--{/if}--> href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>: $value[message] 
 	        <div style="margin-top:10px;">
 	        <span class="doingtime gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
 	        <script language="javascript" src="source/comment_goback.js"></script>
@@ -57,9 +57,16 @@
                     <!--{/if}-->
                 <!--{/if}-->
 	        <!--{/if}-->
-            <!--{if !$value[complainBorn] && $value[uid]==$_SGLOBAL[supe_uid]}--> <a style="margin-left:10px;float:right" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a><!--{/if}-->
+            <!--{eval $d_comment = 0}-->
+            <!--{eval $r_comment = 0}-->
+            <!--{if !($value[complainBorn] && $value[complainopid]) && ($value[uid]==$_SGLOBAL[supe_uid] || ($_SGLOBAL['member']['groupid']==1) || $isfounder)}--> <a style="float:right" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a><!--{eval $d_comment = 1}--><!--{elseif $value[uid]==$_SGLOBAL[supe_uid] || ($_SGLOBAL['member']['groupid']==1) || $isfounder}-->
+            <a style="float:right" href="cp.php?ac=doing&op=edit&doid=$value[doid]&id=$value[id]" id="doing_edit_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)">编辑</a>
+            <!--{eval $d_comment = 1}-->
+            <!--{/if}-->
             <!--{if $value[uid]!=$_SGLOBAL[supe_uid]}-->
-	        		<a href="javascript:;" onclick="jq1('#do_message_{$value[doid]}_0').css({'color':'#333'});document.getElementById('do_message_{$value[doid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re">回复</a>
+	        		<a href="javascript:;" onclick="document.getElementById('complain_op_msg').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re">回复</a><!--{eval $r_comment = 1}-->
+            <!--{/if}--><!--{if $d_comment && $r_comment}-->
+            <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             <!--{/if}-->
 	        </span>
 	        </div>

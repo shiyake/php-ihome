@@ -17,6 +17,24 @@
 	</form>
 </div>
 
+<!--{elseif $_GET['op'] == 'edit'}-->
+<h1>编辑回复</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__doingform_{$doid}_{$id}">
+	<form method="post" id="doingform_{$doid}_{$id}" name="doingform" action="cp.php?ac=doing&op=edit&doid=$doid&id=$_GET[id]">
+		<div class="btn_line">
+			<textarea id="new_message" name="new_message" onkeydown="auto_grow(this)" style="overflow:hidden;border-radius:4px;padding:3px;display:block">$origin_msg</textarea>
+			<a href="javascript:;" class="drop_face comment_face"><div></div></a>
+            <div class="drop_face_menu" data-target="new_message" style="margin-top:-245px;"></div>
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<button name="editsubmit" type="submit" 
+					class="btn btn-sm btn-comments" 
+					value="true">确定</button>
+		</div>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
 <!--{elseif $_GET['op'] == 'getmood'}-->
 
 $space[spacenote]

@@ -114,13 +114,9 @@ if ($_GET['view'] == 'rank') {
 } else {
     $wheresql = "status!= 4";
     if ($_GET['view'] == 'all') {
-        if (empty($_POST['starttime'])) {
-            $_POST['starttime'] = $_GET['starttime'];
-            $_POST['endtime'] = $_GET['endtime'];
-        }
         $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
         $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
-        $atuid = isset($_POST['atuid'])?$_POST['atuid']:(isset($_GET['atuid'])?$_GET['atuid']:0);
+        $atuid = isset($_POST['atuid'])?$_POST['atuid']:0;
         $atuid = intval($atuid);
 
         $startDay = date('Ymd', $starttime);
@@ -163,9 +159,6 @@ if ($_GET['view'] == 'rank') {
         $theurl = "space.php?do=$do&view=all&type=$_GET[type]";
         $actives = array('all'=>' class="active"');
     }
-    if ($_GET['view'] == 'all') {
-        $theurl .= "&starttime=$_POST[starttime]&endtime=$_POST[endtime]&atuid=$atuid";
-    }
     $submenus = array();
     if ($_GET['type'] == 'running') {
         $wheresql .= " and status = 0 ";
@@ -174,7 +167,7 @@ if ($_GET['view'] == 'rank') {
         if ($_GET['view'] == 'atme') {
             $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where atuid='$_SGLOBAL[supe_uid]' and status in (0,2))";
         } else {
-            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status in (0,2))";
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status=0 union select distinct doid from ".tname('complain')." where doid not in (select distinct doid from ".tname('complain')." where status in (0,1)))";
         }
         $submenus['done']=' class = "active"';
     } elseif ($_GET['type'] == 'closed') {
