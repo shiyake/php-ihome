@@ -325,6 +325,7 @@ if ($_GET['op'] == 'delete') {
         $optype = 2;
         if ($isrelay) {
             $optype = 3;
+            $add_type = 0;
         }
 
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid=$doid and atuid=$legalEntity and status=0");
