@@ -20,6 +20,7 @@ table.complain_list {
     overflow: hidden;
     max-width: 100px;
 	text-overflow: ellipsis;
+    vertical-align: top;
 }
 .complain_list td a {
     width: 100%;
@@ -96,4 +97,12 @@ table.complain_list {
     line-height: 26px;
     background: url(../../image/icons/rank_bg.png) center center no-repeat;
     position: absolute;
+}
+.complain_list_filter, .rank_time_filter {
+    color: #777;
+    margin-left: 23px;
+    margin-bottom: 10px;
+}
+.complain_list_container .page a {
+    color: #01b6f9;
 }

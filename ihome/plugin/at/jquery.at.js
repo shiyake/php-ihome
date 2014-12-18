@@ -338,14 +338,31 @@ var jq = jQuery.noConflict();
         var cur, next;
         cur = this.jqo().find('.cur').removeClass('cur');
         next = cur.next();
-        if (!next.length) next = jq(this.jqo().find('li')[0]);
+        var $menu = this.jqo().find('ul');
+        if (!next.length) {
+          next = jq(this.jqo().find('li')[0]);
+          $menu.scrollTop(0);
+        }
+        var offset = next.offset().top - $menu.offset().top;
+        var height = $menu.height();
+        if (offset>=height) {
+          $menu.scrollTop($menu.scrollTop()+next.outerHeight()+offset-height);
+        }
         return next.addClass('cur');
       },
       prev: function() {
         var cur, prev;
         cur = this.jqo().find('.cur').removeClass('cur');
         prev = cur.prev();
-        if (!prev.length) prev = this.jqo().find('li').last();
+        var $menu = this.jqo().find('ul');
+        if (!prev.length) {
+          prev = this.jqo().find('li').last();
+          $menu.scrollTop($menu[0].scrollHeight-$menu.height());
+        }
+        var offset = prev.offset().top - $menu.offset().top;
+        if (offset < 0) {
+          $menu.scrollTop($menu.scrollTop()+offset);
+        }
         return prev.addClass('cur');
       },
       show: function() {

@@ -255,6 +255,7 @@ $_SGLOBAL['cplang'] = array(
 	'space_open_subject' => '快来打理一下您的个人主页吧',
 	'space_open_message' => 'hi，我今天去拜访了一下您的个人主页，发现您自己还没有打理过呢。赶快来看看吧。地址是：\\1space.php',
 	'feed_space_open' => '{actor} 开通了自己的个人主页',
+	'feed_complain' => '{actor} 发布了一条诉求',
 	
 	'feed_profile_update_base' => '{actor} 更新了自己的基本资料',
 	'feed_profile_update_contact' => '{actor} 更新了自己的联系方式',

@@ -20,10 +20,8 @@
 <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 <div class="popupmenu_inner" id="__complainform_{$doid}">
     <form method="post" id="complainform_{$doid}" name="complainform" action="cp.php?ac=complain&op=down&doid=$doid&cpid=$cpid&opid=$opid">
-        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $complain['lastopid'] == $opid && $complain['status'] == 1)}-->
+        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $hint)}-->
         <p>点踩会重启诉求，确定吗？</p>
-        <!--{elseif $hint}-->
-        <p>点踩会重启另一条诉求，确定吗？</p>
         <!--{else}-->
         <p>确定点踩吗？</p>
         <!--{/if}-->
@@ -39,10 +37,8 @@
 <a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 <div class="popupmenu_inner" id="__complainform_{$doid}">
     <form method="post" id="complainform_{$doid}" name="complainform" action="cp.php?ac=complain&op=up&doid=$doid&cpid=$cpid&opid=$opid">
-        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $complain['lastopid'] == $opid && $complain['status'] == 1)}-->
+        <!--{if ($complain['uid'] == $_SGLOBAL['supe_uid'] && $hint)}-->
         <p>点赞会关闭诉求，确定吗？</p>
-        <!--{elseif $hint}-->
-        <p>点踩会关闭另一条诉求，确定吗？</p>
         <!--{else}-->
         <p>确定点赞吗？</p>
         <!--{/if}-->
@@ -52,6 +48,16 @@
         </div>
         <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
     </form>
+</div>
+<!--{elseif ($_GET['op'] == 'credit') && $need}-->
+<h1>发送诉求失败</h1>
+<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
+<div class="popupmenu_inner" id="__complainform_{$doid}">
+    <p>您的当前积分为<!--{eval echo $remain}-->，不足<!--{eval echo $need}-->积分，无法发送诉求</p>
+    <a href="cp.php?ac=credit&op=rule">了解如何获取积分请点击这里</a>
+    <div class="btn_line">
+    <a href="javascript:hideMenu();" class="btn btn-sm btn-comments">确定</a>
+    </div>
 </div>
 <!--{/if}-->
 <!--{template footer}-->

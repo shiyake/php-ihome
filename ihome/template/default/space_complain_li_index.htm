@@ -18,11 +18,57 @@
 	<div style="display:inline-block;width:100%;">
         <a href="space.php?uid=$value[uid]" style="float:left;"><!--{eval echo avatar($value[uid],"small",false,1);}--></a>
         <div class="complain_comment">
-        <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>: $value[message] 
+        <a <!--{if !($value[complainBorn] && $value[complainopid])}-->class="complain_plain_comment"<!--{/if}--> href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a>: $value[message] 
 	        <div style="margin-top:10px;">
 	        <span class="doingtime gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
 	        <script language="javascript" src="source/comment_goback.js"></script>
-	        <a href="javascript:;" onclick="jq1('#do_message_{$value[doid]}_0').css({'color':'#333'});document.getElementById('do_message_{$value[doid]}_0').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re" style="float:right;">回复</a>
+	        <span class="pull-right">
+	        <!--{if $value[complainBorn] && $value[complainopid] && $complain_ops[$value[complainopid]][finish] }-->
+	        <!--{eval $op = $complain_ops[$value[complainopid]]}-->
+				<!--{if (isset($opupdowns[$op[id]]) && $complain[uid] == $_SGLOBAL[supe_uid]) || $op[uid] == $_SGLOBAL[supe_uid]}-->
+                    <!--{if $opupdowns[$op[id]] == 1}-->
+                    <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good_clicked.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{elseif $opupdowns[$op[id]] == 2}-->
+                    <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad_clicked.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{else}-->
+                    <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{/if}-->
+                <!--{elseif isset($opupdowns[$op[id]])}-->
+                	<!--{if $opupdowns[$op[id]] == 1}-->
+                    <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="unvoteComplainOp($doid,$op[id],'up');return false;" ><img src="image/icons/icon_good_clicked.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{elseif $opupdowns[$op[id]] == 2}-->
+                    <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="unvoteComplainOp($doid,$op[id],'down');return false;" ><img src="image/icons/icon_bad_clicked.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{else}-->
+                    <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{/if}-->
+                <!--{else}-->
+                    <!--{if $complain[uid] == $_SGLOBAL[supe_uid] && in_array($op[id], $hints)}-->
+                    <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=up&hint=1" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&op=down&hint=1" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{else}-->
+                    <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="voteComplainOp($doid,$op[id],'up');return false;" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="voteComplainOp($doid,$op[id],'down');return false;" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
+                    <!--{/if}-->
+                <!--{/if}-->
+	        <!--{/if}-->
+            <!--{eval $d_comment = 0}-->
+            <!--{eval $r_comment = 0}-->
+            <!--{if !($value[complainBorn] && $value[complainopid]) && ($value[uid]==$_SGLOBAL[supe_uid] || ($_SGLOBAL['member']['groupid']==1) || $isfounder)}--> <a style="float:right" href="cp.php?ac=doing&op=delete&doid=$value[doid]&id=$value[id]" id="doing_delete_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)" >删除</a><!--{eval $d_comment = 1}--><!--{elseif $value[uid]==$_SGLOBAL[supe_uid] || ($_SGLOBAL['member']['groupid']==1) || $isfounder}-->
+            <a style="float:right" href="cp.php?ac=doing&op=edit&doid=$value[doid]&id=$value[id]" id="doing_edit_{$value[doid]}_{$value[id]}" onclick="ajaxmenu(event, this.id)">编辑</a>
+            <!--{eval $d_comment = 1}-->
+            <!--{/if}-->
+            <!--{if $value[uid]!=$_SGLOBAL[supe_uid]}-->
+	        		<a href="javascript:;" onclick="document.getElementById('complain_op_msg').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re">回复</a><!--{eval $r_comment = 1}-->
+            <!--{/if}--><!--{if $d_comment && $r_comment}-->
+            <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <!--{/if}-->
+	        </span>
 	        </div>
         </div>
 	<span id="docomment_form_{$value[doid]}_{$value[id]}"></span>

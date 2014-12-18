@@ -3,7 +3,6 @@
 if(!defined('iBUAA')) {
     exit('Access Denied');
 }
-
 $doid = empty($_GET['doid'])?0:intval($_GET['doid']);
 $id = empty($_GET['id'])?0:intval($_GET['id']);
 if(empty($_POST['refer'])) $_POST['refer'] = "space.php?do=doing&view=me";
@@ -267,6 +266,15 @@ if(submitcheck('addsubmit')) {
         }
     }
     $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET ".implode(',', $setarr)." WHERE uid='$_SGLOBAL[supe_uid]'");
+    $title_template = cplang(cplang('feed_doing_title'));
+    $title_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
+    $body_template = $body_data = '';
+    if ($complainOK) {
+        $title_template = cplang(cplang('feed_complain'));
+        $title_data = '';
+        $body_template = '{message}';
+        $body_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
+    }
     //ÊÂ¼þfeed
     if($add_doing) {
         if($picid && $filepath) {
@@ -276,10 +284,10 @@ if(submitcheck('addsubmit')) {
                 'uid' => $_SGLOBAL['supe_uid'],
                 'username' => $_SGLOBAL['supe_username'],
                 'dateline' => $_SGLOBAL['timestamp'],
-                'title_template' => cplang('feed_doing_title'),
-                'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$message)))),
-                'body_template' => '',
-                'body_data' => '',
+                'title_template' => $title_template,
+                'title_data' => $title_data,
+                'body_template' => $body_template,
+                'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
                 'fromdevice' => 'web',
@@ -294,10 +302,10 @@ if(submitcheck('addsubmit')) {
                 'uid' => $_SGLOBAL['supe_uid'],
                 'username' => $_SGLOBAL['supe_username'],
                 'dateline' => $_SGLOBAL['timestamp'],
-                'title_template' => cplang('feed_doing_title'),
-                'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$message)))),
-                'body_template' => '',
-                'body_data' => '',
+                'title_template' => $title_template,
+                'title_data' => $title_data,
+                'body_template' => $body_template,
+                'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
                 'fromdevice' => 'web'
@@ -546,9 +554,6 @@ elseif ($_GET['op'] == 'getcomment') {
     if(empty($_GET['close'])) {
         $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('docomment')." WHERE doid='$doid' ORDER BY dateline");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            if ($complainPage && $value['complainBorn']) {
-                continue;
-            }
             realname_set($value['uid'], $value['username']);
             $tree->setNode($value['id'], $value['upid'], $value);
             $count++;
@@ -569,6 +574,37 @@ elseif ($_GET['op'] == 'getcomment') {
     }
     $isComplain = isComplainOrNot($doid,$_SGLOBAL['db']);
     realname_get();
+}
+elseif ($_GET['op'] == 'edit') {
+    if(submitcheck('editsubmit')) {
+        if($id) {
+            $allowmanage = checkperm('managedoing');
+            $message = getstr($_POST['new_message'], 480, 1, 1, 1);
+            //Ìæ»»±íÇé
+            if(preg_match("/\[em:(\d+):]/is")) {
+                showmessage("Ç×£¬Ô­ÁÂÎÒÃÇ²»¹ÄÀøÄú¼ÌÐøÊ¹ÓÃ¾É±íÇé£¬^_^","location.href=-1");
+            }
+            $message = preg_replace("/\[am:(\d+):]/is", "<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">", $message);
+            $message = preg_replace("/\<br.*?\>/is", ' ', $message);
+            
+            $message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
+            $message = preg_replace("/\<br.*?\>/is", ' ', $message);  
+            if(strlen($message) < 1) {
+                showmessage('should_write_that');
+            }
+            $_SGLOBAL['db']->query("update ".tname("docomment")." set message='".$message."' where id=$id");
+        } else {
+            showmessage('error_op', $_POST['refer'], 0);
+        }
+        
+        showmessage('do_success', $_POST['refer'], 0);
+    } else {
+        $query = $_SGLOBAL['db']->query("select message from ".tname('docomment')." where id=$id limit 1");
+        $origin_msg = '';
+        if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+            $origin_msg = strip_tags($value['message']);
+        }
+    }
 }
 
 if($_GET['sync']=='true') {

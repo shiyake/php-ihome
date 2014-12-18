@@ -14,159 +14,215 @@
                     <a href="space.php?uid=$complain[uid]" style="text-align:center;width:75px;overflow:hidden;display:inline-block;text-overflow:ellipsis;white-space:nowrap;" title="$_SN[$complain[uid]]">$_SN[$complain[uid]]</a>
                 </div>
             </div>
-            <script src="source/docomment.js"></script> 
             <div class="feed_li_inner bubble arrow_l" style="letter-spaceing:0x5px;">
                 <span>$complain[message]</span>
                 <div class="feed_content clearfix"></div>
                 <div id="reply_content">
                     <span class="gray"><!--{date('m月d日 H:i',$dv[dateline],1)}--></span>
-                    <span class="floatright">
-                        <a href="javascript:;" data-doid="{$complain[doid]}" id="do_a_op_$doid" onclick="docomment_form($doid,0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $dv['replynum']>0}-->评论($dv['replynum'])<!--{else}-->评论<!--{/if}--></a>
-                    </span>
                 </div>
+
                 <!--{eval $list = $doclist[$complain[doid]];}-->
-                <div class="sub_doing fcomment do_document" id="docomment_$doid" style="display:none;width:100%;">
-                    <span id="docomment_form_{$complain[doid]}_0"></span>
+                <div class="sub_doing fcomment do_document" id="complain_docomment" style="width:100%;">
+                    <form method="post" id="complain_op_form">
+                        <div class="complain_op">
+                            <script language="javascript" src="source/face.js" charset="utf-8"></script>
+                            <!--{if $legalEntity && in_array($legalEntity, $complain[atuid]) && $complain[status][array_search($legalEntity, $complain[atuid])] == 0}-->
+                            <textarea name="message" id="complain_op_msg" onkeydown="auto_grow(this)" style="width:93%" onfocus="complain_at('$deps')"></textarea>
+                            <a href="javascript:;" class="drop_face comment_face"><div></div></a>
+                            <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
+                            <div class="reply pull-right">
+                                <span class="forward_tip">提示：<!--{if $complain[relay_times]>=3}-->不可转发<!--{else}-->诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次<!--{/if}--></span>
+                                <button type="button" id="reply_doing" name="add" value="1">进行中</button>
+                                <button type="button" id="reply_done" name="add" value="2">完成</button>
+                            </div>
+                            <!--{else}-->
+                            <textarea name="message" class="t_input" id="complain_op_msg" onkeydown="auto_grow(this)" style="width:80%" onfocus="at()"></textarea>
+                            <a href="javascript:;" class="drop_face comment_face"><div></div></a>
+                            <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
+                            <div class="comment"><button type="button">评论</button></div>
+                            <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
+                            <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+                            <!--{/if}-->
+                        </div>
+                        <input type="hidden" name="addsubmit" value="true" />
+                        <input type="hidden" name="doid" value="$doid" />
+                        <input type="hidden" name="refer" class="referform" value="$theurl" />
+                        <input type="hidden" name="formhash" class="hashform" value="<!--{eval echo formhash();}-->" />
+                    </form>
+                    <div class="clearfix"></div>
                     <!--{template space_complain_li_index}-->
                 </div>
             </div>
             <div class="clearfix"></div>
         </li>
-        <!--{eval $complain_ops_count = count($complain_ops);}-->
-        <!--{eval $op_index=0;}-->
-        <!--{loop $complain_ops $op}-->
-        <!--{eval $op_index++;}-->
-        <!--{if $op[optype] == 2 || $op[optype] == 3 || $op[optype] == 4}-->
-        <li id="complain_op_$op[id]">
-        <!--{if $op[uid] == $complain[uid] && $op[optype] == 4}-->
-            <div class="feed_li_avatar" style="float:left !important">
-        <!--{else}-->
-            <div class="feed_li_avatar" style="float:right !important">
-        <!--{/if}-->
-                <div class="round_border head">
-                    <a href="space.php?uid=$dv[uid]"><!--{avatar($op[uid],big,false,0,'feed')}--></a>
-                </div>
-                <div>
-                    <a href="space.php?uid=$dv[uid]" style="text-align:center;width:75px;overflow:hidden;display:inline-block;text-overflow:ellipsis;white-space:nowrap;" title="$_SN[$op[uid]]">$_SN[$op[uid]]</a>
-                </div>
-            </div>
-            <!--{if $op[uid] == $complain[uid] && $op[optype] == 4}-->
-            <div class="feed_li_inner bubble arrow_l" style="letter-spaceing:0x5px;">
-            <!--{else}-->
-            <div class="feed_li_inner bubble arrow_r" style="letter-spaceing:0x5px;">
-            <!--{/if}-->
-                <!--{if $op[optype] == 3}-->
-                <p>操作类型：转发给$_SN[$op["opvalue"]]</p>
-                <span>转发理由：$op[message]</span>
-                <!--{else}-->
-                <span>$op[message]</span>
-                <!--{/if}-->
-                <div class="feed_content clearfix"></div>
-                <div id="reply_content">
-                    <span class="gray"><!--{date('m月d日 H:i',$op[dateline],1)}--></span>
-                    <span class="floatright">
-
-                        <!--{if $op[optype] == 2}-->
-                        <!--{if isset($opupdowns[$op[id]]) || $op[uid] == $_SGLOBAL[supe_uid]}-->
-                        <!--{if $opupdowns[$op[id]] == 1}-->
-                        <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good_clicked.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{elseif $opupdowns[$op[id]] == 2}-->
-                        <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad_clicked.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{else}-->
-                        <a style="color:gray;" id="complain_up_$op[id]"><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a style="color:gray;" id="complain_down_$op[id]"><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{/if}-->
-                        <!--{else}-->
-                        <!--{if $complain[uid] == $_SGLOBAL[supe_uid] && $complain['lastopid'] == $op[id] && $complain['status'] == 1}-->
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=up" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=down" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{elseif $complain[uid] == $_SGLOBAL[supe_uid] && in_array($op[id], $hints)}-->
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=up&hint=1" id="complain_up_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="cp.php?ac=complain&doid=$doid&opid=$op[id]&cpid=$cpid&op=down&hint=1" id="complain_down_$op[id]" onclick="ajaxmenu(event, this.id)" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{else}-->
-                        <a href="javascript:void(0)" id="complain_up_$op[id]"  onclick="refreshComplainOp($doid,$op[id],$cpid,'up');return false;" ><img src="image/icons/icon_good.png"/>&nbsp;赞<!--{if $op['upnum']>0}-->($op['upnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="javascript:void(0)" id="complain_down_$op[id]"  onclick="refreshComplainOp($doid,$op[id],$cpid,'down');return false;" ><img src="image/icons/icon_bad.png"/>&nbsp;踩<!--{if $op['downnum']>0}-->($op['downnum'])<!--{/if}--></a><span style="color:#ccc">&nbsp;&nbsp;|&nbsp;</span>
-                        <!--{/if}-->
-                        <!--{/if}-->
-                        <!--{/if}-->
-
-                        <a href="javascript:;" data-rootid="cop_{$op[id]}" id="tree_comment_op_cop_{$op[id]}" onclick="treecomment_form('cop_{$op[id]}',0)"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $op['replynum']>0}-->评论($op['replynum'])<!--{else}-->评论<!--{/if}--></a>
-                    </span>
-                </div>
-                <!--{eval $list = $opclist[$op[id]];}-->
-                <div class="sub_doing fcomment do_document" id="treecomment_cop_$op[id]" style="display:none;width:100%;">
-                    <span id="treecomment_form_cop_{$op[id]}_0"></span>
-                    <!--{template space_complaincomment_li}-->
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-        </li>
-        <!--{/if}-->
-        <!--{/loop}-->
         <script>
-            function refreshComplainOp(doid,opid,cpid,updown) {
-                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&cpid='+cpid+'&op='+updown+'&confirm=1';
-                jq('#complain_up_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
-                jq('#complain_down_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+            jQuery(function(){
+                jQuery("#complain_op_form button").live('click',function(event) {
+                    event.preventDefault();
+
+                    var type = jQuery(this).val();
+                    var msg = trim(jQuery('#complain_op_msg').val());
+                    jQuery('#complain_op_form button').addClass('disabled').attr('disabled','disabled');
+                    if (!msg || !trim(msg.replace(/@.*?\(\d+\)/g,''))) {
+                        show('say_something');
+                    } else if (type && (msg.match(/@.*?\(\d+\)/g)||"").length > 1) {
+                        show('relay_too_much');
+                    } else if (type && parseInt('$complain[relay_times]')>=3) {
+                        show('relay_not_allowed');
+                    } else {
+                        jQuery.post('cp.php?ac=complain&op=add&doid=$doid', {
+                            "type": type,
+                            "message": msg,
+                            "addsubmit": "true",
+                            "formhash": jQuery(".hashform").val(),
+                            "refer": jQuery(".referform").val()
+                        }, function(data) {
+                            switch(data) {
+                                case 'do_success':
+                                    jQuery.get(location.href, function(data) {
+                                        jQuery('#complain_docomment').html(jQuery(data).find('#complain_docomment').html());
+                                        jQuery('#sidebarbox').html(jQuery(data).find('#sidebarbox').html());
+                                        show('do_success');
+                                    });
+                                    break;
+                                case 'relay_too_much':
+                                case 'relay_not_allowed':
+                                case 'say_something':
+                                case 'error_op':
+                                    show(data);
+                                    break;
+                                default:
+                                    show('fail');
+                            }
+                        });
+                    }
+                });
+            });
+            function enableButtons() {
+                jQuery('#complain_op_form button').removeClass('disabled').removeAttr('disabled');
+            }
+            function Message_out(message) {
+                jQuery(".message").html(message);
+                    jQuery(".showMessage").css({
+                        "display":"block"
+                    });
+                jQuery(".message").css({
+                    "display":"block"
+                });    
+                jQuery(".showMessage").stop().animate({
+                        "opacity":"0.4"
+                    },700);
+                    jQuery(".showMessage").delay(1000).animate({
+                        "opacity":"0"
+                    },700,function(){
+                        jQuery(".showMessage").css({
+                            "display":"none" 
+                        });
+                        jQuery(".message").css({
+                            "display":"none"
+                        });
+                        enableButtons();
+                    }); 
+            }
+            
+            function show(msg) {
+               if(msg == 'complate') {
+                    var message="<img src='/template/default/image/comment_ok.png'></img><div class='comment_text'>评论成功</div>";
+                    Message_out(message);
+                    return true;
+                } else if(msg == 'fail') {
+                    var message="<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>评论失败</div>";
+                    Message_out(message);
+                    return false;
+                } else if (msg == 'say_something') {
+                    var message = "<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>至少说点什么吧</div>";
+                    Message_out(message);
+                } else if (msg == 'relay_too_much') {
+                    var message = "<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>只能转发一人</div>";
+                    Message_out(message);
+                } else if (msg == 'relay_not_allowed') {
+                    var message = "<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>转发禁止</div>";
+                    Message_out(message);
+                } else if (msg == 'error_op') {
+                    var message = "<img src='/template/default/image/comment_fail.png'></img><div class='comment_text'>非法操作</div>";
+                    Message_out(message);
+                } else if (msg == 'do_success') {
+                    var message = "<img src='/template/default/image/comment_ok.png'></img><div class='comment_text'>操作成功</div>";
+                    Message_out(message);
+                }
+            }
+
+            function auto_grow(element) {
+                element.style.height = '5px';
+                element.style.height = (element.scrollHeight)+'px';
+            }
+
+            function voteComplainOp(doid,opid,updown) {
                 if (updown != 'up' && updown != 'down') {return false;}
+                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&op='+updown+'&confirm=1';
+                var stash = jq('#complain_'+updown+'_'+opid).attr('onclick').replace('vote','unvote');
+                jq('#complain_down_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+                jq('#complain_up_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
                 jq.get(s,function(data){
-                    count = parseInt(data) || 0;
+                    var count = parseInt(data) || 0;
                     if (count) {
                         var content = jq('#complain_'+updown+'_'+opid).html().replace(/(good|bad)\.png/g,'$1_clicked\.png').replace(/(踩|赞).*/g,'$1('+count+')');
                         jq('#complain_'+updown+'_'+opid).html(content);
                     }
-                })
+                    jq('#complain_'+updown+'_'+opid).attr('onclick', stash).css({'color':'#01b6f9','cursor':'pointer'});
+                });
+            }
+            function unvoteComplainOp (doid,opid,updown) {
+                if (updown != 'up' && updown != 'down') {return false;}
+                var downup = updown == 'up' ? 'down' : 'up';
+                var s = 'cp.php?ac=complain&doid='+doid+'&opid='+opid+'&op='+updown+'&confirm=1';
+                var stash = jq('#complain_'+updown+'_'+opid).attr('onclick').replace('unvote','vote');
+                jq('#complain_down_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+                jq('#complain_up_'+opid).removeAttr("href").attr('onclick','').unbind('click').css('color','gray');
+                jq.get(s,function(data){
+                    var count = parseInt(data) || 0;
+                    var temp = count ? '('+count+')' : '';
+                    var content = jq('#complain_'+updown+'_'+opid).html().replace(/(good|bad)_clicked\.png/g,'$1\.png').replace(/(踩|赞).*/g,'$1'+temp);
+                    jq('#complain_'+updown+'_'+opid).html(content).attr('onclick', stash).css({'color':'#01b6f9','cursor':'pointer'});
+                    jq('#complain_'+downup+'_'+opid).attr('onclick', stash.replace(updown,downup)).css({'color':'#01b6f9','cursor':'pointer'});
+                });
             }
         </script>
     </ol>
-    <!--{if $complain[status] == 0 && $legalEntity}-->
-    <!--{template space_complain_op_feed}-->
-    <!--{/if}-->
-    <!--{if $complain[status] == 1 && $complain[uid] == $_SGLOBAL[supe_uid]}-->
-    <!--
-    <div>
-    <script type="text/javascript">
-        function continue_complain() {
-            if ($("continue_complain").style.display != "block") {
-                $("continue_complain").style.display = "block";
-                $("complain_continue").innerHTML = "收起";
-            } else {
-                $("continue_complain").style.display = "none";
-                $("complain_continue").innerHTML = "继续诉求";
-            }
-        }
-    </script>
-    <a href="#" id="complain_continue" onclick="continue_complain();return false;" style="margin-left:10px;">继续诉求</a>
-    </div>
-    -->
-    <!--{template space_complain_op_continue}-->
-    <!--{/if}-->
 </div>
 </div>
 <div id="sidebarbox">
     <a href="space.php?do=complain" class="r_option complain_ret" style="margin-top:30px;margin-right:15px;">返回我的诉求列表</a>
     <div class="sidebox" style="border:none;margin-top:88px;">
         <h4 class="title">诉求状态</h4>
-        <!--{if $complain[status] == 0}-->
+        <div class="all_complain_deps">
+        <!--{loop $complain[atuname] $atuname}-->
+            <div class="complain_dep">
+                <p title="$atuname"><!--{eval echo $atuname}--></p>
+            </div>
+        <!--{/loop}-->
+        </div><div class="all_complain_status">
+        <!--{if $_SGLOBAL[isdept] == 1}-->
+        <!--{eval $doing_text = '未处理'}-->
+        <!--{else}-->
+        <!--{eval $doing_text = '处理中'}-->
+        <!--{/if}-->
+        <!--{loop $complain[status] $status}-->
+        <!--{if $status == 0}-->
         <div class="complain_status complain_doing">
-            <!--{if $_SGLOBAL[isdept] == 1}-->
-            <p>未处理</p>
-            <!--{else}-->
-            <p>处理中</p>
-            <!--{/if}-->
-        <!--{elseif $complain[status] == 1}-->
+            <p><!--{eval echo $doing_text}--></p>
+        <!--{elseif $status == 1}-->
         <div class="complain_status complain_done">
             <p>已处理</p>
-        <!--{elseif $complain[status] == 3}-->
+        <!--{elseif $status == 3}-->
         <div class="complain_status complain_done">
             <p>已转发</p>
         <!--{else}-->
         <div class="complain_status complain_closed">
             <p>已关闭</p>
         <!--{/if}-->
+        </div>
+        <!--{/loop}-->
         </div>
         <div style="clear:both;height: 50px;"></div>
         <h4 class="title">诉求变更历史</h4>

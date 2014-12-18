@@ -636,8 +636,8 @@ $_SGLOBAL['creditrule']=Array
 		'rewardnum' => 1,
 		'rewardtype' => '0',
 		'norepeat' => '0',
-		'credit' => 20,
-		'experience' => 20
+		'credit' => 30,
+		'experience' => 30
 		)
 	)
 ?>
