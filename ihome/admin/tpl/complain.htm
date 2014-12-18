@@ -627,6 +627,7 @@ jQuery.noConflict();
                   <td>
                   <input class="Wdate" name="starttime" id="starttime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$startDay">~
                   <input class="Wdate" name="endtime" id="endtime" type="text" onClick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" value="$endDay">
+                  <input type="button" value="导出" onclick="download()">
                   </td>
 				</tr>
 				<tr>
@@ -640,6 +641,13 @@ jQuery.noConflict();
 			</div>
 		</form>
 	</div>
+	<script>
+		function download() {
+			var starttime = jQuery('#starttime').val();
+			var endtime = jQuery('#endtime').val();
+			location.href = 'admincp.php?ac=complain&extra=download&starttime'+starttime+'&endtime='+endtime;
+		}
+	</script>
 	<div class="bdrcontent">
 		<div class="title">
 			<!--{eval $doing_map=array(1=>"部处",3=>"处长",7=>"副校长",10=>"校长");}-->

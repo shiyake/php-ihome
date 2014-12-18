@@ -386,10 +386,23 @@ if($type == 'forleaders' && $superuid == 3){
 	$startTime = strtotime($startDay);
 	$endTime = strtotime($endDay);
 	$endTime = strtotime("+1 days",$endTime);
-	
+	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
+
+	if ($_GET['extra']=='download') {
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=data.csv');
+
+		$output = fopen('php://output', 'w');
+		fputcsv($output, array('用户编号', '姓名', '学号', '邮件', '手机', '诉求数'));
+
+		$query = $_SGLOBAL['db']->query("select c.uid uid, s.realname realname, collegeid, email, s.mobile mobile, count(distinct c.doid) count from ".tname("complain")." c left join ".tname("spacefield")." s on s.uid=c.uid left join ".tname("baseprofile")." b on c.uid = b.uid ".$sql_where." group by uid order by count desc");
+
+		// loop over the rows, outputting them
+		while ($row = $_SGLOBAL['db']->fetch_array($query)) fputcsv($output, $row);
+		exit();
+	}
 	$times = $_GET['times'] ? trim($_GET['times']) : 0;
 
-	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
 	if($times != 0)
 		$sql_where .= " AND times=".$times;
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp ".$sql_where);

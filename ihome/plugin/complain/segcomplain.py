@@ -15,6 +15,9 @@ if __name__ == '__main__':
     cursor.execute("select message, atuid from ihome_complain where addtime > %d" % starttime)
     results = {}
     results[0] = {}
+    f = open('stopwords.txt','r')
+    stopwords = f.read()
+    f.close()
     for item in cursor.fetchall():
         print item[0].encode('utf8')
         atuid = item[1]
@@ -22,6 +25,8 @@ if __name__ == '__main__':
         for i in words:
             if chinesere.search(i):
                 word = i.encode("utf8")
+                if word in stopwords:
+                    continue
                 if atuid not in results:
                     results[atuid] = {}
                 result = results[atuid]
