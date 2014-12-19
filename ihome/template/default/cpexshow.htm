@@ -17,59 +17,57 @@ font: 12px/1.5em Verdana, "Lucida Grande", Arial, Helvetica, sans-serif;
 </style>
 <script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
 <div id="reply_bag">
-	<div id="scroll_top">
-		<ul style="margin:0;padding:0;" id="slider">
-		<!--{loop $topic $last_topic}-->
-			<!--{eval $last_topic = mkfeed($last_topic);}-->
-			<li style="padding:3px 5px; float:left;clear:both; overflow:hidden; width:100%; border-top:1px #ccc dotted;">
-				<div style="padding:0;float:left;width:48px;height:48px;overflow:hidden;" title="$last_topic[username]"><!--{avatar($last_topic[uid],small)}--></div>
-				<div style="padding-left:5px;float:left;width:$text_width;">
-					$last_topic[title_template]
-					 
-					<div class="feed_content">
-							
-						<!--{if $last_topic['image_1']}-->
-						<img src="$last_topic[image_1]" class="summaryimg" />
-						<!--{/if}-->
-						<!--{if $last_topic['image_2']}-->
-						<img src="$last_topic[image_2]" class="summaryimg" />
-						<!--{/if}-->
-						<!--{if $last_topic['image_3']}-->
-						<img src="$last_topic[image_3]" class="summaryimg" />
-						<!--{/if}-->
-						<!--{if $last_topic['image_4']}-->
-						<img src="$last_topic[image_4]" class="summaryimg" />
-						<!--{/if}-->
+	<ul id="scroll_top" style="margin:0;padding:0;">
+	<!--{loop $topic $last_topic}-->
+		<!--{eval $last_topic = mkfeed($last_topic);}-->
+		<li style="padding:3px 5px;clear:both; overflow:hidden; width:100%; border-top:1px #ccc dotted;">
+			<div style="padding:0;float:left;width:48px;height:48px;overflow:hidden;" title="$last_topic[username]"><!--{avatar($last_topic[uid],small)}--></div>
+			<div style="padding-left:5px;float:left;width:$text_width;">
+				$last_topic[title_template]
+				 
+				<div class="feed_content">
 						
-						<!--{if $last_topic['body_template']}-->
-						<div class="detail"<!--{if $last_topic['image_3']}--> style="clear: both;"<!--{/if}-->>
-							$last_topic[body_template]
-						</div>
-						<!--{/if}-->
-						
-						<!--{if $last_topic['body_general']}-->
-						<div class="quote"><span class="q">$last_topic[body_general]</span></div>
-						<!--{/if}-->
-						<!--{if empty($_TPL[hidden_time])}-->
-							<span class="gray"><!--{date('m-d H:i',$last_topic[dateline],1)}--></span>
-							<!--{if $iscp}-->
-							<a href="space.php?do=complain_item&doid={$last_topic[id]}" style="float:right;margin-right:10px;">详情</a>
-							<!--{/if}-->
-						<!--{/if}-->
-
+					<!--{if $last_topic['image_1']}-->
+					<img src="$last_topic[image_1]" class="summaryimg" />
+					<!--{/if}-->
+					<!--{if $last_topic['image_2']}-->
+					<img src="$last_topic[image_2]" class="summaryimg" />
+					<!--{/if}-->
+					<!--{if $last_topic['image_3']}-->
+					<img src="$last_topic[image_3]" class="summaryimg" />
+					<!--{/if}-->
+					<!--{if $last_topic['image_4']}-->
+					<img src="$last_topic[image_4]" class="summaryimg" />
+					<!--{/if}-->
+					
+					<!--{if $last_topic['body_template']}-->
+					<div class="detail"<!--{if $last_topic['image_3']}--> style="clear: both;"<!--{/if}-->>
+						$last_topic[body_template]
 					</div>
+					<!--{/if}-->
+					
+					<!--{if $last_topic['body_general']}-->
+					<div class="quote"><span class="q">$last_topic[body_general]</span></div>
+					<!--{/if}-->
+					<!--{if empty($_TPL[hidden_time])}-->
+						<span class="gray"><!--{date('m-d H:i',$last_topic[dateline],1)}--></span>
+						<!--{if $iscp}-->
+						<a href="space.php?do=complain_item&doid={$last_topic[id]}" style="float:right;margin-right:10px;">详情</a>
+						<!--{/if}-->
+					<!--{/if}-->
+
 				</div>
-				
-				<!--{if $last_topic['idtype']=='doid'}-->
-				<div id="docomment_$last_topic[id]" style="display:none;"></div>
-				<!--{elseif $last_topic['idtype']}-->
-				<div id="feedcomment_$last_topic[feedid]" style="display:none;"></div>
-				<!--{/if}-->
-				
-			</li>
-		<!--{/loop}-->
-		</ul>
-	</div>
+			</div>
+			
+			<!--{if $last_topic['idtype']=='doid'}-->
+			<div id="docomment_$last_topic[id]" style="display:none;"></div>
+			<!--{elseif $last_topic['idtype']}-->
+			<div id="feedcomment_$last_topic[feedid]" style="display:none;"></div>
+			<!--{/if}-->
+			
+		</li>
+	<!--{/loop}-->
+	</ul>
 </div>
 <script>
 	var mem_height=$("#reply_bag").height();
@@ -78,7 +76,6 @@ font: 12px/1.5em Verdana, "Lucida Grande", Arial, Helvetica, sans-serif;
 	function scroll_totop()  {
 		$("#scroll_top").css({"top":height+"px"});
 		if($("#scroll_top").css("top")=="-"+max_height+"px") {
-			$("#scroll_top").css({"top":0});
 			height=mem_height;
 		}
 		height--;
