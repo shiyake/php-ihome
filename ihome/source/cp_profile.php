@@ -29,7 +29,10 @@ if($_GET['op'] == 'base') {
 			'birthprovince' => getstr($_POST['birthprovince'], 20, 1, 1),
 			'birthcity' => getstr($_POST['birthcity'], 20, 1, 1),
 			'resideprovince' => getstr($_POST['resideprovince'], 20, 1, 1),
-			'residecity' => getstr($_POST['residecity'], 20, 1, 1)
+			'residecity' => getstr($_POST['residecity'], 20, 1, 1),
+			'academy' => getstr($_POST['academy'], 20, 1, 1),
+			'class' => getstr($_POST['class'], 20, 1, 1),
+			'signature' => getstr($_POST['signature'], 100, 1, 1),
 		);
 		
 		//性别

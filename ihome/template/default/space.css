@@ -149,6 +149,12 @@ width: 570px;
     float: none;
 }
 
+#space_page .tabs li {
+    float:left;
+    width:140px;
+    text-align:center;
+}
+
 #obar {
     margin-left: 20px; 
     float: left; 
@@ -281,7 +287,6 @@ a#i_rss {
 #space_page #mainarea { 
     padding: 0; 
     background: #FFF; 
-    margin-top:30px;
     position:static;
 } 
 #space_page .a_share{
