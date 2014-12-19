@@ -12,7 +12,7 @@
 	if ($atuid) {
 		$wheresql .= ' and atuid='.$atuid;
 	}
-	$complainQuery = $_SGLOBAL['db']->query("select distinct doid from ".tname("complain").$wheresql." order by addtime LIMIT 30");
+	$complainQuery = $_SGLOBAL['db']->query("select distinct doid from ".tname("complain").$wheresql." order by addtime DESC LIMIT 30");
 	$doids = array();
 	while ($value = $_SGLOBAL['db']->fetch_array($complainQuery)) {
 		$doids[] = $value['doid'];
@@ -23,11 +23,15 @@
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." where icon='doing' and id in (".implode(',', $doids).") order by dateline desc");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)){
 			realname_set($value['uid'], $value['username']);
+			// $value['title_template'] = "{actor}：{message}";
+			// $value['title_data'] = $value['body_data'];
+			// $value['body_template'] = '';
+			// $value['body_data'] = '';
 			$topic[] = $value;
 		}
 		realname_get();
 	}
 	$iscp = 1;
-	include_once template("exshow_list");
+	include_once template("cpexshow");
 
 ?>
