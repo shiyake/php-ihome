@@ -20,13 +20,9 @@
 
 	$topic = array();
 	if ($doids) {
-		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." where doid in (".implode(',', $doids).") order by dateline desc");
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." where icon='doing' and id in (".implode(',', $doids).") order by dateline desc");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)){
 			realname_set($value['uid'], $value['username']);
-			$value['title_template'] = "{actor}：{message}";
-			$value['title_data'] = 'a:1:{s:7:"message";s:'.strlen($value['message']).':"'.$value['message'].'";}';
-			$value['body_template'] = '';
-			$value['body_data'] = '';
 			$topic[] = $value;
 		}
 		realname_get();
