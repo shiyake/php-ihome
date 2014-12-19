@@ -4,7 +4,7 @@
 	$atuid = $_GET["atuid"]? intval(trim($_GET["atuid"])):0;
 	$width = $_GET["width"]? intval(trim($_GET["width"])):500;
 	$width = $width."px";
-	$text_width = $width-55;
+	$text_width = $width-60;
 	$height = $_GET["height"]? intval(trim($_GET["height"])):500;
 	$height = $height."px";
 
