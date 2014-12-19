@@ -69,7 +69,7 @@ var slider = function () {
 }();
 </script>
 
-<div style="width:$width; float:left;padding:0;overflow:hidden;background:white;" id="slider_outer">
+<div style="width:$width; height:$height; float:left;padding:0;overflow:hidden;background:white;" id="slider_outer">
 <!--[if IE]>
 <style type="text/css">
 #slider_outer {margin-top:-18px}
@@ -110,6 +110,9 @@ var slider = function () {
 					<!--{/if}-->
 					<!--{if empty($_TPL[hidden_time])}-->
 						<span class="gray"><!--{date('m-d H:i',$last_topic[dateline],1)}--></span>
+						<!--{if $iscp}-->
+						<a href="space.php?do=complain_item&doid={$last_topic[doid]}" style="float:right;margin-right:10px;">详情</a>
+						<!--{/if}-->
 					<!--{/if}-->
 
 				</div>
