@@ -153,6 +153,8 @@
                 </div>            
             </div>    
         </div>
+
+        <!--{if $space[groupid] != 3}-->
         <div class="profile-sex-birth">
             <p>
             $space[sex_text]
@@ -164,7 +166,7 @@
             <!--{/if}-->
             </p>
         </div>
-            
+        <!--{/if}-->
 
         <!-- comment starts 
 		<div id="space_avatar">
@@ -301,7 +303,6 @@
             <span class="icon-certificated" style="margin-left: 3px"></span>
             <!--{/if}-->
             <!--{/if}-->
-
             <!--{if !$space[self]}-->
                 <!--{if $space[groupid]!=3 && !$space['isfriend']}-->
                 <a href="cp.php?ac=friend&op=add&uid=$space[uid]" 
@@ -339,11 +340,7 @@
                 </div>
                 <!--{/if}-->
             </li>
-            
         </ul>
-
-        
-
         <div class="clearfix"></div>
     </div>
 
@@ -398,9 +395,7 @@
 					<li style="border-top-left-radius: inherit;border-top-right-radius: inherit" class="comment-to-who">
 						<a href="#comment" id="tab_content_doing_tab">别人给我的</a>
 					</li>
-					<li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit" class="comment-to-who">
 						<a href="#mycomment">我给别人的</a>
-					</li>
 				</ul>
 			</li>
 			<!--{else}-->
@@ -754,7 +749,41 @@ jQuery(function ($) {
 			}
 		});
 	});
-	
+
+    jQuery(".format_string").each(function(){
+       var text = jQuery(this).text();         
+       text = format_string(text, 6);
+       jQuery(this).text(text);
+    });
+    
+    function format_string(string, maxlen){
+        string = jQuery.trim(string);
+        var charlen = string.length;
+		var maskstring = string.replace(/[^\x00-\xff]/g, "**");
+		var bytelen = maskstring.length;
+
+        if(bytelen > charlen) {
+            if(bytelen > maxlen) {
+                var count = 0;
+                for(var i = 0; i < maxlen; i++) {
+                    count++;
+                    if(maskstring[i] === '*') {
+                        if(i + 1 >= maxlen) {
+                            break;
+                        }
+                        i++;
+                    } 
+                }
+                return string.substr(0, count) + '...';
+            }
+        } else {
+            if(charlen > maxlen) {
+                return string.substr(0, maxlen) + '...';
+            }
+        }
+        return string;
+    }
+
 	function cut_string(string,num){
         var str = string.split('.');
         var s_length = str.length;
@@ -767,9 +796,6 @@ jQuery(function ($) {
 			return string;
 		}        
 	}
-	
-	
-
 });
 </script>
 				<form class="clearfix" action="cp.php?ac=comment" id="quick_commentform_{$space[uid]}" name="quick_commentform_{$space[uid]}" method="post" style="padding: 0px 0px 20px;">
@@ -937,9 +963,9 @@ jQuery(function ($) {
 						<!--{if $value[vusername] == ''}-->
 						<a href="#">匿名</a>
 						<!--{else}-->
-						<a href="space.php?uid=$value[vuid]" 
-							title="{$_SN[$value[vuid]]}">
-							{$_SN[$value[vuid]]}
+						<a class="format_string" href="space.php?uid=$value[vuid]" 
+                            title="{$_SN[$value[vuid]]}">
+                            <!--{$_SN[$value[vuid]]}-->
 						</a>
 						<!--{/if}-->
 					</p>
@@ -963,14 +989,38 @@ jQuery(function ($) {
 				<!--{loop $friendlist $value}-->
 				<li>
 				<div class="avatar48"><a href="space.php?uid=$value[fuid]"><!--{avatar($value[fuid],small)}--></a></div>
-				<p<!--{if $ols[$value[fuid]]}--> class="online_icon_p"<!--{/if}-->><a href="space.php?uid=$value[fuid]">{$_SN[$value[fuid]]}</a></p>
+                <p<!--{if $ols[$value[fuid]]}--> class="online_icon_p"<!--{/if}-->>
+                <a class="format_string" href="space.php?uid=$value[fuid]">
+                        <!--{$_SN[$value[fuid]]}-->
+                </a>
+                </p>
 				</li>
 				<!--{/loop}-->
 			</ul>
 		</div>
 		<!--{/if}-->
+        <!--{if $hotpoll}-->
+        <div class="sidebox border-bottom-none" style="border-top:1px solid #dcdcdc; padding:10px 0;" >
+            <h4 class="title">
+                <p class="r_option" style="margin-top:2px;">
+                <a href="space.php?uid=$space[uid]&do=poll&view=hot">查看全部</a>
+                </p>热门投票
+            </h4>
+            <ul class="feed_news_list poll_new">
+                <!--{loop $hotpoll $key $value}-->
+                <li style="height:auto;">
+                <a href="space.php?uid=$value[uid]&do=poll&pid=$value[pid]"> 
+                    $value[subject]
+                </a>
+                </li>
+                <!--{/loop}-->
+            </ul> 
+        </div>
+        <!--{/if}-->
+
+
 		<!--{if !empty($recommendpublic)}-->
-		<div id="recpub" class="sidebox border-bottom-none" style="border-top:1px solid #dcdcdc">
+		<div id="recpub" class="sidebox border-bottom-none" style="border-top:1px solid #dcdcdc; padding:10px 0;">
 			<h4 class="title">
 			公共主页推荐
 			<!--{if !$allflag}-->
@@ -1106,6 +1156,8 @@ jQuery(function ($) {
 		</script>
 		</div>
 		<!--{/if}-->
+        
+        
 
 	</div>
 </div>

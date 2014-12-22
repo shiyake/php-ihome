@@ -110,7 +110,7 @@ $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('visitor')." WHERE uid='$
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 	if($value['vusername']) {
 		realname_set($value['vuid'], $value['vusername']);
-	}
+    }
 	$value['isfriend'] = 0;
 	if($space['friends'] && in_array($value['vuid'], $space['friends'])) {
 		$value['isfriend'] = 1;
@@ -290,6 +290,15 @@ if($oluids) {
 			unset($visitorlist[$value['uid']]);
 		}
 	}
+}
+
+$timerange = $_SGLOBAL['timestamp']-25920000;
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE lastvote >= '$timerange' ORDER BY  voternum DESC LIMIT 3 ");
+while($value = $_SGLOBAL['db']->fetch_array($query))
+{
+
+    realname_set($value['uid'], $value['username']);//ʵÃ
+    $hotpoll[] = $value;
 }
 
 //ￓﾦￓￃￏￔￊﾾ
