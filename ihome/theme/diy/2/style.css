@@ -1,4 +1,8 @@
 .navbar-fixed-top { background-color: #0a90c4 !important;}
+#change_theme {
+    border-top:27px solid #0a90c4 !important;
+}
+
 body { background-color:#a4dcf9 !important; color:#333333 !important; }
 a { color:#2b96e1; }
 #mainareafg a { color:#2b96e1;}
