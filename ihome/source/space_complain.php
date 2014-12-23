@@ -200,6 +200,8 @@ if ($_GET['view'] == 'rank') {
                 realname_set($value['atuid'], $value['atuname']);
                 if ($memdoid == $value['doid']) {
                     if (!in_array($value['atuid'], $clist[count($clist)-1]['atuid'])) {
+                        $temp = $clist[count($clist)-1]['clear'];
+                        $clist[count($clist)-1]['clear'] = intval($value['status'])==0?0:$temp;
                         $clist[count($clist)-1]['atuid'][] = $value['atuid'];
                         $clist[count($clist)-1]['atuname'][] = $value['atuname'];
                         $clist[count($clist)-1]['times'][] = $value['times'];
@@ -207,6 +209,7 @@ if ($_GET['view'] == 'rank') {
                     }
                 } else {
                     $memdoid = $value['doid'];
+                    $value['clear'] = intval($value['status'])>=1&&intval($value['status'])<=3?1:0;
                     $value['atuid'] = array($value['atuid']);
                     $value['atuname'] = array($value['atuname']);
                     $value['times'] = array($value['times']);

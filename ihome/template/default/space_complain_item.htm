@@ -39,7 +39,7 @@
                             <textarea name="message" class="t_input" id="complain_op_msg" onkeydown="auto_grow(this)" style="width:80%" onfocus="at()"></textarea>
                             <a href="javascript:;" class="drop_face comment_face"><div></div></a>
                             <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
-                            <div class="comment"><button type="button">评论</button></div>
+                            <div class="comment"><button type="button"><!--{if $complain[uid] == $_SGLOBAL[supe_uid]}-->回复<!--{else}-->评论<!--{/if}--></button></div>
                             <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
                             <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
                             <!--{/if}-->
@@ -95,6 +95,14 @@
                                     show('fail');
                             }
                         });
+                    }
+                });
+                jQuery("#complain_op_msg").on('change keyup', function(e) {
+                    var msg = trim(jQuery('#complain_op_msg').val());
+                    if ((msg.match(/@.*?\(\d+\)/g)||"").length) {
+                        jQuery('#reply_doing').addClass('disabled').attr('disabled','disabled');
+                    } else {
+                        enableButtons();
                     }
                 });
             });
