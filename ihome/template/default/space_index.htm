@@ -132,26 +132,7 @@
                 </ul>
             </div>
             <!--{/if}-->
-            <!--{if $dept || $space[groupid]==3}-->
-			<!--{eval $depduty = $dept ? $dept[depduty] : $space[depduty]}-->
-				<li>部门职能：<div><!--{if $depduty}-->&nbsp;&nbsp;<!--{/if}-->$depduty</div></li>
-            <!--{else}-->
-				<!--{if $space[sex]}-->
-					<li>性别：$space[sex]</li>
-				<!--{/if}-->
-				
-				<!--{if $space[residecity]}-->
-					<li>居住：$space[residecity]</li>
-				<!--{/if}-->
-
-				<!--{if $space[birthcity]}-->
-					<li>家乡：$space[birthcity]</li>
-				<!--{/if}-->
-
-				<!--{if $space[college]}-->
-					<li>院系：$space[college]</li>
-				<!--{/if}-->
-			<!--{/if}-->
+            
 		</ul>
         </div>
     </div>

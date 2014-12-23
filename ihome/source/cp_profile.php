@@ -242,7 +242,7 @@ if($_GET['op'] == 'base') {
 	}
 	//婚姻
 	$marryarr = array($space['marry'] => ' selected');
-	
+
 	//栏目表单
 	$profilefields = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('profilefield')." ORDER BY displayorder");
