@@ -702,6 +702,7 @@ function feed_add($icon, $title_template='', $title_data=array(), $body_template
 	
 	//去重
 	$query = $_SGLOBAL['db']->query("SELECT feedid FROM ".tname('feed')." WHERE uid='$feedarr[uid]' AND hash_data='$feedarr[hash_data]' LIMIT 0,1");
+	
 	if($oldfeed = $_SGLOBAL['db']->fetch_array($query)) {
 		updatetable('feed', $feedarr, array('feedid'=>$oldfeed['feedid']));
 		return 0;

@@ -12,6 +12,7 @@ $_SGLOBAL['cplang'] = array(
 	'feed_comment_image' => '{actor} 评论了 {touser} 的图片',
 	'feed_comment_video' => '{actor} 评论了 {touser} 上传的视频',
 	'feed_comment_blog' => '{actor} 评论了 {touser} 的日志 {blog}',
+	'feed_comment_job' => '{actor} 评论了 {touser} 的工作 {job}',
 	'feed_comment_arrangement' => '{actor} 评论了 {touser} 的校园日历 {arrangement}',
 	'feed_comment_poll' => '{actor} 评论了 {touser} 的投票 {poll}',
 	'feed_comment_event' => '{actor} 在 {touser} 组织的活动 {event} 中留言了',
@@ -26,6 +27,8 @@ $_SGLOBAL['cplang'] = array(
 	'note_video_comment_reply' => '回复了你的<a href="\\1" target="_blank">视频评论</a>',
 	'note_blog_comment' => '评论了你的日志 <a href="\\1" target="_blank">\\2</a>',
 	'note_blog_comment_reply' => '回复了你的<a href="\\1" target="_blank">日志评论</a>',
+	'note_job_comment' => '评论了你的工作 <a href="\\1" target="_blank">\\2</a>',
+	'note_job_comment_reply' => '回复了你的<a href="\\1" target="_blank">工作评论</a>',
 	'note_arrangement_comment' => '评论了你的校园日历 <a href="\\1" target="_blank">\\2</a>',
 	'note_arrangement_comment_reply' => '回复了你的<a href="\\1" target="_blank">校园日历评论</a>',
 	'note_poll_comment' => '评论了你的投票 <a href="\\1" target="_blank">\\2</a>',
@@ -58,7 +61,7 @@ $_SGLOBAL['cplang'] = array(
 	'note_complain_credit_failed' => '【温馨提示】您的积分不够,诉求发起失败,已转成普通<a href="\\1" target="_blank">记录</a>!',
 	
 	'note_complain_buchu' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,如不及时处理,此诉求将于\\2上报给负责人处',
-	'note_complain_buchu1' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,已上报给处长，如不及时处理,此诉求将于\\2上报给主管副校长',
+	'note_complain_buchu1' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,已上报给负责人，如不及时处理,此诉求将于\\2上报给主管副校长',
 	'note_complain_buchu2' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长',
 	'note_complain_buchu3' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处',
 	'note_complain_chuzhang' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>待处理，如不及时处理，此诉求将于\\2上报给主管副校长处',
@@ -69,7 +72,7 @@ $_SGLOBAL['cplang'] = array(
 	'note_complain_xiaozhang' => '【温馨提示】\\2有<a href="\\1" target="_blank">一条诉求</a>未处理',
 	
 	
-	'note_complain_user' => '【温馨提示】您发布的<a href="\\1" target="_blank">一条诉求</a>由于\\2未及时回复.已上报给\\3处',
+	'note_complain_user' => '【温馨提示】您发起的<a href="\\1" target="_blank">一条诉求</a>由于\\2未及时回复.已上报给\\3处',
 	
 	
 	'note_doingcomplain_at' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理，此诉求将于\\2上报给负责人处',
@@ -105,6 +108,7 @@ $_SGLOBAL['cplang'] = array(
 	'poke_subject' => '<a href="\\2" target="_blank">\\1 向你打招呼</a>',
 	'mtag_reply' => '<a href="\\2" target="_blank">\\1 回复了你的话题</a>',
 	'event_comment' => '<a href="\\2" target="_blank">\\1 评论了你的活动</a>',
+	'job_comment' => '<a href="\\2" target="_blank">\\1 评论了你的工作</a>',
 
 	'friend_pm_reply' => '\\1 回复了你的私信',
 	'comment_friend_reply' => '\\1 回复了你的留言',
@@ -114,6 +118,7 @@ $_SGLOBAL['cplang'] = array(
 	'poll_comment_reply' => '\\1 回复了你的投票评论',
 	'share_comment_reply' => '\\1 回复了你的分享评论',
 	'event_comment_reply' => '\\1 回复了你的活动评论',
+	'job_comment_reply' => '\\1 回复了你的工作评论',
     //公共主页
 	'note_public_apply' => '有新的公共主页申请，<a href="\\1" target="_blank">请点击处理</a>',
 	'note_no_mtag' => '有新的校友等待激活认证，<a href="\\1" target="_blank">请你点击以下链接，接受校友认证</a>',
@@ -178,6 +183,8 @@ $_SGLOBAL['cplang'] = array(
 	'note_share_doing' => '分享了你的<a href="\\1" target="_blank">一条记录</a>',
 	'share_blog' => '分享了一篇日志',
 	'note_share_blog' => '分享了你的日志 <a href="\\1" target="_blank">\\2</a>',
+	'share_job' => '分享了一篇招聘信息',
+	'note_share_job' => '分享了你的招聘信息 <a href="\\1" target="_blank">\\2</a>',
 	'share_arrangement' => '分享了一篇校园日历',
 	'note_share_arrangement' => '分享了你的校园日历 <a href="\\1" target="_blank">\\2</a>',
 	'share_album' => '分享了一个相册',
@@ -225,6 +232,8 @@ $_SGLOBAL['cplang'] = array(
 	'feed_blog_password' => '{actor} 发表了新加密日志 {subject}',
 	'feed_blog' => '{actor} 发表了新日志',
 	'feed_arrangement' => '{actor} 发布了一篇新的校园日历',
+	'feed_calendar' => '{actor} 发布了新日历',
+	'calendar_send_msg' => '日历<a href="\\1" target="_blank">\\2</a>事件还有\\3分钟后开始',
 	'feed_poll' => '{actor} 发起了新投票',
 	'note_poll_finish' => '您发起的<a href="\\1" target="_blank">《\\2》</a>的投票已结束,<a href="\\1" target="_blank">去写写投票总结</a>',
 	'take_part_in_the_voting' => '{actor} 参与了 {touser} 的{reward}投票 <a href="{url}" target="_blank">{subject}</a>',
@@ -246,6 +255,7 @@ $_SGLOBAL['cplang'] = array(
 	'space_open_subject' => '快来打理一下您的个人主页吧',
 	'space_open_message' => 'hi，我今天去拜访了一下您的个人主页，发现您自己还没有打理过呢。赶快来看看吧。地址是：\\1space.php',
 	'feed_space_open' => '{actor} 开通了自己的个人主页',
+	'feed_complain' => '{actor} 发布了一条诉求',
 	
 	'feed_profile_update_base' => '{actor} 更新了自己的基本资料',
 	'feed_profile_update_contact' => '{actor} 更新了自己的联系方式',

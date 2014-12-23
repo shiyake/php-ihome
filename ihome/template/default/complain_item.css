@@ -25,6 +25,19 @@
 	width: 70px;
 	height: 30px;
 	padding: 6px 17px;
+	margin-bottom: 6px;
+}
+.complain_dep {
+	width: 111px;
+	height: 30px;
+	padding: 6px;
+	margin-bottom: 6px;
+}
+.complain_dep p {
+	color: #666;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .complain_status.complain_doing {
 	color: #006b93;
@@ -77,7 +90,7 @@
 }
 .feed_li_inner.bubble .fcomment:before {
 	content: '';
-	width: 440px;
+	width: 439px;
 	height: 10px;
 	border-top: 1px solid #dcdcdc;
 	display: block;
@@ -101,31 +114,75 @@
 	margin-left:10px;
 	width:353px !important;
 }
-#complain_op_form {
-	margin-left: 10px;
-}
-#complain_op_form div.mood_say_something input {
-	margin-left: 2px;
-}
-#complain_op_form textarea, #complain_op_form .demo, #complain_op_form .mood_say_something {
-	margin-left: 0;
-}
-#complain_op_form .demo .drop_face {
-	float: left;
-}
-#complain_op_form .demo .mood_submit {
-	float: left;
-}
-#complain_op_form .demo .mood_submit button {
-	padding: 1px 12px;
-	font-size: 16px;
-	margin-left: 6px;
-}
-#complain_op_form label {
-	color:#777;
-	font-weight: normal;
-	margin-right: 12px;
-}
 .forward_tip {
 	color:#777;
+}
+#relay_depid {
+	width: 150px;
+}
+#relay_depids {
+	display: none;
+	position: absolute;
+	width: 152px;
+	max-height: 290px;
+	overflow-y: auto;
+	left: 92px;
+	background: white;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+#relay_depids li {
+	padding: 5px 10px;
+	border-bottom: 1px solid #DDD;
+	cursor: pointer;
+}
+#relay_depids li:hover {
+	background: #3366FF;
+	color: white;
+}
+.all_complain_deps, .all_complain_status {
+	display: inline-table;
+}
+.complain_op {
+	margin-bottom: 10px;
+}
+#complain_op_msg {
+	display: inline-block;
+	border-radius: 5px;
+	padding: 6px 12px;
+	height: 29px;
+	overflow: hidden;
+	vertical-align: bottom;
+}
+.complain_op .reply {
+	margin: 5px 0 10px 0;
+}
+#complain_op_form button {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 20px;
+	background-color: #65d8bb;
+	color: #FFF;
+	border: none;
+	padding: 5px 10px;
+}
+#complain_op_form button.disabled {
+	opacity: 0.5;
+}
+#complain_op_form button:not(.disabled):hover {
+	background-color: #2fb895;
+}
+.complain_op .comment {
+	display: inline-block;
+}
+#complain_op_form .drop_face {
+	display: inline-block;
+	margin-bottom: 5px;
+}
+a.complain_plain_comment {
+	color: #DB5F7C !important;
+}
+a.complain_dep_reply {
+	color: #2b96e1 !important;
 }

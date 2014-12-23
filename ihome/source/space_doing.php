@@ -30,6 +30,12 @@ if($_GET['view'] == 'all') {
 	$theurl = "space.php?uid=$space[uid]&do=$do&view=all";
 	$f_index = 'USE INDEX(dateline)';
 	$actives = array('all'=>' class="active"');
+
+	$atuid = empty($_GET['atuid'])?0:intval($_GET['atuid']);
+	if ($atuid) {
+		$theurl .= "&atuid=$atuid";
+		$wheresql .= " and doid in (select distinct doid from ".tname('complain')." where status!=4 and atuid=$atuid)";
+	}
 	
 } else {
 	

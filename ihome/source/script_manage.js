@@ -38,6 +38,7 @@ function share_add(sid, result) {
 //添加评论
 function comment_add(id, result) {
 	result=1;
+	console.log('done');return false;
     if(result) {
 		var obj = $('comment_ul');
 		var newli = document.createElement("div");
@@ -106,6 +107,40 @@ function feed_delete(id, result) {
 		var obj = $('feed_'+ feedid +'_li');
 		obj.style.display = "none";
 		
+	}
+}
+//编辑一个日历
+function calendar_add(id,result){
+	result=1;
+    if(result) {
+		var ids = explode('_', id);
+		var obj = $('my_calendar_list');
+		var x = new Ajax();
+		x.get('do.php?ac=ajax&op=calendar', function(s){
+			obj.innerHTML = s;
+		});
+	}
+}
+//编辑一个日历
+function calendar_edit(id,result){
+	result=1;
+    if(result) {
+		var ids = explode('_', id);
+		var cid = ids[1];
+		var obj = $('calendar_list_'+ cid +'_li');
+		var x = new Ajax();
+		x.get('do.php?ac=ajax&op=calendar&calendar_id='+ cid, function(s){
+			obj.innerHTML = s;
+		});
+	}
+}
+//删除一个日历
+function calendar_delete(id,result){
+	if(result) {
+		var ids = explode('_', id);
+		var feedid = ids[1];
+		var obj = $('calendar_list_'+ feedid +'_li');
+		obj.style.display = "none";
 	}
 }
 
@@ -598,4 +633,30 @@ function getgroup(gid) {
 			$('target_names').innerHTML += s;
 		});
 	}
+}
+
+function upvote(feedid) {
+	if (isNaN(feedid)) { return; }
+	var _this = jq('#feed_up_'+feedid);
+	_this.removeAttr('onclick');
+	_this.unbind('click');
+	jq.get('cp.php?ac=feed&op=upvote&feedid='+feedid, function(data){
+		if (data=='-1') {
+			_this.click(function(){
+				upvote(feedid);
+			});
+		} else if (!isNaN(data)) {
+			var upvotes = parseInt(data);
+			var content = _this.html();
+			_this.html(content.replace(/赞.*/,"赞("+upvotes+")")).css({
+				'color':'gray',
+				'cursor':'default'
+			});
+		} else {
+			_this.click(function(){
+				upvote(feedid);
+			});
+		}
+		
+	});
 }

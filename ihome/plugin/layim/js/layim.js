@@ -48,6 +48,7 @@ var config = {
         'aloha'
     ],
     audio: [
+        'api/im/sound/msg.wav',
         'api/im/sound/nyaa.wav',
         'api/im/sound/kuma.wav',
         'api/im/sound/feuer.wav'
@@ -113,7 +114,7 @@ xxim.expend = function(){
         node.layimTop.stop().animate({height: 0}, config.aniTime, function(){
             node.xximon.addClass('xxim_off');
             try{
-                localStorage.layimState = 1;
+                sessionStorage.layimState = 1;
             }catch(e){}
             xxim.layimNode.attr({state: 1});
             node.layimFooter.addClass('xxim_expend');
@@ -125,7 +126,7 @@ xxim.expend = function(){
         node.layimTop.show().stop().animate({height: config.height}, config.aniTime, function(){
             node.xximon.removeClass('xxim_off');
             try{
-                localStorage.layimState = 2;
+                sessionStorage.layimState = 2;
             }catch(e){}
             xxim.layimNode.removeAttr('state');
             node.layimFooter.removeClass('xxim_expend');
@@ -142,13 +143,10 @@ xxim.layinit = function(){
     
     //主界面
     try{
-        /*
-        if(!localStorage.layimState){       
-            config.aniTime = 0;
-            localStorage.layimState = 1;
-        }
-        */
-        if(localStorage.layimState === '1'){
+        // if(!sessionStorage.layimState){
+            sessionStorage.layimState = 1;
+        // }
+        if(sessionStorage.layimState === '1'){
             xxim.layimNode.attr({state: 1});
             node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
@@ -188,7 +186,6 @@ xxim.popchat = function(param, status){
             xxim.chatbox = null;
             config.chating = {};
             config.chatings = 0;
-            jQuery('body').css('overflow','auto');
         });
         
         //关闭某个聊天
@@ -422,14 +419,17 @@ xxim.popchatbox = function(othis){
         chatbox.parents('.xubox_layer').show();
     }
 
-    jQuery("#layim_chatbox").hover(
-        function () {
-            jQuery('body').css('overflow','hidden');
-        },
-        function () {
-            jQuery('body').css('overflow','auto');
+    jQuery(".layim_chatthis").on('scroll touchmove mousewheel', function(e){
+        var delta = e.originalEvent.wheelDelta;
+        if ((delta < 0 && this.clientHeight + this.scrollTop == this.scrollHeight) ||
+            (delta > 0 && this.scrollTop == 0)) {
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
         }
-    );
+
+        return true;
+    });
 };
 
 //请求群员
@@ -469,11 +469,10 @@ xxim.fancyDate = function(time, type) {
     }
     date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
 
-    var start = 0;
     if (type != 'long') {
-        start = -13;
+        return date.toJSON().replace(/.*T/,'').replace(/:[^:]*Z/,'');
     }
-    return date.toJSON().replace('T',' ').slice(start,-5);
+    return date.toJSON().replace(/T/,' ').replace(/:[^:]*Z/,'');
 };
 
 xxim.html = function(param, type){
@@ -523,6 +522,16 @@ xxim.transmit = function(){
             var keys = xxim.nowchat.type + xxim.nowchat.id;
             
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+
+            var track = parseInt(localStorage.iTrack) || 0;
+            if (!track && /长尾景虎|阿斯图里亚斯|Asturias|回老家结婚/.test(data.content)) {
+                track = Math.floor(Math.random()*config.audio.length);
+                localStorage.iTrack = track;
+                if (track) {
+                    var audio = new Audio(config.audio[track]);
+                    audio.play();
+                }
+            }
 
             log.imarea.append(xxim.html({
                 time: xxim.fancyDate(),
@@ -621,8 +630,9 @@ xxim.update = function(version){
             }
 
             if (config.audio.length) {
-                var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
-                // var audio = new Audio(config.audio[0]);
+                // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
+                var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
+                var audio = new Audio(config.audio[track]);
                 audio.play();
             }
         }
@@ -832,8 +842,8 @@ xxim.view = function(){
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
             +'</div>'
             +'<ul class="xxim_bottom" id="xxim_bottom">'
-            +'<li class="xxim_mymsg" id="xxim_mymsg" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
-            +'<li class="xxim_hide" id="xxim_hide"><i></i></li>'
+            +'<li class="xxim_mymsg" id="xxim_mymsg" data-toggle="tooltip" data-placement="top" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
+            +'<li class="xxim_hide" id="xxim_hide" data-toggle="tooltip" data-placement="top" title="折叠切换"><i></i></li>'
             +'<div class="layim_min" id="layim_min"></div>'
         +'</ul>'
     +'</div>');
@@ -846,6 +856,10 @@ xxim.view = function(){
     xxim.update();
     jQuery.get('source/face.js', {}, function(data){
         eval(data);
+    });
+    jQuery('[data-toggle="tooltip"]').tooltip();
+    jQuery('.xxim_bottom').click(function(){
+        jQuery('.xxim_bottom .tooltip').hide();
     });
 };
 

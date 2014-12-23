@@ -173,7 +173,7 @@ function evalscript(s) {
 	var p = /<script[^\>]*?>([^\x00]*?)<\/script>/ig;
 	var arr = new Array();
 	while (arr = p.exec(s)) {
-		var p1 = /<script[^\>]*?src=\"([^\>]*?)\"[^\>]*?(reload=\"1\")?(?:charset=\"([\w\-]+?)\")?><\/script>/i;
+		var p1 = /<script[^\>]*?src=\"([^\>]*?)\"[^\>]*?(reload=\"1\")?\s*(?:charset=\"([\w\-]+?)\")?><\/script>/i;
 		var arr1 = new Array();
 		arr1 = p1.exec(arr[0]);
 		if (arr1) {

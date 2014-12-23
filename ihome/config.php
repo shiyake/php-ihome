@@ -7,7 +7,7 @@ function __env($key, $default="") {
 
 $DEFAULT_HOST = "localhost";
 $DEFAULT_USER = "root";
-$DEFAULT_PWD = "nameLR9969";
+$DEFAULT_PWD = "root";
 
 $host = __env("IHOME_DBHOST", $DEFAULT_HOST);
 $user = __env("IHOME_DBUSER", $DEFAULT_USER);
@@ -70,8 +70,3 @@ $_SC['dbrcharset'] 		= 'utf8';
 $_SC['rpconnect'] 		= 0; 
 $_SC['dbrname']  		= 'ihome'; 
 
-//mongodb config
-$_SC['mdbhost'] = $mongo_host;
-$_SC['mdbuser'] = $mongo_user;
-$_SC['mdbpass'] = $mongo_pwd;
-$_SC['mdbname'] = 'ihome';

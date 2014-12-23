@@ -22,10 +22,10 @@ function $(id) {
 					<?php } elseif($errorcode == UC_LOGIN_ERROR_ADMIN_PW) { ?><div class="errormsg loginmsg"><p><em>登录失败!</em><br />用户名无效，或密码错误。</p></div>
 					<?php } elseif($errorcode == UC_LOGIN_ERROR_ADMIN_NOT_EXISTS) { ?><div class="errormsg loginmsg"><p>该管理员不存在</p></div>
 					<?php } elseif($errorcode == UC_LOGIN_ERROR_SECCODE) { ?><div class="errormsg loginmsg"><p>验证码输入错误</p></div>
-					<?php } elseif($errorcode == UC_LOGIN_ERROR_FAILEDLOGIN) { ?><div class="errormsg loginmsg"><p>密码重试次数过多，请十五分钟后再重新尝试</p></div>
+					<?php } elseif($errorcode == UC_LOGIN_ERROR_FAILEDLOGIN) { ?><div class="errormsg loginmsg"><p>密码重试次数过多，请15min后再重新尝试</p></div>
 					<?php } ?>
 					<p>
-						<input type="radio" name="isfounder" value="1" class="radio" <?php if((isset($_POST['isfounder']) && $isfounder) || !isset($_POST['isfounder'])) { ?>checked="checked"<?php } ?> onclick="$('username').value='UCenter Administrator'; $('username').readOnly = true; $('username').disabled = true; $('password').focus();" id="founder" /><label for="founder">创始人</label>
+						<input type="radio" name="isfounder" value="1" class="radio" <?php if((isset($_POST['isfounder']) && $isfounder) || !isset($_POST['isfounder'])) { ?>checked="checked"<?php } ?> onclick="$('username').value='I'; $('username').readOnly = true; $('username').disabled = true; $('password').focus();" id="founder" /><label for="founder">创始人</label>
 						<input type="radio" name="isfounder" value="0" class="radio" <?php if((isset($_POST['isfounder']) && !$isfounder)) { ?>checked="checked"<?php } ?> onclick="$('username').value=''; $('username').readOnly = false; $('username').disabled = false; $('username').focus();" id="admin" /><label for="admin">管理员</label>
 					</p>
 					<p id="usernamediv">用户名:<input type="text" name="username" class="txt" tabindex="1" id="username" value="<?php echo $username;?>" /></p>
@@ -39,7 +39,7 @@ function $(id) {
 </div>
 <script type="text/javascript">
 <?php if((isset($_POST['isfounder']) && $isfounder) || !isset($_POST['isfounder'])) { ?>
-	$('username').value='UCenter Administrator';
+	$('username').value='I';
 	$('username').disabled = true;
 	$('username').readOnly = true;
 	$('password').focus();

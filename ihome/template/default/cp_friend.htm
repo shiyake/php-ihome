@@ -112,7 +112,7 @@ var myfriend_post = __reloadAfter(myfriend_post);
 		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
 		<!--{if $_SGLOBAL[inajax]}-->
 		<input type="hidden" name="friendsubmit" value="true" />
-		<button name="friendsubmit_btn" type="button" class="btn btn-comments btn-sm submit" value="true" onclick="ajaxpost('friendform_{$uid}', 'friend_delete', 2000)">确定</button>
+		<button name="friendsubmit_btn" type="button" class="btn btn-comments btn-sm submit" value="true" onclick="ajaxpost('friendform_{$uid}', 'friend_delete', 2000, function(){location.reload()})">确定</button>
 		<!--{else}-->
 		<button name="friendsubmit" type="submit" class="btn btn-comments btn-sm submit" value="true">确定</button>
 		<!--{/if}-->

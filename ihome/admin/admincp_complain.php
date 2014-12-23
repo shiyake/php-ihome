@@ -152,6 +152,32 @@ if($type == 'forleaders' && $superuid == 3){
 		
 		header("Location:admincp.php?ac=complain&type=setting");exit();
 	}
+    $where = "1 ";
+    $dept_uid = $_GET['dept_uid'] ? trim($_GET['dept_uid']) : '';
+    $department = $_GET['department'] ? trim($_GET['department']) : '';
+    $up_uid = $_GET['up_uid'] ? trim($_GET['up_uid']) : '';
+    $official = $_GET['official'] ? trim($_GET['official']) : '';
+    $isdept = $_GET['isdept'] ? trim($_GET['isdept']) : '0';
+    $mobile = $_GET['mobile'] ? trim($_GET['mobile']) : '0';
+    if ($dept_uid != "") {
+        $where .= " and dept_uid = $dept_uid";
+    }
+    if ($department != "") {
+        $where .= " and department like '%{$department}%'";
+    }
+    if ($up_uid != "") {
+        $where .= " and up_uid = $up_uid";
+    }
+    if ($official != "") {
+        $where .= " and official like '%{$official}%'";
+    }
+    if ($isdept != "") {
+        $where .= " and isdept = $isdept";
+    }
+    if ($mobile != "0") {
+        $tmobile = M_encode($mobile,$aeskeyMobile);
+        $where .= " and mobile = '$tmobile'";
+    }
 	if($submit == '修改'){
 		$pid = trim($_GET['pid']);
 		$dept_uid = $_GET['dept_uid'] ? trim($_GET['dept_uid']) : '';
@@ -208,7 +234,7 @@ if($type == 'forleaders' && $superuid == 3){
 	}
 	$Powerlevel = array();//存放powerlevel记录
 	
-	$mpurl = "admincp.php?uid=$uid&uname=$uname&message=$message&atuname=$atuname&ac=complain&type=setting";
+	$mpurl = "admincp.php?dept_uid=$dept_uid&department=$department&up_uid=$up_uid&official=$official&isdept=$isdept&mobile=$mobile&ac=complain&type=setting";
 	$perpage = 30;
 	$page = empty($_GET['page'])?1:intval($_GET['page']);
 	if($page<1) $page = 1;
@@ -216,9 +242,9 @@ if($type == 'forleaders' && $superuid == 3){
 	//检查开始数
 	ckstart($start, $perpage);
 	
-	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('powerlevel')), 0);
+	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('powerlevel'). " where $where"), 0);
 	if($count) {
-		$PowerlevelQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('powerlevel')." LIMIT $start,$perpage");
+		$PowerlevelQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('powerlevel')." where $where LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($PowerlevelQuery)) {	
 			$value['mobile'] = M_decode($value['mobile'],$aeskeyMobile);
 			$Powerlevel[] = $value;
@@ -242,6 +268,12 @@ if($type == 'forleaders' && $superuid == 3){
     }
 	
 }elseif($type == 'complains'){
+	$removedoid = $_GET['remove'] ? intval($_GET['remove']) : 0;
+	if ($removedoid) {
+		include_once(S_ROOT.'./source/function_delete.php');
+        deletedoings(array($removedoid));
+        showmessage('do_success', $_SERVER['HTTP_REFERER']);
+	}
 	$tab = 1;
 	$Complains = array();//存放complain记录
 	
@@ -269,19 +301,30 @@ if($type == 'forleaders' && $superuid == 3){
 
 	$isSearch = FALSE;
 	if($uid = $_GET['uid'] ? trim($_GET['uid']) : ''){
-		$wheresql .= " AND temp.uid=$uid";
+		$wheresql .= " AND uid=$uid";
 	}
 	if($uname = $_GET['uname'] ? trim($_GET['uname']) : ''){
-		$wheresql .= " AND temp.uname like '%$uname%'";
+		$wheresql .= " AND uname like '%$uname%'";
 	}	
 	if($times = $_GET['times'] ? trim($_GET['times']) : ''){
-		$wheresql .= " AND temp.times = $times";
+		$wheresql .= " AND times = $times";
 	}
 	if($atuname = $_GET['atuname'] ? trim($_GET['atuname']) : ''){
-        $wheresql .= " AND temp.atuname = '$_GET[atuname]'";
+        $wheresql .= " AND atuid = $_GET[atuname]";
 	}
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
-        $wheresql .= " and temp.status=$status";
+		$status = intval($_GET['status']);
+		switch ($status) {
+			case 1:
+				$wheresql .= " and status in (1,3)";
+				break;
+			case 2:
+				$wheresql .= " and status in (2,4)";
+				break;
+			default:
+				$wheresql .= " and status=$status";
+				break;
+		}
 	}
 	$where = " WHERE ".$wheresql;
 
@@ -295,7 +338,7 @@ if($type == 'forleaders' && $superuid == 3){
 	$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(DISTINCT doid,atuid) FROM ".tname('complain')." temp".$where), 0);
 	if($count) {
 		include_once S_ROOT.'./data/powerlevel/powerlevel.php';
-		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." LIMIT $start,$perpage");
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp".$where." ORDER BY addtime desc LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$value['addtime'] = date("Y-m-d H:i",$value['addtime']);
 			realname_set($value['uid'], $value['uname']);
@@ -343,10 +386,23 @@ if($type == 'forleaders' && $superuid == 3){
 	$startTime = strtotime($startDay);
 	$endTime = strtotime($endDay);
 	$endTime = strtotime("+1 days",$endTime);
-	
+	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
+
+	if ($_GET['extra']=='download') {
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=data.csv');
+
+		$output = fopen('php://output', 'w');
+		fputcsv($output, array('用户编号', '姓名', '学号', '邮件', '手机', '诉求数'));
+
+		$query = $_SGLOBAL['db']->query("select c.uid uid, s.realname realname, collegeid, email, s.mobile mobile, count(distinct c.doid) count from ".tname("complain")." c left join ".tname("spacefield")." s on s.uid=c.uid left join ".tname("baseprofile")." b on c.uid = b.uid ".$sql_where." group by uid order by count desc");
+
+		// loop over the rows, outputting them
+		while ($row = $_SGLOBAL['db']->fetch_array($query)) fputcsv($output, $row);
+		exit();
+	}
 	$times = $_GET['times'] ? trim($_GET['times']) : 0;
 
-	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
 	if($times != 0)
 		$sql_where .= " AND times=".$times;
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp ".$sql_where);
@@ -365,7 +421,7 @@ if($type == 'forleaders' && $superuid == 3){
         if ($value['status'] == 0) {
             $complains[$value['atuid']]['running']++;
             $runningNum++;
-        } elseif ($value['status'] == 1) {
+        } elseif ($value['status'] == 1 || $value['status'] == 3) {
             $complains[$value['atuid']]['done']++;
             $doneNum++;
         } else {

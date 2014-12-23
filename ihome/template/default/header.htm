@@ -217,6 +217,20 @@ jq1(document).ready(function(){
 function searchSubmit()	{
     jq("#head_search").submit()
 }
+function check_calendar(){
+	var url = 'do.php?ac=ajax&op=checkcalendarstart&rand='+Math.random();
+	jq.getJSON(url,function(data){
+		if(data.data_staus>0){
+			var msg = '';
+			for(var i=0;i<data.date.length;i++){
+				msg += data.date[i];
+			}
+			if(msg.length >0){
+				alert(msg);
+			}
+		}
+	});
+}
 jq(function(){	
         jq("#at_friends").hover(function(){
             jq(this).children("img").attr("src","image/icons/at-icon2.png");
@@ -257,14 +271,16 @@ jq(function(){
 		
 		jq.getJSON("cp.php?ac=public&op=checkpublic", function(json){
 			var html = '';
+            if(!json) return null;
 			jq.each(json, function(i,item){
 				html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype='+item.type+'&touid='+item.uid+'"><i class="icon-user" style="margin-right:11px"></i>'+item.name+'</a></li>';
 			});
 			jq("#for-public").before(html);
             });
+			setInterval("check_calendar()",60000);
 });
 </script>
-<script language="javascript" type="text/javascript">
+<!--<script language="javascript" type="text/javascript">
     var jq2=jQuery.noConflict();
     var ua = navigator.userAgent.toLowerCase();
     jq2(function(){
@@ -287,9 +303,7 @@ jq(function(){
             jq2('.ad_for_2years').css({display:'none'});
             });
     });
-</script>
-
-
+</script>-->
 </head>
 <body style="padding-top:55px;">
     <!--{if $_SGLOBAL[supe_uid]}-->
@@ -308,12 +322,17 @@ jq(function(){
     <!--<!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->-->
     <!--广告-->
     <!---0_0---------->
-
+    <div id="client">
+        <div id="close_client">关闭</div>
+        <div class="img">            
+            <img class="client_s" src="image/client_s.jpg" alt="">
+            <img class="client_l" src="image/client_l.jpg" alt="" style="display:none">
+        </div>
+    </div>
     <div id="feedback"><a href="space.php?uid=665&do=mtag&tagid=2985"><img src="image/feedback.png"/></a></div>
     <div id="back" style="display:none;" title="回到顶部"></div>
     <div class="navbar-fixed-top navbar-ihome" style="z-index:9999">
         <div class="container">
-
             <div class="nav-header">
                 <a class="navbar-brand" href="space.php?do=home" style="display: block; height: 35px; width: 155px; padding: 10px;">
                     <img src="template/default/image/logo_navigation.png"/>
@@ -426,6 +445,21 @@ jq(function(){
             </ul>
         </div>
     </div>
+    <script>
+        jq('#close_client').click(function(){
+            jq('#client').hide();
+        });
+        jq('#client .img').hover(function() {
+            jq('.client_s').hide();
+            jq('#close_client').hide();
+            jq('.client_l').show();
+        });
+        jq('#client .img').mouseleave(function() {
+            jq('.client_l').hide();
+            jq('.client_s').show();
+            jq('#close_client').show();
+        });
+    </script>
 </div>
 <!--{if !empty($_SGLOBAL[supe_uid])}-->
 <a href="/cp.php?ac=theme&op=diy2"><div id="diy"></div></a>
@@ -474,11 +508,12 @@ jq(function(){
                                 <li><img src="image/icons/icon_group.png"><a href="space.php?do=mtag">群组</a></li>
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
                                 <li><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
+                                <li><img src="image/icons/icon_calendar.png"/><a href="space.php?do=calendar">日历</a></li>
                                 <li class="last_show"><img src="image/icons/icon_appeal.png"/><a href="space.php?do=complain">诉求</a></li>
                             </ul>
                             <div class="left_line_my_act" id="my_defaultapp_toggle" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开官方应用">官方应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>
                             <div class="l_line" style="width:30px;"></div><div class="r_line" style="margin-left:119px;"></div>
-                            <ul class="app_list topline" id="my_defaultapp" style="display:block;height:322px;">
+                            <ul class="app_list topline" id="my_defaultapp" style="display:block;height:400px;">
                                 <li class="first_show_next"><img src="image/icons/icon_bt.png"/></img><a href="buaasso.php?m=sso&to=buaabt" target= "_blank" title="去往BT" style="height:auto;">未来花园BT</a></li>
                                 <li><img src="image/icons/icon_score.png"/><a href="jifen.php" title="积分商城">积分商城</a></li>
                                  <li><img src="image/icons/icon_wall.png"/><a href="plugin.php?pluginid=wall&ac=list">ｉ北航墙</a></li>
@@ -488,6 +523,8 @@ jq(function(){
                                 <li><img src="image/icons/icon_live.png"/><a href="plugin.php?pluginid=live">现场直播</a></li>
                                 <li><img src="image/icons/icon_video.png"/><a href="plugin.php?pluginid=video">视频中心</a></li>
                                 <li><img src="image/icons/icon_tao.png"/><a href="http://loogo.buaa.edu.cn" title="路购淘物" target="_blank">路购淘物</a></li>
+                                <li><img src="image/icons/icon_map.png"/><a href="http://imap.buaa.edu.cn" title="校园地图" target="_blank">校园地图</a></li>
+								<li><img src="image/icons/icon_job.png"/><a href="job.php" title="就业互助">就业互助</a></li>
                                 <!--{if $_SCONFIG['my_status']}-->
                                 <!--{loop $_SGLOBAL['userapp'] $value}-->
                                 <li><img src="http://appicon.manyou.com/icons/$value[appid]"><a href="userapp.php?id=$value[appid]">$value[appname]</a></li>
@@ -550,7 +587,7 @@ jq(function(){
                                 <li><img src="image/icons/icon_group.png"/><a href="space.php?do=mtag">群组</a></li>
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
                                 <li><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
-                                <li><img src="image/icons/icon_public.png"/><a href="space.php?do=complain">诉求</a></li>
+                                <li><img src="image/icons/icon_appeal.png"/><a href="space.php?do=complain">诉求</a></li>
                             </ul>
                             <div class="showMessage" style="display:none;">
                                 <div class="message" style="display:none;">
