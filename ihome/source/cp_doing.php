@@ -592,6 +592,14 @@ elseif ($_GET['op'] == 'edit') {
             if(strlen($message) < 1) {
                 showmessage('should_write_that');
             }
+            $suffix = '';
+            $query = $_SGLOBAL['db']->query("select message from ".tname('docomment')." where id=$id limit 1");
+            if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+                $matches = array();
+                preg_match('#<a.*?>.*?</a>#', $value['message'], $matches);
+                $suffix = $matches[0] ? ' '.$matches[0] : '';
+            }
+            $message .= $suffix;
             $_SGLOBAL['db']->query("update ".tname("docomment")." set message='".$message."' where id=$id");
         } else {
             showmessage('error_op', $_POST['refer'], 0);
@@ -602,7 +610,8 @@ elseif ($_GET['op'] == 'edit') {
         $query = $_SGLOBAL['db']->query("select message from ".tname('docomment')." where id=$id limit 1");
         $origin_msg = '';
         if ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            $origin_msg = strip_tags($value['message']);
+            $str = preg_replace('#(<a.*?>).*?(</a>)#', '$1$2', $value['message']);
+            $origin_msg = trim(strip_tags($str));
         }
     }
 }
