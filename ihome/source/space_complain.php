@@ -145,7 +145,11 @@ if ($_GET['view'] == 'rank') {
     }
 
     if (empty($_GET['type'])) {
-        $_GET['type'] = 'running';
+        if ($_SGLOBAL['isdept'] == 0) {
+            $_GET['type'] = 'all';
+        } else {
+            $_GET['type'] = 'running';
+        }
     }
     if($_GET['view'] == 'me') {
         $wheresql .= " and uid='$space[uid]'";
