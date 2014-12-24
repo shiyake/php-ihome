@@ -6,7 +6,7 @@ include_once(S_ROOT.'function_judge.php');
 
 $client_ip=$_SERVER["REMOTE_ADDR"];
 
-//Èç¹ûÓÃ»§µÄIpµØÖ·ÎªÄÚÍø£¬ÔòÌø×ªµ½Í³Ò»ÈÏÖ¤Æ½Ì¨
+//å¦‚æžœç”¨æˆ·çš„Ipåœ°å€ä¸ºå†…ç½‘ï¼Œåˆ™è·³è½¬åˆ°ç»Ÿä¸€è®¤è¯å¹³å°
 //////////////
 if(judge_ip($client_ip))
 {
@@ -51,7 +51,7 @@ if(is_numeric($_SERVER['QUERY_STRING'])) {
 }
 
 
-//¶þ¼¶ÓòÃû
+//äºŒçº§åŸŸå
 if(!isset($_GET['do']) && $_SCONFIG['allowdomain']) {
 	$hostarr = explode('.', $_SERVER['HTTP_HOST']);
 	$domainrootarr = explode('.', $_SCONFIG['domainroot']);
@@ -61,7 +61,7 @@ if(!isset($_GET['do']) && $_SCONFIG['allowdomain']) {
 }
 //
 if($_SGLOBAL['supe_uid']) {
-	//ÒÑµÇÂ¼£¬Ö±½ÓÌø×ª¸öÈËÊ×Ò³
+	//å·²ç™»å½•ï¼Œç›´æŽ¥è·³è½¬ä¸ªäººé¦–é¡µ
 	showmessage('enter_the_space', 'space.php?do=home', 0);
 }
 
@@ -72,7 +72,7 @@ if(empty($_SCONFIG['networkpublic'])) {
 	$spacelist = array();
 	$count = 0;
 	if($_SGLOBAL['timestamp'] - $cachetime > 900) {
-		//20Î»ÈÈÃÅÍ·ÏñÓÃ»§
+		//20ä½çƒ­é—¨å¤´åƒç”¨æˆ·
 		$query = $_SGLOBAL['db']->query("SELECT s.*, sf.resideprovince, sf.residecity
 			FROM ".tname('space')." s
 			LEFT JOIN ".tname('spacefield')." sf ON sf.uid=s.uid 
@@ -92,13 +92,13 @@ if(empty($_SCONFIG['networkpublic'])) {
 		$spacelist = unserialize(sreadfile($cachefile));
 	}
 	
-	//´ó¼ÒµÄ»°Ìâ
+	//å¤§å®¶çš„è¯é¢˜
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." ORDER BY dateline DESC LIMIT 0,30");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)){
 		$topic[] = $value;
 	}
 
-	//Ó¦ÓÃ
+	//åº”ç”¨
 	$myappcount = 0;
 	$myapplist = array();
 	if($_SCONFIG['my_status']) {
@@ -111,7 +111,7 @@ if(empty($_SCONFIG['networkpublic'])) {
 		}
 	}
 		
-	//ÊµÃû
+	//å®žå
 	foreach ($spacelist as $key => $value) {
 		realname_set($value['uid'], $value['username'], $value['name'], $value['namestatus']);
 	}
