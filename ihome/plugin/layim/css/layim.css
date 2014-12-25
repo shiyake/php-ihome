@@ -107,7 +107,7 @@ li{list-style:none;}
 .layim_chatthis{display:block;}
 .layim_chatuser{float:left; padding:15px; font-size:0;}
 .layim_chatuser *{display:inline-block; *display:inline; *zoom:1; vertical-align:top; line-height:30px; font-size:12px; padding-right:10px;}
-.layim_chatuser img{width:30px; height:30px;box-sizing:initial;}
+.layim_chatuser img{width:30px; height:30px; box-sizing:content-box;}
 .layim_chatuser .layim_chatname{max-width:230px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
 .layim_chatuser .layim_chattime{color:#999; padding-left:10px;}
 .layim_chatsay{position:relative; float:left; margin:0 15px; padding:10px; line-height:20px; background-color:#F3F3F3; border-radius:5px; clear:both;white-space: pre-wrap;}
@@ -191,3 +191,6 @@ li{list-style:none;}
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }
 
+.xxim_bottom .tooltip-inner {
+    width: auto;
+}

@@ -19,7 +19,12 @@ $stat_hash = md5($_SCONFIG['sitekey']."\t".substr($_SGLOBAL['timestamp'], 0, 6))
 $isfounder = ckfounder($_SGLOBAL['supe_uid']);
 if (!$isfounder)
 	{
-		if(!checkperm('allowstat') && $_SCOOKIE['stat_hash'] != $stat_hash)
+		$isProxy = 0;
+		$q = $_SGLOBAL['db']->query("select * from ".tname('proxy')." where uid=$_SGLOBAL[supe_uid] and menu_0=1");
+		if ($r = $_SGLOBAL['db']->fetch_array($q)) {
+			$isProxy = 1;
+		}
+		if(!checkperm('allowstat') && $_SCOOKIE['stat_hash'] != $stat_hash && !$isProxy)
 			{
 				showmessage('no_privilege');
 			}

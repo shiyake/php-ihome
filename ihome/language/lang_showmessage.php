@@ -118,6 +118,10 @@ $_SGLOBAL['msglang'] = array(
 	'no_authority_to_add_arrangement' => '您目前没有权限添加校园日历',
 	'no_authority_operation_of_the_arrangement' => '您没有权限操作该日志',
 	'arrangement_expired' => '该校园日历已过期',
+	
+	//source/cp_calendar.php
+	'no_authority_to_add_calendar' => '您目前没有权限添加日历',
+	'no_authority_operation_of_the_calendar' => '您没有权限操作该日历',
 
 	//source/cp_class.php
 	'did_not_specify_the_type_of_operation' => '没有正确指定要操作的分类',
@@ -229,6 +233,7 @@ $_SGLOBAL['msglang'] = array(
 	'share_does_not_exist' => '指定的分享不存在',
 	'doing_does_not_exist' => '指定的记录不存在',
 	'blog_does_not_exist' => '指定的日志不存在',
+	'job_does_not_exist' => '指定的就业信息不存在',
 	'arrangement_does_not_exist' => '指定的日志不存在',
 	'logs_can_not_share' => '指定的日志因隐私设置不能够被分享',
 	'album_does_not_exist' => '指定的相册不存在',
