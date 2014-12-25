@@ -38,6 +38,50 @@
 <div class="entry" style="padding:0 0 10px;">
 
 	<div class="title">
+        <!--{eval $blog_msg = preg_replace('/\s+/',' ',strip_tags($blog[message]))}-->
+        <!--{eval $bdDesc = mb_substr($blog_msg,0,100,mb_detect_encoding($blog_msg)).'...'}-->
+        <div class="bdsharebuttonbox" data-tag="share_1" style="float:right">
+            <a class="bds_qzone"></a>
+            <a class="bds_sqq" data-cmd="sqq"></a>
+            <a class="bds_weixin" data-cmd="weixin"></a>
+            <a class="bds_tsina" data-cmd="tsina"></a>
+            <a class="bds_renren"></a>
+            <a class="bds_tqq" data-cmd="tqq"></a>
+        </div>
+        <script>
+            window._bd_share_config = {
+                common : {
+                    bdText : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
+                    bdDesc : "$bdDesc",
+                    bdUrl : location.href,
+                    // bdPic : location.origin + '/image/logo_title.png',
+                    bdSign : 'off'
+                },
+                share : [{
+                    "bdSize" : 16
+                }]
+            };
+            with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+            jQuery('.bds_renren').click(function(){
+                var baseUrl = 'http://widget.renren.com/dialog/share?';
+                baseUrl += 'resourceUrl=' + encodeURIComponent(location.href);
+                baseUrl += '&srcUrl='+encodeURIComponent(location.href);
+                baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
+                baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+                baseUrl += '&description='+"$bdDesc";
+
+                window.open(baseUrl);
+            });
+            jQuery('.bds_qzone').click(function(){
+                var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
+                baseUrl += 'url=' + encodeURIComponent(location.href);
+                baseUrl += '&summary='+"$bdDesc";
+                baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
+                baseUrl += '&site='+encodeURIComponent(location.href);
+
+                window.open(baseUrl);
+            });
+        </script>
 		<h1 id="blog_title" <!--{if $blog[magiccolor]}--> class="magiccolor$blog[magiccolor]"<!--{/if}--> style="margin: 10px 0;">$blog[subject]</h1>
 		<!--{if $blog['friend']}-->
 		<span class="r_option locked gray">{$friendsname[$blog[friend]]}</span>
@@ -102,49 +146,6 @@
 </div>
 
 <div style="padding-top:10px;padding-bottom:10px;border-bottom:1px solid #dcdcdc;margin-left:20px;">
-    <!--{eval $bdDesc = substr(strip_tags($blog[message]),0,200).'...'}-->
-    <div class="bdsharebuttonbox" data-tag="share_1" style="float:left">
-        <a class="bds_qzone"></a>
-        <a class="bds_sqq" data-cmd="sqq"></a>
-        <a class="bds_weixin" data-cmd="weixin"></a>
-        <a class="bds_tsina" data-cmd="tsina"></a>
-        <a class="bds_renren"></a>
-        <a class="bds_tqq" data-cmd="tqq"></a>
-    </div>
-    <script>
-        window._bd_share_config = {
-            common : {
-                bdText : "$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome',
-                bdDesc : "$bdDesc",
-                bdUrl : location.href,
-                // bdPic : location.origin + '/image/logo_title.png',
-                bdSign : 'off'
-            },
-            share : [{
-                "bdSize" : 16
-            }]
-        };
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-        jQuery('.bds_renren').click(function(){
-            var baseUrl = 'http://widget.renren.com/dialog/share?';
-            baseUrl += 'resourceUrl=' + encodeURIComponent(location.href);
-            baseUrl += '&srcUrl='+encodeURIComponent(location.href);
-            baseUrl += '&pic='+encodeURIComponent(location.origin + '/image/share_logo.jpg');
-            baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
-            baseUrl += '&description='+"$bdDesc";
-
-            window.open(baseUrl);
-        });
-        jQuery('.bds_qzone').click(function(){
-            var baseUrl = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?';
-            baseUrl += 'url=' + encodeURIComponent(location.href);
-            baseUrl += '&summary='+"$bdDesc";
-            baseUrl += '&title='+"$blog[subject]" + ' - ' + "$_SN[$space[uid]]" + ' - 北航ihome';
-            baseUrl += '&site='+encodeURIComponent(location.href);
-
-            window.open(baseUrl);
-        });
-    </script>
 	<div style="text-align: right; padding-top:10px; ">
 		<a href="cp.php?ac=share&type=blog&id=$blog[blogid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">站内分享</a>
 		<!--{if $_SGLOBAL[supe_uid] == $blog[uid]}-->

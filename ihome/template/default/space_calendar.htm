@@ -1,0 +1,358 @@
+<!--{eval $_TPL['titles'] = array('日历');}-->
+<!--{template header}-->
+
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_blog" class="feed">
+		<h3 class="feed_header">
+			<a href="cp.php?ac=arrangement" class="r_option" target="_blank" style="font-size:14px;">发布新安排</a>
+			校园日历(共 $count 篇)
+		</h3>
+		<!--{if $count}-->
+		<ul class="line_list">
+		<!--{loop $list $value}-->
+			<li>
+				<span class="gray r_option"><!--{date('m-d H:i',$value[starttime],0)}--></span>
+				<h4><a href="space.php?uid=$space[uid]&do=arrangement&id=$value[arrangementid]" target="_blank" >$value[subject]</a></h4>
+            
+                <div class="detail">
+					$value[message]
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div style="text-align:center;margin-top:75px;"><img src="image/icons/no_status.png"/><p style="color:#777;">还没有相关的校园日历。</p></div>
+		<!--{/if}-->
+	</div>
+<!--{else}-->
+
+<script language="javascript" type="text/javascript" src="source/script_calendar.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/lib/jquery.min.js"></script>
+        <script type="text/javascript">
+            var j11 = jQuery.noConflict();
+        </script>
+<script type="text/javascript" src="plugin/fullcalendar/lib/moment.min.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/zh-cn.js"></script>
+<link rel="stylesheet" href="plugin/fullcalendar/fullcalendar.min.css">
+
+<div class="title title30">
+    <div class="fc fc-right" style="width: 550px;display: inline-block;background: #ffffff;">
+        <span style="font-size: 18px;">日历</span>
+        <div class="fc-button-group" style="float: right;">
+            <button type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left" id="cPrev">
+                <span class="fc-icon fc-icon-left-single-arrow"></span>
+            </button>
+            <button type="button" class="fc-next-button fc-button fc-state-default fc-corner-right" id="cNext">
+                <span class="fc-icon fc-icon-right-single-arrow"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="r_option">
+        <a style="font-size:14px;line-height:30px;" href="cp.php?ac=arrangement">发布新安排</a>
+    </div>    
+</div>
+<style>
+    .h_status a {
+        color: #777;
+        margin-right: 5px;
+    }
+
+    .h_status .active {
+        color: #01B6F9;
+    }
+    .avatar48 {
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+    }
+    .avatar48 img {
+        height: 60px;
+        width: 60px;
+    }
+    .eventColor{
+        position: relative;
+        border: 1px solid #000;
+        cursor: pointer;
+        height: 14px;
+        margin: 0 2.5px;
+        width: 14px;
+        vertical-align: top;
+        display: inline-block;
+    }
+    .eventColorActive{
+        background: url(/image/combined_v46_vr.png);
+        background-position: -95px -50px;
+        height: 10px;
+        width: 10px;
+        left: -1px;
+        top: -1px;
+        margin: 3px;
+        overflow: hidden;
+        position: relative;
+        vertical-align: top;
+    }
+</style>
+
+<div id="content" style="padding-left:10px;margin-top: 10px;border-right:none;background: #ffffff;">
+</div>
+
+	<div class="sidebox" style="position:absolute;right:0;border-bottom:none;margin-top:20px;">
+		<div class="calendarbox" id="calendar_info"></div>
+        </div>
+        
+	<script type="text/javascript" charset="$_SC[charset]">
+		function showcalendar_new(month){
+			var month = month ? "&month="+month : "";
+			ajaxget('cp.php?ac=calendar&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->&calendar_id=<!--{eval echo $id;}-->', 'calendar_info');
+		}
+		showcalendar_new();
+	</script>
+    
+    <div class="sidebox" style="position:absolute;right:0; top:280px;border-bottom:none;margin-top:20px;">
+        <h4 class="title">
+            <p class="r_option" ><a href="cp.php?ac=calendar&op=add" id="calendar_add" onclick="ajaxmenu(event, this.id)">添加</a></p>
+            我的日历
+        </h4>
+        
+        <ul class="post_list line_list" id="my_calendar_list" style="width:190px; min-width:172px;">
+        <!--{loop $list $value}-->
+        <li id="calendar_list_$value[id]_li">
+        <a class="c_edit" onclick="ajaxmenu(event, this.id)" id="c_edit_$value[id]" href="cp.php?ac=calendar&op=edit&calendar_id=$value[id]">编辑</a>
+        <a class="c_delete" onclick="ajaxmenu(event, this.id)" id="c_delete_$value[id]" href="cp.php?ac=calendar&op=delete&calendar_id=$value[id]">删除</a>
+        <a href="space.php?uid=$space[uid]&do=calendar&id=$value[id]">$value[calendar_name]</a>
+        </li>
+		<!--{/loop}-->
+	</ul>
+
+    </div>
+<!--{/if}-->
+
+    <script type="text/javascript">
+        var clickDate = {};
+        var clickDayEvent = null;
+        var caDefaultDate = "$showFcDate";
+        j11(function () {
+            resetCa();
+            bindMenuEvent();
+        });
+
+        var fc = null;
+        var lastClickEventJSEvent = null;
+        function initFc(id, middleDate){
+            fc = j11(id);
+            middleDate ? null : middleDate = j11.fullCalendar.moment();
+            var fShowFirstDay = parseInt(middleDate.subtract(2, 'day').format('e'));
+            var h1 = parseInt(middleDate.add(6, 'day').format('e'));
+            var fHiddenDays = [fShowFirstDay, h1];
+
+            var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo';
+            var calendarId = location.search.match(/&id=(\d+)/);
+            if(calendarId){
+                calendarId = calendarId[1];
+                eventUrl += '&calendar_id=' + calendarId;
+            }else{
+                calendarId = 0;
+            }
+            fc.fullCalendar({
+                defaultDate : moment(caDefaultDate, 'YYYY-MM-DD'),
+                height: 1100,
+                contentHeight: 770,
+                header: false,
+                lang: 'zh-cn',
+                defaultView: 'agendaWeek',
+                allDaySlot: false,
+                axisFormat : 'H:00',
+                minTime : '07:00:00',
+                maxTime : '22:00:00',
+                columnFormat : 'M-D ddd',
+//                weekends : false,
+                editable : true,
+                firstDay : fShowFirstDay,
+                hiddenDays : fHiddenDays,
+                eventDurationEditable : false,
+                events : eventUrl,
+                eventClick : function(calEvent, jsEvent, view){
+                    removeNoneMenu();
+                    var eaId = 'eventID' + calEvent.id;
+                    clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
+                    j11(jsEvent.target).attr('id', eaId);
+                    j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
+                    ajaxmenu(jsEvent, eaId);
+                    lastClickEventJSEvent = jsEvent;
+                },
+                dayClick: function(date, jsEvent, view) {
+                    removeNoneMenu();
+                    clickDate = {'start': date, 'end' : date, 'type' : 'add'};
+                    clickDayEvent = jsEvent;
+                    var eaId = 'addEvent' + date.format('HHMDHm');
+                    var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
+                        'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
+                    j11(jsEvent.target).append(htmlA);
+                    ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
+                }
+            });
+        }
+
+        function removeNoneMenu(){
+            j11('#append_parent>.popupmenu_popup').remove();
+        }
+
+        function beforeShowAddEventHtmlA(eaId){
+            //j11('#content #' + eaId).remove();//移除添加的定位标签a
+            if(!j11('#start_d')){
+                setTimeout(beforeShowAddEventHtmlA, 1000);
+                return false;
+            }
+
+            var sDate = clickDate.start.format('YYYY-MM-DD');
+            var eDate = clickDate.end.format('YYYY-MM-DD');
+            j11('#start_d').val(sDate);
+            j11('#end_d').val(eDate);
+            showDateTime(j11('#start_t'), sDate, clickDate.start,'start_t');
+            showDateTime(j11('#end_t'), eDate, clickDate.end,'end_t');
+        }
+
+        function bindMenuEvent(){
+            j11('#append_parent').delegate('.eventColor', 'mouseover', function(){
+                j11(this).css('border-color', '#000');
+            });
+            j11('#append_parent').delegate('.eventColor', 'mouseout', function(){
+                j11(this).css('border-color', j11(this).css('background-color'));
+            });
+            j11('#append_parent').delegate('.eventColor', 'click', function(){
+                j11('.eventColorActive').remove();
+                j11('.eventColorActiveInput').remove();
+                j11(this).append(j11('<div>', {'class' : 'eventColorActive'}));
+                j11(this).append(j11('<input>', {'type' : 'hidden', 'value' : j11(this).css('background-color'), 'name' : 'bgcolor', 'class' : 'eventColorActiveInput'}));
+            });
+
+            j11('#calendar').delegate(' td', 'click', function(){
+                var sDate = j11('#start_d').val();
+                var eDate = j11('#end_d').val();
+                showDateTime(j11('#start_t'), sDate, clickDate.start);
+                showDateTime(j11('#end_t'), eDate, clickDate.end);
+
+                var sUnix = new Number(j11.fullCalendar.moment(sDate, 'YYYY-MM-DD').format('X'));
+                var eUnix = new Number(j11.fullCalendar.moment(eDate, 'YYYY-MM-DD').format('X'));
+                if (sUnix > eUnix) {
+                    j11('#end_d').parent().addClass('has-error');
+                } else {
+                    j11('#end_d').parent().removeClass('has-error');
+                }
+            });
+
+            j11('#append_parent').delegate('#start_t', 'change', function(){
+                showDateTime(j11('#end_t'), j11('#end_d').val(), j11.fullCalendar.moment(j11('#end_d').val(), 'YYYY-MM-DD'),'end_t');
+                var thisTimeStamp = j11(this).val();
+                var endSelect = j11('#end_t>option');
+                j11.each(endSelect, function(i, n){
+                    var n = j11(n);
+                    if(n.val() <= thisTimeStamp) n.remove();
+					if(parseInt(n.val()) == (parseInt(thisTimeStamp)+2*60*30*1000)) n.attr('selected','selected');
+                });
+            });
+
+
+            j11('#cPrev').mouseover(function(){
+                j11('#cPrev').addClass('fc-state-hover');
+            });
+            j11('#cPrev').mouseout(function(){
+                j11('#cPrev').removeClass('fc-state-hover');
+            });
+            j11('#cNext').mouseover(function(){
+                j11('#cNext').addClass('fc-state-hover');
+            });
+            j11('#cNext').mouseout(function(){
+                j11('#cNext').removeClass('fc-state-hover');
+            });
+            j11('#cPrev').click(function(){
+                resetCa('-')
+            });
+            j11('#cNext').click(function(){
+                resetCa('+')
+            });
+        }
+
+        function resetCa(type){
+            var timestamp = new Number(j11.fullCalendar.moment(caDefaultDate, 'YYYY-MM-DD').format('X'));
+            if(type == '+'){
+                timestamp += 86400 * 5;
+            }else if(type == '-'){
+                timestamp -= 86400 * 5;
+            }
+            timestamp = j11.fullCalendar.moment(timestamp * 1000);
+            j11('#content').html('');
+            caDefaultDate = timestamp.format('YYYY-MM-DD');
+            j11('#content').fullCalendar('destroy');
+            initFc('#content', timestamp);
+        }
+
+        function showDateTime(obj, date, selectedTime,str){
+            obj.html('');
+            if(clickDate.type == 'edit'){
+                selectedTime = selectedTime.format('H:m');
+            }else{
+                selectedTime = null;
+            }
+            var st = parseInt(j11.fullCalendar.moment(date + ' 7:00', 'YYYY-M-D H:mm').format('X')) * 1000;
+            var et = parseInt(j11.fullCalendar.moment(date + ' 22:00', 'YYYY-M-D H:mm').format('X')) * 1000;
+            var i = st;
+            do{
+                var html = j11.fullCalendar.moment(i).format('aHH:mm');
+                var op = j11('<option>', {'html' : html, 'value' : i});
+                if(selectedTime && selectedTime == j11.fullCalendar.moment(i).format('H:m')){
+                    op.attr('selected','selected');
+                }
+				if(str && str == 'end_t' && i==(st+60*30*1000*2)){
+					op.attr('selected','selected');
+				}
+                obj.append(op);
+                i += 60 * 30 * 1000;
+            }while(i <= et);
+        }
+
+        function showEditEvent(eventID, href){
+            var eaID = 'editEventMenu' + eventID;
+            j11(lastClickEventJSEvent.target).attr('id', eaID);
+            j11(lastClickEventJSEvent.target).attr('href', href);
+            ajaxmenu(lastClickEventJSEvent, eaID, 0, 0, 'beforeShowAddEventHtmlA');
+        }
+
+        function addEventOK(){
+            location.reload();
+        }
+
+        function editEventOK(res, a){
+            location.reload();
+        }
+        function deleteEvent(calendar_id, eventID){
+            var url = '/cp.php?ac=calendar&op=deleteEvent';
+            j11.getJSON(url, {'calendar_id' : calendar_id, 'calendar_info_id' : eventID}, function(res){
+                location.reload();
+            });
+        }
+		function check_ics_file(){
+			var file = jq("#ics_file").val();
+			var subject = jq("#subject").val();
+			if(file.length!=0){
+				var ext = file.substr(file.indexOf('.')+1);
+				if(ext != 'ics'){
+					jq('#ics_error').html("请选择iCalendar格式的文件");
+					return false
+				}
+			}
+			if(subject.length == 0){
+				jq('#ics_error').html("请输入简历名称");
+				return false
+			}
+			return true;
+		}
+
+    </script>
+
+<!--{template footer}-->

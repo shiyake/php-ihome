@@ -1,0 +1,124 @@
+
+<!--{template header}-->
+<link type="text/css" rel="stylesheet" href="template/default/job.css" />
+<div class="job_grid" id="content" style="border-right:none;width:800px;">
+	<div class="head">
+		<div class="title">
+			<img src="image/icons/icon_job.png" alt="" width="27" height="28" />
+			<span>就业互助</span>
+		</div>
+		<a class="pbtn" href="job.php?do=nei&m=add">发布职位</a>
+	</div>
+	<div class="tabs_header" style="margin-left:0;">
+		<ul class="tabs">
+			<li{if $do == 'index'} class="active"{/if}>
+				<a href="job.php"><span>招聘职位</span></a>
+			</li>
+			<li{if $do == 'hui'} class="active"{/if}>
+				<a href="job.php?do=hui"><span>招聘会</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=nei"><span>站内招聘</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=myfav"><span>我的收藏</span></a>
+			</li>
+			<li>
+				<a href="job.php?do=publish"><span>我发布的职位</span></a>
+			</li>
+		</ul>
+	</div>
+	<div class="search">
+		<div class="sort">
+			<a href="javascript:;" class="active" style="border-right:none;">最新</a>
+			<a href="javascript:;" style="border-left:none;">最热</a>
+		</div>
+		<div class="select">
+			<label>招聘类型：</label>
+			<select name="type">
+				<option value="0">全部</option>
+				<option value="1">实习</option>
+				<option value="2">全职</option>
+			</select>
+		</div>
+		<div class="select">
+			<label>工作地点：</label>
+			<select name="addr">
+				<option value="0">全部</option>
+				<option value="1">北京</option>
+				<option value="2">上海</option>
+				<option value="3">重庆</option>
+				<option value="4">广州</option>
+				<option value="5">长沙</option>
+			</select>
+		</div>
+		<div class="select">
+			<label>薪资待遇：</label>
+			<select name="sale">
+				<option value="0">全部</option>
+				<option value="1">面议</option>
+				<option value="2">1500以下</option>
+				<option value="3">1500-3000</option>
+				<option value="4">3000-5000</option>
+				<option value="5">5000-8000</option>
+				<option value="6">8000-12000</option>
+				<option value="7">12000以上</option>
+			</select>
+		</div>
+	</div>
+	<div class="main_grid">
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="">Web开发工程师</a>
+				<span>实习</span>
+			</div>
+			<div class="sub_body">
+				<span class="bgrid">公司：北京厘米脚印科技有限公司</span>
+				<span class="bgrid">工作地点：北京</span>
+				<span class="bgrid">招聘人数：5人</span>
+				<span class="bgrid">学历要求：本科</span>
+				<span class="bgrid">薪资待遇：5000-10000</span>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="">Web开发工程师</a>
+				<span>实习</span>
+			</div>
+			<div class="sub_body">
+				<span class="bgrid">公司：北京厘米脚印科技有限公司</span>
+				<span class="bgrid">工作地点：北京</span>
+				<span class="bgrid">招聘人数：5人</span>
+				<span class="bgrid">学历要求：本科</span>
+				<span class="bgrid">薪资待遇：5000-10000</span>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="">Web开发工程师</a>
+				<span>实习</span>
+			</div>
+			<div class="sub_body">
+				<span class="bgrid">公司：北京厘米脚印科技有限公司</span>
+				<span class="bgrid">工作地点：北京</span>
+				<span class="bgrid">招聘人数：5人</span>
+				<span class="bgrid">学历要求：本科</span>
+				<span class="bgrid">薪资待遇：5000-10000</span>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="">Web开发工程师</a>
+				<span>实习</span>
+			</div>
+			<div class="sub_body">
+				<span class="bgrid">公司：北京厘米脚印科技有限公司</span>
+				<span class="bgrid">工作地点：北京</span>
+				<span class="bgrid">招聘人数：5人</span>
+				<span class="bgrid">学历要求：本科</span>
+				<span class="bgrid">薪资待遇：5000-10000</span>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template footer}-->

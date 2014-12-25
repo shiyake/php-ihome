@@ -54,8 +54,10 @@
 		<!--{if $ac==$value}--><li class="active"><!--{else}--><li><!--{/if}--><a href="admincp.php?ac=$value">{$_TPL[menunames][$value]}</a></li>
 		<!--{/if}-->
 		<!--{/loop}-->
+		<!--{if !$isProxy}-->
 		<!--{if $menus[0][config]}--><li><a href="{UC_API}" target="_blank">UCenter</a></li><!--{/if}-->
 		<li><a href="admincp.php?ac=mtaginvite">校友激活管理</a></li>
+		<!--{/if}-->
     </ul>
 	</div>
 	<!--<li><a href="admincp.php?ac=publicapply"  target="_blank">申请公共主页</a></li>
@@ -64,7 +66,7 @@
 <!--{/if}-->
 
 
-<!--{if $menus[2]}-->
+<!--{if $menus[2] && !$isProxy}-->
         <div class="block style1">
                 <h2>积分换礼</h2>
                 <ul class="folder">

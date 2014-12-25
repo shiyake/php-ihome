@@ -1,6 +1,7 @@
 @charset "utf-8";
 .app_container {
-	background-color: #fff;
+	background: rgba(255,255,255,0.92);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#eaffffff', endColorstr='#eaffffff');
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
