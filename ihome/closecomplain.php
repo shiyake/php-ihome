@@ -19,6 +19,16 @@ while ($result = $_SGLOBAL['db']->fetch_array($complains)) {
     $oparr['dateline'] = $_SGLOBAL['timestamp'];
     $oparr['opvalue'] = 2;
     inserttable("complain_op", $oparr);
+
+    $uparr = array();
+    $uparr['opid'] = $result['lastopid'];
+    $uparr['uid'] = $result['uid'];
+    $uparr['updown'] = 1;
+    $uparr['username'] = $result['uname'];
+    $uparr['dateline'] = $_SGLOBAL['timestamp'];
+    inserttable("complain_op_updown", $uparr);
+    $_SGLOBAL['db']->query("update ".tname('complain_op')." set upnum=upnum+1 where id=$result[lastopid]");
+
     $num += 1;
     $log->debug("close complain $result[doid]");
 }

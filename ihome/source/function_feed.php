@@ -38,6 +38,25 @@ function feed_publish($id, $idtype, $add=0, $fromdevice='') {
 				);
 			}
 			break;
+		case 'calendar':
+			$query = $_SGLOBAL['db']->query("SELECT * from ".tname('calendar')." WHERE id='$id'");
+			if($value = $_SGLOBAL['db']->fetch_array($query)) {
+				//基本
+				$setarr['icon'] = 'calendar';
+				$setarr['id'] = $value['id'];
+				$setarr['idtype'] = $idtype;
+				$setarr['uid'] = $value['uid'];
+				$setarr['dateline'] = $value['dateline'];
+			
+				//详细
+				$url = "space.php?uid=$value[uid]&do=calendar&id=$value[id]";
+				$setarr['title_template'] = cplang('feed_calendar');
+				$setarr['body_template'] = '<b>{subject}</b>';
+				$setarr['body_data'] = array(
+						'subject' => "<a href=\"$url\">$value[calendar_name]</a>"
+				);
+			}
+			break;
 		case 'blogid':
 			$query = $_SGLOBAL['db']->query("SELECT b.*, bf.* FROM ".tname('blog')." b
 				LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid

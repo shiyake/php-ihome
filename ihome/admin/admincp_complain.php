@@ -268,6 +268,12 @@ if($type == 'forleaders' && $superuid == 3){
     }
 	
 }elseif($type == 'complains'){
+	$removedoid = $_GET['remove'] ? intval($_GET['remove']) : 0;
+	if ($removedoid) {
+		include_once(S_ROOT.'./source/function_delete.php');
+        deletedoings(array($removedoid));
+        showmessage('do_success', $_SERVER['HTTP_REFERER']);
+	}
 	$tab = 1;
 	$Complains = array();//存放complain记录
 	
@@ -307,7 +313,18 @@ if($type == 'forleaders' && $superuid == 3){
         $wheresql .= " AND atuid = $_GET[atuname]";
 	}
 	if(($status = ($_GET['status'] !== "") ? trim($_GET['status']) : '') !== ''){
-        $wheresql .= " and status=$status";
+		$status = intval($_GET['status']);
+		switch ($status) {
+			case 1:
+				$wheresql .= " and status in (1,3)";
+				break;
+			case 2:
+				$wheresql .= " and status in (2,4)";
+				break;
+			default:
+				$wheresql .= " and status=$status";
+				break;
+		}
 	}
 	$where = " WHERE ".$wheresql;
 
@@ -369,10 +386,23 @@ if($type == 'forleaders' && $superuid == 3){
 	$startTime = strtotime($startDay);
 	$endTime = strtotime($endDay);
 	$endTime = strtotime("+1 days",$endTime);
-	
+	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
+
+	if ($_GET['extra']=='download') {
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=data.csv');
+
+		$output = fopen('php://output', 'w');
+		fputcsv($output, array('用户编号', '姓名', '学号', '邮件', '手机', '诉求数'));
+
+		$query = $_SGLOBAL['db']->query("select c.uid uid, s.realname realname, collegeid, email, s.mobile mobile, count(distinct c.doid) count from ".tname("complain")." c left join ".tname("spacefield")." s on s.uid=c.uid left join ".tname("baseprofile")." b on c.uid = b.uid ".$sql_where." group by uid order by count desc");
+
+		// loop over the rows, outputting them
+		while ($row = $_SGLOBAL['db']->fetch_array($query)) fputcsv($output, $row);
+		exit();
+	}
 	$times = $_GET['times'] ? trim($_GET['times']) : 0;
 
-	$sql_where = "WHERE addtime<".$endTime." AND addtime>".$startTime;
 	if($times != 0)
 		$sql_where .= " AND times=".$times;
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." temp ".$sql_where);
@@ -391,7 +421,7 @@ if($type == 'forleaders' && $superuid == 3){
         if ($value['status'] == 0) {
             $complains[$value['atuid']]['running']++;
             $runningNum++;
-        } elseif ($value['status'] == 1) {
+        } elseif ($value['status'] == 1 || $value['status'] == 3) {
             $complains[$value['atuid']]['done']++;
             $doneNum++;
         } else {

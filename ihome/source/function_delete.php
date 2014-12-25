@@ -30,6 +30,9 @@ function deletecomments($cids) {
 		$newcids[] = $value['cid'];
 		if($value['idtype'] == 'blogid') {
 			$blognums[$value['id']]++;
+		} else if ($value['idtype'] == 'jobid') {	//新增如果是就业信息就业评论数减1
+			$jobid = $value['id'];
+			$_SGLOBAL['db']->query("UPDATE ".tname('job')." set replynum=replynum-1 where id={$jobid}");
 		}
 		if($allowmanage && $value['authorid'] != $value['supe_uid']) {
 			//¿Û³ý»ý·Ö
@@ -208,7 +211,7 @@ function deletefeeds($feedids) {
 
 function deleteComplains($doids){
 	global $_SGLOBAL;
-	$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid in (".simplode($doids).")");
+	$_SGLOBAL['db']->query("UPDATE ".tname('complain')." SET status=4 WHERE doid in (".simplode($doids).")");
 }
 
 //É¾³ý·ÖÏí

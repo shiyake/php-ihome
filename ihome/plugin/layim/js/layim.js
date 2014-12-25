@@ -114,7 +114,7 @@ xxim.expend = function(){
         node.layimTop.stop().animate({height: 0}, config.aniTime, function(){
             node.xximon.addClass('xxim_off');
             try{
-                localStorage.layimState = 1;
+                sessionStorage.layimState = 1;
             }catch(e){}
             xxim.layimNode.attr({state: 1});
             node.layimFooter.addClass('xxim_expend');
@@ -126,7 +126,7 @@ xxim.expend = function(){
         node.layimTop.show().stop().animate({height: config.height}, config.aniTime, function(){
             node.xximon.removeClass('xxim_off');
             try{
-                localStorage.layimState = 2;
+                sessionStorage.layimState = 2;
             }catch(e){}
             xxim.layimNode.removeAttr('state');
             node.layimFooter.removeClass('xxim_expend');
@@ -143,13 +143,10 @@ xxim.layinit = function(){
     
     //主界面
     try{
-        /*
-        if(!localStorage.layimState){       
-            config.aniTime = 0;
-            localStorage.layimState = 1;
-        }
-        */
-        if(localStorage.layimState === '1'){
+        // if(!sessionStorage.layimState){
+            sessionStorage.layimState = 1;
+        // }
+        if(sessionStorage.layimState === '1'){
             xxim.layimNode.attr({state: 1});
             node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
@@ -845,8 +842,8 @@ xxim.view = function(){
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
             +'</div>'
             +'<ul class="xxim_bottom" id="xxim_bottom">'
-            +'<li class="xxim_mymsg" id="xxim_mymsg" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
-            +'<li class="xxim_hide" id="xxim_hide"><i></i></li>'
+            +'<li class="xxim_mymsg" id="xxim_mymsg" data-toggle="tooltip" data-placement="top" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
+            +'<li class="xxim_hide" id="xxim_hide" data-toggle="tooltip" data-placement="top" title="折叠切换"><i></i></li>'
             +'<div class="layim_min" id="layim_min"></div>'
         +'</ul>'
     +'</div>');
@@ -859,6 +856,10 @@ xxim.view = function(){
     xxim.update();
     jQuery.get('source/face.js', {}, function(data){
         eval(data);
+    });
+    jQuery('[data-toggle="tooltip"]').tooltip();
+    jQuery('.xxim_bottom').click(function(){
+        jQuery('.xxim_bottom .tooltip').hide();
     });
 };
 

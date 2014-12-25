@@ -12,7 +12,6 @@ $tospace = $pic = $blog = $album = $share = $event = $poll = array();
 if(submitcheck('commentsubmit')) {
 
 	$idtype = $_POST['idtype'];
-	
 	if(!checkperm('allowcomment')) {
 		ckspacelog();
 		showmessage('no_privilege');
@@ -288,6 +287,17 @@ if(submitcheck('commentsubmit')) {
 			
 			$stattype = 'videocomment';//统计
 			break;
+		//增加工作的comment类型
+		case 'jobid':
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('job')." WHERE id=$id ");
+			$job = $_SGLOBAL['db']->fetch_array($query);
+			if(empty($job)) {
+				showmessage('job_does_not_exist');//没写lang
+			}
+			
+			$tospace = getspace($job['uid']);
+			$stattype = false;//统计
+			break;
 		default:
 			showmessage('non_normal_operation');
 			break;
@@ -367,6 +377,18 @@ if(submitcheck('commentsubmit')) {
 			$fs['body_general'] = '';
 			$fs['target_ids'] = $blog['target_ids'];
 			$fs['friend'] = $blog['friend'];
+			break;
+		case 'jobid':
+			//更新评论统计
+			$_SGLOBAL['db']->query("UPDATE ".tname('job')." SET replynum=replynum+1 WHERE id='$id'");
+			//事件
+			$fs['title_template'] = cplang('feed_comment_job');
+			$fs['title_data'] = array('touser'=>"<a href=\"space.php?uid=$tospace[uid]\">".$_SN[$tospace['uid']]."</a>", 'job'=>"<a href=\"job.php?do=nei&m=view&id=$id\">$job[title]</a>");
+			$fs['body_template'] = '';
+			$fs['body_data'] = array();
+			$fs['body_general'] = '';
+			$fs['target_ids'] = '';
+			$fs['friend'] = '';
 			break;
 		case 'arrangementid':
 			//更新评论统计
@@ -525,6 +547,17 @@ if(submitcheck('commentsubmit')) {
 		    $magvalues = array();
 		    $msgtype = 'event_comment';
 		    $q_msgtype = 'event_comment_reply';
+		    break;
+		case 'jobid':
+		    // job
+		    $n_url = "job.php?do=nei&m=view&id=$id";
+		    $note_type = 'jobcomment';
+		    $note = cplang('note_job_comment', array($n_url));
+		    $q_note = cplang('note_job_comment_reply', array($n_url));
+		    $msg = 'do_success';
+		    $magvalues = array();
+		    $msgtype = 'job_comment';
+		    $q_msgtype = 'job_comment_reply';
 		    break;
 	}
 
