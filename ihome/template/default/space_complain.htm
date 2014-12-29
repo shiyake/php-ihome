@@ -380,6 +380,9 @@
             updateList();
             <!--{/if}-->
         });
+        if (window.navigator.userAgent.indexOf('MSIE')!=-1) {
+            jQuery('table.table-condensed').on('mousedown', function(){jQuery(this).click()});   
+        }
     });
     
     <!--{if $_GET['view'] == 'cloud'}-->
