@@ -1,6 +1,5 @@
 <?php
-
-error_reporting(0);
+error_reporting(E_ALL^E_NOTICE^E_WARNING);
 set_magic_quotes_runtime(0);
 
 $mtime = explode(' ', microtime());
@@ -41,7 +40,6 @@ if(file_exists(UC_ROOT.RELEASE_ROOT.'model/base.php')) {
 } else {
 	require UC_ROOT.'model/base.php';
 }
-
 if(in_array($m, array('app', 'frame', 'user', 'pm', 'pm_client', 'tag', 'feed', 'friend', 'domain', 'credit', 'mail', 'version'))) {
 
 	if(file_exists(UC_ROOT.RELEASE_ROOT."control/$m.php")) {
