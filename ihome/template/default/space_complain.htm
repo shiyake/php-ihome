@@ -380,6 +380,15 @@
             updateList();
             <!--{/if}-->
         });
+        if (window.navigator.userAgent.indexOf('MSIE')!=-1) {
+            var _oldhide = jQuery.fn.hide;
+            jQuery('table.table-condensed').on('mousedown', function(e){
+                jQuery.fn.hide = function(){};
+            });
+            jQuery('table.table-condensed').on('mouseup',function(){
+                jQuery.fn.hide = _oldhide;
+            });
+        }
     });
     
     <!--{if $_GET['view'] == 'cloud'}-->
@@ -420,6 +429,7 @@
             jQuery(".complain_list_container").html(jQuery(data).find(".complain_list_container").html());
             jQuery("#complain_cloud").html(jQuery(data).find("#complain_cloud").html());
             var dom = jQuery(data);
+            jQuery('.tooltip').remove();
             dom.filter('script.reload_script').each(function() {
                  jQuery.globalEval(this.text || this.textContent || this.innerHTML || '');
             });
