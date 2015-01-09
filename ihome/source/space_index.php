@@ -10,10 +10,12 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-$query=$_SGLOBAL['db']->query('SELECT groupid from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
+$query=$_SGLOBAL['db']->query('SELECT groupid,pptype from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
 if($res=$_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['mygroupid']=$res['groupid'];
+	$_SGLOBAL['pptype']=$res['pptype'];
 }
+$pptype_res = array("1"=>"学院","2"=>"部处","3"=>"名人","4"=>"学生组织","5"=>"兴趣社团","6"=>"学生党组织","7"=>"活动主页","8"=>"品牌主页","20"=>"班级主页","100"=>"航路研语","200"=>"名师工作坊");
 //ￊﾵￃ￻￈ￏￖﾤ
 if($space['namestatus']) {
 	include_once(S_ROOT.'./source/function_cp.php');

@@ -328,20 +328,22 @@
         </p>
         <ul class='infolist'>
             <li>组别：<a href="cp.php?ac=credit&op=usergroup">{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}</a></li>
-            <li>院系：<!--{if $space[academy]}--><!--{$space[academy]}--><!--{/if}--></li>
-            <li>班级：<!--{if $space[class]}--><!--{$space[class]}--><!--{/if}--></li>
-            <li>
-                家乡：<!--{if $space[birthcity]}-->$space[birthcity]<!--{/if}-->
-                <!--{if $space[self]}-->
-                <div class="profile-edit">
+			<!--{if $space[groupid]==3}--><li>类别：{$pptype_res[$_SGLOBAL['pptype']]}</li><!--{/if}-->
+			<!--{if $space[groupid]!=3}--><li>院系：<!--{if $space[academy]}--><!--{$space[academy]}--><!--{/if}--></li><!--{/if}-->
+			<!--{if $space[groupid]!=3}--><li>班级：<!--{if $space[class]}--><!--{$space[class]}--><!--{/if}--></li><!--{/if}-->
+			<!--{if $space[groupid]!=3}--><li>
+                <!--{if $space[birthcity]}-->家乡：$space[birthcity]<!--{/if}-->
+                
+				</li><!--{/if}-->
+				<!--{if $space[self]}-->
+				<div class="profile-edit" <!--{if $space[groupid]==3}-->style="margin-left:0;margin-top:16px;"<!--{/if}-->>
                     <p> 
                         <a href="cp.php?ac=profile" target="_blank">
-                            <span class="edit_profile"></span>编辑个人资料
+							<span class="edit_profile"></span>编辑<!--{if $space[groupid]!=3}-->个人<!--{else}-->公共主页<!--{/if}-->资料
                         </a>
                     </p>
                 </div>
                 <!--{/if}-->
-            </li>
         </ul>
         <div class="clearfix"></div>
     </div>
