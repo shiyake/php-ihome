@@ -1,6 +1,7 @@
 <?php
-include_once('./common.php');
-include_once(S_ROOT.'./source/function_cp.php');
+include_once('../common.php');
+include_once(S_ROOT.'../source/function_cp.php');
+include_once(S_ROOT.'../source/function_common.php');
 function getEmpty($var) {
 	if (empty($var))	{
 		return "";
@@ -10,85 +11,6 @@ function getEmpty($var) {
 	}
 }
 
-function public_interface($uid,$username,$cat) {
-	global $_SGLOBAL;
-	$cat_rel = array("1"=>"学院","2"=>"部处","3"=>"名人","4"=>"学生组织","5"=>"兴趣社团","6"=>"学生党组织","7"=>"活动主页","8"=>"品牌主页","20"=>"班级主页","100"=>"航路研语","200"=>"名师工作坊");
-	if($cat)	{
-		foreach( $cat_rel as $key=>$value )	{
-			if ($value == $cat)	{
-				$cat = $key;
-				break;
-			}
-		}
-	}
-	if ($uid)	{
-		$sql = "SELECT uid,username,pptype FROM ihome_space where uid=".$uid." and groupid=3";
-		$res = $_SGLOBAL['db']->query($sql);
-		$arr = array();
-		if (empty($res))	{
-			$arr = array("status"=>"This uid not exists or not a public page!");
-		}
-		else {
-			$resuid = $uid;
-			$resusername = "";
-			$rescat = "";
-			while($value = $_SGLOBAL['db']->fetch_array($res))	{
-				$resusername = $value['username'];
-				$rescat = $cat_rel[$value['pptype']];
-			}
-			$arr = array("status"=>"success","uid"=>$resuid,"username"=>$resusername,"category"=>$rescat);
-		}
-		echo json_encode($arr);
-		return json_encode($arr);
-	}
-	elseif ($username)	{
-		$sql = "SELECT uid,username,pptype FROM ihome_space where username='".$username."' and groupid=3";
-		$res = $_SGLOBAL['db']->query($sql);
-		$arr = array();
-		if (empty($res))	{
-			$arr = array("status"=>"This username not exists or not a public page!");
-		}
-		else {
-			$resuid = "";
-			$resusername = $username;
-			$rescat = "";
-			while($value = $_SGLOBAL['db']->fetch_array($res))	{
-				$resuid = $value['uid'];
-				$rescat = $cat_rel[$value['pptype']];
-			}
-			$arr = array("status"=>"success","uid"=>$resuid,"username"=>$resusername,"category"=>$rescat);
-		}
-		echo json_encode($arr);
-		return json_encode($arr);
-	}
-	elseif ($cat)	{
-		$sql = "SELECT uid,username,pptype FROM ihome_space where pptype=".$cat." and groupid=3";
-		$res = $_SGLOBAL['db']->query($sql);
-		$arr = array();
-		if (empty($res))	{
-			$arr = array("status"=>"This category not exists or not a public page!");
-		}
-		else {
-			$resuid = $uid;
-			$resusername = "";
-			$rescat = "";
-			$cats = array();
-			while($value = $_SGLOBAL['db']->fetch_array($res))	{
-				$resusername = $value['username'];
-				$rescat = $value['pptype'];
-				$resuid = $value['uid'];
-				$cats[] = array("uid"=>$value['uid'],"username"=>$value['username'],"category"=>$cat_rel[$value['pptype']]);
-			}
-			$arr = array("status"=>"success","categroies"=>$cats);
-		}
-		echo json_encode($arr);
-		return json_encode($arr);
-	}
-	else {
-		echo json_encode($cat_rel);
-		return json_encode($cat_rel);
-	}
-}
 function freshmanregister_interface($realname,$birthday,$email)	{
 	global $_SCONFIG,$_SGLOBAL;
 	$res_json = array();
@@ -425,13 +347,13 @@ function quickregister_interface($quickcollegeid,$quickpassword)	{
 	}
 	if($_SCONFIG['seccode_register'])
 	{
-		include_once(S_ROOT.'./source/function_cp.php');
+		include_once(S_ROOT.'../source/function_cp.php');
 		if(!ckseccode($_POST['quickseccode']))
 		{
 			$res_json = array("status"=>"error","reason"=>'incorrect_code');
 		}
 	}
-	if(!@include_once S_ROOT.'./uc_client/client.php')
+	if(!@include_once S_ROOT.'../uc_client/client.php')
 	{
 		$res_json = array("status"=>"error","reason"=>'system_error');
 	}			
@@ -551,7 +473,7 @@ function quickregister_interface($quickcollegeid,$quickpassword)	{
 				updatetable('spacefield', array('friend'=>$friendstr, 'feedfriend'=>$friendstr), array('uid'=>$newuid));
 
 				//更新默认用户好友缓存
-				include_once(S_ROOT.'./source/function_cp.php');
+				include_once(S_ROOT.'../source/function_cp.php');
 				foreach ($fuids as $fuid)
 				{
 					friend_cache($fuid);
@@ -561,7 +483,7 @@ function quickregister_interface($quickcollegeid,$quickpassword)	{
 
 		//好友邀请
 		if($invitearr) {
-			include_once(S_ROOT.'./source/function_cp.php');
+			include_once(S_ROOT.'../source/function_cp.php');
 			invite_update($invitearr['id'], $setarr['uid'], $setarr['username'], $invitearr['uid'], $invitearr['username'], $app);
 			//如果提交的邮箱地址与邀请相符的则直接通过邮箱验证
 			if($invitearr['email'] == $email) {
@@ -569,7 +491,7 @@ function quickregister_interface($quickcollegeid,$quickpassword)	{
 			}
 
 			//统计更新
-			include_once(S_ROOT.'./source/function_cp.php');
+			include_once(S_ROOT.'../source/function_cp.php');
 			if($app) {
 				updatestat('appinvite');
 			} else {
@@ -660,21 +582,13 @@ function quickregister_interface($quickcollegeid,$quickpassword)	{
 	echo json_encode($res_json);
 	return json_encode($res_json);	
 }
-$dos = array('categroies','freshmanregister','quickregister');
-
-if( in_array($_GET['action'],$dos) && $_GET['action']=='categories' )	{
-	$uid = $_GET['uid'];
-	$username = $_GET['username'];
-	$cat = $_GET['cat'];
-	public_interface($uid,$username,$cat);
-}
-elseif ( in_array($_GET['action'],$dos) && $_GET['action']=='freshmanregister')	{
-	$realname = trim($_GET['realname']);
-	$birthday = trim($_GET['birthday']);
-	$email = trim($_GET['email']);
+if ($_POST['action']=='freshmanregister')	{
+	$realname = trim($_POST['realname']);
+	$birthday = trim($_POST['birthday']);
+	$email = trim($_POST['email']);
 	freshmanregister_interface($realname,$birthday,$email);	
 }
-elseif ( in_array($_GET['action'],$dos) && $_GET['action']=='quickregister')	{
+if ( $_GET['action']=='quickregister')	{
 	$quickcollegeid = $_GET['quickcollegeid'];
 	$quickpassword = $_GET['quickpassword'];
 	quickregister_interface($quickcollegeid,$quickpassword);	
