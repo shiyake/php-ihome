@@ -148,6 +148,8 @@ if($space['mood'] && empty($start)) {
 	}
 }
 
+
+//
 $upid = 0;
 
 //สตร๛

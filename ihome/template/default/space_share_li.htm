@@ -26,6 +26,7 @@
          }
     </style>
     
+		<!--{avatar($_SGLOBAL['supe_uid'],small,False,1)}-->
 <li id="share_$value[sid]_li" style="padding-bottom:5px;border-bottom:1px solid #dcdcdc;"><!--{/if}-->
 	<div class="title">
 		
@@ -37,9 +38,11 @@
     <div class="feed" style="border:1px solid #dcdcdc;margin-left:93px;margin-top:14px;width:449px;">
         <div class="little_arrow">
             <em class="la_line">◆</em>
-            <span class="la_bg">◆</span>
+			<span class="la_bg">◆</span>
         </div>
 	<div style="width:100%;overflow:hidden;">
+
+
     <!--{if $value['image']}-->
     <!--{eval $value[image]=substr($value[image],0,-10);}-->
     <div class="share_image_div">
@@ -48,6 +51,7 @@
         <!--{/if}-->
 	<!--{if $value[body_data][videourl]}-->
     <div class="detail">
+
 		$value[body_data][author]
 		$value[body_data][desc]
 	</div>
