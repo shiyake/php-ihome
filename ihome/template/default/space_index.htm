@@ -1,5 +1,20 @@
 <!--{eval $_TPL['nosidebar']=1;}-->
 <!--{template header}-->
+<script>
+	function go_top(uid,id,feedid) {
+		jQuery.post("/space.php?go_top="+id,{
+			"uid" : uid
+		},function(data){
+			if(data)	{
+				var ele = jQuery("#feed_"+feedid+"_li");
+				console.log(ele);
+				var par_ul = ele.parent();
+				jQuery("#feed_"+feedid+"_li").remove();
+				par_ul.prepend(ele);
+			}
+		});
+	}
+</script>
 <style>
 	/*
 	.feed_li_avatar {
