@@ -271,6 +271,8 @@ if($id) {
 	if(empty($eventid)) {
 		//สตร๛
 		realname_get();
+		
+		$ntags = getntags($pic['uid'],$_GET['do'],$picid);
 
 		$_TPL['css'] = 'album';
 		include_once template("space_album_pic");

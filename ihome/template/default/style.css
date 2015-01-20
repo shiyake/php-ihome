@@ -920,3 +920,19 @@ img.client_s {
 .status_tabs li{
     width: 70px;
 }
+
+/*标签*/
+
+.tagslist ul{margin:15px 0 0 20px;}
+.tagslist ul li{ display:inline-block; margin-right:20px; margin-bottom:10px;}
+#recpub .tagslist ul, #content .tagslist ul{margin:15px 0 0 0;}
+#recpub .tagslist ul li{ display:inline-block; margin-right:10px;}
+.tagslist ul li span{ padding:2px 10px;border-radius: 10px; background:#01b6f9; border:1px solid #ccc;color:#fff; }
+.tagslist ul li span a img{ margin-left:3px;margin-top:-2px;}
+.tagpop{ width:450px; margin:10px 0;}
+.tagpop ul{ margin:0px; width:350xp; float:left;}
+.tagpop label{width:80px; float:left;}
+.tagpop ul li span {cursor:pointer;}
+#mainareafg .tagslist ul li a,.tagslist ul li a{color:#fff;}
+.tagnames{width:400px; height:32px;}
+#bottom_content .tagslist ul{ margin-left:0px;}

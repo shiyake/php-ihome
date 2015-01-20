@@ -350,6 +350,9 @@ if($eventid){// 显示活动内容
 	//相关热点
 	$topic = topic_get($event['topicid']);
 
+	//获取标签
+	$ntags = getntags($event['uid'],$_GET['do'],$_GET['id']);
+	
 	realname_get();
 
 	$menu = array($view => ' class="active"');

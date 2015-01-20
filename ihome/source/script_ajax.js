@@ -635,3 +635,15 @@ function ajaxinnerhtml(showid, s) {
 function __ihome_ajax_reload() {
 	window.location.reload();
 }
+function usetag(tag){
+	$('tagnames').value = tag;
+}
+function deltag(tuid){
+	var x = new Ajax();
+	x.setLoading();
+	var url = 'cp.php?ac=addtag&op=del&tuid=' + tuid;
+	x.get(url, function(s, x) {
+		window.location.reload();
+	});
+	
+}
