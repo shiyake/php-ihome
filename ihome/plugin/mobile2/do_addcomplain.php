@@ -112,7 +112,7 @@
 						'message' => $Message,
 						'datatime' => date("Ymd",$nowtime)
 					);
-					inserttable('complain', $complain, 0);
+					$newcomplainid = inserttable('complain', $complain, 1);
                     $note = cplang('note_complain_buchu', array("space.php?do=complain_item&doid=$newdoid",date('Y-m-d H:i' ,$nowtime+3600*24)));
                     notification_complain_add($UserId, 'complain', $note);
                     $complainOK = TRUE;
@@ -138,7 +138,7 @@
 		'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$Message)))),
 		'body_template' => '',
 		'body_data' => '',
-		'id' => $newcomplainid,
+		'id' => $newdoid,
 		'idtype' => 'doid',
 		'fromdevice' => $FromDevice
 		);
