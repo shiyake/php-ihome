@@ -3456,15 +3456,16 @@ echo $e;
 	//获取标签
 function getntags($uid, $dotype, $doid = 0){
 		global $_SGLOBAL;
+		$uids = explode(',',$uid);
 		$output = '<ul class="ntags">';
 		$whereid = $doid?" AND doid = '$doid'":"";
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid);
 		$delico = '';
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-			if ($_SGLOBAL['supe_uid'] == $uid) $delico = '<a href="#" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
+			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="#" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
 			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
 		}
-		if ($_SGLOBAL['supe_uid'] == $uid) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
+		if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
 		$output .= '</ul>'; 
 		return $output;
 }

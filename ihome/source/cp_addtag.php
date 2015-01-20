@@ -39,24 +39,28 @@ if ($_GET['op'] == 'menu'){
 	
 }elseif($_GET['op'] == 'save'){
 	
-		$dotype = $_POST['dotype'];
-		$doid = empty($_POST['doid'])?0:intval($_POST['doid']);
-		$uid = $_SGLOBAL['supe_uid'];
-		if ($_POST['tagnames'] != ''){			
-			$query = $_SGLOBAL['db']->query("SELECT tagid FROM ".tname('ntags')." WHERE tagname = '".$_POST['tagnames']."'");
+	$dotype = $_POST['dotype'];
+	$doid = empty($_POST['doid'])?0:intval($_POST['doid']);
+	$uid = $_SGLOBAL['supe_uid'];
+	if ($_POST['tagnames'] != ''){
+	 $tagnames = explode(' ',$_POST['tagnames']);
+	 if (sizeof($tagnames)>0){
+	 foreach ($tagnames as $tagname){
+		if ($tagname != ''){
+		 $query = $_SGLOBAL['db']->query("SELECT tagid FROM ".tname('ntags')." WHERE tagname = '".$tagname."'");
 			if ($value = $_SGLOBAL['db']-> fetch_array($query))	{			
 				$ntagid = $value['tagid'];
 				$whereid = $doid?" AND doid = '$doid'":"";				
 				$query_tu = $_SGLOBAL['db']->query("SELECT tuid FROM ".tname('ntag_user')." WHERE tagid = '".$ntagid."' AND uid='$uid' AND dotype = '$dotype'" .$whereid);
 				
 				if ($value_tu = $_SGLOBAL['db']-> fetch_array($query_tu)){
-						showmessage('重复标签', $_POST['refer']);		
+					continue;	
 				}else{
 					$_SGLOBAL['db']->query("UPDATE ".tname('ntags')." SET count=count+1 WHERE tagid=".$ntagid);					
 				}			
 			}else{
 				$setarr = array(
-					'tagname' => $_POST['tagnames'],
+					'tagname' => $tagname,
 					'count' => 1
 					);
 				$ntagid = inserttable('ntags', $setarr, 1);
@@ -67,12 +71,14 @@ if ($_GET['op'] == 'menu'){
 					'doid' => $doid,
 					'uid' => $uid
 					);
-			inserttable('ntag_user', $setarr_tu);			
-		
-		showmessage('do_success', $_POST['refer']);
-		}else{
-			showmessage('没有输入标签', $_POST['refer']);
+			inserttable('ntag_user', $setarr_tu);
+		 }
 		}
+	 }
+		showmessage('do_success', $_POST['refer']);
+	}else{
+		showmessage('没有输入标签', $_POST['refer']);
+	}
 }elseif($_GET['op'] == 'del'){
 	$tuid = $_GET['tuid'];
 	$uid = $_SGLOBAL['supe_uid'];

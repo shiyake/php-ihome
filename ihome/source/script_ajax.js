@@ -636,7 +636,7 @@ function __ihome_ajax_reload() {
 	window.location.reload();
 }
 function usetag(tag){
-	$('tagnames').value = tag;
+	$('tagnames').value += ' ' + tag;
 }
 function deltag(tuid){
 	var x = new Ajax();
