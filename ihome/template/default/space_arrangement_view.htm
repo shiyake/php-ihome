@@ -2,14 +2,14 @@
 <!--{template header}-->
 <script language="javascript" type="text/javascript" src="plugin/at/at.js"></script>
 
-<h4 class="title title30">校园日历
+<h4 class="title title30" style="margin-bottom:20px;">校园日历
     <!--{if $_SGLOBAL[refer]}-->
 	<div class="r_option">
 		<a  href="$_SGLOBAL[refer]" style="line-height:30px;">返回上一页</a>
 	</div>
 	<!--{/if}-->
 </h4>
-<div class="tabs_header">
+<!--<div class="tabs_header">
 	<ul class="tabs">
 		<li style="width:110px;"><a href="space.php?uid=$space[uid]&do=$do&view=all"><span>所有校园日历</span></a></li>
 		<li style="width:110px;"<!--{if $arrangement['classid']==1}--> class="active"<!--{/if}-->><a href="space.php?uid=$space[uid]&do=$do&view=schoolcalendar"><span>校历信息</span></a></li>
@@ -19,7 +19,7 @@
 		
 	</ul>
 	</div>
-
+    -->
 <script type="text/javascript" charset="$_SC[charset]" src="source/script_calendar.js"></script>
 
 <div class="entry" style="padding:0 0 10px;">
@@ -60,7 +60,7 @@
 </div>
 
 <div style="margin-left:20px;" class="comments" id="div_main_content">
-		<h4>
+		<h4 style="margin-top:10px;margin-bottom:10px;">
             评论
         </h4>
 		<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">

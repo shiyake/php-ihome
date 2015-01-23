@@ -91,10 +91,14 @@ var select_me = function(name)  {
  
 <div class="title title30">
 	<div style="padding-top:10px;">
-	<img src="image/icons/icon_calendar.png">
-	<label>日历</label>
-	</div>
-	<div class="btn-group" style="z-index:100;padding-top:5px;padding-left: 2px;">
+	<h4><img src="image/icons/icon_calendar.png" style="margin-top:-5px;">&nbsp;日历</h4>
+</div>
+    <!--{if $groupid['groupid'] == 1}-->
+    <div style="position:absolute;right:20px;margin-top:-25px;">
+        <h5><a href="cp.php?ac=arrangement">发布新安排</a></h5>
+    </div>
+    <!--{/if}-->
+	<div class="btn-group" style="z-index:100;padding-top:5px;">
 	    <button id="caldropdown"  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100px;padding-top:2px;padding-bottom:2px;margin-top:10px;">
 	    	 <span class="placeholder">全部</span>
 	      <span class="caret"></span>
@@ -239,15 +243,18 @@ var select_me = function(name)  {
                     }
                 },
                 eventClick : function(calEvent, jsEvent, view){
-                                 removeNoneMenu();
+                    removeNoneMenu();
                     if(fc.fullCalendar('getView').name == 'agendaWeek') {
                         if(calEvent.color == "#75D906" || calEvent.color == "#7515E0")  {
-                        var eaId = 'eventID' + calEvent.id;
-                        clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
-                        j11(jsEvent.target).attr('id', eaId);
-                        j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
-                        ajaxmenu(jsEvent, eaId);
-                        lastClickEventJSEvent = jsEvent;
+                            var eaId = 'eventID' + calEvent.id;
+                            clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
+                            j11(jsEvent.target).attr('id', eaId);
+                            j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
+                            ajaxmenu(jsEvent, eaId);
+                            lastClickEventJSEvent = jsEvent;
+                        }
+                        else {
+                            location.href="space.php?do=arrangement&id="+calEvent.id;
                         }
                     }
                 },
@@ -592,9 +599,9 @@ eventDrop : function(event,dayDelta,minuteDelta,revertFunction,jsEvent,ui,view) 
     }
 </style>
 <div class="leading-plugin">
-    <h4>导出日历</h4>
+    <h4>导入日历</h4>
     <form method="POST" enctype="multipart/form-data" id="ics_upload_form" action="cp.php?ac=calendar&op=leadin" >
-    <div class="leading-in leading">
+    <div class="leading-in leading" style="margin-top:0;">
 
             <input type="file" style="visibility:hidden" name="leading-in" id="leading-in-file"/>
             <button type="button" id="leading-in" class="btn btn-sm btn-comments">导入日历</button>
