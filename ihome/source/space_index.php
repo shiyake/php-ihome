@@ -137,7 +137,7 @@ if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
 		FROM ".tname('blog')." b
 		LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
 		WHERE b.uid='$space[uid]'
-		ORDER BY b.dateline DESC LIMIT 0,5");
+		ORDER BY b.weight DESC, b.dateline DESC LIMIT 0,5");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
 			if($value['pic']) $value['pic'] = pic_cover_get($value['pic'], $value['picflag']);

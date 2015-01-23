@@ -12,3 +12,9 @@
     overflow: hidden;
     padding: 0;
 }
+.fc-event {
+    border-radius:0px;
+}
+.fc-title {
+    color:#fff;
+}
