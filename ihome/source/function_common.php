@@ -3459,7 +3459,7 @@ function getntags($uid, $dotype, $doid = 0){
 		$uids = explode(',',$uid);
 		$output = '<ul class="ntags">';
 		$whereid = $doid?" AND doid = '$doid'":"";
-		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid);
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid.' LIMIT 10');
 		$delico = '';
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="#" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';

@@ -1,18 +1,21 @@
 	<h1 style="margin:0;">添加新标签</h1>
 	<a href="javascript:hideMenu();" class="float_del" title="关闭">关闭</a>
 	<div class="popupmenu_inner" id="__addtag">
-		<form method="post" id="addtag" name="addtag" action="cp.php?ac=addtag&op=save">
+		<form method="post" id="addtag" name="addtag" action="cp.php?ac=addtag&op=save" onSubmit="savetags()">
 				<div class="btn_line">
+      <input type="hidden" name="acount" id="acount" value="{$count}">
 			<input type="hidden" name="dotype" value="{$dotype}">
       <input type="hidden" name="doid" value="{$doid}">
       <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
-			<input class="tagnames t_input form-control input-sm" id="tagnames" type="text" name="tagnames" value="" />
+      <div class="t_input form-control input-sm taginput"><div class="textin"><input type="text" value="" name="ntag" id="ntagid"></div></div>
+			<input id="tagnames" type="hidden" name="tagnames" value="" />
+      <div id="msg" style="color:#E30A0D; display:none;">只能添加10个标签！</div>
       <div class="tagslist tagpop"><label>我的标签</label>{$tag_my}</div>
       <br style="clear:both;">
       <div class="tagslist tagpop"><label>热门标签</label>{$tag_hot}</div>
       <br style="clear:both;">
 			<button name="addtagsubmit_btn" type="button" 
-				class="btn btn-sm btn-comments" value="true" onclick="ajaxpost('addtag', 'addtag_save', 2000)">保存</button>
+				class="btn btn-sm btn-comments" value="true" onclick="savetags()">保存</button>
 			</div>
 			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
 		</form>

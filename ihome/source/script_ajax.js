@@ -636,14 +636,44 @@ function __ihome_ajax_reload() {
 	window.location.reload();
 }
 function usetag(tag){
-	$('tagnames').value += ' ' + tag;
+	var id = jq('#acount').val();
+	id++;
+	if (id > 10){
+		jq('#msg').show();
+	}else{
+		jq('#acount').val(id);
+		var otag = jq('#tagnames').val();
+		jq('#tagnames').val(otag + ' ' + tag);
+		var atag = '<span class="atag" id="atag'+id+'">'+tag+'<a id="del" onClick="delltag('+ id +')" href="javascript:;"><img src="image/tagdel.png"></a></span>';
+		jq('.textin').before(atag);
+	}
 }
-function deltag(tuid){
-	var x = new Ajax();
-	x.setLoading();
-	var url = 'cp.php?ac=addtag&op=del&tuid=' + tuid;
-	x.get(url, function(s, x) {
-		window.location.reload();
-	});
+function deltag(tuid){	
+		var x = new Ajax();
+		x.setLoading();
+		var url = 'cp.php?ac=addtag&op=del&tuid=' + tuid;
+		x.get(url, function(s, x) {
+			window.location.reload();
+		});		
+}
+function delltag(id){
+	jq('#atag'+id).remove();
+	id -= jq('#acount').val();
+	jq('#acount').val(id);
+	if(id < 11)  jq('#msg').hide();	
+	return false;
+}
+
+function savetags(id){
+	id = jq('#acount').val();
+	var tagstr = jq('#ntagid').val();
+	var tagstra = tagstr.split(' ');
+	var count = id*1 + tagstra.length;
 	
+	if (count > 10){
+		jq('#msg').show();
+		return false;
+	}else{
+		ajaxpost('addtag', 'addtag_save', 2000)
+	}
 }

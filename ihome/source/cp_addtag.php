@@ -10,8 +10,10 @@ if ($_GET['op'] == 'menu'){
 	$whereid = $doid?" AND doid = '$doid'":"";
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$tuid') AND dotype = '$dotype'" .$whereid);
 	$tags = array();
+	$count = 0;
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$tags[] = $value['tagid'];
+		$count++;
 	}
 	$tagstr = implode(',',$tags);
 	$wherein = "";
@@ -43,7 +45,7 @@ if ($_GET['op'] == 'menu'){
 	$doid = empty($_POST['doid'])?0:intval($_POST['doid']);
 	$uid = $_SGLOBAL['supe_uid'];
 	if ($_POST['tagnames'] != ''){
-	 $tagnames = explode(' ',$_POST['tagnames']);
+	 $tagnames = explode(' ',$_POST['tagnames'].' '.$_POST['ntag']);
 	 if (sizeof($tagnames)>0){
 	 foreach ($tagnames as $tagname){
 		if ($tagname != ''){
@@ -82,7 +84,17 @@ if ($_GET['op'] == 'menu'){
 }elseif($_GET['op'] == 'del'){
 	$tuid = $_GET['tuid'];
 	$uid = $_SGLOBAL['supe_uid'];
-	$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid' AND uid='$uid'");
+	if (checkperm('admin')){
+		$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid'");
+	}else{
+		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('ntag_user')." WHERE tuid = '$tuid'");
+		if ($value = $_SGLOBAL['db']-> fetch_array($query))	{	
+		  $uids = explode($value['uid']);
+			if (in_array($uid, $uids)){
+				$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid'");
+			}
+		}
+	}	
 	showmessage('删除成功', $_SGLOBAL['refer']);
 }
 ?>

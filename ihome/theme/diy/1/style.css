@@ -4,7 +4,7 @@
 }
 body { background-color:#8AB52D !important; color:#33463F !important; }
 a { color:#49976B; }
-#mainareafg a { color:#49976B !important;}
+#mainareafg a { }
 div, th, td, input, select,  button { border-color:#fafafa; }
 #app_sidebar { background-color:transparent; }
 #main {background-color:#D1E3AB;}
@@ -31,4 +31,4 @@ div, th, td, input, select,  button { border-color:#fafafa; }
 #obar {
     margin-left:10px;
 }
-.tagslist ul li span{background:#2d6800; border-color:#8AB52D;}
+.tagslist ul li span{background:#2d6800; border-color:#427719;}
