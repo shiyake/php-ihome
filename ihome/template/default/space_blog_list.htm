@@ -116,7 +116,7 @@
 				</div>
 				
 				<div class="title">
-					<a href="javascript:void(0);" class="go_top" onclick="go_top($value[blogid])" style="float:right;width:50px;">置顶</a>
+					<!--{if $_GET['view']=='me'}--><a href="javascript:void(0);" class="go_top" onclick="go_top($value[blogid])" style="float:right;width:50px;">置顶</a><!--{/if}-->
 					<a href="javascript:void(0);" class="social_share" onclick="social_share($value[blogid])" style="float:right;width:50px;">分享</a>
 					<!--{eval $bdContent = $_SN[$value[uid]].':'.$value[subject]}-->
         			<!--{eval $bdUrl = '/space.php?uid='.$value[uid].'&do=blog&id='.$value[blogid]}-->
