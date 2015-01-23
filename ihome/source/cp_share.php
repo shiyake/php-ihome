@@ -121,7 +121,8 @@ if($_GET['op'] == 'delete') {
 			$arr['title_template'] = cplang('share_space');
 			$arr['body_template'] = '<b>{username}</b><br>{reside}<br>{spacenote}';
 			$arr['body_data'] = array(
-                'userby' => $_SN[$tospace['uid']],
+				'userbyid' => $tospace['uid'];
+				'userby' => $_SN[$tospace['uid']],
                 'username' => "<a href=\"space.php?uid=$id\">".$_SN[$tospace['uid']]."</a>",
 				'reside' => $tospace['resideprovince'].$tospace['residecity'],
 				'spacenote' => $tospace['spacenote']
@@ -156,6 +157,7 @@ if($_GET['op'] == 'delete') {
             
             $arr['body_data'] = array(
                 'userby' => $_SN[$do['uid']],
+				'userby_uid' => $do['uid'], 
 				'username' => "<a href=\"space.php?uid=$do[uid]\">".$_SN[$do['uid']]."</a>",
 				'message' => getstr($do['message'], 150, 0, 1, 0, 0, -1)
             
@@ -232,7 +234,8 @@ if($_GET['op'] == 'delete') {
 			$arr['body_template'] = '<b>{subject}</b><br>{username}<br>{message}';
 			$arr['body_data'] = array(
                 'userby' => $_SN[$blog['uid']],
-                'subject' => "<a href=\"space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]\">$blog[subject]</a>",
+				'userby_id' => $blog['uid'],
+				'subject' => "<a href=\"space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]\">$blog[subject]</a>",
 				'username' => "<a href=\"space.php?uid=$blog[uid]\">".$_SN[$blog['uid']]."</a>",
 				'message' => getstr($blog['message'], 150, 0, 1, 0, 0, -1)
 			);
@@ -271,7 +274,8 @@ if($_GET['op'] == 'delete') {
 			$arr['body_template'] = '<b>{albumname}</b><br>{username}';
 			$arr['body_data'] = array(
             'userby' => $_SN[$album['uid']],
-                'albumname' => "<a href=\"space.php?uid=$album[uid]&do=album&id=$album[albumid]\">$album[albumname]</a>",
+			'userby_id' => $album['uid'],
+			'albumname' => "<a href=\"space.php?uid=$album[uid]&do=album&id=$album[albumid]\">$album[albumname]</a>",
 				'username' => "<a href=\"space.php?uid=$album[uid]\">".$_SN[$album['uid']]."</a>"
 			);
 			$arr['image'] = pic_cover_get($album['pic'], $album['picflag']);
@@ -310,7 +314,8 @@ if($_GET['op'] == 'delete') {
 			$arr['title_template'] = cplang('share_image');
 			$arr['body_template'] = cplang('album').': <b>{albumname}</b><br>{username}<br>{title}';
 			$arr['body_data'] = array(
-                'userby' => $_SN[$pic['uid']],
+				'userby' => $_SN[$pic['uid']],
+				'userby_id' => $pic['uid'],
                 'albumname' => "<a href=\"space.php?uid=$pic[uid]&do=album&id=$pic[albumid]\">$pic[albumname]</a>",
 				'username' => "<a href=\"space.php?uid=$pic[uid]\">".$_SN[$pic['uid']]."</a>",
 				'title' => getstr($pic['title'], 100, 0, 1, 0, 0, -1)
@@ -382,6 +387,7 @@ if($_GET['op'] == 'delete') {
 			$arr['body_template'] = '<b>{subject}</b><br>{username}<br>'.cplang('mtag').': {mtag} ({field})<br>{message}';
             $arr['body_data'] = array(
                 'userby'=> $_SN[$thread['uid']],
+				'userby_id' => $thread['uid'],
 				'subject' => "<a href=\"space.php?uid=$thread[uid]&do=thread&id=$thread[tid]\">$thread[subject]</a>",
 				'username' => "<a href=\"space.php?uid=$thread[uid]\">".$_SN[$thread['uid']]."</a>",
 				'mtag' => "<a href=\"space.php?do=mtag&tagid=$mtag[tagid]\">$mtag[tagname]</a>",
@@ -528,7 +534,8 @@ if($_GET['op'] == 'delete') {
 			$arr['title_template'] = cplang('share_job');
 			$arr['body_template'] = '<b>{subject}</b><br>{username}<br>{message}';
 			$arr['body_data'] = array(
-                'userby' => $_SN[$job['uid']],
+				'userby' => $_SN[$job['uid']],
+				'userby_id' => $_job['uid'],
                 'subject' => "<a href=\"job.php?do=nei&m=view&id={$job['id']}\">$job[title]</a>",
 				'username' => "<a href=\"space.php?uid=$job[uid]\">".$_SN[$job['uid']]."</a>",
 				'message' => getstr($job['description'], 150, 0, 1, 0, 0, -1)
