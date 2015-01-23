@@ -658,7 +658,7 @@ function deltag(tuid){
 }
 function delltag(id){
 	jq('#atag'+id).remove();
-	id -= jq('#acount').val();
+	id = jq('#acount').val()*1 - 1;
 	jq('#acount').val(id);
 	if(id < 11)  jq('#msg').hide();	
 	return false;
@@ -667,9 +667,12 @@ function delltag(id){
 function savetags(id){
 	id = jq('#acount').val();
 	var tagstr = jq('#ntagid').val();
-	var tagstra = tagstr.split(' ');
-	var count = id*1 + tagstra.length;
-	
+	var nc = 0;
+	if (tagstr!='') {
+		var tagstra = tagstr.split(' ');
+		nc = 	tagstra.length;
+	}
+	var count = id*1 + nc;	
 	if (count > 10){
 		jq('#msg').show();
 		return false;
