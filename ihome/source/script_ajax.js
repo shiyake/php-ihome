@@ -680,3 +680,22 @@ function savetags(id){
 		ajaxpost('addtag', 'addtag_save', 2000)
 	}
 }
+function ctag(putid){
+	var tagstr = jq('#'+putid).val();
+	var id = jq('#acount').val();	
+	if(tagstr.indexOf(" ") > 0 ){    
+		tagstr = tagstr.replace(/[ ]/g,"");
+		if (tagstr != ''){
+			id++;
+			if (id > 10){
+				jq('#msg').show();
+			}else{
+				jq('#'+putid).val('');	
+				otag = jq('#tagnames').val();
+				jq('#tagnames').val(otag + ' ' + tagstr);
+				var atag = '<span class="atag" id="atag'+id+'">'+tagstr+'<a id="del" onClick="delltag('+ id +')" href="javascript:;"><img src="image/tagdel.png"></a></span>';
+				jq('.textin').before(atag);
+			}
+		}
+	}
+}
