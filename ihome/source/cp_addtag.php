@@ -78,7 +78,7 @@ if ($_GET['op'] == 'menu'){
 		}
 	 }
 		showmessage('do_success', $_POST['refer']);
-	}else{
+	}else{ 
 		showmessage('没有输入标签', $_POST['refer']);
 	}
 }elseif($_GET['op'] == 'del'){
