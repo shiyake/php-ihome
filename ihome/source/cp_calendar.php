@@ -85,7 +85,83 @@ if(submitcheck('calendarbutton')) {
         showmessage('that_should_at_least_write_things');
     }
 }
-if($op == 'delete') {
+if($op == 'leadin') {
+    include_once(S_ROOT.'./source/function_blog.php');
+    //检测是否有ICS文件日历需要导入
+    if(!empty($_FILES) && !empty($_FILES['leading-in']['tmp_name'])){
+        $file_type = substr($_FILES['leading-in']['name'],strrpos($_FILES['leading-in']['name'],'.')+1);
+       if(strtolower($file_type) == 'ics'){
+       //如果为ICALENDAR格式文件，则开始进行导入
+           include S_ROOT.'./source/vendor/autoload.php';
+           $calendar = Sabre\VObject\Reader::read(file_get_contents($_FILES['leading-in']['tmp_name']));
+           foreach($calendar->vevent as $event) {
+               $start_t = active_date((string)$event->dtstart);
+               $end_t = !empty($event->dtend) ? active_date((string)$event->dtend) : $start_t + 3600;
+               if($_POST['leadin-type']=='person') {
+                   $color = "#75D906";
+               }
+               else {
+                    $color = "#7515E0";
+               }
+               $sql = 'INSERT INTO '.tname("calendar_info").' (`calendar_id`,`content`,`start_t`,`end_t`,`bgcolor`,`dateline`) values ('.$calendar_id.',"'.$event->summary.'","'.$start_t.'","'.$end_t.'","'.$color.'","'.time().'")';
+               $_SGLOBAL['db']-> query($sql);
+           }
+       }
+
+    }
+    showmessage('日历导入成功','space.php?do=calendar');
+    exit();
+}
+elseif($op == 'extract_calendar') {
+    $sql = "SELECT * FROM ".tname("calendar_info")." WHERE calendar_id=".$calendar_id;
+    $event = array();
+    if($_POST['leadout-type-edu']) {
+        $sqledu = $sql . " and bgcolor='#7515E0'";
+        $query = $_SGLOBAL['db'] -> query($sqledu);
+
+        while($res = $_SGLOBAL['db']->fetch_array($query)) {
+            $item = array("id"=>$res['id'],"content"=>$res['content'],"place"=>$res['place'],"start_t"=>$res['start_t'],"end_t"=>$res['end_t'],"bgcolor"=>$res['bgcolor'],"dateline"=>$res['dateline']);
+            $event[] = $item; 
+        }
+    }
+    if ($_POST['leadout-type-school']) {
+        $sqlschool = "SELECT * FROM ".tname("arrangement");
+        $query = $_SGLOBAL['db'] -> query($sqlschool);    
+        while($res = $_SGLOBAL['db']->fetch_array($query)) {
+            $item = array("id"=>$res['arrangementid'],"content"=>$res['subject'],"place"=>"","start_t"=>$res['starttime'],"end_t"=>$res['starttime']+2*3600,"bgcolor"=>"rgb(68,10,231)","dateline"=>$res['dateline']);
+            $event[] = $item; 
+        }
+    }
+    if ($_POST['leadout-type-person']) {
+        $sqlperson = $sql . " and bgcolor='#75D906'";
+        $query = $_SGLOBAL['db'] -> query($sqlperson);
+        while($res = $_SGLOBAL['db']->fetch_array($query)) {
+            $item = array("id"=>$res['id'],"content"=>$res['content'],"place"=>$res['place'],"start_t"=>$res['start_t'],"end_t"=>$res['end_t'],"bgcolor"=>$res['bgcolor'],"dateline"=>$res['dateline']);
+            $event[] = $item; 
+        }
+
+    }
+
+    include S_ROOT.'./source/vendor/autoload.php';
+    $vcal = Sabre\VObject\Document::create('VCALENDAR');
+    $vcal->VERSION = '2.0';
+    $vcal->PRODID = '-//SabreDAV//SabreDAV//EN';
+    $vcal->CALSCALE = 'GREGORIAN';
+    var_dump($vcal);
+    for($i=0;$i<count($event);$i++) {
+        $todo = Sabre\VObject\Document::create('VTODO');
+        $todo->summary = $event[$i]['content'];
+        $todo->dtstart = $event[$i]['start_t'];
+        $todo->ddtend = $event[$i]['end_t'];
+        $vcal->add($todo);
+        var_dump($todo);
+    }
+
+    file_put_contents('output.ics', $vcal->serialize()); 
+    echo json_encode($event); 
+    exit(); 
+}
+elseif($op == 'delete') {
     //删除
     if(submitcheck('deletesubmit')) {
         $sql = "delete from ".tname('calendar')." where uid={$_SGLOBAL['supe_uid']} and id={$calendar_id}";
@@ -164,56 +240,163 @@ if($op == 'delete') {
 }elseif($op == 'getCalendarInfo'){
     $start_t = isset($_GET['start']) ? strtotime($_GET['start']) : strtotime('Y-m-d', strtotime('-2 day'));
     $end_t = isset($_GET['end']) ? strtotime($_GET['end']) : strtotime('Y-m-d', strtotime('+2 day'));
-
-    $sql = 'select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}";
+    
+    $sql = 'select * from ' . tname('calendar_info') . " where ";
+    if(!$_GET['calendar_info_id'] || $_GET['addtime'] == 'new')   {
+        $sql.="`calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t}";
+    }
+    if($_GET['addtime'] == 'new')   {
+        $sql.=" order by dateline desc limit 1";
+    }
+    if($_GET['calendar_info_id']) {
+        $sql.=" `id` = '".$_GET['calendar_info_id']."'";
+    }
     $query = $_SGLOBAL['db']->query($sql);
-
     $event = array();
     while ($val = $_SGLOBAL['db']->fetch_array($query)) {
         $item = array();
         $item['id'] = $val['id'];
-        $item['title'] = $val['content'] . ' --- ' . $val['place'];
+        $item['title'] = $val['content'] ;
         $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
         $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
         $item['color'] = $val['bgcolor'];
         $event[] = $item;
     }
+    $sql = 'select * from '.tname('arrangement')." where `starttime` >= {$start_t}";
+    $query = $_SGLOBAL['db']->query($sql);
+    while($val = $_SGLOBAL['db']->fetch_array($query))  {
+        $item = array();
+        $item['id'] = $val['arrangementid'];
+        $item['title'] = $val['subject'];
+        $item['start'] = date('Y-m-d H:i:s', $val['starttime']);
+        $item['end'] = date('Y-m-d H:i:s',$val['starttime']+3600);
+        $item['color'] = 'rgb(68,10,231)';
+        $event[] = $item;
+    }
+
+    if($_GET['filter'] == 'school')   {
+        $event = array();
+        $sql = 'select *  from '.tname('arrangement')." where `starttime` >= {$start_t}";
+        $query = $_SGLOBAL['db'] -> query($sql);
+        while($val = $_SGLOBAL['db'] -> fetch_array($query))    {
+            $item = array();
+            $item['id'] = $val['arrangementid'];
+            $item['title'] = $val['subject'];
+            $item['start'] = date('Y-m-d H:i:s', $val['starttime']);
+            $item['end'] = date('Y-m-d H:i:s',$val['starttime']+3600);
+            $item['color'] = 'rgb(68,10,231)';
+            $event[] = $item;
+        }
+    }
+    if($_GET['filter'] == 'person') {
+        $color = "#75D906";
+    }
+    elseif ($_GET['filter'] == 'edu') {
+        $color = "#7515E0";
+    }
+    
+    if($_GET['filter'] == 'person' || $_GET['filter'] == 'edu')   {
+        $event = array();
+        $sql = 'select * from ' . tname('calendar_info') . " where `calendar_id` = {$calendar_id} and `start_t` >= {$start_t} and `end_t` <= {$end_t} and bgcolor='".$color."'";
+        if($_GET['addtime'] == 'new')   {
+            $sql.=" order by dateline desc limit 1";
+        }
+        $query = $_SGLOBAL['db']->query($sql);
+        while ($val = $_SGLOBAL['db']->fetch_array($query)) {
+            $item = array();
+            $item['id'] = $val['id'];
+            $item['title'] = $val['content'] ;
+            $item['start'] = date('Y-m-d H:i:s', $val['start_t']);
+            $item['end'] = date('Y-m-d H:i:s', $val['end_t']);
+            $item['color'] = $val['bgcolor'];
+            $item['editable'] = 'true';
+            $event[] = $item;
+        }
+    }
     echo json_encode($event);
     exit();
-}elseif($op == 'addEventDo') {
+}elseif($op == 'resize' || $op == 'drag')  {
+    $calendar_info_id = $_GET['calendar_info_id'];
+    $min = $_POST['minutes'];
+    $hour = $_POST['hours'];
+    $day = $_POST['days'];
+    $sql = "SELECT * FROM ".tname("calendar_info")." WHERE id = ".$calendar_info_id;
+    $query = $_SGLOBAL['db']-> query($sql);
+    $event = array();
+    if($res = $_SGLOBAL['db']->fetch_array($query)) {
+        if($op == 'drag')   {
+            $startt = intval($res['start_t']) + 60*$min+3600*$hour+3600*24*$day;
+        }
+        $endt = intval($res['end_t']) + 60*$min+3600*$hour+3600*24*$day;
+        $sql_start = "UPDATE ".tname("calendar_info")." SET end_t = ".$endt;
+        if($op == 'drag')   {
+            $sql_start .= " , start_t = ".$startt;
+        }
+        $sql_end = " WHERE id=".$calendar_info_id;
+        $sql = $sql_start . $sql_end;
+        $_SGLOBAL['db'] -> query($sql);
+        $item = array();
+        $item['id'] = $res['id'];
+        $item['title'] = $res['content'];
+        $item['color'] = $res['bgcolor'];
+        if($op == 'drag')   {
+            $item['start'] = date('Y-m-d H:i:s',$startt);
+        }
+        else {
+            $item['start'] = date('Y-m-d H:i:s',$res['start_t']);
+        }
+        $item['end'] = date('Y-m-d H:i:s',$endt);
+        $event[] = $item;
+    }
+    echo json_encode($event);
+    exit();
+}
+elseif($op == 'addEventDo') {
     //添加事件
     if (submitcheck('calendarEventBtn') && !empty($calendar)) {
 
-        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
-        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
-        $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '#924420';
+        $start_time = strtotime($_POST['start_d']);
+        $end_time = strtotime($_POST['end_d']);
+        if($_POST['bg']=="school")  {
+            $bgcolor = '#7515E0';
+        }
+        else if($_POST['bg']=="person") {
+            $bgcolor = '#75D906';
+        }    
         $dateline = time();
-
         $sql = 'insert into ' . tname('calendar_info') . ' (`calendar_id`, `content`, `place`, `start_t`, `end_t`, `dateline`, `bgcolor`) ' .
-            " values ('{$_POST['calendar_select_id']}', '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
+            " values ('{$calendar_id}', '{$_POST['eventContent']}', '{$_POST['place']}', {$start_time}, {$end_time}, {$dateline}, '{$bgcolor}')";
         $_SGLOBAL['db']->query($sql);
-        showmessage('do_success', "space.php?do=calendar");
+        echo "true";
+        exit();
     }
-    showmessage('do_error');
+    echo "error";
+    exit();
 }elseif($op == 'editEvent'){
     isset($_GET['calendar_info_id']) && !empty($calendar) ? $calendar_info_id = $_GET['calendar_info_id'] : showmessage('do_error');
-    if(submitcheck('calendarEditEventBtn') ){
-        $start_time = strtotime($_POST['start_d'] . ' ' . date('H:i', $_POST['start_t'] / 1000) . ':00');
-        $end_time = strtotime($_POST['end_d'] . ' ' . date('H:i', $_POST['end_t'] / 1000) . ':00');
-        $bgcolor = isset($_POST['bgcolor']) ? $_POST['bgcolor'] : '924420';
-
-        $sql = 'update ' . tname('calendar_info') . " set `calendar_id`='{$_POST['calendar_select_id']}', `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
+    if($_GET['submit']=='true' ){
+        $start_time = strtotime($_POST['start_d']);
+        $end_time = strtotime($_POST['end_d']);
+        if($_POST['bg']=="school")  {
+            $bgcolor = '#7515E0';
+        }
+        else if($_POST['bg']=="person") {
+            $bgcolor = '#75D906';
+        }    
+ 
+        $sql = 'update ' . tname('calendar_info') . " set `calendar_id`='{$_GET['calendar_id']}', `content` = '{$_POST['eventContent']}', `place` = '{$_POST['place']}',`start_t` = '{$start_time}',`end_t`='{$end_time}', `bgcolor` = '{$bgcolor}' where id = {$calendar_info_id}";
 
         $_SGLOBAL['db']->query($sql);
 
-        showmessage('do_success', "space.php?do=calendar");
+        echo "true";
+        exit();
     }else{
         $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
         $query = $_SGLOBAL['db']->query($sql);
         $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
-        $calendarInfo['start_d'] = date('Y-m-d', $calendarInfo['start_t']);
+        $calendarInfo['start_d'] = date('Y-m-d H:i:s', $calendarInfo['start_t']);
         $calendarInfo['start_w'] = date('H:i', $calendarInfo['start_t']);
-        $calendarInfo['end_d'] = date('Y-m-d', $calendarInfo['end_t']);
+        $calendarInfo['end_d'] = date('Y-m-d H:i:s', $calendarInfo['end_t']);
         $calendarInfo['end_w'] .= date('H:i', $calendarInfo['end_t']);
     }
 }elseif($op == 'showEvent'){
@@ -224,7 +407,7 @@ if($op == 'delete') {
     $sql = 'select * from ' . tname('calendar_info') . " where id = {$calendar_info_id} limit 1";
     $query = $_SGLOBAL['db']->query($sql);
     $calendarInfo = $_SGLOBAL['db']->fetch_array($query);
-
+    
     $calendarInfo['show_date'] = date('m月d日', $calendarInfo['start_t']);
     $calendarInfo['show_date'] .= '（周' . getWeekName(date('w', $calendarInfo['start_t'])) . '），';
     $calendarInfo['show_date'] .= date('H', $calendarInfo['start_t']) >= 12 ? '下午' : '上午';
