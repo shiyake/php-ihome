@@ -657,6 +657,11 @@ function deltag(tuid){
 		});		
 }
 function delltag(id){
+	var dtag = jq('#atag'+id).text() + ' ';
+	var otag = jq('#tagnames').val() + ' ';
+	otag = otag.replace(new RegExp(dtag), " ");
+	otag = otag.substring(0,otag.length-1);
+	jq('#tagnames').val(otag);
 	jq('#atag'+id).remove();
 	id = jq('#acount').val()*1 - 1;
 	jq('#acount').val(id);
