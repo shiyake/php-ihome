@@ -92,7 +92,8 @@ if ($_GET['op'] == 'menu'){
 		echo '-2';
 		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('ntag_user')." WHERE tuid = '$tuid'");
 		if ($value = $_SGLOBAL['db']-> fetch_array($query))	{	
-		  $uids = explode($value['uid']);
+		echo $value['uid'];
+		  $uids = explode(',', $value['uid']);
 			print_r($uids);
 			if (in_array($uid, $uids)){
 				$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid'");
