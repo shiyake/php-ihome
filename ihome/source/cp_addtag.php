@@ -99,6 +99,6 @@ if ($_GET['op'] == 'menu'){
 			}
 		}
 	}	
-	showmessage('删除成功', $_SGLOBAL['refer']);
+	//showmessage('删除成功', $_SGLOBAL['refer']);
 }
 ?>
