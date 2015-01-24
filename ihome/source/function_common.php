@@ -3462,7 +3462,7 @@ function getntags($uid, $dotype, $doid = 0){
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid.' LIMIT 10');
 		$delico = '';
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="#" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
+			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="javascript:;" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
 			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
 		}
 		if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
