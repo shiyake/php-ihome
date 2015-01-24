@@ -84,22 +84,17 @@ if ($_GET['op'] == 'menu'){
 }elseif($_GET['op'] == 'del'){
 	$tuid = $_GET['tuid'];
 	$uid = $_SGLOBAL['supe_uid'];
-	echo $uid;
 	if (checkperm('admin')){
 		$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid'");
-		echo '-1';
 	}else{
-		echo '-2';
 		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('ntag_user')." WHERE tuid = '$tuid'");
 		if ($value = $_SGLOBAL['db']-> fetch_array($query))	{	
-		echo $value['uid'];
 		  $uids = explode(',', $value['uid']);
-			print_r($uids);
 			if (in_array($uid, $uids)){
 				$_SGLOBAL['db']->query("DELETE FROM ".tname('ntag_user')." WHERE tuid='$tuid'");
 			}
 		}
 	}	
-	//showmessage('删除成功', $_SGLOBAL['refer']);
+	showmessage('删除成功', $_SGLOBAL['refer']);
 }
 ?>
