@@ -38,7 +38,6 @@ function videoViewControl($scope,$q,$http,$location,$sce) {
 		$scope.video = data;
 	});
 }
-
 function videoUploadController($scope,$q,$http,$location) {
 	var deferred = $q.defer();
 	$scope.upload = function(){
