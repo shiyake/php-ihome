@@ -46,7 +46,7 @@
                     <li><a href="#public_brand">品牌推广</a></li>
                     <li><a href="#public_english">航路研语</a></li>
                     <li><a href="#public_student_party">学生党组织</a></li>
-
+                    <li><a href="#public_teacher_work">名师工作坊</a></li>
                     <li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit">
                         <a href="#public_others">其他</a>
                     </li>
@@ -395,7 +395,39 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_others" style="display:none">
+	<div id="public_teacher_work" style="display:none">
+        <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
+            <!--{if $sublist_200}-->
+            <!--{loop $sublist_200 $key $value}-->
+            <li>
+                <div class="card clearfix">
+                    <div class="avatar160">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}" target="_blank"><!--{avatar($value[uid],big,FALSE,0,lazy,lazy)}--></a>
+                    </div>
+                    <div class="name">
+                        <a href="space.php?uid=$value[uid]" title="{$value[username]}">{$value[name]}</a>
+                    </div>
+                    <div class="ops">
+                        <span>$value[audnum]人关注</span>
+                    </div>
+                    <div class="ops-reverse">
+                        <!--{if $value['a'] =='0'}-->
+                        <a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_publics_200_$key" onclick="ajaxmenu(event, this.id, 1)" class="addfriend">关注</a>
+                        <!--{/if}-->
+                        <!--{if $value['a'] =='1'}-->
+                        <a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_publics_200_$key" onclick="ajaxmenu(event, this.id, 1)" >取消关注</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </li> 
+            <!--{/loop}-->
+            <!--{else}-->
+            <!--{template public_li_no}-->
+            <!--{/if}-->
+        </ul>
+    </div>
+
+	<div id="public_others" style="display:none">
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_0}-->
             <!--{loop $sublist_0 $key $value}-->

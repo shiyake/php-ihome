@@ -1,9 +1,4 @@
 ﻿<?php
-/***********************************************
-修改:lv
-时间:2012-06-28
-		2012-07-28
-*************************************************/
 	if(!defined('iBUAA')) {
 		exit('Access Denied');
 	}
@@ -48,7 +43,7 @@
 	}
 	$i = 0;
 	$m = 0;
-	//1为学院、2为部处、3为名人、4为学生组织、5为兴趣社团、6为学生党组织、7为活动主页、8为品牌主页、20为班级主页、100为航路研语、默认0为其他；
+	//1为学院、2为部处、3为名人、4为学生组织、5为兴趣社团、6为学生党组织、7为活动主页、8为品牌主页、20为班级主页、100为航路研语、200为名师工作坊，默认0为其他；
 	$publiclist = array();
 	$addedplist = array();
 	$sublist_1 = array();//学院
@@ -61,6 +56,7 @@
 	$sublist_8 = array();//品牌主页
 	$sublist_20 = array();//班级主页
 	$sublist_100 = array();//航路研语
+	$sublist_200 = array();//名师工作坊
 	$sublist_0 = array();//other
 	
 
@@ -83,6 +79,7 @@
 		if($value['pptype']=='8')$sublist_8[] = $value;
 		if($value['pptype']=='20')$sublist_20[] = $value;
 		if($value['pptype']=='100')$sublist_100[] = $value;
+		if($value['pptype']=='200')$sublist_200[] = $value;
 		if($value['pptype']=='0' || $value['pptype']=='')$sublist_0[] = $value;
 
 		//$i++;

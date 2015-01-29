@@ -10,10 +10,12 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-$query=$_SGLOBAL['db']->query('SELECT groupid from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
+$query=$_SGLOBAL['db']->query('SELECT groupid,pptype from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
 if($res=$_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['mygroupid']=$res['groupid'];
+	$_SGLOBAL['pptype']=$res['pptype'];
 }
+$pptype_res = array("1"=>"学院","2"=>"部处","3"=>"名人","4"=>"学生组织","5"=>"兴趣社团","6"=>"学生党组织","7"=>"活动主页","8"=>"品牌主页","20"=>"班级主页","100"=>"航路研语","200"=>"名师工作坊");
 //ￊﾵￃ￻￈ￏￖﾤ
 if($space['namestatus']) {
 	include_once(S_ROOT.'./source/function_cp.php');
@@ -75,7 +77,7 @@ $space['domainurl'] = space_domain($space);
 //ﾸ￶￈ￋﾶﾯￌﾬ
 $feedlist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,20");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY top DESC,dateline DESC  LIMIT 0,20 ");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
@@ -135,7 +137,7 @@ if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
 		FROM ".tname('blog')." b
 		LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
 		WHERE b.uid='$space[uid]'
-		ORDER BY b.dateline DESC LIMIT 0,5");
+		ORDER BY b.weight DESC, b.dateline DESC LIMIT 0,5");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
 			if($value['pic']) $value['pic'] = pic_cover_get($value['pic'], $value['picflag']);

@@ -134,6 +134,8 @@ if($CurrentTime - $FileModTime > 3600){
 	fwrite($f,$friends);
 	fclose($f);
 }
+$querygroupid = $_SGLOBAL['db']->query("SELECT groupid,pptype,caninvite FROM ".tname('space')." WHERE uid=".$_SGLOBAL['supe_uid']);
+$groupid = $_SGLOBAL['db']->fetch_array($querygroupid);
 
 //include_once("space_status_feed.html");
 if($_SGLOBAL['supe_uid']){	
@@ -341,6 +343,20 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 if (empty($shortcuts)) {
 	$hasShortcut = FALSE;
+}
+//置顶
+if($_POST['uid'] == $_SGLOBAL['supe_uid'] && $_GET['go_top'])	{
+	$uid = $_POST['uid'];
+	$go_top_id = $_GET['go_top'];
+	$res = $_SGLOBAL['db'] -> query("SELECT max(top) FROM ".tname("feed")." WHERE uid=".$uid);
+	$max_top = "";
+	if($val = $_SGLOBAL['db']->fetch_array($res))	{
+		$max_top = $val['max(top)'];
+	}
+	$sql = "UPDATE ".tname("feed")." SET `top` = '".($max_top+1)."' where `id` = '".$go_top_id."'";
+	$res = $_SGLOBAL['db'] -> query($sql);
+	echo $res;
+	exit();
 }
 
 //处理
