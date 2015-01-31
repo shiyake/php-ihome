@@ -1,11 +1,6 @@
 
 <!--{if empty($ajax_edit)}-->
-<!--{if $i==$l}-->
-<li id="comment_$value[cid]_li" class="comment_last">
-<!--{else}-->
-<li id="comment_$value[cid]_li">
-<!--{/if}-->
-<!--{/if}-->
+<li id="comment_$value[cid]_li" class="clearfix">
 	<!--{if $value[author]}-->
 	<div class="avatar48"><a href="space.php?uid=$value[authorid]"><!--{avatar($value[authorid],'small')}--></a></div>
 	<!--{else}-->
@@ -16,13 +11,11 @@
 		<div class="r_option">
 		<!--{if $value['authorid'] != $_SGLOBAL['supe_uid'] && $value['author'] == "" && $_SGLOBAL[magic][reveal]}-->
 			<a id="a_magic_reveal_{$value[cid]}" href="magic.php?mid=reveal&idtype=cid&id=$value[cid]" onclick="ajaxmenu(event,this.id,1)"><img src="image/magic/reveal.small.gif" class="magicicon">{$_SGLOBAL[magic][reveal]}</a>
-			<span class="pipe">|</span>
 		<!--{/if}-->
 			<!--{if $value[authorid]==$_SGLOBAL[supe_uid]}-->
 				<!--{if $_SGLOBAL[magic][anonymous]}-->
 				<img src="image/magic/anonymous.small.gif" class="magicicon">
 				<a id="a_magic_anonymous_{$value[cid]}" href="magic.php?mid=anonymous&idtype=cid&id=$value[cid]" onclick="ajaxmenu(event,this.id, 1)">{$_SGLOBAL[magic][anonymous]}</a>
-				<span class="pipe">|</span>
 				<!--{/if}-->
 				<!--{if $_SGLOBAL[magic][flicker]}-->
 				<img src="image/magic/flicker.small.gif" class="magicicon">
@@ -31,7 +24,6 @@
 					<!--{else}-->
 				<a id="a_magic_flicker_{$value[cid]}" href="magic.php?mid=flicker&idtype=cid&id=$value[cid]" onclick="ajaxmenu(event,this.id, 1)">{$_SGLOBAL[magic][flicker]}</a>
 					<!--{/if}-->
-				<span class="pipe">|</span>
 				<!--{/if}-->
 			<!--{/if}-->
 			<!--{if $value[authorid]==$_SGLOBAL[supe_uid] || $value[uid]==$_SGLOBAL[supe_uid] || checkperm('managecomment')}-->
@@ -45,7 +37,7 @@
 			<a href="cp.php?ac=common&op=report&idtype=comment&id=$value[cid]" id="a_report_$value[cid]" onclick="ajaxmenu(event, this.id, 1)">举报</a>
 		</div>
 		<!--{if $value[author]}-->
-		<a href="space.php?uid=$value[authorid]" id="author_$value[cid]">{$_SN[$value[authorid]]}</a> 
+		<a href="space.php?uid=$value[authorid]" id="author_$value[cid]">{$value[author]}</a> 
 		<!--{else}-->
 		匿名
 		<!--{/if}-->
