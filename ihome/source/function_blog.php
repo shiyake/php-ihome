@@ -242,7 +242,6 @@ function calendar_post($POST,$olds=array()){
 	}
 	//��ɫ�л�
 	if(!empty($__SGLOBAL)) $_SGLOBAL = $__SGLOBAL;
-
 	return $calendararr;
 }
 

@@ -72,7 +72,7 @@
     </div>
 </div>
 <div class="dept_op">
-    <a href="space.php?uid=$dep[uid]">查看主页</a>
+    <a href="space.php?&do=complain&view=all&type=all&atuid=$dep[uid]">查看诉求</a>
     <a href="cp.php?ac=poke&amp;op=send&amp;uid=$dep[uid]" id="a_poke_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="打招呼">打个招呼</a>
     <!--{if $dep[infeed]}-->
     <a href="cp.php?ac=friend&amp;op=ignore&amp;uid=$dep[uid]" id="a_friend_$dep[uid]" onclick="ajaxmenu(event, this.id, 1)" title="取消关注">取消关注</a>

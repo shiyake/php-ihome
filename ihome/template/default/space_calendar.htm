@@ -1,65 +1,129 @@
 <!--{eval $_TPL['titles'] = array('日历');}-->
-<!--{template header}-->
 
-<!--{if !empty($_SGLOBAL[inajax])}-->
-	<div id="space_blog" class="feed">
-		<h3 class="feed_header">
-			<a href="cp.php?ac=arrangement" class="r_option" target="_blank" style="font-size:14px;">发布新安排</a>
-			校园日历(共 $count 篇)
-		</h3>
-		<!--{if $count}-->
-		<ul class="line_list">
-		<!--{loop $list $value}-->
-			<li>
-				<span class="gray r_option"><!--{date('m-d H:i',$value[starttime],0)}--></span>
-				<h4><a href="space.php?uid=$space[uid]&do=arrangement&id=$value[arrangementid]" target="_blank" >$value[subject]</a></h4>
-            
-                <div class="detail">
-					$value[message]
-				</div>
-			</li>
-		<!--{/loop}-->
-		</ul>
-		<div class="page">$multi</div>
-		<!--{else}-->
-		<div style="text-align:center;margin-top:75px;"><img src="image/icons/no_status.png"/><p style="color:#777;">还没有相关的校园日历。</p></div>
-		<!--{/if}-->
-	</div>
-<!--{else}-->
+<!--{template header}-->
+<div id="calender_event_add" data-calendar_id = "{$calendar_id}" class="popupmenu_popup" style="display:none;width:362px;position:fixed;margin-left:-181px;z-index:100;left:50%;top:30%;">
+      <h1>添加事件</h1>
+      <a href="javascript:;" id="add_del" class="float_del" title="关闭">关闭</a>
+      <div class="popupmenu_inner">
+          <form id="calendarAddEvent" name="calendarAddEvent" method="post">
+        <div style="padding:20px 30px;">
+        <div class="calender_line">
+                <label>内容：<input type="text" class="t_input form-control input-sm" style="display:inline;width:250px;" name="eventContent" value="" /></label>
+            </div>
+
+            <div class="calender_line">
+                <label>地点：<input name="place" value="$calendarInfo['place']" class="t_input form-control input-sm" style="display:inline;width:250px;"></label>
+            </div>
+            <div class="calender_line">
+                <label>时间：
+                    <input type="text" name="start_d" readonly style="margin-left:-3px;" class="t_input time-input form-control input-sm" id="start_d_hidden" value=""/>
+                </label>
+                至
+                <label>
+                    <input type="text" name="end_d" id="end_d_hidden" readonly class="t_input time-input form-control input-sm" value="" />
+                </label>
+                <label>
+                     <input name="is_send_msg" type="checkbox" onclick="show_send_msg(this);"/>提醒
+                 </label>
+             </div>
+            <div id="msg_div" style="display:none">
+                 <label class="radio-inline">
+                     <input type="radio" name="is_send_msg_time" checked  id="is_send_msg_1" value="1"/>提前1小时
+                 </label>
+                 <label class="radio-inline">
+                     <input type="radio" name="is_send_msg_time" id="is_send_msg_2" value="2"> 提前2小时
+                 </label>
+                 <label class="radio-inline">
+                     <input type="radio" name="is_send_msg_time" id="is_send_msg_3" value="3" > 提前3小时
+                 </label>
+             </div>
+                          <input id="bg" type="hidden" name="bg" value="school"/>
+            <div class="calender_line">
+                <label>日历:</label>
+                <label style="margin-left:5px;margin-right:10px;" for="calendar_select_school" onclick="select_me('calendar_select_school')"><img class="select_img" onclick="select_me('calendar_select_school')" id="calendar_select_school_box" data-for="calender_select_school" src="image/calender/pink_select_on.png"><input type="radio" style="margin-left:10px;display:none;" checked  name="calendar_select_id" id="calendar_select_school" >课程表</label>
+                <label for="calendar_select_person" onclick="select_me('calendar_select_person')"><img class="select_img" onclick="select_me('calendar_select_person')" id="calendar_select_person_box" data-for="calender_select_person" src="image/calender/green_select.png">
+                <input type="radio" name="calendar_select_id" style="display:none;" id="calendar_select_person" >个人日历</label></div>
+            <div class="calender_line clearfix"> 
+                <input type="hidden" name="calendarEventBtn" class="submit btn btn-sm btn-comments" value="true">
+                <button name="btnsubmit" type="button" style="float:right" id="calendar_add_save" class="btn btn-sm btn-comments" value="true">保存</button>
+                <input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+            </div>
+        </div>
+    
+        <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->"/>
+    </div>
+    </form>
+
+    </div>	
+
+<script type="text/javascript" src="plugin/fullcalendar/jquery-ui/js/jquery-ui.min.js"></script>
 
 <script language="javascript" type="text/javascript" src="source/script_calendar.js"></script>
+
 <script type="text/javascript" src="plugin/fullcalendar/lib/jquery.min.js"></script>
-        <script type="text/javascript">
-            var j11 = jQuery.noConflict();
-        </script>
+<script>
+var select_me = function(name)  {
+    jQuery("#"+name).prop("check",true);
+    console.log(name);
+    if(jQuery("#"+name+"_box").attr("src") == "image/calender/pink_select.png") {
+        jQuery("#"+name+"_box").attr("src","image/calender/pink_select_on.png");
+        jQuery("#calendar_select_person_box").attr("src","image/calender/green_select.png");
+        jQuery("#bg").attr("value","school");
+    }
+    else if(jQuery("#"+name+"_box").attr("src") == "image/calender/green_select.png")  {
+        jQuery("#"+name+"_box").attr("src","image/calender/green_select_on.png");
+        jQuery("#calendar_select_school_box").attr("src","image/calender/pink_select.png");
+        jQuery("#bg").attr("value","person");
+    }
+}
+</script>
+<script type="text/javascript">
+    var j11 = jQuery.noConflict();
+</script>
 <script type="text/javascript" src="plugin/fullcalendar/lib/moment.min.js"></script>
-<script type="text/javascript" src="plugin/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="plugin/fullcalendar/fullcalendar1.min.js"></script>
 <script type="text/javascript" src="plugin/fullcalendar/zh-cn.js"></script>
+<script type="text/javascript" src="plugin/iCheck/icheck.min.js?v=1.0.2"></script>
+<link rel="stylesheet" href="plugin/iCheck/skins/all.css?v=1.0.2">
+<link rel="stylesheet" href="plugin/iCheck/skins/flat/red.css">
+<link rel="stylesheet" href="plugin/fullcalendar/jquery-ui/css/jquery-ui-light/jquery-ui.min.css"></link>
 <link rel="stylesheet" href="plugin/fullcalendar/fullcalendar.min.css">
-
+ 
 <div class="title title30">
-    <div class="fc fc-right" style="width: 550px;display: inline-block;background: #ffffff;">
-        <span style="font-size: 18px;">日历</span>
-        <div class="fc-button-group" style="float: right;">
-            <button type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left" id="cPrev">
-                <span class="fc-icon fc-icon-left-single-arrow"></span>
-            </button>
-            <button type="button" class="fc-next-button fc-button fc-state-default fc-corner-right" id="cNext">
-                <span class="fc-icon fc-icon-right-single-arrow"></span>
-            </button>
-        </div>
-    </div>
-
-    <div class="r_option">
-        <a style="font-size:14px;line-height:30px;" href="cp.php?ac=arrangement">发布新安排</a>
-    </div>    
+	<div style="padding-top:10px;">
+	<h4><img src="image/icons/icon_calendar.png" style="margin-top:-5px;">&nbsp;日历</h4>
 </div>
+    <!--{if $groupid['groupid'] == 1}-->
+    <div style="position:absolute;right:20px;margin-top:-25px;">
+        <h5><a href="cp.php?ac=arrangement">发布新安排</a></h5>
+    </div>
+    <!--{/if}-->
+	<div class="btn-group" style="z-index:100;padding-top:5px;">
+	    <button id="caldropdown"  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100px;padding-top:2px;padding-bottom:2px;margin-top:10px;">
+	    	 <span class="placeholder">全部</span>
+	      <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu" role="menu" style=" z-index:100;">
+		      <li name="li-cal"><a id="all-filter" href="#all">全部</a></li>
+		      <li name="li-cal"><a id="edu-filter" href="#edu"> 课程表</a></li>
+		      <li name="li-cal"><a id="person-filter" href="#person"> 个人日历</a></li>
+		      <li name="li-cal"><a id="school-filter" href="#school"> 校园日历</a></li>
+	    </ul>
+  </div>
+	
+ </div>
 <style>
     .h_status a {
         color: #777;
         margin-right: 5px;
     }
-
+    #caldropdown .caret {
+        float:right;
+        margin-top:8px;
+    }
+    #caldropdown {
+        border-radius:3px;
+    }
     .h_status .active {
         color: #01B6F9;
     }
@@ -84,6 +148,9 @@
         vertical-align: top;
         display: inline-block;
     }
+    #calendar_select_school_box {
+        margin-right:3px;
+    }
     .eventColorActive{
         background: url(/image/combined_v46_vr.png);
         background-position: -95px -50px;
@@ -96,41 +163,19 @@
         position: relative;
         vertical-align: top;
     }
+    .time-input {
+        width:95px;
+        display:inline;
+    }
+    hr.fc-widget-header {
+        display:none !important;  
+    }
 </style>
+<input id="filter-get" type="hidden" value="{$_GET['filter']}"/>
 
-<div id="content" style="padding-left:10px;margin-top: 10px;border-right:none;background: #ffffff;">
+<div id="content" style="width:initial;padding-left:10px;margin-top: -27px;border-right:none;background: #ffffff;">
+
 </div>
-
-	<div class="sidebox" style="position:absolute;right:0;border-bottom:none;margin-top:20px;">
-		<div class="calendarbox" id="calendar_info"></div>
-        </div>
-        
-	<script type="text/javascript" charset="$_SC[charset]">
-		function showcalendar_new(month){
-			var month = month ? "&month="+month : "";
-			ajaxget('cp.php?ac=calendar&op=calendar' + month + '&date=$_GET[date]&url=<!--{eval echo urlencode($calendarurl)}-->&calendar_id=<!--{eval echo $id;}-->', 'calendar_info');
-		}
-		showcalendar_new();
-	</script>
-    
-    <div class="sidebox" style="position:absolute;right:0; top:280px;border-bottom:none;margin-top:20px;">
-        <h4 class="title">
-            <p class="r_option" ><a href="cp.php?ac=calendar&op=add" id="calendar_add" onclick="ajaxmenu(event, this.id)">添加</a></p>
-            我的日历
-        </h4>
-        
-        <ul class="post_list line_list" id="my_calendar_list" style="width:190px; min-width:172px;">
-        <!--{loop $list $value}-->
-        <li id="calendar_list_$value[id]_li">
-        <a class="c_edit" onclick="ajaxmenu(event, this.id)" id="c_edit_$value[id]" href="cp.php?ac=calendar&op=edit&calendar_id=$value[id]">编辑</a>
-        <a class="c_delete" onclick="ajaxmenu(event, this.id)" id="c_delete_$value[id]" href="cp.php?ac=calendar&op=delete&calendar_id=$value[id]">删除</a>
-        <a href="space.php?uid=$space[uid]&do=calendar&id=$value[id]">$value[calendar_name]</a>
-        </li>
-		<!--{/loop}-->
-	</ul>
-
-    </div>
-<!--{/if}-->
 
     <script type="text/javascript">
         var clickDate = {};
@@ -147,10 +192,10 @@
             fc = j11(id);
             middleDate ? null : middleDate = j11.fullCalendar.moment();
             var fShowFirstDay = parseInt(middleDate.subtract(2, 'day').format('e'));
-            var h1 = parseInt(middleDate.add(6, 'day').format('e'));
+            var h1 = parseInt(middleDate.add(7, 'day').format('e'));
             var fHiddenDays = [fShowFirstDay, h1];
-
-            var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo';
+            
+            var eventUrl = '/cp.php?ac=calendar&op=getCalendarInfo&filter='+j11("#filter-get").val();
             var calendarId = location.search.match(/&id=(\d+)/);
             if(calendarId){
                 calendarId = calendarId[1];
@@ -159,42 +204,69 @@
                 calendarId = 0;
             }
             fc.fullCalendar({
+            	header: {
+					left: 'title;',
+					center: '',
+					right: 'prev,next,today,month,agendaWeek'
+				},
                 defaultDate : moment(caDefaultDate, 'YYYY-MM-DD'),
                 height: 1100,
                 contentHeight: 770,
-                header: false,
                 lang: 'zh-cn',
                 defaultView: 'agendaWeek',
                 allDaySlot: false,
                 axisFormat : 'H:00',
                 minTime : '07:00:00',
                 maxTime : '22:00:00',
-                columnFormat : 'M-D ddd',
-//                weekends : false,
+                dragRevertDuration :true,
                 editable : true,
+                views : {
+                    month: {
+                        editable : false
+                    }
+                },
+                selectable : true,
+                selectHelper : true,
+                columnFormat : 'M-D ddd',
+                weekends : true,
                 firstDay : fShowFirstDay,
                 hiddenDays : fHiddenDays,
-                eventDurationEditable : false,
+                unselectCancel : '#calender_event_add',
                 events : eventUrl,
+                select : function(startDate,endDate,allDay,jsEvent,view) {
+                    if(fc.fullCalendar('getView').name == 'agendaWeek') {
+                        start = startDate.format('YYYY-MM-DD H:mm:s');
+                        end = endDate.format('YYYY-MM-DD H:mm:s');
+                        j11("#start_d_hidden").val(start);
+                        j11("#end_d_hidden").val(end);
+                        j11("#calender_event_add").show();     
+                    }
+                },
                 eventClick : function(calEvent, jsEvent, view){
                     removeNoneMenu();
-                    var eaId = 'eventID' + calEvent.id;
-                    clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
-                    j11(jsEvent.target).attr('id', eaId);
-                    j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
-                    ajaxmenu(jsEvent, eaId);
-                    lastClickEventJSEvent = jsEvent;
+                    if(fc.fullCalendar('getView').name == 'agendaWeek') {
+                        if(calEvent.color == "#75D906" || calEvent.color == "#7515E0")  {
+                            var eaId = 'eventID' + calEvent.id;
+                            clickDate = {'start' : calEvent.start, 'end' : calEvent.end, 'type' : 'edit'};
+                            j11(jsEvent.target).attr('id', eaId);
+                            j11(jsEvent.target).attr('href', '/cp.php?ac=calendar&op=showEvent&calendar_id=' + calendarId + '&calendar_info_id=' + calEvent.id);
+                            ajaxmenu(jsEvent, eaId);
+                            lastClickEventJSEvent = jsEvent;
+                        }
+                        else {
+                            location.href="space.php?do=arrangement&id="+calEvent.id;
+                        }
+                    }
                 },
-                dayClick: function(date, jsEvent, view) {
-                    removeNoneMenu();
-                    clickDate = {'start': date, 'end' : date, 'type' : 'add'};
-                    clickDayEvent = jsEvent;
-                    var eaId = 'addEvent' + date.format('HHMDHm');
-                    var htmlA = j11('<a>', {'id' : eaId, 'href' : '/cp.php?ac=calendar&op=addEvent&calendar_id=' + calendarId,
-                        'style' : 'position: fixed;left: ' + jsEvent.pageX + 'px;top: ' + jsEvent.pageY + 'px;'});
-                    j11(jsEvent.target).append(htmlA);
-                    ajaxmenu(jsEvent, eaId, 0, 0, 'beforeShowAddEventHtmlA');
-                }
+                eventResize : function(event,dayDelta,minuteDelta,revertFunc,jsEvent,ui,view){
+                    j11.post("cp.php?ac=calendar&op=resize&calendar_info_id="+event.id,dayDelta._data,function(data){
+                    });        
+                },
+eventDrop : function(event,dayDelta,minuteDelta,revertFunction,jsEvent,ui,view) {
+                console.log(dayDelta._data);
+                    j11.post("cp.php?ac=calendar&op=drag&calendar_info_id="+event.id,dayDelta._data,function(data){
+                    });
+                }           
             });
         }
 
@@ -257,7 +329,25 @@
                 });
             });
 
-
+            j11(function(){
+                text = j11("#filter-get").val();
+                if(text == "all") {
+                    text = "全部";
+                }
+                else if(text == 'edu') {
+                    text = '课程表';
+                }
+                else if(text == 'school') {
+                    text='校园日历';
+                }
+                else if(text == 'person') {
+                    text='个人日历';
+                }
+                else {
+                    text = '全部';
+                }
+                j11("#caldropdown .placeholder").html(text);        
+            });
             j11('#cPrev').mouseover(function(){
                 j11('#cPrev').addClass('fc-state-hover');
             });
@@ -328,7 +418,7 @@
         }
 
         function editEventOK(res, a){
-            location.reload();
+            location.reload();name="li-cal"
         }
         function deleteEvent(calendar_id, eventID){
             var url = '/cp.php?ac=calendar&op=deleteEvent';
@@ -337,8 +427,8 @@
             });
         }
 		function check_ics_file(){
-			var file = jq("#ics_file").val();
-			var subject = jq("#subject").val();
+			var file = j11("#ics_file").val();
+			var subject = j11("#subject").val();
 			if(file.length!=0){
 				var ext = file.substr(file.indexOf('.')+1);
 				if(ext != 'ics'){
@@ -346,13 +436,198 @@
 					return false
 				}
 			}
-			if(subject.length == 0){
-				jq('#ics_error').html("请输入简历名称");
-				return false
-			}
 			return true;
 		}
+		function show_send_msg(obj){
+			  if(obj.checked)	  jq("#msg_div").css('display','block'); 
+			  else  jq("#msg_div").css('display','none'); 
+		}
+		
+		
+		
+        function customDropDown(ele){
+            this.dropdown=ele;
+            this.placeholder=this.dropdown.find(".placeholder");
+            this.options=document.getElementsByName('li-cal');//this.dropdown.find("ul.dropdown-menu > li");
+            this.val='';
+            this.index=-1;//默认为-1;
+            this.initEvents();
+        }
+        customDropDown.prototype={
+            initEvents:function(){
+                var obj=this;
+                //这个方法可以不写，因为点击事件被Bootstrap本身就捕获了，显示下面下拉列表
+                // obj.dropdown.on("click",function(event){
+                    // j11(this).toggleClass("active");
+                // });
+                
+                //点击下拉列表的选项
+               for(var i=0; i<obj.options.length;i++){
+                obj.options[i].addEventListener("click",function(){
+                    var opt=j11(this);
+                    obj.text=opt.find("a").text();
+                    obj.val=opt.attr("value");
+                    obj.index=opt.index();
+                    obj.placeholder.text(obj.text);
+                });
+               }
+            },
+            getText:function(){
+                return this.text;
+            },
+            getValue:function(){
+                return this.val;
+            },
+            getIndex:function(){
+                return this.index;
+            }
+        }
+        j11(document).ready(function(){
+            var mydropdown=new customDropDown(j11("#caldropdown"));
+            if(location.href.indexOf("filter") != -1) {
+                url = location.href.substr(0,location.href.indexOf("filter")-1) ;
+            }
+            else {
+                url = location.href;
+            }
+            j11("#add_del").click(function(){
+                j11("#calender_event_add").hide();    
 
-    </script>
+            });
+            j11("#calendar_add_save").click(function(){
+                j11.ajax({
+                    type: "POST",
+                    url:"cp.php?ac=calendar&op=addEventDo&calendar_id=$calendar_id" ,
+                    data:j11("#calendarAddEvent").serialize(),
+                    success:function(data){
+                        if(data == "true")  {
+                            j11("#calender_event_add").hide();
+                            fc.fullCalendar('addEventSource','/cp.php?ac=calendar&op=getCalendarInfo&addtime=new&filter='+j11("#filter-get").val());
+                            fc.fullCalendar('unselect');    
+                        }
+                    }    
+                });                   
+            });
+            j11("#all-filter").attr("href",url+"&filter=all");
+            j11("#school-filter").attr("href",url+"&filter=school");
+            j11("#edu-filter").attr("href",url+"&filter=edu");
+            j11("#person-filter").attr("href",url+"&filter=person");
+            j11("#leading-in-file").on("change",function(){
+                j11("#ics_upload_form").submit();        
+            }); 
+            j11("#leading-in").on("click",function(){
 
+                j11(".choose_fun").slideDown();        
+            });
+            j11(".choose_fun label input").on('click',function(){
+                j11("#leading-in-file").click(); 
+            });
+            j11("#leading-out").on("click",function(){
+                j11(".choose_fun_out").slideDown();
+            });
+        });
+		
+	    function post_edit(calendar_info_id,calendar_id) {
+            jQuery.ajax({
+                type: "POST",
+                url:"cp.php?ac=calendar&op=editEvent&calendar_id="+calendar_id+"&calendar_info_id="+calendar_info_id+"&submit=true",
+                data:j11("#calendarEditEvent_"+calendar_id).serialize(),
+                success:function(data){
+                    if(data == 'true')  {
+                        hideMenu();            
+                        fc.fullCalendar('refetchEvents');    
+                    }
+                }    
+        });     
+    }
+
+</script>
+<style>
+    #content {
+        min-height:initial;
+    }
+    .leading-plugin {
+        position:relative;
+        top:30px;
+        margin-left:20px;
+    }
+    .leading {
+        margin-top:10px;
+    }
+    .leading .btn {
+        padding-left:15px;
+        padding-right:15px;
+    }
+    .leading > form >span {
+        color:#777;
+        margin-left:10px;
+    }
+    .leading > span {
+        color:#777;
+        margin-left:10px;
+    }
+    .choose_fun > label > input {
+        margin-right:5px;
+    }
+    .choose_fun > label {
+        margin-right:20px;
+        margin-left:15px;
+        font-size:14px;
+        line-height:24px;
+        font-weight:normal;
+        cursor:pointer;
+    }
+    .choose_fun_out > label > input {
+        margin-right:5px;
+    }
+    .choose_fun_out > label {
+        margin-right:20px;
+        margin-left:15px;
+        font-size:14px;
+        line-height:24px;
+        font-weight:normal;
+        cursor:pointer;
+    }
+
+    .choose_fun {
+        margin-top:10px;
+        display:none;
+    }
+    .choose_fun_out {
+        margin-top:10px;
+        display:none;
+    }
+</style>
+<div class="leading-plugin">
+    <h4>导入日历</h4>
+    <form method="POST" enctype="multipart/form-data" id="ics_upload_form" action="cp.php?ac=calendar&op=leadin" >
+    <div class="leading-in leading" style="margin-top:0;">
+
+            <input type="file" style="visibility:hidden" name="leading-in" id="leading-in-file"/>
+            <button type="button" id="leading-in" class="btn btn-sm btn-comments">导入日历</button>
+            <span>请选择ICS文件</span>
+
+    </div>
+    <div class="choose_fun">
+        <label><input name="leadin-type" value="edu" type="radio"/>课程表</label>
+        <label><input name="leadin-type" value="person" type="radio"/>个人日历</label>
+    </div>
+    </form>
+<!--    <div class="leading-out leading">
+        <button id="leading-out" class="btn btn-sm btn-comments">导出日历</button>
+        <span>导出的文件格式为日历通用格式ICS文件</span>
+    </div>
+        <form method="POST" action="cp.php?ac=calendar&op=extract_calendar">
+    <div class="choose_fun_out">
+
+        <label><input name="leadout-type-edu" value="edu" type="checkbox"/>课程表</label>
+        <label><input name="leadout-type-school" value="school" type="checkbox"/>校园日历</label>
+        <label><input name="leadout-type-person" value="person" type="checkbox"/>个人日历</label>
+        <br>
+        <button style="margin-left:14px;" class="btn btn-sm btn-comments">确定</button>
+
+    </div>
+    </form>
+
+</div>-->
 <!--{template footer}-->

@@ -438,8 +438,9 @@ if ($_GET['op'] == 'delete') {
             }
             inserttable('complain_resp',array('uid'=>$legalEntity,'doid'=>$doid,'opid'=>$opid,'replysecs'=>$_SGLOBAL['timestamp'] - $complain['dateline']));
 
-            $note = cplang('complain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
-            notification_complain_add($complain['uid'], 'complain', $note);
+            $note = cplang('note_doingcomplain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
+            notification_complain_add($complain['uid'], 'complain', $note, $legalEntity, $legalEntityName);
+
         }
         echo "do_success";
         exit();

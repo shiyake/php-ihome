@@ -77,7 +77,7 @@ $space['domainurl'] = space_domain($space);
 //ﾸ￶￈ￋﾶﾯￌﾬ
 $feedlist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,20");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY top DESC,dateline DESC  LIMIT 0,20 ");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
@@ -137,7 +137,7 @@ if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
 		FROM ".tname('blog')." b
 		LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
 		WHERE b.uid='$space[uid]'
-		ORDER BY b.dateline DESC LIMIT 0,5");
+		ORDER BY b.weight DESC, b.dateline DESC LIMIT 0,5");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
 			if($value['pic']) $value['pic'] = pic_cover_get($value['pic'], $value['picflag']);
