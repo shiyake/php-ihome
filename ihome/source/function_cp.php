@@ -145,7 +145,10 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 
 	$allowpictype = array('flv');
 	$FILE['size'] = intval($FILE['size']);
+	
+
 	if(empty($FILE['size']) || empty($FILE['tmp_name']) || !empty($FILE['error'])) {
+
 		return cplang('lack_of_access_to_upload_file_size');
 	}
 	$fileext = fileext($FILE['name']);
@@ -153,14 +156,18 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		return cplang('only_allows_upload_video_types');
 	}
 	if($FILE['size'] > 104857600) {
+
 		return cplang('file_too_big');
 	}
 	if($FILE['size'] < 1048576) {
+
 		return cplang('file_too_small');
 	}
 	if(!$filepath = getfilepath($fileext, true)) {
+
 		return cplang('unable_to_create_upload_directory_server');
 	}
+
 	if(empty($space)) {
 		$space = getspace($_SGLOBAL['supe_uid']);
 	}
@@ -186,12 +193,15 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		return cplang('inadequate_capacity_space');
 	}
 
+
 	$maxattachsize = checkperm('maxattachsize');
 	if($maxattachsize) {
+
 		if($space['attachsize'] + $FILE['size'] > $maxattachsize + $space['addsize']) {
 			return cplang('inadequate_capacity_space');
 		}
 	}
+
 
 
 	if($albumid<0) $albumid = 0;
@@ -221,6 +231,7 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		$showtip = false;
 	}
 
+
 	//本地上传
 	$new_name = $_SC['attachdir'].'./'.$filepath;
 	$tmp_name = $FILE['tmp_name'];
@@ -232,6 +243,7 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		return cplang('mobile_picture_temporary_failure');
 	}
 	
+
 	//入库
 	$setarr = array(
 		'albumid' => $albumid,
@@ -247,8 +259,8 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		'filepath' => $filepath
 	);
 
-	$setarr['id'] = inserttable('video', $setarr, 1);
 
+	$setarr['id'] = inserttable('video', $setarr, 1);
 	$setsql = '';
 	if($showtip) {
 		$reward = getreward('uploadimage', 0);

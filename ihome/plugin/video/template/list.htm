@@ -5,16 +5,21 @@
 <div ng-app id="ng-app">
 <div ng-controller="videoControl" ng-cloak>
 	<div>
-		<h4>视频中心</h4>
+
+		<h4>
+			<img src="image/icons/icon_video.png"/>
+			视频中心
+		</h4>
 	</div>
 	<div id="upload_link">
 		<a href="plugin.php?pluginid=video&ac=upload">上传原创视频&nbsp;>></a>
 	</div>
 	<div class="tab-header">
 		<ul class="tabs"> 
-			<li class="active"><a href="javascript:;">原创视频</a></li>
-			<li><a href="javascript:;">猜你喜欢</a></li>
-			<li><a href="javascript:;">现场直播</a></li>
+			<li <!--{if $_GET['view']!="me"}-->class="active"<!--{/if}-->><a href="plugin.php?pluginid=video&ac=list">原创视频</a></li>
+			<li><a href="http://v.buaa.edu.cn/video?type=hot">猜你喜欢</a></li>
+			<li><a href="plugin.php?pluginid=live">现场直播</a></li>
+			<li <!--{if $_GET['view']=='me'}--> class="active" <!--{/if}-->><a href="plugin.php?pluginid=video&ac=list&view=me">我上传的</a></li>
 		</ul>
 	</div>
 	
