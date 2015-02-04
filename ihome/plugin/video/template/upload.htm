@@ -19,7 +19,7 @@
 			<form id="upload-form" name="upload-form" enctype="multipart/form-data"  method="post" action="/plugin.php?pluginid=video&ac=uploadfile">
 				<input type="file" name="video" ng-model="upload_model" ng-change="child_show = !child_show;upload_video();" id="upload"/>
 				<button ng-show="!child_show" type="button" class="btn btn-comments" ng-click="upload()">上传视频</button>
-<span class="upload-text">请选择要上传的本地视频文件，目前ihome支持FLV格式上传。</span>
+<span ng-show="!child_show" class="upload-text">请选择要上传的本地视频文件，目前ihome支持FLV格式上传。</span>
 				<h5 class="video-name">
 					<a href="javascript:;" id="video-name" ng-show="child_show" ng-click="child_show=!child_show;upload()">{{ file }}</a>
 				</h5>
