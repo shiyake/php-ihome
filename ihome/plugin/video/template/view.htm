@@ -17,7 +17,14 @@
 		<div class="main-title">
 			<h4><a href="plugin.php?pluginid=video&ac=list">视频中心</a></h4>
 		</div>
+		<div class="sub-title">
+			<h5>视频中心&nbsp;>>&nbsp;{$title}</h5>
+			<span class="pull-right" style="margin-top:20px;">
+				<a id="a_share_{$_GET[vid]}" href="cp.php?ac=share&type=video&id={$_GET['vid']}&inspace=1" onclick="ajaxmenu(event,this.id,1)">站内分享</a>
+			</span>
+		</div>
 		<div class="video-container">
+			
 			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="780" height="390" >
 				<param name="movie" value="ihome.swf">
 				<param name="quality" value="high">

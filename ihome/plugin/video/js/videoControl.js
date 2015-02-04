@@ -10,7 +10,7 @@ function getArgs(){
 }
 function videoControl($scope,$q,$http,$sce){
 	var deferred = $q.defer();
-	$http({method:'GET',url: '/plugin.php?pluginid=video&ac=getlist&page='+getArgs().page}).
+	$http({method:'GET',url: '/plugin.php?pluginid=video&ac=getlist&page='+getArgs().page+'&view='+getArgs().view}).
 	success(function(data,status,headers,config){
 		deferred.resolve(data);
 	}).
