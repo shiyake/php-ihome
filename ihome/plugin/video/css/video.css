@@ -73,6 +73,18 @@
 	text-decoration:none;
 	color:#333;
 }
+.upload-text {
+	color:#777;
+	margin-left:5px;
+	margin-top:10px;
+	vertical-align:bottom;
+}
+.sub-title {
+	margin-top:20px;
+	padding-bottom:5px;
+	border-bottom:1px solid #dcdcdc;
+	color:#777;
+}
 .video-card > .video-view a img {
 	width:235px;
 	height:170px;	

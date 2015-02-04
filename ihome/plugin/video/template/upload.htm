@@ -6,6 +6,7 @@
 	<div ng-controller="videoUploadController" ng-cloak>
 		<div>
 			<h4>视频中心</h4>
+			<span class="pull-right"><a href="plugin.php?pluginid=video"><<返回</a></span>
 		</div>
 		<div class="tab-header">
 			<ul class="tabs">
@@ -15,9 +16,10 @@
 		<div class="video-container">
 			<h5 class="video-author">作者：</h5>
 			<p class="video-author-sub">ihome为实名上传，请同学们不要上传非法（盗版、不可传播、含有黄色暴力行为的）视频</p>
-			<form id="upload-form" name="upload-form" enctype="multipart/form-data" target="upload_iframe"  method="post" action="/plugin.php?pluginid=video&ac=uploadfile">
+			<form id="upload-form" name="upload-form" enctype="multipart/form-data"  method="post" action="/plugin.php?pluginid=video&ac=uploadfile">
 				<input type="file" name="video" ng-model="upload_model" ng-change="child_show = !child_show;upload_video();" id="upload"/>
 				<button ng-show="!child_show" type="button" class="btn btn-comments" ng-click="upload()">上传视频</button>
+<span class="upload-text">请选择要上传的本地视频文件，目前ihome支持FLV格式上传。</span>
 				<h5 class="video-name">
 					<a href="javascript:;" id="video-name" ng-show="child_show" ng-click="child_show=!child_show;upload()">{{ file }}</a>
 				</h5>
@@ -26,19 +28,19 @@
 						<h5>
 							视频标题
 						</h5>
-						<input type="text" placeholder="输入视频标题" name="title" class="form-control"/>
+						<input type="text" placeholder="输入视频标题" required name="title" class="form-control"/>
 					</div>
 					<div class="video-abstract video-row">
 						<h5>
 							视频摘要
 						</h5>
-						<input type="text" placeholder="输入视频摘要" name="abstract" class="form-control"/>
+						<input type="text" placeholder="输入视频摘要" required name="abstract" class="form-control"/>
 					</div>
 					<div class="video-desc video-row">
 						<h5>
 							输入视频简介
 						</h5>
-						<textarea class="form-control" placeholder="输入视频简介" name="desc"></textarea>
+						<textarea class="form-control" required placeholder="输入视频简介" name="desc"></textarea>
 					</div>
 					<div class="page-view clearfix">
 						<div class="image-view" ng-show="btn_show">
@@ -49,7 +51,7 @@
 							</div>
 						</div>
 						
-						<input type="file" name="page" id="page" ng-model="upload_model" ng-change="btn_show=!btn_show;upload_page();" />
+						<input type="file" name="page" id="page" accept="image/*" ng-model="upload_model" ng-change="btn_show=!btn_show;upload_page();" />
 
 						<button id="upload_image_btn" class="btn btn-comments" ng-click="upload_image_change()" ng-show="!btn_show" type="button">上传视频封面</button>	
 						<p ng-show="!btn_show" class="page-p">请选择要上传的本地图片作为视频的封面，目前支持png、jpeg、gif等格式，<br>推荐上传尺寸为720 X 405。</p>

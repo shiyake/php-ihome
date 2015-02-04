@@ -10,7 +10,9 @@ if (!in_array($ac, $ac_array)) {
 }
 if ($ac == 'getlist') {
 	$listsql = "pass >=1";
-
+	if($_GET['view'] == 'me') {
+		$listsql = "pass >=1 and uid=".$_SGLOBAL['supe_uid'];
+	}
 	$perpage = 18;
 	$perpage = mob_perpage($perpage);
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
@@ -46,16 +48,38 @@ elseif ($ac == 'uploadfile')	{
 	$uid = $_SGLOBAL['supe_uid'];
 	$abstract = $_POST['abstract'];
 	$title = $_POST['title'];	
-	$video_detail = video_save($video,$title,$desc,$abstract);	
+	//if($video['type']!="video/x-flv")	{
+//		showmessage("请上传FLV格式视频文件","plugin.php?pluginid=video&ac=upload");
+//	}	
+	if(!strstr($image['type'],"image")) {
+		showmessage("封面请上传图片格式文件","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$abstract) {
+		showmessage("请填写视频简介","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$desc) {
+		showmessage("请填写视频描述","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$title) {
+		showmessage("请填写视频标题","plugin.php?pluginid=video&ac=upload");
+	}
+
+	$video_detail = video_save($video,$title,$desc,$abstract);
+
 	pic_save($image,0,$title);
 	$sql = "SELECT * FROM ".tname("pic")." WHERE title='".$title."' order by dateline desc limit 1";
 	$picid = 0;
 	$query = $_SGLOBAL['db']->query($sql);	
 	while($row = $_SGLOBAL['db']->fetch_array($query)){
 		$picid = $row['picid'];
-	}	
+	}
+	if($video_detail && is_array($video_detail))	{
+		include_once(S_ROOT.'./source/function_feed.php');
+		feed_publish($video_detail['id'],'videoid');
+	}
 	$sql = "UPDATE ".tname("video")." SET picid = ".$picid." WHERE id = ".$video_detail['id'];
-	$_SGLOBAL['db'] -> query($sql);
+$_SGLOBAL['db'] -> query($sql);
+	showmessage("视频已经成功上传","plugin.php?pluginid=video");
 	exit();	
 }
 elseif ($ac == 'add_view') {

@@ -121,7 +121,7 @@ if($_GET['op'] == 'delete') {
 			$arr['title_template'] = cplang('share_space');
 			$arr['body_template'] = '<b>{username}</b><br>{reside}<br>{spacenote}';
 			$arr['body_data'] = array(
-				'userbyid' => $tospace['uid'];
+				'userbyid' => $tospace['uid'],
 				'userby' => $_SN[$tospace['uid']],
                 'username' => "<a href=\"space.php?uid=$id\">".$_SN[$tospace['uid']]."</a>",
 				'reside' => $tospace['resideprovince'].$tospace['residecity'],
