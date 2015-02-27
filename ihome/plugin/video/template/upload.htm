@@ -1,131 +1,64 @@
+<script src="plugin/video/js/angular-1.2.8/angular.min.js"></script>
+<script src="plugin/video/js/videoControl.js"></script>
+<link href="plugin/video/css/video.css" rel="stylesheet" type="text/css"/>
 <!--{template header}-->
-<style type="text/css">
+<div ng-app id="ng-app">
+	<div ng-controller="videoUploadController" ng-cloak>
+		<div>
+			<h4>视频中心</h4>
+		</div>
+		<div class="tab-header">
+			<ul class="tabs">
+				<li class="active"><a href="javascript:;">我要上传</a></li>
+			</ul>
+		</div>
+		<div class="video-container">
+			<h5 class="video-author">作者：</h5>
+			<p class="video-author-sub">ihome为实名上传，请同学们不要上传非法（盗版、不可传播、含有黄色暴力行为的）视频</p>
+			<form id="upload-form" name="upload-form" enctype="multipart/form-data" target="upload_iframe"  method="post" action="/plugin.php?pluginid=video&ac=uploadfile">
+				<input type="file" name="video" ng-model="upload_model" ng-change="child_show = !child_show;upload_video();" id="upload"/>
+				<button ng-show="!child_show" type="button" class="btn btn-comments" ng-click="upload()">上传视频</button>
+				<h5 class="video-name">
+					<a href="javascript:;" id="video-name" ng-show="child_show" ng-click="child_show=!child_show;upload()">{{ file }}</a>
+				</h5>
+				<div class="hidden_field" ng-show="child_show">
+					<div class="video-title video-row">
+						<h5>
+							视频标题
+						</h5>
+						<input type="text" placeholder="输入视频标题" name="title" class="form-control"/>
+					</div>
+					<div class="video-abstract video-row">
+						<h5>
+							视频摘要
+						</h5>
+						<input type="text" placeholder="输入视频摘要" name="abstract" class="form-control"/>
+					</div>
+					<div class="video-desc video-row">
+						<h5>
+							输入视频简介
+						</h5>
+						<textarea class="form-control" placeholder="输入视频简介" name="desc"></textarea>
+					</div>
+					<div class="page-view clearfix">
+						<div class="image-view" ng-show="btn_show">
+							<img id="image-id" ng-src="{{ upload_image }}" />
+							<div class="image-view-footer clearfix">
+								<div class="image-viewer"><a ng-click="change_viewer();btn_show=!btn_show;" href="javascript:;">更改</a></div><span class="pipe pull-right">|</span>
+								<div class="image-viewer"><a ng-click="btn_show=!btn_show" href="javascript:;">删除</a></div>
+							</div>
+						</div>
+						
+						<input type="file" name="page" id="page" ng-model="upload_model" ng-change="btn_show=!btn_show;upload_page();" />
 
-#upload_video_form {
-width: 83%;
-padding: 10px 40px 80px 80px;
-border: 1px dashed #c9f12b;
--webkit-border-radius: 20px;
-position: absolute;
-top: 80px;
-height: 345px;
-}
+						<button id="upload_image_btn" class="btn btn-comments" ng-click="upload_image_change()" ng-show="!btn_show" type="button">上传视频封面</button>	
+						<p ng-show="!btn_show" class="page-p">请选择要上传的本地图片作为视频的封面，目前支持png、jpeg、gif等格式，<br>推荐上传尺寸为720 X 405。</p>
 
-
-#upload_submit {
-border-top: 1px solid #AD64E0;
-background: #0165A6;
-color: white;
-width: 650px;
-height:30px;
-text-shadow: black 1px 1px;
-text-transform: uppercase;
-margin-top: 10px;
-}
-
-input {
-width: 480px;
-padding: 6px;
-margin-bottom: 10px;
-border-top: 1px solid #AD64E0;
-border-left: 0px;
-border-right: 0px;
-border-bottom: 0px;
--webkit-transition-property: -webkit-box-shadow, background;
--webkit-transition-duration: 0.25s;
--webkit-box-shadow: 0px 0px 2px #000;
-}
-
-textarea {
-border: 1px solid #DDD;
-overflow: auto;
-width:640px;
--webkit-transition-property: -webkit-box-shadow, background;
--webkit-transition-duration: 0.25s;
--webkit-box-shadow: 0px 0px 2px #000;
-}
-
-</style>
-<form id="upload_video_form" enctype="multipart/form-data" name="upload_video_form" method="post" action="plugin.php?pluginid=video&ac=upload">
-文件：
-<br />
-<input type="file" id="uploadvideo" name="uploadvideo" onchange="checkFileExt(this)" ><span id="uploadfilelimit" style="padding:0 0 0 10px">最大支持上传100M的FLV</span>
-<br />
-标题：
-<br />
-<input type="text" id="title_video" name="title" value="" onblur="checkvideotitle()" >
-<span id="title_video_check"></span>
-<br />
-简介：
-<br />
-<textarea id="desc_video" name="desc" rows="5" onblur="checkvideodesc()" ></textarea>
-<div id="desc_video_check"></div>
-<br />
-
-<input type="submit" id="upload_submit" name="upload_submit" value="保存">
-<input type="hidden" id="uploadflv" name="uploadflv" value="ture">
-<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
-<script type="text/javascript">
-//应该用jQuery做好点,但是先这样吧,得用2个jQuery插件!
-
-var lastvideotitle = lastvideodesc = '';
-
-function checkFileExt(filename) {
-	if(!filename.value) return;
-	if (filename.value.length > 5) {
-		var startx=filename.value.lastIndexOf(".");
-		var shutdown=filename.value.length;
-		var fileext=filename.value.substring(startx,shutdown);
-		if (fileext == ".flv") return;
-	}
-	alert('对不起，请选择.flv类型的文件！');
-	filename.value = "";
-}
-	
-function checkvideotitle() {
-	var videotitle = $('title_video').value;
-	if(videotitle == lastvideotitle){
-		return;
-	}else{
-		lastvideotitle = videotitle;
-	}
-	var vtc = $('title_video_check');
-	var vtlen = videotitle.replace(/[^\x00-\xff]/g, "**").length;
-	if(vtlen < 4 || vtlen > 40){
-		warning(vtc, vtlen < 4 ? '标题小于2个汉字' : '标题超过 20 个汉字');
-		return;
-	}
-	else {
-		vtc.style.display = '';
-		vtc.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
-		vtc.className = "warning";
-	}
-}
-	
-function checkvideodesc() {
-	var videodesc = $('desc_video').value;
-	if(videodesc == lastvideodesc){
-		return;
-	}else{
-		lastvideodesc = videodesc;
-	}
-	var vdc = $('desc_video_check');
-	var vdlen = videodesc.replace(/[^\x00-\xff]/g, "**").length;
-	if(vdlen < 10 || vdlen > 400){
-		warning(vdc, vdlen < 10 ? '描述小于5个汉字' : '标题超过 200 个汉字');
-		return;
-	}
-	else {
-		vdc.style.display = '';
-		vdc.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
-		vdc.className = "warning";
-	}
-}
-	
-function warning(obj, msg) {
-	obj.style.display = '';
-	obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
-	obj.className = "warning";
-}
-</script>
+					</div>
+						<button id="upload_btn" class="btn btn-comments" type="submit" >上传</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <!--{template footer}-->

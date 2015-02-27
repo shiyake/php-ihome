@@ -133,9 +133,6 @@ function uploadFile($FILE) {
 }
 
 
-
-
-
 /*******************************************
 *$FILE--上传文件名 一般来说是$FILES['name']
 *$title--视频标题
@@ -143,7 +140,7 @@ function uploadFile($FILE) {
 *$tovideo--是为了以后更新视频用的
 *$type--视频的类型或者专辑
 ********************************************/
-function video_save($FILE, $title, $desc, $tovideoid=0, $albumid) {
+function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 	global $_SGLOBAL, $_SCONFIG, $space, $_SC;
 
 	$allowpictype = array('flv');
@@ -245,6 +242,7 @@ function video_save($FILE, $title, $desc, $tovideoid=0, $albumid) {
 		'filename' => addslashes($FILE['name']),
 		'title' => $title,
 		'desc' => $desc,
+		'abstract' => $abstract,
 		'size' => $FILE['size'],
 		'filepath' => $filepath
 	);
