@@ -370,7 +370,6 @@ function feed_publish($id, $idtype, $add=0, $fromdevice='') {
 	}
 	
 	if($setarr['icon']) {
-		
 		$setarr['appid'] = UC_APPID;
 			
 		//数据处理
