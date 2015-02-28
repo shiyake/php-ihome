@@ -161,7 +161,14 @@
                         $value[note]
                         <p class="time">&nbsp;<!--{date('m-d H:i',$value[dateline],1)}--></p>
                     </div>
-                    <!--{if $value[authorid] && !$value[isfriend]}-->
+					<!--{if $value[type]=='language_help'}-->
+					<p>
+					 <a href="plugin.php?pluginid=language_help&ac=confirm_request&fuid=$value['authorid']">通过</a>
+                    <span class="pipe">|</span>
+					<a href="plugin.php?pluginid=language_help&ac=refuse_request&fuid=$value['authorid']">拒绝</a>
+					</p>
+					<!--{/if}-->
+					<!--{if $value[authorid] && !$value[isfriend]}-->
                     <p>
                     <a href="cp.php?ac=friend&op=add&uid=$value[authorid]" id="add_note_friend_$value[authorid]" onclick="ajaxmenu(event, this.id, 1)">加为好友</a>
                     <span class="pipe">|</span>
