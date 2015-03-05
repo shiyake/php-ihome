@@ -43,7 +43,7 @@ $log->debug("check complain");
 
 $nowtime = time();
 //从complain表中筛选出已到期.但尚未处理的投诉记录
-$ComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE status=0 AND times<10");
+$ComplainQuery = $_SGLOBAL['db']->query("SELECT * FROM ".tname('complain')." USE INDEX(dateline) WHERE status=0 AND dateline AND times<10");
 while($result = $_SGLOBAL['db']->fetch_array($ComplainQuery)) {
     //根据投诉记录,取得被投诉部门的的信息
     $complain_url = "space.php?do=complain_item&doid=$result[doid]";
