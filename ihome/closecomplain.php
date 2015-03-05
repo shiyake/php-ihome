@@ -6,7 +6,7 @@ $nowtime = time() - 3 * 24 * 3600;
 $log = Logger::getLogger("closecomplain");
 $log->debug("close complain");
 
-$complains = $_SGLOBAL['db']->query("select * from ".tname("complain")." use index(dateline) where status=1 and dateline < $nowtime");
+$complains = $_SGLOBAL['db']->query("select * from ".tname("complain")." use index(dateline) where (status=1 or locked) and dateline < $nowtime");
 $num = 0;
 while ($result = $_SGLOBAL['db']->fetch_array($complains)) {
     updatetable("complain", array("status"=>2), array("id"=>$result['id']));

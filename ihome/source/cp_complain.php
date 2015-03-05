@@ -275,6 +275,10 @@ if ($_GET['op'] == 'delete') {
         }
         
         if (!$add_type) {
+            if ($UserIds) {
+                $temp = implode(',', $UserIds);
+                $_SGLOBAL['db']->query("UPDATE ".tname('complain')." SET locked=0 WHERE doid='$doid' AND uid=$_SGLOBAL[supe_uid] AND locked AND atuid in ($temp)");
+            }
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." WHERE doid='$doid'");
             $updo = $_SGLOBAL['db']->fetch_array($query);
             $updo['id'] = intval($updo['id']);
@@ -413,7 +417,7 @@ if ($_GET['op'] == 'delete') {
             if ($add_type == 2) {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             } else {
-                updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
+                updatetable('complain', array('locked'=>1, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             }
             if ($complain['lastopid'] == 0) {
                 $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
