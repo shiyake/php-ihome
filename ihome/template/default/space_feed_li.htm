@@ -1,4 +1,3 @@
-
 <!--{if $complain_msg}-->
 <li data-msg="$complain_msg" data-credit="$_SGLOBAL['member']['credit']" data-require="$_SGLOBAL['creditrule']['complain']['credit']" class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
 <!--{else}-->
@@ -210,7 +209,10 @@
 		<!--{/if}-->
 		<div id="reply_content">
 		<!--{if empty($_TPL[hidden_time])}-->
+
 		<span class="gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
+		&nbsp;<!--{if $value['fromdevice']=='web'}--><span class="grey" style="color:grey;">来自ihome网页版</span><!--{/if}--><!--{if $value['fromdevice']=='topic'}--><span class="grey" style="color:grey;">来自ihome移动版</span><!--{/if}-->
+		<!--{if $value['address']}-->&nbsp;<span class="grey grey_address" style="color:grey;">$value['address']</span><!--{/if}-->
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_menu])}-->
 				<span class="floatright">	

@@ -18,7 +18,6 @@ if($op == 'comment') {
 		$ajax_edit = 0;
 	}
 
-	//����
 	$list = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE $cidsql authorid='$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
