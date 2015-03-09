@@ -1,0 +1,23 @@
+CREATE TABLE `ihome_developer` (
+  `uid` mediumint(8) unsigned NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mobile` varchar(40) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ihome_ad4dev` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `display` int(11) NOT NULL DEFAULT 0,
+  `seq` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(64) DEFAULT NULL,
+  `description` text,
+  `image` varchar(64) DEFAULT NULL,
+  `url` varchar(256) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE ihome_apps ADD COLUMN desc_en TEXT AFTER `desc`;
+ALTER TABLE ihome_apps ADD COLUMN app_pkg VARCHAR(60) AFTER `back_url`;

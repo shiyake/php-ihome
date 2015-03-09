@@ -26,12 +26,12 @@ class usercontrol extends base {
 	function usercontrol() {
 		parent::__construct();
 		$this->load('user');
-		//note client ½öÔÚÐèÒªÊ±³õÊ¼»¯ $this->app
+		//note client ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ±ï¿½ï¿½Ê¼ï¿½ï¿½ $this->app
 		$this->app = $this->cache['apps'][UC_APPID];
 	}
 
-	//note public Íâ²¿½Ó¿Ú
-	// -1 Î´¿ªÆô
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½
+	// -1 Î´ï¿½ï¿½ï¿½ï¿½
 	function onsynlogin() {
 		$this->init_input();
 		$uid = $this->input('uid');
@@ -49,7 +49,7 @@ class usercontrol extends base {
 		return '';
 	}
 
-	//note public Íâ²¿½Ó¿Ú
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½
 	function onsynlogout() {
 		$this->init_input();
 		if($this->app['synlogin']) {
@@ -64,7 +64,7 @@ class usercontrol extends base {
 		return '';
 	}
 
-	//note public Íâ²¿½Ó¿Ú ×¢²áÐ£Ñé½Ó¿Ú
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ ×¢ï¿½ï¿½Ð£ï¿½ï¿½Ó¿ï¿½
 	function onregister() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -83,7 +83,7 @@ class usercontrol extends base {
 		return $uid;
 	}
 
-	//note public Íâ²¿½Ó¿Ú ±à¼­ÕÊ»§ÐÅÏ¢
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ ï¿½à¼­ï¿½Ê»ï¿½ï¿½ï¿½Ï¢
 	function onedit() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -107,7 +107,7 @@ class usercontrol extends base {
 		return $status;
 	}
 
-	//note public Íâ²¿½Ó¿Ú µÇÂ½½Ó¿Ú
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ ï¿½ï¿½Â½ï¿½Ó¿ï¿½
 	function onlogin() {
 		$this->init_input();
 		$isuid = $this->input('isuid');
@@ -123,7 +123,7 @@ class usercontrol extends base {
 		}
 
 		$passwordmd5 = preg_match('/^\w{32}$/', $password) ? $password : md5($password);
-		//note ÓÃ»§Ãû²»´æÔÚ
+		//note ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(empty($user)) {
 			$status = -1;
 		} elseif($user['password'] != md5($passwordmd5.$user['salt'])) {
@@ -137,14 +137,14 @@ class usercontrol extends base {
 		return array($status, $user['username'], $password, $user['email'], $merge);
 	}
 
-	//note public Íâ²¿½Ó¿Ú ajax Ð£Ñé EMAIL
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ ajax Ð£ï¿½ï¿½ EMAIL
 	function oncheck_email() {
 		$this->init_input();
 		$email = $this->input('email');
 		return $this->_check_email($email);
 	}
 
-	//note public Íâ²¿½Ó¿Ú ajax Ð£ÑéÓÃ»§Ãû
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ ajax Ð£ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 	function oncheck_username() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -155,7 +155,7 @@ class usercontrol extends base {
 		}
 	}
 
-	//note public Íâ²¿½Ó¿Ú
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½
 	function onget_user() {
 		$this->init_input();
 		$username = $this->input('username');
@@ -172,13 +172,13 @@ class usercontrol extends base {
 	}
 
 
-	//note public µÃµ½±£»¤µÄÓÃ»§ÁÐ±í
+	//note public ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ð±ï¿½
 	function ongetprotected() {
 		$protectedmembers = $this->db->fetch_all("SELECT uid,username FROM ".UC_DBTABLEPRE."protectedmembers GROUP BY username");
 		return $protectedmembers;
 	}
 
-	//note ÓÃ»§ÖÐÐÄ, ·ÇÍâ²¿½Ó¿Ú.
+	//note ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½â²¿ï¿½Ó¿ï¿½.
 	function ondelete() {
 		$this->init_input();
 		$uid = $this->input('uid');
@@ -233,7 +233,7 @@ class usercontrol extends base {
 		return NULL;
 	}
 
-	//note private Ð£ÑéÓÃ»§Ãû
+	//note private Ð£ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 	function _check_username($username) {
 		$username = addslashes(trim(stripslashes($username)));
 		if(!$_ENV['user']->check_username($username)) {
@@ -246,7 +246,7 @@ class usercontrol extends base {
 		return 1;
 	}
 
-	//note private Ð£Ñéemail
+	//note private Ð£ï¿½ï¿½email
 	function _check_email($email, $username = '') {
 		if(empty($this->settings)) {
 			$this->settings = $this->cache('settings');
@@ -263,19 +263,30 @@ class usercontrol extends base {
 	}
 
 	/**
-	 * -1 Éí·Ý²»ºÏ·¨
-	 * -2 ÉÏ´«µÄÊý¾ÝÁ÷²»ºÏ·¨
-	 * -3 Ã»ÓÐÉÏ´«Í·Ïó
+	 * -1 ï¿½ï¿½Ý²ï¿½ï¿½Ï·ï¿½
+	 * -2 ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½
+	 * -3 Ã»ï¿½ï¿½ï¿½Ï´ï¿½Í·ï¿½ï¿½
 	 */
-	//note public Íâ²¿½Ó¿Ú flash ÉÏ´«Í·Ïñ
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ flash ï¿½Ï´ï¿½Í·ï¿½ï¿½
 	function onuploadavatar() {
 	}
 
-	//note public Íâ²¿½Ó¿Ú flash ·½Ê½²Ã¼ôÍ·Ïñ COOKIE ÅÐ¶ÏÉí·Ý
+	//note public ï¿½â²¿ï¿½Ó¿ï¿½ flash ï¿½ï¿½Ê½ï¿½Ã¼ï¿½Í·ï¿½ï¿½ COOKIE ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½
 	function onrectavatar() {
 	}
 	function flashdata_decode($s) {
 	}
+
+    function oncheck_admin() {
+        $this->init_input();
+        $username = $this->input('username');
+        $admin = $this->db->fetch_first("SELECT a.*, m.* FROM ".UC_DBTABLEPRE."admins a LEFT JOIN ".UC_DBTABLEPRE."members m USING(uid) WHERE a.username='$username'");
+        if(empty($admin)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
 
 ?>

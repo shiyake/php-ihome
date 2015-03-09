@@ -1,0 +1,83 @@
+<!--{template dev_header}-->
+<div class="container table-container">
+    <div class="row table-row">
+        <!--{template dev_manage_sidebar}-->
+        <div class="col-md-10 table-col" id="servicearea">
+            <div role="tabpanel">
+                <h4>
+                    广告管理
+                    <a href="developer.php?do=manage&op=addad" class="btn btn-success pull-right" role="button">
+                        ＋ 新增广告
+                    </a>
+                </h4>
+
+                <div style="margin-top: 30px">
+                    <table class="table table-striped" id="servicelist">
+                        <thead>
+                        <tr>
+                            <th>广告序列</th>
+                            <th>广告标题</th>
+                            <th>广告缩略图</th>
+                            <th>广告链接</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{loop $ads $ad}-->
+                        <tr id="ad$ad[id]">
+                            <td>$ad[id]</td>
+                            <td>$ad[title]</td>
+                            <td><img src="$ad[image]" class="thumb"></td>
+                            <td><a href="$ad[url]" target="_blank">$ad[url]</a></td>
+                            <td>
+                                <a href="javascript:;" onclick="UpAd($ad[id])">提升</a> |
+                                <a href="javascript:;" onclick="DownAd($ad[id])"> 降低</a> |
+                                <a href="developer.php?do=manage&op=editad&adid=$ad[id]" target="_blank">编辑</a> |
+                                <a href="javascript:;" onclick="deleteAd($ad[id])">删除</a>
+                            </td>
+                        </tr>
+                        <!--{/loop}-->
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin: 10px 0px; padding: 0px;" class="page">$multi</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteAd(adid) {
+        if (confirm("你确定要删除该广告么?")) {
+            jq.post("developer.php?do=manage&op=deletead", {
+                'adid': adid
+            }, function () {
+                var jqtr = jq("#ad" + adid);
+                jqtr.fadeOut(600, function () {
+                    jqtr.remove();
+                });
+            });
+        }
+    }
+
+    function UpAd(adid) {
+        if (confirm("你确定要提升该广告么?")) {
+            jq.post("developer.php?do=manage&op=upad", {
+                'adid': adid
+            }, function () {
+                location.reload();
+            });
+        }
+    }
+
+    function DownAd(adid) {
+        if (confirm("你确定要降低该广告么?")) {
+            jq.post("developer.php?do=manage&op=downad", {
+                'adid': adid
+            }, function () {
+                location.reload();
+            });
+        }
+    }
+</script>
+</body>
+</html>
