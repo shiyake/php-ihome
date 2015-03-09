@@ -1,0 +1,141 @@
+<!--{template dev_header}-->
+<div class="container">
+    <div class="mainarea">
+        <form class="form-horizontal" method="POST" id="applyform" onsubmit="return checkForm();">
+            <h3 class="form-name">身份验证</h3>
+            <hr>
+
+            <div class="form-tip">请正确输入您的邮箱和手机号码进行身份验证</div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="email">邮箱：</label>
+
+                <div class="col-md-4">
+                    <input id="email" name="email" type="text" class="form-control input-md" placeholder="请输入邮箱地址"
+                           value="$member['email']">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm" id="verifyemail">发送邮件验证码</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="email_verifycode">邮箱验证码：</label>
+
+                <div class="col-md-2">
+                    <input id="email_verifycode" name="email_verifycode" type="text" class="form-control input-md">
+                </div>
+                <div>
+                    <span class="help-block">请输入邮箱收到的验证码</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="mobile">手机号：</label>
+
+                <div class="col-md-4">
+                    <input id="mobile" name="mobile" type="text" class="form-control" placeholder="请输入手机号"
+                           value="$member['mobile']">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm" id="verifymobile">发送短信验证码</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="mobile_verifycode">短信验证码：</label>
+
+                <div class="col-md-2">
+                    <input id="mobile_verifycode" name="mobile_verifycode" type="text" class="form-control input-md">
+                </div>
+                <div>
+                    <span class="help-block">请输入手机收到的验证码</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <input type="checkbox" name="agreement" id="agreement">
+                        我已经阅读完<a href="developer.php?do=apply&op=agreement" target="_blank">用户协议</a>并同意其中的所有条款
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->"/>
+                    <button type="submit" id="applysubmit" name="applysubmit" class="btn btn-success" value="1">完成验证
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function checkForm() {
+        if (!jq("#agreement").is(":checked")) {
+            alert("请先同意用户协议");
+            return false;
+        }
+        return true;
+    }
+
+    function updateText(jqthis, text) {
+        var lefts = 60;
+
+        function _() {
+            if (lefts == 0) {
+                jqthis.removeClass("disabled");
+                jqthis.text(text);
+                lefts = 60;
+            } else {
+                jqthis.addClass("disabled");
+                jqthis.text(lefts + "秒后重新发送");
+                lefts--;
+                setTimeout(_, 1000);
+            }
+        }
+
+        _();
+    }
+
+    jq(function () {
+        jq("#verifyemail").click(function () {
+            var jqthis = jq(this);
+            var email = jq("#email").val();
+            if (Vator.IsNullOrEmpty(email)) {
+                alert("请输入邮箱");
+                return;
+            } else if (!Vator.IsEmail(email)) {
+                alert("邮箱的格式不正确");
+                return;
+            }
+
+            jq.post("developer.php?do=apply&op=verifyemail", {
+                "email": email
+            }, function (rcode) {
+                updateText(jqthis, jqthis.text());
+            });
+        });
+
+        jq("#verifymobile").click(function () {
+            var jqthis = jq(this);
+            var mobile = jq("#mobile").val();
+            if (Vator.IsNullOrEmpty(mobile)) {
+                alert("请输入手机号");
+                return;
+            } else if (!Vator.IsMobile(mobile)) {
+                alert("手机号的格式不正确");
+                return;
+            }
+
+            jq.post("developer.php?do=apply&op=verifymobile", {
+                "mobile": mobile
+            }, function (rcode) {
+                updateText(jqthis, jqthis.text());
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!--{template dev_header}-->
+<div class="container table-container">
+    <div class="row table-row">
+        <!--{template dev_service_sidebar}-->
+        <div class="col-md-10 table-col" id="servicearea">
+            <style type="text/css">
+                #formtabs li a {
+                    color: #555555;
+                    line-height: 0.8;
+                    border-radius: 0;
+                    background-color: #ffffff;
+                }
+
+                #formtabs li.active a {
+                    color: #000000;
+                    border-top: 2px solid deepskyblue;
+                }
+            </style>
+            <div role="tabpanel">
+                <h4>提交服务</h4>
+                <ul class="nav nav-tabs" id="formtabs">
+                    <li>
+                        <a href="developer.php?do=service&op=addweblinkservice" data-target="#addform"
+                           id="addweblinkservice">
+                            网页服务接入
+                        </a>
+                    </li>
+                    <li>
+                        <a href="developer.php?do=service&op=addmobileservice" data-target="#addform"
+                           id="addmobileservice">
+                            移动服务接入
+                        </a>
+                    </li>
+                    <li>
+                        <a href="developer.php?do=service&op=addresource" data-target="#addform" id="addresource">
+                            资源接入
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="addform" style="padding: 40px">
+                    </div>
+                </div>
+            </div>
+            <script>
+                function load(url, target) {
+                    jq.get(url, function (res) {
+                        jq(target).html(res);
+                    });
+                }
+
+                jq(function () {
+                    jq("#formtabs li > a").click(function () {
+                        var jqthis = jq(this);
+                        jqthis.tab("show");
+                        var url = jqthis.attr("href");
+                        var target = jqthis.data("target");
+                        load(url, target);
+                        return false;
+                    });
+                    jq("#$_tab").click();
+                });
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>
