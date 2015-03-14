@@ -1,0 +1,58 @@
+<!--{template dev_header}-->
+<style>
+    .carousel-wrapper {
+        width: 100%;
+        margin: auto;
+    }
+
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+        /*width: 100%;*/
+        margin: auto;
+        height: 600px;
+    }
+</style>
+<div class="container">
+    <div class="carousel-wrapper">
+        <div id="carousel_ads" class="carousel slide">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <!--{loop $ads $ad}-->
+                <li data-target="#carousel_ads" data-slide-to="$key"></li>
+                <!--{/loop}-->
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <!--{loop $ads $ad}-->
+                <div class="item">
+                    <a href="$ad['url']">
+                        <img src="$ad['image']" alt="">
+                    </a>
+                </div>
+                <!--{/loop}-->
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel_ads" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel_ads" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    jq(function () {
+        jq("#carousel_ads .carousel-indicators li").first().addClass("active");
+        jq("#carousel_ads .carousel-inner .item").first().addClass("active");
+        jq('#carousel_ads').carousel({
+            interval: 2000
+        });
+    });
+</script>
+</body>
+</html>

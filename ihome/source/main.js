@@ -150,7 +150,13 @@
 			jq("#home").addClass("active");
 		} else if (path.indexOf("pluginid=apps") > 0) {
 			jq("#app").addClass("active");
-		}
+		} else if (path.indexOf("do=apply") > 0) {
+            jq("#apply").addClass("active");
+        } else if (path.indexOf("do=service") > 0 || path.indexOf("do=manage") > 0) {
+            jq("#service,#manage").addClass("active");
+        } else if (path.indexOf("do=resource") > 0) {
+            jq("#resource").addClass("active");
+        }
 	});
 	jq(function() {
 		jq("#my_defaultapp_toggle a").click(function() {
