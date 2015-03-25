@@ -26,6 +26,7 @@ if($space['namestatus']) {
 	}
 }
 
+
 //ﾷ￧ﾸ￱
 $_SGLOBAL['space_theme'] = $space['theme'];
 $_SGLOBAL['space_css'] = $space['css'];
@@ -46,6 +47,7 @@ $space['marry'] = $space['marry']=='1'?'<a href="cp.php?ac=friend&op=search&marr
 $space['birthcity'] = trim(($space['birthprovince']?"<a href=\"cp.php?ac=friend&op=search&birthprovince=".rawurlencode($space['birthprovince'])."&searchmode=1\">$space[birthprovince]</a>":'').($space['birthcity']?" <a href=\"cp.php?ac=friend&op=search&birthcity=".rawurlencode($space['birthcity'])."&searchmode=1\">$space[birthcity]</a>":''));
 $space['residecity'] = trim(($space['resideprovince']?"<a href=\"cp.php?ac=friend&op=search&resideprovince=".rawurlencode($space['resideprovince'])."&searchmode=1\">$space[resideprovince]</a>":'').($space['residecity']?" <a href=\"cp.php?ac=friend&op=search&residecity=".rawurlencode($space['residecity'])."&searchmode=1\">$space[residecity]</a>":''));
 $space['qq'] = empty($space['qq'])?'':"<a target=\"_blank\" href=\"http://wpa.qq.com/msgrd?V=1&Uin=$space[qq]&Site=$space[username]&Menu=yes\">$space[qq]</a>";
+
 
 
 /*match wether the public page are followed. by xuxing@ihome start on 2013-1-16*/
@@ -74,10 +76,14 @@ $space['star'] = getstar($space['experience']);
 //ￓ￲ￃ￻
 $space['domainurl'] = space_domain($space);
 
+
 //ﾸ￶￈ￋﾶﾯￌﾬ
 $feedlist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
+
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY top DESC,dateline DESC  LIMIT 0,20 ");
+
+
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
@@ -88,6 +94,9 @@ if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
 	}
 	$feednum = count($feedlist);
 }
+
+
+
 
 //ﾺￃￓ￑￁￐ﾱ￭
 $oluids = array();
@@ -130,6 +139,7 @@ if($_SGLOBAL['supe_uid'] && !$space['self'] && !in_array($space['uid'], $viewuid
 	ssetcookie('viewuids', implode('_', $viewuids));
 }
 
+
 //￈ￕￖﾾ
 $bloglist = array();
 if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
@@ -147,6 +157,7 @@ if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
 	}
 	$blognum = count($bloglist);
 }
+
 
 //ￏ￠ﾲ￡
 $albumlist = array();
@@ -249,6 +260,7 @@ if($_SGLOBAL['magic']['gift'] && $_SGLOBAL['supe_uid']) {
 		}
 	}
 }
+
 
 $recommendpublic = array();
 $me = '%,'.$_SGLOBAL['supe_uid'].',%';

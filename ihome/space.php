@@ -370,7 +370,9 @@ initParentFlag();
 if($_SGLOBAL['supe_isParent']){
 	$_SGLOBAL['newbie'] = 0;
 }
+
 include_once(S_ROOT."./source/space_{$do}.php");
+
 
 //echo Pinyin($friends,2);
 ?>
