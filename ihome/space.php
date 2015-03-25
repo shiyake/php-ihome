@@ -132,7 +132,7 @@ if($CurrentTime - $FileModTime > 3600){
 	$friends = preg_replace("#\\\u([0-9a-f]+)#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $friends);
 	$f = fopen($friendurl_w,"w");
 	fwrite($f,$friends);
-	fclose($f);
+	fclose($f);	
 }
 $querygroupid = $_SGLOBAL['db']->query("SELECT groupid,pptype,caninvite FROM ".tname('space')." WHERE uid=".$_SGLOBAL['supe_uid']);
 $groupid = $_SGLOBAL['db']->fetch_array($querygroupid);
@@ -370,6 +370,7 @@ initParentFlag();
 if($_SGLOBAL['supe_isParent']){
 	$_SGLOBAL['newbie'] = 0;
 }
+
 include_once(S_ROOT."./source/space_{$do}.php");
 
 //echo Pinyin($friends,2);

@@ -635,3 +635,72 @@ function ajaxinnerhtml(showid, s) {
 function __ihome_ajax_reload() {
 	window.location.reload();
 }
+function usetag(tag){
+	var id = jq('#acount').val();
+	id++;
+	if (id > 10){
+		jq('#msg').show();
+	}else{
+		jq('#acount').val(id);
+		var otag = jq('#tagnames').val();
+		jq('#tagnames').val(otag + ' ' + tag);
+		var atag = '<span class="atag" id="atag'+id+'">'+tag+'<a id="del" onClick="delltag('+ id +')" href="javascript:;"><img src="image/tagdel.png"></a></span>';
+		jq('.textin').before(atag);
+	}
+}
+function deltag(tuid){	
+		var x = new Ajax();
+		x.setLoading();
+		var url = 'cp.php?ac=addtag&op=del&tuid=' + tuid;
+		x.get(url, function(s, x) {
+			window.location.reload();
+		});		
+}
+function delltag(id){
+	var dtag = jq('#atag'+id).text() + ' ';
+	var otag = jq('#tagnames').val() + ' ';
+	otag = otag.replace(new RegExp(dtag), " ");
+	otag = otag.substring(0,otag.length-1);
+	jq('#tagnames').val(otag);
+	jq('#atag'+id).remove();
+	id = jq('#acount').val()*1 - 1;
+	jq('#acount').val(id);
+	if(id < 11)  jq('#msg').hide();	
+	return false;
+}
+
+function savetags(id){
+	id = jq('#acount').val();
+	var tagstr = jq('#ntagid').val();
+	var nc = 0;
+	if (tagstr!='') {
+		var tagstra = tagstr.split(' ');
+		nc = 	tagstra.length;
+	}
+	var count = id*1 + nc;	
+	if (count > 10){
+		jq('#msg').show();
+		return false;
+	}else{
+		ajaxpost('addtag', 'addtag_save', 2000)
+	}
+}
+function ctag(putid){
+	var tagstr = jq('#'+putid).val();
+	var id = jq('#acount').val();	
+	if(tagstr.indexOf(" ") > 0 ){    
+		tagstr = tagstr.replace(/[ ]/g,"");
+		if (tagstr != ''){
+			id++;
+			if (id > 10){
+				jq('#msg').show();
+			}else{
+				jq('#'+putid).val('');	
+				otag = jq('#tagnames').val();
+				jq('#tagnames').val(otag + ' ' + tagstr);
+				var atag = '<span class="atag" id="atag'+id+'">'+tagstr+'<a id="del" onClick="delltag('+ id +')" href="javascript:;"><img src="image/tagdel.png"></a></span>';
+				jq('.textin').before(atag);
+			}
+		}
+	}
+}

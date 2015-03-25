@@ -3453,4 +3453,20 @@ echo $e;
 		$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
 		return $str;   
 	}
+	//获取标签
+function getntags($uid, $dotype, $doid = 0){
+		global $_SGLOBAL;
+		$uids = explode(',',$uid);
+		$output = '<ul class="ntags">';
+		$whereid = $doid?" AND doid = '$doid'":"";
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid.' LIMIT 10');
+		$delico = '';
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="javascript:;" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
+			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
+		}
+		if (in_array($_SGLOBAL['supe_uid'], $uids) ) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
+		$output .= '</ul>'; 
+		return $output;
+}
 ?>
