@@ -212,7 +212,7 @@
 
 		<span class="gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
 		&nbsp;<!--{if $value['fromdevice']=='web'}--><span class="grey" style="color:grey;">来自ihome网页版</span><!--{/if}--><!--{if $value['fromdevice']=='topic'}--><span class="grey" style="color:grey;">来自ihome移动版</span><!--{/if}-->
-		<!--{if $value['address']}-->&nbsp;<span class="grey grey_address" style="color:grey;">$value['address']</span><!--{/if}-->
+
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_menu])}-->
 				<span class="floatright">	
@@ -294,6 +294,7 @@
 			<!--{/if}-->
 				</span>
 		<!--{/if}-->
+		<!--{if $value['address']}-->&nbsp;<div class="grey grey_address" style="color:grey;">$value['address']</div><!--{/if}-->
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_hot]) && $value[hot]}-->
         <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))||$value['canUpvote']||$value['upvotes']}-->
