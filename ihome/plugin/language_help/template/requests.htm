@@ -1,0 +1,50 @@
+<!--{template header}-->
+<link href="plugin/language_help/css/index.css" rel="stylesheet" type="text/css">
+<script src="plugin/language_help/js/index.js"></script>
+<div class="main-outer">
+<h4 class="title">中外语言互助</h4>
+<div class="tabs">
+	<ul>
+		<li class="active"><a href="plugin.php?pluginid=language_help&ac=request_list">大家的互动请求</a></li>
+		<!--{if $showmyrequest}--><li><a href="plugin.php?pluginid=language_help&ac=finding">我的请求</a></li><!--{/if}-->
+	</ul>
+</div>
+<div class="edit-request">
+	<a href="plugin.php?pluginid=language_help&ac=edit_request">编辑请求</a>
+</div>
+<div class="main-inner">
+	<!--{if $value}-->
+	<table class="request-table">
+		<th width=100>发起人</th><th width=200>会的语言</th><th width=200>想学的语言</th><th width=200>发布时间</th><th width=auto>操作</th>
+		<!--{loop $value $data}-->
+		<tr>
+			<td><!--{eval echo getUsername($data['uid'],$_SGLOBAL[db])}--></td><td>$data['knows']</td><td>$data['want_to_know']</td><td><!--{eval echo strftime("%Y-%m-%d %H:%M",$data['dateline'])}--></td><td><a href="plugin.php?pluginid=language_help&ac=send_request&fuid=$data['uid']">发送请求</a></td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<!--{/if}-->
+	<div class="success-partiner">
+		<div class="success-title">大家成功的配对</div>
+		<!--{loop $partiners $partiner}-->
+			<div class="part-container">
+				<div class="pull-left clearfix">
+					<div class="part-avatar-container">
+						<!--{avatar($partiner['uid'],'middle')}-->
+					</div>
+					<div class="part-name">
+						<a href="space.php?uid=$partiner['uid']"><!--{eval echo getUsername($partiner['uid'],$_SGLOBAL['db']);}--></a>
+					</div>
+				</div>
+				<div class="pull-right clearfix">
+					<div class="part-avatar-container">
+						<!--{avatar($partiner['fuid'],'middle')}-->
+					</div>
+					<div class="part-name">
+						<a href="space.php?uid=$partiner['fuid']"><!--{eval echo getUsername($partiner['fuid'],$_SGLOBAL['db']);}--></a>
+					</div>
+				</div>
+			</div>
+		<!--{/loop}-->
+	</div>
+</div>
+<!--{template footer}-->

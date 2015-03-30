@@ -114,7 +114,8 @@ if(submitcheck('addsubmit')) {
                 'timeline' => $_SGLOBAL['timestamp'],
                 'hot' => $hot,
                 'wallid' => $getwall['id'],
-                'fromdevice' => 'topic'
+				'fromdevice' => 'topic',
+				
             );
             //Èë¿â
             inserttable('wallfield', $wallarr, 0);
@@ -276,8 +277,24 @@ if(submitcheck('addsubmit')) {
         $body_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
     }
     //ÊÂ¼þfeed
-    if($add_doing) {
-        if($picid && $filepath) {
+	if($add_doing) {
+		$ip = getonlineip();
+		$ip_detail = getIpDetails();
+		$lon = $ip_detail['latitude'];
+		$lat = $ip_detail['longitude'];
+		$pos = "http://lbs.juhe.cn/api/getaddressbylngb?lngx=".$lat."&lngy=".$lon;
+		$opts = array(
+			'http'=>array(
+				'method'=>'GET',
+				'time'=>1
+			)
+		);
+		$context = stream_context_create($opts);
+		$res = file_get_contents($pos,false,$context);
+		$res = json_decode($res,1);
+	
+		$address = $res['row']['result']['formatted_address'];	
+		if($picid && $filepath) {
             $feedarr = array(
                 'appid' => UC_APPID,
                 'icon' => 'doing',
@@ -292,7 +309,9 @@ if(submitcheck('addsubmit')) {
                 'idtype' => 'doid',
                 'fromdevice' => 'web',
                 'image_1'=>pic_get($filepath, 1, 0),
-                'image_1_link'=>"space.php?uid=$_SGLOBAL[supe_uid]&do=album&picid=$picid"
+                'image_1_link'=>"space.php?uid=$_SGLOBAL[supe_uid]&do=album&picid=$picid",
+				'ip' => $ip,
+				'address' => $address,
             );
         }
         else {
@@ -308,7 +327,9 @@ if(submitcheck('addsubmit')) {
                 'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
-                'fromdevice' => 'web'
+                'fromdevice' => 'web',
+				'ip' => $ip,
+				'address' => $address,
             );
         }
         $feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
@@ -444,7 +465,6 @@ if(submitcheck('addsubmit')) {
     $newid = inserttable('docomment', $setarr, 1);
     //¸üÐÂ»Ø¸´Êý
     $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
- //    $isReplyComplain = FALSE;
  //    $nowtime = time();
  //    $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
  //    if($UserDept){
@@ -646,7 +666,7 @@ if($_GET['sync']=='true') {
 		'ip' => getonlineip(),
 		'dateline' => $_SGLOBAL['timestamp'],
 		'message' => $msg,
-		'isthread' => 1
+		'isthread' => 1,
 	);
 	//添加
 	inserttable('post', $psetarr);
