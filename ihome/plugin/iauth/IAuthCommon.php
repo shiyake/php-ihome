@@ -590,6 +590,15 @@ function newAccessToken( $uid, $appid, $rights, $faile_t='2036-12-31 23:59:59' )
 	);
     }
 
+function URL($str){
+	$str=str_replace('&amp;','&',$str);
+	if(strpos($str,'?')===FALSE){
+		return $str.'?';
+	}else{
+		return $str.'&';
+	}
+}
+
 class UpdateTable{
     private $sql;
     private $table;
