@@ -66,7 +66,7 @@ if(submitcheck('appsapply')) {
 	}
 	
 	if($category==3){
-		$useapi = substr($_POST['api'] ,4);
+		$useapi = $_POST['api'];
 		$iauth_type = $_POST['iauthtype'];
 	}else{
 		$useapi = '';
