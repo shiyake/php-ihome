@@ -147,14 +147,16 @@ if($type == 'api'){
 		//print_r($app_arr);
 		if($category == 3){
 			$notes = trim($_GET['notes']) ? $_GET['notes'] : '无';
-			if(!@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php')||!@include_once(S_ROOT.'./uc_client/client.php')){
+
+			if((FALSE===@include_once(S_ROOT.'./plugin/iauth/IAuthManage.php'))||
+			   (FALSE===@include_once(S_ROOT.'./uc_client/client.php'))){//至少有一个文件引用失败，直接返回
 				header("Location:admincp.php?ac=apps");exit();
 			}
 			if($iauth_id){
 				//修改iauth中app信息
 				IAUTH_edit_app( $iauth_id, $iauth_name, $back_url, $app_url, $status);
 				$app_arr['iauth_id'] = $iauth_id;
-				$notes = '管理员修改了应用【'.$name.'】的信息，【附加说明】'.$notes;
+				$notes = '管理员修改了应用【<a href="/plugin.php?pluginid=apps&ac=detail&appsid='.$iauth_id.'">'.$name.'</a>】的信息<br />【附加说明】'.$notes;
 			}else{
 				//在iauth中新增app信息
 				//print_r($iauth_type);
@@ -184,18 +186,16 @@ if($type == 'api'){
 					$api['iauthAPIid']=IAUTH_new_API( $api['appid'], $iauth_api_name, $api['url']);
 					updatetable('api' , $api ,array('id'=>$api_id));
 				}
-				$pmContent = "【应用开发信息】（请妥善保管，勿轻易泄漏，否则由此造成的一切后果由应用申请者负责）\napp id【".$iauth_arr['id']."】不含括号\napp secret【".$iauth_arr['secret']."】不含括号\n应用开发讨论区：http://i.buaa.edu.cn/space.php?do=mtag&tagid=1822\n祝开发愉快！ ihome团队敬上";
+				$pmContent = "【应用开发信息】（请妥善保管，勿轻易泄漏，否则由此造成的一切后果由应用申请者负责）\n中文名称【".$name."】\n英文名称【".$iauth_name."】\napp id【".$iauth_arr['id']."】不含括号\napp secret【".$iauth_arr['secret']."】不含括号\n应用访问链接：http://i.buaa.edu.cn/plugin.php?pluginid=apps&ac=detail&appsid=".$iauth_arr['id']."\n应用开发讨论区：http://i.buaa.edu.cn/space.php?do=mtag&tagid=1822\n祝开发愉快！ ihome团队敬上";
 				uc_pm_send(0,$_GET['applyuid'],'应用已通过审核',$pmContent);
-				$notes = '管理员审核通过了应用【'.$name.'】，详见<a href="/space.php?do=pm&filter=systempm">系统消息</a>，【附加说明】'.$notes;
-			}
+				$notes = '管理员审核通过了应用【<a href="/plugin.php?pluginid=apps&ac=detail&appsid='.$iauth_arr['id'].'">'.$name.'</a>】，详见<a href="/space.php?do=pm&filter=systempm">系统消息</a><br/>【附加说明】'.$notes;
+			}		
 		}
 		//更新本地app信息
 		//print_r($app_arr);
 		updatetable('apps' , $app_arr ,array('id'=>$appsid));
 		//通知申请者
-		
 		$applyuid = $_GET['applyuid'];
-		
 		notification_add($applyuid, 'systemnote', $notes);
 
 		header("Location:admincp.php?ac=apps");exit();
