@@ -6,6 +6,7 @@ checklogin();
 $dos = array('home', 'apply', 'service', 'manage', 'resource');
 $do = (!empty($_GET['do']) && in_array($_GET['do'], $dos)) ? $_GET['do'] : 'home';
 
+getmember();
 $member = $_SGLOBAL['member'];
 
 include_once(S_ROOT.'./uc_client/client.php');
