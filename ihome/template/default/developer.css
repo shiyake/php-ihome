@@ -1,0 +1,162 @@
+body {
+    padding-top: 80px;
+}
+
+button[type=submit] {
+    min-width: 100px;
+}
+
+label.error {
+    color: #ff0000;
+}
+
+img.logo,img.thumb {
+    width: 90px;
+    height: 90px;
+}
+
+/*Overwrite Bootstrap*/
+.container {
+    width: 970px;
+}
+
+.btn-success {
+    color: #ffffff;
+    background-color: #65d8bb;
+    border-color: #51d3b2;
+    border: none;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active {
+    color: #ffffff;
+    background-color: #44d0ad;
+    border-color: #2fb895;
+}
+
+.table-striped > thead > tr > th,
+.table-striped > tbody > tr > th,
+.table-striped > tfoot > tr > th,
+.table-striped > thead > tr > td,
+.table-striped > tbody > tr > td,
+.table-striped > tfoot > tr > td {
+    color: #777777;
+    padding: 8px 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    vertical-align: middle
+}
+
+/*
+.table-bordered {
+    border: 1px solid #808080;
+}
+
+.table-bordered thead > tr {
+    background-color: #cccccc;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+    border: 1px solid #808080;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    vertical-align: middle;
+    text-align: center;
+}
+*/
+
+/*Customize CSS*/
+.mainarea {
+    border: 1px solid #ccc;
+    padding: 40px;
+    padding-top: 0;
+
+    font-size: 14px;
+}
+
+.mainarea .control-label {
+    text-align: right;
+}
+
+.mainarea .form-name {
+    font-weight: bold;
+}
+
+.mainarea .form-tip {
+    margin: 20px;
+    color: darkgray;
+}
+
+.table-container {
+    display: table;
+}
+
+.table-row {
+    height: 100%;
+    display: table-row;
+}
+
+.table-col {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+}
+
+.form-horizontal .control-label {
+    text-align: right;
+}
+
+.form-horizontal .col-md-3 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#sidebar {
+    font-size: 15px;
+    border-right:1px solid #d3d3d3;
+}
+
+#sidebar a {
+    border: none;
+}
+
+#sidebar a.active {
+    color: #000000;
+    background-color: #ffffff;
+    border-right:2px solid deepskyblue;
+}
+
+#sidebar .list-group-item {
+    text-align: left;
+}
+
+#sidebar .list-group-item:first-child {
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+#sidebar .list-group-item:last-child {
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}

@@ -1,0 +1,56 @@
+<form class="form-horizontal col-md-offset-1" role="form"  id="resourceform"
+      action="developer.php?do=service" method="POST">
+    <div class="form-group">
+        <label for="name" class="col-md-3 control-label">API名称：</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="name" name="name" placeholder="" maxlength="8">
+            <p class="help-block"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="desc" class="col-md-3 control-label">API介绍：</label>
+
+        <div class="col-md-8">
+            <textarea class="form-control" rows="3" id="desc" name="desc"></textarea>
+            <p class="help-block"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-8">
+            <input type="hidden" name="category" value="3"/>
+            <input type="hidden" name="iauthtype" value="RP"/>
+            <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+            <input type="hidden" name="servicesubmit" value="1">
+            <button type="submit" class="btn btn-success">
+                提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    jq(function () {
+        jq("#resourceform").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 8,
+                    remote: {
+                        url: "developer.php?do=service&op=verifyname",
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            name: function () {
+                                return jq("#name").val();
+                            }
+                        }
+                    }
+                }
+            },
+            messages: {
+                name: {
+                    remote: "该名称已经被使用"
+                }
+            }
+        });
+    });
+</script>

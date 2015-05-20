@@ -15,7 +15,7 @@ function uploadFile($FILE) {
 	if($albumid<0) $albumid = 0;
 	
 	//允许上传
-	$allowpictype = array('txt','doc','docx','xls','xlsx','ppt','pptx','pdf','rar','zip','gz2','tar','tgz');
+	$allowpictype = array('txt','doc','docx','xls','xlsx','ppt','pptx','pdf','rar','zip','gz2','tar','tgz','apk');
 
 	//检查
 	$FILE['size'] = intval($FILE['size']);
