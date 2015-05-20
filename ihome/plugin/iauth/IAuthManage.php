@@ -27,7 +27,7 @@ function IAUTH_auth( $appid, $uid, $rightStr, $state='', $faile_t='2036-12-31 23
 	$callback = GetAppInfo( $appid, 'call_back' );
 	$verifier = newVerifier('auth', $appid, $uid, $rights, $faile_t,'','',$state);
 	accessLog('AUTH '.$appid.' '.$uid.' '.$rightStr.' '.$faile_t.' '.$state);
-	return $callback .'?verifier='. $verifier .'&state='. $state;
+	return URL($callback) .'verifier='. $verifier .'&state='. $state;
 	}
     if ( $appType =='UAC' ){
 	$verifier = newVerifier('auth', $appid, $uid, $rights, $faile_t);

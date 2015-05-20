@@ -118,6 +118,9 @@ if($pid) {
 	//实名
 	realname_get();
 	
+	//获取标签
+	$ntags = getntags($poll['uid'],$_GET['do'],$pid);
+	
 	$_TPL['css'] = 'poll';
 	include_once template("space_poll_view");
 	

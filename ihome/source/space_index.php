@@ -37,14 +37,12 @@ if($space['friends'] && in_array($_SGLOBAL['supe_uid'], $space['friends'])) {
 //ﾸ￶￈ￋￗￊ￁ￏ
 //￐ￔﾱ￰
 $space['sex_org'] = $space['sex'];
-$space['sex_text'] = $space['sex'] == '1' ? "男生" : ($space['sex']=='2' ? "女生" : '');
 $space['sex'] = $space['sex']=='1'?'<a href="cp.php?ac=friend&op=search&sex=1&searchmode=1">'.lang('man').'</a>':($space['sex']=='2'?'<a href="cp.php?ac=friend&op=search&sex=2&searchmode=1">'.lang('woman').'</a>':'');
 $space['birth'] = ($space['birthyear']?"$space[birthyear]".lang('year'):'').($space['birthmonth']?"$space[birthmonth]".lang('month'):'').($space['birthday']?"$space[birthday]".lang('day'):'');
 $space['marry'] = $space['marry']=='1'?'<a href="cp.php?ac=friend&op=search&marry=1&searchmode=1">'.lang('unmarried').'</a>':($space['marry']=='2'?'<a href="cp.php?ac=friend&op=search&marry=2&searchmode=1">'.lang('married').'</a>':'');
 $space['birthcity'] = trim(($space['birthprovince']?"<a href=\"cp.php?ac=friend&op=search&birthprovince=".rawurlencode($space['birthprovince'])."&searchmode=1\">$space[birthprovince]</a>":'').($space['birthcity']?" <a href=\"cp.php?ac=friend&op=search&birthcity=".rawurlencode($space['birthcity'])."&searchmode=1\">$space[birthcity]</a>":''));
 $space['residecity'] = trim(($space['resideprovince']?"<a href=\"cp.php?ac=friend&op=search&resideprovince=".rawurlencode($space['resideprovince'])."&searchmode=1\">$space[resideprovince]</a>":'').($space['residecity']?" <a href=\"cp.php?ac=friend&op=search&residecity=".rawurlencode($space['residecity'])."&searchmode=1\">$space[residecity]</a>":''));
 $space['qq'] = empty($space['qq'])?'':"<a target=\"_blank\" href=\"http://wpa.qq.com/msgrd?V=1&Uin=$space[qq]&Site=$space[username]&Menu=yes\">$space[qq]</a>";
-
 
 /*match wether the public page are followed. by xuxing@ihome start on 2013-1-16*/
 if ($space[groupid]==3) {
@@ -110,7 +108,7 @@ $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('visitor')." WHERE uid='$
 while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 	if($value['vusername']) {
 		realname_set($value['vuid'], $value['vusername']);
-    }
+	}
 	$value['isfriend'] = 0;
 	if($space['friends'] && in_array($value['vuid'], $space['friends'])) {
 		$value['isfriend'] = 1;
@@ -135,7 +133,7 @@ if($_SGLOBAL['mygroupid']==3||$space['blognum'] && ckprivacy('blog')) {
 		FROM ".tname('blog')." b
 		LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
 		WHERE b.uid='$space[uid]'
-		ORDER BY b.dateline DESC LIMIT 0,5");
+		ORDER BY b.weight DESC, b.dateline DESC LIMIT 0,5");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
 			if($value['pic']) $value['pic'] = pic_cover_get($value['pic'], $value['picflag']);
@@ -292,15 +290,6 @@ if($oluids) {
 	}
 }
 
-$timerange = $_SGLOBAL['timestamp']-25920000;
-$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE lastvote >= '$timerange' ORDER BY  voternum DESC LIMIT 3 ");
-while($value = $_SGLOBAL['db']->fetch_array($query))
-{
-
-    realname_set($value['uid'], $value['username']);//ʵÃ
-    $hotpoll[] = $value;
-}
-
 //ￓﾦￓￃￏￔￊﾾ
 $narrowlist = $widelist = $guidelist = $space['userapp'] = array();
 if ($_SCONFIG['my_status']) {
@@ -361,7 +350,7 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 //ﾻ￹ﾱﾾￗￊ￁ￏￊￇﾷ￱ￓ￐
 $space['profile_base'] = 0;
-foreach (array('sex','birthday','blood','marry','residecity','birthcity', 'signature') as $value) {
+foreach (array('sex','birthday','blood','marry','residecity','birthcity') as $value) {
 	if($space[$value]) $space['profile_base'] = 1;
 }
 foreach ($fields as $fieldid => $value) {
@@ -384,6 +373,8 @@ $_GET['view'] = 'me';
 $_TPL['css'] = 'space';
 
 $dept = isDepartment($space['uid']);
+
+$ntags = getntags($space[uid],'index',0);
 
 include_once template("space_index");
 

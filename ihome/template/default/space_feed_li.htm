@@ -1,3 +1,4 @@
+
 <!--{if $complain_msg}-->
 <li data-msg="$complain_msg" data-credit="$_SGLOBAL['member']['credit']" data-require="$_SGLOBAL['creditrule']['complain']['credit']" class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
 <!--{else}-->
@@ -34,7 +35,8 @@
 	<div class="feed_li_inner" style="overflow:hidden;letter-spacing:0.5px;" {$value[style]}>
 		<!--{if $value[uid] && empty($_TPL[hidden_more])}-->
 			<!--{/if}-->
-			  <p>$value[title_template]</p>
+
+			<p>$value[title_template]</p>
 		<!--{if $value['icon']=='share'}-->
         <!--{if $value['body_general']}-->
         <!--{eval $value['body_general']=stripslashes($value['body_general'])}-->
@@ -45,6 +47,7 @@
                 <em class="la_line">◆</em>
                 <span class="la_bg">◆</span>
             </div>
+
 		<!--{/if}-->
 		<div class="feed_content clearfix">
 			<!--{if !$value['image_2']}-->	
@@ -65,7 +68,6 @@
             <div id="blog_feed" class="detile feed_poll">
                 <!--{eval $value[body_template]=poll_style($value[body_template]);}-->
                 $value[body_template]
-
             </div>
             <!--{/if}-->
             <!--{else}-->
@@ -216,16 +218,25 @@
 			<!--{if $value['canUpvote']}-->
 				<a href="javascript:;" onclick="upvote($value[feedid])" id="feed_up_$value[feedid]" style="margin-left:5px;"><img src="image/icons/icon-good.png"/>&nbsp;<!--{if $value['upvotes']>0}-->赞($value['upvotes'])<!--{else}-->赞<!--{/if}--></a>
 		        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
-		        <span class="pipe">|</span>
 		        <!--{/if}-->
 			<!--{elseif $value['upvotes']}-->
 				<a href="javascript:;" id="feed_up_$value[feedid]" style="margin-left:5px;color:gray;cursor:default;"><img src="image/icons/icon-good.png"/>&nbsp;赞($value['upvotes'])</a>
 		        <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
 		        <span class="pipe">|</span>
 		        <!--{/if}-->
+				<!--{/if}-->
+	<!--{if $value['uid'] == $_SGLOBAL['supe_uid'] && $_GET['do']!='home' }-->
+	<a href="javascript:;" class="go_top" onclick="go_top({$_SGLOBAL['supe_uid']},{$value['id']},{$value['feedid']})" id="top_$value[id]">置顶</a>&nbsp;
 			<!--{/if}-->
 			<!--{if $value['idtype']=='doid'}-->
-				<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>  
+			<span class="pipe">|</span>
+			<a href="javascript:;" onclick="docomment_get('docomment_$value[id]', 1);" id="do_a_op_$value[id]">
+				<img src="image/icons/icon-comment.png"/>&nbsp;
+				<!--{if $value['num']>0}-->评论($value['num'])
+				<!--{else}-->评论
+				<!--{/if}-->
+			</a> 
+		
 				<!--{eval $iscp = isComplainOrNot($value['id'],$_SGLOBAL['db'])}-->     
                 <!--{if $value['uid'] != $_SGLOBAL['supe_uid'] && !$iscp}-->
 				<span class="pipe">|</span>
@@ -247,14 +258,16 @@
                 <a href="space.php?do=complain_item&doid=$value[id]" id="a_view_doit_$value[id]"><img style="margin-bottom:2px;"src="image/icons/icon-appeal.png">&nbsp;详情</a>
                 <!--{/if}-->
 			<!--{elseif $value[body_data][video_origin]}-->
-				<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>
+			<span class="pipe">|</span>
+			<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]">
+				<img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>
                 <!--{if $value['uid'] != $_SGLOBAL['supe_uid']}-->
 				<span class="pipe">|</span>
 				<a href="$value[share_url]&inspace=1" onclick="ajaxmenu(event, this.id, 1)" id="a_share_$value[feedid]"><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
                 <!--else-->
                 <!--{/if}-->
 			<!--{elseif in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
-				<a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>
+			<span class="pipe">|</span><a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>
 				<!--{if $value['idtype']=='sid' && $value['uid'] != $_SGLOBAL['supe_uid']}-->
                     <!--{if $value['origin_doid']}-->
 						<span class="pipe">|</span>
