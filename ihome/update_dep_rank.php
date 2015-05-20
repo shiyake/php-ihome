@@ -53,3 +53,23 @@ foreach ($deprank as $uid => $info) {
     inserttable('complain_dep_rank', $info);
     $log->debug("update dep rank $uid upnum $info[upnum] downum $info[downnum]");
 }
+
+
+$starttime = mktime(0,0,0,date("m"),1,date("Y"));
+$endtime = mktime(0,0,0);
+$wheresql = " where dateline>=$starttime and dateline<$endtime ";
+$order = " order by realcomplainnum desc ";
+$query = $_SGLOBAL['db']->query("select * from ".tname('powerlevel')." o left join (select uid, sum(complainnum) realcomplainnum from ".tname("complain_dep_rank") . $wheresql . " group by uid) t on o.dept_uid = t.uid " . $order);
+while($PowerArray = $_SGLOBAL['db']->fetch_array($query)){
+    if($PowerArray['isdept']){//去掉多余信息,仅保留uid 和 name ,用于at功能用
+        $powerjson = array(
+            'department' => $PowerArray['department'],
+            'dept_uid' => $PowerArray['dept_uid'],
+            'namequery' => $PowerArray['department'].' '.Pinyin($PowerArray['department'],1).' '.$PowerArray['dept_uid'],
+            'depduty' => $PowerArray['depduty']
+        );
+        $powerJsons[] = $powerjson;
+    }
+}
+$powerJsons = json_encode($powerJsons);
+echo file_put_contents(S_ROOT.'./data/powerlevel/powerlevel.json', $powerJsons);

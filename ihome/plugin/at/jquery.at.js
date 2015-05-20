@@ -445,6 +445,7 @@ var jq = jQuery.noConflict();
       var data_value, item, query, results, text, _i, _len;
       data_value = this.dataValue();
       query = this.query.text;
+      if (query === '') { return items; }
       results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];

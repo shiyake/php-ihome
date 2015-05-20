@@ -116,7 +116,7 @@ if($id) {
 
 	//作者的其他最新日志
 	$otherlist = array();
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('blog')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,6");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('blog')." WHERE uid='$space[uid]' ORDER BY weight DESC,dateline DESC LIMIT 0,6");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($value['blogid'] != $blog['blogid'] && empty($value['friend'])) {
 			$otherlist[] = $value;
@@ -125,7 +125,7 @@ if($id) {
 
 	//最新的日志
 	$newlist = array();
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('blog')." WHERE hot>=3 ORDER BY dateline DESC LIMIT 0,6");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('blog')." WHERE hot>=3 ORDER BY weight DESC,dateline DESC LIMIT 0,6");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($value['blogid'] != $blog['blogid'] && empty($value['friend'])) {
 			realname_set($value['uid'], $value['username']);
@@ -196,6 +196,9 @@ if($id) {
 
 	//实名
 	realname_get();
+	
+	//获取标签
+	$ntags = getntags($blog['uid'],$_GET['do'],$id);
 
 	$_TPL['css'] = 'blog';
 	include_once template("space_blog_view");
@@ -390,7 +393,7 @@ if($id) {
 				$query = $_SGLOBAL['db']->query("SELECT bf.message, bf.target_ids, bf.magiccolor, b.* FROM ".tname('blog')." b $f_index
 					LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
 					WHERE $wheresql
-					ORDER BY $ordersql DESC LIMIT $start,$perpage");
+					ORDER BY b.weight DESC, $ordersql DESC LIMIT $start,$perpage");
 			}
 		}
 	}

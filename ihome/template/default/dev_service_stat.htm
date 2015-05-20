@@ -1,0 +1,51 @@
+<!--{template dev_header}-->
+<div class="container table-container">
+    <div class="row table-row">
+        <!--{if !$member[is_admin]}-->
+            <!--{template dev_service_sidebar}-->
+        <!--{else}-->
+            <!--{template dev_manage_sidebar}-->
+        <!--{/if}-->
+        <div class="col-md-10 table-col" id="servicearea">
+            <style type="text/css">
+                #filterform select {
+                    min-width: 150px;
+                    margin-right: 30px;
+                }
+            </style>
+            <div role="tabpanel">
+                <h4>服务数据</h4>
+
+                <div style="margin-top: 30px">
+                    <table class="table table-striped" id="servicelist">
+                        <thead>
+                        <tr>
+                            <th>服务图标</th>
+                            <th>服务名称</th>
+                            <th>服务使用量</th>
+                            <th>日平均使用量</th>
+                            <th>评分量</th>
+                            <th>平均评分</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{loop $apps $app}-->
+                        <tr>
+                            <td><img class="logo" src="$app[logo]"></td>
+                            <td><a href="#">$app[name]</a></td>
+                            <td>$app[clicktime]</td>
+                            <td>N/A</td>
+                            <td>$app[comment]</td>
+                            <td>$app[score]</td>
+                        </tr>
+                        <!--{/loop}-->
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin: 10px 0px; padding: 0px;" class="page">$multi</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
