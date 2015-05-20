@@ -90,7 +90,7 @@
 		foreach($UserIds as $UserId){
 			if($isComplain){
 				//根据@到的用户ID,查询该用户是否为部门
-				$UserDept = isDepartment($UserId ,0);
+				$UserDept = isDepartment($UserId ,1);
 				if($UserDept){
 					$nowtime = time();
 					$dateline = strtotime("+1 days", $nowtime);
@@ -105,19 +105,19 @@
 						'atuname' => $UserDept['department'],
 						'isreply' => 0,
 						'addtime' => $nowtime,
-						'dateline' => $dateline,
+						'dateline' => $nowtime,
 						'expire' => 0,
 						'times' => 1,
 						'issendmsg' =>0,
-						'message' => $Message
+						'message' => $Message,
+						'datatime' => date("Ymd",$nowtime)
 					);
 					$newcomplainid = inserttable('complain', $complain, 1);
+                    $note = cplang('note_complain_buchu', array("space.php?do=complain_item&doid=$newdoid",date('Y-m-d H:i' ,$nowtime+3600*24)));
+                    notification_complain_add($UserId, 'complain', $note);
+                    $complainOK = TRUE;
 				}
 				
-					//通知被@的部门,有用户投诉
-					$note = cplang('note_complain_buchu', array("space.php?do=doing&doid=$newdoid",date('Y-m-d H:i' ,$dateline)));
-					notification_complain_add($UserId, 'complain', $note);
-					$complainOK = TRUE;
 					if($complainOK){//通知用户诉求发起成功
 					$note = cplang('note_complain_user_success', array("space.php?do=doing&doid=$newdoid"));
 					notification_complain_add($userid, 'complain', $note);
@@ -138,7 +138,7 @@
 		'title_data' => saddslashes(serialize(sstripslashes(array('message'=>$Message)))),
 		'body_template' => '',
 		'body_data' => '',
-		'id' => $newcomplainid,
+		'id' => $newdoid,
 		'idtype' => 'doid',
 		'fromdevice' => $FromDevice
 		);

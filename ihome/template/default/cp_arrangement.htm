@@ -90,8 +90,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            分类：<select name="arrangementclass" id="arrangementclass">
+                       <td>
+                   <!--         分类：<select name="arrangementclass" id="arrangementclass">
                                 <!--{if $arrangement['classid'] == 0}-->
                                 <option value="0" selected>选择分类</option>
                                 <!--{else}-->
@@ -117,7 +117,7 @@
                                 <!--{else}-->
                                 <option value="4">文体活动</option>
                                 <!--{/if}-->
-                            </select>
+                            </select>-->
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             开始时间：<input id="starttime" type="text" name="starttime" value="<!--{eval echo($arrangement[starttime]?date('Y-m-d H:i:s',$arrangement[starttime]):'')}-->"style="width:187px;display:inline;" class="form-control input-sm" onclick="showcalendar(event, this, 1, '<!--{eval echo($arrangement[starttime]?date('Y-m-d H:i:s',$arrangement[starttime]):date('Y-m-d H:i:s'))}-->')" />
                         </td>

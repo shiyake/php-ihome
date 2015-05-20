@@ -49,7 +49,17 @@ if(empty($blog)) {
 		showmessage('no_authority_operation_of_the_log');
 	}
 }
-
+if($_GET['action']=="go_top") {
+	$sql = "SELECT max(weight) FROM ".tname("blog");
+	$query = $_SGLOBAL['db']->query($sql);
+	$max_weight = 0;
+	if($row = $_SGLOBAL['db']->fetch_array($query))	{
+		$max_weight = $row['max(weight)'];
+	}
+	$sql = "UPDATE ".tname("blog")." SET weight=".intval($max_weight+1)." WHERE blogid=".$_GET['blogid'];
+	$_SGLOBAL['db']->query($sql);	
+	exit();
+}
 //Ìí¼Ó±à¼­²Ù×÷
 if(submitcheck('blogsubmit')) {
 
