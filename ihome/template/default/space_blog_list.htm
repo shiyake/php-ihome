@@ -109,13 +109,14 @@
 	<div class="entry_list">
 		<ul>
 		<!--{loop $list $value}-->
-			<li class="entry_list_li">
+		<li class="entry_list_li" id="blog_{$value[blogid]}">
 				<div class="avatardiv">
 					<div class="round_avatar_64"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],'big')}--></a></div>
 					<!--{if $value['hot']}--><div class="digb">$value[hot]</div><!--{/if}-->
 				</div>
 				
 				<div class="title">
+					<!--{if $_GET['view']=='me'}--><a href="javascript:void(0);" class="go_top" onclick="go_top($value[blogid])" style="float:right;width:50px;">置顶</a><!--{/if}-->
 					<a href="javascript:void(0);" class="social_share" onclick="social_share($value[blogid])" style="float:right;width:50px;">分享</a>
 					<!--{eval $bdContent = $_SN[$value[uid]].':'.$value[subject]}-->
         			<!--{eval $bdUrl = '/space.php?uid='.$value[uid].'&do=blog&id='.$value[blogid]}-->
@@ -168,7 +169,15 @@
 			    jQuery('.a_share_group').hide();
 			});
     	});
-    	function social_share(id){
+		function go_top(id) {
+			jQuery.get("cp.php?ac=blog&action=go_top&blogid="+id,function(data){
+				ele = jQuery("#blog_"+id);
+				jQuery("#blog_"+id).remove();
+				jQuery(".entry_list > ul").prepend(ele);
+
+			});	
+		}
+		function social_share(id){
     		jQuery('.a_share_group').hide();
     		jQuery('#a_share_group_'+id).show();
     		

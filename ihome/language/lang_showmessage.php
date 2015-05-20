@@ -565,6 +565,13 @@ $_SGLOBAL['msglang'] = array(
     'complain_no_doing' => '找不到对应的足迹',
     'updown_again' => '你已经赞或者踩过了',
     'complain_relay_too_much' => '转发不能超过3次',
+
+    //申请开发者
+    'to_apply_developer' => '请先申请成为开发者',
+    'failed_to_apply_developer' => '身份验证失败，请重新验证',
+    'not_reapply_developer' => '你已经是开发者，不许要再次申请',
+    'require_amdin_privileges' => '只有管理员才可以访问',
+    'success_to_set_ad' => '操作成功',
 );
 
 ?>

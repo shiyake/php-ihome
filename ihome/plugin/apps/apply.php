@@ -66,7 +66,7 @@ if(submitcheck('appsapply')) {
 	}
 	
 	if($category==3){
-		$useapi = substr($_POST['api'] ,4);
+		$useapi = $_POST['api'];
 		$iauth_type = $_POST['iauthtype'];
 	}else{
 		$useapi = '';
@@ -152,7 +152,7 @@ if($id = $_GET['id']){
 
 
 $apis = array();
-$query = $_SGLOBAL['db']->query("SELECT id,name FROM ".tname('api'));
+$query = $_SGLOBAL['db']->query("SELECT id,iauthAPIid,name FROM ".tname('api'));
 while($value = $_SGLOBAL['db']->fetch_array($query)) {
 	$apis[] = $value;
 }
