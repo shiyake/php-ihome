@@ -10,15 +10,15 @@
 	$client_ip=$_SERVER["REMOTE_ADDR"];
 	if(!judge_ip($client_ip))
 	{
-		showmessage("外网无法访问校园统一认证数字平台","./index.php");
+		showmessage("外网无法访问校园统一认证平台","./index.php");
 		
 	}
 	
 	phpCAS::setDebug();
 	$_cas_server_version=CAS_VERSION_2_0;
-	$_hostname='ecampus.buaa.edu.cn';
+	$_hostname='sso.buaa.edu.cn';
 	$_hostport=443;
-	$_uri='cas';
+	$_uri='';
 	//initialize phpCAS
 	phpCAS::client($_cas_server_version,$_hostname,$_hostport,$_uri);
 	//no SSL validation for the CAS server
@@ -35,7 +35,13 @@
 	//获取学号或者教职工的教工号
 	///////////////
 	//////////////////////
-	$username=phpCAS::getUser();
+	$auth1 = phpCAS::checkAuthentication();
+									
+	if($auth1){
+		$cas=phpCAS::getUser();
+		$username=phpCAS::getAttribute("employeeNumber");
+	}
+	
 	//showmessage($username);
 	//showmessage('rfddffd');
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE collegeid='$username'");

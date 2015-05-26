@@ -203,8 +203,8 @@ class CAS_Client
      */
     public function getLangObj()
     {
-        $classname = $this->_lang;
-        return new $classname();
+        $className = $this->_lang;
+        return new $className();
     }
 
     /** @} */
@@ -768,7 +768,7 @@ class CAS_Client
      * @param string $server_hostname the hostname of the CAS server
      * @param int    $server_port     the port the CAS server is running on
      * @param string $server_uri      the URI the CAS server is responding on
-     * @param bool   $changeSessionID Allow phpCAS to change the session_id (Single Sign Out/handleLogoutRequests is based on that change)
+     * @param bool   $start_session   Have phpCAS start PHP sessions (default true)
      *
      * @return a newly created CAS_Client object
      */
@@ -778,15 +778,22 @@ class CAS_Client
         $server_hostname,
         $server_port,
         $server_uri,
-        $changeSessionID = true
+        $start_session = true
     ) {
 
         phpCAS::traceBegin();
 
-        $this->_change_session_id = $changeSessionID; // true : allow to change the session_id(), false session_id won't be change and logout won't be handle because of that
+        $this->_start_session = $start_session;
 
+        if ($this->_start_session && session_id() !== "") {
+            phpCAS :: error(
+                "Another session was started before phpcas. Either disable the session" .
+                " handling for phpcas in the client() call or modify your application to leave" .
+                " session handling to phpcas"
+            );
+        }
         // skip Session Handling for logout requests and if don't want it'
-        if (session_id()=="" && !$this->_isLogoutRequest()) {
+        if ($start_session && !$this->_isLogoutRequest()) {
             phpCAS :: trace("Starting a new session");
             session_start();
         }
@@ -895,28 +902,28 @@ class CAS_Client
      * A variable to whether phpcas will use its own session handling. Default = true
      * @hideinitializer
      */
-    private $_change_session_id = true;
+    private $_start_session = true;
 
     /**
-     * Set a parameter whether to allow phpCas to change session_id
+     * Set a parameter whether to start a session
      *
-     * @param bool $_change_session_id allow phpCas to change session_id
+     * @param bool $session start a session
      *
      * @return void
      */
-    private function setChangeSessionID($allowed)
+    private function _setStartSession($session)
     {
-        $this->_change_session_id = $allowed;
+        $this->_start_session = $session;
     }
 
     /**
-     * Get whether phpCas is allowed to change session_id
+     * Get whether the client is set to start a session
      *
      * @return bool
      */
-    public function getChangeSessionID()
+    public function getStartSession()
     {
-        return $this->_change_session_id;
+        return $this->_start_session;
     }
 
     /** @} */
@@ -1425,14 +1432,15 @@ class CAS_Client
         if (isset($params['service'])) {
             $cas_url = $cas_url . $paramSeparator . "service=" . urlencode($params['service']);
         }
-        header('Location: '.$cas_url);
+        //header('Location: '.$cas_url);
         phpCAS::trace("Prepare redirect to : ".$cas_url);
 
         session_unset();
         session_destroy();
         $lang = $this->getLangObj();
         $this->printHTMLHeader($lang->getLogout());
-        printf('<p>'.$lang->getShouldHaveBeenRedirected(). '</p>', $cas_url);
+       // printf('<p>'.$lang->getShouldHaveBeenRedirected(). '</p>', $cas_url);
+		header("Location: $cas_url");
         $this->printHTMLFooter();
         phpCAS::traceExit();
         throw new CAS_GracefullTerminationException();
@@ -1466,8 +1474,8 @@ class CAS_Client
             phpCAS::traceEnd();
             return;
         }
-        if (!$this->_change_session_id && is_null($this->_signoutCallbackFunction)) {
-            phpCAS::trace("phpCAS can't handle logout requests if it is not allowed to change session_id.");
+        if (!$this->_start_session && is_null($this->_signoutCallbackFunction)) {
+            phpCAS::trace("phpCAS can't handle logout requests if it does not manage the session.");
         }
         phpCAS::trace("Logout requested");
         $decoded_logout_rq = urldecode($_POST['logoutRequest']);
@@ -1513,8 +1521,8 @@ class CAS_Client
                 call_user_func_array($this->_signoutCallbackFunction, $args);
             }
 
-            // If phpCAS is managing the session_id, destroy session thanks to session_id.
-            if ($this->_change_session_id) {
+            // If phpCAS is managing the session, destroy it.
+            if ($this->_start_session) {
                 $session_id = preg_replace('/[^a-zA-Z0-9\-]/', '', $ticket2logout);
                 phpCAS::trace("Session id: ".$session_id);
 
@@ -3152,7 +3160,7 @@ class CAS_Client
     private function _renameSession($ticket)
     {
         phpCAS::traceBegin();
-        if ($this->_change_session_id) {
+        if ($this->_start_session) {
             if (!empty($this->_user)) {
                 $old_session = $_SESSION;
                 session_destroy();
