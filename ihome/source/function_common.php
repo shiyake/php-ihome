@@ -1657,6 +1657,10 @@ function runlog($file, $log, $halt=0) {
 
 	//处理头像
 	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary='',$lazy='') {
+        if (empty($uid)) {
+            return fallback_avatar();
+        }
+
 		global $_SCONFIG, $_SN, $_SGLOBAL;
 		$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'small';
 		$avatarfile = avatar_file($uid, $size);
@@ -1689,6 +1693,11 @@ function runlog($file, $log, $halt=0) {
 
 		}
 	}
+
+    function fallback_avatar() {
+		$randavatar = '';
+        return '<img src="'.UC_API.'/images/avatar/m_small_1.png" class="img-circle shadow_avatar">';
+    }
 
 	//得到头像
 	function avatar_file($uid, $size) {
