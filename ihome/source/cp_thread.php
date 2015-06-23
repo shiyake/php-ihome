@@ -155,8 +155,10 @@ if(submitcheck('threadsubmit')) {
 		if(empty($titlepic)) {
 			$titlepic = getmessagepic($message);
 		}
+        $anonymous = empty($_POST['anonymous']) ? 0 : intval($_POST['anonymous']);
 		$setarr = array(
 			'tagid' => $tagid,
+			'anonymous' => $anonymous,
 			'uid' => $_SGLOBAL['supe_uid'],
 			'username' => $_SGLOBAL['supe_username'],
 			'dateline' => $_SGLOBAL['timestamp'],
@@ -175,6 +177,7 @@ if(submitcheck('threadsubmit')) {
 		}
 		$psetarr = array(
 			'tagid' => $tagid,
+			'anonymous' => $anonymous,
 			'tid' => $tid,
 			'uid' => $_SGLOBAL['supe_uid'],
 			'username' => $_SGLOBAL['supe_username'],
@@ -233,7 +236,11 @@ if(submitcheck('threadsubmit')) {
 		topic_join($_POST['topicid'], $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
 		$tourl = 'space.php?do=topic&topicid='.$_POST['topicid'].'&view=thread';
 	} else {
-		$tourl = "space.php?uid=$_SGLOBAL[supe_uid]&do=thread&id=$tid";
+        if ($anonymous) {
+		    $tourl = "space.php?do=thread&id=$tid";
+        } else {
+		    $tourl = "space.php?uid=$_SGLOBAL[supe_uid]&do=thread&id=$tid";
+        }
 		if($eventid) {
 			$tourl .= "&eventid=$eventid";
 		}
@@ -342,8 +349,10 @@ if(submitcheck('threadsubmit')) {
 		$message = addslashes("<div class=\"quote\"><span class=\"q\"><b>".$_SN[$post['uid']]."</b>: ".getstr($post['message'], 150, 0, 0, 0, 2, 1).'</span></div>').$message;
 	}
 
+    $anonymous = empty($_POST['anonymous']) ? 0 : intval($_POST['anonymous']);
 	$setarr = array(
 		'tagid' => intval($thread['tagid']),
+        'anonymous' => $anonymous,
 		'tid' => $tid,
 		'uid' => $_SGLOBAL['supe_uid'],
 		'username' => $_SGLOBAL['supe_username'],
