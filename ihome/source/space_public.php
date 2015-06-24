@@ -26,7 +26,31 @@
 
 	$i = 0;
 	$topplist = array();
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
+	if ($_GET['sort'] == 'hot')
+	{
+		if ($_GET['type'] == 'nameorder')
+			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY username DESC limit 9");
+		else if ($_GET['type'] == 'fansnum')
+    		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY friendnum DESC limit 9");
+		else if ($_GET['type'] == 'informationnum')
+ 			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY sharenum DESC limit 9");
+		else if ($_GET['type'] == 'visitnum')
+ 			$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY viewnum DESC limit 9");
+		else if ($_GET['type'] == 'all')
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
+		if ($_GET['type'] == 'nameorder')
+        	$actives = array('nameorder'=>' class="active"');
+     	else if ($_GET['type'] == 'fansnum')
+        	 $actives = array('fansnum'=>' class="active"');
+     	else if ($_GET['type'] == 'informationnum')
+         	$actives = array('information'=>' class="active"');
+     	else if ($_GET['type'] == 'visitnum')
+          	$actives = array('visitnum'=>' class="active"');
+		else if ($_GET['type'] == 'all')
+			$actives = array('all'=>' class="active"');
+	}
+	else
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {	
 		if($value['name']=='')$value['name']=$value['username'];
 		
@@ -60,7 +84,32 @@
 	$sublist_0 = array();//other
 	
 
-	$query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY ppnum,name");
+	//$query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY ppnum,name") ;
+	if ($_GET['sort'] == 'not' || $_GET['sort'] == 'my')
+	{
+		if ($_GET['type'] == 'nameorder')
+        	 $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY name");
+    	else if ($_GET['type'] == 'fansnum')
+        	 $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY friendnum");
+    	else if ($_GET['type'] == 'fansnum')
+        	 $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY sharenum");
+    	else if ($_GET['type'] == 'visitnum')
+        	 $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY viewnum");
+		else if ($_GET['type'] == 'all')
+             $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY ppnum,name");
+        if ($_GET['type'] == 'nameorder')
+            $actives = array('nameorder'=>' class="active"');
+        else if ($_GET['type'] == 'fansnum')
+             $actives = array('fansnum'=>' class="active"');
+        else if ($_GET['type'] == 'informationnum')
+            $actives = array('information'=>' class="active"');
+        else if ($_GET['type'] == 'visitnum')
+            $actives = array('visitnum'=>' class="active"');
+        else if ($_GET['type'] == 'all')
+            $actives = array('all'=>' class="active"');
+	}
+	else
+		$query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY ppnum,name");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {	
 		if($value['name']=='')$value['name']=$value['username'];
 		if(in_array($value['uid'], $nouids)) {
