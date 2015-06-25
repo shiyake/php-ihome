@@ -289,6 +289,13 @@
 				</td>
               </tr>
 
+			<tr>
+				<td>
+                    <input id="id_thread_anonymous" type="checkbox" value="1" name="anonymous">
+                    <label for="id_thread_anonymous" style="font-weight: normal;">匿名</label>
+                </td>
+            </tr>
+
 		</table>
 		<input type="hidden" name="tid" value="$thread[tid]" />
 		<input type="hidden" name="threadsubmit" value="true" />
@@ -360,7 +367,10 @@
 	</table>
 	<table cellspacing="4" cellpadding="4" width="100%" class="infotable">
 		<tr>
-			<td><input type="button" id="issuance" onclick="document.getElementById('threadbutton').click();" value="发表话题" class="submit btn btn-sm btn-comments" /></td>
+			<td>
+                <input type="button" id="issuance" onclick="document.getElementById('threadbutton').click();" 
+                    value="发表话题" class="submit btn btn-sm btn-comments" />
+            </td>
 		</tr>
 	</table>
 </div>
