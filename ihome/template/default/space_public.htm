@@ -28,14 +28,14 @@
     <span id="apply_for_public"><a href="cp.php?ac=publicapply">申请公共主页</a></span>
     <div class="tabs_header" style="margin-left:0 !important;">
         <ul class="tabs">
-            <li class="active"><a href="#public_hot"><span>热门</span></a></li>
-            <li><a href="#public_my"><span>我关注的</span></a></li>
-            <li><a href="#public_college"><span>学院</span></a></li>
-            <li><a href="#public_department"><span>部处</span></a></li>
+            <li $types[hot]><a href="#public_hot"><span>热门</span></a></li>
+            <li $types[my]><a href="#public_my"><span>我关注的</span></a></li>
+            <li $types[college]><a href="#public_college"><span>学院</span></a></li>
+            <li $types[department]><a href="#public_department"><span>部处</span></a></li>
         
-            <li><a href="#public_student"><span>学生组织</span></a></li>
-            <li><a href="#public_interest"><span>兴趣社团</span></a></li>
-            <li class="more">
+            <li $types[student]><a href="#public_student"><span>学生组织</span></a></li>
+            <li $types[interest]><a href="#public_interest"><span>兴趣社团</span></a></li>
+            <li $more>
                 <a href="#">更多</a>
                 <ul class="more-menu" style="display:none">
                     <li style="border-top-left-radius: inherit;border-top-right-radius: inherit">
@@ -54,13 +54,13 @@
             </li>
         </ul>
     </div>
-    <div id="public_hot">
+    <div id="public_hot" style=$display_hot>
 		<div id="public_sort_hot" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px;">
-	         <a $actives[nameorder] href="space.php?do=public&sort=hot&type=nameorder">按名称顺序</a>
-           	 <a $actives[fansnum] href="space.php?do=public&sort=hot&type=fansnum">按粉丝数量</a>
-         	 <a $actives[information] href="space.php?do=public&sort=hot&type=informationnum">按信息发布量</a>
-        	 <a $actives[visitnum] href="space.php?do=public&sort=hot&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=hot&type=all">全部</a>
+	         <a $hot[nameorder] href="space.php?do=public&sort=hot&type=nameorder">按名称顺序</a>
+           	 <a $hot[fansnum] href="space.php?do=public&sort=hot&type=fansnum">按粉丝数量</a>
+         	 <a $hot[information] href="space.php?do=public&sort=hot&type=informationnum">按信息发布量</a>
+        	 <a $hot[visitnum] href="space.php?do=public&sort=hot&type=visitnum">按信息访问量</a>
+			 <a $hot[all] href="space.php?do=public&sort=hot&type=all">全部</a>
      	</div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $topplist}-->
@@ -92,13 +92,13 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_college" style="display:none">
+    <div id="public_college" style=$display_college>
 		<div id="public_sort_college" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-            <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>        
+			<a $college[nameorder] href="space.php?do=public&sort=college&type=nameorder">按名称顺序</a>
+            <a $college[fansnum] href="space.php?do=public&sort=college&type=fansnum">按粉丝数量</a>
+            <a $college[information] href="space.php?do=public&sort=college&type=informationnum">按信息发布量</a>
+            <a $college[visitnum] href="space.php?do=public&sort=college&type=visitnum">按信息访问量</a>
+            <a $college[all] href="space.php?do=public&sort=college&type=all">全部</a>        
 		</div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_1}-->
@@ -130,13 +130,13 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_my" style="display:none">
+    <div id="public_my" style=$display_my>
 		<div id="public_sort_my" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=my&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=my&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=my&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=my&type=visitnum">按信息访问量</a>
-            <a $actives[all] href="space.php?do=public&sort=my&type=all">全部</a>
+			<a $my[nameorder] href="space.php?do=public&sort=my&type=nameorder">按名称顺序</a>
+            <a $my[fansnum] href="space.php?do=public&sort=my&type=fansnum">按粉丝数量</a>
+            <a $my[information] href="space.php?do=public&sort=my&type=informationnum">按信息发布量</a>
+            <a $my[visitnum] href="space.php?do=public&sort=my&type=visitnum">按信息访问量</a>
+            <a $my[all] href="space.php?do=public&sort=my&type=all">全部</a>
  		</div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $addedplist}-->
@@ -168,13 +168,13 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_department" style="display:none">
+    <div id="public_department" style=$display_department>
 		<div id="public_sort_department" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			<a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>     
+			<a $department[nameorder] href="space.php?do=public&sort=department&type=nameorder">按名称顺序</a>
+            <a $department[fansnum] href="space.php?do=public&sort=department&type=fansnum">按粉丝数量</a>
+            <a $department[information] href="space.php?do=public&sort=department&type=informationnum">按信息发布量</a>
+            <a $department[visitnum] href="space.php?do=public&sort=department&type=visitnum">按信息访问量</a>
+			<a $department[all] href="space.php?do=public&sort=department&type=all">全部</a>     
         </div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_2}-->
@@ -206,13 +206,13 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_student" style="display:none">
+    <div id="public_student" style=$display_student>
 		<div id="public_sort_student" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			 <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+			 <a $student[nameorder] href="space.php?do=public&sort=student&type=nameorder">按名称顺序</a>
+             <a $student[fansnum] href="space.php?do=public&sort=student&type=fansnum">按粉丝数量</a>
+             <a $student[information] href="space.php?do=public&sort=student&type=informationnum">按信息发布量</a>
+             <a $student[visitnum] href="space.php?do=public&sort=student&type=visitnum">按信息访问量</a>
+			 <a $student[all] href="space.php?do=public&sort=student&type=all">全部</a>
         </div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_4}-->
@@ -244,13 +244,13 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_interest" style="display:none">
+    <div id="public_interest" style=$display_interest>
 		<div id="public_sort_interest" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			<a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+			<a $interest[nameorder] href="space.php?do=public&sort=interest&type=nameorder">按名称顺序</a>
+            <a $interest[fansnum] href="space.php?do=public&sort=interest&type=fansnum">按粉丝数量</a>
+            <a $interest[information] href="space.php?do=public&sort=interest&type=informationnum">按信息发布量</a>
+            <a $interest[visitnum] href="space.php?do=public&sort=interest&type=visitnum">按信息访问量</a>
+			<a $interest[all] href="space.php?do=public&sort=interest&type=all">全部</a>
         </div>
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_5}-->
@@ -282,14 +282,15 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_student_party" style="display:none">
-		<div id="public_sort_party" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-             <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+    <div id="public_student_party" style=$display_student_party>
+		<!--<div id="public_sort_student_party" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+             <a $student_party[nameorder] href="space.php?do=public&sort=student_party&type=nameorder">按名称顺序</a>
+             <a $student_party[fansnum] href="space.php?do=public&sort=student_party&type=fansnum">按粉丝数量</a>
+             <a $student_party[information] href="space.php?do=public&sort=student_party&type=informationnum">按信息发布量</a>
+             <a $student_party[visitnum] href="space.php?do=public&sort=student_party&type=visitnum">按信息访问量</a>
+			 <a $student_party[all] href="space.php?do=public&sort=student_party&type=all">全部</a>
         </div>
+		--->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_6}-->
             <!--{loop $sublist_6 $key $value}-->
@@ -320,14 +321,16 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_event" style="display:none">
+    <div id="public_event" style=$display_event>
+		<!---
 		<div id="public_sort_event" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a> 
-			<a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+			<a $event[nameorder] href="space.php?do=public&sort=event&type=nameorder">按名称顺序</a>
+            <a $event[fansnum] href="space.php?do=public&sort=event&type=fansnum">按粉丝数量</a>
+            <a $event[information] href="space.php?do=public&sort=event&type=informationnum">按信息发布量</a>
+            <a $event[visitnum] href="space.php?do=public&sort=event&type=visitnum">按信息访问量</a> 
+			<a $event[all] href="space.php?do=public&sort=event&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_7}-->
             <!--{loop $sublist_7 $key $value}-->
@@ -358,14 +361,16 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_brand" style="display:none">
+    <div id="public_brand" style=$display_brand>
+		<!---
 		<div id="public_sort_brand" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			<a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-            <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-            <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-            <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>			 
-			<a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+			<a $brand[nameorder] href="space.php?do=public&sort=brand&type=nameorder">按名称顺序</a>
+            <a $brand[fansnum] href="space.php?do=public&sort=brand&type=fansnum">按粉丝数量</a>
+            <a $brand[information] href="space.php?do=public&sort=brand&type=informationnum">按信息发布量</a>
+            <a $brand[visitnum] href="space.php?do=public&sort=brand&type=visitnum">按信息访问量</a>			 
+			<a $brand[all] href="space.php?do=public&sort=brand&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_8}-->
             <!--{loop $sublist_8 $key $value}-->
@@ -396,14 +401,16 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_class" style="display:none">
-		<div id="public_sort_party" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			 <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>			 
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+    <div id="public_class" style=$display_classes>
+		<!--
+		<div id="public_sort_class" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+			 <a $classes[nameorder] href="space.php?do=public&sort=class&type=nameorder">按名称顺序</a>
+             <a $classes[fansnum] href="space.php?do=public&sort=class&type=fansnum">按粉丝数量</a>
+             <a $classes[information] href="space.php?do=public&sort=class&type=informationnum">按信息发布量</a>
+             <a $classes[visitnum] href="space.php?do=public&sort=class&type=visitnum">按信息访问量</a>			 
+			 <a $classes[all] href="space.php?do=public&sort=class&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_20}-->
             <!--{loop $sublist_20 $key $value}-->
@@ -434,14 +441,16 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_english" style="display:none">
+    <div id="public_english" style=$display_english>
+		<!--
 		<div id="public_sort_english" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-			 <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+			 <a $english[nameorder] href="space.php?do=public&sort=english&type=nameorder">按名称顺序</a>
+             <a $english[fansnum] href="space.php?do=public&sort=english&type=fansnum">按粉丝数量</a>
+             <a $english[information] href="space.php?do=public&sort=english&type=informationnum">按信息发布量</a>
+             <a $english[visitnum] href="space.php?do=public&sort=english&type=visitnum">按信息访问量</a>
+			 <a $english[all] href="space.php?do=public&sort=english&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_100}-->
             <!--{loop $sublist_100 $key $value}-->
@@ -472,14 +481,16 @@
             <!--{/if}-->
         </ul>
     </div>
-	<div id="public_teacher_work" style="display:none">
+	<div id="public_teacher_work" style=$display_teacher>
+		<!---
 		<div id="public_sort_teacher_work" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-		     <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+		     <a $teacher[nameorder] href="space.php?do=public&sort=teacher&type=nameorder">按名称顺序</a>
+             <a $teacher[fansnum] href="space.php?do=public&sort=teacher&type=fansnum">按粉丝数量</a>
+             <a $teacher[information] href="space.php?do=public&sort=teacher&type=informationnum">按信息发布量</a>
+             <a $teacher[visitnum] href="space.php?do=public&sort=teacher&type=visitnum">按信息访问量</a>
+			 <a $teacher[all] href="space.php?do=public&sort=teacher&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_200}-->
             <!--{loop $sublist_200 $key $value}-->
@@ -511,14 +522,16 @@
         </ul>
     </div>
 
-	<div id="public_others" style="display:none">
+	<div id="public_others" style=$display_others>
+		<!--
 		<div id="public_sort_others" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
-         	 <a $actives[nameorder] href="space.php?do=public&sort=not&type=nameorder">按名称顺序</a>
-             <a $actives[fansnum] href="space.php?do=public&sort=not&type=fansnum">按粉丝数量</a>
-             <a $actives[information] href="space.php?do=public&sort=not&type=informationnum">按信息发布量</a>
-             <a $actives[visitnum] href="space.php?do=public&sort=not&type=visitnum">按信息访问量</a>
-			 <a $actives[all] href="space.php?do=public&sort=not&type=all">全部</a>
+         	 <a $others[nameorder] href="space.php?do=public&sort=others&type=nameorder">按名称顺序</a>
+             <a $others[fansnum] href="space.php?do=public&sort=others&type=fansnum">按粉丝数量</a>
+             <a $others[information] href="space.php?do=public&sort=others&type=informationnum">按信息发布量</a>
+             <a $others[visitnum] href="space.php?do=public&sort=others&type=visitnum">按信息访问量</a>
+			 <a $others[all] href="space.php?do=public&sort=others&type=all">全部</a>
         </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_0}-->
             <!--{loop $sublist_0 $key $value}-->
@@ -549,7 +562,16 @@
             <!--{/if}-->
         </ul>
     </div>
-    <div id="public_popular" style="display:none">
+    <div id="public_popular" style=$display_popular>
+		<!--
+		<div id="public_popular" class="h_status" style="margin-left:13px;border-bottom:none;margin-bottom:5px">
+             <a $popular[nameorder] href="space.php?do=public&sort=popular&type=nameorder">按名称顺序</a>
+             <a $popular[fansnum] href="space.php?do=public&sort=popular&type=fansnum">按粉丝数量</a>
+             <a $popular[information] href="space.php?do=public&sort=popular&type=informationnum">按信息发布量</a>
+             <a $popular[visitnum] href="space.php?do=public&sort=popular&type=visitnum">按信息访问量</a>
+             <a $popular[all] href="space.php?do=public&sort=popular&type=all">全部</a>
+        </div>
+		-->
         <ul class="big_avatar_list clearfix" style="margin-left:-20px;width: 780px;">
             <!--{if $sublist_3}-->
             <!--{loop $sublist_3 $key $value}-->
