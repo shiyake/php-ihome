@@ -141,7 +141,9 @@ if($_GET['op'] == 'delete') {
 			$needle = ','.$me.',';
 			if (!$upvoters && $me != $uid) {
 				$upvoters = $needle;
-				$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
+                $_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
+                if($_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE feedid=".$feedid." AND idtype='blogid'"))
+                    $_SGLOBAL['db']->query("UPDATE ".tname('blog')." blog, ".tname('feed')." feed  SET blog.click_4 = blog.click_4 + 1 WHERE feed.feedid=".$feedid." AND blog.blogid=feed.id");
 
 				$q = $_SGLOBAL['db']->query("SELECT username, name from ".tname('space')." where uid=".$me);
 				$data = $_SGLOBAL['db']->fetch_array($q);
@@ -167,7 +169,10 @@ if($_GET['op'] == 'delete') {
 			}
 			$upvoters .= $me.',';
 			$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
-			
+            //flowers
+            if($_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE feedid=".$feedid." AND idtype='blogid'"))
+                $_SGLOBAL['db']->query("UPDATE ".tname('blog')." blog, ".tname('feed')." feed  SET blog.click_4 = blog.click_4 + 1 WHERE feed.feedid=".$feedid." AND blog.blogid=feed.id");
+
 			$q = $_SGLOBAL['db']->query("SELECT username, name from ".tname('space')." where uid=".$me);
 			$data = $_SGLOBAL['db']->fetch_array($q);
 			$name = $data['name'] ? $data['name'] : $data['username'];
