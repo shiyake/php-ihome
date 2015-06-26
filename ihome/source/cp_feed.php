@@ -131,7 +131,8 @@ if($_GET['op'] == 'delete') {
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			$upvotes = intval($value['upvotes']);
 			$uid = intval($value['uid']);
-			$upvoters = $value['upvoters'];
+            $upvoters = $value['upvoters'];
+            $blogid = intval($value['id']);
 			if ($value['icon']=='doing' && isComplainOrNot($value['id'],$_SGLOBAL['db'])) {
 				echo '-1';
 				exit();
@@ -159,7 +160,6 @@ if($_GET['op'] == 'delete') {
 				);
 				$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
 				inserttable('notification', $setarr);
-
 				echo '1';
 				exit();
 			}
@@ -170,9 +170,19 @@ if($_GET['op'] == 'delete') {
 			$upvoters .= $me.',';
 			$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET upvotes=upvotes+1, upvoters='".$upvoters."' WHERE feedid=".$feedid);
             //flowers
-            if($_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE feedid=".$feedid." AND idtype='blogid'"))
+            if($_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE feedid=".$feedid." AND idtype='blogid'")){
                 $_SGLOBAL['db']->query("UPDATE ".tname('blog')." blog, ".tname('feed')." feed  SET blog.click_4 = blog.click_4 + 1 WHERE feed.feedid=".$feedid." AND blog.blogid=feed.id");
-
+                //flowers
+                $clickuserarr = array(
+                    'uid' => $space['uid'],
+                    'username' => $_SGLOBAL['supe_username'],
+                    'id' => $blogid,
+                    'idtype' => 'blogid',
+                    'clickid' => 4,
+                    'dateline' => $_SGLOBAL['timestamp']
+                );
+                inserttable('clickuser', $clickuserarr);
+            }
 			$q = $_SGLOBAL['db']->query("SELECT username, name from ".tname('space')." where uid=".$me);
 			$data = $_SGLOBAL['db']->fetch_array($q);
 			$name = $data['name'] ? $data['name'] : $data['username'];
@@ -186,8 +196,8 @@ if($_GET['op'] == 'delete') {
 				'dateline' => $_SGLOBAL['timestamp']
 			);
 			$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET notenum=notenum+1 WHERE uid=".$uid);
-			inserttable('notification', $setarr);
-
+            inserttable('notification', $setarr);
+            
 			$upvotes += 1;
 			echo $upvotes;
 			exit();
