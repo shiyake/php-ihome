@@ -517,7 +517,7 @@ $mpurl = 'admincp.php?ac='.$ac;
 
 $pre = 's.';
 //´¦ÀíËÑË÷
-$intkeys = array('uid', 'groupid', 'namestatus', 'avatar', 'videostatus', 'opuid', 'flag');
+$intkeys = array('uid', 'groupid', 'namestatus', 'avatar', 'videostatus', 'opuid', 'flag', 'emailcheck');
 $strkeys = array('username', 'opusername');
 $randkeys = array(array('sstrtotime','dateline'), array('sstrtotime','updatetime'), array('sstrtotime','lastpost'), array('sstrtotime','lastlogin'), array('intval','credit'), array('intval', 'experience'));
 $likekeys = array('name');
@@ -567,9 +567,11 @@ ckstart($start, $perpage);
 $list = array();
 $uids = array();
 
-$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('space')." s WHERE $wheresql"), 0);
+$countsql = "SELECT COUNT(*) FROM (SELECT s.*,sf.emailcheck FROM ".tname('space')." s LEFT JOIN ".tname('spacefield')." sf ON sf.uid=s.uid) s WHERE $wheresql";
+$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query($countsql), 0);
 if($count) {
-	$query = $_SGLOBAL['db']->query("SELECT s.* FROM ".tname('space')." s WHERE $wheresql $ordersql LIMIT $start,$perpage");
+    $searchsql = "SELECT * FROM (SELECT s.*,sf.emailcheck FROM ".tname('space')." s LEFT JOIN ".tname('spacefield')." sf ON sf.uid=s.uid) s WHERE $wheresql $ordersql LIMIT $start,$perpage";
+	$query = $_SGLOBAL['db']->query($searchsql);
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['grouptitle'] = $usergroups[$value['groupid']]['grouptitle'];
 		$value['addsize'] = formatsize($value['addsize']);

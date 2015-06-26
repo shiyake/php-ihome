@@ -1380,6 +1380,7 @@ a.button {
 }
 .h_status a {
     color:#777;
+	margin-right: 10px;
 }
 .h_status .active {
     font-weight: bold;
