@@ -243,6 +243,23 @@
         </td>
         <td></td>
     </tr>
+    <tr>
+        <th style="width:10em;">手机号码:</th>
+        <td>
+            <input  type="text" id="mobile_num" name="mobile_num" value="" class="t_input" />
+            &nbsp;
+            <input href="cp.php?ac=protect&op=mobile&get_code=1" type="button" id="mobile_code_button" class="btn btn-sm btn-comments" 
+                    value="发送验证码" onclick="mobile_code_send(event)" disabled='disabled' />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">手机验证码:</th>
+        <td>
+            <input type="text" id="mobile_code" name="mobile_code" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
     <!--{if !empty($protect_info['mobile'])}-->
     <tr>
         <th style="width:10em;">密保问题:</th>
@@ -267,23 +284,7 @@
         <td></td>
     </tr>
     <!--{/if}-->
-    <tr>
-        <th style="width:10em;">手机号码:</th>
-        <td>
-            <input  type="text" id="mobile_num" name="mobile_num" value="" class="t_input" />
-            &nbsp;
-            <input href="cp.php?ac=protect&op=mobile&get_code=1" type="button" id="mobile_code_button" class="btn btn-sm btn-comments" 
-                    value="发送验证码" onclick="mobile_code_send(event)" disabled='disabled' />
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <th style="width:10em;">手机验证码:</th>
-        <td>
-            <input type="text" id="mobile_code" name="mobile_code" value="" class="t_input" />
-        </td>
-        <td></td>
-    </tr>
+
     <tr>
         <td></td>
         <td><input type="submit" name="submit_mobile" value="确定并下一步" class="btn btn-comments submit" /></td>
@@ -372,6 +373,21 @@
         </td>
         <td></td>
     </tr>
+   
+    <tr>
+        <th style="width:10em;">密保邮箱:</th>
+        <td>
+            <input type="text" id="email" name="email" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">确认密保邮箱:</th>
+        <td>
+            <input type="text" id="email_1" name="email_1" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
     <!--{if !empty($space_field['emailcheck'])}-->
     <tr>
         <th style="width:10em;">密保问题:</th>
@@ -396,20 +412,6 @@
         <td></td>
     </tr>
     <!--{/if}-->
-    <tr>
-        <th style="width:10em;">密保邮箱:</th>
-        <td>
-            <input type="text" id="email" name="email" value="" class="t_input" />
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <th style="width:10em;">确认密保邮箱:</th>
-        <td>
-            <input type="text" id="email_1" name="email_1" value="" class="t_input" />
-        </td>
-        <td></td>
-    </tr>
     <tr>
         <td></td>
         <td><input type="submit" name="submit_email" value="确定并下一步" class="btn btn-comments submit" /></td>
