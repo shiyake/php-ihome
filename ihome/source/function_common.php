@@ -279,7 +279,6 @@ function submitcheck($var) {
 //添加数据
 function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $silent=0) {
     global $_SGLOBAL;
-
     $insertkeysql = $insertvaluesql = $comma = '';
     foreach ($insertsqlarr as $insert_key => $insert_value) {
         $insertkeysql .= $comma.'`'.$insert_key.'`';

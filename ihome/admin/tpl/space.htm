@@ -13,6 +13,8 @@
 			<!--{/if}-->
 			<li$actives[2]><a href="admincp.php?ac=$ac&perpage=20&videostatus=0&searchsubmit=1&tab=2"><span>视频未认证</span></a></li>
 			<li$actives[3]><a href="admincp.php?ac=$ac&perpage=20&videostatus=1&searchsubmit=1&tab=3"><span>视频已认证</span></a></li>
+			<li$actives[4]><a href="admincp.php?ac=$ac&perpage=20&emailcheck=0&searchsubmit=1&tab=4"><span>邮箱未认证</span></a></li>
+			<li$actives[5]><a href="admincp.php?ac=$ac&perpage=20&emailcheck=1&searchsubmit=1&tab=5"><span>邮箱已认证</span></a></li>
 		</ul>
 	</div>
 
@@ -45,6 +47,12 @@
 			<option value="">不限</option>
 			<option value="1"<!--{if $_GET[videostatus] == '1'}--> selected<!--{/if}-->>已认证</option>
 			<option value="0"<!--{if $_GET[videostatus] == '0'}--> selected<!--{/if}-->>未认证</option>
+			</select></td>
+			<th>邮箱认证</th><td>
+			<select name="emailcheck">
+			<option value="">不限</option>
+			<option value="1"<!--{if $_GET[emailcheck] == '1'}--> selected<!--{/if}-->>已认证</option>
+			<option value="0"<!--{if $_GET[emailcheck] == '0'}--> selected<!--{/if}-->>未认证</option>
 			</select></td>
 		</tr>
 		<tr>
