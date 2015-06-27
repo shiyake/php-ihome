@@ -10,10 +10,12 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-$query=$_SGLOBAL['db']->query('SELECT groupid from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
+$query=$_SGLOBAL['db']->query('SELECT groupid,pptype from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
 if($res=$_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['mygroupid']=$res['groupid'];
+	$_SGLOBAL['pptype']=$res['pptype'];
 }
+$pptype_res = array("1"=>"学院","2"=>"部处","3"=>"名人","4"=>"学生组织","5"=>"兴趣社团","6"=>"学生党组织","7"=>"活动主页","8"=>"品牌主页","20"=>"班级主页","100"=>"航路研语","200"=>"名师工作坊");
 //ￊﾵￃ￻￈ￏￖﾤ
 if($space['namestatus']) {
 	include_once(S_ROOT.'./source/function_cp.php');
@@ -37,6 +39,7 @@ if($space['friends'] && in_array($_SGLOBAL['supe_uid'], $space['friends'])) {
 //ﾸ￶￈ￋￗￊ￁ￏ
 //￐ￔﾱ￰
 $space['sex_org'] = $space['sex'];
+$space['sex_text'] = $space['sex'] == '1' ? "男生" : ($space['sex']=='2' ? "女生" : '');
 $space['sex'] = $space['sex']=='1'?'<a href="cp.php?ac=friend&op=search&sex=1&searchmode=1">'.lang('man').'</a>':($space['sex']=='2'?'<a href="cp.php?ac=friend&op=search&sex=2&searchmode=1">'.lang('woman').'</a>':'');
 $space['birth'] = ($space['birthyear']?"$space[birthyear]".lang('year'):'').($space['birthmonth']?"$space[birthmonth]".lang('month'):'').($space['birthday']?"$space[birthday]".lang('day'):'');
 $space['marry'] = $space['marry']=='1'?'<a href="cp.php?ac=friend&op=search&marry=1&searchmode=1">'.lang('unmarried').'</a>':($space['marry']=='2'?'<a href="cp.php?ac=friend&op=search&marry=2&searchmode=1">'.lang('married').'</a>':'');
@@ -73,7 +76,7 @@ $space['domainurl'] = space_domain($space);
 //ﾸ￶￈ￋﾶﾯￌﾬ
 $feedlist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,20");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY top DESC,dateline DESC  LIMIT 0,20 ");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
@@ -224,7 +227,8 @@ if($space['groupid']==3){
 //￁￴￑ￔﾰ￥
 $walllist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('wall')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE id='$space[uid]' AND idtype='uid' ORDER BY dateline DESC LIMIT 0,5");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE ((id=$space[uid] AND secret='on' AND authorid=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret='on' AND id=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret!='on') AND idtype='uid') ORDER BY dateline DESC LIMIT 0,5");
+		
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['authorid'], $value['author']);
 		$value['message'] = strlen($value['message'])>500?getstr($value['message'], 500, 0, 0, 0, 0, -1).' ...':$value['message'];
@@ -346,6 +350,15 @@ if($oluids) {
 	}
 }
 
+$timerange = $_SGLOBAL['timestamp']-25920000;
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE lastvote >= '$timerange' ORDER BY  voternum DESC LIMIT 3 ");
+while($value = $_SGLOBAL['db']->fetch_array($query))
+{
+
+    realname_set($value['uid'], $value['username']);//ʵÃ
+    $hotpoll[] = $value;
+}
+
 //ￓﾦￓￃￏￔￊﾾ
 $narrowlist = $widelist = $guidelist = $space['userapp'] = array();
 if ($_SCONFIG['my_status']) {
@@ -406,7 +419,7 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 //ﾻ￹ﾱﾾￗￊ￁ￏￊￇﾷ￱ￓ￐
 $space['profile_base'] = 0;
-foreach (array('sex','birthday','blood','marry','residecity','birthcity') as $value) {
+foreach (array('sex','birthday','blood','marry','residecity','birthcity', 'signature') as $value) {
 	if($space[$value]) $space['profile_base'] = 1;
 }
 foreach ($fields as $fieldid => $value) {

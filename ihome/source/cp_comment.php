@@ -330,7 +330,8 @@ if(submitcheck('commentsubmit')) {
 	$fs = array();
 	$fs['icon'] = 'comment';
 	$fs['target_ids'] = $fs['friend'] = '';
-
+	$secret = $_POST['secret'];
+		
 	switch ($_POST['idtype']) {
 		case 'uid':
 			//ÊÂ¼þ
@@ -341,6 +342,7 @@ if(submitcheck('commentsubmit')) {
 			$fs['body_data'] = array();
 			$fs['body_general'] = '';
 			$fs['images'] = array();
+			$fs['secret'] = $_POST['secret'];
 			$fs['image_links'] = array();
 			break;
 		case 'picid':
@@ -439,7 +441,8 @@ if(submitcheck('commentsubmit')) {
 		'author' => $_SGLOBAL['supe_username'],
 		'dateline' => $_SGLOBAL['timestamp'],
 		'message' => $message,
-		'ip' => getonlineip()
+		'ip' => getonlineip(),
+		'secret' => $_POST['secret'],
 	);
 	
 	if($_POST['idtype']=='uid'){

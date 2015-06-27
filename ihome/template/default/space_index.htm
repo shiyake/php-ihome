@@ -846,6 +846,9 @@ jQuery(function ($) {
 						class="submit btn btn-lg btn-comments" 
 						style="padding: 6px 24px; float: right; border-radius: 20px"
 						value="留言" onclick="ajaxpost('quick_commentform_{$space[uid]}', 'wall_add' ,'' ,clearShowPic)" />
+					<!--{if $_GET['uid']!=$_SGLOBAL['supe_uid'] && !empty($_GET['uid'])}-->
+					<label style="float:right;margin-right:14px;margin-top:8px;"><input type="checkbox" name="secret"></input>&nbsp;悄悄话</label>
+					<!--{/if}-->
 					<style type="text/css">
 					.face_reply {
 						display: inline-block;
@@ -883,6 +886,9 @@ jQuery(function ($) {
 			</div>
 
 			<style type="text/css">
+				#comment_ul .info_comment {
+					width:91% !important;
+				}
 				#comment_ul li {
 					margin-top: 10px;
 					border-bottom:1px solid #dcdcdc;
