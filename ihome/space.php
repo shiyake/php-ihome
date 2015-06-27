@@ -174,7 +174,7 @@ if($uid) {
 	$space = getspace($_SGLOBAL['supe_uid'], 'uid');
 }
 getmember(); //获取当前用户信息by xuxing 2012-5-23
-
+//echo "newpm:".$_SGLOBAL['member']['newpm'];
 if($space) {
 
 	//验证空间是否被锁定
