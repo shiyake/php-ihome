@@ -88,7 +88,7 @@ if(submitcheck('addsubmit')) {
                 }
             }
         }
-    }	
+    }   
     //Ìæ»»±íÇé
     $message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
@@ -161,8 +161,8 @@ if(submitcheck('addsubmit')) {
         //Èë¿â
         $newdoid = inserttable('doing', $setarr, 1);
         /*
-         *	´¦ÀíÍ¶ËßÐÅÏ¢
-         *	2013-04-18
+         *  ´¦ÀíÍ¶ËßÐÅÏ¢
+         *  2013-04-18
          */
         $nowtime = time();
         if($isComplain){
@@ -197,8 +197,8 @@ if(submitcheck('addsubmit')) {
                         'expire' => 0,
                         'times' => 1,
                         'issendmsg' =>0,
-						'message' => $message,
-						'datatime' => date("Ymd",$nowtime)
+                        'message' => $message,
+                        'datatime' => date("Ymd",$nowtime)
                     );
                     inserttable('complain', $complain, 0);
                     //Í¨Öª±»@µÄ²¿ÃÅ,ÓÐÓÃ»§Í¶Ëß
@@ -277,6 +277,22 @@ if(submitcheck('addsubmit')) {
     }
     //ÊÂ¼þfeed
     if($add_doing) {
+        $ip = getonlineip();
+        $ip_detail = getIpDetails();
+        $lon = $ip_detail['latitude'];
+        $lat = $ip_detail['longitude'];
+        $pos = "http://lbs.juhe.cn/api/getaddressbylngb?lngx=".$lat."&lngy=".$lon;
+        $opts = array(
+            'http'=>array(
+                'method'=>'GET',
+                'time'=>1
+            )
+        );
+        $context = stream_context_create($opts);
+        $res = file_get_contents($pos,false,$context);
+        $res = json_decode($res,1);
+    
+        $address = $res['row']['result']['formatted_address'];  
         if($picid && $filepath) {
             $feedarr = array(
                 'appid' => UC_APPID,
@@ -292,7 +308,9 @@ if(submitcheck('addsubmit')) {
                 'idtype' => 'doid',
                 'fromdevice' => 'web',
                 'image_1'=>pic_get($filepath, 1, 0),
-                'image_1_link'=>"space.php?uid=$_SGLOBAL[supe_uid]&do=album&picid=$picid"
+                'image_1_link'=>"space.php?uid=$_SGLOBAL[supe_uid]&do=album&picid=$picid",
+                'ip' => $ip,
+                'address' => $address,
             );
         }
         else {
@@ -308,7 +326,9 @@ if(submitcheck('addsubmit')) {
                 'body_data' => $body_data,
                 'id' => $newdoid,
                 'idtype' => 'doid',
-                'fromdevice' => 'web'
+                'fromdevice' => 'web',
+                'ip' => $ip,
+                'address' => $address,
             );
         }
         $feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
@@ -331,7 +351,7 @@ if(submitcheck('addsubmit')) {
     if($ToWEIBO){
         $setarr = array('sina_token' => $token);
         updatetable('spacefield', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
-        $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token );	
+        $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token );    
         $ret = $pic ? $c->upload_url_text($weibo, $pic) : $c->update($weibo);
         if( isset($ret['error_code']) && $ret['error_code'] > 0 ) {
             //showmessage($ret['error_code'].":".$ret['error']);
@@ -371,7 +391,7 @@ if(submitcheck('addsubmit')) {
         showmessage('operating_too_fast', '', 1, array($waittime));
     }
     $message = getstr($_POST['message'], 480, 1, 1, 1);
-    //ÌáÈ¡ATÓÃ»§	
+    //ÌáÈ¡ATÓÃ»§    
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$_POST['message'], $matches, PREG_SET_ORDER);
     foreach($matches as $value){
         $TmpString = $value[0]; 
@@ -394,17 +414,17 @@ if(submitcheck('addsubmit')) {
                 }
             }
         }
-    }	
+    }   
     //Ìæ»»±íÇé
     if(preg_match("/\[em:(\d+):]/is")) {
         showmessage("Ç×£¬Ô­ÁÂÎÒÃÇ²»¹ÄÀøÄú¼ÌÐøÊ¹ÓÃ¾É±íÇé£¬^_^","location.href=-1");
     }
     $message = preg_replace("/\[am:(\d+):]/is", "<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
-	
-	$message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
-	$message = preg_replace("/\<br.*?\>/is", ' ', $message);  
-	if(strlen($message) < 1) {
+    
+    $message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
+    $message = preg_replace("/\<br.*?\>/is", ' ', $message);  
+    if(strlen($message) < 1) {
         showmessage('should_write_that');
     }
     $updo = array();
@@ -458,8 +478,8 @@ if(submitcheck('addsubmit')) {
  //                $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
  //            }
  //        }
-	// }
-	/*
+    // }
+    /*
     $isReplyComplain = FALSE;
     $nowtime = time();
     $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
@@ -477,9 +497,9 @@ if(submitcheck('addsubmit')) {
             }
         }
     }
-	
-	*/
-	if($updo['uid'] != $_SGLOBAL['supe_uid']) {
+    
+    */
+    if($updo['uid'] != $_SGLOBAL['supe_uid']) {
         // if($isReplyComplain){
         //     $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         //     notification_complain_add($updo['uid'], 'complain', $note, $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
@@ -490,7 +510,7 @@ if(submitcheck('addsubmit')) {
         //½±Àø»ý·Ö
         getreward('comment',1, 0, 'doing'.$updo['doid']);
     }
-    foreach($UserIds as $UserId){		
+    foreach($UserIds as $UserId){       
         $note = cplang('note_doingcomment_at', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         notification_add($UserId, 'atyou', $note);
     }
@@ -647,35 +667,35 @@ if($_GET['sync']=='true') {
         'lastauthorid' => $_SGLOBAL['supe_uid']
     );
     $tid = inserttable('thread',$setarr,1);
-	$psetarr = array(
-		'tagid' => $tagid,
-		'tid' => $tid,
-		'uid' => $_SGLOBAL['supe_uid'],
-		'username' => $_SGLOBAL['supe_username'],
-		'ip' => getonlineip(),
-		'dateline' => $_SGLOBAL['timestamp'],
-		'message' => $msg,
-		'isthread' => 1
-	);
-	//添加
-	inserttable('post', $psetarr);
-	
-	//更新群组统计
-	$_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET threadnum=threadnum+1 WHERE tagid='$tagid'");
-	
-	//统计
-	updatestat('thread');
-	
-	//更新用户统计
-	if(empty($space['threadnum'])) {
-		$space['threadnum'] = getcount('thread', array('uid'=>$space['uid']));
-		$threadnumsql = "threadnum=".$space['threadnum'];
-	} else {
-		$threadnumsql = 'threadnum=threadnum+1';
-	}
-	//积分
-	$reward = getreward('publishthread', 0);
-	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$threadnumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
+    $psetarr = array(
+        'tagid' => $tagid,
+        'tid' => $tid,
+        'uid' => $_SGLOBAL['supe_uid'],
+        'username' => $_SGLOBAL['supe_username'],
+        'ip' => getonlineip(),
+        'dateline' => $_SGLOBAL['timestamp'],
+        'message' => $msg,
+        'isthread' => 1
+    );
+    //添加
+    inserttable('post', $psetarr);
+    
+    //更新群组统计
+    $_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET threadnum=threadnum+1 WHERE tagid='$tagid'");
+    
+    //统计
+    updatestat('thread');
+    
+    //更新用户统计
+    if(empty($space['threadnum'])) {
+        $space['threadnum'] = getcount('thread', array('uid'=>$space['uid']));
+        $threadnumsql = "threadnum=".$space['threadnum'];
+    } else {
+        $threadnumsql = 'threadnum=threadnum+1';
+    }
+    //积分
+    $reward = getreward('publishthread', 0);
+    $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$threadnumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
     $returnarr = array("tagid"=>$tagid,"tid"=>$tid);
     echo json_encode($returnarr);
     return ;
