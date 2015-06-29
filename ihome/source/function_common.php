@@ -381,7 +381,12 @@ function getspace($key, $indextype='uid', $auto_open=0) {
             }
             if($space['self']) {
                 $_SGLOBAL['member'] = $space;
-			}
+            }
+            
+            $space['alias'] = split(',', $space['alias']);
+            $space['identity'] = split(',', $space['identity']);
+            $space['iden_t'] = split(',', $space['iden_t']);
+
 		}
 		$_SGLOBAL[$var] = $space;
 	}
