@@ -422,7 +422,8 @@ function getIpDetails(){
     $opts = array(
         'http'=>array(
         'method'=>"GET",
-        'timeout'=>1
+        'timeout'=>1,
+        'header'=>'Connection: close\r\n',
         )
     );
     $context = stream_context_create($opts);
