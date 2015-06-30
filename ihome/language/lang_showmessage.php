@@ -51,6 +51,8 @@ $_SGLOBAL['msglang'] = array(
 	//source/do_login.php
 	'users_were_not_empty_please_re_login' => '对不起，用户名不能为空，请重新登录',
 	'login_failure_please_re_login' => '对不起,登录失败,请重新登录',
+	'login_failure_user_locked' => '密码错误次数过多，您的帐号已被锁定30分钟，请在30分钟后再次尝试登录。',
+	'login_failure_captcha_invalid' => '验证码不正确',
 
 	//source/do_activate.php
 	'sendtime_limit' => '激活邮件已经发送，请不要重复操作！',
