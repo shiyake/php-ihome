@@ -301,7 +301,6 @@ if($_GET['op'] == 'base') {
             $inentityStr = '';
             $iden_tid = $_POST['iden_t'.$submitid];
             $identityid = $_POST['identity'.$submitid];
-
             if(empty($identityid))
                 showmessage('身份不能为空', 'cp.php?ac=profile&op=recommend');
 
