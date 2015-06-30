@@ -227,7 +227,9 @@ if($space['groupid']==3){
 //￁￴￑ￔﾰ￥
 $walllist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('wall')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE ((id=$space[uid] AND secret='on' AND authorid=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret='on' AND id=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret!='on') AND idtype='uid') ORDER BY dateline DESC LIMIT 0,5");
+	$query_sql = "SELECT * FROM ".tname('comment')." WHERE ((id=$space[uid] AND secret='on' AND authorid=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret='on' AND id=$_SGLOBAL[supe_uid]) OR (id=$space[uid] AND secret!='on') AND idtype='uid') ORDER BY dateline DESC LIMIT 0,5";
+
+	$query = $_SGLOBAL['db']->query($query_sql);
 		
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['authorid'], $value['author']);

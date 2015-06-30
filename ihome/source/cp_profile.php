@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink','sync','asst'))) {
+if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommend','flink','sync','asst'))) {
 	$_GET['op'] = 'base';
 }
 
@@ -287,6 +287,105 @@ if($_GET['op'] == 'base') {
 	if($dept) {
 		$isdept = True;
 	}
+} elseif ($_GET['op'] == 'recommend') {
+    if(submitcheck('aliassubmit1') or submitcheck('aliassubmit2') or submitcheck('aliassubmit3')){
+        if(submitcheck('aliassubmit1'))
+            $submitid = '1';
+        elseif(submitcheck('aliassubmit2'))
+            $submitid = '2';
+        else
+            $submitid = '3';
+        //个人主页
+        if($space['groupid'] != 3){
+            $iden_tStr = '';
+            $inentityStr = '';
+            $iden_tid = $_POST['iden_t'.$submitid];
+            $identityid = $_POST['identity'.$submitid];
+            if(empty($identityid))
+                showmessage('身份不能为空', 'cp.php?ac=profile&op=recommend');
+
+            foreach($space['identity'] as $index => $value){
+                if($value == $identityid and $space['iden_t'][$index] == $iden_tid)
+                    showmessage('不能设置相同的身份!', 'cp.php?ac=profile&op=recommend');
+            }
+
+            $space['identity'][intval($submitid) - 1] = $identityid;
+            $space['iden_t'][intval($submitid) - 1] = $iden_tid;
+
+            foreach($space['identity'] as $value){
+                if(strlen($value))
+                    $identityStr .= $value.',';
+            }
+            foreach($space['iden_t'] as $value){
+                if(strlen($value))
+                    $iden_tStr .= $value.',';
+            }
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set identity = '$identityStr', iden_t = '$iden_tStr' where uid = '$space[uid]'");
+            showmessage('设置身份成功！', 'cp.php?ac=profile&op=recommend');
+
+        //公共主页
+        } else {
+            $aliasstr = '';
+            $aliasid = $_POST['alias'.$submitid];
+            if(empty($aliasid))
+                showmessage('别名不能为空！', 'cp.php?ac=profile&op=recommend');
+
+            foreach($space['alias'] as $value){
+                if($value == $aliasid)
+                    showmessage('不能设定相同的别名！', 'cp.php?ac=profile&op=recommend');
+            }
+
+            if(preg_match(',', $aliasid))
+                showmessage('别名中不能有逗号！', 'cp.php?ac=profile&op=recommend');
+
+            $space['alias'][intval($submitid) - 1] = $aliasid;
+            foreach($space['alias'] as $value){
+                if(strlen($value))
+                    $aliasstr .= $value.',';
+            }
+			$update_sql = "update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'";
+			echo $update_sql;
+            $_SGLOBAL['db']->query($update_sql);
+            showmessage('设置别名成功！', 'cp.php?ac=profile&op=recommend');
+        }
+    }
+    //删除
+    if($_GET['del'] == 'deletetr'){
+        $del_id = intval($_GET['value']) - 1;
+        //个人主页
+        if($space['groupid'] != 3){
+            $iden_tStr = '';
+            $inentityStr = '';
+            
+            array_splice($space['identity'], $del_id, 1);
+            array_splice($space['iden_t'], $del_id, 1);
+
+            foreach($space['identity'] as $value){
+                 if(strlen($value))
+                    $identityStr .= $value.',';
+            }
+
+            foreach($space['iden_t'] as $value){
+                if(strlen($value))
+                    $iden_tStr .= $value.',';
+            } 
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set identity = '$identityStr', iden_t = '$iden_tStr' where uid = '$space[uid]'");
+            showmessage('删除身份成功！', 'cp.php?ac=profile&op=recommend');
+
+        } else {
+            $aliasstr = '';
+            array_splice($space['alias'], $del_id, 1);
+            foreach($space['alias'] as $value){
+                if(strlen($value))
+                    $aliasstr .= $value.',';
+            }
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'");
+            showmessage('删除别名成功！', 'cp.php?ac=profile&op=recommend');
+        }
+    }
 
 } elseif ($_GET['op'] == 'contact') {
 	
@@ -845,7 +944,7 @@ if($_GET['op'] == 'base') {
 $cat_actives = array($_GET['op'] => ' class="active"');
 
 
-if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
+if($_GET['op'] == 'edu' || $_GET['op'] == 'work' || $_GET['op'] == 'recommend') {
 	$yearhtml = '';
 	$nowy = sgmdate('Y');
 	for ($i=0; $i<61; $i++) {
@@ -858,6 +957,7 @@ if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
 		$monthhtml .= "<option value=\"$i\">$i</option>";
 	}
 }
+
 $overseas_verified = 13;
 if($_SGLOBAL['overseas'])	{
 	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid='".$_SGLOBAL['supe_uid']."'");

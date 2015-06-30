@@ -28,6 +28,11 @@ if __name__ == '__main__':
     row = cursor.fetchone()
     alumnus_signup_num = row[0]
 
+    print("delete from ihome_signup_analyse where usertype in ('学生', '教师', '校友')")
+    print("insert into ihome_signup_analyse (usertype, total, amount) values (%s, %s, %s)" % ('学生', student_all_num, student_signup_num))
+    print("insert into ihome_signup_analyse (usertype, total, amount) values (%s, %s, %s)" % ('教师', teacher_all_num, teacher_signup_num))
+    print("insert into ihome_signup_analyse (usertype, total, amount) values (%s, %s, %s)" % ('校友', alumnus_all_num, alumnus_signup_num))
+
     cursor.execute("delete from ihome_signup_analyse where usertype in ('学生', '教师', '校友')")
     cursor.execute("insert into ihome_signup_analyse (usertype, total, amount) values (%s, %s, %s)", ('学生', student_all_num, student_signup_num))
     cursor.execute("insert into ihome_signup_analyse (usertype, total, amount) values (%s, %s, %s)", ('教师', teacher_all_num, teacher_signup_num))

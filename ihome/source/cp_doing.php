@@ -114,7 +114,8 @@ if(submitcheck('addsubmit')) {
                 'timeline' => $_SGLOBAL['timestamp'],
                 'hot' => $hot,
                 'wallid' => $getwall['id'],
-                'fromdevice' => 'topic'
+				'fromdevice' => 'topic',
+				
             );
             //Èë¿â
             inserttable('wallfield', $wallarr, 0);
@@ -276,24 +277,24 @@ if(submitcheck('addsubmit')) {
         $body_data = saddslashes(serialize(sstripslashes(array('message'=>$message))));
     }
     //ÊÂ¼þfeed
-    if($add_doing) {
-        $ip = getonlineip();
-        $ip_detail = getIpDetails();
-        $lon = $ip_detail['latitude'];
-        $lat = $ip_detail['longitude'];
-        $pos = "http://lbs.juhe.cn/api/getaddressbylngb?lngx=".$lat."&lngy=".$lon;
-        $opts = array(
-            'http'=>array(
-                'method'=>'GET',
-                'time'=>1
-            )
-        );
-        $context = stream_context_create($opts);
-        $res = file_get_contents($pos,false,$context);
-        $res = json_decode($res,1);
-    
-        $address = $res['row']['result']['formatted_address'];  
-        if($picid && $filepath) {
+	if($add_doing) {
+		$ip = getonlineip();
+		$ip_detail = getIpDetails();
+		$lon = $ip_detail['latitude'];
+		$lat = $ip_detail['longitude'];
+		$pos = "http://lbs.juhe.cn/api/getaddressbylngb?lngx=".$lat."&lngy=".$lon;
+		$opts = array(
+			'http'=>array(
+				'method'=>'GET',
+				'time'=>1
+			)
+		);
+		$context = stream_context_create($opts);
+		$res = file_get_contents($pos,false,$context);
+		$res = json_decode($res,1);
+	
+		$address = $res['row']['result']['formatted_address'];	
+		if($picid && $filepath) {
             $feedarr = array(
                 'appid' => UC_APPID,
                 'icon' => 'doing',
@@ -309,8 +310,8 @@ if(submitcheck('addsubmit')) {
                 'fromdevice' => 'web',
                 'image_1'=>pic_get($filepath, 1, 0),
                 'image_1_link'=>"space.php?uid=$_SGLOBAL[supe_uid]&do=album&picid=$picid",
-                'ip' => $ip,
-                'address' => $address,
+				'ip' => $ip,
+				'address' => $address,
             );
         }
         else {
@@ -327,8 +328,8 @@ if(submitcheck('addsubmit')) {
                 'id' => $newdoid,
                 'idtype' => 'doid',
                 'fromdevice' => 'web',
-                'ip' => $ip,
-                'address' => $address,
+				'ip' => $ip,
+				'address' => $address,
             );
         }
         $feedarr['hash_template'] = md5($feedarr['title_template']."\t".$feedarr['body_template']);//Ï²ºÃhash
@@ -464,7 +465,6 @@ if(submitcheck('addsubmit')) {
     $newid = inserttable('docomment', $setarr, 1);
     //¸üÐÂ»Ø¸´Êý
     $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
- //    $isReplyComplain = FALSE;
  //    $nowtime = time();
  //    $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
  //    if($UserDept){
@@ -667,35 +667,35 @@ if($_GET['sync']=='true') {
         'lastauthorid' => $_SGLOBAL['supe_uid']
     );
     $tid = inserttable('thread',$setarr,1);
-    $psetarr = array(
-        'tagid' => $tagid,
-        'tid' => $tid,
-        'uid' => $_SGLOBAL['supe_uid'],
-        'username' => $_SGLOBAL['supe_username'],
-        'ip' => getonlineip(),
-        'dateline' => $_SGLOBAL['timestamp'],
-        'message' => $msg,
-        'isthread' => 1
-    );
-    //添加
-    inserttable('post', $psetarr);
-    
-    //更新群组统计
-    $_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET threadnum=threadnum+1 WHERE tagid='$tagid'");
-    
-    //统计
-    updatestat('thread');
-    
-    //更新用户统计
-    if(empty($space['threadnum'])) {
-        $space['threadnum'] = getcount('thread', array('uid'=>$space['uid']));
-        $threadnumsql = "threadnum=".$space['threadnum'];
-    } else {
-        $threadnumsql = 'threadnum=threadnum+1';
-    }
-    //积分
-    $reward = getreward('publishthread', 0);
-    $_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$threadnumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
+	$psetarr = array(
+		'tagid' => $tagid,
+		'tid' => $tid,
+		'uid' => $_SGLOBAL['supe_uid'],
+		'username' => $_SGLOBAL['supe_username'],
+		'ip' => getonlineip(),
+		'dateline' => $_SGLOBAL['timestamp'],
+		'message' => $msg,
+		'isthread' => 1,
+	);
+	//添加
+	inserttable('post', $psetarr);
+	
+	//更新群组统计
+	$_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET threadnum=threadnum+1 WHERE tagid='$tagid'");
+	
+	//统计
+	updatestat('thread');
+	
+	//更新用户统计
+	if(empty($space['threadnum'])) {
+		$space['threadnum'] = getcount('thread', array('uid'=>$space['uid']));
+		$threadnumsql = "threadnum=".$space['threadnum'];
+	} else {
+		$threadnumsql = 'threadnum=threadnum+1';
+	}
+	//积分
+	$reward = getreward('publishthread', 0);
+	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET {$threadnumsql}, lastpost='$_SGLOBAL[timestamp]', updatetime='$_SGLOBAL[timestamp]', credit=credit+$reward[credit], experience=experience+$reward[experience] WHERE uid='$_SGLOBAL[supe_uid]'");
     $returnarr = array("tagid"=>$tagid,"tid"=>$tid);
     echo json_encode($returnarr);
     return ;

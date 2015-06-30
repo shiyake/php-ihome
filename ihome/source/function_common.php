@@ -286,7 +286,8 @@ function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $
         $comma = ', ';
     }
     $method = $replace?'REPLACE':'INSERT';
-    $_SGLOBAL['db']->query($method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')', $silent?'SILENT':'');
+	$sql = $method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')';
+    $_SGLOBAL['db']->query($sql, $silent?'SILENT':'');
     if($returnid && !$replace) {
         return $_SGLOBAL['db']->insert_id();
     }
@@ -381,7 +382,24 @@ function getspace($key, $indextype='uid', $auto_open=0) {
             }
             if($space['self']) {
                 $_SGLOBAL['member'] = $space;
-			}
+            }
+            
+            $space['alias'] = split(',', $space['alias']);
+            $space['identity'] = split(',', $space['identity']);
+            $space['iden_t'] = split(',', $space['iden_t']);
+
+            for($i = 0; $i < count($space['iden_t']) - 1; $i++){
+                for($j = $i + 1; $j < count($space['iden_t']) - 1; $j++){
+                    if($space['iden_t'][$j] < $space['iden_t'][$i]){
+                        $temp = $space['iden_t'][$i];
+                        $space['iden_t'][$i] = $space['iden_t'][$j];
+                        $space['iden_t'][$j] = $temp;
+                        $temp = $space['identity'][$i];
+                        $space['identity'][$i] = $space['identity'][$j];
+                        $space['identity'][$j] = $temp;
+                    }
+                }
+            }
 		}
 		$_SGLOBAL[$var] = $space;
 	}
@@ -406,7 +424,6 @@ function getuid($name) {
 
 //获取IP对应的国家,判断是否为国外用户
 function getIpDetails(){
-	// return false;
     $onlineip = getonlineip();
     //include("geoip.inc.php");
     //include_once(S_ROOT.'./source/geoip.inc.php');

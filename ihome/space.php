@@ -91,6 +91,7 @@ if($do == 'home') {
 	}
 }
 
+
 //处理@功能，获取好友及公共主页
 
 $friendurl_w = S_ROOT."./data/assets/data_".$_SGLOBAL[supe_uid].".json";
