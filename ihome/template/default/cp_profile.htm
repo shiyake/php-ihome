@@ -30,6 +30,7 @@
 	<a href="cp.php?ac=profile&op=sync"$cat_actives[sync]>同步设置</a>
 	<!--{/if}-->
 	<a href="cp.php?ac=profile&op=asst"$cat_actives[asst]>本科辅导员认证</a>
+    <a href="cp.php?ac=profile&op=recommend"$cat_actives[recommend]>用户推荐</a>
 </div>
 
 <!--{eval $farr = array(0=>'全用户','1'=>'仅好友','3'=>'仅自己');}-->
@@ -704,6 +705,137 @@
 </tr>
 </table>
 
+<!--{elseif $_GET['op'] == 'recommend'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<tbody id="oldtbody">
+<!--{eval $index=1;}-->
+<!--{loop $space['alias']  $value}-->
+<!--{if strlen($value) > 0}-->
+<form action="cp_profile.php" method="post">
+    <tr>
+        <th width=16%><li>别名$index</li></th>
+	    <td width="25%">
+            <li id="li_alias$index">$value</li>
+            <input id="input_alias$index" type="text" name="alias$index" value="$value" class="t_input" style="display:none;"/>
+	    </td>
+        <td width="10%">
+            <input id="submit_alias$index" type="submit" name="aliassubmit$index" value="保存" class="btn btn-comments submit" style="display:none;"/>
+            <input id="change_alias$index" type="button" onclick="turn_to_input($index);" class="btn btn-comments submit" value="修改"/>
+        </td>
+        <td width="49%">
+            <input type="button" value="删除" onclick="location='cp.php?ac=profile&op=recommend&del=deletetr&value=$index'" class="btn btn-comments submit"/>
+        </td>
+    </tr>
+<form>
+<!--{/if}-->
+<!--{eval $index++;}-->
+<!--{/loop}-->
+<!--{eval $index=1;}-->
+<!--{loop $space['identity'] $val}-->
+<!--{if strlen($val) > 0}-->
+<form action="cp_profile.php" method="post">
+    <tr>
+        <th width="15%"><li>身份$index</li></th>
+	    <td id="li_iden_t$index" width="12%">
+            <li>&nbsp;&nbsp;$space['iden_t'][$index-1]</li>
+        </td>
+        <td id="select_iden_t$index" style="display:none;" width="12%">
+		    <select name="iden_t$index" >
+                <option selected="selected">$space['iden_t'][$index-1]</option>
+		        $yearhtml
+		    </select> 
+        </td>
+        <td>
+            <li>年</li>
+        </td>
+        <td id="li_identity$index" width="22%">
+            <li>$val</li>
+        </td>
+        <td id="input_identity$index" style="display:none;" width="22%">
+            <input type="text" name="identity$index" value=$val />
+        </td>
+        <td width="15%">
+            <input id="submit_identity$index" type="submit" name="aliassubmit$index" value="保存" class="btn btn-comments submit" style="display:none;"/>
+            <input id="change_identity$index" type="button" onclick="turn_to_id_input($index);" class="btn btn-comments submit" value="修改"/>
+        </td>
+        <td width="31%">
+            <input type="button" value="删除" onclick="location='cp.php?ac=profile&op=recommend&del=deletetr&value=$index'" class="btn btn-comments submit"/>
+        </td>
+    </tr>
+<form>
+<!--{/if}-->
+ <!--{eval $index++;}-->
+<!--{/loop}-->
+</tbody>
+
+<tbody id="temptalias" style="display:none;">
+<form action="cp_profile.php" method="post">
+    <tr>
+        <th width="16%"><li>别名0</li></th>
+	    <td width="25%">
+            <input id="input_alias0" type="text" name="alias0" class="t_input" style="display:block;"/>
+	    </td>
+        <td width="10%">
+            <input id="submit_identity$index" type="submit" name="aliassubmit0" value="保存" class="btn btn-comments submit" style="display:none;"/>
+        </td>
+        <td width="54%">
+            <input type="button" value="删除" href="cp.php?ac=profile&op=recommend&del=deletetr&value=1" class="btn btn-comments submit"/>
+        </td>
+    </tr>
+<form>
+</tbody>
+<tbody id="temptidentity" style="display:none;">
+<form action="cp_profile.php" method="post">
+    <tr>
+        <th width="15%"><li>身份0</li></th>
+        <td id = "select_iden_t0" style="" width="12%">
+		    <select name="iden_t0">
+		        $yearhtml
+            </select>
+         </td>
+        <td>
+            <li>年</li>
+        </td>
+        <td id="input_identity$index" style="" width="22%">
+            <input type="text" name="identity$index"/>
+        </td>
+        <td width="15%">
+            <input id="submit_identity$index" type="submit" name="aliassubmit$index" value="保存" class="btn btn-comments submit" style="display:block;"/>
+        </td>
+        <td width="31%">
+            <input type="button" value="删除" href="cp.php?ac=profile&op=recommend&del=deletetr&value=$index" class="btn btn-comments submit"/>
+        </td>
+    </tr>
+<form>
+</tbody>
+<tbody>
+<tr id="new_alias" style="display:block;">
+	<th width="70%">
+        <!--{if $space['groupid'] == 3}-->
+        <!--{if count($space['alias']) == 0}-->
+        <input type="button" value="新增" onclick="add_alias_trow(0);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['alias']) == 1}-->
+        <input type="button" value="新增" onclick="add_alias_trow(1);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['alias']) == 2}-->
+        <input type="button" value="新增" onclick="add_alias_trow(2);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['alias']) == 3}-->
+        <input type="button" value="新增" onclick="add_alias_trow(3);" class="btn btn-comments submit"/>
+        <!--{/if}-->
+        <!--{elseif count($space['identity']) == 0}-->
+        <input type="button" value="新增" onclick="add_identity_trow(0);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['identity']) == 1}-->
+        <input type="button" value="新增" onclick="add_identity_trow(1);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['identity']) == 2}-->
+        <input type="button" value="新增" onclick="add_identity_trow(2);" class="btn btn-comments submit"/>
+        <!--{elseif count($space['identity']) == 3}-->
+        <input type="button" value="新增" onclick="add_identity_trow(3);" class="btn btn-comments submit"/>
+        <!--{/if}-->
+    </th>
+</tr>
+</tbody>
+</table>
+
 <!--{elseif $_GET['op'] == 'edu'}-->
 
 <!--{if $list}-->
@@ -1320,6 +1452,76 @@ jQuery(function ($) {
 			newnode = $("oldtbody").rows[i].cloneNode(true);
 			$("newtbody").appendChild(newnode);
 		}
+	}
+	function add_alias_trow(n) {
+        var newnode = $("temptalias").rows[0].cloneNode(true);
+        var len = $("oldtbody").rows.length+1;
+        if (len > n)  
+        {
+            alert("请提交当前行！");
+            return;
+        }
+        if (len < 4)
+        {
+            newnode.cells[0].innerText = "别名"+len;
+            newnode.cells[1].innerHTML = "<input id=\"input_alias"+len+"\" type=\"text\" name=\"alias"+len+"\" class=\"t_input\" style=\"display:block;\"/>";
+            newnode.cells[2].innerHTML = "<input id=\"submit_alias"+len+"\" type=\"submit\" name=\"aliassubmit"+len+"\" value=\"保存\" class=\"btn btn-comments submit\" style=\"display:block;\"/>";
+            newnode.cells[3].innerHTML = "<input type=\"button\" value=\"删除\" onclick=\"delete_alias_trow("+len+");\" class=\"btn btn-comments submit\"/>"; 
+            $("oldtbody").appendChild(newnode);
+        }
+        if (len == 3)
+        {
+            document.getElementById("new_alias").setAttribute("style","display:none;");
+        }
+	}
+	function add_identity_trow(n) {
+        var newnode = $("temptidentity").rows[0].cloneNode(true);
+        var len = $("oldtbody").rows.length+1;
+        if (len > n)  
+        {
+            alert("请提交当前行！");
+            return;
+        }
+        if (len < 4)
+        {
+            newnode.cells[0].innerText = "身份"+len;
+            newnode.cells[1].childNodes[1].name = "iden_t"+len;
+            newnode.cells[3].innerHTML = "<input type=\"text\" name=\"identity"+len+"\" class=\"t_input\"/>";
+            newnode.cells[4].innerHTML = "<input id=\"submit_identity"+len+"\" type=\"submit\" name=\"aliassubmit"+len+"\" value=\"保存\" class=\"btn btn-comments submit\" style=\"display:block;\"/>";
+            newnode.cells[5].innerHTML = "<input type=\"button\" value=\"删除\" onclick=\"delete_identity_trow("+len+");\" class=\"btn btn-comments submit\"/>"; 
+            newnode.cells[1].id = "select_iden_t"+len;
+            newnode.cells[3].id = "input_identity"+len;
+            $("oldtbody").appendChild(newnode);
+            document.getElementById("select_iden_t_"+len)
+        }
+        if (len == 3)
+        {
+            document.getElementById("new_alias").setAttribute("style","display:none;");
+        }
+	}
+    function delete_alias_trow(i) {
+        document.getElementById("oldtbody").deleteRow(i-1);
+        if ($("oldtbody").rows.length < 3)
+            document.getElementById("new_alias").setAttribute("style","display:block;");
+    }
+    function delete_identity_trow(i) {
+        document.getElementById("oldtbody").deleteRow(i-1);
+        if ($("oldtbody").rows.length < 3)
+            document.getElementById("new_alias").setAttribute("style","display:block;");
+    }
+	function turn_to_input(i) {
+        document.getElementById("li_alias"+i).setAttribute("style","display:none;");
+        document.getElementById("input_alias"+i).setAttribute("style","display:block;");
+        document.getElementById("submit_alias"+i).setAttribute("style","display:block;");
+        document.getElementById("change_alias"+i).setAttribute("style","display:none;");
+	}
+	function turn_to_id_input(i) {
+        document.getElementById("li_iden_t"+i).setAttribute("style","display:none;");
+        document.getElementById("select_iden_t"+i).setAttribute("style","");
+        document.getElementById("submit_identity"+i).setAttribute("style","");
+        document.getElementById("change_identity"+i).setAttribute("style","display:none;");
+        document.getElementById("li_identity"+i).setAttribute("style","display:none;");
+        document.getElementById("input_identity"+i).setAttribute("style","");
 	}
 </script>
 

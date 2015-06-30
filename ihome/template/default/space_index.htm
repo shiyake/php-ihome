@@ -462,6 +462,13 @@
 				<tr><td>办公电话：$telephone</td></tr>
 				<tr><td>办公地点：$office</td></tr>
 				<tr><td>部门职能：$depduty</td></tr>
+                <!--{loop $space['alias'] $index $val}-->
+                <!--{if $index == 0 and strlen($val)}-->
+                <tr><td>别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;: $val</td></tr>
+                <!--{elseif strlen($val)}-->
+                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $val</td></tr>
+                <!--{/if}-->
+                <!--{/loop}-->
 			<!--{else}-->
 			<!--{if $space[profile_base]}-->
 				<tr>
@@ -577,6 +584,19 @@
 			<!--{/if}-->
 			<!--{/loop}-->
 			<!--{/if}-->
+
+            <!--{if $space[identity]}-->
+                <tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">身份</td>
+			    </tr>
+            <!--{loop $space[identity] $index $val}-->
+            <!--{if strlen($val)}-->
+                <tr><td>$space[iden_t][$index]&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;$val</td></tr>
+            <!--{/if}-->
+            <!--{/loop}-->
+            <!--{/if}-->
+
 			<!--{/if}-->
 			</table>
 		</div>

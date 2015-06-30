@@ -381,7 +381,24 @@ function getspace($key, $indextype='uid', $auto_open=0) {
             }
             if($space['self']) {
                 $_SGLOBAL['member'] = $space;
-			}
+            }
+            
+            $space['alias'] = split(',', $space['alias']);
+            $space['identity'] = split(',', $space['identity']);
+            $space['iden_t'] = split(',', $space['iden_t']);
+
+            for($i = 0; $i < count($space['iden_t']) - 1; $i++){
+                for($j = $i + 1; $j < count($space['iden_t']) - 1; $j++){
+                    if($space['iden_t'][$j] < $space['iden_t'][$i]){
+                        $temp = $space['iden_t'][$i];
+                        $space['iden_t'][$i] = $space['iden_t'][$j];
+                        $space['iden_t'][$j] = $temp;
+                        $temp = $space['identity'][$i];
+                        $space['identity'][$i] = $space['identity'][$j];
+                        $space['identity'][$j] = $temp;
+                    }
+                }
+            }
 		}
 		$_SGLOBAL[$var] = $space;
 	}
