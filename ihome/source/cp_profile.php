@@ -44,6 +44,8 @@ if($_GET['op'] == 'base') {
 			updatetable('complain_dep', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
         	updatePowerlevelFile();
 		}
+
+        $changeadmin = 0;
 		if ($space['groupid'] == 3) {
 			$arr = array(
 				'telephone' => shtmlspecialchars($_POST['telephone']),
@@ -59,7 +61,7 @@ if($_GET['op'] == 'base') {
                 $last_time = strtotime($value['adminupdatetime']);
                 $days= round(($current_time-$last_time)/3600/24);
                 if (abs($days) < 30) {
-                    showmessage('has_modified_admin');
+                    showmessage('has_modified_admin', 'cp.php');
                 }
 
                 $aud = intval($_POST['admin']);
@@ -71,6 +73,7 @@ if($_GET['op'] == 'base') {
                     'adminupdatetime' => date('Y-m-d H:i:s', time())
                 );
                 updatetable('publicapply', $admin, array('uid'=>$_SGLOBAL['supe_uid']));
+                $changeadmin = 1;
             }
         }
 		//性别
@@ -248,6 +251,12 @@ if($_GET['op'] == 'base') {
 		} else {
 			$url = 'cp.php?ac=profile&op=base';
 		}
+
+        if($changeadmin) {
+            include_once S_ROOT.'./uc_client/client.php';
+            $ucsynlogout = uc_user_synlogout();
+            showmessage('公共主页的管理员发生变化，您需要重新登录。', 'cp.php?ac=common&op=logout&uhash='.$_SGLOBAL['uhash'], 1, array($ucsynlogout));
+        }
 		showmessage('update_on_successful_individuals', $url);
 	}
 

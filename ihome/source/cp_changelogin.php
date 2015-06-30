@@ -7,7 +7,6 @@ if(!defined('iBUAA')) {
 
 include_once(S_ROOT.'./source/function_cp.php');
 
-
 $utype = $_GET['utype'];
 $touid = $_GET['touid'];
 $uid = $_SGLOBAL['supe_uid'];
@@ -21,17 +20,14 @@ if($utype==1){
 		$uid = $value['uid'];
 		$passport = $value;
 	}
-}else{
+} else {
 	$query = $_SGLOBAL['db']->query("SELECT m.uid as uid,m.username as username,m.email as email FROM ihome_publicapply p JOIN ihomeuser_members m ON  p.ruthed=1 and p.appuid=$touid AND p.uid=$uid AND p.appuid=m.uid");
 	if($value = $_SGLOBAL['db']->fetch_array($query)){
 		$username = $value['username'];
 		$uid = $value['uid'];
 		$passport = $value;
 	}
-
 }
-
-
 
 
 if($_GET['uhash'] == $_SGLOBAL['uhash'] && $username) {
