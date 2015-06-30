@@ -344,7 +344,9 @@ if($_GET['op'] == 'base') {
                 if(strlen($value))
                     $aliasstr .= $value.',';
             }
-            $_SGLOBAL['db']->query("update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'");
+			$update_sql = "update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'";
+			echo $update_sql;
+            $_SGLOBAL['db']->query($update_sql);
             showmessage('设置别名成功！', 'cp.php?ac=profile&op=recommend');
         }
     }

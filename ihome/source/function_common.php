@@ -286,7 +286,8 @@ function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $
         $comma = ', ';
     }
     $method = $replace?'REPLACE':'INSERT';
-    $_SGLOBAL['db']->query($method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')', $silent?'SILENT':'');
+	$sql = $method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')';
+    $_SGLOBAL['db']->query($sql, $silent?'SILENT':'');
     if($returnid && !$replace) {
         return $_SGLOBAL['db']->insert_id();
     }
