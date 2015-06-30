@@ -6,11 +6,8 @@ $_POWERINFO = array (
     'dept_uid' => '9999999',
     'isdept' => '0',
     'up_uid' => '9999999',
-    'official' => '9999999,9999991',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'official' => '9999999,9999999',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999998 => 
   array (
@@ -19,10 +16,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999998',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999997 => 
   array (
@@ -31,10 +25,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999997',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999996 => 
   array (
@@ -43,10 +34,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999996',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999995 => 
   array (
@@ -55,10 +43,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999995',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999994 => 
   array (
@@ -67,10 +52,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999994',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999993 => 
   array (
@@ -79,10 +61,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999993',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999992 => 
   array (
@@ -91,10 +70,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999992',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999991 => 
   array (
@@ -103,10 +79,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999991',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   9999990 => 
   array (
@@ -115,10 +88,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999990',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   11479 => 
   array (
@@ -127,10 +97,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999998',
     'official' => '9999998,9999999,11479',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '81642096DF44467164AAA40DAE15C67C',
   ),
   9999898 => 
   array (
@@ -139,10 +106,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999898',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'F8FFC14F50598AD41EB77C0C049B999B',
   ),
   11458 => 
   array (
@@ -151,10 +115,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,11458',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '2F19E2E48C3C6AEE4EC73E1AEAAA95E4',
   ),
   9999897 => 
   array (
@@ -163,10 +124,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999897',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '65E452C56A532CD0A60E3F74F5CC7907',
   ),
   9999896 => 
   array (
@@ -175,10 +133,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999993',
     'official' => '9999993,9999999,9999896',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '95A8B8670849330DA7015E7589FEACE9',
   ),
   8281 => 
   array (
@@ -187,10 +142,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,8281',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '07B583C8A3C67FE6EA7B3FB9CB77D21A',
   ),
   7696 => 
   array (
@@ -199,10 +151,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,7696',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '68FCCA277FA29BC3B0313549A34B2253',
   ),
   9999895 => 
   array (
@@ -211,10 +160,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999895',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '76D993679629D35FBE39FCC4555A680F',
   ),
   9999894 => 
   array (
@@ -223,10 +169,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,9999894',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3681CBCEF28D92B752BB0DAF6ECC2EC0',
   ),
   8566 => 
   array (
@@ -235,10 +178,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,8566',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'CE64E9D0363DF88D8894D0CA5C450DD2',
   ),
   92 => 
   array (
@@ -247,10 +187,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,92',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '6D59202B304857500406A804749E0808',
   ),
   9999893 => 
   array (
@@ -259,10 +196,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999893',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'C28C1F6413ECD5EE4AA2327AA8F30D72',
   ),
   9999892 => 
   array (
@@ -271,10 +205,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999998',
     'official' => '9999998,9999999,9999892',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
   ),
   8083 => 
   array (
@@ -283,10 +214,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,8083',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '0864C2D65415DD53DD04DF2620524DA9',
   ),
   16773 => 
   array (
@@ -295,10 +223,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999992',
     'official' => '9999992,9999999,16773',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '67452AB063FFEB0F7FF783D1DE81942D',
   ),
   9999891 => 
   array (
@@ -307,10 +232,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999993',
     'official' => '9999993,9999999,9999891',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A1501077AAE982784FC9688B58B453F2',
   ),
   9999890 => 
   array (
@@ -319,10 +241,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999998',
     'official' => '9999998,9999999,9999890',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'F28FE0FD8B611CD7FDC1B746778C7322',
   ),
   1275 => 
   array (
@@ -331,10 +250,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999998',
     'official' => '9999998,9999999,1275',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '42D666CC237B4C8102FBECCAE92BD46F',
   ),
   18863 => 
   array (
@@ -343,10 +259,16 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,18863',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '4FABE941F7B0E5D2524D2906B8C56034',
+  ),
+  3054 => 
+  array (
+    'department' => '马进喜',
+    'dept_uid' => '3054',
+    'isdept' => '0',
+    'up_uid' => '9999989',
+    'official' => '9999989,9999999,3054',
+    'mobile' => 'E6788C425E7B20A573D19CE63A93F287',
   ),
   9999885 => 
   array (
@@ -355,10 +277,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,9999885',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'E2FCAE0C3D666052EF52E236C8001EBD',
   ),
   9999889 => 
   array (
@@ -367,10 +286,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,9999889',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '9C190244F20F4EB958E16DBD4486BBA0',
   ),
   17924 => 
   array (
@@ -379,10 +295,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,17924',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '4DF06C3C161137F826BD68F2DB4ADDCE',
   ),
   9999888 => 
   array (
@@ -391,10 +304,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,9999888',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'FFE8FE7F05CA37515BFF05CD21693157',
   ),
   9999887 => 
   array (
@@ -403,10 +313,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999887',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '844923EA1A6B8D66272CF784F6004D5E',
   ),
   7717 => 
   array (
@@ -415,10 +322,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,7717',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '601B9A4DB1AC2758D209562ED86F96FA',
   ),
   20477 => 
   array (
@@ -427,10 +331,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,20477',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'D827DDB1BF09A7B8340CD0BB979C0290',
   ),
   194 => 
   array (
@@ -439,10 +340,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,194',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A800F7CF36FE1934D3FDE8033275EBB7',
   ),
   7738 => 
   array (
@@ -451,10 +349,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,7738',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3F9FFF269328CE9393FEF43EC195228D',
   ),
   7 => 
   array (
@@ -463,10 +358,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,7',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '36E3F356FDE4152E691A034ABBD38BF1',
   ),
   7371 => 
   array (
@@ -475,10 +367,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,7371',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'C7DF56C6C13D050C580AA3EB391B5970',
   ),
   9999886 => 
   array (
@@ -487,10 +376,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999886',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'D4CD39E09F3F59D1FE19CD4D3F8B4BFB',
   ),
   7317 => 
   array (
@@ -499,10 +385,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11479',
     'official' => '11479,9999998,9999999,7317',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   20398 => 
   array (
@@ -511,10 +394,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999898',
     'official' => '9999898,9999995,9999999,20398',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19326 => 
   array (
@@ -523,10 +403,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11458',
     'official' => '11458,9999995,9999999,19326',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   17609 => 
   array (
@@ -535,10 +412,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999897',
     'official' => '9999897,9999995,9999999,17609',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'AEB3E9BF272F94CDA0E68B8897B2FFFA',
   ),
   18845 => 
   array (
@@ -547,10 +421,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999896',
     'official' => '9999896,9999993,9999999,18845',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'F8A7CB3F0D6CED1A5672AC473ACF9BD3',
   ),
   8662 => 
   array (
@@ -559,10 +430,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '8281',
     'official' => '8281,9999997,9999999,8662',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19378 => 
   array (
@@ -571,10 +439,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '7696',
     'official' => '7696,9999997,9999999,19378',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   20400 => 
   array (
@@ -583,10 +448,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999895',
     'official' => '9999895,9999997,9999999,20400',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   8167 => 
   array (
@@ -595,22 +457,16 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999894',
     'official' => '9999894,9999996,9999999,8167',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
-  2 => 
+  983 => 
   array (
-    'department' => '钟宇',
-    'dept_uid' => '2',
+    'department' => '学生工作处',
+    'dept_uid' => '983',
     'isdept' => '1',
     'up_uid' => '4579',
     'official' => '4579,9999990,9999999,983',
-    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
-    'depduty' => '111111111',
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'B2BBC959F4010F7A2F4EC3A7B6D3C2EC',
   ),
   1014 => 
   array (
@@ -619,10 +475,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '92',
     'official' => '92,9999990,9999999,1014',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'EA747807C84079009B0132DBE6E28DF5',
   ),
   10146 => 
   array (
@@ -631,10 +484,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999893',
     'official' => '9999893,9999995,9999999,10146',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   20432 => 
   array (
@@ -643,10 +493,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999892',
     'official' => '9999892,9999998,9999999,20432',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19609 => 
   array (
@@ -655,10 +502,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '8083',
     'official' => '8083,9999994,9999999,19609',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19349 => 
   array (
@@ -667,10 +511,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '16773',
     'official' => '16773,9999992,9999999,19349',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'D6DA611A6E813F3B249FCDF566984C26',
   ),
   20437 => 
   array (
@@ -679,10 +520,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999891',
     'official' => '9999891,9999993,9999999,20437',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'B95E7EB504F4E8CCC7DECC4E8CBAB5E7',
   ),
   8554 => 
   array (
@@ -691,10 +529,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999890',
     'official' => '9999890,9999998,9999999,8554',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   1035 => 
   array (
@@ -703,10 +538,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '18863',
     'official' => '18863,9999996,9999999,1035',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8321EE7C7B05C054CCFF638EB880F3AF',
   ),
   8283 => 
   array (
@@ -715,10 +547,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '8170',
     'official' => '8170,9999996,9999999,8283',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   16905 => 
   array (
@@ -727,10 +556,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '3054',
     'official' => '3054,9999989,9999999,16905',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'BAF0DCD3964624E09229ACDB72849544',
   ),
   1011 => 
   array (
@@ -739,10 +565,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999885',
     'official' => '9999885,9999994,9999999,1011',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A41D1CA40182A6FD79AFEE7968DA5FD1',
   ),
   8812 => 
   array (
@@ -751,10 +574,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999889',
     'official' => '9999889,9999991,9999999,8812',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3AFCF08BF97656A9ACE2A50F7385EE01',
   ),
   1037 => 
   array (
@@ -763,10 +583,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '17924,7371',
     'official' => '17924,9999991,9999999,1037,7371',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '41E16781D922AF288A31E036D837F9D2',
   ),
   19235 => 
   array (
@@ -775,10 +592,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999888',
     'official' => '9999888,9999991,9999999,19235',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '959145F6D5C0716932E9FB06D79A7134',
   ),
   20402 => 
   array (
@@ -787,10 +601,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999887',
     'official' => '9999887,9999997,9999999,20402',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   17650 => 
   array (
@@ -799,10 +610,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '7717',
     'official' => '7717,9999990,9999999,17650',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '4479AB4681AB77C090BFEF67827F0175',
   ),
   17852 => 
   array (
@@ -811,22 +619,16 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '20477',
     'official' => '20477,9999996,9999999,17852',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   8121 => 
   array (
     'department' => '北航共青团',
     'dept_uid' => '8121',
     'isdept' => '1',
-    'up_uid' => '29123',
-    'official' => '29123,9999992,9999999,8121',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'up_uid' => '194',
+    'official' => '194,9999990,9999999,8121',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19397 => 
   array (
@@ -835,22 +637,16 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '7738',
     'official' => '7738,9999994,9999999,19397',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
-  18 => 
+  674 => 
   array (
     'department' => '网络信息中心',
-    'dept_uid' => '18',
+    'dept_uid' => '674',
     'isdept' => '1',
-    'up_uid' => '7990,7,247',
+    'up_uid' => '7990,7',
     'official' => '7990,9999991,9999999,674',
-    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
-    'depduty' => '没用',
-    'telephone' => '111111',
-    'office' => '天上人间',
+    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
   ),
   20557 => 
   array (
@@ -859,10 +655,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999886',
     'official' => '9999886,9999997,9999999,20557',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999499 => 
   array (
@@ -871,10 +664,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999499',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '69F56E95D2F87A0A85D11087E9EEC380',
   ),
   1712 => 
   array (
@@ -883,10 +673,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999499',
     'official' => '9999499,9999995,9999999,1712',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '758BB3C159495E330D61DF80C6A3FF26',
   ),
   17764 => 
   array (
@@ -895,10 +682,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999993',
     'official' => '9999993,9999999,17764',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '65A9EFF51B311D2538B20295D2B6C5F7',
   ),
   13961 => 
   array (
@@ -907,10 +691,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '17764',
     'official' => '17764,9999993,9999999,13961',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '01BB572D7963D3261ECFDA6D15F8600C',
   ),
   9999498 => 
   array (
@@ -919,10 +700,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999992',
     'official' => '9999992,9999999,9999498',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'D8DF616C3CABC756976E2A490EE8C147',
   ),
   1713 => 
   array (
@@ -931,10 +709,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999498',
     'official' => '9999498,9999992,9999999,1713',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999497 => 
   array (
@@ -943,10 +718,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,9999497',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'DCF20E60B650DD520EFED5352DB366B9',
   ),
   1714 => 
   array (
@@ -955,10 +727,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999497',
     'official' => '9999497,9999991,9999999,1714',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '01FC20DEF991C3444CF5FB49C36D9F74',
   ),
   9999496 => 
   array (
@@ -967,10 +736,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999993',
     'official' => '9999993,9999999,9999496',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'FF79E0D3CA07D7D4786310B7D800BF45',
   ),
   1716 => 
   array (
@@ -979,10 +745,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999496',
     'official' => '9999496,9999993,9999999,1716',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   7581 => 
   array (
@@ -991,10 +754,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,7581',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'CA183F202490DDD0CCF161505E4C146E',
   ),
   1718 => 
   array (
@@ -1003,10 +763,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '7581',
     'official' => '7581,9999994,9999999,1718',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'F29BBA99616A02F50207EB56A7FAEE35',
   ),
   9999494 => 
   array (
@@ -1015,10 +772,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,9999494',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '710E7F07CC165F7FD3EBEB91ABA11816',
   ),
   9999493 => 
   array (
@@ -1027,10 +781,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999493',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3AEDCD4D64C13BB9B2C217B692375192',
   ),
   13821 => 
   array (
@@ -1039,10 +790,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999493',
     'official' => '9999493,9999997,9999999,13821',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   19422 => 
   array (
@@ -1051,10 +799,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,19422',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'B180F08CFD8775B14B6B14D9F67082B1',
   ),
   18018 => 
   array (
@@ -1063,10 +808,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '19422',
     'official' => '19422,9999994,9999999,18018',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   14489 => 
   array (
@@ -1075,10 +817,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999998',
     'official' => '9999998,9999999,14489',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'ED0399B863D48FCC4132AB59EADDFC2C',
   ),
   13064 => 
   array (
@@ -1087,10 +826,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '14489',
     'official' => '14489,9999998,9999999,13064',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   11280 => 
   array (
@@ -1099,10 +835,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999989',
     'official' => '9999989,9999999,11280',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'D94E6E72686241BE099FC834FD93AB3E',
   ),
   17937 => 
   array (
@@ -1111,10 +844,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11280',
     'official' => '11280,9999989,9999999,17937',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999492 => 
   array (
@@ -1123,10 +853,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999989',
     'official' => '9999989,9999999,9999492',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A69E117AD532DA401CA4CD91676176C6',
   ),
   5301 => 
   array (
@@ -1135,10 +862,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999492',
     'official' => '9999492,9999989,9999999,5301',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '447521D5B7F369005FCB5A268216C89F',
   ),
   14407 => 
   array (
@@ -1147,10 +871,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,14407',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '05DD4DC860E4EE2F4B8D1470BCFE2EA1',
   ),
   10230 => 
   array (
@@ -1159,10 +880,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '14407',
     'official' => '14407,9999994,9999999,10230',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   8 => 
   array (
@@ -1171,10 +889,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999997',
     'official' => '9999997,9999999,8',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A6631A09E9B9ACA7FBE7C2BD5C47A61D',
   ),
   1721 => 
   array (
@@ -1183,10 +898,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '8',
     'official' => '8,9999997,9999999,1721',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '87DB04B7EB63F0842FDD2977FF10BCC4',
   ),
   9999491 => 
   array (
@@ -1195,10 +907,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999491',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '05877C2646D826DABE3D01AC2DF57B7F',
   ),
   1720 => 
   array (
@@ -1207,10 +916,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999491',
     'official' => '9999491,9999995,9999999,1720',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   1024 => 
   array (
@@ -1219,10 +925,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,1024',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'FAC5379E3E4C7AB4189A0EA9EC8A6382',
   ),
   13960 => 
   array (
@@ -1231,10 +934,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '1024',
     'official' => '1024,9999994,9999999,13960',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999490 => 
   array (
@@ -1243,10 +943,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,9999490',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '2C5DA0D6CCF80B96FEB803BB449BAA77',
   ),
   1719 => 
   array (
@@ -1255,10 +952,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999490',
     'official' => '9999490,9999994,9999999,1719',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999399 => 
   array (
@@ -1267,10 +961,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999989',
     'official' => '9999989,9999999,9999399',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '080343D979F340D9C71044959D348797',
   ),
   20615 => 
   array (
@@ -1279,10 +970,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999399',
     'official' => '9999399,9999989,9999999,20615',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999398 => 
   array (
@@ -1291,10 +979,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,9999398',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8ACAFD904D3767D7FD3FBBD1DA49B2F4',
   ),
   8814 => 
   array (
@@ -1303,10 +988,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999398',
     'official' => '9999398,9999996,9999999,8814',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '03EB444F17FF22907633CE1F9D38A308',
   ),
   14342 => 
   array (
@@ -1315,10 +997,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,14342',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'C7499DD2B5510FCF61802CC277E4C4C6',
   ),
   13824 => 
   array (
@@ -1327,10 +1006,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '14342',
     'official' => '14342,9999994,9999999,13824',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'F65266ED398AF1A86F4D21C9ACFD2926',
   ),
   20478 => 
   array (
@@ -1339,10 +1015,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,20478',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5CD1A2B2B15E17BB4E34868E9E2B2131',
   ),
   20474 => 
   array (
@@ -1351,10 +1024,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '20478',
     'official' => '20478,9999990,9999999,20474',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '6CB19AA690E4AAB9A9C1B751EF5F4121',
   ),
   17654 => 
   array (
@@ -1363,10 +1033,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,17654',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '1B9C3D514AB50ADE85C96D2838F22461',
   ),
   1722 => 
   array (
@@ -1375,10 +1042,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '17654',
     'official' => '17654,9999994,9999999,1722',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999396 => 
   array (
@@ -1387,10 +1051,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999994',
     'official' => '9999994,9999999,9999396',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'AD008A400514591CF4DAB66E6F0D38AC',
   ),
   20594 => 
   array (
@@ -1399,10 +1060,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999396',
     'official' => '9999396,9999994,9999999,20594',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '7CCA4B90398BCEC6524D4A3AA6AAE4C3',
   ),
   9999397 => 
   array (
@@ -1411,10 +1069,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999397',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'B134355484378BBD8A790C3A3CE2619D',
   ),
   9999395 => 
   array (
@@ -1423,10 +1078,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,9999395',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'ECA5FAC3BDB4BB31D38A49EC47E2BA04',
   ),
   4579 => 
   array (
@@ -1435,10 +1087,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,4579',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5592539C3673FAF9E5DD17CDD1B00849',
   ),
   4753 => 
   array (
@@ -1447,10 +1096,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '194',
     'official' => '194,9999990,9999999,4753',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   17451 => 
   array (
@@ -1459,10 +1105,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,17451',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '7D4731E1879369699A3CB6769D676F7C',
   ),
   20777 => 
   array (
@@ -1471,10 +1114,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '17451',
     'official' => '17451,9999995,9999999,20777',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   20771 => 
   array (
@@ -1483,10 +1123,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999395',
     'official' => '9999395,9999990,9999999,20771',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
   ),
   11490 => 
   array (
@@ -1495,10 +1132,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,11490',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '484859DA93967E51A1855F682F35959F',
   ),
   9999394 => 
   array (
@@ -1507,10 +1141,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '11490',
     'official' => '11490,9999999,9999394',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '484859DA93967E51A1855F682F35959F',
   ),
   1657 => 
   array (
@@ -1519,10 +1150,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999394',
     'official' => '9999394,11490,9999999,1657',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '4B20ADD855057642E50ECEA044BFDE69',
   ),
   17822 => 
   array (
@@ -1531,10 +1159,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,17822',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3A5F1BEA75CF06EC35DB37C2542FF4B4',
   ),
   9999393 => 
   array (
@@ -1543,10 +1168,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '17822',
     'official' => '17822,9999999,9999393',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '3A5F1BEA75CF06EC35DB37C2542FF4B4',
   ),
   8061 => 
   array (
@@ -1555,10 +1177,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999393',
     'official' => '9999393,17822,9999999,8061',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   9999495 => 
   array (
@@ -1567,10 +1186,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999495',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'BF385854B56C52BB39B7847A2EA8271B',
   ),
   9999392 => 
   array (
@@ -1579,10 +1195,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999495',
     'official' => '9999495,9999999,9999392',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'BF385854B56C52BB39B7847A2EA8271B',
   ),
   1717 => 
   array (
@@ -1591,10 +1204,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999392',
     'official' => '9999392,9999495,9999999,1717',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '148C68331E43CB366A892AECCC3ACA4D',
   ),
   8294 => 
   array (
@@ -1603,10 +1213,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,8294',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'DCB671182E523AB8ECAF7CE8401B774F',
   ),
   9999391 => 
   array (
@@ -1615,10 +1222,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '8294',
     'official' => '8294,9999999,9999391',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'DCB671182E523AB8ECAF7CE8401B774F',
   ),
   5300 => 
   array (
@@ -1627,10 +1231,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999392',
     'official' => '9999392,8294,9999999,5300',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   10147 => 
   array (
@@ -1639,10 +1240,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,10147',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '780E9775EAF40DBA36264C28149F211E',
   ),
   9999390 => 
   array (
@@ -1651,10 +1249,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999390',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '780E9775EAF40DBA36264C28149F211E',
   ),
   18846 => 
   array (
@@ -1663,10 +1258,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999390',
     'official' => '9999390,9999999,18846',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'B12C861E40AE825A3319E4D073C4A87D',
   ),
   3 => 
   array (
@@ -1675,10 +1267,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '3',
     'official' => '3',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'E439CD0B9AE0D3DF28B01AFB16D8BDFB',
   ),
   210 => 
   array (
@@ -1687,10 +1276,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '3',
     'official' => '3,210',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '0D45B136FE87A93E0845060961CB4C17',
   ),
   956 => 
   array (
@@ -1699,22 +1285,16 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '210',
     'official' => '210,3,956',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '99A041B015A15CC92C47C0F30D16B992',
   ),
-  1 => 
+  665 => 
   array (
-    'department' => '钟@dev',
-    'dept_uid' => '1',
+    'department' => 'ihome社区',
+    'dept_uid' => '665',
     'isdept' => '1',
     'up_uid' => '956',
     'official' => '956,210,3,665',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => '233333333',
-    'telephone' => '123123123',
-    'office' => '天上人间',
+    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
   ),
   32 => 
   array (
@@ -1723,10 +1303,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,32',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'BFE88365E1129F594BF329B6C6E639F1',
   ),
   10501 => 
   array (
@@ -1735,10 +1312,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,10501',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'A4C725AE0903221DC1C0E24AB3B67FF7',
   ),
   9999389 => 
   array (
@@ -1747,10 +1321,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,9999389',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => 'FAC5379E3E4C7AB4189A0EA9EC8A6382',
   ),
   9999388 => 
   array (
@@ -1759,10 +1330,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999990',
     'official' => '9999990,9999999,9999388',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '1B9C3D514AB50ADE85C96D2838F22461',
   ),
   13134 => 
   array (
@@ -1771,10 +1339,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '32',
     'official' => '32,9999990,9999999,13134',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '28709A0814BD2EA2434AA570A4E9D2F4',
   ),
   8883 => 
   array (
@@ -1783,10 +1348,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '10501',
     'official' => '10501,9999990,9999999,8883',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   20583 => 
   array (
@@ -1795,10 +1357,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999389',
     'official' => '9999389,9999990,9999999,20583',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   16913 => 
   array (
@@ -1807,10 +1366,7 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999388',
     'official' => '9999388,9999990,9999999,16913',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '8195BF875FB817AB794A030581CEE138',
   ),
   7990 => 
   array (
@@ -1819,10 +1375,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999991',
     'official' => '9999991,9999999,7990',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '35A7B1426CAC272DA4B475FE01F229E1',
   ),
   9999989 => 
   array (
@@ -1831,10 +1384,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999999',
     'official' => '9999999,9999989',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '5A633C7B49C82E3A6CAE77C92F2ED1F1',
   ),
   8170 => 
   array (
@@ -1843,34 +1393,7 @@ $_POWERINFO = array (
     'isdept' => '0',
     'up_uid' => '9999996',
     'official' => '9999996,9999999,8170',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
-  ),
-  29123 => 
-  array (
-    'department' => '程波',
-    'dept_uid' => '29123',
-    'isdept' => '0',
-    'up_uid' => '9999992',
-    'official' => '9999992,9999999,29123',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
-  ),
-  9999387 => 
-  array (
-    'department' => '满庆丰_虚拟',
-    'dept_uid' => '9999387',
-    'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999387',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
-    'depduty' => NULL,
-    'telephone' => '',
-    'office' => '',
+    'mobile' => '0BB2529F6800F218FC9399BF39B417D2',
   ),
 )
 ?>
