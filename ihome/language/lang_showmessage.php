@@ -210,6 +210,8 @@ $_SGLOBAL['msglang'] = array(
 	//source/cp_profile.php
 	'realname_too_short' => '真实姓名不能少于4个字符',
 	'update_on_successful_individuals' => '个人资料更新成功了',
+    'has_modified_admin' => '您本月已经修改过管理员账号了',
+    'has_modified_name' => '您本月已经修改过主页名称了',
 
 	//source/cp_poll.php
 	'no_authority_to_add_poll' => '您目前没有权限添加投票',

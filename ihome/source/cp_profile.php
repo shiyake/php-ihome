@@ -44,6 +44,8 @@ if($_GET['op'] == 'base') {
 			updatetable('complain_dep', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
         	updatePowerlevelFile();
 		}
+
+        $changeadmin = 0;
 		if ($space['groupid'] == 3) {
 			$arr = array(
 				'telephone' => shtmlspecialchars($_POST['telephone']),
@@ -51,7 +53,29 @@ if($_GET['op'] == 'base') {
 				'depduty' => shtmlspecialchars($_POST['depduty']),
 			);
 			updatetable('space', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
-		}
+
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE uid=".$_SGLOBAL['supe_uid']);
+            $value = $_SGLOBAL['db']->fetch_array($query);
+            if ($value['appuid'] != intval($_POST['admin'])) {
+                $current_time = strtotime(date("y-m-d h:i:s", time()));
+                $last_time = strtotime($value['adminupdatetime']);
+                $days= round(($current_time-$last_time)/3600/24);
+                if (abs($days) < 30) {
+                    showmessage('has_modified_admin', 'cp.php');
+                }
+
+                $aud = intval($_POST['admin']);
+		        $query = $_SGLOBAL['db']->query("SELECT name FROM ".tname("space")." WHERE uid=".$aud);
+                $value = $_SGLOBAL['db']->fetch_array($query);
+                $admin = array(
+                    'appuid' => intval($_POST['admin']),
+                    'contact' => $value['name'],
+                    'adminupdatetime' => date('Y-m-d H:i:s', time())
+                );
+                updatetable('publicapply', $admin, array('uid'=>$_SGLOBAL['supe_uid']));
+                $changeadmin = 1;
+            }
+        }
 		//性别
 		$_POST['sex'] = intval($_POST['sex']);
 		if($_POST['sex'] && empty($space['sex'])) $setarr['sex'] = $_POST['sex'];
@@ -79,9 +103,22 @@ if($_GET['op'] == 'base') {
 		}
 
 		//主表实名
+        $name = getstr($_POST['name'], 40, 1, 1);
+        $namestatus = 0;
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE uid=".$_SGLOBAL['supe_uid']);
+        $value = $_SGLOBAL['db']->fetch_array($query);
+        if ($value['name'] != $name) {
+            $current_time = strtotime(date("y-m-d h:i:s", time()));
+            $last_time = strtotime($value['nameupdatetime']);
+            $days= round(($current_time-$last_time)/3600/24);
+            if (abs($days) < 30) {
+                showmessage('has_modified_name');
+            }
+            $namestatus = 1;
+        }
 		$setarr = array(
-			'name' => getstr($_POST['name'], 40, 1, 1, 1),
-			'namestatus' => $_SCONFIG['namecheck']?0:1
+			'name' => $name,
+			'namestatus' => $namestatus 
 		);
 		if(checkperm('managename')) {
 			 $setarr['namestatus'] = 1;
@@ -121,6 +158,12 @@ if($_GET['op'] == 'base') {
 				}
 			}
 			updatetable('space', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
+
+            $public = array(
+                'name'=>getstr($_POST['name'],40,1,1),
+                'nameupdatetime'=> date('Y-m-d H:i:s',time())
+            );
+            updatetable('publicapply', $public, array('uid'=>$_SGLOBAL['supe_uid']));
 		}
 		//国外校友事件处理
 		if(!empty($_POST['sync']))	{
@@ -208,6 +251,12 @@ if($_GET['op'] == 'base') {
 		} else {
 			$url = 'cp.php?ac=profile&op=base';
 		}
+
+        if($changeadmin) {
+            include_once S_ROOT.'./uc_client/client.php';
+            $ucsynlogout = uc_user_synlogout();
+            showmessage('公共主页的管理员发生变化，您需要重新登录。', 'cp.php?ac=common&op=logout&uhash='.$_SGLOBAL['uhash'], 1, array($ucsynlogout));
+        }
 		showmessage('update_on_successful_individuals', $url);
 	}
 
@@ -271,10 +320,6 @@ if($_GET['op'] == 'base') {
 		$profilefields[$value['fieldid']] = $value;
 	}
 	
-	if(empty($_SCONFIG['namechange'])) {
-		$_GET['namechange'] = 0;//不允许修改
-	}
-	
 	//隐私
 	$friendarr = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spaceinfo')." WHERE uid='$space[uid]' AND type='base'");
@@ -287,6 +332,41 @@ if($_GET['op'] == 'base') {
 	if($dept) {
 		$isdept = True;
 	}
+    if ($isdept || $_SGLOBAL['member']['groupid']==3) {
+        $_GET['namechange'] = 1;    
+        $adminhtml = '';
+
+        $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
+        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
+            while($value=$_SGLOBAL['db']->fetch_array($query)) {
+                $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
+            }
+        }
+
+        $query = $_SGLOBAL['db']->query("SELECT s.aud FROM ".tname('space')." s WHERE uid='$space[uid]'");
+        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $friend_array = explode(',', $value['aud']);
+            $wheresql = '';
+            $length = count($friend_array);
+            for($i=0; $i < $length; $i++) {
+                if ($i == $length - 1) {
+                    $wheresql.= "uid=".$friend_array[$i];
+                } else {
+                    $wheresql.= "uid=".$friend_array[$i]." or ";
+                }
+            }
+            
+            if ($friend_array[0] != '') {
+                $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE (".$wheresql.") and groupid!=3");
+                while($value=$_SGLOBAL['db']->fetch_array($query)) {
+                    $adminhtml .= "<option value=$value[uid]>$value[name](".$value['uid'].")</option>";
+                }
+            }
+        }
+    } elseif (empty($_SCONFIG['namechange'])) {
+        $_GET['namechange'] = 0;
+    }
 } elseif ($_GET['op'] == 'recommend') {
     if(submitcheck('aliassubmit1') or submitcheck('aliassubmit2') or submitcheck('aliassubmit3')){
         if(submitcheck('aliassubmit1'))
