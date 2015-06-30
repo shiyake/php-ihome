@@ -304,8 +304,8 @@ if($_GET['op'] == 'base') {
             if(empty($identityid))
                 showmessage('身份不能为空', 'cp.php?ac=profile&op=recommend');
 
-            foreach($space['identity'] as $value){
-                if($value == $identityid)
+            foreach($space['identity'] as $index => $value){
+                if($value == $identityid and $space['iden_t'][$index] == $iden_tid)
                     showmessage('不能设置相同的身份!', 'cp.php?ac=profile&op=recommend');
             }
 
