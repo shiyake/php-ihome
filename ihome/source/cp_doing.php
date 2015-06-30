@@ -88,7 +88,7 @@ if(submitcheck('addsubmit')) {
                 }
             }
         }
-    }	
+    }   
     //Ìæ»»±íÇé
     $message = preg_replace("/\[em:(\d+):]/is", "<img src=\"image/face/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
@@ -162,8 +162,8 @@ if(submitcheck('addsubmit')) {
         //Èë¿â
         $newdoid = inserttable('doing', $setarr, 1);
         /*
-         *	´¦ÀíÍ¶ËßÐÅÏ¢
-         *	2013-04-18
+         *  ´¦ÀíÍ¶ËßÐÅÏ¢
+         *  2013-04-18
          */
         $nowtime = time();
         if($isComplain){
@@ -198,8 +198,8 @@ if(submitcheck('addsubmit')) {
                         'expire' => 0,
                         'times' => 1,
                         'issendmsg' =>0,
-						'message' => $message,
-						'datatime' => date("Ymd",$nowtime)
+                        'message' => $message,
+                        'datatime' => date("Ymd",$nowtime)
                     );
                     inserttable('complain', $complain, 0);
                     //Í¨Öª±»@µÄ²¿ÃÅ,ÓÐÓÃ»§Í¶Ëß
@@ -352,7 +352,7 @@ if(submitcheck('addsubmit')) {
     if($ToWEIBO){
         $setarr = array('sina_token' => $token);
         updatetable('spacefield', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
-        $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token );	
+        $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token );    
         $ret = $pic ? $c->upload_url_text($weibo, $pic) : $c->update($weibo);
         if( isset($ret['error_code']) && $ret['error_code'] > 0 ) {
             //showmessage($ret['error_code'].":".$ret['error']);
@@ -392,7 +392,7 @@ if(submitcheck('addsubmit')) {
         showmessage('operating_too_fast', '', 1, array($waittime));
     }
     $message = getstr($_POST['message'], 480, 1, 1, 1);
-    //ÌáÈ¡ATÓÃ»§	
+    //ÌáÈ¡ATÓÃ»§    
     preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$_POST['message'], $matches, PREG_SET_ORDER);
     foreach($matches as $value){
         $TmpString = $value[0]; 
@@ -415,17 +415,17 @@ if(submitcheck('addsubmit')) {
                 }
             }
         }
-    }	
+    }   
     //Ìæ»»±íÇé
     if(preg_match("/\[em:(\d+):]/is")) {
         showmessage("Ç×£¬Ô­ÁÂÎÒÃÇ²»¹ÄÀøÄú¼ÌÐøÊ¹ÓÃ¾É±íÇé£¬^_^","location.href=-1");
     }
     $message = preg_replace("/\[am:(\d+):]/is", "<img src=\"image/face_new/face_1/\\1.gif\" class=\"face\">", $message);
     $message = preg_replace("/\<br.*?\>/is", ' ', $message);
-	
-	$message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
-	$message = preg_replace("/\<br.*?\>/is", ' ', $message);  
-	if(strlen($message) < 1) {
+    
+    $message = preg_replace("/\[bm:(\d+):]/is", "<img src=\"image/face_new/face_2/\\1.gif\" class=\"face\">", $message);
+    $message = preg_replace("/\<br.*?\>/is", ' ', $message);  
+    if(strlen($message) < 1) {
         showmessage('should_write_that');
     }
     $updo = array();
@@ -478,8 +478,8 @@ if(submitcheck('addsubmit')) {
  //                $_SGLOBAL['db']->query("UPDATE ".tname('mobilemsg')." USE INDEX(atuname) SET num=num-1 WHERE atuname='$isComplainArray[atdepartment]' AND issend=0 AND (level=3 OR level=$level)");
  //            }
  //        }
-	// }
-	/*
+    // }
+    /*
     $isReplyComplain = FALSE;
     $nowtime = time();
     $UserDept = isDepartment($_SGLOBAL['supe_uid'] ,0);
@@ -497,9 +497,9 @@ if(submitcheck('addsubmit')) {
             }
         }
     }
-	
-	*/
-	if($updo['uid'] != $_SGLOBAL['supe_uid']) {
+    
+    */
+    if($updo['uid'] != $_SGLOBAL['supe_uid']) {
         // if($isReplyComplain){
         //     $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         //     notification_complain_add($updo['uid'], 'complain', $note, $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
@@ -510,7 +510,7 @@ if(submitcheck('addsubmit')) {
         //½±Àø»ý·Ö
         getreward('comment',1, 0, 'doing'.$updo['doid']);
     }
-    foreach($UserIds as $UserId){		
+    foreach($UserIds as $UserId){       
         $note = cplang('note_doingcomment_at', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         notification_add($UserId, 'atyou', $note);
     }
@@ -612,6 +612,14 @@ elseif ($_GET['op'] == 'edit') {
             if(strlen($message) < 1) {
                 showmessage('should_write_that');
             }
+            $suffix = '';
+            $query = $_SGLOBAL['db']->query("select message from ".tname('docomment')." where id=$id limit 1");
+            if ($value = $_SGLOBAL['db']->fetch_array($query)) {
+                $matches = array();
+                preg_match('#<a.*?>.*?</a>#', $value['message'], $matches);
+                $suffix = $matches[0] ? ' '.$matches[0] : '';
+            }
+            $message .= $suffix;
             $_SGLOBAL['db']->query("update ".tname("docomment")." set message='".$message."' where id=$id");
         } else {
             showmessage('error_op', $_POST['refer'], 0);
@@ -622,7 +630,8 @@ elseif ($_GET['op'] == 'edit') {
         $query = $_SGLOBAL['db']->query("select message from ".tname('docomment')." where id=$id limit 1");
         $origin_msg = '';
         if ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            $origin_msg = strip_tags($value['message']);
+            $str = preg_replace('#(<a.*?>).*?(</a>)#', '$1$2', $value['message']);
+            $origin_msg = trim(strip_tags($str));
         }
     }
 }

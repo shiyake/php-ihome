@@ -21,6 +21,7 @@ if(!@include_once(S_ROOT.'./config.php')) {
 include_once(S_ROOT.'./source/function_common.php');
 include_once(S_ROOT.'./source/function_cp.php');
 include_once(S_ROOT.'./plugin/logger/Logger.php');
+include_once(S_ROOT.'./plugin/pager/pagination.class.php');
 Logger::configure(S_ROOT.'/config.xml');
 //include_once(S_ROOT.'./source/class_db.php');
 

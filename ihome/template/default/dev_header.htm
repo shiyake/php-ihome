@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="content-type" content="text/html; charset=$_SC[charset]"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <title>开发者中心</title>
+    <link rel="shortcut icon" href="image/logo_title.png"/>
+    <link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]"/>
+    <link rel="stylesheet" href="plugin/bootstrap/dist/css/bootstrap.ihome.css"/>
+    <link rel="stylesheet" href="plugin/bootstrap/dist/css/popupmenu.css"/>
+    <link rel="stylesheet" href="plugin/at/select2/select2.css"/>
+    <link rel="stylesheet" href="plugin/at/select2/select2-bootstrap.css"/>
+    <link rel="stylesheet" href="template/default/legacy.css"/>
+    <link rel="stylesheet" href="template/default/developer.css"/>
+    <script src="plugin/bootstrap/html5shiv.min.js"></script>
+    <script src="plugin/bootstrap/respond.min.js"></script>
+    <script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
+    <script src="plugin/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="plugin/at/jquery-validate/jquery.validate.js"></script>
+    <script src="plugin/at/jquery-validate/localization/messages_zh.js"></script>
+    <script src="plugin/at/jquery-validate/additional-methods.js"></script>
+    <script src="plugin/at/select2/select2.js"></script>
+    <script src="source/script_manage.js"></script>
+    <script src="source/main.js"></script>
+    <script src="template/default/developer.js"></script>
+
+    <script type="text/javascript">
+        function searchSubmit() {
+            jq("#head_search").submit()
+        }
+
+        jq(function () {
+            jq.getJSON("cp.php?ac=public&op=checkpublic", function (json) {
+                var html = '';
+                if (!json) return null;
+                jq.each(json, function (i, item) {
+                    html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype=' + item.type + '&touid=' + item.uid + '"><i class="icon-user" style="margin-right:11px"></i>' + item.name + '</a></li>';
+                });
+                jq("#for-public").before(html);
+            });
+        });
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-ihome" role="navigation">
+    <div class="container">
+        <div class="nav-header">
+            <span class="navbar-brand"
+                  style="display: block; height: 35px; width: 250px; padding: 10px;color: white;font-weight: bold">
+                <img src="template/default/image/logo_navigation.png"/>开发者中心
+            </span>
+        </div>
+        <ul class="nav navbar-nav pull-left hidden-xs">
+            <li id="index"><a href="developer.php?do=home">首页</a></li>
+            <!--{if $member['is_admin']}-->
+                <li id="manage"><a href="developer.php?do=manage&op=loglist">后台管理</a></li>
+            <!--{else}-->
+                <!--{if $member['is_developer']}-->
+                    <li id="service"><a href="developer.php?do=service">服务管理</a></li>
+                <!--{else}-->
+                    <li id="apply"><a href="developer.php?do=apply">成为开发者</a></li>
+                <!--{/if}-->
+            <!--{/if}-->
+            <li id="resource"><a href="developer.php?do=resource">帮助中心</a></li>
+        </ul>
+        <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;">
+            <li class="hidden-xs hidden-sm" style="padding:13px;padding-left:0;padding-right:0;width:140px">
+                <form method="post" id="head_search" action="plugin.php?pluginid=apps&ac=list" target="_blank">
+                    <input id="search_input" class="search form-control input-sm"
+                           name="query" value="搜服务" type="text" onblur="if(this.value=='') {this.value='搜服务';}"
+                           onclick="if(this.value=='搜服务'){this.value='';}"
+                           style="border-radius:20px;" frame="void"/>
+                    <a tabindex="4" onclick="searchSubmit()" title="搜索按钮" href="javascript:void(0)"
+                       style="outline:none;right:10px;" id="searchsubmit_a"><span class="icon-search"></span></a>
+                    <input type="hidden" name="do" value="search"/>
+                    <input type="hidden" name="appssearch" value="true"/>
+                    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->"/>
+                </form>
+            </li>
+            <li class="dropdown pull-right">
+                <a class="dropdown-toggle hidden-xs hidden-sm" style="padding: 9px 5px 10px;" data-toggle="dropdown"
+                   href="#">
+                    <div style="border-radius:50%;border:2px solid #ffffff;">
+                        <!--{if $_SCONFIG[realname]}-->
+                        <!--{avatar($_SGLOBAL[supe_uid],small,False,1)}-->
+                        <!--{/if}-->
+                    </div>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="cp.php"><i class="icon-cog" style="margin-right:11px"></i>设置</a></li>
+                    <li class="divider" id="for-public"></li>
+                    <li><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]"><i class="icon-signout"
+                                                                                       style="margin-right:10px"></i>退出</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="pull-right li_notice" style="padding-left:0">
+                <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></a>
+                <!--{if $member[newpm]}-->
+                <span class="news_badge"></span>
+                <!--{/if}-->
+            </li>
+        </ul>
+    </div>
+</nav>

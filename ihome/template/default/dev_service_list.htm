@@ -1,0 +1,152 @@
+<!--{template dev_header}-->
+<div class="container table-container">
+    <div class="row table-row">
+        <!--{if !$member[is_admin]}-->
+            <!--{template dev_service_sidebar}-->
+        <!--{else}-->
+            <!--{template dev_manage_sidebar}-->
+        <!--{/if}-->
+        <div class="col-md-10 table-col" id="servicearea">
+            <style type="text/css">
+                #filterform select {
+                    min-width: 150px;
+                    margin-right: 30px;
+                }
+            </style>
+            <div role="tabpanel">
+                <h4>服务列表</h4>
+
+                <div style="margin-top: 30px">
+                    <form class="form-inline" action="" method="GET" id="filterform" style="color: #777777;">
+                        <input type="hidden" name="do" value="service">
+                        <input type="hidden" name="op" value="servicelist">
+
+                        <div class="form-group">
+                            <label for="sort">排序：</label>
+                            <select id="sort" name="sort">
+                                <option value="applytime">提交时间</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="iauth_type">类别：</label>
+                            <select id="iauth_type" name="iauth_type">
+                                <option value="-1">全部</option>
+                                <!--{loop $iauth_types $v=>$name}-->
+                                <option value="$v">$name</option>
+                                <!--{/loop}-->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="applypass">状态：</label>
+                            <select id="applypass" name="applypass">
+                                <option value="-1">全部</option>
+                                <!--{loop $status $v=>$name}-->
+                                <option value="$v">$name</option>
+                                <!--{/loop}-->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div style="margin-top: 30px">
+                    <table class="table table-striped" id="servicelist">
+                        <thead>
+                        <tr>
+                            <th>服务图标</th>
+                            <th>服务名称</th>
+                            <th>提交时间</th>
+                            <th>负责人</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{loop $apps $app}-->
+                        <tr id="ser$app[id]">
+                            <td><img src="$app[logo]" class="logo"></td>
+                            <td><a href="developer.php?do=service&op=editservice&serid=$app[id]" target="_blank">$app[name]</a></td>
+                            <td><!--{date('Y-m-d H:i:s',$app[applytime])}--></td>
+                            <td>$_SN[$app[applyuid]]</td>
+                            <td>$status[$app[applypass]]</td>
+                            <td>
+                                <!--{if $app[applypass]==0 && $member[is_admin]}-->
+                                <a href="javascript:;" onclick="checkPass($app[id])">通过</a> | <a href="javascript:;" onclick="checkReject($app[id])">拒绝</a> |
+                                <!--{elseif $app[applypass]==3}-->
+                                <a href="javascript:;" onclick="DownService($app[id])">下架</a> |
+                                <!--{elseif $app[applypass]==4}-->
+                                <a href="javascript:;" onclick="UpService($app[id])">上架</a> |
+                                <!--{/if}-->
+                                <a href="developer.php?do=service&op=editservice&serid=$app[id]" target="_blank">编辑</a> |
+                                <a href="javascript:;" onclick="deleteService($app[id])">删除</a></td>
+                        </tr>
+                        <!--{/loop}-->
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin: 10px 0px; padding: 0px;" class="page">$multi</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function checkPass(serid) {
+        jq.post("developer.php?do=manage&op=checkpass", {
+            'serid': serid
+        }, function () {
+            location.reload();
+        });
+    }
+
+    function checkReject(serid) {
+        jq.post("developer.php?do=manage&op=checkreject", {
+            'serid': serid
+        }, function () {
+            location.reload();
+        });
+    }
+
+    function deleteService(serid) {
+        if (confirm("你确定要删除该服务么?")) {
+            jq.post("developer.php?do=service&op=deleteservice", {
+                'serid': serid
+            }, function () {
+                var jqtr = jq("#ser" + serid);
+                jqtr.fadeOut(600, function () {
+                    jqtr.remove();
+                });
+            });
+        }
+    }
+
+    function UpService(serid) {
+        if (confirm("你确定要上架该服务么?")) {
+            jq.post("developer.php?do=service&op=upservice", {
+                'serid': serid
+            }, function () {
+                location.reload();
+            });
+        }
+    }
+
+    function DownService(serid) {
+        if (confirm("你确定要下架该服务么?")) {
+            jq.post("developer.php?do=service&op=downservice", {
+                'serid': serid
+            }, function () {
+                location.reload();
+            });
+        }
+    }
+
+    jq(function () {
+        jq("#iauth_type,#sort,#applypass").change(function () {
+            jq("#filterform").submit();
+        });
+
+        jq("#iauth_type").val("$iauth_type");
+        jq("#sort").val("$sort");
+        jq("#applypass").val("$applypass");
+    });
+</script>
+</body>
+</html>

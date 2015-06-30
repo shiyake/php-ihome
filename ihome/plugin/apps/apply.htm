@@ -289,7 +289,7 @@
                         <div class="left">
                             <!--{if $apis}-->
 							<!--{loop $apis $api}-->
-							<label><input type="checkbox" name="apis" onclick="getapi()" value="$api[id]" />$api[name]</label><br />
+							<label><input type="checkbox" name="apis" onclick="getapi()" value="$api[iauthAPIid]" />$api[name]</label><br />
 							<!--{/loop}-->
 							<!--{/if}-->
 							<input type="hidden" name="api" id="api" value="" />
@@ -299,7 +299,7 @@
 								jq('input[name="apis"]:checked').each(function(){    
 									api_value += ',' + jq(this).val();    
 								});
-								jq("#api").val(api_value);
+								jq("#api").val(api_value.substr(2));
 							}
 							</script>
                         </div>

@@ -10,10 +10,12 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-$query=$_SGLOBAL['db']->query('SELECT groupid from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
+$query=$_SGLOBAL['db']->query('SELECT groupid,pptype from '.tname('space').' WHERE uid='.$_SGLOBAL['supe_uid']);
 if($res=$_SGLOBAL['db']->fetch_array($query))	{
 	$_SGLOBAL['mygroupid']=$res['groupid'];
+	$_SGLOBAL['pptype']=$res['pptype'];
 }
+$pptype_res = array("1"=>"学院","2"=>"部处","3"=>"名人","4"=>"学生组织","5"=>"兴趣社团","6"=>"学生党组织","7"=>"活动主页","8"=>"品牌主页","20"=>"班级主页","100"=>"航路研语","200"=>"名师工作坊");
 //ￊﾵￃ￻￈ￏￖﾤ
 if($space['namestatus']) {
 	include_once(S_ROOT.'./source/function_cp.php');
@@ -37,6 +39,7 @@ if($space['friends'] && in_array($_SGLOBAL['supe_uid'], $space['friends'])) {
 //ﾸ￶￈ￋￗￊ￁ￏ
 //￐ￔﾱ￰
 $space['sex_org'] = $space['sex'];
+$space['sex_text'] = $space['sex'] == '1' ? "男生" : ($space['sex']=='2' ? "女生" : '');
 $space['sex'] = $space['sex']=='1'?'<a href="cp.php?ac=friend&op=search&sex=1&searchmode=1">'.lang('man').'</a>':($space['sex']=='2'?'<a href="cp.php?ac=friend&op=search&sex=2&searchmode=1">'.lang('woman').'</a>':'');
 $space['birth'] = ($space['birthyear']?"$space[birthyear]".lang('year'):'').($space['birthmonth']?"$space[birthmonth]".lang('month'):'').($space['birthday']?"$space[birthday]".lang('day'):'');
 $space['marry'] = $space['marry']=='1'?'<a href="cp.php?ac=friend&op=search&marry=1&searchmode=1">'.lang('unmarried').'</a>':($space['marry']=='2'?'<a href="cp.php?ac=friend&op=search&marry=2&searchmode=1">'.lang('married').'</a>':'');
@@ -73,7 +76,7 @@ $space['domainurl'] = space_domain($space);
 //ﾸ￶￈ￋﾶﾯￌﾬ
 $feedlist = array();
 if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT 0,20");
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." WHERE uid='$space[uid]' ORDER BY top DESC,dateline DESC  LIMIT 0,20 ");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$value['share_url'] = get_shareurl($value['idtype'], $value['id']);
 		if(ckfriend($value['uid'], $value['friend'], $value['target_ids'])) {
@@ -88,7 +91,63 @@ if($_SGLOBAL['mygroupid']==3||ckprivacy('feed')) {
 //ﾺￃￓ￑￁￐ﾱ￭
 $oluids = array();
 $friendlist = array();
+$friendnum = 0;
+if ($space[groupid] == 3)
+{
+	$friendfans = '我的粉丝';
+	$friendnumquery = $_SGLOBAL['db']->query("SELECT count(x.uid) FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND y.groupid != 3 AND x.status='1' ORDER BY x.num DESC, x.dateline DESC");
+	$friendnumarray= mysql_fetch_array($friendnumquery);
+	$friendnum = $friendnumarray['0'];
+	$query = $_SGLOBAL['db']->query("SELECT x.* , y.* FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND y.groupid != 3 AND x.status='1' ORDER BY x.num DESC, x.dateline DESC LIMIT 0,6");
+	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		realname_set($value['fuid'], $value['fusername']);
+		$oluids[$value['fuid']] = $value['fuid'];
+		$friendlist[] = $value;
+	}
+	if($friendlist && empty($space['friendnum'])) {
+		//ﾸ￼￐ￂﾺￃￓ￑ﾻﾺﾴ￦
+		include_once(S_ROOT.'./source/function_cp.php');
+		friend_cache($space['uid']);
+	}	
+}
+else
+{
+	$friendfans = '我关注的';
+	$friendnumquery = $_SGLOBAL['db']->query("SELECT count(x.uid) FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND y.groupid = 3 AND x.status='1' ORDER BY x.num DESC, x.dateline DESC");
+	$friendnumarray = mysql_fetch_array($friendnumquery);
+	$friendnum = $friendnumarray['0'];
+	$query = $_SGLOBAL['db']->query("SELECT x.* , y.* FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND y.groupid = 3 AND x.status='1' ORDER BY x.num DESC, x.dateline DESC LIMIT 0,6");
+	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		realname_set($value['fuid'], $value['fusername']);
+		$oluids[$value['fuid']] = $value['fuid'];
+		$friendlist[] = $value;
+	}
+	if($friendlist && empty($space['friendnum'])) {
+		//ﾸ￼￐ￂﾺￃￓ￑ﾻﾺﾴ￦
+		include_once(S_ROOT.'./source/function_cp.php');
+		friend_cache($space['uid']);
+	}	
+	$friendfans2 = '我的好友';
+	$friendlist2 = array();
+	$friendnumquery2 = $_SGLOBAL['db']->query("SELECT count(x.uid) FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND x.status='1' ORDER BY x.num DESC, x.dateline DESC");
+	$friendnumarray2 = mysql_fetch_array($friendnumquery2);
+	$friendnum2 = $friendnumarray2['0'];
+	$query = $_SGLOBAL['db']->query("SELECT x.* , y.* FROM ".tname('friend')." x , ".tname('space')." y WHERE x.uid='$space[uid]' AND x.fuid = y.uid AND y.groupid != 3 AND x.status='1' ORDER BY x.num DESC, x.dateline DESC LIMIT 0,6");
+	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		realname_set($value['fuid'], $value['fusername']);
+		$oluids[$value['fuid']] = $value['fuid'];
+		$friendlist2[] = $value;
+	}
+	if($friendlist2 && empty($space['friendnum'])) {
+		//ﾸ￼￐ￂﾺￃￓ￑ﾻﾺﾴ￦
+		include_once(S_ROOT.'./source/function_cp.php');
+		friend_cache($space['uid']);
+	}	
+	
+}
+/*
 if($_SGLOBAL['mygroupid']==3||ckprivacy('friend')) {
+	$friendfans = '我的粉丝';
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('friend')." WHERE uid='$space[uid]' AND status='1' ORDER BY num DESC, dateline DESC LIMIT 0,6");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		realname_set($value['fuid'], $value['fusername']);
@@ -100,7 +159,7 @@ if($_SGLOBAL['mygroupid']==3||ckprivacy('friend')) {
 		include_once(S_ROOT.'./source/function_cp.php');
 		friend_cache($space['uid']);
 	}
-}
+}*/
 
 //ￗ￮ﾽ￼ﾷￃ﾿ￍ￁￐ﾱ￭
 $visitorlist = array();
@@ -291,6 +350,15 @@ if($oluids) {
 	}
 }
 
+$timerange = $_SGLOBAL['timestamp']-25920000;
+$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('poll')." WHERE lastvote >= '$timerange' ORDER BY  voternum DESC LIMIT 3 ");
+while($value = $_SGLOBAL['db']->fetch_array($query))
+{
+
+    realname_set($value['uid'], $value['username']);//ʵÃ
+    $hotpoll[] = $value;
+}
+
 //ￓﾦￓￃￏￔￊﾾ
 $narrowlist = $widelist = $guidelist = $space['userapp'] = array();
 if ($_SCONFIG['my_status']) {
@@ -351,7 +419,7 @@ while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 }
 //ﾻ￹ﾱﾾￗￊ￁ￏￊￇﾷ￱ￓ￐
 $space['profile_base'] = 0;
-foreach (array('sex','birthday','blood','marry','residecity','birthcity') as $value) {
+foreach (array('sex','birthday','blood','marry','residecity','birthcity', 'signature') as $value) {
 	if($space[$value]) $space['profile_base'] = 1;
 }
 foreach ($fields as $fieldid => $value) {

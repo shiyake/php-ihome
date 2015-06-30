@@ -91,6 +91,13 @@ if(submitcheck('loginsubmit')) {
 	}
     $password1 = md5($password);
     $_SGLOBAL['db']->query("update ihomeuser_members set password1 = '$password1' where uid = $passport[uid]");
+
+    $query = $_SGLOBAL['db']->query("select usertype from ".tname('baseprofile')." where uid=".$passport['uid']." limit 1");
+	$one = $_SGLOBAL['db']->fetch_array($query);
+    inserttable('signup_log', array(
+        'uid' => $passport['uid'],
+        'usertype'=> $one['usertype']
+    ));
 	
 	$setarr = array(
 		'uid' => $passport['uid'],
@@ -103,10 +110,7 @@ if(submitcheck('loginsubmit')) {
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$setarr[uid]'");
 	if(!$space = $_SGLOBAL['db']->fetch_array($query)) {
 		$space = space_open($setarr['uid'], $setarr['username'], 0, $passport['email']);
-	}
-
-
-	
+	} 
 	$_SGLOBAL['member'] = $space;
 	
 	//สตร๛

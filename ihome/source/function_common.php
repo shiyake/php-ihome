@@ -279,7 +279,6 @@ function submitcheck($var) {
 //添加数据
 function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $silent=0) {
     global $_SGLOBAL;
-
     $insertkeysql = $insertvaluesql = $comma = '';
     foreach ($insertsqlarr as $insert_key => $insert_value) {
         $insertkeysql .= $comma.'`'.$insert_key.'`';
@@ -382,7 +381,24 @@ function getspace($key, $indextype='uid', $auto_open=0) {
             }
             if($space['self']) {
                 $_SGLOBAL['member'] = $space;
-			}
+            }
+            
+            $space['alias'] = split(',', $space['alias']);
+            $space['identity'] = split(',', $space['identity']);
+            $space['iden_t'] = split(',', $space['iden_t']);
+
+            for($i = 0; $i < count($space['iden_t']) - 1; $i++){
+                for($j = $i + 1; $j < count($space['iden_t']) - 1; $j++){
+                    if($space['iden_t'][$j] < $space['iden_t'][$i]){
+                        $temp = $space['iden_t'][$i];
+                        $space['iden_t'][$i] = $space['iden_t'][$j];
+                        $space['iden_t'][$j] = $temp;
+                        $temp = $space['identity'][$i];
+                        $space['identity'][$i] = $space['identity'][$j];
+                        $space['identity'][$j] = $temp;
+                    }
+                }
+            }
 		}
 		$_SGLOBAL[$var] = $space;
 	}
@@ -422,7 +438,8 @@ function getIpDetails(){
     $opts = array(
         'http'=>array(
         'method'=>"GET",
-        'timeout'=>1
+        'timeout'=>1,
+        'header'=>'Connection: close\r\n',
         )
     );
     $context = stream_context_create($opts);
@@ -1656,6 +1673,10 @@ function runlog($file, $log, $halt=0) {
 
 	//处理头像
 	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary='',$lazy='') {
+        if (empty($uid)) {
+            return fallback_avatar();
+        }
+
 		global $_SCONFIG, $_SN, $_SGLOBAL;
 		$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'small';
 		$avatarfile = avatar_file($uid, $size);
@@ -1688,6 +1709,11 @@ function runlog($file, $log, $halt=0) {
 
 		}
 	}
+
+    function fallback_avatar() {
+		$randavatar = '';
+        return '<img src="'.UC_API.'/images/avatar/m_small_1.png" class="img-circle shadow_avatar">';
+    }
 
 	//得到头像
 	function avatar_file($uid, $size) {

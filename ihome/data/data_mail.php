@@ -8,7 +8,7 @@ $_SGLOBAL['mail']=Array
 	'server' => 'smtp.buaa.edu.cn',
 	'port' => 25,
 	'auth' => 1,
-	'from' => 'ihome_support@ihome.buaa.edu.cn',
+	'from' => 'ihome_support@buaa.edu.cn',
 	'auth_username' => 'ihome_support@buaa.edu.cn',
 	'auth_password' => 'ihome+support2012'
 	)
