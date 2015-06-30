@@ -332,6 +332,41 @@ if($_GET['op'] == 'base') {
 	if($dept) {
 		$isdept = True;
 	}
+    if ($isdept || $_SGLOBAL['member']['groupid']==3) {
+        $_GET['namechange'] = 1;    
+        $adminhtml = '';
+
+        $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
+        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
+            while($value=$_SGLOBAL['db']->fetch_array($query)) {
+                $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
+            }
+        }
+
+        $query = $_SGLOBAL['db']->query("SELECT s.aud FROM ".tname('space')." s WHERE uid='$space[uid]'");
+        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $friend_array = explode(',', $value['aud']);
+            $wheresql = '';
+            $length = count($friend_array);
+            for($i=0; $i < $length; $i++) {
+                if ($i == $length - 1) {
+                    $wheresql.= "uid=".$friend_array[$i];
+                } else {
+                    $wheresql.= "uid=".$friend_array[$i]." or ";
+                }
+            }
+            
+            if ($friend_array[0] != '') {
+                $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE (".$wheresql.") and groupid!=3");
+                while($value=$_SGLOBAL['db']->fetch_array($query)) {
+                    $adminhtml .= "<option value=$value[uid]>$value[name](".$value['uid'].")</option>";
+                }
+            }
+        }
+    } elseif (empty($_SCONFIG['namechange'])) {
+        $_GET['namechange'] = 0;
+    }
 } elseif ($_GET['op'] == 'recommend') {
     if(submitcheck('aliassubmit1') or submitcheck('aliassubmit2') or submitcheck('aliassubmit3')){
         if(submitcheck('aliassubmit1'))
@@ -430,41 +465,6 @@ if($_GET['op'] == 'base') {
         }
     }
 
-    if ($isdept || $_SGLOBAL['member']['groupid']==3) {
-        $_GET['namechange'] = 1;    
-        $adminhtml = '';
-
-        $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
-        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
-            while($value=$_SGLOBAL['db']->fetch_array($query)) {
-                $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
-            }
-        }
-
-        $query = $_SGLOBAL['db']->query("SELECT s.aud FROM ".tname('space')." s WHERE uid='$space[uid]'");
-        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
-            $friend_array = explode(',', $value['aud']);
-            $wheresql = '';
-            $length = count($friend_array);
-            for($i=0; $i < $length; $i++) {
-                if ($i == $length - 1) {
-                    $wheresql.= "uid=".$friend_array[$i];
-                } else {
-                    $wheresql.= "uid=".$friend_array[$i]." or ";
-                }
-            }
-            
-            if ($friend_array[0] != '') {
-                $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE (".$wheresql.") and groupid!=3");
-                while($value=$_SGLOBAL['db']->fetch_array($query)) {
-                    $adminhtml .= "<option value=$value[uid]>$value[name](".$value['uid'].")</option>";
-                }
-            }
-        }
-    } elseif (empty($_SCONFIG['namechange'])) {
-        $_GET['namechange'] = 0;
-    }
 } elseif ($_GET['op'] == 'contact') {
 	
 	if($_GET['resend']) {
