@@ -47,9 +47,9 @@
 	if ($_GET['sort'] == 'hot')
     {
         if ($_GET['type'] == 'nameorder')
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY username DESC limit 9");
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY name DESC limit 9");
         else if ($_GET['type'] == 'fansnum')
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY friendnum DESC limit 9");
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
         else if ($_GET['type'] == 'informationnum')
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY sharenum DESC limit 9");
         else if ($_GET['type'] == 'visitnum')
@@ -124,7 +124,7 @@
         if ($_GET['type'] == 'nameorder')
             $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY ppnum,name");
         else if ($_GET['type'] == 'fansnum')
-            $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY friendnum,name");
+            $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum,name");
         else if ($_GET['type'] == 'informationnum')
             $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY sharenum,name");
         else if ($_GET['type'] == 'visitnum')
