@@ -54,23 +54,61 @@
 	<td>&nbsp;</td>
 </tr>
 <!--{else}-->
-<tr>
-	<th style="width:10em;">真实姓名:</th>
-	<td>
-	<!--{if $space[name] && empty($_GET['namechange'])}-->
-	<span style="font-weight:bold;"><!--{eval echo stripslashes($space['name']);}--></span>
-	<!--{if $_SCONFIG['namechange']}-->[<a href="$theurl&namechange=1">修改</a>]<!--{/if}-->
-	<!--{if $space[namestatus]}-->[<font color="red">认证通过</font>]<!--{else}--><br>等待验证中，您目前将只能使用用户名，并且一些操作可能会受到限制<!--{/if}-->
-	<input type="hidden" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" />
-	<!--{else}-->
-	<!--{if $rncredit && $_GET['namechange']}--><img src="image/credit.gif" align="absmiddle"> 本操作需要支付积分 $rncredit 个，您现在的积分 $space[credit] 个。<br><!--{/if}-->
-	<!--{if empty($_SCONFIG['namechange'])}-->您的真实姓名一经确认，将不再允许再次修改，请真实填写。<br><!--{/if}-->
-	<!--{if $_SCONFIG['namecheck']}-->您填写/修改真实姓名后，需要等待我们认证后才能有效，在认证通过之前，您将只能使用用户名，并且一些操作可能会受到限制。<br><!--{/if}-->
-	<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" /> (请输入2～20个汉字)
-	<!--{/if}-->
-	</td>
-	<td>&nbsp;</td>
-</tr>
+    <!--{if $isdept || $_SGLOBAL['member']['groupid']==3}-->
+    <tr>
+    	<th style="width:10em;">主页名称:</th>
+    	<td>
+    	<!--{if $space[name] && empty($_GET['namechange'])}-->
+    	<span style="font-weight:bold;"><!--{eval echo stripslashes($space['name']);}--></span>
+    	<!--{if $_SCONFIG['namechange']}-->[<a href="$theurl&namechange=1">修改</a>]<!--{/if}-->
+    	<input type="hidden" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" />
+    	<!--{else}-->
+    	<!--{if $rncredit && $_GET['namechange']}--><img src="image/credit.gif" align="absmiddle"> 本操作需要支付积分 $rncredit 个，您现在的积分 $space[credit] 个。<br><!--{/if}-->
+    	<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" />
+        <span style="font-weight:bold;color:red;">(每个月只能修改一次)</span>
+    	<!--{/if}-->
+    	</td>
+    	<td>&nbsp;</td>
+    </tr>
+    <tr>
+        <th style="width:10em;">管理员账号:</th>
+        <td>
+            <select id="admin" name="admin">
+                $adminhtml
+            </select>
+            <span style="font-weight:bold;color:red;">(每个月只能修改一次)</span>
+            <script>
+            (function() {
+                var jq = jQuery.noConflict();
+                jq(function() {
+                    var _admin = jq("#admin");
+                    //_admin.change(ensureAdmin);
+                    //_admin.blur(hideSelect);
+                    _admin.select2();
+                });
+            })();
+            </script>
+        </td>
+    </tr>
+    <!--{else}-->
+    <tr>
+    	<th style="width:10em;">真实姓名:</th>
+    	<td>
+    	<!--{if $space[name] && empty($_GET['namechange'])}-->
+    	<span style="font-weight:bold;"><!--{eval echo stripslashes($space['name']);}--></span>
+    	<!--{if $_SCONFIG['namechange']}-->[<a href="$theurl&namechange=1">修改</a>]<!--{/if}-->
+    	<!--{if $space[namestatus]}-->[<font color="red">认证通过</font>]<!--{else}--><br>等待验证中，您目前将只能使用用户名，并且一些操作可能会受到限制<!--{/if}-->
+    	<input type="hidden" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" />
+    	<!--{else}-->
+    	<!--{if $rncredit && $_GET['namechange']}--><img src="image/credit.gif" align="absmiddle"> 本操作需要支付积分 $rncredit 个，您现在的积分 $space[credit] 个。<br><!--{/if}-->
+    	<!--{if empty($_SCONFIG['namechange'])}-->您的真实姓名一经确认，将不再允许再次修改，请真实填写。<br><!--{/if}-->
+    	<!--{if $_SCONFIG['namecheck']}-->您填写/修改真实姓名后，需要等待我们认证后才能有效，在认证通过之前，您将只能使用用户名，并且一些操作可能会受到限制。<br><!--{/if}-->
+    	<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" /> (请输入2～20个汉字)
+    	<!--{/if}-->
+    	</td>
+    	<td>&nbsp;</td>
+    </tr>
+    <!--{/if}-->
 <!--{/if}-->
 <tr>
 	<th style="width:10em;">性别:</th>
