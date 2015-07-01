@@ -7,6 +7,11 @@ if(!defined('iBUAA')) {
 
 include_once(S_ROOT.'./source/function_cp.php');
 
+include_once(S_ROOT.'./uc_client/client.php');
+$ucsynlogout = uc_user_synlogout();
+showmessage('change_login_user', 'cp.php?ac=common&op=logout&uhash='.$_SGLOBAL['uhash'], 1, array($ucsynlogout));
+
+
 $utype = $_GET['utype'];
 $touid = $_GET['touid'];
 $uid = $_SGLOBAL['supe_uid'];

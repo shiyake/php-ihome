@@ -210,6 +210,7 @@ $_SGLOBAL['msglang'] = array(
 	'update_on_successful_individuals' => '个人资料更新成功了',
     'has_modified_admin' => '您本月已经修改过管理员账号了',
     'has_modified_name' => '您本月已经修改过主页名称了',
+    'change_login_user' => '切换账号，请重新登陆',
 
 	//source/cp_poll.php
 	'no_authority_to_add_poll' => '您目前没有权限添加投票',
