@@ -1383,6 +1383,40 @@ function runlog($file, $log, $halt=0) {
 		return $passport;
 	}
 
+function notifyUserLocked($username) {
+    global $_SGLOBAL;
+    $email=NULL;
+    $mobile=NULL;
+
+    if (isemail($username)){
+	    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spacefield')." WHERE email='$username'");
+		$value = $_SGLOBAL['db']->fetch_array($query);
+		if (empty($value)){
+            return;
+		}
+
+        $email = $value['email'];
+        $mobile = $value['mobile'];
+    } else {
+        $sql = "SELECT b.email as email , b.mobile as mobile FROM ".tname('member')." as a, ".tname('spacefield')." as b WHERE username='$username' and a.uid = b.uid"; 
+	    $query = $_SGLOBAL['db']->query($sql);
+		$value = $_SGLOBAL['db']->fetch_array($query);
+        if (empty($value)) {
+            return;
+        }
+
+        $email = $value['email'];
+        $mobile = $value['mobile'];
+    }
+    if ($email) {
+        echo $email;
+        smail(NULL, $email, '密码错误次数太多', '密码错误次数太多，您的账号已被锁定30分钟，请在30分钟之后再次尝试登录。');
+    } else if ($mobile) {
+        echo $mobile;
+        sendsms($mobile, '密码错误次数太多', '密码错误次数太多，您的账号已被锁定30分钟，请在30分钟之后再次尝试登录。');
+    }
+}
+
 	//用户操作时间间隔检查
 	function interval_check($type) {
 		global $_SGLOBAL, $space;
