@@ -337,11 +337,15 @@ if($_GET['op'] == 'base') {
         $adminhtml = '';
 
         $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
-        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+        $value=$_SGLOBAL['db']->fetch_array($query);
+        if ($value['appuid']){
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
-            while($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $value=$_SGLOBAL['db']->fetch_array($query);
+            if ($value['uid']) {
                 $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
             }
+        } else {
+			inserttable('publicapply', array('uid'=>$_SGLOBAL['supe_uid'], 'appuid'=> -1, 'contact'=>'','username'=>$space['username'], 'ruthed' => 1), 0, true);
         }
 
         $query = $_SGLOBAL['db']->query("SELECT s.aud FROM ".tname('space')." s WHERE uid='$space[uid]'");
