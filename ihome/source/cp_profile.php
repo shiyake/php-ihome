@@ -345,6 +345,7 @@ if($_GET['op'] == 'base') {
                 $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
             }
         } else {
+            $adminhtml .= "<option value='0'>&nbsp</option>";
 			inserttable('publicapply', array('uid'=>$_SGLOBAL['supe_uid'], 'appuid'=> -1, 'contact'=>'','username'=>$space['username'], 'ruthed' => 1), 0, true);
         }
 
