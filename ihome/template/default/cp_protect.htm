@@ -260,6 +260,31 @@
         </td>
         <td></td>
     </tr>
+    <!--{if !empty($protect_info['mobile'])}-->
+    <tr>
+        <th style="width:10em;">密保问题:</th>
+        <td>
+            <select name="question_mobile">
+                <option value="">------</option>
+                <option value='1'>$questions[$protect_info[question1]]</option>
+                <option value='2'>$questions[$protect_info[question2]]</option>
+                <option value='3'>$questions[$protect_info[question3]]</option>
+            </select>
+            <!--{if empty($protect_info) or empty($protect_info['answer1'])}-->
+                <span><font color='red'>请先设置密保问题,</font></span><a href="cp.php?ac=protect&op=question">设置</a>
+            <!--{/if}-->
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input autoComplete="Off" type="text" name="answer_mobile" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <!--{/if}-->
+
     <tr>
         <td></td>
         <td><input type="submit" name="submit_mobile" value="确定并下一步" class="btn btn-comments submit" /></td>
@@ -311,7 +336,7 @@
         mobile_code_check();
     <!--{/if}-->
     </script>
-
+    
     <!--{else}-->
     <table cellspacing="0" cellpadding="0" class="formtable">
     <tr>
@@ -348,6 +373,7 @@
         </td>
         <td></td>
     </tr>
+   
     <tr>
         <th style="width:10em;">密保邮箱:</th>
         <td>
@@ -362,6 +388,30 @@
         </td>
         <td></td>
     </tr>
+    <!--{if !empty($space_field['emailcheck'])}-->
+    <tr>
+        <th style="width:10em;">密保问题:</th>
+        <td>
+            <select name="question_email">
+                <option value="">------</option>
+                <option value='1'>$questions[$protect_info[question1]]</option>
+                <option value='2'>$questions[$protect_info[question2]]</option>
+                <option value='3'>$questions[$protect_info[question3]]</option>
+            </select>
+            <!--{if empty($protect_info) or empty($protect_info['answer1'])}-->
+                <span><font color='red'>请先设置密保问题,</font></span><a href="cp.php?ac=protect&op=question">设置</a>
+            <!--{/if}-->
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th style="width:10em;">问题答案</th>
+        <td>
+            <input autoComplete="Off" type="text" name="answer_email" value="" class="t_input" />
+        </td>
+        <td></td>
+    </tr>
+    <!--{/if}-->
     <tr>
         <td></td>
         <td><input type="submit" name="submit_email" value="确定并下一步" class="btn btn-comments submit" /></td>
@@ -370,6 +420,7 @@
     </table>
     <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
     </form>
+
     <!--{else}-->
     <table cellspacing="0" cellpadding="0" class="formtable">
     <tr>

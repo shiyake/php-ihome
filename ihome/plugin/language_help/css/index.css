@@ -1,0 +1,131 @@
+.main-outer {
+	padding-top:40px;
+	padding-left:20px;
+}
+.main-inner {
+	margin-top:20px;
+}
+.tabs {
+	margin-top:20px;
+}
+.edit-request {
+	float:right;
+	margin-top:-20px;
+}
+.form-line {
+	padding-top:10px;
+	padding-bottom:10px`;
+}
+.language-input {
+	width:60%;
+	display:inline;
+}
+#push-request {
+	margin-left:70px;
+	margin-top:10px;
+}
+
+.language-card {
+	background:#f5f5f5;
+	border:1px solid #dcdcdc;
+	padding:20px;
+	width:40%;
+	text-align:center;	
+}
+.language-card .avatar-card {
+	border-radius:50%;
+	height:120px;
+}
+.language-card .avatar-card img {
+	border-radius:50%;
+	height:120px;
+	width:120px;
+}
+.language-card .language-username {
+	color:rgb(1, 182, 249);
+	font-size:20px;
+	margin-top:5px;
+}
+.language-compare {
+	font-size:20px;
+	text-align:center;
+	width:20%;
+}
+.language-compare .no-part {
+	margin-top:100px;
+}
+.language-compare .success-part {
+	margin-top:25px;
+}
+.language-compare .success-part .success-logo {
+	margin-bottom:10px;
+}
+.language-compare .success-part button {
+	color:#fff;
+	background-color:red;
+	margin-bottom:10px;
+}
+.language-compare .success-logo img {
+	width:50px;
+	margin-top:10px;
+}
+#share-doing {
+	font-size:14px;
+}
+.request-table {
+	width:100%;
+	border-top:1px solid #dcdcdc;
+	border-bottom:1px solid #dcdcdc;
+}
+.request-table th,td{
+	border-right:1px solid #dcdcdc;
+	border-left:1px solid #dcdcdc;
+	border-top:1px solid #dcdcdc;
+	text-align:center;
+}
+.request-table th {
+	background:#f5f5f5;
+}
+.success-part .success-logo p {
+	font-size:30px;
+	color:#65d8bb;
+}
+.part-container {
+	width:24%;
+	float:left;
+	margin-bottom:5px;
+	margin-right:5px;
+	border-radius:5px;
+	border:1px solid #dcdcdc;
+	padding:7px;
+	height:120px;
+	background:#f5f5f5;
+}
+.success-partiner .success-title {
+	margin-top:10px;
+	margin-bottom:10px;
+	font-size:16px;
+}
+.btn-cancel {
+
+	background:red;
+}
+.btn-cancel:hover {
+
+	background:red;
+}
+.btn-cancel a {
+	text-decoration:none;
+	color:#fff;
+}
+.part-container .part-avatar-container img {
+	border-radius:50%;
+	width:80px;
+	height:80px;
+	
+}
+.part-name {
+	color:rgb(1, 182, 249);
+	text-align:center;
+	margin-top:10px;
+}

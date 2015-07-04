@@ -1,4 +1,3 @@
-
 <!--{if $complain_msg}-->
 <li data-msg="$complain_msg" data-credit="$_SGLOBAL['member']['credit']" data-require="$_SGLOBAL['creditrule']['complain']['credit']" class="s_clear $value[magic_class]" id="feed_{$value[feedid]}_li" onmouseover="feed_menu($value[feedid],1);" onmouseout="feed_menu($value[feedid],0);">
 <!--{else}-->
@@ -118,7 +117,7 @@
 			</div>
 			<!--{/if}-->
 			<!--{/if}-->
-						<!--{if $value['body_data']['videourl']}-->	
+			<!--{if $value['body_data']['videourl']}-->	
 			<div class="feed_li_video">
 				<div class="feed_li_video_desc">
 					$value[body_data][desc]
@@ -131,12 +130,12 @@
 					<div class="feed_li_video_hidden" >
 						<span class="floatleft" ><a href="#" >收起</a></span><!--<span class="pipe">|</span><a href="##">变量AD</a></span>-->
 					</div>
-				        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="440px" height="330px">
+				        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="420px" height="330px">
 					<param name="movie" value="ihome.swf">
 					<param name="quality" value="high">
 					<param name="allowFullScreen" value="true">
 					<param name="FlashVars" value="vcastr_file=$value[body_data][videourl]&LogoText=ihome&TextColor=0x0000FF" />
-					<embed src="ihome.swf" allowfullscreen="true" flashvars="vcastr_file=$value[body_data][videourl]&LogoText=ihome&TextColor=0x0000FF" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="440px" height="330px">
+					<embed src="ihome.swf" allowfullscreen="true" flashvars="vcastr_file=$value[body_data][videourl]&LogoText=ihome&TextColor=0x0000FF" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="420px" height="330px">
 					</embed>
 					</object>
 				</div>
@@ -210,7 +209,10 @@
 		<!--{/if}-->
 		<div id="reply_content">
 		<!--{if empty($_TPL[hidden_time])}-->
+
 		<span class="gray"><!--{date('m月d日 H:i',$value[dateline],1)}--></span>
+		&nbsp;<!--{if $value['fromdevice']=='web'}--><span class="grey" style="color:grey;">来自ihome网页版</span><!--{/if}--><!--{if $value['fromdevice']=='topic' || $value['fromdevice'] == 'mobile'}--><span class="grey" style="color:grey;">来自ihome移动版</span><!--{/if}-->
+		<!--{if $value['address']}-->&nbsp;<span class="grey grey_address" style="color:grey;">$value['address']</span><!--{/if}-->
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_menu])}-->
 				<span class="floatright">	
@@ -268,7 +270,7 @@
                 <!--{/if}-->
 			<!--{elseif in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))}-->
 			<span class="pipe">|</span><a href="javascript:;" onclick="feedcomment_get($value[feedid]);" id="feedcomment_a_op_$value[feedid]"><img src="image/icons/icon-comment.png"/>&nbsp;<!--{if $value['num']>0}-->评论($value['num'])<!--{else}-->评论<!--{/if}--></a>
-				<!--{if $value['idtype']=='sid' && $value['uid'] != $_SGLOBAL['supe_uid']}-->
+				<!--{if ($value['idtype']=='sid' || $value['idtype'] == 'videoid') && $value['uid'] != $_SGLOBAL['supe_uid']}-->
                     <!--{if $value['origin_doid']}-->
 						<span class="pipe">|</span>
 						<a href="javascript:void(0)" onclick="social_share($value[feedid])" class="social_share"><img src="image/icons/icon-share.png"/>&nbsp;分享</a>
@@ -292,6 +294,7 @@
 			<!--{/if}-->
 				</span>
 		<!--{/if}-->
+		<!--{if $value['address']}-->&nbsp;<div class="grey grey_address" style="color:grey;">$value['address']</div><!--{/if}-->
 		<!--{/if}-->
 		<!--{if empty($_TPL[hidden_hot]) && $value[hot]}-->
         <!--{if $value['idtype']=='doid'||$value[body_data][video_origin]||$value['idtype']=='sid'||in_array($value['idtype'], array('blogid','picid','albumid','sid','pid','eventid','arrangementid'))||$value['canUpvote']||$value['upvotes']}-->

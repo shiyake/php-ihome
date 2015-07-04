@@ -11,8 +11,6 @@ if($_GET['inspace'] == '1'){
 }else{
 	$inspace = 0;
 }
-echo "fuck!";
-
 
 
 if($_GET['op'] == 'delete') {

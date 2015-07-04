@@ -81,8 +81,19 @@
 					<!--{/if}-->
 					</div>
 					</td>
-					<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br>$value[replynum]/$value[viewnum]</td>
+
+                    <!--{if $value[anonymous] && $value[uid] != $_SGLOBAL[supe_uid]}-->
+				    <td class="author"><a href="javascript:void(0)">匿名用户</a><br><em>$value[replynum]/$value[viewnum]</em></td>
+                    <!--{else}-->
+				    <td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br><em>$value[replynum]/$value[viewnum]</em></td>
+                    <!--{/if}-->
+
+                    <!--{if $value[lastauthor] = 'null'}-->
+					<td class="lastpost"><a href="javascript:void(0)">匿名用户</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+                    <!--{else}-->
 					<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+                    <!--{/if}-->
+
 					<!--{if $tagid == 2985}-->
 					<td class="status"><!--{if $value[solved]==1}-->已解决<!--{elseif $value[lastauthorid]==665}-->已回复<!--{else}-->未回复<!--{/if}--></td>
 					<!--{/if}-->

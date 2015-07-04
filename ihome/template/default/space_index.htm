@@ -462,6 +462,13 @@
 				<tr><td>办公电话：$telephone</td></tr>
 				<tr><td>办公地点：$office</td></tr>
 				<tr><td>部门职能：$depduty</td></tr>
+                <!--{loop $space['alias'] $index $val}-->
+                <!--{if $index == 0 and strlen($val)}-->
+                <tr><td>别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;: $val</td></tr>
+                <!--{elseif strlen($val)}-->
+                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $val</td></tr>
+                <!--{/if}-->
+                <!--{/loop}-->
 			<!--{else}-->
 			<!--{if $space[profile_base]}-->
 				<tr>
@@ -577,6 +584,19 @@
 			<!--{/if}-->
 			<!--{/loop}-->
 			<!--{/if}-->
+
+            <!--{if $space[identity]}-->
+                <tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="td_title" colspan="2">身份</td>
+			    </tr>
+            <!--{loop $space[identity] $index $val}-->
+            <!--{if strlen($val)}-->
+                <tr><td>$space[iden_t][$index]&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;$val</td></tr>
+            <!--{/if}-->
+            <!--{/loop}-->
+            <!--{/if}-->
+
 			<!--{/if}-->
 			</table>
 		</div>
@@ -828,8 +848,6 @@ jQuery(function ($) {
 </script>
 				<form class="clearfix" action="cp.php?ac=comment" id="quick_commentform_{$space[uid]}" name="quick_commentform_{$space[uid]}" method="post" style="padding: 0px 0px 20px;">
 				
-					<!--{if $_SGLOBAL['magic']['doodle']}-->
-					<!--{/if}-->
 					<br />
 					<textarea name="message" class="mood_textarea" id="comment_message" 
 							rows="4" cols="60" style="margin-left: 0px; margin-bottom: 10px; width:100%;" 
@@ -840,12 +858,15 @@ jQuery(function ($) {
 					<input type="hidden" name="commentsubmit" value="true" />
 					<input type="hidden" name="datapicid" id="datapicid" value="" />
 					<input type="hidden" name="datapicpath" id="datapicpath" value="" />
-
+				
 					<input type="button" id="commentsubmit_btn" 
 						name="commentsubmit_btn" 
 						class="submit btn btn-lg btn-comments" 
 						style="padding: 6px 24px; float: right; border-radius: 20px"
 						value="留言" onclick="ajaxpost('quick_commentform_{$space[uid]}', 'wall_add' ,'' ,clearShowPic)" />
+					<!--{if $_GET['uid']!=$_SGLOBAL['supe_uid'] && !empty($_GET['uid'])}-->
+					<label style="float:right;margin-right:14px;margin-top:8px;"><input type="checkbox" name="secret"></input>&nbsp;悄悄话</label>
+					<!--{/if}-->
 					<style type="text/css">
 					.face_reply {
 						display: inline-block;
@@ -883,6 +904,9 @@ jQuery(function ($) {
 			</div>
 
 			<style type="text/css">
+				#comment_ul .info_comment {
+					width:91% !important;
+				}
 				#comment_ul li {
 					margin-top: 10px;
 					border-bottom:1px solid #dcdcdc;
@@ -898,9 +922,6 @@ jQuery(function ($) {
 				<!--{if $space[self]}-->
 				<a href="space.php?uid=$space[uid]&do=wall&view=me" class="pull-right">»&nbsp;查看更多留言</a>
 				<!--{/if}-->
-				<!--
-				<p class="r_option" style="padding:5px 0 10px 0;"><a href="space.php?uid=$space[uid]&do=wall&view=me">&raquo; 更多留言</a></p>
-				-->
 				<!--{/if}-->
 			</div>
 		</div>

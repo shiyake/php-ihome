@@ -4,7 +4,7 @@
 	<table width="100%">
 	<tr>
 		<td width="70" valign="top">
-            <!--{if $value[anonymous]}-->
+            <!--{if $value[anonymous] && $value[uid] != $_SGLOBAL[supe_uid]}-->
 			<div class="avatar48">
                 <a href="javascript:void(0);"><!--{avatar('')}--></a>
             </div>
@@ -24,7 +24,7 @@
                     <!--<span class="gray">#$value[num]</span>-->
 				</div>
 
-                <!--{if $value[anonymous]}-->
+                <!--{if $value[anonymous] && $value[uid] != $_SGLOBAL[supe_uid]}-->
 				<a href="javascript:void(0);">匿名用户</a> 
                 <!--{else}-->
 				<a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a> 
