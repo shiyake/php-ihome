@@ -395,7 +395,6 @@ function feed_publish($id, $idtype, $add=0, $fromdevice='') {
 			inserttable('feed', $setarr);
 		}
 	}
-	
 }
 
 ?>

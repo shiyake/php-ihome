@@ -23,7 +23,7 @@ if(empty($refer)) {
 	$refer = 'space.php?do=home';
 }
 
-//好友邀请
+//潞脙脫脩脩没脟毛
 $uid = empty($_GET['uid'])?0:intval($_GET['uid']);
 $code = empty($_GET['code'])?'':$_GET['code'];
 $app = empty($_GET['app'])?'':intval($_GET['app']);
@@ -33,7 +33,7 @@ $invitearr = array();
 $reward = getreward('invitecode', 0);
 if($uid && $code && !$reward['credit']) {
 	$m_space = getspace($uid);
-	if($code == space_key($m_space, $app)) {//验证通过
+	if($code == space_key($m_space, $app)) {//脩茅脰陇脥篓鹿媒
 		$invitearr['uid'] = $uid;
 		$invitearr['username'] = $m_space['username'];
 	}
@@ -44,16 +44,37 @@ if($uid && $code && !$reward['credit']) {
 	$url_plus = "uid=$uid&invite=$invite";
 }
 
-//没有登录表单
+//脙禄脫脨碌脟脗录卤铆碌楼
 $_SGLOBAL['nologinform'] = 1;
 
-if(submitcheck('loginsubmit')) {
+if (submitcheck('loginsubmit')) {
+    if (!empty($_COOKIE['user_locked'])) {
+		showmessage('login_failure_user_locked', '/');
+    }
+
+    $login_fail_times = $_COOKIE['login_fail_times'];
+    if (empty($login_fail_times)) {
+        $login_fail_times = 0;
+    }
+    
 	$password = $_POST['password'];
 	$username = trim($_POST['username']);
 	$cookietime = intval($_POST['cookietime']);
+	$captcha = $_POST['captcha'];
 	
 	$cookiecheck = $cookietime?' checked':'';
 	$membername = $username;
+
+    $vcode = $_COOKIE['vcode'];
+    if ($login_fail_times >= 3 && $vcode != $captcha) {
+        setcookie('login_fail_times', $login_fail_times + 1, time() + 600);
+        if ($login_fail_times >= 6) {
+            // TODO send email or message to user
+            setcookie('user_locked', 'locked', time() + 1800);
+            notifyUserLocked($username);
+        }
+		showmessage('login_failure_captcha_invalid', '/');
+    }
 	
 	if(empty($_POST['username'])) {
 		showmessage('users_were_not_empty_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
@@ -66,7 +87,7 @@ if(submitcheck('loginsubmit')) {
 			}
 			$query = $_SGLOBAL['db']->query("SELECT username FROM ".tname('member')." WHERE uid='$value[uid]'");
 			$value = $_SGLOBAL['db']->fetch_array($query);
-			//得到用户名
+			//碌脙碌陆脫脙禄搂脙没
 			$username = $value['username'];
 		}
 	}
@@ -85,10 +106,16 @@ if(submitcheck('loginsubmit')) {
 		}
 	}
 
-	//同步获取用户源
+	//脥卢虏陆禄帽脠隆脫脙禄搂脭麓
 	if(!$passport = getpassport($username, $password)) {
-		showmessage('login_failure_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
+        if ($login_fail_times >= 6) {
+            // TODO send email or message to user
+            setcookie('user_locked', 'locked', time() + 1800);
+        }
+        setcookie('login_fail_times', $login_fail_times + 1, time() + 600);
+		showmessage('login_failure_please_re_login', '/');
 	}
+    setcookie('login_fail_times', 0, time() + 600);
     $password1 = md5($password);
     $_SGLOBAL['db']->query("update ihomeuser_members set password1 = '$password1' where uid = $passport[uid]");
 
@@ -102,39 +129,39 @@ if(submitcheck('loginsubmit')) {
 	$setarr = array(
 		'uid' => $passport['uid'],
 		'username' => addslashes($passport['username']),
-		'password' => md5("$passport[uid]|$_SGLOBAL[timestamp]")//本地密码随机生成
+		'password' => md5("$passport[uid]|$_SGLOBAL[timestamp]")//卤戮碌脴脙脺脗毛脣忙禄煤脡煤鲁脡
 	);
 	
 	include_once(S_ROOT.'./source/function_space.php');
-	//开通空间
+	//驴陋脥篓驴脮录盲
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$setarr[uid]'");
 	if(!$space = $_SGLOBAL['db']->fetch_array($query)) {
 		$space = space_open($setarr['uid'], $setarr['username'], 0, $passport['email']);
 	} 
 	$_SGLOBAL['member'] = $space;
 	
-	//实名
+	//脢碌脙没
 	realname_set($space['uid'], $space['username'], $space['name'], $space['namestatus']);
 	
-	//检索当前用户
+	//录矛脣梅碌卤脟掳脫脙禄搂
 	$query = $_SGLOBAL['db']->query("SELECT password FROM ".tname('member')." WHERE uid='$setarr[uid]'");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$setarr['password'] = addslashes($value['password']);
 	} else {
-		//更新本地用户库
+		//赂眉脨脗卤戮碌脴脫脙禄搂驴芒
 		inserttable('member', $setarr, 0, true);
 	}
 
-	//清理在线session
+	//脟氓脌铆脭脷脧脽session
 	insertsession($setarr);
 	
-	//设置cookie
+	//脡猫脰脙cookie
 	
 	ssetcookie('auth', authcode("$setarr[password]\t$setarr[uid]", 'ENCODE'), $cookietime);
 	ssetcookie('loginuser', $passport['username'], 31536000);
 	ssetcookie('_refer', '');
 	
-	//同步登录
+	//脥卢虏陆碌脟脗录
 	if($_SCONFIG['uc_status']) {
 		include_once S_ROOT.'./uc_client/client.php';
 		$ucsynlogin = uc_user_synlogin($setarr['uid']);
@@ -142,19 +169,19 @@ if(submitcheck('loginsubmit')) {
 		$ucsynlogin = '';
 	}
 	
-	//好友邀请
+	//潞脙脫脩脩没脟毛
 	if($invitearr) {
-		//成为好友
+		//鲁脡脦陋潞脙脫脩
 		invite_update($invitearr['id'], $setarr['uid'], $setarr['username'], $invitearr['uid'], $invitearr['username'], $app);
 	}
 	$_SGLOBAL['supe_uid'] = $space['uid'];
-	//判断用户是否设置了头像
+	//脜脨露脧脫脙禄搂脢脟路帽脡猫脰脙脕脣脥路脧帽
 	$reward = $setarr = array();
 	$experience = $credit = 0;
 	$avatar_exists = ckavatar($space['uid']);
 	if($avatar_exists) {
 		if(!$space['avatar']) {
-			//奖励积分
+			//陆卤脌酶禄媒路脰
 			$reward = getreward('setavatar', 0);
 			$credit = $reward['credit'];
 			$experience = $reward['experience'];

@@ -1,0 +1,28 @@
+<!--{template header}-->
+<link href="plugin/language_help/css/index.css" rel="stylesheet" type="text/css">
+<div class="main-outer">
+<h4 class="title">中外语言互助</h4>
+<div class="tabs">
+	<ul>
+		<li><a href="plugin.php?pluginid=language_help&ac=request_list">大家的互动请求</a></li>
+		<!--{if $showmyrequest}--><li><a href="plugin.php?pluginid=language_help&ac=finding">我的请求</a></li><!--{/if}-->
+	</ul>
+</div>
+<div class="edit-request">
+	<a href="plugin.php?pluginid=language_help&ac=edit_request">编辑请求</a>
+</div>
+<div class="main-inner">
+	<form method="post" action="plugin.php?pluginid=language_help&ac=post_request">
+	<div class="form-line">
+		&nbsp;&nbsp;&nbsp;&nbsp;会的语言：<input type="text" name="known" class="form-control language-input input-sm" value="$know" id="known"/>&nbsp;&nbsp;多个语言用空格分隔
+	</div>
+	<div class="form-line">
+		想学的语言：<input type="text" name="want_to_know" class="form-control language-input input-sm" value="$want_to_know" id="want-to-known"/>&nbsp;&nbsp;多个语言用空格分隔
+	</div>
+	<div class="form-line">
+		<button type="submit" id="push-request" class="btn btn-comments">发布申请</button>
+	</div>
+</form>
+</div>
+</div>
+<!--{template footer}-->
