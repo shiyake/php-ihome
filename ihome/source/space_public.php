@@ -47,13 +47,15 @@
 	if ($_GET['sort'] == 'hot')
     {
         if ($_GET['type'] == 'nameorder')
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY CONVERT (name using GBK) limit 9");
+            //select name, username, IF(name is NULL || name='', username, name) as s from ihome_space order by CONVERT (s using gbk);
+            
+            $query = $_SGLOBAL['db']->query("SELECT *,IF(name is NULL || name='',username,name) as s FROM (SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9) as t ORDER BY CONVERT (s using GBK)");
         else if ($_GET['type'] == 'fansnum')
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
         else if ($_GET['type'] == 'informationnum')
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY sharenum DESC limit 9");
+            $query = $_SGLOBAL['db']->query("SELECT * FROM (SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9) as t ORDER BY sharenum");
         else if ($_GET['type'] == 'visitnum')
-            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY viewnum DESC limit 9");
+            $query = $_SGLOBAL['db']->query("SELECT * FROM (SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9) as t ORDER BY viewnum");
         else if ($_GET['type'] == 'all')
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC limit 9");
 		if ($_GET['sort'] == 'hot')
@@ -122,7 +124,7 @@
 	if (!empty($_GET['sort']) && $_GET['sort'] != 'hot')
     {
         if ($_GET['type'] == 'nameorder')
-            $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY CONVERT (name using GBK)");
+            $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum,IF(name is NULL || name= '',username,name) as s FROM ".tname('space')." WHERE groupid=3 ORDER BY CONVERT (s using GBK)");
         else if ($_GET['type'] == 'fansnum')
             $query = $_SGLOBAL['db']->query("SELECT uid,name,username,pptype,audnum FROM ".tname('space')." WHERE groupid=3 ORDER BY audnum DESC");
         else if ($_GET['type'] == 'informationnum')
