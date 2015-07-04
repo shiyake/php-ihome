@@ -5,7 +5,7 @@ function __env($key, $default="") {
     return (empty($value)) ? $default : $value;
 }
 
-$DEFAULT_HOST = "hd2";
+$DEFAULT_HOST = "localhost";
 $DEFAULT_USER = "root";
 $DEFAULT_PWD = "nameLR9969";
 

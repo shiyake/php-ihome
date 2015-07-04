@@ -11,7 +11,7 @@ jQuery.noConflict()
 
 jQuery.imageMagnify={
 	dsettings: {
-		magnifyby: 3.5, //default increase factor of enlarged image
+		magnifyby: 5, //default increase factor of enlarged image
 		duration: 500, //default duration of animation, in millisec
 		imgopacity: 0.2 //opacify of original image when enlarged image overlays it
  	},
@@ -41,8 +41,22 @@ jQuery.imageMagnify={
 		var setting=jQuery.extend(setting, this.dsettings, options)
 		var attrs=(options.thumbdimensions)? {w:options.thumbdimensions[0], h:options.thumbdimensions[1]} : {w:$target.outerWidth(), h:$target.outerHeight()}
 		var newattrs={}
-		newattrs.w=(setting.magnifyto)? setting.magnifyto : Math.round(attrs.w*setting.magnifyby)
-		newattrs.h=(setting.magnifyto)? Math.round(attrs.h*newattrs.w/attrs.w) : Math.round(attrs.h*setting.magnifyby)
+        var oriImg = new Image();
+        oriImg.src = $target[0].src;
+        var maxwidth = window.innerWidth * 0.6;
+        var maxheight = window.innerHeight * 0.8;
+	//	newattrs.w=(setting.magnifyto)? setting.magnifyto : Math.round(attrs.w*setting.magnifyby)
+	//	newattrs.h=(setting.magnifyto)? Math.round(attrs.h*newattrs.w/attrs.w) : Math.round(attrs.h*setting.magnifyby)
+        newattrs.w = oriImg.width;
+        newattrs.h = oriImg.height;
+        if(newattrs.w > maxwidth){
+            newattrs.w = maxwidth;
+            newattrs.h = Math.round(newattrs.h*newattrs.w/oriImg.width);
+        }
+        if(newattrs.h > maxheight){
+            newattrs.h = maxheight;
+            newattrs.w = Math.round(newattrs.w*newattrs.h/oriImg.height);
+        }
 		$target.css('cursor', jQuery.imageMagnify.cursorcss)
 		if ($target.data('imgshell')){
 			$target.data('imgshell').$clone.remove()
