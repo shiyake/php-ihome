@@ -571,7 +571,7 @@ if(submitcheck('commentsubmit')) {
 			//事件发布
 			//showmessage("$_POST[withshare]; aa");
 			//调试的东西,等到真正上线的时候在删除
-			if(ckprivacy('comment', 1) || (ckprivacy('comment', 0) && $_POST['withshare']=true)) {
+			if(!$_POST['secret'] && (ckprivacy('comment', 1) || (ckprivacy('comment', 0) && $_POST['withshare']=true))) {
 				feed_add($fs['icon'], $fs['title_template'], $fs['title_data'], $fs['body_template'], $fs['body_data'], $fs['body_general'],$fs['images'], $fs['image_links'], $fs['target_ids'], $fs['friend']);
 				if ($idtype == 'videoid') {
 					$_SGLOBAL['db']->query("UPDATE ".tname('video')." SET share=share+1 WHERE id='$id'");
