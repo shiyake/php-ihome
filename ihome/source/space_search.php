@@ -12,6 +12,8 @@ if (empty($_GET['type'])) {
 }
 if (isset($_GET['query'])) {
     $query = trim($_GET['query']);
+    $query = preg_split('/\s+/', $query);
+    $query = join(" AND ", $query);
 } else {
     $query = '';
 }
@@ -37,7 +39,7 @@ if (strlen($query) > 0) {
         $order_url = "";
     }
 
-    $search_url = $_SC['search_host'].'/solr/select/?q=' . urlencode("search_text:".$query." AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
+    $search_url = $_SC['search_host'].'/solr/select/?q=' . urlencode("search_text:(".$query.") AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $search_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
