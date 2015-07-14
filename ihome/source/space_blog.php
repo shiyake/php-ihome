@@ -196,6 +196,9 @@ if($id) {
 
 	//实名
 	realname_get();
+	
+	//获取标签
+	$ntags = getntags($blog['uid'],$_GET['do'],$id);
 
 	$_TPL['css'] = 'blog';
 	include_once template("space_blog_view");

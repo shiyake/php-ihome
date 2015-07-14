@@ -18,7 +18,6 @@ if($op == 'comment') {
 		$ajax_edit = 0;
 	}
 
-	//����
 	$list = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE $cidsql authorid='$_SGLOBAL[supe_uid]' ORDER BY dateline DESC LIMIT 0,1");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -86,6 +85,18 @@ if($op == 'comment') {
     header('Content-Type: application/json');
     exit(json_encode(array('date'=>$msg,'info'=>'','data_staus'=>1)));
     $isAjax = 1;
+}elseif($op == 'reflashmember') {
+	//echo "reflash";
+	$uid = $_SGLOBAL['supe_uid'];
+	$newpm_query = $_SGLOBAL['db']->query("select newpm from ".tname('space')." where uid=$uid");
+	$newpm_query_array = mysql_fetch_array($newpm_query);
+	$newpm_result = $newpm_query_array['0'];
+	$note_query = $_SGLOBAL['db']->query("select notenum from ".tname('space')." where uid=$uid");
+	$note_query_array = mysql_fetch_array($note_query);
+	$note_result = $note_query_array['0'];
+	//echo "    newpm:".$_SGLOBAL['member']['newpm'];
+    header('Content-Type: application/json');
+	exit(json_encode(array('newpm'=>$newpm_result,'newnote'=>$note_result,'uid'=>$_SGLOBAL['supe_uid'])));
 }elseif($op == 'getfriendname') {
 	
 	//��ȡ�û��ĺ��ѷ�����

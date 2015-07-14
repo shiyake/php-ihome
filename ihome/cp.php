@@ -9,7 +9,7 @@ $acs = array('space', 'doing', 'upload', 'video', 'comment', 'blog', 'album', 'r
 	'swfupload', 'thread', 'mtag', 'poke', 'friend',
 	'avatar', 'profile', 'theme', 'import', 'feed', 'privacy', 'pm', 'share', 'advance', 'invite', 'parent', 'invitefriend', 'invite2', 'sendmail', 'protect', 'thirdparty',
 	'userapp', 'task', 'credit', 'password', 'domain', 'event', 'poll', 'topic',
-	'click','magic', 'top', 'videophoto','publicapply', 'arrangement','namecard', 'check_bot', 'public', 'changelogin', 'complain', 'treecomment','calendar');
+	'click','magic', 'top', 'videophoto','publicapply', 'arrangement','namecard', 'check_bot', 'public', 'changelogin', 'complain', 'treecomment','calendar','addtag');
 $ac = (empty($_GET['ac']) || !in_array($_GET['ac'], $acs))?'profile':$_GET['ac'];
 $op = empty($_GET['op'])?'':$_GET['op'];
 $type = empty($_GET['type'])?'':$_GET['type'];

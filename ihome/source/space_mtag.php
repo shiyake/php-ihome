@@ -285,7 +285,9 @@ if($tagname) {
 			}
 		}
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('tagspace')." WHERE tagid='$tagid' AND grade>'7' ORDER BY grade DESC LIMIT 0,12");
+		$modlistiid = array();
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$modlistiid[] = $value['uid'];
 			realname_set($value['uid'], $value['username']);
 			$modlist[] = $value;
 		}
@@ -298,6 +300,9 @@ if($tagname) {
 			}
 		}
 		
+	//获取标签
+	$ntags = getntags(implode(',',$modlistiid),$_GET['do'],$tagid);
+	
 		realname_get();
 		
 		$_TPL['css'] = 'thread';

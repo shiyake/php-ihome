@@ -33,3 +33,4 @@ body,th, td, input, select,  button { border-color:#101010; }
 #obar {
     margin-left:10px;
 }
+.tagslist ul li span{background:#1e1e1e;border-color:#343434;}

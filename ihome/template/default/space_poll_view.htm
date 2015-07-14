@@ -85,9 +85,9 @@
 		<!--{loop $option $key $val}-->
 		<li>
 			<div style="float:left;min-width:100px;max-width:250px;padding-right:8px;" class="danteng">
-			<div><label class="poll_item" style="width:100%">
+			<div><label class="poll_item" style="max-width: 92px; width: 100%">
                 <!--{if $val[link]}--><a href={$val[link]} > <!--{/if}-->
-                  <!--{if $val[img]}--><img src="{$val[img]}" width="90" onerror="this.onerror=null;this.src='attachment/{$val[img]}'"><br /><!--{/if}-->
+                  <!--{if $val[img]}--><img src="{$val[img]}" class="magnify" style="max-width: 100%" onerror="this.onerror=null;this.src='attachment/{$val[img]}'"><br /><!--{/if}-->
 			$val[option]
 			<!--{if $val[link]}--> </a> <!--{/if}-->
 			</label></div>
@@ -165,7 +165,10 @@
             <a href="cp.php?ac=share&type=poll&id=$poll[pid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)">分享</a>
 		</div>
 	</div>
-    
+  
+<h5 style="margin-left:0px;margin-top:10px;">标签</h5>
+<div class="tagslist" id="tagslistid">{$ntags}</div>
+
     <div id="poll_who_list">
         <h5 style="padding-left:5px;padding-top:15px;padding-bottom:10px;">投票列表</h5>
 		<div class="custom">
@@ -307,5 +310,6 @@ for(var i=0; i<elems.length; i++){
 	magicColor(elems[i]);
 }
 </script>
-
+//图片效果
+<script type="text/javascript" src="plugin/at/jquery.magnifier.js">
 <!--{template footer}-->

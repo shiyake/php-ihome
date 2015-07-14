@@ -279,7 +279,6 @@ function submitcheck($var) {
 //添加数据
 function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $silent=0) {
     global $_SGLOBAL;
-
     $insertkeysql = $insertvaluesql = $comma = '';
     foreach ($insertsqlarr as $insert_key => $insert_value) {
         $insertkeysql .= $comma.'`'.$insert_key.'`';
@@ -287,7 +286,8 @@ function inserttable($tablename, $insertsqlarr, $returnid=0, $replace = false, $
         $comma = ', ';
     }
     $method = $replace?'REPLACE':'INSERT';
-    $_SGLOBAL['db']->query($method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')', $silent?'SILENT':'');
+	$sql = $method.' INTO '.tname($tablename).' ('.$insertkeysql.') VALUES ('.$insertvaluesql.')';
+    $_SGLOBAL['db']->query($sql, $silent?'SILENT':'');
     if($returnid && !$replace) {
         return $_SGLOBAL['db']->insert_id();
     }
@@ -382,7 +382,24 @@ function getspace($key, $indextype='uid', $auto_open=0) {
             }
             if($space['self']) {
                 $_SGLOBAL['member'] = $space;
-			}
+            }
+            
+            $space['alias'] = split(',', $space['alias']);
+            $space['identity'] = split(',', $space['identity']);
+            $space['iden_t'] = split(',', $space['iden_t']);
+
+            for($i = 0; $i < count($space['iden_t']) - 1; $i++){
+                for($j = $i + 1; $j < count($space['iden_t']) - 1; $j++){
+                    if($space['iden_t'][$j] < $space['iden_t'][$i]){
+                        $temp = $space['iden_t'][$i];
+                        $space['iden_t'][$i] = $space['iden_t'][$j];
+                        $space['iden_t'][$j] = $temp;
+                        $temp = $space['identity'][$i];
+                        $space['identity'][$i] = $space['identity'][$j];
+                        $space['identity'][$j] = $temp;
+                    }
+                }
+            }
 		}
 		$_SGLOBAL[$var] = $space;
 	}
@@ -407,7 +424,6 @@ function getuid($name) {
 
 //获取IP对应的国家,判断是否为国外用户
 function getIpDetails(){
-	return false;
     $onlineip = getonlineip();
     //include("geoip.inc.php");
     //include_once(S_ROOT.'./source/geoip.inc.php');
@@ -423,7 +439,8 @@ function getIpDetails(){
     $opts = array(
         'http'=>array(
         'method'=>"GET",
-        'timeout'=>1
+        'timeout'=>1,
+        'header'=>'Connection: close\r\n',
         )
     );
     $context = stream_context_create($opts);
@@ -1366,6 +1383,40 @@ function runlog($file, $log, $halt=0) {
 		return $passport;
 	}
 
+function notifyUserLocked($username) {
+    global $_SGLOBAL;
+    $email=NULL;
+    $mobile=NULL;
+
+    if (isemail($username)){
+	    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spacefield')." WHERE email='$username'");
+		$value = $_SGLOBAL['db']->fetch_array($query);
+		if (empty($value)){
+            return;
+		}
+
+        $email = $value['email'];
+        $mobile = $value['mobile'];
+    } else {
+        $sql = "SELECT b.email as email , b.mobile as mobile FROM ".tname('member')." as a, ".tname('spacefield')." as b WHERE username='$username' and a.uid = b.uid"; 
+	    $query = $_SGLOBAL['db']->query($sql);
+		$value = $_SGLOBAL['db']->fetch_array($query);
+        if (empty($value)) {
+            return;
+        }
+
+        $email = $value['email'];
+        $mobile = $value['mobile'];
+    }
+    if ($email) {
+        echo $email;
+        smail(NULL, $email, '密码错误次数太多', '密码错误次数太多，您的账号已被锁定30分钟，请在30分钟之后再次尝试登录。');
+    } else if ($mobile) {
+        echo $mobile;
+        sendsms($mobile, '密码错误次数太多', '密码错误次数太多，您的账号已被锁定30分钟，请在30分钟之后再次尝试登录。');
+    }
+}
+
 	//用户操作时间间隔检查
 	function interval_check($type) {
 		global $_SGLOBAL, $space;
@@ -1657,6 +1708,10 @@ function runlog($file, $log, $halt=0) {
 
 	//处理头像
 	function avatar($uid, $size='small', $returnsrc = FALSE, $round=0,$summary='',$lazy='') {
+        if (empty($uid)) {
+            return fallback_avatar();
+        }
+
 		global $_SCONFIG, $_SN, $_SGLOBAL;
 		$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'small';
 		$avatarfile = avatar_file($uid, $size);
@@ -1689,6 +1744,11 @@ function runlog($file, $log, $halt=0) {
 
 		}
 	}
+
+    function fallback_avatar() {
+		$randavatar = '';
+        return '<img src="'.UC_API.'/images/avatar/m_small_1.png" class="img-circle shadow_avatar">';
+    }
 
 	//得到头像
 	function avatar_file($uid, $size) {
@@ -3453,4 +3513,20 @@ echo $e;
 		$str=preg_replace('/\<a\>/i','<div><a>',$str);*/
 		return $str;   
 	}
+	//获取标签
+function getntags($uid, $dotype, $doid = 0){
+		global $_SGLOBAL;
+		$uids = explode(',',$uid);
+		$output = '<ul class="ntags">';
+		$whereid = $doid?" AND doid = '$doid'":"";
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('ntag_user')." tu LEFT JOIN ".tname('ntags')." t ON tu.tagid = t.tagid WHERE uid IN ('$uid') AND dotype = '$dotype'" .$whereid.' LIMIT 10');
+		$delico = '';
+		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="javascript:;" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
+			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
+		}
+		if (in_array($_SGLOBAL['supe_uid'], $uids) ) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
+		$output .= '</ul>'; 
+		return $output;
+}
 ?>

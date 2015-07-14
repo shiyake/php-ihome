@@ -58,7 +58,7 @@ if(($_SGLOBAL['member']['groupid']==1) || $isfounder) {
 	$acs[4] = array('jifen_lb','jifen_lp','jifen_pl','jifen_cj','jifen_dhlog','jifen_cjlog','software_lb');
 }
 
-$acs[5] = array('retention', 'activation', 'user_active', 'publish_page', 'register_analyse');
+$acs[5] = array('retention', 'activation', 'user_active', 'publish_page', 'register_analyse', 'signup_analyse');
 
 
 if(empty($_GET['ac']) || (!in_array($_GET['ac'], $acs[0]) && !in_array($_GET['ac'], $acs[1]) && !in_array($_GET['ac'], $acs[2]) && !in_array($_GET['ac'], $acs[3]) && !in_array($_GET['ac'], $acs[4]) && !in_array($_GET['ac'], $acs[5]))) {

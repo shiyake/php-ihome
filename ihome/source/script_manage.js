@@ -659,3 +659,9 @@ function upvote(feedid) {
 		
 	});
 }
+//添加标签
+function addtag_save(id, result) {
+    if(result) {
+		window.location.reload();
+	}
+}

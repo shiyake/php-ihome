@@ -147,6 +147,7 @@ if(submitcheck('threadsubmit')) {
 	//添加slashes
 	$message = addslashes($message);
 	
+    $anonymous = empty($_POST['anonymous']) ? 0 : intval($_POST['anonymous']);
 	if(empty($_POST['tid'])) {
 		
 		$_POST['topicid'] = topic_check($_POST['topicid'], 'thread');
@@ -157,12 +158,13 @@ if(submitcheck('threadsubmit')) {
 		}
 		$setarr = array(
 			'tagid' => $tagid,
+			'anonymous' => $anonymous,
 			'uid' => $_SGLOBAL['supe_uid'],
 			'username' => $_SGLOBAL['supe_username'],
 			'dateline' => $_SGLOBAL['timestamp'],
 			'subject' => $subject,
 			'lastpost' => $_SGLOBAL['timestamp'],
-			'lastauthor' => $_SGLOBAL['supe_username'],
+			'lastauthor' => $anonymous ? NULL : $_SGLOBAL['supe_username'],
 			'lastauthorid' => $_SGLOBAL['supe_uid'],
 			'topicid' => $_POST['topicid']
 		);
@@ -170,11 +172,13 @@ if(submitcheck('threadsubmit')) {
 			$setarr['eventid'] = $eventid;
 		}
 		$tid = inserttable('thread', $setarr, 1);
+        echo "fuck";
 		if($eventid) {//更新话题数目和时间
 			$_SGLOBAL['db']->query("UPDATE ".tname("event")." SET threadnum=threadnum+1, updatetime='$_SGLOBAL[timestamp]' WHERE eventid='$eventid'");
 		}
 		$psetarr = array(
 			'tagid' => $tagid,
+			'anonymous' => $anonymous,
 			'tid' => $tid,
 			'uid' => $_SGLOBAL['supe_uid'],
 			'username' => $_SGLOBAL['supe_username'],
@@ -224,7 +228,7 @@ if(submitcheck('threadsubmit')) {
 	}
 	
 	//事件
-	if($_POST['makefeed']) {
+	if(!$anonymous && $_POST['makefeed']) {
 		include_once(S_ROOT.'./source/function_feed.php');
 		feed_publish($tid, 'tid', empty($_POST['tid'])?1:0);
 	}
@@ -233,7 +237,11 @@ if(submitcheck('threadsubmit')) {
 		topic_join($_POST['topicid'], $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
 		$tourl = 'space.php?do=topic&topicid='.$_POST['topicid'].'&view=thread';
 	} else {
-		$tourl = "space.php?uid=$_SGLOBAL[supe_uid]&do=thread&id=$tid";
+        if ($anonymous) {
+		    $tourl = "space.php?do=thread&id=$tid";
+        } else {
+		    $tourl = "space.php?uid=$_SGLOBAL[supe_uid]&do=thread&id=$tid";
+        }
 		if($eventid) {
 			$tourl .= "&eventid=$eventid";
 		}
@@ -342,8 +350,10 @@ if(submitcheck('threadsubmit')) {
 		$message = addslashes("<div class=\"quote\"><span class=\"q\"><b>".$_SN[$post['uid']]."</b>: ".getstr($post['message'], 150, 0, 0, 0, 2, 1).'</span></div>').$message;
 	}
 
+    $anonymous = empty($_POST['anonymous']) ? 0 : intval($_POST['anonymous']);
 	$setarr = array(
 		'tagid' => intval($thread['tagid']),
+        'anonymous' => $anonymous,
 		'tid' => $tid,
 		'uid' => $_SGLOBAL['supe_uid'],
 		'username' => $_SGLOBAL['supe_username'],
@@ -357,8 +367,9 @@ if(submitcheck('threadsubmit')) {
 	smail($thread['uid'], '', cplang('mtag_reply',array($_SN[$space['uid']], shtmlspecialchars(getsiteurl()."space.php?uid=$thread[uid]&do=thread&id=$thread[tid]"))), '', 'mtag_reply');
 
 	//更新统计数据
+    $last_author_name = $anonymous ? 'null' : $_SGLOBAL[supe_username];
 	$_SGLOBAL['db']->query("UPDATE ".tname('thread')."
-		SET replynum=replynum+1, lastpost='$_SGLOBAL[timestamp]', lastauthor='$_SGLOBAL[supe_username]', lastauthorid='$_SGLOBAL[supe_uid]'
+		SET replynum=replynum+1, lastpost='$_SGLOBAL[timestamp]', lastauthor='$last_author_name', lastauthorid='$_SGLOBAL[supe_uid]'
 		WHERE tid='$tid'");
 	
 	//更新群组统计

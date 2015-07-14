@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('iBUAA')) {
     exit('Access Denied');
 }
@@ -275,6 +274,10 @@ if ($_GET['op'] == 'delete') {
         }
         
         if (!$add_type) {
+            if ($UserIds) {
+                $temp = implode(',', $UserIds);
+                $_SGLOBAL['db']->query("UPDATE ".tname('complain')." SET locked=0 WHERE doid='$doid' AND uid=$_SGLOBAL[supe_uid] AND locked AND atuid in ($temp)");
+            }
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('doing')." WHERE doid='$doid'");
             $updo = $_SGLOBAL['db']->fetch_array($query);
             $updo['id'] = intval($updo['id']);
@@ -413,7 +416,11 @@ if ($_GET['op'] == 'delete') {
             if ($add_type == 2) {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             } else {
-                updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
+<<<<<<< HEAD
+                updatetable('complain', array('locked'=>1, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
+=======
+                updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>0), array('id'=>$cpid));
+>>>>>>> 77c7c8276b2e6ca2d196d0ac8023c404060e5de2
             }
             if ($complain['lastopid'] == 0) {
                 $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
@@ -436,7 +443,7 @@ if ($_GET['op'] == 'delete') {
                     updatetable("complain_dep", $arr, array('uid'=>$legalEntity));
                 }
             }
-            inserttable('complain_resp',array('uid'=>$legalEntity,'doid'=>$doid,'opid'=>$opid,'replysecs'=>$_SGLOBAL['timestamp'] - $complain['dateline']));
+            inserttable('complain_resp',array('uid'=>$legalEntity,'doid'=>$doid,'opid'=>$opid,'replysecs'=>$_SGLOBAL['timestamp'] - $complain['dateline'], 'dateline'=>$_SGLOBAL['timestamp']));
 
             $note = cplang('note_doingcomplain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
             notification_complain_add($complain['uid'], 'complain', $note, $legalEntity, $legalEntityName);

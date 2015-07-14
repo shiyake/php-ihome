@@ -49,6 +49,7 @@
 <link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]" />
 <link rel="stylesheet" type="text/css" href="plugin/layim/css/layim.css" />
 <link rel="stylesheet" type="text/css" href="plugin/layim/css/layer.css" />
+<link rel="stylesheet" type="text/css" href="plugin/select2/css/select2.min.css" />
 
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/html5shiv.min.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/respond.min.js"></script>
@@ -73,6 +74,7 @@
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/dist/js/bootstrap.min.js"></script>
         <script language="javascript" type="text/javascript" src="plugin/layim/js/layer.min.js" defer></script>
         <script language="javascript" type="text/javascript" src="plugin/layim/js/layim.js" defer></script>
+        <script language="javascript" type="text/javascript" src="plugin/select2/js/select2.min.js" defer></script>
         <!--<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>-->
 
 		<script type="text/javascript">
@@ -217,6 +219,7 @@ function searchSubmit()	{
     jq("#head_search").submit()
 }
 function check_calendar(){
+console.log('check');
 	var url = 'do.php?ac=ajax&op=checkcalendarstart&rand='+Math.random();
 	jq.getJSON(url,function(data){
 		if(data.data_staus>0){
@@ -228,6 +231,18 @@ function check_calendar(){
 				alert(msg);
 			}
 		}
+	});
+}
+function reflash_member(){
+	var checkurl = 'cp.php?ac=pm&op=checknewpm&rand='+Math.random();
+	jq.getJSON(checkurl,function(data){
+	});
+	var url = 'do.php?ac=ajax&op=reflashmember&rand='+Math.random();
+	jq.getJSON(url,function(data){
+		if (data.newpm>0)
+			document.getElementById('pmbadge').setAttribute("style","display:block");
+		if (data.newnote>0)
+			document.getElementById('notebadge').setAttribute("style","display:block");
 	});
 }
 jq(function(){	
@@ -276,7 +291,9 @@ jq(function(){
 			});
 			jq("#for-public").before(html);
             });
-			setInterval("check_calendar()",60000);
+		setInterval("check_calendar()",60000);
+		setInterval("reflash_member()",3000);
+		
 });
 </script>
 <!--<script language="javascript" type="text/javascript">
@@ -298,7 +315,7 @@ jq(function(){
             });
         }
         jq2('#erase').click(function(){
-            jq2('#erase').css({display:'none'});
+            jq2('#erase').css({display:'none'});/
             jq2('.ad_for_2years').css({display:'none'});
             });
     });
@@ -430,15 +447,11 @@ jq(function(){
                 </li>
                 <li class="pull-right li_notice">
                 <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
-                <!--{if $member[notenum]}--> 
-                <span class="news_badge"></span>
-                <!--{/if}-->
+                <span class="news_badge" id="notebadge" style="display:none;"></span>
                 </li>
                 <li class="pull-right li_notice" style="padding-left:0">
                 <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
-                <!--{if $member[newpm]}-->
-                <span class="news_badge"></span>
-                <!--{/if}--> 
+                <span class="news_badge" id="pmbadge" style="display:none;"></span>
                 </li>
                 <!--{/if}-->
             </ul>
@@ -457,7 +470,7 @@ jq(function(){
             jq('.client_l').hide();
             jq('.client_s').show();
             jq('#close_client').show();
-        });
+		});
     </script>
 </div>
 <!--{if !empty($_SGLOBAL[supe_uid])}-->
@@ -507,7 +520,7 @@ jq(function(){
                                 <li><img src="image/icons/icon_group.png"><a href="space.php?do=mtag">群组</a></li>
                                 <li><img src="image/icons/icon_share.png"/><a href="space.php?do=share">分享</a></li>
                                 <li><img src="image/icons/icon_public.png"/><a href="space.php?do=public">公共主页</a></li>
-								<!-- <li><img src="image/icons/icon_calendar.png"/><a href="space.php?do=calendar">日历</a></li>-->
+								<!--<li><img src="image/icons/icon_calendar.png"/><a href="space.php?do=calendar">日历</a></li>-->
                                 <li class="last_show"><img src="image/icons/icon_appeal.png"/><a href="space.php?do=complain">诉求</a></li>
                             </ul>
                             <div class="left_line_my_act" id="my_defaultapp_toggle" style="margin-top:-12px;"><span class="color_ch"><a href="javascript:void(0);" title="展开官方应用">官方应用<img class="icon-pull" src="image/icons/icon-pull-down.png"/></a></span></div>

@@ -53,6 +53,7 @@ $dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag'
 
 //获取变量
 $isinvite = 0;
+$friendfans = '好友';
 $uid = empty($_GET['uid'])?0:intval($_GET['uid']);
 $username = empty($_GET['username'])?'':$_GET['username'];
 $domain = empty($_GET['domain'])?'':$_GET['domain'];
@@ -89,6 +90,7 @@ if($do == 'home') {
 		$isinvite = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT id FROM ".tname('invite')." WHERE uid='$uid' AND code='$invite' AND fuid='0'"), 0);
 	}
 }
+
 
 //处理@功能，获取好友及公共主页
 
@@ -132,7 +134,7 @@ if($CurrentTime - $FileModTime > 3600){
 	$friends = preg_replace("#\\\u([0-9a-f]+)#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $friends);
 	$f = fopen($friendurl_w,"w");
 	fwrite($f,$friends);
-	fclose($f);
+	fclose($f);	
 }
 $querygroupid = $_SGLOBAL['db']->query("SELECT groupid,pptype,caninvite FROM ".tname('space')." WHERE uid=".$_SGLOBAL['supe_uid']);
 $groupid = $_SGLOBAL['db']->fetch_array($querygroupid);
@@ -173,7 +175,7 @@ if($uid) {
 	$space = getspace($_SGLOBAL['supe_uid'], 'uid');
 }
 getmember(); //获取当前用户信息by xuxing 2012-5-23
-
+//echo "newpm:".$_SGLOBAL['member']['newpm'];
 if($space) {
 
 	//验证空间是否被锁定
@@ -370,6 +372,7 @@ initParentFlag();
 if($_SGLOBAL['supe_isParent']){
 	$_SGLOBAL['newbie'] = 0;
 }
+
 include_once(S_ROOT."./source/space_{$do}.php");
 
 //echo Pinyin($friends,2);

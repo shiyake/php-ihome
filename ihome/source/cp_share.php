@@ -13,7 +13,6 @@ if($_GET['inspace'] == '1'){
 }
 
 
-
 if($_GET['op'] == 'delete') {
 	if(submitcheck('deletesubmit')) {
 		include_once(S_ROOT.'./source/function_delete.php');

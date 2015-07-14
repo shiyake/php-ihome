@@ -50,6 +50,9 @@ if($id) {
 	realname_get();
 	
 	$tpl_title = getstr($share['title_template'], 0, 0, 0, 0, 0, -1);
+	
+	//ªÒ»°±Í«©
+	$ntags = getntags($space['uid'],$_GET['do'],$id);
 
 	include_once template("space_share_view");
 	

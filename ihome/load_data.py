@@ -56,7 +56,7 @@ def load_event(conn):
 
 def load_user(conn):
 	cursor = conn.cursor()
-	cursor.execute("select a.uid, a.username, a.name from ihome_space a")
+	cursor.execute("select a.uid, a.username, a.name, a.alias, a.identity from ihome_space a")
 	rows = cursor.fetchall()
 	#print "all", len(rows)
 	i = 0
@@ -68,6 +68,8 @@ def load_user(conn):
 		data['uid'] = str(row[0])
 		data['username'] = row[1]
 		data['name'] = row[2]
+		data['alias'] = row[3]
+		data['identity'] = row[4]
 		data['id'] = 'userid_%d' % row[0]
 		data['type'] = 'user'
 		datas.append(data)

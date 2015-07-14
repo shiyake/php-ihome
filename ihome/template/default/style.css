@@ -239,7 +239,7 @@ div #tagcloud span.w1 {
     text-align:left;
 }
 .tabs_header {
-    margin-bottom:15px;
+    margin-bottom:5px;
     margin-top: 20px;
     margin-left:20px;
     clear: both;
@@ -920,3 +920,26 @@ img.client_s {
 .status_tabs li{
     width: 70px;
 }
+
+/*标签*/
+
+.tagslist ul{margin:15px 0 0 20px;}
+.tagslist ul li{ display:inline-block; margin-right:20px; margin-bottom:10px;}
+#recpub .tagslist ul, #content .tagslist ul{margin:15px 0 0 0;}
+#recpub .tagslist ul li{ display:inline-block; margin-right:10px;}
+.tagslist ul li span, .taginput span.atag { padding:1px 8px;border-radius: 6px; border:2px solid #229BCA;color:#fff; font-size:14px; font-weight:bold; background:#0a90c4;}
+.tagslist ul li span a img, .taginput span.atag  a img{ margin-left:3px;margin-top:-2px;}
+.tagpop{ width:450px; margin:10px 0;}
+.tagpop ul{ margin:0px; width:350xp; float:left;}
+.tagpop label{width:60px; float:left;}
+.tagpop ul li span {cursor:pointer;}
+#mainareafg .tagslist ul li a, .tagslist ul li a{color:#fff;font-size:14px; font-weight:bold;}
+#mainareafg .tagslist ul li a:hover, .tagslist ul li a:hover{ text-decoration:none;}
+.tagnames{width:400px; height:32px;}
+#bottom_content .tagslist ul{ margin-left:0px;}
+#__addtag{padding:10px;}
+#__addtag .btn-comments{float: right;margin-bottom: 10px;}
+
+.taginput span.atag{ float: left; margin-right:10px;}
+.taginput .textin #ntagid{ border:0; background:none; width:100px; height:20px;}
+.taginput .textin{ width:100px; float:left;}

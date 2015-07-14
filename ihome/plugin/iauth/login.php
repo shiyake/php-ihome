@@ -40,7 +40,7 @@ function SSOlogin( $appid, $state, $uid ){
 		if ((!empty($_GET['s'])) && ($_GET['s']=='1')){ /* 加参数跳转到精简版界面 */
 		    return IAUTH_SIMPLE_AUTH_CONFIRM_PAGE.'&appsid='.$appid.'&state='.$state ;
 		    }
-		return IAUTH_APP_INFO_PAGE.'&appsid='.$appid.'&state='.$state.'#confirm';
+		return URL(IAUTH_APP_INFO_PAGE).'appsid='.$appid.'&state='.$state.'&showconfirm=yes#confirm';
 		}
 
 
@@ -50,13 +50,13 @@ function SSOlogin( $appid, $state, $uid ){
 		$faile_t='2036-12-31 23:59:59';
 		$verifier = newVerifier('auth', $appid, $uid, $rights, $faile_t,'','',$state);
 		accessLog('AUTH '.$appid.' '.$uid.' 2:3:7:11 '.$faile_t.' '.$state);
-		return $authCallBack .'?verifier='. $verifier.'&state='.$state;
+		return URL($authCallBack) .'verifier='. $verifier.'&state='.$state;
 		}
 
 	    if ( $authed==TRUE ){ /* 用户已经授权，直接跳转回login_call_back */
 		$loginCallBack = GetAppInfo( $appid, 'login_url' );
 		$verifier = newVerifier('login', $appid, $uid, 'FROM_CLIENT','','','', $state );
-		return $loginCallBack .'?verifier='. $verifier.'&state='.$state;
+		return URL($loginCallBack) .'verifier='. $verifier.'&state='.$state;
 		}
 
 	    } /* END WSC */
@@ -64,7 +64,7 @@ function SSOlogin( $appid, $state, $uid ){
         }     /* END !EMPTY state */
 
     /* 其他情况，跳到应用大厅 */
-    return IAUTH_APP_INFO_PAGE.'&appsid='.$appid;
+    return URL(IAUTH_APP_INFO_PAGE).'appsid='.$appid;
     }
 
 ?>

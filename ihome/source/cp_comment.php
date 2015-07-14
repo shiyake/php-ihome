@@ -330,7 +330,8 @@ if(submitcheck('commentsubmit')) {
 	$fs = array();
 	$fs['icon'] = 'comment';
 	$fs['target_ids'] = $fs['friend'] = '';
-
+	$secret = $_POST['secret'];
+		
 	switch ($_POST['idtype']) {
 		case 'uid':
 			//事件
@@ -341,6 +342,7 @@ if(submitcheck('commentsubmit')) {
 			$fs['body_data'] = array();
 			$fs['body_general'] = '';
 			$fs['images'] = array();
+			$fs['secret'] = $_POST['secret'];
 			$fs['image_links'] = array();
 			break;
 		case 'picid':
@@ -439,7 +441,8 @@ if(submitcheck('commentsubmit')) {
 		'author' => $_SGLOBAL['supe_username'],
 		'dateline' => $_SGLOBAL['timestamp'],
 		'message' => $message,
-		'ip' => getonlineip()
+		'ip' => getonlineip(),
+		'secret' => $_POST['secret'],
 	);
 	
 	if($_POST['idtype']=='uid'){
@@ -568,7 +571,7 @@ if(submitcheck('commentsubmit')) {
 			//事件发布
 			//showmessage("$_POST[withshare]; aa");
 			//调试的东西,等到真正上线的时候在删除
-			if(ckprivacy('comment', 1) || (ckprivacy('comment', 0) && $_POST['withshare']=true)) {
+			if(!$_POST['secret'] && (ckprivacy('comment', 1) || (ckprivacy('comment', 0) && $_POST['withshare']=true))) {
 				feed_add($fs['icon'], $fs['title_template'], $fs['title_data'], $fs['body_template'], $fs['body_data'], $fs['body_general'],$fs['images'], $fs['image_links'], $fs['target_ids'], $fs['friend']);
 				if ($idtype == 'videoid') {
 					$_SGLOBAL['db']->query("UPDATE ".tname('video')." SET share=share+1 WHERE id='$id'");

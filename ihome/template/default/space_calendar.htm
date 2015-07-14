@@ -97,20 +97,27 @@ var select_me = function(name)  {
     <div style="position:absolute;right:20px;margin-top:-25px;">
         <h5><a href="cp.php?ac=arrangement">发布新安排</a></h5>
     </div>
-    <!--{/if}-->
+	<!--{/if}-->
+
+
 	<div class="btn-group" style="z-index:100;padding-top:5px;">
-	    <button id="caldropdown"  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100px;padding-top:2px;padding-bottom:2px;margin-top:10px;">
+	    <button id="caldropdown" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100px;padding-top:2px;padding-bottom:2px;margin-top:10px;">
 	    	 <span class="placeholder">全部</span>
 	      <span class="caret"></span>
 	    </button>
-	    <ul class="dropdown-menu" role="menu" style=" z-index:100;">
+		
+	    <ul class="dropdown-menu" role="menu" style="z-index:100;">
 		      <li name="li-cal"><a id="all-filter" href="#all">全部</a></li>
-		      <li name="li-cal"><a id="edu-filter" href="#edu"> 课程表</a></li>
-		      <li name="li-cal"><a id="person-filter" href="#person"> 个人日历</a></li>
-		      <li name="li-cal"><a id="school-filter" href="#school"> 校园日历</a></li>
+		      <li name="li-cal"><a id="edu-filter" href="#edu">课程表</a></li>
+		      <li name="li-cal"><a id="person-filter" href="#person">个人日历</a></li>
+		      <li name="li-cal"><a id="school-filter" href="#school">校园日历</a></li>
 	    </ul>
-  </div>
+	</div>
 	
+	<div class="btn-group" style="z-index:100;">
+		<input type="text" class="search-calendar-input form-control input-sm" style="margin-top:15px;margin-left:10px;height:26px;width:initial;display:inline-block;" placeholder="搜索日历"/>
+		<button class="btn-sm btn-comments" id="search-calendar" style="display:inline-block;">搜索</button>
+	</div>
  </div>
 <style>
     .h_status a {
@@ -169,9 +176,17 @@ var select_me = function(name)  {
     }
     hr.fc-widget-header {
         display:none !important;  
-    }
+		}
+	#search-query-box {
+		display:none;
+		outline:none;	
+	}
+	#search-query-box span {
+		font-size:14px;
+	}
 </style>
 <input id="filter-get" type="hidden" value="{$_GET['filter']}"/>
+
 
 <div id="content" style="width:initial;padding-left:10px;margin-top: -27px;border-right:none;background: #ffffff;">
 
@@ -524,7 +539,30 @@ eventDrop : function(event,dayDelta,minuteDelta,revertFunction,jsEvent,ui,view) 
             });
             j11("#leading-out").on("click",function(){
                 j11(".choose_fun_out").slideDown();
-            });
+				});
+			j11("#search-query-box").on("blur",function(){
+				j11("#search-query-box").fadeOut();
+			});
+			j11("#search-calendar").on("click",function(){
+				t = j11(".search-calendar-input").val();
+				if (!t) {
+					return ;
+				}
+				jQuery.get("space.php?do=calendar&k="+t,function(data){
+					
+					j11("#search-query-box").html("");
+					for(i in data) {
+						if(i==5) {
+							break;
+						}
+						console.log(data[i]);
+
+						j11("#search-query-box").append("<div class='search-box'><span style='width:70px;'>"+data[i].type+"<span>&nbsp;<span>"+data[i].start_t+"</span>&nbsp;<span>"+data[i].place+"</span>&nbsp;<span>"+data[i].content+"</span></div>");
+					}
+				},"json");	
+				j11("#search-query-box").fadeIn();
+				j11("#search-query-box")[0].focus();
+			});
         });
 		
 	    function post_edit(calendar_info_id,calendar_id) {
@@ -538,7 +576,8 @@ eventDrop : function(event,dayDelta,minuteDelta,revertFunction,jsEvent,ui,view) 
                         fc.fullCalendar('refetchEvents');    
                     }
                 }    
-        });     
+				});
+
     }
 
 </script>
@@ -596,8 +635,24 @@ eventDrop : function(event,dayDelta,minuteDelta,revertFunction,jsEvent,ui,view) 
     .choose_fun_out {
         margin-top:10px;
         display:none;
-    }
+	}
+	#search-query-box {
+		width:500px;
+		left:50%;
+		margin-left:-250px;
+		min-height:100px;
+		padding:20px;
+		position:absolute;
+		top:15%;
+		z-index:9998;
+		background:#fff;
+		border:1px solid #dcdcdc;
+		border-radius:3px;
+	}
 </style>
+<div id="search-query-box" tabindex="1">
+		
+</div>
 <div class="leading-plugin">
     <h4>导入日历</h4>
     <form method="POST" enctype="multipart/form-data" id="ics_upload_form" action="cp.php?ac=calendar&op=leadin" >

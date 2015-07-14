@@ -17,8 +17,12 @@
     #cloud_dep {
         margin-left: 6px;
     }
+    span.complain_clear {
+        color: #52E5B6;
+    }
 </style>
 <h4 class="title" style="margin-left:15px;margin-top:30px;"><img class="pic10"src="image/icons/icon_appeal.png">诉求</h4>
+<div style="margin-left:510px;margin-top:-30px;border:1px;background-color:#F5F5F5;width:260px;padding:0cm 0cm 0cm 0.1cm;"><span style="color:#DC143C">温馨提示：</span>各单位管理员，请您在回复师生诉求时，如果遇到本部门职责范围之外，需要其他部门协调解决的诉求，请在回复中使用@功能，将诉求直接转发至相关单位。谢谢您的配合。</div>
 <div class="tabs_header" style="margin-bottom:5px;">
     <ul class="tabs">
         <!--{if $_SGLOBAL[isdept] == 1}-->
@@ -197,7 +201,7 @@
         <!--{else}-->
         <tr class="alt">
         <!--{/if}-->
-            <td class="info_tip" data-toggle="tooltip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
+            <td class="info_tip <!--{if $cp[clear]}-->clear_tip<!--{/if}-->" data-toggle="tooltip"><a href="space.php?do=complain_item&doid=$cp[doid]"><!--{eval echo strip_tags($cp[message]);}--></a></td>
             <td><a href="space.php?uid=$cp[uid]" class="info_tip">{$_SN[$cp[uid]]}</a><br>
             <!--{date('m-d H:i',$cp[addtime])}--></td>
             <td>
@@ -219,6 +223,11 @@
             <!--{else}-->
             <!--{eval $brflag = 1}-->
             <!--{/if}-->
+            <!--{if $cp[clear]}-->
+            <span class="complain_clear">
+            <!--{else}-->
+            <span>
+            <!--{/if}-->
             <!--{if $status == 3}-->
             已转发
             <!--{elseif $status == 0 && $_SGLOBAL[isdept] == 1}-->
@@ -230,6 +239,7 @@
             <!--{elseif $status == 2}-->
             已关闭
             <!--{/if}-->
+            </span>
             <!--{/loop}-->
             </td>
             <!--{if $_GET['type'] == 'running'}-->
@@ -266,7 +276,13 @@
     <div class="page" style="margin-bottom: 10px;">$multi</div>
     <script class="reload_script">
         jQuery(function() {
-            jQuery('.info_tip').each(function(){jQuery(this).prop('title',jQuery(this).text());});
+            jQuery('.info_tip').each(function(){
+                var t = jQuery(this).text();
+                if (jQuery(this).hasClass('clear_tip')) {
+                    t = '本条诉求已处理完毕';
+                }
+                jQuery(this).prop('title',t);
+            });
             jQuery('#complain_list a').click(function(e){
                 e.stopPropagation();
             });
@@ -365,6 +381,15 @@
             updateList();
             <!--{/if}-->
         });
+        if (window.navigator.userAgent.indexOf('MSIE')!=-1) {
+            var _oldhide = jQuery.fn.hide;
+            jQuery('table.table-condensed').on('mousedown', function(e){
+                jQuery.fn.hide = function(){};
+            });
+            jQuery('table.table-condensed').on('mouseup',function(){
+                jQuery.fn.hide = _oldhide;
+            });
+        }
     });
     
     <!--{if $_GET['view'] == 'cloud'}-->
@@ -405,6 +430,7 @@
             jQuery(".complain_list_container").html(jQuery(data).find(".complain_list_container").html());
             jQuery("#complain_cloud").html(jQuery(data).find("#complain_cloud").html());
             var dom = jQuery(data);
+            jQuery('.tooltip').remove();
             dom.filter('script.reload_script').each(function() {
                  jQuery.globalEval(this.text || this.textContent || this.innerHTML || '');
             });
