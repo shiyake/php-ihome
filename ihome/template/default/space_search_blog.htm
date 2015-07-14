@@ -79,6 +79,25 @@
 .pipe {
     padding: 0px 0px 0px 2px;
 }
+li.more .more-menu {
+    display: none;
+    position: absolute;
+    width: 110px;
+    right: 74px;
+    top: 53px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background: #fff;
+    z-index: 2;
+}
+
+li.more .more-menu li {
+    width: 100%;
+}
+
+li.more:hover .more-menu {
+    display: block;
+}
 </style>
 <div id="search_vertical" class="tabs_header">
 	<ul class="tabs">
@@ -88,7 +107,12 @@
         <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
-        <li><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+        <li class="more"><a href="#">更多</a>
+        <ul class="more-menu">
+            <li style="border-top-left-radius: inherit;border-top-right-radius: inherit"><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+            <li><a href="space.php?query={$_GET['query']}&do=search&type=job"><span>就业互助</span></a></li>
+            <li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit"><a href="space.php?query={$_GET['query']}&do=search&type=arrangement"><span>校园日历</span></a></li>
+        </ul></li>
     </ul>
 </div>
 <div style="width:700px;padding: 0px; 10px; 8px;">
