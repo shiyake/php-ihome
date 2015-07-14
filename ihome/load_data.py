@@ -54,27 +54,29 @@ def load_event(conn):
     cursor.close()
 
 def load_user(conn):
-    cursor = conn.cursor()
-    cursor.execute("select a.uid, a.username, a.name from ihome_space a")
-    rows = cursor.fetchall()
-    #print "all", len(rows)
-    i = 0
-    for row in rows:
-        i += 1
-    #    print i
-        datas = []
-        data = {}
-        data['uid'] = str(row[0])
-        data['username'] = row[1]
-        data['name'] = row[2]
-        data['id'] = 'userid_%d' % row[0]
-        data['type'] = 'user'
-        datas.append(data)
-        datastr = json.dumps(datas)
-        req = urllib2.Request("http://solr.limijiaoyin.com/solr/update/json", data=datastr, headers={'Content-type':'application/json'})
-        resp = urllib2.urlopen(req)
-        resp.read()
-    cursor.close()
+	cursor = conn.cursor()
+	cursor.execute("select a.uid, a.username, a.name, a.alias, a.identity from ihome_space a")
+	rows = cursor.fetchall()
+	#print "all", len(rows)
+	i = 0
+	for row in rows:
+		i += 1
+	#    print i
+		datas = []
+		data = {}
+		data['uid'] = str(row[0])
+		data['username'] = row[1]
+		data['name'] = row[2]
+		data['alias'] = row[3]
+		data['identity'] = row[4]
+		data['id'] = 'userid_%d' % row[0]
+		data['type'] = 'user'
+		datas.append(data)
+		datastr = json.dumps(datas)
+		req = urllib2.Request("http://solr.limijiaoyin.com/solr/update/json", data=datastr, headers={'Content-type':'application/json'})
+		resp = urllib2.urlopen(req)
+		resp.read()
+	cursor.close()
 
 def load_album(conn):
     cursor = conn.cursor()
