@@ -165,12 +165,12 @@ if($_GET['view'] == 'complain'){
 	}
 	$doids = substr($doids ,0 ,-1);
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." $f_index
-		WHERE id IN (".$doids.") AND idtype='doid' 
+		WHERE id IN (".$doids.") AND idtype='doid' AND isdeleted=0
 		ORDER BY $ordersql 
 		LIMIT $start,$perpage");
 }else{
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('feed')." $f_index
-		WHERE $wheresql
+		WHERE $wheresql AND isdeleted=0
 		ORDER BY $ordersql
 		LIMIT $start,$perpage");
 }
