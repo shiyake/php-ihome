@@ -1,0 +1,165 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner" style="text-align:center">
+        <h4 >校园日历管理</h4>
+        <div style="height: 1px; background-color: grey; margin-top: 10px"></div>
+        <!--{if count($listCheck)}-->
+        <form action="post" autocomplete="off">
+            <table id="listCheck" class="listtable" style="text-align: left">
+                <tr>
+                <td style="width: 20%; word-wrap: break-word;">名称</td>
+                <td style="width: 25%; word-wrap: break-word;">描述</td>
+                <td>申请人</td>
+                <td>状态</td></span>&nbsp;</span>
+                <td>开始时间</td>
+                <td>操作</td>
+            </tr>
+            <!--{loop $listCheck $key $array}-->
+            <!--{if $array['allow'] == 1}-->
+            <tr id=$array['arrangementid']>
+            <!--{else}-->
+            <tr id=$array['arrangementid'] style="background-color:rgb(228, 228, 245)">
+            <!--{/if}-->
+                <td ><input type="checkbox" style="vertical-align: sub" name="delItem" value=$array['arrangementid'] onclick="checkSelect">$array['subject']</td>
+                <td style="max-width:100px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" title=$array['message']>$array['message']</td>
+                <td>$array['name']</td>
+                <!--{if $array['allow'] == 1}-->
+                <td><a onclick="_confirm('确认未通过？', 'deny', $array['arrangementid'])">通过</a></td>
+                <!--{else}-->
+                <td><a onclick="_confirm('确认通过？', 'allow', $array['arrangementid'])">未通过</a></td>
+                <!--{/if}-->
+                <td>$array['starttime']</td>
+                <td>
+                    <a href="cp.php?ac=arrangement&arrangementid=$array['arrangementid']&op=edit&from=admin">编辑</a>
+                    <span style="padding:0 0.4em; color #DDD">|</span>
+                    <a onclick="_confirm('确认删除？', 'delete', $array['arrangementid'])">删除</a>
+                </td>
+            </tr>
+            <!--{/loop}-->
+        </table>
+        <div style="height: 1px; background-color: grey; margin-top: 10pxdd"></div>
+        <div id="delall" style="width:100%; margin-top:10px; margin-bottom:10px">
+            <span style="font-family: monospace; margin: 5px 8px;"><input type="checkbox" name="selectAll" value="selectAll" style="vertical-align: sub" onclick="sAll()">全选</span>
+            <span style="font-family: monospace; margin: 5px 8px;"><input type="checkbox" name="delAll" value="delAll" style="vertical-align: sub">删除</span>
+            <input id="save" class="btn btn-comments submit" value="提交" onclick="onDel()" style="margin-left:8px; width: 60px">
+        </div>
+        </form>
+        <!--{else}-->
+        <div id="noCheck">
+            <p>暂无需要审核的日历</p>
+        </div>
+        <!--{/if}-->
+    </div>
+</div>
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->
+
+
+<script>
+
+var createajax = function () {
+    var xhr = null;
+    try {
+        xhr = new ActiveXobject("microsoft.xmlhttp");
+    }catch(e) {
+        xhr = new XMLHttpRequest();
+    }
+    return xhr;
+}
+
+var admin_ajax = function(conf) {
+    var url = conf.url,
+        arrangementid = conf.arrangementid,
+        op = conf.op,
+        xhr = createajax(),
+        itemarr = new Array();
+    if(op == 'delete'){
+        url += '&arrangementid='+arrangementid;
+        itemarr.push(arrangementid);
+    }
+    if(op == 'deleteAll'){
+        var items = document.getElementsByName('delItem');
+        op = 'delete';
+        var i; 
+        for(i = 0; i < items.length; i += 1){
+            if(items[i].checked == true)
+                itemarr.push(items[i].value); 
+        }
+        arrangementid=itemarr.join(",");
+        url += '&arrangementid='+arrangementid;
+    }
+    xhr.open('get', url, true);
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 || xhr.status == 200) {
+            if(op == 'delete'){
+                for(var i = 0; i < itemarr.length; i += 1){
+                    document.getElementById(itemarr[i]).style.display= "none";
+                }
+                if(itemarr.length > 1)
+                    location.reload();
+            } else if(op == 'allow'){
+                var hnode = document.getElementById(arrangementid).getElementsByTagName('a')[0];
+                var str = "_confirm('确认未通过？','deny',"+arrangementid+")'";
+                hnode.onclick = function() {_confirm('确认未通过？','deny',arrangementid);}
+                hnode.innerHTML="通过";
+                document.getElementById(arrangementid).style.backgroundColor = 'white';
+            } else {
+                var hnode = document.getElementById(arrangementid).getElementsByTagName('a')[0];
+                var str = "_confirm('确认通过？','allow',"+arrangementid+")'";
+                hnode.onclick = function() {_confirm('确认通过？','allow',arrangementid);}
+                hnode.innerHTML="未通过";
+                document.getElementById(arrangementid).style.backgroundColor = 'rgb(228, 228, 245)';
+            }
+        }
+    }
+}
+
+var _confirm = function(str, op, arrangementid) {
+    var msg = confirm(str, op, arrangementid);
+    if(msg){
+        if(op == 'allow' || op == 'deny') {
+            admin_ajax({
+                url: 'cp.php?ac=arrangement&op='+op+'&arrangementid='+arrangementid,
+                op: op,
+                arrangementid: arrangementid
+            });    
+        } else {
+            admin_ajax({
+                url: 'cp.php?ac=arrangement&op='+op+"&from=admin",
+                op: op,
+                arrangementid: arrangementid,
+            });
+        }
+    }
+}
+
+function sAll(){
+    var selectAllNode = document.getElementsByName('selectAll')[0],
+        items = document.getElementsByName('delItem');
+    for(var i = 0; i < items.length; i += 1){
+        items[i].checked = selectAllNode.checked;
+    }
+}
+
+
+var onDel = function() {
+    if(document.getElementsByName('delAll')[0].checked == true) {
+        admin_ajax({
+            url: "cp.php?ac=arrangement&op=delete&from=admin",
+            op: 'deleteAll',
+            arrangementid: '',
+        });
+    } else{
+        alert("若要删除多项，请先点击'删除'除复选框")
+    }
+}
+
+var checkSelect = function() {
+
+
+}
+</script>
