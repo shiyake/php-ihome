@@ -7,7 +7,7 @@ if(!defined('iBUAA')) {
 //产生动态
 function feed_publish($id, $idtype, $add=0, $fromdevice='') {
 	global $_SGLOBAL, $_SC;
-	
+    
 	$setarr = array();
 	switch ($idtype) {
 		case 'arrangementid':

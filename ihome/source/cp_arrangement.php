@@ -7,11 +7,50 @@ if(!defined('iBUAA')) {
 //¼ì²éĞÅÏ¢
 $arrangementid = empty($_GET['arrangementid'])?0:intval($_GET['arrangementid']);
 $op = empty($_GET['op'])?'':$_GET['op'];
-
+//
 $arrangement = array();
 if($arrangementid) {
-	$query = $_SGLOBAL['db']->query("SELECT * from ".tname('arrangement')." WHERE arrangementid='$arrangementid'");
-	$arrangement = $_SGLOBAL['db']->fetch_array($query);
+    $query = $_SGLOBAL['db']->query("SELECT * from ".tname('arrangement')." WHERE arrangementid='$arrangementid'");
+    $arrangement = $_SGLOBAL['db']->fetch_array($query);
+    if(empty($arrangement)){
+        $query = $_SGLOBAL['db']->query("SELECT * from ".tname('unCheckArrangement')." WHERE arrangementid='$arrangementid'");
+        $arrangement = $_SGLOBAL['db']->fetch_array($query);
+    }
+}
+
+if($op == 'allow'){
+    $arrangementid = $_GET['arrangementid'];
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ihome_unCheckArrangement where arrangementid='$arrangementid'");
+    $value = $_SGLOBAL['db']->fetch_array($query);
+//    unset($value['arrangemntid']);
+    $_SGLOBAL['db']->query("DELETE FROM ihome_unCheckArrangement where arrangementid='$arrangementid'");
+    include_once(S_ROOT.'./source/function_blog.php');
+    if($newarrangementid = inserttable('arrangement',$value,1)){
+        include_once(S_ROOT.'./source/function_feed.php');
+        feed_publish($newarrangementid, 'arrangementid', 1);
+        $note=cplang('note_allow_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&id='.$newarrangementid, $value['subject']));
+        notification_add($value['uid'], 'systemnote', $note);
+        header("newid:".$arrangementid);
+        exit;
+    }
+}
+
+if($op == 'deny'){
+    $arrangementid = $_GET['arrangementid'];
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ihome_arrangement where arrangementid='$arrangementid'");
+    $value = $_SGLOBAL['db']->fetch_array($query);
+//	$arrangement['subject'] = empty($_value['subject'])?'':getstr($_value['subject'], 80, 1, 0);
+//	$arrangement['message'] = empty($_value['message'])?'':getstr($_value['message'], 5000, 1, 0);
+//    unset($value['arrangemntid']);
+    $_SGLOBAL['db']->query("DELETE FROM ihome_arrangement where arrangementid='$arrangementid'");
+    $_SGLOBAL['db']->query("DELETE FROM ihome_feed where id='$arrangementid' and idtype='arrangementid'");
+    include_once(S_ROOT.'./source/function_blog.php');
+    if($newarrangementid = inserttable('unCheckArrangement',$value,1)){
+        $note=cplang('note_deny_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&state=deny&id='.$newarrangementid, $value['subject']));
+        notification_add($value['uid'], 'systemnote', $note);
+        header("newid:".$arrangementid);
+        exit;
+    }
 }
 //print_r($arrangement);exit();
 //È¨ÏŞ¼ì²é
@@ -43,7 +82,8 @@ if(empty($arrangement)) {
 
 //Ìí¼Ó±à¼­²Ù×÷
 if(submitcheck('arrangementsubmit')) {
-	//ÅĞ¶ÏÊÇ·ñ·¢²¼Ì«¿ì
+    //ÅĞ¶ÏÊÇ·ñ·¢²¼Ì«¿ì
+    $from = $_POST['from'] || null;
 	$waittime = interval_check('post');
 	if($waittime > 0) {
 		showmessage('operating_too_fast','',1,array($waittime));
@@ -66,9 +106,28 @@ if(submitcheck('arrangementsubmit')) {
 	}
 	
 	include_once(S_ROOT.'./source/function_blog.php');
-	if($newarrangement = arrangement_post($_POST, $arrangement)) {
-		$url = 'space.php?uid='.$newarrangement['uid'].'&do=arrangement&id='.$newarrangement['arrangementid'];
-		showmessage('do_success', $url, 0);
+    if($newarrangement = arrangement_post($_POST, $arrangement, 0)) {
+        $url = 'space.php?uid='.$newarrangement['uid'].'&do=arrangement&id=';
+        $from = empty($_POST['from'])?'':$_POST['from'];
+        // ¿¿¿¿¿
+        if(empty($_GET['arrangementid'])){
+            $note = cplang('note_new_arrangement', array("admincp.php?ac=calenderCheck", $newarrangement['subject']));
+            $query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." where groupid=1");
+            while ($value = $_SGLOBAL['db']->fetch_array($query)){
+                notification_add($value['uid'], 'systemnote', $note);
+            }
+        }
+        //¿¿¿¿edited
+        $query = $_SGLOBAL['db']->query("SELECT subject, uid FROM ".tname('arrangement')." where arrangementid = ".$newarrangement['arrangementid']." UNION "."SELECT subject, uid FROM ".tname('unCheckArrangement')." where arrangementid =".$newarrangement['arrangementid']);
+        $value = $_SGLOBAL['db']->fetch_array($query);
+        if($from == "admin" and $_SGLOBAL['supe_uid'] != $value['uid']) {
+            $note = cplang("note_edit_arrangement", array("space.php?uid=".$value['uid']."&do=arrangement&id=".$newarrangement['arrangementid'], $newarrangement['subject']));
+            notification_add($value['uid'], 'systemnote', $note);
+        }
+        if($from == "admin")
+            showmessage('do_success', "admincp.php?ac=calenderCheck");
+        else
+            showmessage('do_success', $url);
 	} else {
 		showmessage('that_should_at_least_write_things');
 	}
@@ -76,22 +135,42 @@ if(submitcheck('arrangementsubmit')) {
 
 if($op == 'delete') {
 	//É¾³ı
+    $from = empty($_GET['from'])?'':$_GET['from'];
 	if(submitcheck('deletesubmit')) {
-		include_once(S_ROOT.'./source/function_delete.php');
-		if(deletearrangements(array($arrangementid))) {
-			showmessage('do_success', "space.php?do=arrangement");
+        include_once(S_ROOT.'./source/function_delete.php');
+        if(deletearrangements(array($arrangementid))) {
+            showmessage('do_success', "space.php?do=arrangement");
 		} else {
 			showmessage('failed_to_delete_operation');
 		}
 	}
-	
+    if($from){
+        include_once(S_ROOT.'./source/function_delete.php');
+        $arrangementids = split(",",$_GET['arrangementid']);
+        foreach($arrangementids as $key) {
+            $query = $_SGLOBAL['db']->query("SELECT subject, uid FROM ".tname('arrangement')." where arrangementid = ".$key." UNION "."SELECT subject, uid FROM ".tname('unCheckArrangement')." where arrangementid =".$key);
+            $value[$key] = $_SGLOBAL['db']->fetch_array($query);
+        } 
+        if(deletearrangements($arrangementids)) { 
+            //¿¿¿¿¿¿¿¿i
+            foreach($arrangementids as $key) {
+                $note = cplang('note_delete_arrangement', array($value[$key]['subject']));
+                notification_add($value[$key]['uid'], 'systemnote', $note);
+            }
+            header("state: success");
+            exit;
+        } else {
+            header("state: failed");
+            exit;
+        }
+    }	
 } elseif($op == 'goto') {
 	
 	$id = intval($_GET['id']);
 	$uid = $id?getcount('arrangement', array('arrangementid'=>$id), 'uid'):0;
 
 	showmessage('do_success', "space.php?uid=$uid&do=arrangement&id=$id", 0);
-	
+
 } elseif($op == 'calendar') {//Ğ£Àú°²ÅÅÁĞ±íÈÕÀú
 	$match = array();
 	if(!$_GET['month'] && preg_match("/^(\d{4}-\d{1,2})/", $_GET['date'], $match)) {
