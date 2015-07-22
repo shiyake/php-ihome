@@ -313,6 +313,8 @@ else
 				);
 				//更新本地用户库
 				inserttable('member', $setarr, 0, true);
+				//add action log
+	            inserttable('actionlog', array('uid'=>"$newuid", 'dateline'=>"$_SGLOBAL[timestamp]", 'action'=>'register', 'value'=>'email'));
 
 				//开通空间
 				include_once(S_ROOT.'./source/function_space.php');

@@ -33,7 +33,9 @@
                             <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
                             <div class="reply pull-right">
                                 <span class="forward_tip">提示：<!--{if $complain[relay_times]>=3}-->不可转发<!--{else}-->诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次<!--{/if}--></span>
-                                <button type="button" id="reply_doing" name="add" value="1">进行中</button>
+<!--屏蔽进行中功能-->                                
+<!--				<button type="button" id="reply_doing" name="add" value="1">进行中</button>
+-->
                                 <button type="button" id="reply_done" name="add" value="2">完成</button>
                             </div>
                             <!--{else}-->
