@@ -53,6 +53,7 @@ $dos = array('feed', 'doing', 'mood', 'blog', 'album', 'video', 'thread', 'mtag'
 
 //获取变量
 $isinvite = 0;
+$friendfans = '好友';
 $uid = empty($_GET['uid'])?0:intval($_GET['uid']);
 $username = empty($_GET['username'])?'':$_GET['username'];
 $domain = empty($_GET['domain'])?'':$_GET['domain'];
@@ -89,6 +90,7 @@ if($do == 'home') {
 		$isinvite = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT id FROM ".tname('invite')." WHERE uid='$uid' AND code='$invite' AND fuid='0'"), 0);
 	}
 }
+
 
 //处理@功能，获取好友及公共主页
 
@@ -173,7 +175,7 @@ if($uid) {
 	$space = getspace($_SGLOBAL['supe_uid'], 'uid');
 }
 getmember(); //获取当前用户信息by xuxing 2012-5-23
-
+//echo "newpm:".$_SGLOBAL['member']['newpm'];
 if($space) {
 
 	//验证空间是否被锁定

@@ -76,6 +76,12 @@
 	float:left;
 	height:26px;
 	line-height:26px;
+
+}
+.form-control {
+	width:initial;
+	height:26px;
+	float:right;
 }
 .job_grid .search .select label {
 	font-weight:normal;

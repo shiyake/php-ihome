@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommed','flink','sync','asst'))) {
+if(!in_array($_GET['op'], array('base','contact','edu','work','info','cour','recommend','flink','sync','asst'))) {
 	$_GET['op'] = 'base';
 }
 
@@ -44,6 +44,8 @@ if($_GET['op'] == 'base') {
 			updatetable('complain_dep', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
         	updatePowerlevelFile();
 		}
+
+        $changeadmin = 0;
 		if ($space['groupid'] == 3) {
 			$arr = array(
 				'telephone' => shtmlspecialchars($_POST['telephone']),
@@ -51,7 +53,29 @@ if($_GET['op'] == 'base') {
 				'depduty' => shtmlspecialchars($_POST['depduty']),
 			);
 			updatetable('space', $arr, array('uid'=>$_SGLOBAL['supe_uid']));
-		}
+
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE uid=".$_SGLOBAL['supe_uid']);
+            $value = $_SGLOBAL['db']->fetch_array($query);
+            if ($value['appuid'] != intval($_POST['admin'])) {
+                $current_time = strtotime(date("y-m-d h:i:s", time()));
+                $last_time = strtotime($value['adminupdatetime']);
+                $days= round(($current_time-$last_time)/3600/24);
+                if (abs($days) < 30) {
+                    showmessage('has_modified_admin', 'cp.php');
+                }
+
+                $aud = intval($_POST['admin']);
+		        $query = $_SGLOBAL['db']->query("SELECT name FROM ".tname("space")." WHERE uid=".$aud);
+                $value = $_SGLOBAL['db']->fetch_array($query);
+                $admin = array(
+                    'appuid' => intval($_POST['admin']),
+                    'contact' => $value['name'],
+                    'adminupdatetime' => date('Y-m-d H:i:s', time())
+                );
+                updatetable('publicapply', $admin, array('uid'=>$_SGLOBAL['supe_uid']));
+                $changeadmin = 1;
+            }
+        }
 		//性别
 		$_POST['sex'] = intval($_POST['sex']);
 		if($_POST['sex'] && empty($space['sex'])) $setarr['sex'] = $_POST['sex'];
@@ -79,9 +103,22 @@ if($_GET['op'] == 'base') {
 		}
 
 		//主表实名
+        $name = getstr($_POST['name'], 40, 1, 1);
+        $namestatus = 0;
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE uid=".$_SGLOBAL['supe_uid']);
+        $value = $_SGLOBAL['db']->fetch_array($query);
+        if ($value['name'] != $name) {
+            $current_time = strtotime(date("y-m-d h:i:s", time()));
+            $last_time = strtotime($value['nameupdatetime']);
+            $days= round(($current_time-$last_time)/3600/24);
+            if (abs($days) < 30) {
+                showmessage('has_modified_name');
+            }
+            $namestatus = 1;
+        }
 		$setarr = array(
-			'name' => getstr($_POST['name'], 40, 1, 1, 1),
-			'namestatus' => $_SCONFIG['namecheck']?0:1
+			'name' => $name,
+			'namestatus' => $namestatus 
 		);
 		if(checkperm('managename')) {
 			 $setarr['namestatus'] = 1;
@@ -121,6 +158,12 @@ if($_GET['op'] == 'base') {
 				}
 			}
 			updatetable('space', $setarr, array('uid'=>$_SGLOBAL['supe_uid']));
+
+            $public = array(
+                'name'=>getstr($_POST['name'],40,1,1),
+                'nameupdatetime'=> date('Y-m-d H:i:s',time())
+            );
+            updatetable('publicapply', $public, array('uid'=>$_SGLOBAL['supe_uid']));
 		}
 		//国外校友事件处理
 		if(!empty($_POST['sync']))	{
@@ -208,6 +251,12 @@ if($_GET['op'] == 'base') {
 		} else {
 			$url = 'cp.php?ac=profile&op=base';
 		}
+
+        if($changeadmin) {
+            include_once S_ROOT.'./uc_client/client.php';
+            $ucsynlogout = uc_user_synlogout();
+            showmessage('公共主页的管理员发生变化，您需要重新登录。', 'cp.php?ac=common&op=logout&uhash='.$_SGLOBAL['uhash'], 1, array($ucsynlogout));
+        }
 		showmessage('update_on_successful_individuals', $url);
 	}
 
@@ -271,10 +320,6 @@ if($_GET['op'] == 'base') {
 		$profilefields[$value['fieldid']] = $value;
 	}
 	
-	if(empty($_SCONFIG['namechange'])) {
-		$_GET['namechange'] = 0;//不允许修改
-	}
-	
 	//隐私
 	$friendarr = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('spaceinfo')." WHERE uid='$space[uid]' AND type='base'");
@@ -287,6 +332,145 @@ if($_GET['op'] == 'base') {
 	if($dept) {
 		$isdept = True;
 	}
+    if ($isdept || $_SGLOBAL['member']['groupid']==3) {
+        $_GET['namechange'] = 1;    
+        $adminhtml = '';
+
+        $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
+        $value=$_SGLOBAL['db']->fetch_array($query);
+        if ($value['appuid']){
+            $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
+            $value=$_SGLOBAL['db']->fetch_array($query);
+            if ($value['uid']) {
+                $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
+            }
+        } else {
+            $adminhtml .= "<option value='0'>&nbsp</option>";
+			inserttable('publicapply', array('uid'=>$_SGLOBAL['supe_uid'], 'appuid'=> -1, 'contact'=>'','username'=>$space['username'], 'ruthed' => 1), 0, true);
+        }
+
+        $query = $_SGLOBAL['db']->query("SELECT s.aud FROM ".tname('space')." s WHERE uid='$space[uid]'");
+        while ($value=$_SGLOBAL['db']->fetch_array($query)) {
+            $friend_array = explode(',', $value['aud']);
+            $wheresql = '';
+            $length = count($friend_array);
+            for($i=0; $i < $length; $i++) {
+                if ($i == $length - 1) {
+                    $wheresql.= "uid=".$friend_array[$i];
+                } else {
+                    $wheresql.= "uid=".$friend_array[$i]." or ";
+                }
+            }
+            
+            if ($friend_array[0] != '') {
+                $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE (".$wheresql.") and groupid!=3");
+                while($value=$_SGLOBAL['db']->fetch_array($query)) {
+                    $adminhtml .= "<option value=$value[uid]>$value[name](".$value['uid'].")</option>";
+                }
+            }
+        }
+    } elseif (empty($_SCONFIG['namechange'])) {
+        $_GET['namechange'] = 0;
+    }
+} elseif ($_GET['op'] == 'recommend') {
+    if(submitcheck('aliassubmit1') or submitcheck('aliassubmit2') or submitcheck('aliassubmit3')){
+        if(submitcheck('aliassubmit1'))
+            $submitid = '1';
+        elseif(submitcheck('aliassubmit2'))
+            $submitid = '2';
+        else
+            $submitid = '3';
+        //个人主页
+        if($space['groupid'] != 3){
+            $iden_tStr = '';
+            $inentityStr = '';
+            $iden_tid = $_POST['iden_t'.$submitid];
+            $identityid = $_POST['identity'.$submitid];
+            if(empty($identityid))
+                showmessage('身份不能为空', 'cp.php?ac=profile&op=recommend');
+
+            foreach($space['identity'] as $index => $value){
+                if($value == $identityid and $space['iden_t'][$index] == $iden_tid)
+                    showmessage('不能设置相同的身份!', 'cp.php?ac=profile&op=recommend');
+            }
+
+            $space['identity'][intval($submitid) - 1] = $identityid;
+            $space['iden_t'][intval($submitid) - 1] = $iden_tid;
+
+            foreach($space['identity'] as $value){
+                if(strlen($value))
+                    $identityStr .= $value.',';
+            }
+            foreach($space['iden_t'] as $value){
+                if(strlen($value))
+                    $iden_tStr .= $value.',';
+            }
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set identity = '$identityStr', iden_t = '$iden_tStr' where uid = '$space[uid]'");
+            showmessage('设置身份成功！', 'cp.php?ac=profile&op=recommend');
+
+        //公共主页
+        } else {
+            $aliasstr = '';
+            $aliasid = $_POST['alias'.$submitid];
+            if(empty($aliasid))
+                showmessage('别名不能为空！', 'cp.php?ac=profile&op=recommend');
+
+            foreach($space['alias'] as $value){
+                if($value == $aliasid)
+                    showmessage('不能设定相同的别名！', 'cp.php?ac=profile&op=recommend');
+            }
+
+            if(preg_match(',', $aliasid))
+                showmessage('别名中不能有逗号！', 'cp.php?ac=profile&op=recommend');
+
+            $space['alias'][intval($submitid) - 1] = $aliasid;
+            foreach($space['alias'] as $value){
+                if(strlen($value))
+                    $aliasstr .= $value.',';
+            }
+			$update_sql = "update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'";
+			echo $update_sql;
+            $_SGLOBAL['db']->query($update_sql);
+            showmessage('设置别名成功！', 'cp.php?ac=profile&op=recommend');
+        }
+    }
+    //删除
+    if($_GET['del'] == 'deletetr'){
+        $del_id = intval($_GET['value']) - 1;
+        //个人主页
+        if($space['groupid'] != 3){
+            $iden_tStr = '';
+            $inentityStr = '';
+            
+            array_splice($space['identity'], $del_id, 1);
+            array_splice($space['iden_t'], $del_id, 1);
+
+            foreach($space['identity'] as $value){
+                 if(strlen($value))
+                    $identityStr .= $value.',';
+            }
+
+            foreach($space['iden_t'] as $value){
+                if(strlen($value))
+                    $iden_tStr .= $value.',';
+            } 
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set identity = '$identityStr', iden_t = '$iden_tStr' where uid = '$space[uid]'");
+            showmessage('删除身份成功！', 'cp.php?ac=profile&op=recommend');
+
+        } else {
+            $aliasstr = '';
+            array_splice($space['alias'], $del_id, 1);
+            foreach($space['alias'] as $value){
+                if(strlen($value))
+                    $aliasstr .= $value.',';
+            }
+
+            $_SGLOBAL['db']->query("update ".tname('space')." set alias = '$aliasstr' where uid = '$space[uid]'");
+            showmessage('删除别名成功！', 'cp.php?ac=profile&op=recommend');
+        }
+    }
 
 } elseif ($_GET['op'] == 'contact') {
 	
@@ -845,7 +1029,7 @@ if($_GET['op'] == 'base') {
 $cat_actives = array($_GET['op'] => ' class="active"');
 
 
-if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
+if($_GET['op'] == 'edu' || $_GET['op'] == 'work' || $_GET['op'] == 'recommend') {
 	$yearhtml = '';
 	$nowy = sgmdate('Y');
 	for ($i=0; $i<61; $i++) {
@@ -858,6 +1042,7 @@ if($_GET['op'] == 'edu' || $_GET['op'] == 'work') {
 		$monthhtml .= "<option value=\"$i\">$i</option>";
 	}
 }
+
 $overseas_verified = 13;
 if($_SGLOBAL['overseas'])	{
 	$query = $_SGLOBAL['db'] -> query("SELECT * FROM ".tname("spaceforeign")." WHERE uid='".$_SGLOBAL['supe_uid']."'");

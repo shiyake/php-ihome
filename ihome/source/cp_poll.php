@@ -61,7 +61,7 @@ if(submitcheck('pollsubmit')) {
 	
 	//限制最多50项
 	$maxoption = 50;
-	$files = $img = $link = $newoption = $preview = $optionarr = $setarr = array();
+    $files = $img = $link = $newoption = $preview = $optionarr = $setarr = array();
 	$_POST['subject'] = getstr(trim($_POST['subject']), 70, 1, 1, 1);
 	if(strlen($_POST['subject']) < 4) showmessage('title_not_too_little');
 	
@@ -72,7 +72,7 @@ if(submitcheck('pollsubmit')) {
 	//整理图片项
 	foreach($_POST['picpath'] as $key => $val) {
 		$pic[] = $val;
-	}
+    }
 	//整理投票项
 	$_POST['option'] = array_unique($_POST['option']);
 	foreach($_POST['option'] as $key => $val) {
@@ -146,12 +146,11 @@ if(submitcheck('pollsubmit')) {
 	inserttable('pollfield', $setarr);
 	$i=0;
 	foreach($newoption as $key => $value) {
-		if($pic[$i])
-		$picpath=$_SC['attachurl'].$pic[$i];
-		$optionarr[] = "('$pid', '$value','$link[$i]','$picpath')";
+        $picpath = $_POST['picpath'][$key];
+        $_link = $_POST['link'][$key];
+		$optionarr[] = "('$pid', '$value','$_link','$picpath')";
 		$i++;
 	}
-
 	//插入选项值
 	$_SGLOBAL['db']->query("INSERT INTO ".tname('polloption')." (`pid`, `option`,`link`,`img`) VALUES ".implode(',', $optionarr));
 	//统计
