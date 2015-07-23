@@ -807,7 +807,7 @@ function gettablebyidtype($idtype) {
 }
 
 //通知
-function notification_add($uid, $type, $note, $returnid=0) {
+function notification_add($uid, $type, $note, $returnid=0, $system=0) {
 	global $_SGLOBAL;
 
 	//获取对方的筛选条件
@@ -822,11 +822,12 @@ function notification_add($uid, $type, $note, $returnid=0) {
 		addfriendnum($tospace['uid'], $tospace['username']);
 	}
 	
+	$authorid = $system ? 0 : $_SGLOBAL['supe_uid'];
 	$setarr = array(
 		'uid' => $uid,
 		'type' => $type,
 		'new' => 1,
-		'authorid' => $_SGLOBAL['supe_uid'],
+		'authorid' => $authorid,
 		'author' => $_SGLOBAL['supe_username'],
 		'note' => addslashes(sstripslashes($note)),
 		'dateline' => $_SGLOBAL['timestamp']

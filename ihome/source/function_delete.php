@@ -196,7 +196,7 @@ function deletefeeds($feedids) {
 
 	if(empty($newfeedids) || (!$managebatch && $delnum > 1)) return array();
 
-	$_SGLOBAL['db']->query("DELETE FROM ".tname('feed')." WHERE feedid IN (".simplode($newfeedids).")");
+	$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET isdeleted=1 WHERE feedid IN (".simplode($newfeedids).")");
 	
 	//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
 	//$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid IN (".simplode($newdoids).")");
@@ -293,7 +293,7 @@ function deletedoings($ids) {
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('docomment')." WHERE doid IN (".simplode($newdoids).")");
 	
 	//É¾³ýfeed
-	$_SGLOBAL['db']->query("DELETE FROM ".tname('feed')." WHERE id IN (".simplode($newdoids).") AND idtype='doid'");
+	$_SGLOBAL['db']->query("UPDATE ".tname('feed')." SET isdeleted=1 WHERE id IN (".simplode($newdoids).") AND idtype='doid'");
 	
 	//É¾³ýÏàÓ¦µÄËßÇó¼ÇÂ¼ÐÅÏ¢
 	//$_SGLOBAL['db']->query("DELETE FROM ".tname('complain')." WHERE doid IN (".simplode($newdoids).")");
