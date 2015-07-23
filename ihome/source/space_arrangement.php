@@ -14,6 +14,9 @@ if($page<1) $page=1;
 $id = empty($_GET['id'])?0:intval($_GET['id']);
 $classid = empty($_GET['classid'])?0:intval($_GET['classid']);
 
+@include_once(S_ROOT.'./data/data_click.php');
+$clicks = empty($_SGLOBAL['click']['blogid'])?array():$_SGLOBAL['click']['blogid'];
+
 if($id) {
     //读取校园日历
     $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('unCheckArrangement')." WHERE arrangementid='$id'"." UNION "."SELECT * FROM ".tname('arrangement')." WHERE arrangementid='$id'");
@@ -83,7 +86,30 @@ if($id) {
 	//实名
 	realname_get();
 
-	$_TPL['css'] = 'blog';
+    $_TPL['css'] = 'blog';
+
+    //靠
+    $hash = md5($arrangement['uid']."\t".$arrangement['dateline']);
+    $id = $arrangement['arrangementid'];
+    $idtype= 'arrangementid';
+
+    foreach($clicks as $key => $value) {
+        $value['clicknum'] = $arrangement["click_$key"];
+		if($value['clicknum'] > $maxclicknum) $maxclicknum = $value['clicknum'];
+        $clicks[$key] = $value;
+    }
+    $clickuserlist = array();
+	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('clickuser')."
+		WHERE id='$id' AND idtype='$idtype'
+		ORDER BY dateline DESC
+		LIMIT 0,18");
+	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+		realname_set($value['uid'], $value['username']);//靠
+		$value['clickname'] = $clicks[$value['clickid']]['name'];
+		$clickuserlist[] = $value;
+	}
+    //print_r($arrangement); exit; 
+
 	include_once template("space_arrangement_view");
 
 } else {
