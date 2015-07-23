@@ -1,0 +1,98 @@
+<!--{template header}-->
+
+<link href="plugin/language_help/css/index.css" rel="stylesheet" type="text/css">
+<script src="plugin/language_help/js/index.js"></script>
+<div class="main-outer">
+<h4 class="title">中外语言互助</h4>
+	<div class="tabs">
+		<ul>
+			<li><a href="plugin.php?pluginid=language_help&ac=request_list">大家的互动请求</a></li>
+			<li class="active"><a href="plugin.php?pluginid=language_help&ac=finding">我的请求</a></li>
+		</ul>
+	</div>
+	<div class="edit-request">
+		<a href="plugin.php?pluginid=language_help&ac=edit_request">编辑请求</a>
+	</div>
+	<div class="main-inner">
+		<div class="language-card pull-left clearfix">  
+			<div class="avatar-card">
+				<!--{avatar($_SGLOBAL['supe_uid'],'middle')}-->
+			</div>
+			<div class="language-username"> 
+				<!--{$_SN[$_SGLOBAL['supe_uid']]}-->
+			</div>
+			<div class="want-to-know">
+				想学的语言：{$want_to_know}
+			</div>
+			<div class="known">
+				&nbsp;&nbsp;&nbsp;&nbsp;会的语言：{$know}
+			</div>
+		</div>
+		<div class="language-compare pull-left clearfix">
+				<!--{if $res}-->
+				<div class="success-part">
+					<div class="success-logo">
+						<p>完成</p>	
+						<img src="/plugin/language_help/img/success-logo.png"/>
+					</div>
+					<p>
+					<button type="button" class="btn btn-cancel">
+						<a href="plugin.php?pluginid=language_help&ac=cancel&uid=$_SGLOBAL['supe_uid']">
+							取消配对
+						</a>
+					</button>
+					</p>
+					<p>
+					<a href="plugin.php?pluginid=language_help&ac=share" id="share-doing">分享</a>
+					</p>
+				</div>						
+				<!--{else}-->
+				<div class="no-part">
+					---	
+				</div>
+				<p>
+					<button type="button" class="btn btn-cancel">
+						<a href="plugin.php?pluginid=language_help&ac=cancel_me">
+							取消配对
+						</a>
+					</button>
+					</p>
+				<!--{/if}-->
+		</div>
+		<div class="language-card pull-right clearfix">
+			<div class="avatar-card">
+				<!--{if !empty($res)}-->
+				<!--{avatar($res['fuid'],'middle')}-->
+				<!--{else}-->
+				<img src="http://placehold.it/120x120&text=!"/>
+				<!--{/if}-->
+
+			</div>
+			<div class="language-username"> 
+				<!--{if !empty($res)}-->
+				<!--{eval echo getUsername($res[fuid],$_SGLOBAL['db'])}-->
+				<!--{else}-->
+				---	
+
+				<!--{/if}-->
+			</div>
+			<div class="want-to-know">
+				想学的语言：
+				<!--{if !empty($res)}-->
+				$res[knows]
+				<!--{else}-->
+				---
+				<!--{/if}-->
+			</div>
+			<div class="known">
+				&nbsp;&nbsp;&nbsp;&nbsp;会的语言：
+				<!--{if !empty($res)}-->
+				$res['want_to_know']
+				<!--{else}-->
+				---
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template footer}-->

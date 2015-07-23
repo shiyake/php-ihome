@@ -20,7 +20,16 @@ if ($_GET['op'] == 'del')	{
 	if($_SGLOBAL['db']->fetch_array($query))	{
 		$_SGLOBAL['db'] -> query("DELETE FROM ".tname("clickuser")." WHERE uid=$uid and clickid=$clickid and idtype='$idtype' and id=$id");
 		if(!strcmp($idtype,"blogid"))	{
-			$_SGLOBAL['db'] -> query("UPDATE ".tname("blog")." SET click_$clickid = click_$clickid - 1 WHERE blogid=$id ");
+            $_SGLOBAL['db'] -> query("UPDATE ".tname("blog")." SET click_$clickid = click_$clickid - 1 WHERE blogid=$id ");
+            if($clickid == 4){
+                $_SGLOBAL['db'] -> query("UPDATE ".tname("feed")." SET upvotes = upvotes - 1 WHERE idtype='$idtype' AND id=$id ");
+                $query=$_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE id='$id' AND idtype='blogid'");
+                $value_del=$_SGLOBAL['db']->fetch_array($query);
+                $upvoters=$value_del['upvoters'];
+                $pattern = '/'.$uid.',/i';
+                $upvoters = preg_replace($pattern, '', $upvoters, 1);
+                $_SGLOBAL['db'] -> query("UPDATE ".tname('feed')." SET upvoters='".$upvoters."' WHERE id='$id' AND idtype='blogid'");
+            }
 		}
 		else if(!strcmp($idtype,"picid"))	{
 			$_SGLOBAL['db'] -> query("UPDATE ".tname("pic")." SET click_$clickid = click_$clickid - 1 WHERE picid=$id ");	
@@ -101,10 +110,23 @@ if($_GET['op'] == 'add') {
 	);
 	inserttable('clickuser', $setarr);
 	
-	//更新数量
-	$_SGLOBAL['db']->query("UPDATE $tablename SET click_{$clickid}=click_{$clickid}+1 WHERE $idtype='$id'");
-	
-	//更新热度
+	//靠靠+1
+    $_SGLOBAL['db']->query("UPDATE $tablename SET click_{$clickid}=click_{$clickid}+1 WHERE $idtype='$id'");
+    if($clickid == 4){
+        $_SGLOBAL['db']->query("UPDATE ".tname('feed')." feed, $tablename blog 
+                                SET feed.upvotes= blog.click_{$clickid}
+                                WHERE feed.id='$id' AND feed.idtype='blogid' AND blog.$idtype='$id' AND feed.upvotes < blog.click_{$clickid}");
+        $query=$_SGLOBAL['db']->query("SELECT * from ".tname('feed')."  WHERE id='$id' AND idtype='blogid'");
+        $value_add = $_SGLOBAL['db']->fetch_array($query);
+        $upvoters=$value_add['upvoters'];
+        if(!$upvoters)
+            $upvoters = ','.intval($_SGLOBAL['supe_uid']).',';
+        else
+            $upvoters .= intval($_SGLOBAL['supe_uid']).',';
+        $_SGLOBAL['db'] -> query("UPDATE  ".tname('feed')." SET upvoters='".$upvoters."' WHERE id='$id' AND idtype='blogid'");
+    }
+     
+    //更新热度
 	hot_update($idtype, $id, $item['hotuser']);
 	
 	//实名

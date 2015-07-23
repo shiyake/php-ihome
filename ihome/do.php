@@ -4,6 +4,11 @@ include_once('./common.php');
 
 $ac = empty($_GET['ac'])?'':$_GET['ac'];
 
+if($ac == 'test_user_locked') {
+    notifyUserLocked('xuxing');
+    exit();
+}
+
 if($ac == $_SCONFIG['login_action']) {
 	$ac = 'login';
 } elseif($ac == 'login') {
