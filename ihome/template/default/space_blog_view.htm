@@ -236,11 +236,11 @@
         </script>
         <!--{if !$blog[noreply]}-->
         <h5>
-            评论 (<span id="comment_replynum">$blog[replynum]</span> 个评论)</h5> <form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">
-            <script language="javascript" src="source/face.js"></script>
-
-            <textarea id="comment_message" class="t_input form-control" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="margin-top:5px;" onfocus="at()"></textarea>
             <input type="hidden" name="refer" value="space.php?uid=$blog[uid]&do=$do&id=$id" />
+            评论 (<span id="comment_replynum">$blog[replynum]</span> 个评论)</h5> 
+	<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="cp.php?ac=comment" method="post" class="quickpost">
+            <script language="javascript" src="source/face.js"></script>
+            <textarea id="comment_message" class="t_input form-control" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="margin-top:5px;" onfocus="at()"></textarea>
             <input type="hidden" name="id" value="$id">
             <input type="hidden" name="idtype" value="blogid">
             <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]" />
