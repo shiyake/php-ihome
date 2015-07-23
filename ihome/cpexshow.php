@@ -8,7 +8,7 @@
 	$height = $_GET["height"]? intval(trim($_GET["height"])):500;
 	$height = $height."px";
 
-	$wheresql = ' where status=0';
+	$wheresql = ' where 0=0';
 	if ($atuid) {
 		$wheresql .= ' and atuid='.$atuid;
 	}

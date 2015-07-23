@@ -3,6 +3,7 @@
 <!--{if $complain}-->
 <div id="content" style="border:none;">
 <h4 class="title" style="margin:30px 15px;"><img class="pic10"src="image/icons/icon_appeal.png">诉求详情</h4>
+ <div style="margin-left:280px;margin-top:-50px;border:1px;background-color:#F5F5F5;width:260px;padding:0.1cm 0cm 0.1cm 0.1cm;"><span style="color:#DC143C">温馨提示：</span>各单位管理员，请您在回复师生诉求时，如果遇到本部门职责范围之外，需要其他部门协调解决的诉求，请在回复中使用@功能，将诉求直接转发至相关单位。谢谢您的配合。</div>
 <div class="complain_list">
     <ol>
         <li>
@@ -32,7 +33,9 @@
                             <div class="drop_face_menu" data-target="complain_op_msg" style="margin-top:-245px;"></div>
                             <div class="reply pull-right">
                                 <span class="forward_tip">提示：<!--{if $complain[relay_times]>=3}-->不可转发<!--{else}-->诉求转发还剩<!--{eval echo 3-$complain[relay_times]}-->次<!--{/if}--></span>
-                                <button type="button" id="reply_doing" name="add" value="1">进行中</button>
+<!--屏蔽进行中功能-->                                
+<!--				<button type="button" id="reply_doing" name="add" value="1">进行中</button>
+-->
                                 <button type="button" id="reply_done" name="add" value="2">完成</button>
                             </div>
                             <!--{else}-->
@@ -274,7 +277,7 @@
 <p class="no-content-tip">
 <img src="image/icons/no_status.png">
 <br>
-没有找到改诉求，用户可能已将其删除
+没有找到该诉求，用户可能已将其删除
 </p>
 <!--{/if}-->
 <!--{template footer}-->
