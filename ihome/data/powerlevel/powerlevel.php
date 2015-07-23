@@ -8,42 +8,57 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,9999999',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999998 => 
   array (
     'department' => '徐惠彬副校长',
     'dept_uid' => '9999998',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999998',
+    'up_uid' => '9999998',
+    'official' => '9999998',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999997 => 
   array (
     'department' => '张维维副书记',
     'dept_uid' => '9999997',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999997',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999997',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999996 => 
   array (
     'department' => '纪素菊书记',
     'dept_uid' => '9999996',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999996',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999996',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999995 => 
   array (
     'department' => '魏志敏副校长',
     'dept_uid' => '9999995',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999995',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999995',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999994 => 
   array (
@@ -53,24 +68,33 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,9999994',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999993 => 
   array (
     'department' => '张广军副校长',
     'dept_uid' => '9999993',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999993',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999993',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999992 => 
   array (
     'department' => '张军副校长',
     'dept_uid' => '9999992',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999992',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999992',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999991 => 
   array (
@@ -80,42 +104,57 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,9999991',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999990 => 
   array (
     'department' => '程基伟副书记',
     'dept_uid' => '9999990',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999990',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999990',
     'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   11479 => 
   array (
     'department' => '李军锋',
     'dept_uid' => '11479',
     'isdept' => '0',
-    'up_uid' => '9999998',
-    'official' => '9999998,9999999,11479',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999998,11479',
     'mobile' => '81642096DF44467164AAA40DAE15C67C',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999898 => 
   array (
-    'department' => '黄正',
+    'department' => '何莎',
     'dept_uid' => '9999898',
     'isdept' => '0',
     'up_uid' => '9999995',
-    'official' => '9999995,9999999,9999898',
-    'mobile' => 'F8FFC14F50598AD41EB77C0C049B999B',
+    'official' => '9999995,9999998,9999898',
+    'mobile' => 'BECEA628D4EAA9CD530F7586C21E7166',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
-  11458 => 
+  19241 => 
   array (
-    'department' => '肖洪',
-    'dept_uid' => '11458',
+    'department' => '谭华霖',
+    'dept_uid' => '19241',
     'isdept' => '0',
     'up_uid' => '9999995',
-    'official' => '9999995,9999999,11458',
-    'mobile' => '2F19E2E48C3C6AEE4EC73E1AEAAA95E4',
+    'official' => '9999995,9999998,19241',
+    'mobile' => '884F318A4346989EC8FF7479D96BC319',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999897 => 
   array (
@@ -125,6 +164,9 @@ $_POWERINFO = array (
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999897',
     'mobile' => '65E452C56A532CD0A60E3F74F5CC7907',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999896 => 
   array (
@@ -134,6 +176,9 @@ $_POWERINFO = array (
     'up_uid' => '9999993',
     'official' => '9999993,9999999,9999896',
     'mobile' => '95A8B8670849330DA7015E7589FEACE9',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8281 => 
   array (
@@ -143,6 +188,9 @@ $_POWERINFO = array (
     'up_uid' => '9999997',
     'official' => '9999997,9999999,8281',
     'mobile' => '07B583C8A3C67FE6EA7B3FB9CB77D21A',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7696 => 
   array (
@@ -152,6 +200,9 @@ $_POWERINFO = array (
     'up_uid' => '9999997',
     'official' => '9999997,9999999,7696',
     'mobile' => '68FCCA277FA29BC3B0313549A34B2253',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999895 => 
   array (
@@ -161,6 +212,9 @@ $_POWERINFO = array (
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999895',
     'mobile' => '76D993679629D35FBE39FCC4555A680F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999894 => 
   array (
@@ -170,6 +224,9 @@ $_POWERINFO = array (
     'up_uid' => '9999996',
     'official' => '9999996,9999999,9999894',
     'mobile' => '3681CBCEF28D92B752BB0DAF6ECC2EC0',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8566 => 
   array (
@@ -179,15 +236,21 @@ $_POWERINFO = array (
     'up_uid' => '9999990',
     'official' => '9999990,9999999,8566',
     'mobile' => 'CE64E9D0363DF88D8894D0CA5C450DD2',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   92 => 
   array (
     'department' => '徐亚军',
     'dept_uid' => '92',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,92',
+    'up_uid' => '9999995',
+    'official' => '9999995,9999999,92',
     'mobile' => '6D59202B304857500406A804749E0808',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999893 => 
   array (
@@ -197,24 +260,33 @@ $_POWERINFO = array (
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999893',
     'mobile' => 'C28C1F6413ECD5EE4AA2327AA8F30D72',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
-  9999892 => 
+  15357 => 
   array (
-    'department' => '待定XX',
-    'dept_uid' => '9999892',
+    'department' => '李鸿耀',
+    'dept_uid' => '15357',
     'isdept' => '0',
-    'up_uid' => '9999998',
-    'official' => '9999998,9999999,9999892',
-    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999998,15357',
+    'mobile' => 'E36F3892CCDCD789CFF2DAA90CD8F780',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8083 => 
   array (
     'department' => '冯文全',
     'dept_uid' => '8083',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,8083',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,8083',
     'mobile' => '0864C2D65415DD53DD04DF2620524DA9',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   16773 => 
   array (
@@ -224,6 +296,9 @@ $_POWERINFO = array (
     'up_uid' => '9999992',
     'official' => '9999992,9999999,16773',
     'mobile' => '67452AB063FFEB0F7FF783D1DE81942D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999891 => 
   array (
@@ -233,6 +308,9 @@ $_POWERINFO = array (
     'up_uid' => '9999993',
     'official' => '9999993,9999999,9999891',
     'mobile' => 'A1501077AAE982784FC9688B58B453F2',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999890 => 
   array (
@@ -242,6 +320,9 @@ $_POWERINFO = array (
     'up_uid' => '9999998',
     'official' => '9999998,9999999,9999890',
     'mobile' => 'F28FE0FD8B611CD7FDC1B746778C7322',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1275 => 
   array (
@@ -251,15 +332,21 @@ $_POWERINFO = array (
     'up_uid' => '9999998',
     'official' => '9999998,9999999,1275',
     'mobile' => '42D666CC237B4C8102FBECCAE92BD46F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   18863 => 
   array (
     'department' => '许菁',
     'dept_uid' => '18863',
     'isdept' => '0',
-    'up_uid' => '9999996',
-    'official' => '9999996,9999999,18863',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,18863',
     'mobile' => '4FABE941F7B0E5D2524D2906B8C56034',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   3054 => 
   array (
@@ -269,42 +356,57 @@ $_POWERINFO = array (
     'up_uid' => '9999989',
     'official' => '9999989,9999999,3054',
     'mobile' => 'E6788C425E7B20A573D19CE63A93F287',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999885 => 
   array (
-    'department' => '洪冠新',
+    'department' => '张振刚',
     'dept_uid' => '9999885',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,9999885',
-    'mobile' => 'E2FCAE0C3D666052EF52E236C8001EBD',
+    'up_uid' => '9999996',
+    'official' => '9999996,9999999,9999885',
+    'mobile' => '3A9B3C8B98227E624ACBF0EBA546A6B6',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999889 => 
   array (
     'department' => '吴安青',
     'dept_uid' => '9999889',
     'isdept' => '0',
-    'up_uid' => '9999991',
-    'official' => '9999991,9999999,9999889',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,9999889',
     'mobile' => '9C190244F20F4EB958E16DBD4486BBA0',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17924 => 
   array (
     'department' => '张慧渊',
     'dept_uid' => '17924',
     'isdept' => '0',
-    'up_uid' => '9999991',
-    'official' => '9999991,9999999,17924',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,17924',
     'mobile' => '4DF06C3C161137F826BD68F2DB4ADDCE',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999888 => 
   array (
     'department' => '孙毅',
     'dept_uid' => '9999888',
     'isdept' => '0',
-    'up_uid' => '9999991',
-    'official' => '9999991,9999999,9999888',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,9999888',
     'mobile' => 'FFE8FE7F05CA37515BFF05CD21693157',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999887 => 
   array (
@@ -314,15 +416,21 @@ $_POWERINFO = array (
     'up_uid' => '9999997',
     'official' => '9999997,9999999,9999887',
     'mobile' => '844923EA1A6B8D66272CF784F6004D5E',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7717 => 
   array (
     'department' => '姚仰平',
     'dept_uid' => '7717',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,7717',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,7717',
     'mobile' => '601B9A4DB1AC2758D209562ED86F96FA',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20477 => 
   array (
@@ -332,24 +440,33 @@ $_POWERINFO = array (
     'up_uid' => '9999996',
     'official' => '9999996,9999999,20477',
     'mobile' => 'D827DDB1BF09A7B8340CD0BB979C0290',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   194 => 
   array (
     'department' => '雷晓锋',
     'dept_uid' => '194',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,194',
+    'up_uid' => '9999992',
+    'official' => '9999992,9999998,194',
     'mobile' => 'A800F7CF36FE1934D3FDE8033275EBB7',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7738 => 
   array (
     'department' => '杨晓光',
     'dept_uid' => '7738',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,7738',
+    'up_uid' => '9999995',
+    'official' => '9999995,9999999,7738',
     'mobile' => '3F9FFF269328CE9393FEF43EC195228D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7 => 
   array (
@@ -359,24 +476,33 @@ $_POWERINFO = array (
     'up_uid' => '9999991',
     'official' => '9999991,9999999,7',
     'mobile' => '36E3F356FDE4152E691A034ABBD38BF1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7371 => 
   array (
     'department' => '王梦丽',
     'dept_uid' => '7371',
     'isdept' => '0',
-    'up_uid' => '9999991',
-    'official' => '9999991,9999999,7371',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,7371',
     'mobile' => 'C7DF56C6C13D050C580AA3EB391B5970',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999886 => 
   array (
     'department' => '钱永刚',
     'dept_uid' => '9999886',
     'isdept' => '0',
-    'up_uid' => '9999997',
-    'official' => '9999997,9999999,9999886',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,9999886',
     'mobile' => 'D4CD39E09F3F59D1FE19CD4D3F8B4BFB',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7317 => 
   array (
@@ -385,7 +511,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11479',
     'official' => '11479,9999998,9999999,7317',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '4B82230605C00FA406039F047EE72B95',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20398 => 
   array (
@@ -395,6 +524,9 @@ $_POWERINFO = array (
     'up_uid' => '9999898',
     'official' => '9999898,9999995,9999999,20398',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19326 => 
   array (
@@ -403,7 +535,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11458',
     'official' => '11458,9999995,9999999,19326',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '0827A24C7357C0E0760F3E4525D94A86',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17609 => 
   array (
@@ -413,6 +548,9 @@ $_POWERINFO = array (
     'up_uid' => '9999897',
     'official' => '9999897,9999995,9999999,17609',
     'mobile' => 'AEB3E9BF272F94CDA0E68B8897B2FFFA',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   18845 => 
   array (
@@ -421,7 +559,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999896',
     'official' => '9999896,9999993,9999999,18845',
-    'mobile' => 'F8A7CB3F0D6CED1A5672AC473ACF9BD3',
+    'mobile' => 'D5BA9A17EB9B7690A39293864579BCDF',
+    'depduty' => '发展规划处（部）定位为学校的战略研究和战略规划部门，并负责学院的发展评估、学院及下属基层学术组织机构的设立和调整等工作。',
+    'telephone' => '82339431',
+    'office' => '东办公楼410',
   ),
   8662 => 
   array (
@@ -431,15 +572,21 @@ $_POWERINFO = array (
     'up_uid' => '8281',
     'official' => '8281,9999997,9999999,8662',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19378 => 
   array (
     'department' => '宣传部',
     'dept_uid' => '19378',
     'isdept' => '1',
-    'up_uid' => '7696',
+    'up_uid' => '7696,19517',
     'official' => '7696,9999997,9999999,19378',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '1D5121417462F1D6E46511EC6C96A58F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20400 => 
   array (
@@ -449,6 +596,9 @@ $_POWERINFO = array (
     'up_uid' => '9999895',
     'official' => '9999895,9999997,9999999,20400',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8167 => 
   array (
@@ -457,25 +607,34 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999894',
     'official' => '9999894,9999996,9999999,8167',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '7922222F907A0A6EE808D585679C1E33',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   983 => 
   array (
-    'department' => '学生工作处',
+    'department' => '学生处',
     'dept_uid' => '983',
     'isdept' => '1',
     'up_uid' => '4579',
-    'official' => '4579,9999990,9999999,983',
-    'mobile' => 'B2BBC959F4010F7A2F4EC3A7B6D3C2EC',
+    'official' => '4579,9999992,9999999,983',
+    'mobile' => '1516022A8272D31DD0641C1E0F42B66F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1014 => 
   array (
-    'department' => '保卫处',
+    'department' => '平安北航(安全保卫处)',
     'dept_uid' => '1014',
     'isdept' => '1',
     'up_uid' => '92',
-    'official' => '92,9999990,9999999,1014',
-    'mobile' => 'EA747807C84079009B0132DBE6E28DF5',
+    'official' => '92,9999995,9999999,1014',
+    'mobile' => 'AF7BFE3DD3E0592E5F737838F056B037',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   10146 => 
   array (
@@ -484,16 +643,22 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999893',
     'official' => '9999893,9999995,9999999,10146',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '35CFAB3DE503A5F6D97D69B6DFE6A6ED',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20432 => 
   array (
     'department' => '机关党委',
     'dept_uid' => '20432',
     'isdept' => '1',
-    'up_uid' => '9999892',
-    'official' => '9999892,9999998,9999999,20432',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'up_uid' => '15357',
+    'official' => '15357,9999997,9999998,20432',
+    'mobile' => '0B20A09445492AB6EF08185793A4C188',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19609 => 
   array (
@@ -501,8 +666,11 @@ $_POWERINFO = array (
     'dept_uid' => '19609',
     'isdept' => '1',
     'up_uid' => '8083',
-    'official' => '8083,9999994,9999999,19609',
+    'official' => '8083,9999993,9999999,19609',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19349 => 
   array (
@@ -512,6 +680,9 @@ $_POWERINFO = array (
     'up_uid' => '16773',
     'official' => '16773,9999992,9999999,19349',
     'mobile' => 'D6DA611A6E813F3B249FCDF566984C26',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20437 => 
   array (
@@ -521,6 +692,9 @@ $_POWERINFO = array (
     'up_uid' => '9999891',
     'official' => '9999891,9999993,9999999,20437',
     'mobile' => 'B95E7EB504F4E8CCC7DECC4E8CBAB5E7',
+    'depduty' => '研究生院',
+    'telephone' => '82317785',
+    'office' => '办公楼二层',
   ),
   8554 => 
   array (
@@ -529,7 +703,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999890',
     'official' => '9999890,9999998,9999999,8554',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '8C3981F7A0366DC3C6069B7C44F7C199',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1035 => 
   array (
@@ -537,8 +714,11 @@ $_POWERINFO = array (
     'dept_uid' => '1035',
     'isdept' => '1',
     'up_uid' => '18863',
-    'official' => '18863,9999996,9999999,1035',
+    'official' => '18863,9999998,9999999,1035',
     'mobile' => '8321EE7C7B05C054CCFF638EB880F3AF',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8283 => 
   array (
@@ -548,6 +728,9 @@ $_POWERINFO = array (
     'up_uid' => '8170',
     'official' => '8170,9999996,9999999,8283',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   16905 => 
   array (
@@ -557,6 +740,9 @@ $_POWERINFO = array (
     'up_uid' => '3054',
     'official' => '3054,9999989,9999999,16905',
     'mobile' => 'BAF0DCD3964624E09229ACDB72849544',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1011 => 
   array (
@@ -564,8 +750,11 @@ $_POWERINFO = array (
     'dept_uid' => '1011',
     'isdept' => '1',
     'up_uid' => '9999885',
-    'official' => '9999885,9999994,9999999,1011',
+    'official' => '9999885,9999993,9999999,1011',
     'mobile' => 'A41D1CA40182A6FD79AFEE7968DA5FD1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8812 => 
   array (
@@ -575,6 +764,9 @@ $_POWERINFO = array (
     'up_uid' => '9999889',
     'official' => '9999889,9999991,9999999,8812',
     'mobile' => '3AFCF08BF97656A9ACE2A50F7385EE01',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1037 => 
   array (
@@ -584,6 +776,9 @@ $_POWERINFO = array (
     'up_uid' => '17924,7371',
     'official' => '17924,9999991,9999999,1037,7371',
     'mobile' => '41E16781D922AF288A31E036D837F9D2',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19235 => 
   array (
@@ -593,6 +788,9 @@ $_POWERINFO = array (
     'up_uid' => '9999888',
     'official' => '9999888,9999991,9999999,19235',
     'mobile' => '959145F6D5C0716932E9FB06D79A7134',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20402 => 
   array (
@@ -602,6 +800,9 @@ $_POWERINFO = array (
     'up_uid' => '9999887',
     'official' => '9999887,9999997,9999999,20402',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17650 => 
   array (
@@ -609,8 +810,11 @@ $_POWERINFO = array (
     'dept_uid' => '17650',
     'isdept' => '1',
     'up_uid' => '7717',
-    'official' => '7717,9999990,9999999,17650',
+    'official' => '7717,9999991,9999999,17650',
     'mobile' => '4479AB4681AB77C090BFEF67827F0175',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17852 => 
   array (
@@ -620,15 +824,21 @@ $_POWERINFO = array (
     'up_uid' => '20477',
     'official' => '20477,9999996,9999999,17852',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8121 => 
   array (
     'department' => '北航共青团',
     'dept_uid' => '8121',
     'isdept' => '1',
-    'up_uid' => '194',
-    'official' => '194,9999990,9999999,8121',
+    'up_uid' => '29123',
+    'official' => '29123,9999992,9999999,8121',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19397 => 
   array (
@@ -636,8 +846,11 @@ $_POWERINFO = array (
     'dept_uid' => '19397',
     'isdept' => '1',
     'up_uid' => '7738',
-    'official' => '7738,9999994,9999999,19397',
+    'official' => '7738,9999995,9999999,19397',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   674 => 
   array (
@@ -646,7 +859,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '7990,7',
     'official' => '7990,9999991,9999999,674',
-    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
+    'mobile' => '093D7ACCEE2F3C823B300EC2393EADF2',
+    'depduty' => '校园卡，深澜账户，教学区及宿舍区网络维护，校园网缴费，邮箱，虚拟主机，网站维护，域名，主机托管、VPN，统一认证，cms，OA，虚拟机，门户网站，家属区网络代收费',
+    'telephone' => '82317005',
+    'office' => '学院路如心楼师生综合服务大厅1、2号窗口，沙河校区3号楼地下客服中心',
   ),
   20557 => 
   array (
@@ -655,16 +871,22 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999886',
     'official' => '9999886,9999997,9999999,20557',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '55FDD4CA1E44452FD5FE23577C011084',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999499 => 
   array (
-    'department' => '陈海秋',
+    'department' => '张江',
     'dept_uid' => '9999499',
     'isdept' => '0',
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999499',
-    'mobile' => '69F56E95D2F87A0A85D11087E9EEC380',
+    'mobile' => 'DBF24A8A8EE72307F0A2CB4A9FCB2901',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1712 => 
   array (
@@ -674,15 +896,21 @@ $_POWERINFO = array (
     'up_uid' => '9999499',
     'official' => '9999499,9999995,9999999,1712',
     'mobile' => '758BB3C159495E330D61DF80C6A3FF26',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17764 => 
   array (
     'department' => '胡晓光',
     'dept_uid' => '17764',
     'isdept' => '0',
-    'up_uid' => '9999993',
-    'official' => '9999993,9999999,17764',
+    'up_uid' => '9999995',
+    'official' => '9999995,9999999,17764',
     'mobile' => '65A9EFF51B311D2538B20295D2B6C5F7',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13961 => 
   array (
@@ -690,8 +918,11 @@ $_POWERINFO = array (
     'dept_uid' => '13961',
     'isdept' => '1',
     'up_uid' => '17764',
-    'official' => '17764,9999993,9999999,13961',
+    'official' => '17764,9999995,9999999,13961',
     'mobile' => '01BB572D7963D3261ECFDA6D15F8600C',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999498 => 
   array (
@@ -701,6 +932,9 @@ $_POWERINFO = array (
     'up_uid' => '9999992',
     'official' => '9999992,9999999,9999498',
     'mobile' => 'D8DF616C3CABC756976E2A490EE8C147',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1713 => 
   array (
@@ -710,15 +944,21 @@ $_POWERINFO = array (
     'up_uid' => '9999498',
     'official' => '9999498,9999992,9999999,1713',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999497 => 
   array (
     'department' => '刘旭东',
     'dept_uid' => '9999497',
     'isdept' => '0',
-    'up_uid' => '9999991',
-    'official' => '9999991,9999999,9999497',
+    'up_uid' => '9999995',
+    'official' => '9999995,9999998,9999497',
     'mobile' => 'DCF20E60B650DD520EFED5352DB366B9',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1714 => 
   array (
@@ -728,33 +968,45 @@ $_POWERINFO = array (
     'up_uid' => '9999497',
     'official' => '9999497,9999991,9999999,1714',
     'mobile' => '01FC20DEF991C3444CF5FB49C36D9F74',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999496 => 
   array (
     'department' => '满庆丰',
     'dept_uid' => '9999496',
     'isdept' => '0',
-    'up_uid' => '9999993',
-    'official' => '9999993,9999999,9999496',
+    'up_uid' => '9999387',
+    'official' => '9999387,9999999,9999496',
     'mobile' => 'FF79E0D3CA07D7D4786310B7D800BF45',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1716 => 
   array (
     'department' => '机械工程及自动化学院',
     'dept_uid' => '1716',
     'isdept' => '1',
-    'up_uid' => '9999496',
-    'official' => '9999496,9999993,9999999,1716',
+    'up_uid' => '2097',
+    'official' => '2097,9999387,9999999,1716',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7581 => 
   array (
     'department' => '李红捷',
     'dept_uid' => '7581',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,7581',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,7581',
     'mobile' => 'CA183F202490DDD0CCF161505E4C146E',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1718 => 
   array (
@@ -762,8 +1014,11 @@ $_POWERINFO = array (
     'dept_uid' => '1718',
     'isdept' => '1',
     'up_uid' => '7581',
-    'official' => '7581,9999994,9999999,1718',
+    'official' => '7581,9999993,9999999,1718',
     'mobile' => 'F29BBA99616A02F50207EB56A7FAEE35',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999494 => 
   array (
@@ -773,33 +1028,45 @@ $_POWERINFO = array (
     'up_uid' => '9999996',
     'official' => '9999996,9999999,9999494',
     'mobile' => '710E7F07CC165F7FD3EBEB91ABA11816',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999493 => 
   array (
     'department' => '李成智',
     'dept_uid' => '9999493',
     'isdept' => '0',
-    'up_uid' => '9999997',
-    'official' => '9999997,9999999,9999493',
+    'up_uid' => '9999995',
+    'official' => '9999995,9999998,9999493',
     'mobile' => '3AEDCD4D64C13BB9B2C217B692375192',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13821 => 
   array (
     'department' => '北航人文学院',
     'dept_uid' => '13821',
     'isdept' => '1',
-    'up_uid' => '9999493',
-    'official' => '9999493,9999997,9999999,13821',
+    'up_uid' => '20478',
+    'official' => '20478,9999997,9999999,13821',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   19422 => 
   array (
     'department' => '钟玲',
     'dept_uid' => '19422',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,19422',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999998,19422',
     'mobile' => 'B180F08CFD8775B14B6B14D9F67082B1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   18018 => 
   array (
@@ -807,17 +1074,23 @@ $_POWERINFO = array (
     'dept_uid' => '18018',
     'isdept' => '1',
     'up_uid' => '19422',
-    'official' => '19422,9999994,9999999,18018',
+    'official' => '19422,9999993,9999999,18018',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   14489 => 
   array (
     'department' => '徐斌',
     'dept_uid' => '14489',
     'isdept' => '0',
-    'up_uid' => '9999998',
-    'official' => '9999998,9999999,14489',
+    'up_uid' => '9999992',
+    'official' => '9999992,9999998,14489',
     'mobile' => 'ED0399B863D48FCC4132AB59EADDFC2C',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13064 => 
   array (
@@ -827,6 +1100,9 @@ $_POWERINFO = array (
     'up_uid' => '14489',
     'official' => '14489,9999998,9999999,13064',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   11280 => 
   array (
@@ -836,6 +1112,9 @@ $_POWERINFO = array (
     'up_uid' => '9999989',
     'official' => '9999989,9999999,11280',
     'mobile' => 'D94E6E72686241BE099FC834FD93AB3E',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17937 => 
   array (
@@ -844,7 +1123,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '11280',
     'official' => '11280,9999989,9999999,17937',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'mobile' => '17FC74E6F82B37E4C4FB5D65A0CAF98B',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999492 => 
   array (
@@ -854,6 +1136,9 @@ $_POWERINFO = array (
     'up_uid' => '9999989',
     'official' => '9999989,9999999,9999492',
     'mobile' => 'A69E117AD532DA401CA4CD91676176C6',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   5301 => 
   array (
@@ -862,25 +1147,34 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999492',
     'official' => '9999492,9999989,9999999,5301',
-    'mobile' => '447521D5B7F369005FCB5A268216C89F',
+    'mobile' => '6192CB71530E0C64A82CF76780DAA623',
+    'depduty' => '仪器科学与光电工程学院学生工作相关事务',
+    'telephone' => '82339913',
+    'office' => '新主楼B811',
   ),
   14407 => 
   array (
     'department' => '乐小云',
     'dept_uid' => '14407',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,14407',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,14407',
     'mobile' => '05DD4DC860E4EE2F4B8D1470BCFE2EA1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   10230 => 
   array (
     'department' => '物理科学与核能工程学院',
     'dept_uid' => '10230',
     'isdept' => '1',
-    'up_uid' => '14407',
-    'official' => '14407,9999994,9999999,10230',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'up_uid' => '19672',
+    'official' => '19672,9999993,9999999,10230',
+    'mobile' => 'B1641C4103F3BEA5A24DB22E2FB42786',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8 => 
   array (
@@ -890,6 +1184,9 @@ $_POWERINFO = array (
     'up_uid' => '9999997',
     'official' => '9999997,9999999,8',
     'mobile' => 'A6631A09E9B9ACA7FBE7C2BD5C47A61D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1721 => 
   array (
@@ -899,15 +1196,21 @@ $_POWERINFO = array (
     'up_uid' => '8',
     'official' => '8,9999997,9999999,1721',
     'mobile' => '87DB04B7EB63F0842FDD2977FF10BCC4',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999491 => 
   array (
     'department' => '张德生',
     'dept_uid' => '9999491',
     'isdept' => '0',
-    'up_uid' => '9999995',
-    'official' => '9999995,9999999,9999491',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,9999491',
     'mobile' => '05877C2646D826DABE3D01AC2DF57B7F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1720 => 
   array (
@@ -915,17 +1218,23 @@ $_POWERINFO = array (
     'dept_uid' => '1720',
     'isdept' => '1',
     'up_uid' => '9999491',
-    'official' => '9999491,9999995,9999999,1720',
+    'official' => '9999491,9999998,9999999,1720',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1024 => 
   array (
     'department' => '陈新',
     'dept_uid' => '1024',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,1024',
+    'up_uid' => '9999991',
+    'official' => '9999991,9999999,1024',
     'mobile' => 'FAC5379E3E4C7AB4189A0EA9EC8A6382',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13960 => 
   array (
@@ -933,8 +1242,11 @@ $_POWERINFO = array (
     'dept_uid' => '13960',
     'isdept' => '1',
     'up_uid' => '1024',
-    'official' => '1024,9999994,9999999,13960',
+    'official' => '1024,9999991,9999999,13960',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999490 => 
   array (
@@ -944,6 +1256,9 @@ $_POWERINFO = array (
     'up_uid' => '9999994',
     'official' => '9999994,9999999,9999490',
     'mobile' => '2C5DA0D6CCF80B96FEB803BB449BAA77',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1719 => 
   array (
@@ -953,15 +1268,21 @@ $_POWERINFO = array (
     'up_uid' => '9999490',
     'official' => '9999490,9999994,9999999,1719',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999399 => 
   array (
-    'department' => '周  泓',
+    'department' => '翁敬农',
     'dept_uid' => '9999399',
     'isdept' => '0',
     'up_uid' => '9999989',
-    'official' => '9999989,9999999,9999399',
-    'mobile' => '080343D979F340D9C71044959D348797',
+    'official' => '9999989,9999998,9999399',
+    'mobile' => '982F68D5CC7B3ADD80F3B6C2B5B16048',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20615 => 
   array (
@@ -971,15 +1292,21 @@ $_POWERINFO = array (
     'up_uid' => '9999399',
     'official' => '9999399,9999989,9999999,20615',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999398 => 
   array (
-    'department' => '赵  颖',
+    'department' => '沈旭昆',
     'dept_uid' => '9999398',
     'isdept' => '0',
     'up_uid' => '9999996',
-    'official' => '9999996,9999999,9999398',
-    'mobile' => '8ACAFD904D3767D7FD3FBBD1DA49B2F4',
+    'official' => '9999996,9999998,9999398',
+    'mobile' => '1612EF57A8B81E6304695B188A2210E3',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8814 => 
   array (
@@ -989,33 +1316,45 @@ $_POWERINFO = array (
     'up_uid' => '9999398',
     'official' => '9999398,9999996,9999999,8814',
     'mobile' => '03EB444F17FF22907633CE1F9D38A308',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   14342 => 
   array (
     'department' => '朱天乐',
     'dept_uid' => '14342',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,14342',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,14342',
     'mobile' => 'C7499DD2B5510FCF61802CC277E4C4C6',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13824 => 
   array (
     'department' => '化学与环境学院',
     'dept_uid' => '13824',
     'isdept' => '1',
-    'up_uid' => '14342',
-    'official' => '14342,9999994,9999999,13824',
+    'up_uid' => '8134',
+    'official' => '8134,9999993,9999999,13824',
     'mobile' => 'F65266ED398AF1A86F4D21C9ACFD2926',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20478 => 
   array (
     'department' => '姚小玲',
     'dept_uid' => '20478',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,20478',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999998,20478',
     'mobile' => '5CD1A2B2B15E17BB4E34868E9E2B2131',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20474 => 
   array (
@@ -1023,17 +1362,23 @@ $_POWERINFO = array (
     'dept_uid' => '20474',
     'isdept' => '1',
     'up_uid' => '20478',
-    'official' => '20478,9999990,9999999,20474',
+    'official' => '20478,9999997,9999999,20474',
     'mobile' => '6CB19AA690E4AAB9A9C1B751EF5F4121',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17654 => 
   array (
     'department' => '李亚梅',
     'dept_uid' => '17654',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,17654',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999999,17654',
     'mobile' => '1B9C3D514AB50ADE85C96D2838F22461',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1722 => 
   array (
@@ -1041,17 +1386,23 @@ $_POWERINFO = array (
     'dept_uid' => '1722',
     'isdept' => '1',
     'up_uid' => '17654',
-    'official' => '17654,9999994,9999999,1722',
+    'official' => '17654,9999997,9999999,1722',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999396 => 
   array (
     'department' => '马鹏举',
     'dept_uid' => '9999396',
     'isdept' => '0',
-    'up_uid' => '9999994',
-    'official' => '9999994,9999999,9999396',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,9999396',
     'mobile' => 'AD008A400514591CF4DAB66E6F0D38AC',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20594 => 
   array (
@@ -1059,8 +1410,11 @@ $_POWERINFO = array (
     'dept_uid' => '20594',
     'isdept' => '1',
     'up_uid' => '9999396',
-    'official' => '9999396,9999994,9999999,20594',
+    'official' => '9999396,9999993,9999999,20594',
     'mobile' => '7CCA4B90398BCEC6524D4A3AA6AAE4C3',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999397 => 
   array (
@@ -1070,24 +1424,33 @@ $_POWERINFO = array (
     'up_uid' => '9999995',
     'official' => '9999995,9999999,9999397',
     'mobile' => 'B134355484378BBD8A790C3A3CE2619D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999395 => 
   array (
     'department' => '刘国庆',
     'dept_uid' => '9999395',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,9999395',
+    'up_uid' => '9999996',
+    'official' => '9999996,9999999,9999395',
     'mobile' => 'ECA5FAC3BDB4BB31D38A49EC47E2BA04',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   4579 => 
   array (
     'department' => '武立勋',
     'dept_uid' => '4579',
     'isdept' => '0',
-    'up_uid' => '9999990',
-    'official' => '9999990,9999999,4579',
+    'up_uid' => '9999992',
+    'official' => '9999992,9999999,4579',
     'mobile' => '5592539C3673FAF9E5DD17CDD1B00849',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   4753 => 
   array (
@@ -1097,33 +1460,45 @@ $_POWERINFO = array (
     'up_uid' => '194',
     'official' => '194,9999990,9999999,4753',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
-  17451 => 
+  9999884 => 
   array (
-    'department' => '白致铭',
-    'dept_uid' => '17451',
+    'department' => '刘绍娜',
+    'dept_uid' => '9999884',
     'isdept' => '0',
     'up_uid' => '9999995',
-    'official' => '9999995,9999999,17451',
-    'mobile' => '7D4731E1879369699A3CB6769D676F7C',
+    'official' => '9999995,9999999,9999884',
+    'mobile' => '49B21EE1EE889B163B44CF9A06044D93',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20777 => 
   array (
     'department' => '北航医院',
     'dept_uid' => '20777',
     'isdept' => '1',
-    'up_uid' => '17451',
-    'official' => '17451,9999995,9999999,20777',
-    'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'up_uid' => '9999493',
+    'official' => '9999493,9999995,9999999,20777',
+    'mobile' => '49B21EE1EE889B163B44CF9A06044D93',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20771 => 
   array (
     'department' => '体育部',
     'dept_uid' => '20771',
     'isdept' => '1',
-    'up_uid' => '9999395',
-    'official' => '9999395,9999990,9999999,20771',
-    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
+    'up_uid' => '9999395,9999885',
+    'official' => '9999395,9999885,9999996,9999999,20771',
+    'mobile' => '3BC50E7F49BB3DAAF1E8B7B9585C083C',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   11490 => 
   array (
@@ -1133,6 +1508,9 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,11490',
     'mobile' => '484859DA93967E51A1855F682F35959F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999394 => 
   array (
@@ -1142,6 +1520,9 @@ $_POWERINFO = array (
     'up_uid' => '11490',
     'official' => '11490,9999999,9999394',
     'mobile' => '484859DA93967E51A1855F682F35959F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1657 => 
   array (
@@ -1150,7 +1531,10 @@ $_POWERINFO = array (
     'isdept' => '1',
     'up_uid' => '9999394',
     'official' => '9999394,11490,9999999,1657',
-    'mobile' => '4B20ADD855057642E50ECEA044BFDE69',
+    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   17822 => 
   array (
@@ -1160,6 +1544,9 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,17822',
     'mobile' => '3A5F1BEA75CF06EC35DB37C2542FF4B4',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999393 => 
   array (
@@ -1169,6 +1556,9 @@ $_POWERINFO = array (
     'up_uid' => '17822',
     'official' => '17822,9999999,9999393',
     'mobile' => '3A5F1BEA75CF06EC35DB37C2542FF4B4',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8061 => 
   array (
@@ -1178,6 +1568,9 @@ $_POWERINFO = array (
     'up_uid' => '9999393',
     'official' => '9999393,17822,9999999,8061',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999495 => 
   array (
@@ -1187,15 +1580,21 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,9999495',
     'mobile' => 'BF385854B56C52BB39B7847A2EA8271B',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999392 => 
   array (
-    'department' => '刘志新_虚拟',
+    'department' => '经管学院_虚拟',
     'dept_uid' => '9999392',
     'isdept' => '0',
-    'up_uid' => '9999495',
-    'official' => '9999495,9999999,9999392',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999392',
     'mobile' => 'BF385854B56C52BB39B7847A2EA8271B',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   1717 => 
   array (
@@ -1205,15 +1604,21 @@ $_POWERINFO = array (
     'up_uid' => '9999392',
     'official' => '9999392,9999495,9999999,1717',
     'mobile' => '148C68331E43CB366A892AECCC3ACA4D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8294 => 
   array (
     'department' => '孟庆春',
     'dept_uid' => '8294',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,8294',
+    'up_uid' => '9999989',
+    'official' => '9999989,9999998,8294',
     'mobile' => 'DCB671182E523AB8ECAF7CE8401B774F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999391 => 
   array (
@@ -1223,6 +1628,9 @@ $_POWERINFO = array (
     'up_uid' => '8294',
     'official' => '8294,9999999,9999391',
     'mobile' => 'DCB671182E523AB8ECAF7CE8401B774F',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   5300 => 
   array (
@@ -1230,8 +1638,11 @@ $_POWERINFO = array (
     'dept_uid' => '5300',
     'isdept' => '1',
     'up_uid' => '9999392',
-    'official' => '9999392,8294,9999999,5300',
+    'official' => '9999392,9999989,9999999,5300',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   10147 => 
   array (
@@ -1241,15 +1652,21 @@ $_POWERINFO = array (
     'up_uid' => '9999999',
     'official' => '9999999,10147',
     'mobile' => '780E9775EAF40DBA36264C28149F211E',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999390 => 
   array (
-    'department' => '陈志英_虚拟',
+    'department' => '飞行学院_虚拟',
     'dept_uid' => '9999390',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999390',
-    'mobile' => '780E9775EAF40DBA36264C28149F211E',
+    'up_uid' => '11197',
+    'official' => '11197,9999998,9999390',
+    'mobile' => 'E680BBB4A700F9A81ABE4BBA8C31E191',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   18846 => 
   array (
@@ -1257,8 +1674,11 @@ $_POWERINFO = array (
     'dept_uid' => '18846',
     'isdept' => '1',
     'up_uid' => '9999390',
-    'official' => '9999390,9999999,18846',
+    'official' => '9999390,9999998,9999999,18846',
     'mobile' => 'B12C861E40AE825A3319E4D073C4A87D',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   3 => 
   array (
@@ -1268,6 +1688,9 @@ $_POWERINFO = array (
     'up_uid' => '3',
     'official' => '3',
     'mobile' => 'E439CD0B9AE0D3DF28B01AFB16D8BDFB',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   210 => 
   array (
@@ -1275,8 +1698,11 @@ $_POWERINFO = array (
     'dept_uid' => '210',
     'isdept' => '0',
     'up_uid' => '3',
-    'official' => '3,210',
+    'official' => '210',
     'mobile' => '0D45B136FE87A93E0845060961CB4C17',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   956 => 
   array (
@@ -1286,15 +1712,21 @@ $_POWERINFO = array (
     'up_uid' => '210',
     'official' => '210,3,956',
     'mobile' => '99A041B015A15CC92C47C0F30D16B992',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   665 => 
   array (
     'department' => 'ihome社区',
     'dept_uid' => '665',
     'isdept' => '1',
-    'up_uid' => '956',
-    'official' => '956,210,3,665',
-    'mobile' => '443C9CB0531E604827C77CCBD28D850F',
+    'up_uid' => '27540',
+    'official' => '27540,665',
+    'mobile' => '945A262A810B00EFAA164F9EB4514088',
+    'depduty' => '与ihome相关的所有问题~',
+    'telephone' => '82316504',
+    'office' => '学院路新主楼G座212',
   ),
   32 => 
   array (
@@ -1304,6 +1736,9 @@ $_POWERINFO = array (
     'up_uid' => '9999990',
     'official' => '9999990,9999999,32',
     'mobile' => 'BFE88365E1129F594BF329B6C6E639F1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   10501 => 
   array (
@@ -1313,6 +1748,9 @@ $_POWERINFO = array (
     'up_uid' => '9999990',
     'official' => '9999990,9999999,10501',
     'mobile' => 'A4C725AE0903221DC1C0E24AB3B67FF7',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999389 => 
   array (
@@ -1322,6 +1760,9 @@ $_POWERINFO = array (
     'up_uid' => '9999990',
     'official' => '9999990,9999999,9999389',
     'mobile' => 'FAC5379E3E4C7AB4189A0EA9EC8A6382',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999388 => 
   array (
@@ -1331,6 +1772,9 @@ $_POWERINFO = array (
     'up_uid' => '9999990',
     'official' => '9999990,9999999,9999388',
     'mobile' => '1B9C3D514AB50ADE85C96D2838F22461',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   13134 => 
   array (
@@ -1340,6 +1784,9 @@ $_POWERINFO = array (
     'up_uid' => '32',
     'official' => '32,9999990,9999999,13134',
     'mobile' => '28709A0814BD2EA2434AA570A4E9D2F4',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8883 => 
   array (
@@ -1349,6 +1796,9 @@ $_POWERINFO = array (
     'up_uid' => '10501',
     'official' => '10501,9999990,9999999,8883',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   20583 => 
   array (
@@ -1358,6 +1808,9 @@ $_POWERINFO = array (
     'up_uid' => '9999389',
     'official' => '9999389,9999990,9999999,20583',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   16913 => 
   array (
@@ -1367,6 +1820,9 @@ $_POWERINFO = array (
     'up_uid' => '9999388',
     'official' => '9999388,9999990,9999999,16913',
     'mobile' => '8195BF875FB817AB794A030581CEE138',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   7990 => 
   array (
@@ -1376,15 +1832,21 @@ $_POWERINFO = array (
     'up_uid' => '9999991',
     'official' => '9999991,9999999,7990',
     'mobile' => '35A7B1426CAC272DA4B475FE01F229E1',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   9999989 => 
   array (
     'department' => '陶智副校长',
     'dept_uid' => '9999989',
     'isdept' => '0',
-    'up_uid' => '9999999',
-    'official' => '9999999,9999989',
-    'mobile' => '5A633C7B49C82E3A6CAE77C92F2ED1F1',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999989',
+    'mobile' => '5CF4E06B970BB1688FF5D887D6D4FC89',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
   8170 => 
   array (
@@ -1394,6 +1856,105 @@ $_POWERINFO = array (
     'up_uid' => '9999996',
     'official' => '9999996,9999999,8170',
     'mobile' => '0BB2529F6800F218FC9399BF39B417D2',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  29123 => 
+  array (
+    'department' => '程波',
+    'dept_uid' => '29123',
+    'isdept' => '0',
+    'up_uid' => '9999992',
+    'official' => '9999992,9999999,29123',
+    'mobile' => '23FFD1413114D3808165F560E7C516F7',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  9999387 => 
+  array (
+    'department' => '机械学院_虚拟',
+    'dept_uid' => '9999387',
+    'isdept' => '0',
+    'up_uid' => '9999998',
+    'official' => '9999998,9999387',
+    'mobile' => 'D33BAA1BD436A7C74711A00D68B29761',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  8134 => 
+  array (
+    'department' => '蒋燕玲',
+    'dept_uid' => '8134',
+    'isdept' => '0',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,8134',
+    'mobile' => '7DC7D7080A9B3FA3BC2A9895E2A1DE64',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  27540 => 
+  array (
+    'department' => '曲晴',
+    'dept_uid' => '27540',
+    'isdept' => '0',
+    'up_uid' => '27540',
+    'official' => '27540,27540',
+    'mobile' => '0F075ECD26341C0934004F63204DBEB6',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  2097 => 
+  array (
+    'department' => '邓怡',
+    'dept_uid' => '2097',
+    'isdept' => '0',
+    'up_uid' => '9999387',
+    'official' => '9999387,9999999,2097',
+    'mobile' => 'D33BAA1BD436A7C74711A00D68B29761',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  19672 => 
+  array (
+    'department' => '金蓉',
+    'dept_uid' => '19672',
+    'isdept' => '0',
+    'up_uid' => '9999993',
+    'official' => '9999993,9999999,19672',
+    'mobile' => '9A0980E0B7DA3DAB7D8ED3301C17D318',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  19517 => 
+  array (
+    'department' => '万丽娜',
+    'dept_uid' => '19517',
+    'isdept' => '0',
+    'up_uid' => '9999997',
+    'official' => '9999997,9999999,19517',
+    'mobile' => '2E697F4A5FA7FDCEF99730836755554A',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
+  ),
+  11197 => 
+  array (
+    'department' => '刘树春',
+    'dept_uid' => '11197',
+    'isdept' => '0',
+    'up_uid' => '9999998',
+    'official' => '9999998,11197',
+    'mobile' => 'B91437E4FB0E26C72591916827EE4F19',
+    'depduty' => NULL,
+    'telephone' => '',
+    'office' => '',
   ),
 )
 ?>

@@ -57,7 +57,7 @@ if($m == 'sso') {
 			$key=M_encode($sso_name,aeskeyA);//用户名加密
 			$key1=M_encode($sso_uid,aeskeyC);//UID加密
 			//重写URL，向BT请求Token
-			$g_t_url = "http://".CHKBTURL."buaasso.aspx?m=gettoken&key=".$key."&key1=".$key1;
+			$g_t_url = "http://".BTURL."buaasso.aspx?m=gettoken&key=".$key."&key1=".$key1;
 			$rc_i = 0;
 			$rc_s = 0;
 			while($rc_i < 5) {
@@ -123,7 +123,7 @@ if($m == 'sso') {
 			$key=M_encode($sso_name,aeskeyA);
 			$ctoken=M_encode($token1,aeskeyB);
 			
-			$g_t_url = "http://".CHKBTURL."buaasso.aspx?m=create&key=".$key."&token=".$ctoken;
+			$g_t_url = "http://".BTURL."buaasso.aspx?m=create&key=".$key."&token=".$ctoken;
 			$rc_i = 0;
 			$rc_s = 0;
 			while($rc_i < 5) {

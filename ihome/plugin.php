@@ -44,7 +44,7 @@ if(empty($_SCONFIG['networkpublic'])) {
  
 //应该不用做任何处理,有则加载,没有则提示没有,不必注册动作!
 /*
-$pluginid_array = array('buaabt','creditsexchange','likeornot','wall','sms','wap','software','video','live');
+$pluginid_array = array('buaabt','creditsexchange','likeornot','wall','sms','wap','software','video','live','apps');
 $pluginid = $_GET['pluginid']?$_GET['pluginid']:index;
 if(!in_array($pluginid, $pluginid_array)){
 	showmessage('对不起，没有这个应用！','space.php?do=home');

@@ -116,6 +116,10 @@ implements CAS_Request_RequestInterface
         /*********************************************************
          * Set SSL configuration
         *********************************************************/
+		//if(PATH_SEPARATOR==':' && !in_array('sslv2',stream_get_transports())){
+		 //  curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+		//}
+
         if ($this->caCertPath) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);

@@ -338,6 +338,9 @@ function ajaxpost_load() {
 	}
 
 	evaled = false;
+	console.log('a');
+	console.log(s);
+	console.log('b');
 	if (s.indexOf('ajaxerror') != -1) {
 		evalscript(s);
 		evaled = true;
