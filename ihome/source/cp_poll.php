@@ -3,7 +3,6 @@
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-
 //检查信息
 $pid = empty($_GET['pid'])?0:intval($_GET['pid']);
 $op = empty($_GET['op'])?'':$_GET['op'];
@@ -51,8 +50,7 @@ if(empty($poll)) {
 include_once(S_ROOT.'./source/function_bbcode.php');
 
 if(submitcheck('pollsubmit')) {
-	
-	$_POST['topicid'] = topic_check($_POST['topicid'], 'poll');
+    $_POST['topicid'] = topic_check($_POST['topicid'], 'poll');
 	
 	//验证码
 	if(checkperm('seccode') && !ckseccode($_POST['seccode'])) {
@@ -262,6 +260,12 @@ if($op == 'addopt') {
 	
 	//计票
 	if(submitcheck('votesubmit')) {
+	    $hasvoted = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('polluser')."  WHERE uid='$_SGLOBAL[supe_uid]' AND pid='$pid' "),0);
+        if($hasvoted){
+            header("Location: space.php?uid=".$uid."&do=poll&pid=".$pid);
+            exit();
+        }
+       // exit(var_dump($_POST));
 		if(empty($poll)) {
 			showmessage("voting_does_not_exist");
 		}
