@@ -145,8 +145,6 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 
 	$allowpictype = array('flv');
 	$FILE['size'] = intval($FILE['size']);
-	
-
 	if(empty($FILE['size']) || empty($FILE['tmp_name']) || !empty($FILE['error'])) {
 
 		return cplang('lack_of_access_to_upload_file_size');
@@ -155,7 +153,7 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 	if(!in_array($fileext, $allowpictype)) {
 		return cplang('only_allows_upload_video_types');
 	}
-	if($FILE['size'] > 104857600) {
+	if($FILE['size'] > 1948576000) {
 
 		return cplang('file_too_big');
 	}
@@ -259,8 +257,7 @@ function video_save($FILE, $title, $desc,$abstract, $tovideoid=0, $albumid) {
 		'filepath' => $filepath
 	);
 
-
-	$setarr['id'] = inserttable('video', $setarr, 1);
+    $setarr['id'] = inserttable('video', $setarr, 1);
 	$setsql = '';
 	if($showtip) {
 		$reward = getreward('uploadimage', 0);

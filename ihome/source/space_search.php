@@ -12,6 +12,8 @@ if (empty($_GET['type'])) {
 }
 if (isset($_GET['query'])) {
     $query = trim($_GET['query']);
+    $query = preg_split('/\s+/', $query);
+    $query = join(" AND ", $query);
 } else {
     $query = '';
 }
@@ -29,11 +31,15 @@ $start = ($page - 1) * $perpage;
 if (strlen($query) > 0) {
     if ($search_type == 'blog' || $search_type == 'event' || $search_type == 'poll' || $search_type == 'doing' || $search_type == 'complain') {
         $order_url = "&sort=".urlencode("score desc, dateline desc");
+    } else if ($search_type == 'job') {
+        $order_url = "&sort=".urlencode("jobid desc");
+    } else if($search_type == 'arrangement'){
+        $order_url = "&sort=".urlencode("arrangementid desc");
     } else {
         $order_url = "";
     }
 
-    $search_url = $_SC['search_host'].'/solr/select/?q=' . urlencode("search_text:".$query." AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
+    $search_url = $_SC['search_host'].'/solr/select/?q=' . urlencode("search_text:(".$query.") AND type:" . $search_type) . "&wt=json&start=".$start."&rows=".$perpage.$order_url;
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $search_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -98,7 +104,26 @@ if ($search_type == 'blog') {
     $list = resort($itemids, $list);
 	$_TPL['css'] = 'blog';
     include_once template("space_search_blog");
-} else if ($search_type == 'user') {
+} else if($search_type == 'job'){
+    if(count($items) > 0) {
+        $joblist = $items;
+    }else {
+        $joblist = array();
+    }
+
+    $_TPL['css'] = 'job';
+    include_once template("space_search_job");
+} else if ($search_type == 'arrangement') {
+    if(count($items) > 0) {
+        $arrangementlist = $items;
+    }else {
+        $arrangementlist = array();
+    }
+    
+    $do = 'arrangement';
+    $_TPL[css] = 'blog';
+    include_once template("space_search_arrangement");
+}else if ($search_type == 'user') {
     foreach ($items as $key => $value) {
         $itemids[] = $value['uid'];
     }

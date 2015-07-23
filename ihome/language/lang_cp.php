@@ -43,7 +43,13 @@ $_SGLOBAL['cplang'] = array(
 	
 	'note_click_blog' => '对你的日志 <a href="\\1" target="_blank">\\2</a> 做了表态',
 	'note_click_thread' => '对你的话题 <a href="\\1" target="_blank">\\2</a> 做了表态',
-	'note_click_pic' => '对你的 <a href="\\1" target="_blank">图片</a> 做了表态',
+    'note_click_pic' => '对你的 <a href="\\1" target="_blank">图片</a> 做了表态',
+
+    'note_allow_arrangement' => '您的校园日历<a href="\\1" target="_blank">\\2</a>已审核通过',
+    'note_deny_arrangement' => '您的校园日历<a href="\\1" target="_blank">\\2</a>未审核通过',
+    'note_new_arrangement' => '有新的校园日历<a href="\\1" target="_blank">\\2</a>需要审核',
+    'note_delete_arrangement' => '您的校园日历 \\1 已被管理员删除',
+    'note_edit_arrangement' => '您的校园日历<a href="\\1" target="_blank">\\2</a>已被管理员编辑',
 
 	'wall_pm_subject' => '您好，我给您留言了',
 	'wall_pm_message' => '我在您的留言板给你留言了，[url=\\1]点击这里去留言板看看吧[/url]',

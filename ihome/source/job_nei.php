@@ -66,7 +66,8 @@ switch($m) {
 		{
 			$list[] = $row;
 		}
-		$multi = multi($total_count, $perpage, $page, 'job.php?do=nei&m=view&id=' . $id);
+        $search = $_GET['type'];
+		$multi = multi($total_count, $search, $perpage, $page, 'job.php?do=nei&m=view&id=' . $id);
 		include template('job_nei');
 		break;
 	case 'add':

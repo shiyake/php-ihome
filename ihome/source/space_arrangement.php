@@ -15,10 +15,10 @@ $id = empty($_GET['id'])?0:intval($_GET['id']);
 $classid = empty($_GET['classid'])?0:intval($_GET['classid']);
 
 if($id) {
-	//读取校园日历
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('arrangement')." WHERE arrangementid='$id'");
-	$arrangement = $_SGLOBAL['db']->fetch_array($query);
-	//校园日历不存在
+    //读取校园日历
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('unCheckArrangement')." WHERE arrangementid='$id'"." UNION "."SELECT * FROM ".tname('arrangement')." WHERE arrangementid='$id'");
+    $arrangement = $_SGLOBAL['db']->fetch_array($query);
+        //校园日历不存在
 	if(empty($arrangement)) {
 		showmessage('view_to_info_did_not_exist');
 	}
@@ -58,7 +58,6 @@ if($id) {
 	ckstart($start, $perpage);
 
 	$count = $arrangement['replynum'];
-
 	$list = array();
 	if($count) {
 		$cid = empty($_GET['cid'])?0:intval($_GET['cid']);
@@ -67,7 +66,7 @@ if($id) {
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('comment')." WHERE $csql id='$id' AND idtype='arrangementid' ORDER BY dateline desc LIMIT $start,$perpage");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 			realname_set($value['authorid'], $value['author']);//实名
-			$list[] = $value;
+            $list[] = $value;
 		}
 	}
 

@@ -65,7 +65,7 @@ function deletearrangements($arrangementids) {
 	$managebatch = checkperm('managebatch');
 	$delnum = 0;
 
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('arrangement')." WHERE arrangementid IN (".simplode($arrangementids).")");
+    $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('arrangement')." WHERE arrangementid IN (".simplode($arrangementids).")"." UNION SELECT * FROM ".tname('unCheckArrangement')." WHERE arrangementid IN (".simplode($arrangementids).")");
 	while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 		if($allowmanage || $value['uid'] == $_SGLOBAL['supe_uid']) {
 			$arrangements[] = $value;
@@ -96,6 +96,7 @@ function deletearrangements($arrangementids) {
 
 	//Êý¾ÝÉ¾³ý
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('arrangement')." WHERE arrangementid IN (".simplode($newarrangementids).")");
+	$_SGLOBAL['db']->query("DELETE FROM ".tname('unCheckArrangement')." WHERE arrangementid IN (".simplode($newarrangementids).")");
 
 	//ÆÀÂÛ
 	$_SGLOBAL['db']->query("DELETE FROM ".tname('comment')." WHERE id IN (".simplode($newarrangementids).") AND idtype='arrangementid'");
