@@ -31,12 +31,16 @@
 			</li>
 		</ul>
 	</div>
-	<div class="search">
-		<div class="sort">
+	<div class="search clearfix" >
+		<div class="sort clearfix">
 			<a href="job.php?do=nei&sort=new"{if $sort == 'new'} class="active"{/if} style="border-right:none;">最新</a>
 			<a href="job.php?do=nei&sort=hot"{if $sort == 'hot'} class="active"{/if} style="border-left:none;">最热</a>
 		</div>
+		<div class="search-query clearfix" >
+			<input type="text" placeholder="搜索职位" class="form-control input-sm"/>
+		</div>
 	</div>
+
 	<div class="main_grid nei_grid">
 		{loop $result $r}
 		<div class="grid">

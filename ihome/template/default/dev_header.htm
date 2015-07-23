@@ -36,7 +36,9 @@
                 var html = '';
                 if (!json) return null;
                 jq.each(json, function (i, item) {
+                    if (item.uid !=0) {
                     html += '<li class="publics"><a href="cp.php?ac=changelogin&uhash=$_SGLOBAL[uhash]&utype=' + item.type + '&touid=' + item.uid + '"><i class="icon-user" style="margin-right:11px"></i>' + item.name + '</a></li>';
+                    }
                 });
                 jq("#for-public").before(html);
             });

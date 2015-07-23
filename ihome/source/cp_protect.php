@@ -18,7 +18,10 @@ $protect_info = $_SGLOBAL['db']->fetch_array($query);
 $query = $_SGLOBAL['db']->query("select * from ".tname("spacefield")." where uid = $_SGLOBAL[supe_uid]");
 $space_field = $_SGLOBAL['db']->fetch_array($query);
 $first_time = empty($protect_info);
-
+if ($first_time) {
+    $protect_info['uid'] = $_SGLOBAL['supe_uid'];
+    inserttable('protect_info', $protect_info);
+}
 $questions = array(
     '母亲的姓名',
     '父亲的姓名',
@@ -119,7 +122,13 @@ if ($_GET['op'] == 'question') {
         if(!$passport = getpassport($_SGLOBAL['supe_username'], $_POST['password'])) {
             showmessage('密码错误！', 'cp.php?ac=protect&op=mobile');
         }
-        
+        //验证密保问题
+        if($_POST['question_mobile'] == NULL or $_POST['answer_mobile'] == NULL){
+            showmessage('密保问题或答案未填写！', 'cp.php?ac=protect&op=mobile');
+        }
+        if($protect_info["answer{$_POST['question_mobile']}"] != $_POST['answer_mobile'])
+            showmessage('密保答案错误', 'cp.php?ac=protect&op=mobile');
+
         if ($protect_info['mobile_1'] != $_POST['mobile_num']) {
             showmessage("输入的手机号码不能与已绑定的手机号码相同！", "cp.php?ac=protect&op=mobile");
         }
@@ -142,6 +151,13 @@ if ($_GET['op'] == 'question') {
         if(!$passport = getpassport($_SGLOBAL['supe_username'], $_POST['password'])) {
             showmessage('密码错误！', 'cp.php?ac=protect&op=email');
         }
+        //验证密保问题
+        if($_POST['question_email'] == NULL or $_POST['answer_email'] == NULL){
+            showmessage('密保问题或答案未填写！', 'cp.php?ac=protect&op=email');
+        }
+        if($protect_info["answer{$_POST['question_email']}"] != $_POST['answer_email'])
+            showmessage('密保答案错误', 'cp.php?ac=protect&op=email');
+
         if ($_POST['email'] != $_POST['email_1']) {
             showmessage('验证邮箱有误！', 'cp.php?ac=protect&op=email');
         }
