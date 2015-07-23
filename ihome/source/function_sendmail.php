@@ -104,6 +104,7 @@ function sendmail($toemail, $subject, $message, $from='') {
 			$lastmessage = fgets($fp, 512);
 			if(substr($lastmessage, 0, 3) != 250) {
 				runlog('SMTP', "($mail[server]:$mail[port]) MAIL FROM - $lastmessage", 0);
+				runlog('SMTP', "$email_from, $mail[auth_username]", 0);
 				return false;
 			}
 		}
