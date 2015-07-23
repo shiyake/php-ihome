@@ -1,59 +1,19 @@
-<?
-/*	[iBUAA] (C)2012-2111 BUAANIC . 
-	Create By Ancon
-	Last Modfile By Ancon
-	Last Time : 2013年1月7日15:42:29
-*/
-
+<?php
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 $ac = $_GET['ac'];
-$ac_array = array('view','list','upload','delete');
+$ac_array = array('view','list','upload','uploadfile','delete','view_detail','getlist','index','add_view');
 $clicks = empty($_SGLOBAL['click']['videoid'])?array():$_SGLOBAL['click']['videoid'];
 if (!in_array($ac, $ac_array)) {
-	$ac = 'upload';
+	$ac = 'list';
 }
-
-if ($ac == 'upload') {
-	if (submitcheck('uploadflv')) {
-		$title = $_POST['title'];
-		$desc = $_POST['desc'];
-		if (strlen($title) > 40) {
-			showmessage("标题过长了，请控制在20汉字以内！");
-		}
-		if (strlen($title) < 4) {
-			showmessage("标题过短！请在2个汉字以上20汉字以下！");
-		}
-		if (strlen($desc) > 400) {
-			showmessage("内容过长了，请控制在200汉字以内！");
-		}
-		if (strlen($desc) < 10) {
-			showmessage("内容过短，请在5个汉字以上!");
-		}
-	
-		$title = getstr($title, 40, 1, 1, 1);
-		$desc = getstr($desc, 400, 1, 1, 1);
-		//$pic = $_FILE["uploadpic"];
-		$video = $_FILES["uploadvideo"];
-		if (!isset($video)) {
-			showmessage('no_file!!');
-		}
-		//$picsave = pic_save($pic);
-		$videosave = video_save($video, $title, $desc);
-		if ($videosave && is_array($videosave)) {
-			include_once(S_ROOT.'./source/function_feed.php');
-			feed_publish($videosave['id'],'videoid');
-			showmessage('post_video_OK','space.php?do=home');
-		}
-	}
-	include_once template("/plugin/video/template/upload");
-}
-elseif ($ac == 'list') {
-	//增加一个页数的功能是必要的--降序
+if ($ac == 'getlist') {
 	$listsql = "pass >=1";
-
-	$perpage = 20;
+	if($_GET['view'] == 'me') {
+		$listsql = "pass >=1 and uid=".$_SGLOBAL['supe_uid'];
+	}
+	$perpage = 18;
 	$perpage = mob_perpage($perpage);
 	$page = empty($_GET['page'])?0:intval($_GET['page']);
 	if($page<1) $page=1;
@@ -65,12 +25,69 @@ elseif ($ac == 'list') {
 
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(video)." WHERE $listsql ORDER BY dateline DESC LIMIT ".$start.",".$perpage);
 	while($value = $_SGLOBAL['db']->fetch_array($query)) {
+		$q = $_SGLOBAL['db']->query("SELECT * FROM ".tname(pic)." WHERE picid='".$value['picid']."'");
+		$value['image'] = "http://placehold.it/235x170&text=!";
+		while($filepath = $_SGLOBAL['db']->fetch_array($q)) {
+			$value['image'] = "/attachment/".$filepath['filepath'];
+		}
+		$value['dateline'] = date("Y-m-d H:i:s",$value['dateline']);
 		$list[] = $value;
 	}
-	include_once template("/plugin/video/template/list");
+	$res = array('list'=>$list,"count"=>$count,"multi"=>$multi);
+	echo json_encode($res);
+	return json_encode($res); 
+}
+if ($ac == 'upload') {
+	include_once template("/plugin/video/template/upload");
+}
+elseif ($ac == 'uploadfile')	{
+	$abstract = $_POST['abstract'];
+	$desc = $_POST['desc'];
+	$video = $_FILES['video'];
+	$image = $_FILES['page'];
+	$uid = $_SGLOBAL['supe_uid'];
+	$abstract = $_POST['abstract'];
+	$title = $_POST['title'];	
+	//if($video['type']!="video/x-flv")	{
+//		showmessage("请上传FLV格式视频文件","plugin.php?pluginid=video&ac=upload");
+//	}	
+	if(!strstr($image['type'],"image")) {
+		showmessage("封面请上传图片格式文件","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$abstract) {
+		showmessage("请填写视频简介","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$desc) {
+		showmessage("请填写视频描述","plugin.php?pluginid=video&ac=upload");
+	}
+	if(!$title) {
+		showmessage("请填写视频标题","plugin.php?pluginid=video&ac=upload");
+	}
+
+	$video_detail = video_save($video,$title,$desc,$abstract);
+
+	pic_save($image,0,$title);
+	$sql = "SELECT * FROM ".tname("pic")." WHERE title='".$title."' order by dateline desc limit 1";
+	$picid = 0;
+	$query = $_SGLOBAL['db']->query($sql);	
+	while($row = $_SGLOBAL['db']->fetch_array($query)){
+		$picid = $row['picid'];
+	}
+	if($video_detail && is_array($video_detail))	{
+		include_once(S_ROOT.'./source/function_feed.php');
+		feed_publish($video_detail['id'],'videoid');
+	}
+	$sql = "UPDATE ".tname("video")." SET picid = ".$picid." WHERE id = ".$video_detail['id'];
+$_SGLOBAL['db'] -> query($sql);
+	showmessage("视频已经成功上传","plugin.php?pluginid=video");
+	exit();	
+}
+elseif ($ac == 'add_view') {
+	$query = $_SGLOBAL['db']->query("UPDATE ".tname(video)." SET view=view+1 WHERE id=".$_GET['vid']);
+	echo "correct";
+	exit();
 }
 elseif ($ac == 'view') {
-	//接收id,依据id来显示该页!
 	$vid = $_GET['vid'];
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(video)." WHERE id = $vid ");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
@@ -78,15 +95,49 @@ elseif ($ac == 'view') {
 		$url = $_SC['attachurl'].$value['filepath'];
 		$title = $value['title'];
 		$desc = $value['desc'];
-        //点赞
         $hash = md5($video['uid']."\t".$video['dateline']);
         $id = $vid;
-        $idtype = 'videoid';
-		
-		//接下来是评论
-		//应该有个分页的功能--升序
+		$idtype = 'videoid';
+		$uid = $value['uid'];
+		$author = $value['username'];
+		$dateline = $value['dateline'];
 		$wheresql = "id = $vid AND idtype = 'videoid'";
+		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('comment')." WHERE $wheresql "));
+		$perpage = 5;
+		$perpage = mob_perpage($perpage);
+		$page = empty($_GET['page'])?0:intval($_GET['page']);
+		if($page<1) $page=1;
+		$start = ($page-1)*$perpage;
+		ckstart($start, $perpage);
+		$theurl = "plugin.php?pluginid=video&ac=view&vid=$vid";
+		$multi = multi($count, $perpage, $page, $theurl);
+		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(comment)." WHERE $wheresql ORDER BY dateline ASC LIMIT ".$start.",".$perpage);
+		while($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$avatar = avatar_file($value['authorid'],'middle');
+			$value['avatar']=$avatar;
+			$comment[] = $value;
+		}
+		$url = "vcastr_file=".$url."&LogoText=ihome&TextColor=0x0000FF";
+		include_once template("/plugin/video/template/view");
+	}
+}
 
+elseif ($ac == 'list') {
+	include_once template("/plugin/video/template/list");
+}
+elseif ($ac == 'view_detail') {
+	if($value = $_SGLOBAL['db']->fetch_array($query)) {
+		$video[] = $value;
+		$url = $_SC['attachurl'].$value['filepath'];
+		$title = $value['title'];
+		$desc = $value['desc'];
+        $hash = md5($video['uid']."\t".$video['dateline']);
+        $id = $vid;
+		$idtype = 'videoid';
+		$uid = $value['uid'];
+		$author = $value['username'];
+		$dateline = $value['dateline'];
+		$wheresql = "id = $vid AND idtype = 'videoid'";
 		$count = $_SGLOBAL['db']->result($_SGLOBAL['db']->query("SELECT COUNT(*) FROM ".tname('comment')." WHERE $wheresql "));
 		$perpage = 5;
 		$perpage = mob_perpage($perpage);
@@ -99,22 +150,19 @@ elseif ($ac == 'view') {
 
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(comment)." WHERE $wheresql ORDER BY dateline ASC LIMIT ".$start.",".$perpage);
 		while($value = $_SGLOBAL['db']->fetch_array($query)) {
+			$avatar = avatar_file($value['authorid'],'middle');
+			$value['avatar']=$avatar;
 			$comment[] = $value;
 		}
+		$res = array("id"=>$id,"url"=>$url,"title"=>$title,"desc"=>$desc,"author"=>$author,"date"=>$dateline,"comment"=>$comment,"page"=>$page,"count"=>$count);
 	}
 	include_once template("/plugin/video/template/view");
 }
-
 elseif ($ac == 'delete') {
-	//接收id,依据id来删除!
-	//检查权限
-	//删除数据库--单独拿出来,删除分享,评论,文件信息,feed信息
-	//删除文件--单独拿出来
 	$vid = $_GET['vid'];
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(video)." WHERE id = $vid ");
 	if($value = $_SGLOBAL['db']->fetch_array($query)) {
 		$video[] = $value;
-		//应该有个分页的功能--升序
 		$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(comment)." WHERE vid = $vid AND idtype = 'videoid' ORDER BY datetime ASC ");
 		while($value = $_SGLOBAL['db']->query($query)) {
 			$comment[] = $value;
@@ -122,38 +170,4 @@ elseif ($ac == 'delete') {
 	}
 	include_once template("/plugin/video/template/view");
 }
-
-
-/*
-elseif ($ac == 'comment') {
-
-	/*****************************/
-	/*其实这里不需要写!
-	/*****************************
-	$vid = $_GET['vid'];
-	$message = $_POST['message'];
-	//这里插入处理的@等信息;
-	$m = $message;
-	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname(video)." WHERE id = $vid ");
-	if($value = $_SGLOBAL['db']->fetch_array($query)) {
-		$video[] = $value;
-	}
-		
-	$setarr = array(
-		'uid' => $video['uid'],
-		'id' => $vid,
-		'idtype' => 'videoid',
-		'authorid' => $_SGLOBAL['supe_uid'],
-		'author' => $_SGLOBAL['supe_username'],
-		'dateline' => $_SGLOBAL['timestamp'],
-		'message' => $m,
-		'ip' => getonlineip()
-	);
-	$cid = inserttable('comment', $setarr, 1);
-	if ($cid) {
-		showmessage('success');
-	}
-}
-*/
-
 ?>

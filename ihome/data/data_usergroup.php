@@ -29,7 +29,7 @@ $_SGLOBAL['grouptitle']=Array
 	3 => Array
 		(
 		'grouptitle' => '公共主页',
-		'color' => '#0F0F8F',
+		'color' => '',
 		'icon' => 'image/group/public.gif'
 		),
 	5 => Array
@@ -50,17 +50,17 @@ $_SGLOBAL['grouptitle']=Array
 		'color' => '',
 		'icon' => ''
 		),
-	13 => Array
+	12 => Array
 		(
-		'grouptitle' => '至尊VIP=13',
-		'color' => '#F08000',
-		'icon' => 'image/group/vip.gif'
+		'grouptitle' => '用户管理员',
+		'color' => '#FF0000',
+		'icon' => 'image/group/admin.gif'
 		),
-	14 => Array
+	200 => Array
 		(
-		'grouptitle' => 'gid=14',
-		'color' => '#0F0Faa',
-		'icon' => ''
+		'grouptitle' => '名师工作坊',
+		'color' => '',
+		'icon' => 'image/group/public.gif'
 		),
 	4 => Array
 		(

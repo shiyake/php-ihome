@@ -49,6 +49,7 @@
 <link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=$space[uid]" />
 <link rel="stylesheet" type="text/css" href="plugin/layim/css/layim.css" />
 <link rel="stylesheet" type="text/css" href="plugin/layim/css/layer.css" />
+<link rel="stylesheet" type="text/css" href="plugin/select2/css/select2.min.css" />
 
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/html5shiv.min.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/respond.min.js"></script>
@@ -73,6 +74,7 @@
 		<script language="javascript" type="text/javascript" src="plugin/bootstrap/dist/js/bootstrap.min.js"></script>
         <script language="javascript" type="text/javascript" src="plugin/layim/js/layer.min.js" defer></script>
         <script language="javascript" type="text/javascript" src="plugin/layim/js/layim.js" defer></script>
+        <script language="javascript" type="text/javascript" src="plugin/select2/js/select2.min.js" defer></script>
         <!--<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>-->
 
 		<script type="text/javascript">
@@ -217,6 +219,7 @@ function searchSubmit()	{
     jq("#head_search").submit()
 }
 function check_calendar(){
+console.log('check');
 	var url = 'do.php?ac=ajax&op=checkcalendarstart&rand='+Math.random();
 	jq.getJSON(url,function(data){
 		if(data.data_staus>0){
@@ -228,6 +231,18 @@ function check_calendar(){
 				alert(msg);
 			}
 		}
+	});
+}
+function reflash_member(){
+	var checkurl = 'cp.php?ac=pm&op=checknewpm&rand='+Math.random();
+	jq.getJSON(checkurl,function(data){
+	});
+	var url = 'do.php?ac=ajax&op=reflashmember&rand='+Math.random();
+	jq.getJSON(url,function(data){
+		if (data.newpm>0)
+			document.getElementById('pmbadge').setAttribute("style","display:block");
+		if (data.newnote>0)
+			document.getElementById('notebadge').setAttribute("style","display:block");
 	});
 }
 jq(function(){	
@@ -276,7 +291,9 @@ jq(function(){
 			});
 			jq("#for-public").before(html);
             });
-			setInterval("check_calendar()",60000);
+		setInterval("check_calendar()",60000);
+		setInterval("reflash_member()",3000);
+		
 });
 </script>
 <!--<script language="javascript" type="text/javascript">
@@ -298,7 +315,7 @@ jq(function(){
             });
         }
         jq2('#erase').click(function(){
-            jq2('#erase').css({display:'none'});
+            jq2('#erase').css({display:'none'});/
             jq2('.ad_for_2years').css({display:'none'});
             });
     });
@@ -373,7 +390,7 @@ jq(function(){
                 <a href="space.php?do=notice">{$_SGLOBAL[member][allnotenum]}个提醒</a></li><!--{/if}-->
                 <!--{/if}-->-->
             </ul>
-            <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;"> 
+            <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;" > 
                 <!--{if $_SGLOBAL[supe_uid]}-->
                 <li class="hidden-xs hidden-sm" style="padding:13px;padding-left:0;padding-right:0;width:140px">
                 <form method="get" id="head_search" action="space.php" >
@@ -399,6 +416,8 @@ jq(function(){
                     <!--{/if}-->
                 </form>
                 </li>
+		<!--{eval $member = $_SGLOBAL['member'];}-->              
+
                 <!--{eval $member = $_SGLOBAL['member'];}-->
                 <li class="dropdown pull-right">
                 <a class="dropdown-toggle hidden-xs hidden-sm" style="padding: 9px 5px 10px;" data-toggle="dropdown" href="#">
@@ -415,13 +434,14 @@ jq(function(){
 
                     <!--{/if}-->
                 </div>
-                </a>
+                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="cp.php"><i class="icon-cog" style="margin-right:11px"></i>设置</a></li>
                     <li class="divider" id="for-public"></li>
                     <li><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]"><i class="icon-signout" style="margin-right:10px"></i>退出</a></li>
                 </ul>
                 </li>
+
                 <li class="pull-right li_notice">
                 <a href="cp.php?ac=friend&op=request"><img src="image/icons/icon-addfriend.png"></img></a>
                 <!--{if $member[addfriendnum]}-->
@@ -429,19 +449,15 @@ jq(function(){
                 <!--{/if}--> 
                 </li>
                 <li class="pull-right li_notice">
-                <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
-                <!--{if $member[notenum]}--> 
-                <span class="news_badge"></span>
-                <!--{/if}-->
+                    <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
+                    <span class="news_badge" id="notebadge" style="display:none;"></span>
                 </li>
                 <li class="pull-right li_notice" style="padding-left:0">
-                <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
-                <!--{if $member[newpm]}-->
-                <span class="news_badge"></span>
-                <!--{/if}--> 
+                    <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
+                    <span class="news_badge" id="pmbadge" style="display:none;"></span>
                 </li>
                 <!--{/if}-->
-            </ul>
+    	</ul>
         </div>
     </div>
     <script>
@@ -457,7 +473,7 @@ jq(function(){
             jq('.client_l').hide();
             jq('.client_s').show();
             jq('#close_client').show();
-        });
+		});
     </script>
 </div>
 <!--{if !empty($_SGLOBAL[supe_uid])}-->
@@ -519,7 +535,6 @@ jq(function(){
                                 <!--{if $usertype == '4' || $usertype == '教师' || $_SGLOBAL['member']['groupid'] ==1}-->
                                 <li><img src="image/icons/icon_software.png"/><a href="plugin.php?pluginid=software&usertype=$usertype">软件中心</a></li>
                                 <!--{/if}-->
-                                <li><img src="image/icons/icon_live.png"/><a href="plugin.php?pluginid=live">现场直播</a></li>
                                 <li><img src="image/icons/icon_video.png"/><a href="plugin.php?pluginid=video">视频中心</a></li>
                                 <li><img src="image/icons/icon_tao.png"/><a href="http://loogo.buaa.edu.cn" title="路购淘物" target="_blank">路购淘物</a></li>
                                 <li><img src="image/icons/icon_map.png"/><a href="http://imap.buaa.edu.cn" title="校园地图" target="_blank">校园地图</a></li>

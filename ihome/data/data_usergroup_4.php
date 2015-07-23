@@ -95,7 +95,6 @@ $_SGLOBAL['usergroup']=Array
 		'magicaward' => '',
 		'sendsms' => 1,
 		'maxsmsnum' => '0',
-		'managecomplain' => '0',
 		'exphigher' => -1
 		)
 	)

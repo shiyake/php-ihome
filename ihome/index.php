@@ -116,6 +116,8 @@ if(empty($_SCONFIG['networkpublic'])) {
 		realname_set($value['uid'], $value['username'], $value['name'], $value['namestatus']);
 	}
 	realname_get();
+
+    $login_fail_times = $_COOKIE['login_fail_times'];
 	
 	$_TPL['css'] = 'network';
 	

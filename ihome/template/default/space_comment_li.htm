@@ -33,6 +33,11 @@
 				<span class="pipe">|</span>
 				<!--{/if}-->
 			<!--{/if}-->
+			<!--{if $value['uid']==$_SGLOBAL['supe_uid'] || $value['uid']==$space[uid]}-->
+				<!--{if $value['secret']=='on'}-->
+					<div class="secret">悄悄话</div>	
+				<!--{/if}-->
+			<!--{/if}-->
 			<!--{if $value[authorid]==$_SGLOBAL[supe_uid] || $value[uid]==$_SGLOBAL[supe_uid] || checkperm('managecomment')}-->
 				<a href="cp.php?ac=comment&op=delete&cid=$value[cid]" id="c_$value[cid]_delete" onclick="ajaxmenu(event, this.id)">删除</a>
 			<!--{/if}-->

@@ -83,8 +83,17 @@ $(document).ready(function(){
         </div>
 	<div class="form-group" id="username-wrap">
 	    <input type="password" value="$password" class="form-control" id="password" name="password" placeholder="密码">
-	<div id="img_bg"><img src="image/login_password.png" id='login_password'/></div>
+	    <div id="img_bg"><img src="image/login_password.png" id='login_password'/></div>
 	</div>
+    <!--{if !empty($login_fail_times) && $login_fail_times >= 3}-->
+    <div class="form-group">
+        <input style="float:left; width: 30%;padding: 5px;" class="narrow text input" name="captcha" type="text" placeholder="输入验证码"/>
+        <div id="captcha-wrap" style="float:left; width:40%; line-height: 40px;">
+            <img src="/newCaptcha.php" id="captcha"/>
+            <a href="#" id="refresh-captcha">换一个</a>
+        </div>
+    </div>
+    <!--{/if}-->
 	<div class="submit-control">
 	    <input type="checkbox" id="cookietime" value="315360000" $cookiecheck name="cookietime" />
 	    <label for="cookietime"><span class='text'>下次自动登录</span></label>
@@ -96,6 +105,15 @@ $(document).ready(function(){
 	    <a id="activate" href="do.php?ac=$_SCONFIG[activate_action]" for="remember_me"><span class='text'>激活账户</span><span class="glyphicon glyphicon-chevron-right text"></span></a>
 	    </div>
     </form>
+    <script type="text/javascript">
+    (function($) {
+        $(function() {
+            $("#refresh-captcha").click(function() {
+                $("#captcha").attr("src", "/newCaptcha.php?_=" + new Date().getTime());
+            });
+        });
+    })(jQuery);
+    </script>
 </div>
 <div>
     <div class="logo-head-back">
@@ -107,7 +125,7 @@ $(document).ready(function(){
     </div>
     <div class="footer-back">
     <div id='footer1'>
-        <a style="margin-right:5px;" href="http://i.buaa.edu.cn/attachment/ihome.apk">安卓版</a>
+        <a style="margin-right:5px;" href="http://bhna.buaa.edu.cn/ihome/">客户端</a>
 	<div style="display:inline-block; width:1px; height:10px; background-color:#428bca"></div>
 	<a style="margin-left:5px;" href="mailto:$_SCONFIG[adminemail]">联系我们</a>
     </div>

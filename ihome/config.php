@@ -44,7 +44,7 @@ $_SC['attachurl']		= 'attachment/';
 $_SC['siteurl']			= '';
 $_SC['tplrefresh']		= 1;
 
-$_SC['founder'] 		= '3'; 
+$_SC['founder'] 		= '1,3,144'; 
 $_SC['allowedittpl']	= 0;
 $_SC['search_host'] = 'http://search:8080';
 define('UC_CONNECT', 'mysql'); 
@@ -56,7 +56,8 @@ define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', '`ihome`.ihomeuser_');
 define('UC_DBCONNECT', '0');
 define('UC_KEY', '95Y7z9K754j2ned29ca0B9Bdj5D2V2Q2Ld2ar033fdZbD7nfBdJ1Mfj1UeybW4W7');
-define('UC_API', 'http://i.buaa.edu.cn');
+//define('UC_API', 'http://i.buaa.edu.cn');
+define('UC_API', 'http://i.buaa.edu.cn/ihome');
 define('UC_CHARSET', 'utf-8');
 define('UC_IP', 'localhost');
 define('UC_APPID', '1');

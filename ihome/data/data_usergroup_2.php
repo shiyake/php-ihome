@@ -9,8 +9,8 @@ $_SGLOBAL['usergroup']=Array
 		'system' => -1,
 		'banvisit' => '0',
 		'explower' => '0',
-		'maxfriendnum' => '0',
-		'maxattachsize' => '0',
+		'maxfriendnum' => 10000,
+		'maxattachsize' => 2097152000,
 		'allowhtml' => 1,
 		'allowcomment' => 1,
 		'searchinterval' => '0',
@@ -92,10 +92,12 @@ $_SGLOBAL['usergroup']=Array
 		'managespacenote' => '0',
 		'managevideophoto' => '0',
 		'managelog' => '0',
-		'magicaward' => '',
+		'magicaward' => Array
+			(
+
+			),
 		'sendsms' => 1,
-		'maxsmsnum' => '0',
-		'managecomplain' => 1
+		'maxsmsnum' => '0'
 		)
 	)
 ?>

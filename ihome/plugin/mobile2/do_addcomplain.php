@@ -16,6 +16,8 @@
 	$FromDevice = 'mobile';
 	$Message = '   @诉求1(200) 什么情况啊    ';
 	*/
+
+
 	$Message = $_POST['message'];
 	$FromDevice = trim($_POST['fromdevice']);
 	
