@@ -416,11 +416,9 @@ if ($_GET['op'] == 'delete') {
             if ($add_type == 2) {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             } else {
-<<<<<<< HEAD
+		#merge conflict
                 updatetable('complain', array('locked'=>1, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
-=======
-                updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>0), array('id'=>$cpid));
->>>>>>> 77c7c8276b2e6ca2d196d0ac8023c404060e5de2
+                #updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>0), array('id'=>$cpid));
             }
             if ($complain['lastopid'] == 0) {
                 $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
