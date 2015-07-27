@@ -297,6 +297,21 @@ if ($_GET['op'] == 'delete') {
             }
             $newid = inserttable('docomment', $setarr, 1);
             $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
+           
+            $note = cplang('note_complain_reply', array("space.php?do=complain_item&doid=$setarr[doid]"));
+            foreach($UserIds as $userId)
+                notification_add($userId, 'complain', $note);
+
+            if(empty($UserIds)){ // not @
+                $query = $_SGLOBAL['db']->query("SELECT * FROM ihome_complain where doid=".$updo[doid]);
+                $value = $_SGLOBAL['db']->fetch_array($query);
+                if($value['from'] == $_SGLOBAL['supe_uid']){ //发起方
+                    notification_add($value['atuid'], 'complain', $note);
+                } else{
+                    notification_add($value['from'], 'complain', $note);
+                }
+            }
+
             echo "do_success";
             exit();
         }
@@ -330,7 +345,6 @@ if ($_GET['op'] == 'delete') {
             $optype = 3;
             $add_type = 0;
         }
-
         $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid=$doid and atuid=$legalEntity and status=0");
         $complain = $_SGLOBAL['db']->fetch_array($query);
         if (empty($complain)) {
@@ -383,7 +397,6 @@ if ($_GET['op'] == 'delete') {
                 echo 'error_op';
                 exit();
             }
-
             updatetable('complain', array("status"=>3, 'lastopid'=>$opid), array('id'=>$cpid));
 
             $query = $_SGLOBAL['db']->query("select * from ".tname("complain")." where doid=$doid and atuid=$relay_depid and status != 3");
@@ -411,17 +424,15 @@ if ($_GET['op'] == 'delete') {
 
                 $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
                 notification_complain_add($relay_depid, 'complain', $note);
+           //     notification_add($relay_depid, 'complain', $note);
+       //         echo "complain_add";
             }
         } elseif ($optype == 2) {
             if ($add_type == 2) {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             } else {
-<<<<<<< HEAD
                 updatetable('complain', array('locked'=>1, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
-=======
-                updatetable('complain', array('replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>0), array('id'=>$cpid));
->>>>>>> 77c7c8276b2e6ca2d196d0ac8023c404060e5de2
-            }
+           }
             if ($complain['lastopid'] == 0) {
                 $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
                 $dep = $_SGLOBAL['db']->fetch_array($result);
@@ -447,7 +458,8 @@ if ($_GET['op'] == 'delete') {
 
             $note = cplang('note_doingcomplain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
             notification_complain_add($complain['uid'], 'complain', $note, $legalEntity, $legalEntityName);
-
+         //   notification_add($complain['uid'], 'system', $note);
+           // echo "complain_add2";
         }
         echo "do_success";
         exit();

@@ -163,6 +163,9 @@
 <!--{/if}-->
 <a $submenus[done] href="space.php?do=complain&view={$_GET[view]}&type=done">已处理</a>
 <a $submenus[closed] href="space.php?do=complain&view={$_GET[view]}&type=closed">已关闭</a>
+<!--{if $_SGLOBAL[isdept] == 1}-->
+<a $submenus[replay] href="space.php?do=complain&view={$_GET[view]}&type=replay">新回复</a>
+<!--{/if}-->
 </div>
 <!--{if $_GET[view] == 'all'}-->
 <div class="complain_list_filter">
