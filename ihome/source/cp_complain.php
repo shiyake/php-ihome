@@ -226,16 +226,17 @@ if ($_GET['op'] == 'delete') {
 } elseif ($_GET['op'] == 'add') {
     if (submitcheck('addsubmit')) {
         $add_type = empty($_POST['type'])?0:intval($_POST['type']);
+        $exclude_relay = empty($_POST['exclude_relay']) ? 0 : 1;
         $isrelay = 0;
         $relay_depid = 0;
 
         preg_match("/\[em\:(\d+)\:\]/s", $_POST['message'], $ms);
         $message = rawurldecode(getstr($_POST['message'], 1000, 1, 1, 1, 2));
         preg_match_all("/[@](.*)[(]([\d]+)[)]\s*/U",$message, $matches, PREG_SET_ORDER);
-        if ($add_type && count($matches)>1) {
+        if (!$exclude_relay && $add_type && count($matches)>1) {
             echo 'relay_too_much';
             exit();
-        } else if ($add_type && count($matches) == 1) {
+        } else if (!$exclude_relay && $add_type && count($matches) == 1) {
             $isrelay = 1;
         }
 
