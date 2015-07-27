@@ -64,7 +64,7 @@
             <!--{eval $d_comment = 1}-->
             <!--{/if}-->
             <!--{if $value[uid]!=$_SGLOBAL[supe_uid]}-->
-	        		<a href="javascript:;" onclick="document.getElementById('complain_op_msg').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re">回复</a><!--{eval $r_comment = 1}-->
+	        		<a href="javascript:;" onclick="document.getElementById('complain_op_msg').value='回复@{$_SN[$value[uid]]}({$value[uid]})：'" class="re complain_re">回复</a><!--{eval $r_comment = 1}-->
             <!--{/if}--><!--{if $d_comment && $r_comment}-->
             <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             <!--{/if}-->
