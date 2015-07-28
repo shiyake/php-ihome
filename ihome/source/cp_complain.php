@@ -421,6 +421,31 @@ if ($_GET['op'] == 'delete') {
                 $newComplain['relay_times'] = $complain['relay_times']+1;
                 $newComplain['relayed_by'] = $relayed_by;
                 $newComplainId = inserttable('complain', $newComplain, 1);
+                //cal replytime
+                if ($complain['lastopid'] == 0) {
+                    $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
+                    $dep = $_SGLOBAL['db']->fetch_array($result);
+                    if (empty($dep)) {
+                        $arr = array();
+                        $arr['uid'] = $legalEntity;
+                        $arr['username'] = $legalEntityName;
+                        $arr['upnum'] = 0;
+                        $arr['downnum'] = 0;
+                        $arr['allreplynum'] = 1;
+                        $arr['allreplysecs'] = $_SGLOBAL['timestamp'] - $complain['dateline'];
+                        $arr['score'] = 0;
+                        $arr['aversecs'] = 0;
+                        $arr['lastupdate'] = 0;
+                        inserttable('complain_dep', $arr);
+                    } else {
+                        $arr['allreplynum'] = $dep['allreplynum'] + 1;
+                        $arr['allreplysecs'] = $dep['allreplysecs'] + $_SGLOBAL['timestamp'] - $complain['dateline'];
+                        updatetable("complain_dep", $arr, array('uid'=>$legalEntity));
+                    }
+                }
+                inserttable('complain_resp',array('uid'=>$legalEntity,'doid'=>$doid,'opid'=>$opid,'replysecs'=>$_SGLOBAL['timestamp'] - $complain['dateline'], 'dateline'=>$_SGLOBAL['timestamp']));
+                //end
+
 
                 $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
                 notification_complain_add($relay_depid, 'complain', $note);
@@ -432,7 +457,7 @@ if ($_GET['op'] == 'delete') {
                 updatetable('complain', array('status'=>1, 'lastopid'=>$opid, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
             } else {
                 updatetable('complain', array('locked'=>1, 'replytime'=>$_SGLOBAL['timestamp'], 'dateline'=>$_SGLOBAL['timestamp']), array('id'=>$cpid));
-           }
+            }
             if ($complain['lastopid'] == 0) {
                 $result = $_SGLOBAL['db']->query("select * from ".tname('complain_dep')." where uid = $legalEntity");
                 $dep = $_SGLOBAL['db']->fetch_array($result);

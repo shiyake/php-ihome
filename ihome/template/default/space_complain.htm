@@ -90,12 +90,12 @@
     <span>服务质量评分:&nbsp;<span class="dept_score_detail">$dep[realscore]</span></span>
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>评价人数:&nbsp;<span class="dept_score_detail">$dep[realupdownnum]</span></span>
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>诉求数量:&nbsp;<span class="dept_score_detail">$dep[realcomplainnum]</span></span>
-    <!--{if $dep[realreplysecs] > 3600}-->
+    <!--{if $dep[realaversecs] > 3600}-->
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[realaversecs]/3600)}-->小时</span></span>
-    <!--{elseif $dep[realreplysecs] > 60}-->
+    <!--{elseif $dep[realaversecs] > 60}-->
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail"><!--{eval echo intval($dep[realaversecs]/60)}-->分钟</span></span>
-    <!--{elseif $dep[realreplysecs]}-->
-    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[realreplysecs]}秒</span></span>
+    <!--{elseif $dep[realaversecs]}-->
+    <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">{$dep[realaversecs]}秒</span></span>
     <!--{else}-->
     <span style="color:#ccc">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span>平均响应时间:&nbsp;<span class="dept_score_detail">-</span></span>
     <!--{/if}-->
@@ -163,7 +163,7 @@
 <!--{/if}-->
 <a $submenus[done] href="space.php?do=complain&view={$_GET[view]}&type=done">已处理</a>
 <a $submenus[closed] href="space.php?do=complain&view={$_GET[view]}&type=closed">已关闭</a>
-<!--{if $_SGLOBAL[isdept] == 1}-->
+<!--{if $_SGLOBAL[isdept] == 1 and $_GET[view] == 'atme'}-->
 <a $submenus[replay] href="space.php?do=complain&view={$_GET[view]}&type=replay">新回复</a>
 <!--{/if}-->
 </div>
