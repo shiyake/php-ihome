@@ -116,7 +116,7 @@ if ($_GET['view'] == 'rank') {
     if ($_GET['view'] == 'all') {
         $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
         $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
-        $atuid = isset($_POST['atuid'])?$_POST['atuid']:0;
+        $atuid = isset($_POST['atuid'])?$_POST['atuid']:(isset($_GET['atuid'])?$_GET['atuid']:0);
         $atuid = intval($atuid);
 
         $startDay = date('Ymd', $starttime);
