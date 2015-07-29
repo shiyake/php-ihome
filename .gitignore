@@ -9,3 +9,4 @@ ihome/attachment
 *.sql
 .idea
 /db.txt
+powerlevel.json
