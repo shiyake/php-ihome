@@ -129,6 +129,7 @@
                             <iframe src="editor.php?charset=$_SC[charset]&allowhtml=$allowhtml&doodle=<!--{if isset($_SGLOBAL[magic][doodle])}-->1<!--{/if}-->" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:100%;border: 1px solid #C5C5C5;" height="400"></iframe>
                         </td>
                     </tr>
+                    <td style="display: none"><tr><input id="from" type="hidden" name="from" value=$_GET['from']></tr></td>
                 </table>
                 <table cellspacing="4" cellpadding="4" width="100%" style="margin-left:5px;" class="infotable">
                     <!--{if $arrangement['uid'] && $arrangement['uid']!=$_SGLOBAL['supe_uid']}-->

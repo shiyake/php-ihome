@@ -1,42 +1,29 @@
 <!--{template header}-->
 <!--{if !empty($_SGLOBAL[inajax])}-->
-
 <!--{else}-->
 <style>
-
 #mainareafg {
     border-left: 1px solid #dcdcdc;
     min-height: 970px;
     padding-left: 20px;
 }
 
+.tabs li {
+    width: 100px;
+}
+
+#content {
+    padding-left: 0px;
+}
+
 #search_vertical {
     margin-left: 0px;
 }
 
-#content {
-    border: none;
+.job_grid .grid {
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
-
-table td {
-    padding: 0px 0px 20px;
-}
-
-p {
-    line-height: 1.42;
-}
-
-table td p {
-    margin-bottom: 0px;
-}
-
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-}
-
 li.more .more-menu {
     display: none;
     position: absolute;
@@ -57,7 +44,6 @@ li.more:hover .more-menu {
     display: block;
 }
 </style>
-
 <div id="search_vertical" class="tabs_header">
 	<ul class="tabs">
         <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
@@ -66,7 +52,7 @@ li.more:hover .more-menu {
         <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
         <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
-        <li class="more active"><a href="#">群组</a>
+        <li class="more active"><a href="#">就业互助</a>
         <ul class="more-menu">
             <li style="border-top-left-radius: inherit;border-top-right-radius: inherit"><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
             <li><a href="space.php?query={$_GET['query']}&do=search&type=job"><span>就业互助</span></a></li>
@@ -75,46 +61,32 @@ li.more:hover .more-menu {
     </ul>
 </div>
 
-<div style="margin-top: 8px; width: 700px;">
-<!--{if $list}-->
-    <div style="padding: 0px 0px 5px;color: gray;">共找到{$all_item_count}个相关的群组</div>
-	<table cellspacing="5" cellpadding="5" style="max-width: 700px;"><tr>
-		    <!--{loop $list $key $value}-->
-			<td width="85">
-				<div>
-                    <a href="space.php?do=mtag&tagid=$value[tagid]">
-                        <img src="$value[pic]" style="width:75px; height: 75px;">
-                    </a>
-                </div>
-			</td>
-			<td width="140">
-                <p style="width: 120px;" class="text-overflow">
-				    <a href="space.php?do=mtag&tagid=$value[tagid]" 
-                        style="font-weight:bold;">$value[tagname]</a>
-                </p>
-				<p>
-                    <!--{if $value[title]}-->$value[title]<!--{else}-->--<!--{/if}-->
-                </p>
-                <p>
-                    已有 <span class="num" style="font-size: 12px;">$value[membernum]</span> 人加入
-                </p>
-				<p>话题: $value[threadnum], 回帖: $value[postnum]</p>
-			</td>
-	    	<!--{if $key % 3 == 2}--></tr><tr><!--{/if}-->
-		    <!--{/loop}-->
-	</tr></table>
-	
-    <div class="page" style="margin: 0px 0px 10px;">$multi</div>
-
-<!--{else}-->
-    <p style="text-align: center; color: gray; margin-top: 75px; line-height: 25px;">
-		<img src="image/icons/no_status.png">
-		<br>
-		还没有相关的群组
-    </p>
-<!--{/if}-->
+<div class="job_list" style="width: 700px;">
+<!-- {if $joblist} -->
+<div style="padding: 0px; color: gray;">共找到{$all_item_count}个相关的足迹</div>
+<div class="job_grid" id="content" style="border-right:none;width:799px;">
+	<div class="main_grid nei_grid">
+		{loop $joblist $key $r}
+		<div class="grid">
+			<div class="sub_head">
+				<a class="title" href="job.php?do=nei&m=view&id={$r[jobid]}&type=search">{$r[jobtitle]}</a>
+			</div>
+			<div class="sub_body">
+				<div class="time">截止时间：{$r[jobendtime]}</div>
+				<div class="desc">{$r[jobdescription]}</div>
+			</div>
+		</div>
+		{/loop}
+	</div>
+	<div class="page" style="padding-bottom:20px;">$multi</div>
 </div>
-
-
-<!--{/if}-->
+<!-- {else} -->
+<p style="text-align: center; color: gray; margin-top: 75px;">
+    <img src="image/icons/no_status.png">
+    <br>
+    还没有相关的就业互助
+</p>
+<!-- {/if} -->
+</div>
+<!-- {/if} -->
 <!--{template footer}-->

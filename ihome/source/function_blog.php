@@ -5,8 +5,8 @@ if(!defined('iBUAA')) {
 }
 
 //��Ӳ���
-function arrangement_post($POST, $olds=array()) {
-	global $_SGLOBAL, $_SC, $space;
+function arrangement_post($POST, $olds=array(), $isCheck) {
+    global $_SGLOBAL, $_SC, $space;
 	
 	//�����߽�ɫ�л�
 	$isself = 1;
@@ -160,22 +160,31 @@ function arrangement_post($POST, $olds=array()) {
 	}	
 showmessage($str);*/
 	
+   /* if($isCheck){
+		$arrangementarr['postip'] = getonlineip(); 
+		$arrangementarr['uid'] = $_SGLOBAL['supe_uid'];
+        $arrangementarr['dateline'] = empty($POST['dateline'])?$_SGLOBAL['timestamp']:$POST['dateline'];
+        $newid= inserttable('arrangement', $arrangementarr, 1);
+		include_once(S_ROOT.'./source/function_feed.php');
+        feed_publish($newid, 'arrangementid', $olds?0:1);
+        return $newid;
+   }*/
 	if($olds['arrangementid']) {
 		//����
 		$arrangementid = $olds['arrangementid'];
+		updatetable('unCheckArrangement', $arrangementarr, array('arrangementid'=>$arrangementid));
 		updatetable('arrangement', $arrangementarr, array('arrangementid'=>$arrangementid));
-		
 		//$fuids = array();
 		
 		//$arrangementarr['uid'] = $olds['uid'];
 	} else {
 		$arrangementarr['postip'] = getonlineip(); 
 		$arrangementarr['uid'] = $_SGLOBAL['supe_uid'];
-		$arrangementarr['dateline'] = empty($POST['dateline'])?$_SGLOBAL['timestamp']:$POST['dateline'];
-		$arrangementid = inserttable('arrangement', $arrangementarr, 1);
+        $arrangementarr['dateline'] = empty($POST['dateline'])?$_SGLOBAL['timestamp']:$POST['dateline'];
+        $arrangementid = inserttable('unCheckArrangement', $arrangementarr, 1);
 	}
 	
-	$arrangementarr['arrnagementid'] = $arrangementid;
+	$arrangementarr['arrangementid'] = $arrangementid;
 
 	//�ռ����
 	/*if($isself) {
@@ -199,7 +208,7 @@ showmessage($str);*/
 	}*/
 	
 	//����feed
-	if($POST['makefeed1']) {
+	if($POST['makefeed1'] and $isCheck) {
 		include_once(S_ROOT.'./source/function_feed.php');
 		feed_publish($arrangementid, 'arrangementid', $olds?0:1);
 	}

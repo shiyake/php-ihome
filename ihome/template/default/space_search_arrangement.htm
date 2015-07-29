@@ -1,0 +1,124 @@
+<!--{template header}-->
+<!--{if !empty($_SGLOBAL[inajax])}-->
+<!--{else}-->
+<style>
+#mainareafg {
+    border-left: 1px solid #dcdcdc;
+    min-height: 970px;
+    padding-left: 20px;
+}
+
+.tabs li {
+    width: 100px;
+}
+
+#content {
+    padding-left: 0px;
+}
+
+#search_vertical {
+    margin-left: 0px;
+}
+
+.avatar48 {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 3px 5px 4px -2px rgb(220, 220, 220);
+}
+
+.avatar48 img {
+    height: 60px;
+        width: 60px;
+}
+
+.entry_list li {
+    margin-top: 10px;
+}
+li.more .more-menu {
+    display: none;
+    position: absolute;
+    width: 110px;
+    right: 74px;
+    top: 53px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background: #fff;
+    z-index: 2;
+}
+
+li.more .more-menu li {
+    width: 100%;
+}
+
+li.more:hover .more-menu {
+    display: block;
+}
+</style>
+<div id="search_vertical" class="tabs_header">
+	<ul class="tabs">
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=user"><span>好友</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=doing"><span>足迹</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=blog"><span>日志</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=album"><span>相册</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=poll"><span>投票</span></a></li>
+        <li><a href="space.php?query={$_GET['query']}&do=search&type=event"><span>活动</span></a></li>
+        <li class="more active"><a href="#">校园日历</a>
+        <ul class="more-menu">
+            <li style="border-top-left-radius: inherit;border-top-right-radius: inherit"><a href="space.php?query={$_GET['query']}&do=search&type=mtag"><span>群组</span></a></li>
+            <li><a href="space.php?query={$_GET['query']}&do=search&type=job"><span>就业互助</span></a></li>
+            <li style="border-bottom-left-radius: inherit;border-bottom-right-radius: inherit"><a href="space.php?query={$_GET['query']}&do=search&type=arrangement"><span>校园日历</span></a></li>
+        </ul></li>
+    </ul>
+</div>
+
+<div class="arrangement_list" style="width: 700px;">
+<!-- {if $arrangementlist} -->
+<div style="padding: 0px; color: gray;">共找到{$all_item_count}个相关的校园日历</div>
+<div class="arrangement_grid" id="content" style="border-right:none;width:799px;">
+	<div class="main_grid nei_grid entry_list">
+		<ul>
+		<!--{loop $arrangementlist $value}-->
+			<li style="padding-bottom:15px;">
+				<div class="avatardiv">
+                    <div class="avatar48">
+                        <a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">
+                            <!--{avatar($value[uid],'big')}-->
+                    </a>
+                </div>
+					<!--{if $value['replynum']}--><div class="digb" style="width:55px;">$value[replynum]</div><!--{/if}-->
+				</div>
+				
+				<div class="title">
+					<a style="float:right;width:52px;"href="cp.php?ac=share&type=arrangement&id=$value[arrangementid]" id="a_share_$value[arrangementid]" onclick="ajaxmenu(event, this.id, 1)">分享</a>
+					<h4><a href="space.php?do=$do&id=$value[arrangementid]" >$value[arrangementsubject]</a></h4>
+					<div style="margin-top:15px;">
+					<span style="color:#777;margin-top:20px;"><!--{date('Y-m-d H:i',$value[arrangementstarttime],0)}--></span>
+					</div>
+				</div>
+				<div style="margin-left:10px;padding-right:10px;"class="detail image_right l_text s_clear" id="blog_article_$value[arrangementid]">
+					<!--{if $value[pic]}--><p class="image"><a href="space.php?do=arrangement&id=$value[arrangementid]"><img src="$value[pic]" alt="$value[arrangementsubject]" /></a></p><!--{/if}-->
+					$value[arrangementmessage]
+				</div>
+				<div style="color:#01b6f9;margin-left:10px;">
+					<!--{if $value[viewnum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[arrangementid]">$value[viewnum] 次阅读</a><span class="pipe">|</span><!--{/if}-->
+					<!--{if $value[replynum]}--><a href="space.php?uid=$value[uid]&do=$do&id=$value[arrangementid]#comment">$value[replynum] 个评论</a><!--{/if}-->
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	
+	<div class="page" style="margin-bottom:20px;">$multi</div>
+</div>
+<!-- {else} -->
+<p style="text-align: center; color: gray; margin-top: 75px;">
+    <img src="image/icons/no_status.png">
+    <br>
+    还没有相关的校园日历
+</p>
+<!-- {/if} -->
+</div>
+<!-- {/if} -->
+<!--{template footer}-->
