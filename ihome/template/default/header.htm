@@ -416,38 +416,17 @@ jq(function(){
                     <!--{/if}-->
                 </form>
                 </li>
-		<!--{eval $member = $_SGLOBAL['member'];}-->              
+
+                <li class="pull-right">
+                    <a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]" style="padding-right: 10px;padding-left: 10px;">
+                        <i class="icon-signout" style="vertical-align: middle; font-size: 20px;"></i></a>
+                </li>
+                <li class="pull-right">
+                    <a href="cp.php" style="padding-right: 10px;padding-left: 10px;"><i class="icon-cog" style="vertical-align: middle; font-size: 20px;"></i></a>
+                </li>
 
                 <!--{eval $member = $_SGLOBAL['member'];}-->
-                <li class="dropdown pull-right">
-                <a class="dropdown-toggle hidden-xs hidden-sm" style="padding: 9px 5px 10px;" data-toggle="dropdown" href="#">
-                    <div style="border-radius:50%;border:2px solid #ffffff;">
-                    <!--{if $_SCONFIG[realname]}-->
-                    <!--{if $_SGLOBAL[member][namestatus]}-->
-                    <!--{avatar($_SGLOBAL[supe_uid],small,False,1)}-->
-                    <!--
-                    $_SGLOBAL[member][name]
-                    -->
-                    <!--{else}-->
-                    <!--{avatar($_SGLOBAL[supe_uid],small,False,1)}-->
-                    <!--{/if}-->
 
-                    <!--{/if}-->
-                </div>
-                 </a>
-                <ul class="dropdown-menu">
-                    <li><a href="cp.php"><i class="icon-cog" style="margin-right:11px"></i>设置</a></li>
-                    <li class="divider" id="for-public"></li>
-                    <li><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]"><i class="icon-signout" style="margin-right:10px"></i>退出</a></li>
-                </ul>
-                </li>
-
-                <li class="pull-right li_notice">
-                <a href="cp.php?ac=friend&op=request"><img src="image/icons/icon-addfriend.png"></img></a>
-                <!--{if $member[addfriendnum]}-->
-                <span class="news_badge"></span>
-                <!--{/if}--> 
-                </li>
                 <li class="pull-right li_notice">
                     <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
                     <span class="news_badge" id="notebadge" style="display:none;"></span>
