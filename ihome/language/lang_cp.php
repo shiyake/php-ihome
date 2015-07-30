@@ -156,108 +156,104 @@ Add credits and raise your ranking
     'mtag_joinperm_2' => '需邀请才可加入', Need invitation
 
     // 安康
-    'feed_mtag_join_invite' => '{actor} 接受 {fromusername} 的邀请，加入了小组 {mtag} ({field})', Accept your invitation and join in your group
-    'person' => '人', Person
-    'delete' => '删除', Delate
-    'space_update' => '{actor} 被SHOW了一下', You have received a SHOW
-    'active_email_subject' => '您的邮箱激活邮件', Your e-mail need to activate
-    'active_email_msg' => '请复制下面的激活链接到浏览器进行访问，以便激活你的邮箱。<br>邮箱激活链接:<br><a href="\\1" target="_blank">\\1</a>', Please copy this link to visit by your browser in order to activate your e-mail
-    'protect_email_subject' => '您的密保邮箱验证邮件', Your encrypted email validation email 
-    'protect_email_msg' => '请复制下面的验证链接到浏览器进行访问，以便验证你的邮箱。<br>邮箱验证链接:<br><a href="\\1" target="_blank">\\1</a>',  Please copy this link to visit by your browser in order to activate your e-mail
-    'active_different_uids_title' => '[ihome]用户激活时出现一人多个账号的情况', More than one user
-    'active_different_uids_content' => '已激活了多个ihome账号，请告知技术开人员进行检查。', More than one ihome account, please ask technicists for help
-    'share_space' => '分享了一个用户', share a new user
-    'note_share_space' => '分享了你的空间', Share your space
-    'share_doing' => '分享了一条记录', Share a record
-    'note_share_doing' => '分享了你的<a href="\\1" target="_blank">一条记录</a>', Share your note
-    'share_blog' => '分享了一篇日志', Share a blog
-    'note_share_blog' => '分享了你的日志 <a href="\\1" target="_blank">\\2</a>', Share your blog
-    'share_arrangement' => '分享了一篇校园日历', Share an arrangement
-    'note_share_arrangement' => '分享了你的校园日历 <a href="\\1" target="_blank">\\2</a>',  Share your arrangement 
-    'share_album' => '分享了一个相册', Share an album
-    'note_share_album' => '分享了你的相册 <a href="\\1" target="_blank">\\2</a>', Share your album
-    'default_albumname' => '默认相册',  The default photo album
-    'share_image' => '分享了一张图片', share a photo
-    'share_video' => '分享了一个视频', share a video
+    'feed_mtag_join_invite' => '{actor} accept {fromusername} invitation and join in group {mtag} ({field})',
+    'person' => 'Person', 
+    'delete' => 'Delate', 
+    'space_update' => '{actor} has received a SHOW',
+    'active_email_subject' => 'Your e-mail need to activate', 
+    'active_email_msg' => 'Please copy this link to visit by your browser in order to activate your e-mail<br> Activatice link<br><a href="\\1" target="_blank">\\1</a>', 
+    'protect_email_subject' => 'Your encrypted email validation email',  
+    'protect_email_msg' => 'Please copy this link to visit by your browser in order to activate your e-mail<br>Protect link<br><a href="\\1" target="_blank">\\1</a>',  
+    'active_different_uids_title' => 'More than one user', 
+    'active_different_uids_content' => 'More than one ihome account, please ask technicists for help.', 
+    'share_space' => 'share a new user', 
+    'note_share_space' => 'Share your space', 
+    'share_doing' => 'Share a record', 
+    'note_share_doing' => 'Share your <a href="\\1" target="_blank">note</a>', 
+    'share_blog' => 'Share a blog', 
+    'note_share_blog' => 'Share your blog <a href="\\1" target="_blank">\\2</a>', 
+    'share_arrangement' => 'Share an arrangement', 
+    'note_share_arrangement' => 'Share your arrangement <a href="\\1" target="_blank">\\2</a>',   
+    'share_album' => 'Share an album', 
+    'note_share_album' => 'Share your album <a href="\\1" target="_blank">\\2</a>', 
+    'default_albumname' => 'The default photo album',  
+    'share_image' => 'share a photo', 
+    'share_video' => 'share a video', 
     'share_video_info' => '@{author}:{desc}',
-    'album' => '相册', album
-    'note_share_pic' => '分享了你的相册 \\2 中的<a href="\\1" target="_blank">图片</a>', share your album
-    'note_share_video' => '转发了你上传的<a href="\\1" target="_blank">视频</a>', share your video
-    'share_thread' => '分享了一个话题', share your topic 
-    'mtag' => '小组', Group
-    'note_share_thread' => '分享了你的话题 <a href="\\1" target="_blank">\\2</a>',Share your topic
-    'share_mtag' => '分享了一个小组', Share a group
-    'share_mtag_membernum' => '现有 {membernum} 名成员', Have XX members
-    'share_tag' => '分享了一个标签', Share a tag
-    'share_tag_blognum' => '现有 {blognum} 篇日志',  Have XX blogs
-    'share_link' => '分享了一个网址', Share a link
-    'share_video' => '分享了一个视频', Share a video
-    'share_music' => '分享了一个音乐', Share a music
-    'share_flash' => '分享了一个 Flash', Share a Flash
-    'share_event' => '分享了一个活动', Share an event
-    'share_poll' => '分享了一个\\1投票', Share a poll 
-    'note_share_poll' => '分享了你的投票 <a href="\\1" target="_blank">\\2</a>', Share a poll 
-    'event_time' => '活动时间', Event time
-    'event_location' => '活动地点', Event location
-    'event_creator' => '发起人', Event creator
-    'feed_task' => '{actor} 完成了有奖任务 {task}', The prize was completed
-    'feed_task_credit' => '{actor} 完成了有奖任务 {task}，领取了 {credit} 个奖励积分', The prize was completed and get XX credits
-    'the_default_style' => '默认风格', Default Style
-    'the_diy_style' => '自定义风格', The custom style
-    'feed_thread' => '{actor} 发起了新话题',  launched a new topic
-    'feed_eventthread' => '{actor} 发起了新活动话题',  '{actor} launched a new activity subject
-    'feed_thread_reply' => '{actor} 回复了 {touser} 的话题 {thread}', Reply to the topic
-    'note_thread_reply' => '回复了你的话题', reply to your topic
-    'note_post_reply' => '在话题 <a href=\\"\\1\\" target="_blank">\\2</a> 中回复了你的<a href=\\"\\3\\" target="_blank">回帖</a>', reply to you in the topic
-    'thread_edit_trail' => '<ins class="modify">[本话题由 \\1 于 \\2 编辑]</ins>',
-    'create_a_new_album' => '创建了新相册', create a new album
-    'not_allow_upload' => '您现在没有权限上传图片',  No permission to upload pictures
-    'get_passwd_subject' => '取回密码邮件', Retrieve password email
-    'get_passwd_message' => '您只需在提交请求后的三天之内，通过点击下面的链接重置您的密码：<br />\\1<br />(如果上面不是链接形式，请将地址手工粘贴到浏览器地址栏再访问)<br />上面的页面打开后，输入新的密码后提交，之后您即可使用新的密码登录了。',
-click the link below to reset your password within 3 days, if there is no link, please copy this link to visit by your browser in order to get your new password
-    'file_is_too_big' => '文件过大', File is too big
-    'feed_blog_password' => '{actor} 发表了新加密日志 {subject}', launch new password blog
-    'feed_blog' => '{actor} 发表了新日志', launch new blog
-    'feed_arrangement' => '{actor} 发布了一篇新的校园日历', launch new arrangement 
-    'feed_poll' => '{actor} 发起了新投票', launch a new poll
-    'note_poll_finish' => '您发起的<a href="\\1" target="_blank">《\\2》</a>的投票已结束,<a href="\\1" target="_blank">去写写投票总结</a>', The poll your launched has been completed, please write the summary
-    'take_part_in_the_voting' => '{actor} 参与了 {touser} 的{reward}投票 <a href="{url}" target="_blank">{subject}</a>', join in the poll 
-    'lack_of_access_to_upload_file_size' => '无法获取上传文件大小', lack of access to upload file size
-    'only_allows_upload_file_types' => '只允许上传jpg、jpeg、gif、png标准格式的图片', only photos at jpg、jpeg、gif、png types can be uploaded
-    'only_allows_upload_video_types' => '目前仅能上传flv格式', Only flv files can be uploaded
-    'unable_to_create_upload_directory_server' => '服务器无法创建上传目录', unable to create upload directory serve
-    'inadequate_capacity_space' => '空间容量不足，不能上传新附件',no spatial capacity, cannot upload new attachment
-    'mobile_picture_temporary_failure' => '无法转移临时图片到服务器指定目录', Can not transfer photo to the server specified directory ',
-    'ftp_upload_file_size' => '远程上传图片失败',  Fail to upload the photo
-    'comment' => '评论', comment
-    'upload_a_new_picture' => '上传了新图片', upload new picture
-    'upload_a_pic' => '上传图片', upload a picture
-    'upload_a_video' => '{actor} 上传了视频 {title}', upload a video
-    'upload_album' => '更新了相册', upload an album
-    'the_total_picture' => '共 \\1 张图片', one picture in total
-    'feed_invite' => '{actor} 发起邀请，和 {username} 成为了好友', {actor} invite {username} became friends'
-    'note_invite' => '接受了您的好友邀请','Accepted your friend request
-    'space_open_subject' => '快来打理一下您的个人主页吧' ,Come and take care of your personal home page'.
-    'space_open_message' => 'hi，我今天去拜访了一下您的个人主页，发现您自己还没有打理过呢。赶快来看看吧。地址是：\\1space.php',
-hi, I visited your profile today and found that you haven't run yet.Hurry up and see it.The address is: 
-    'feed_space_open' => '{actor} 开通了自己的个人主页',{actor} opened their own personal home page'.'
-    'feed_profile_update_base' => '{actor} 更新了自己的基本资料','{actor} update their basic information'.'
-    'feed_profile_update_contact' => '{actor} 更新了自己的联系方式',{actor} update their contact
-    'feed_profile_update_edu' => '{actor} 更新了自己的教育情况','{actor}' update their education situation,
-    'feed_profile_update_work' => '{actor} 更新了自己的工作信息',{actor} update your work information .
-    'feed_profile_update_info' => '{actor} 更新了自己的兴趣爱好等个人信息',{actor} update their own interests, such as personal information'
-    'apply_mtag_manager' => '想申请成为 <a href="\\1" target="_blank">\\2</a> 的群主，理由如下:\\3。<a href="\\1" target="_blank">(点击这里进入管理)</a>', apply to become a group leader
-    'feed_add_attachsize' => '{actor} 用 {credit} 个积分兑换了 {size} 附件空间，可以上传更多的图片啦(<a href="cp.php?ac=credit&op=addsize">我也来兑换</a>)', 
-    'event'=>'活动',event
-    'event_set_delete' => '管理员取消了您组织的活动 \\1',your organization's activities is canceled
-    'event_set_verify' => '管理员审核通过了您组织的活动 <a href="\\1" target="_blank">\\2</a>',your organization's activities is reviewed by administrator 
-    'event_set_unverify' => '管理员审核没有通过您组织的活动 <a href="\\1" target="_blank">\\2</a>',your organization's activities did not passed by the administrator
-    'event_set_recommend' => '管理员推荐了您组织的活动 <a href="\\1" target="_blank">\\2</a>',administrators recommend your organization's activities
-    'event_set_unrecommend' => '管理员取消推荐了您组织的活动 <a href="\\1" target="_blank">\\2</a>',administrators cancel recommend your organization's activities
-    'event_set_open' => '管理员开启了您组织的活动 <a href="\\1" target="_blank">\\2</a>',
-administrator opened up your organization's activities 
-    'event_set_close' => '管理员关闭了您组织的活动 <a href="\\1" target="_blank">\\2</a>',
-administrator shut down your organization's activities 
+    'album' => 'album', 
+    'note_share_pic' => 'share your <a href="\\1" target="_blank">photo</a> in your album \\2', 
+    'note_share_video' => 'share your <a href="\\1" target="_blank">video</a>', 
+    'share_thread' => 'share your topic',  
+    'mtag' => 'Group', 
+    'note_share_thread' => 'Share your topic <a href="\\1" target="_blank">\\2</a>',
+    'share_mtag' => 'Share a group', 
+    'share_mtag_membernum' => 'Have {membernum} members',
+    'share_tag' => 'Share a tag', 
+    'share_tag_blognum' => 'Have {blognum} blogs',
+    'share_link' => 'Share a link', 
+    'share_video' => 'Share a video', 
+    'share_music' => 'Share a music', 
+    'share_flash' => 'Share a Flash', 
+    'share_event' => 'Share an event', 
+    'share_poll' => 'Share a \\1 poll',  
+    'note_share_poll' => 'Share a poll <a href="\\1" target="_blank">\\2</a>',  
+    'event_time' => 'Event time', 
+    'event_location' => 'Event location', 
+    'event_creator' => 'Event creator', 
+    'feed_task' => '{actor} completed this price {task}', 
+    'feed_task_credit' => '{actor} completed this price {task} and get {credit} credits', 
+    'the_default_style' => 'Default Style', 
+    'the_diy_style' => 'The custom style', 
+    'feed_thread' => '{actor} launched a new topic',  
+    'feed_eventthread' => '{actor} launched a new activity subject',  
+    'feed_thread_reply' => '{actor} reply ro {touser}\'s topic {thread}',
+    'note_thread_reply' => 'reply to your topic', 
+    'note_post_reply' => ' reply to your <a href=\\"\\3\\" target="_blank"comment</a> in the topic <a href=\\"\\1\\" target="_blank">\\2</a>',
+    'thread_edit_trail' => '<ins class="modify">[the topic \\1 was edited at \\2]</ins>',
+    'create_a_new_album' => 'create a new album', 
+    'not_allow_upload' => 'No permission to upload pictures',  
+    'get_passwd_subject' => 'Retrieve password email', 
+    'get_passwd_message' => 'You need click the link below to reset your password within 3 days: <br />\\1<br />(if there is no link, please copy this link to visit by your browser)<br />input your new password and then login',
+    'file_is_too_big' => 'File is too big', 
+    'feed_blog_password' => '{actor} launch new password blog {subject}', 
+    'feed_blog' => '{actor} launch new blog', 
+    'feed_arrangement' => '{actor} launch new arrangement ', 
+    'feed_poll' => '{actor} launch a new poll', 
+    'note_poll_finish' => 'The poll <a href="\\1" target="_blank">《\\2》</a> has been completed,<a href="\\1" target="_blank">please write the summary</a>',
+    'take_part_in_the_voting' => '{actor} joined in {touser}\'s poll {reward} <a href="{url}" target="_blank">{subject}</a>',
+    'lack_of_access_to_upload_file_size' => 'lack of access to upload file size', 
+    'only_allows_upload_file_types' => 'only photos at jpg、jpeg、gif、png types can be uploaded', 
+    'only_allows_upload_video_types' => 'Only flv files can be uploaded', 
+    'unable_to_create_upload_directory_server' => 'unable to create upload directory serve', 
+    'inadequate_capacity_space' => 'no spatial capacity, cannot upload new attachment',
+    'mobile_picture_temporary_failure' => 'Can not transfer photo to the server specified directory ', 
+    'ftp_upload_file_size' => 'Fail to upload the photo',  
+    'comment' => 'comment', 
+    'upload_a_new_picture' => 'upload new picture', 
+    'upload_a_pic' => 'upload a picture', 
+    'upload_a_video' => '{actor} upload a video {title}', 
+    'upload_album' => 'upload an album', 
+    'the_total_picture' => '\\1 picture in total',
+    'feed_invite' => '{actor} invite {username} became friends', 
+    'note_invite' => 'Accepted your friend request',
+    'space_open_subject' => 'Come and take care of your personal home page' ,
+    'space_open_message' => 'hi, I visited your profile today and found that you haven\'t run yet.Hurry up and see it.The address is: \\1space.php',
+    'feed_space_open' => '{actor} opened their own personal home page',
+    'feed_profile_update_base' => '{actor} update their basic information',
+    'feed_profile_update_contact' => '{actor} update their contact',
+    'feed_profile_update_edu' => '{actor} update their education situation',
+    'feed_profile_update_work' => '{actor} update your work information',
+    'feed_profile_update_info' => '{actor} update their own interests, such as personal information',
+    'apply_mtag_manager' => 'apply to became a group leader of <a href="\\1" target="_blank">\\2</a>. Reason follows:\\3。<a href="\\1" target="_blank">(Click to manage)</a>', 
+    'feed_add_attachsize' => '{actor} use {credit} credits to exchange {size} attachment space，and is allowed upload more image!(<a href="cp.php?ac=credit&op=addsize">I want too!</a>)', //by 
+    'event'=>'event',
+    'event_set_delete' => 'your organization\'s activities \\1 is canceled',
+    'event_set_verify' => 'your organization\'s activities <a href="\\1" target="_blank">\\2</a> is reviewed by administrator', 
+    'event_set_unverify' => 'your organization\'s activities <a href="\\1" target="_blank">\\2</a> did not passed by the administrator', 
+    'event_set_recommend' => 'administrators recommend your organization\'s activities <a href="\\1" target="_blank">\\2</a>',
+    'event_set_unrecommend' => 'administrators cancel recommend your organization\'s activities <a href="\\1" target="_blank">\\2</a>',
+    'event_set_open' => 'administrator opened up your organization\'s activities  <a href="\\1" target="_blank">\\2</a>',
+    'event_set_close' => 'administrator shut down your organization\'s activities <a href="\\1" target="_blank">\\2</a>',
 	// 小伍
     'event_add' => '{actor} 发起了新活动',{actor} launched a new activity
     'event_feed_info' => '<strong>{title}</strong><br/>地点：{province} {city} {location} <br/>时间：{starttime} - {endtime}',
