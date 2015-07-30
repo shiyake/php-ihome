@@ -25,23 +25,20 @@ cplang_english = array(
     'note_video_comment_reply' => 'reply your comments on video <a href="\\1" target="_blank">video comments</a>',
     'note_blog_comment' => 'comment on your blog: <a href="\\1" target="_blank">\\2</a>',
     'note_blog_comment_reply' => 'reply your comments on blog <a href="\\1" target="_blank">blog comments</a>',
-    'note_arrangement_comment' => '评论了你的校园日历 <a href="\\1" target="_blank">\\2</a>', comment on your arrangement
-    'note_arrangement_comment_reply' => '回复了你的<a href="\\1" target="_blank">校园日历评论</a>', reply your comments on arrangement
-    'note_poll_comment' => '评论了你的投票 <a href="\\1" target="_blank">\\2</a>', comment on your poll
-    'note_poll_comment_reply' => '回复了你的<a href="\\1" target="_blank">投票评论</a>', reply your comments on poll
-    'note_share_comment' => '评论了你的 <a href="\\1" target="_blank">分享</a>', comment on your share
-    'note_share_comment_reply' => '回复了你的<a href="\\1" target="_blank">分享评论</a>', reply your comments on share
-    'note_event_comment' => '在你组织的活动里<a href="\\1" target="_blank">留言</a>了', comment on your event
-    'note_event_comment_reply' => '回复了你在活动中的<a href="\\1" target="_blank">留言</a>', reply on your comments on event
-    'note_show_out' => '访问了你的主页后，你在竞价排名榜中最后一个积分也被消费掉了', your last credits has been consumed
-    'note_space_bar' => '把你设置为站点推荐用户了',  You are on the Suggested Users List
-    'note_public_apply' => '<a href="\\1" target="_blank">有新的公共主页需要审批</a>',
-    New public site to your approval
-    'note_click_blog' => '对你的日志 <a href="\\1" target="_blank">\\2</a> 做了表态', favour on your blog
-    'note_click_thread' => '对你的话题 <a href="\\1" target="_blank">\\2</a> 做了表态',
-Favour on your topic
-    'note_click_pic' => '对你的 <a href="\\1" target="_blank">图片</a> 做了表态',
-Favour on your photo
+    'note_arrangement_comment' => 'coment on your arrangement <a href="\\1" target="_blank">\\2</a>',
+    'note_arrangement_comment_reply' => 'reply your comments on arrangement <a href="\\1" target="_blank">arrangement comments</a>',
+    'note_poll_comment' => 'commont on your poll <a href="\\1" target="_blank">\\2</a>',
+    'note_poll_comment_reply' => 'reply your comments on poll <a href="\\1" target="_blank">poll comments</a>',
+    'note_share_comment' => 'comment on your share <a href="\\1" target="_blank">share</a>',
+    'note_share_comment_reply' => 'reply your <a href="\\1" target="_blank">comments on share</a>',
+    'note_event_comment' => 'comment on your event <a href="\\1" target="_blank">comments</a>',
+    'note_event_comment_reply' => 'replay on your <a href="\\1" target="_blank">comments</a> on event',
+    'note_show_out' => 'your last credits has been consumed',
+    'note_space_bar' => 'You are on the Suggested Users List',
+    'note_public_apply' => '<a href="\\1" target="_blank">New public site to your approval</a>',
+    'note_click_blog' => 'favour on your blog: <a href="\\1" target="_blank">\\2</a>',
+    'note_click_thread' => 'favour on your topic: <a href="\\1" target="_blank">\\2</a>',
+    'note_click_pic' => 'favour on your <a href="\\1" target="_blank">photo</a>',
     'wall_pm_subject' => '您好，我给您留言了', Hello, I have a message for you
     'wall_pm_message' => '我在您的留言板给你留言了，[url=\\1]点击这里去留言板看看吧[/url]', I leave a message for you, click here to view
     'note_showcredit' => '赠送给您 \\1 个竞价积分，帮助提升在<a href="space.php?do=top" target="_blank">竞价排行榜</a>中的名次',
@@ -157,6 +154,8 @@ Add credits and raise your ranking
     'note_members_grade_9' => '将你设为了小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的群主', You have became leader of the group
     'feed_mtag_join' => '{actor} 加入了小组 {mtag} ({field})', Join in the group
     'mtag_joinperm_2' => '需邀请才可加入', Need invitation
+
+    // 安康
     'feed_mtag_join_invite' => '{actor} 接受 {fromusername} 的邀请，加入了小组 {mtag} ({field})', Accept your invitation and join in your group
     'person' => '人', Person
     'delete' => '删除', Delate
@@ -259,6 +258,7 @@ hi, I visited your profile today and found that you haven't run yet.Hurry up and
 administrator opened up your organization's activities 
     'event_set_close' => '管理员关闭了您组织的活动 <a href="\\1" target="_blank">\\2</a>',
 administrator shut down your organization's activities 
+	// 小伍
     'event_add' => '{actor} 发起了新活动',{actor} launched a new activity
     'event_feed_info' => '<strong>{title}</strong><br/>地点：{province} {city} {location} <br/>时间：{starttime} - {endtime}',
     'event_join' => '{actor} 参加了 <a href="space.php?uid={uid}" target="_blank">{username}</a> 的活动 <a href="space.php?do=event&id={eventid}" target="_blank">{title}</a>',
@@ -355,8 +355,6 @@ administrator shut down your organization's activities
     'complain_down' => '您回复过的诉求被诉求人踩了，请您再看一下这个<a href="\\1">诉求</a>', 
     'complain_continue' => '您回复的诉求，诉求人又继续诉求了新的信息，请您看一下这个的<a href="\\1">诉求</a>',
     'complain_reply' => '有部门回复了你的诉求，你可以看一下这个<a href="\\1">诉求</a>', Your complain is replied, you can check it.
-
-
 );
 
 $_SGLOBAL['cplang'] = array(
