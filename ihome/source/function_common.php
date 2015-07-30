@@ -1791,8 +1791,13 @@ function notifyUserLocked($username) {
 		return $result;
 	}
 
+    function getUserLang($uid) {
+        // 默认是中文
+        return NULL;
+    }
+
 	//获得后台语言
-	function cplang($key, $vars=array()) {
+    function cplang($key, $vars=array(), $lang=NULL) {
 		global $_SGLOBAL;
 
 		include_once(S_ROOT.'./language/lang_cp.php');

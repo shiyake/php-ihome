@@ -209,10 +209,7 @@ if(submitcheck('addsubmit')) {
                     $complainOK = TRUE;
                 }else{
                     //Í¨Öª±»@µÄÓÃ»§
-                    $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"));
-                    notification_add($UserId, 'atyou', $note);
-                }
-            }else{
+                    $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid")); notification_add($UserId, 'atyou', $note); } }else{
                 //Í¨Öª±»@µÄÓÃ»§
                 $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"));
                 notification_add($UserId, 'atyou', $note);

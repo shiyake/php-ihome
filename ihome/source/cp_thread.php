@@ -402,7 +402,8 @@ if(submitcheck('threadsubmit')) {
 
 		//通知
 		$note = $anonymous ? '匿名用户 ' : '';
-		$note .= cplang('note_thread_reply')." <a href=\"space.php?uid=$thread[uid]&do=thread&id=$thread[tid]&pid=$pid\" target=\"_blank\">$thread[subject]</a>";
+		$note = $note.cplang('note_thread_reply', array(), getUserLang($thread['uid']));
+        $note = $note." <a href=\"space.php?uid=$thread[uid]&do=thread&id=$thread[tid]&pid=$pid\" target=\"_blank\">$thread[subject]</a>";
 		notification_add($thread['uid'], 'post', $note, 0, $anonymous);
 
 	} elseif ($post) {
