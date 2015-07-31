@@ -259,102 +259,102 @@ administrator opened up your organization's activities
     'event_set_close' => '管理员关闭了您组织的活动 <a href="\\1" target="_blank">\\2</a>',
 administrator shut down your organization's activities 
 	// 小伍
-    'event_add' => '{actor} 发起了新活动',{actor} launched a new activity
-    'event_feed_info' => '<strong>{title}</strong><br/>地点：{province} {city} {location} <br/>时间：{starttime} - {endtime}',
-    'event_join' => '{actor} 参加了 <a href="space.php?uid={uid}" target="_blank">{username}</a> 的活动 <a href="space.php?do=event&id={eventid}" target="_blank">{title}</a>',
-    'event_join_member' => '参加了您组织的活动 <a href="\\1" target="_blank">\\2</a>', join in your activities
-    'event_quit_member' => '退出了您组织的活动 <a href="\\1" target="_blank">\\2</a>',quit from your activities
-    'event_join_verify' => '申请参加您组织的活动 <a href="\\1" target="_blank">\\2</a>，赶紧去<a href="\\3" target="_blank">审核</a>吧', XX apply to join in your event, please go to verify it
-    'eventmember_set_verify' => '通过了您参加活动 <a href="\\1" target="_blank">\\2</a> 的申请', verify your application of event
-    'eventmember_unset_verify' => '把您在活动 <a href="\\1" target="_blank">\\2</a> 中的身份设为了待审核', 
-    'eventmember_set_admin' => '把您设为了活动 <a href="\\1" target="_blank">\\2</a> 的组织者', set you the administration
-    'eventmember_unset_admin' => '取消了您作为活动 <a href="\\1" target="_blank">\\2</a> 的组织者身份', cancel your administration
-    'eventmember_set_delete' => '把您请出了活动 <a href="\\1" target="_blank">\\2</a>', remove you from the event
-    'event_feed_share_pic_title'=>'{actor} 共享了新照片到活动相册', share new photos to album
-    'event_feed_share_pic_info'=>'<b><a href="space.php?do=event&id={eventid}&view=pic" target="_blank">{title}</a></b><br/>共 {picnum} 张照片', XX photos in total
-    'event_accept_invite' => '接受您的邀请参加了活动 <a href="\\1" target="_blank">\\2</a> ', accept your invitation to join in the event
-    'event_accept_success' => '成功参加该活动，您可以：<a href="\\1" target="_blank">立即访问该活动</a>', successful join in the event and you can visit it right now
+    'event_add' => '{actor} launched a new acticity',
+    'event_feed_info' => '<strong>{title}</strong><br/>position：{province} {city} {location} <br/>period：{starttime} - {endtime}',
+    'event_join' => '{actor} join in a  activity <a href="space.php?uid={uid}" target="_blank">{username}</a> organize  <a href="space.php?do=event&id={eventid}" target="_blank">{title}</a>',
+    'event_join_member' => 'join in your activities <a href="\\1" target="_blank">\\2</a>', 
+    'event_quit_member' => 'quit from your activities<a href="\\1" target="_blank">\\2</a>',
+    'event_join_verify' => 'apply to join in your envent <a href="\\1" target="_blank">\\2</a>，please go to<a href="\\3" target="_blank">to verify it</a>', 
+    'eventmember_set_verify' => 'verify your application <a href="\\1" target="_blank">\\2</a> ', 
+    'eventmember_unset_verify' => 'set your identity  pending in  <a href="\\1" target="_blank">\\2</a> ', 
+    'eventmember_set_admin' => 'set you the administration power in <a href="\\1" target="_blank">\\2</a> event', 
+    'eventmember_unset_admin' => 'cancel your administration power in <a href="\\1" target="_blank">\\2</a> event', 
+    'eventmember_set_delete' => ' remove you from the <a href="\\1" target="_blank">\\2</a> event',
+    'event_feed_share_pic_title'=>'{actor} shared new photos to albun', 
+    'event_feed_share_pic_info'=>'<b><a href="space.php?do=event&id={eventid}&view=pic" target="_blank">{title}</a></b><br/> {picnum} photos in total', 
+    'event_accept_invite' => 'accept your invitation to join in the <a href="\\1" target="_blank">\\2</a> event',
+    'event_accept_success' => 'join in <a href="\\1" target="_blank"> event successfully and you can visit it right now立即访问该活动</a>'
     //道具：source/magic/*
     'magicunit' => '个',
-    'magic_note_wall' => '在留言板上给你<a href="\\1" target="_blank">留言</a>', leave you a message
-    'magic_call' => '在\\1中点了你的名，<a href="\\2" target="_blank">快去看看吧</a>', XX call you, please go and check
-    'magicuse_thunder_announce_title' => '<strong>{username} 发出了“雷鸣之声”</strong>', made a thunder
-    'magicuse_thunder_announce_body' => '大家好，我上线啦<br><a href="space.php?uid={uid}" target="_blank">欢迎来我家串个门</a>', Hello everyone I am back, welcome to my site
-    'magic_present_note' => '送给你一个道具 \\1, <a href="\\2">赶快去看看吧</a>', sent you a present
+    'magic_note_wall' => 'leave you <a href="\\1" target="_blank">a message</a>',
+    'magic_call' => 'call you in \\1，<a href="\\2" target="_blank">go to check it</a>',
+    'magicuse_thunder_announce_title' => '<strong>{username} made a "thunder"</strong>',
+    'magicuse_thunder_announce_body' => 'Hello everyone,i am back<br><a href="space.php?uid={uid}" target="_blank">welcom to my site</a>',
+    'magic_present_note' => 'send you a present\\1, <a href="\\2">go to check it</a>', 
     //用户组升级获赠道具 got props for group update 
-    'upgrade_magic_award' => '恭喜你等级提升为 \\1，并获赠以下道具：\\2', Congratulations for level up to , and receive the following properties: \\2'
+    'upgrade_magic_award' => 'Congratulations for your level up to \\1，and  sent you the following properties\\2',
     //管理员向用户赠送道具administrator give props to the user
-    'present_user_magics' => '您收到了管理员赠送的道具：\\1', You have receive the props presented by administrator
-    'has_not_more_doodle' => '您没有涂鸦板了', No more doodle
-    'do_stat_login' => '来访用户', visiting users
+    'present_user_magics' => 'You have receive the props presented by administrator\\1', 
+    'has_not_more_doodle' => '' No more doodle,
+    'do_stat_login' => 'visited users', 
 
-    'do_stat_register' => '新注册用户',new registered users
-    'do_stat_invite' => '好友邀请', friend invitation
-    'do_stat_appinvite' => '应用邀请', application invitation
-    'do_stat_add' => '信息发布 information release,
-    'do_stat_comment' => '信息互动',   Information Interaction  
-    'do_stat_space' => '用户互动', Users Interaction
-    'do_stat_login' => '来访用户', visiting users
-    'do_stat_doing' => '记录',record
-    'do_stat_blog' => '日志',blog
-    'do_stat_pic' => '图片',photo
-    'do_stat_poll' => '投票',poll
-    'do_stat_event' => '活动',event 
-    'do_stat_share' => '分享',share
-    'do_stat_thread' => '话题', topic
-    'do_stat_docomment' => '记录回复', reply to comment 
-    'do_stat_blogcomment' => '日志评论',comment on blog
-    'do_stat_piccomment' => '图片评论', comment on photo
-    'do_stat_pollcomment' => '投票评论', comment on poll
-    'do_stat_pollvote' => '参与投票', join in the poll
-    'do_stat_eventcomment' => '活动评论', comment on event
-    'do_stat_eventjoin' => '参加活动',join in the event
-    'do_stat_sharecomment' => '分享评论',share the comment
-    'do_stat_post' => '话题回帖',reply to the topic
-    'do_stat_click' => '表态',  make a comment
-    'do_stat_wall' => '留言',leave a message
-    'do_stat_poke' => '打招呼', say hi
-    'reporter_message_success' => '通过了你对<a href="space.php?uid=\\1">\\2</a>的\\3的举报，并删除了该\\3，<br/>被举报的\\3是：\\4，<br/>举报的类型是：\\5', 
-    'reporter_message_delete' => '删除了你对<a href="space.php?uid=\\1">\\2</a>的\\3举报，<br/>被举报的\\3是：\\4，<br/>举报的类型是：\\5',
-    'reporter_message_ignore' => '禁止了你对<a href="space.php?uid=\\1">\\2</a>的\\3举报，<br/>被举报的\\3是：\\4，<br/>举报的类型是：\\5',
-    'reportee_message' => '通过了其他用户对你的\\3的举报，并对其进行了删除<br/><br/>删除的\\3是：\\4<br/>举报的理由是：\\5',
-    'report_type_ad' => '虚假广告',false advertising
-'report_type_sex' => '淫秽色情',obscene
-    'report_type_fake_reward' => '虚假中奖',fake reward
-    'report_type_sensitive' => '敏感信息',sensitive information
-    'report_type_fake_info' => '虚假信息',fake information
-    'report_type_private' => '泄漏他人隐私',leakage of the privacy of others
-    'report_type_attack' => '人身攻击', personal attack
-    'report_type_copy' => '内容抄袭',content copy
-    'report_type_fake_people' => '冒充他人',personation
-    'report_type_bother' => '骚扰他人',Harassment'
-    'report_type_' => '未填', blank unfilled
-    'report_blogid' => '日志', blog
-    'report_picid' => '照片', photo
-'report_albumid' => '相册', album
-    'report_tid' => '话题', topic
-    'report_tagid' => '群组', group
-    'report_sid' => '分享',share
-    'report_uid' => '空间',space
-    'report_eventid' => '活动',event
-    'report_comment' => '评论',comment
-    'report_pid' => '投票',poll
-    'report_post' => '回帖',reply
-    'report_doid' => '足迹',footprint
+    'do_stat_register' => 'new registered users',
+    'do_stat_invite' => 'friend invitation',
+    'do_stat_appinvite' => 'application invitation',
+    'do_stat_add' => 'information release',
+    'do_stat_comment' => 'Information Interaction', 
+    'do_stat_space' => 'Users Interaction',
+    'do_stat_login' => 'visited users',
+    'do_stat_doing' => 'record',
+    'do_stat_blog' => 'blog',
+    'do_stat_pic' => 'photo',
+    'do_stat_poll' => 'poll',
+    'do_stat_event' => 'event', 
+    'do_stat_share' => 'share',
+    'do_stat_thread' => 'topic', 
+    'do_stat_docomment' => 'reply to comment',
+    'do_stat_blogcomment' => 'comment on blog',
+    'do_stat_piccomment' => 'comment on photo',
+    'do_stat_pollcomment' => 'comment on poll',
+    'do_stat_pollvote' => 'join in the poll',
+    'do_stat_eventcomment' => 'comment on event',
+    'do_stat_eventjoin' => 'join in the event',
+    'do_stat_sharecomment' => ',share the comment',
+    'do_stat_post' => 'reply to the topic',
+    'do_stat_click' => 'make a comment',
+    'do_stat_wall' => 'leave a message',
+    'do_stat_poke' => 'say hi',
+    'reporter_message_success' => 'accept the \\3 report to <a href="space.php?uid=\\1">\\2</a>，and delete \\3，<br/> reported person\\3 is:\\4，<br/>the type of report is：\\5', 
+    'reporter_message_delete' => 'delete the \\3  report to<a href="space.php?uid=\\1">\\2</a><br/>reported person\\3 is\\4，<br/>the type of report is:\\5',
+    'reporter_message_ignore' => 'deny the \\3 report to<a href="space.php?uid=\\1">\\2</a> ，<br/>reported person\\3 is：\\4，<br/>the type of report is\\5',
+    'reportee_message' => 'accept the report \\3 to you，and delete it<br/><br/>deleted one \\3 is:\\4<br/>reported reason：\\5',
+    'report_type_ad' => 'unreal advertising',
+'report_type_sex' => 'obscene',
+    'report_type_fake_reward' => 'fake reward'
+    'report_type_sensitive' => 'sensitive information',
+    'report_type_fake_info' => 'fake information',
+    'report_type_private' => 'leakage of the privacy of others',
+    'report_type_attack' => 'personal attack',
+    'report_type_copy' => 'content copy',
+    'report_type_fake_people' => 'personation',
+    'report_type_bother' => 'Harassment',
+    'report_type_' => 'blank unfilled'
+    'report_blogid' => 'blog',
+    'report_picid' => 'photo', 
+'report_albumid' => 'album',
+    'report_tid' => 'topic',
+    'report_tagid' => 'group',
+    'report_sid' => 'share',
+    'report_uid' => 'space',
+    'report_eventid' => 'event',
+    'report_comment' => 'comment',
+    'report_pid' => 'poll',
+    'report_post' => 'reply',
+    'report_doid' => 'footprint',
     //plugin
     'mobile_addtrack' => '{actor}：{message}',
-    'use_new_app' => '授权使用了新应用',Authorized the new application
+    'use_new_app' => 'Authorized the new application',
     //search
-    'common_friends' => '\\1等\\2位共同好友。',common friends
-    'common_class' => '你们都是\\1的', you are in the common class
-    'common_hometown' => '你们都是来自\\1', both of you are from
-'mtag_add_thread' => '发起了新话题<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>群组:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', launch a new topic
-    'mtag_invite_note' => '邀请您加入群组<a href="space.php?do=mtag&tagid=\\1">\\2</a>',invite you the join in the group
-    'event_invite_note' => '邀请您参加活动<a href="space.php?do=event&id=\\1">\\2</a>', invite you to join in the event
-    'complain_relay' => '\\1 转发了<a href="\\2">一个诉求</a>给您，请您及时处理', sent a complain to you, please deal with it.
-    'complain_down' => '您回复过的诉求被诉求人踩了，请您再看一下这个<a href="\\1">诉求</a>', 
-    'complain_continue' => '您回复的诉求，诉求人又继续诉求了新的信息，请您看一下这个的<a href="\\1">诉求</a>',
-    'complain_reply' => '有部门回复了你的诉求，你可以看一下这个<a href="\\1">诉求</a>', Your complain is replied, you can check it.
+    'common_friends' => '\\1 and totally have\\2 friends',
+    'common_class' => 'all of you are in the\\1 class', 
+    'common_hometown' => 'all of you are from\\1',
+'mtag_add_thread' => 'launch anew topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
+    'mtag_invite_note'  'invite you the join in the <a href="space.php?do=mtag&tagid=\\1">\\2 group</a>',
+    'event_invite_note' => 'invite you to join in the <a href="space.php?do=event&id=\\1">event</a>', 
+    'complain_relay' => '\\1 send a <a href="\\2">complain</a>to you ,please deal with it',
+    'complain_down' => 'someone disagree the complain you reply,please check the<a href="\\1">complain</a>', 
+    'complain_continue' => 'the people you reply about complain send a message,please check the<a href="\\1">complain</a>',
+    'complain_reply' => 'some department replyed for your complain,please check the<a href="\\1">complain</a>', .
 );
 
 $_SGLOBAL['cplang'] = array(
