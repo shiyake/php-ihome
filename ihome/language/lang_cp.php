@@ -39,123 +39,117 @@ cplang_english = array(
     'note_click_blog' => 'favour on your blog: <a href="\\1" target="_blank">\\2</a>',
     'note_click_thread' => 'favour on your topic: <a href="\\1" target="_blank">\\2</a>',
     'note_click_pic' => 'favour on your <a href="\\1" target="_blank">photo</a>',
-    'wall_pm_subject' => '您好，我给您留言了', Hello, I have a message for you
-    'wall_pm_message' => '我在您的留言板给你留言了，[url=\\1]点击这里去留言板看看吧[/url]', I leave a message for you, click here to view
-    'note_showcredit' => '赠送给您 \\1 个竞价积分，帮助提升在<a href="space.php?do=top" target="_blank">竞价排行榜</a>中的名次',
-sent a credit for you in order to raise your ranking
-    'feed_showcredit' => '{actor} 赠送给 {fusername} 竞价积分 {credit} 个，帮助好友提升在<a href="space.php?do=top" target="_blank">竞价排行榜</a>中的名次',
-Sent credits to your friend in order to raise her ranking
-    'feed_showcredit_self' => '{actor} 增加竞价积分 {credit} 个，提升自己在<a href="space.php?do=top" target="_blank">竞价排行榜</a>中的名次',
-Add credits and raise your ranking
-    'feed_doing_title' => '{actor}：{message}',
-    'note_doing_reply' => '在<a href="\\1" target="_blank">一条记录</a>中对你进行了回复', Reply
-    'note_doing_at' => '在<a href="\\1" target="_blank">一条记录</a>中@了你', @
-    'note_share_at' => '在<a href="\\1" target="_blank">一条分享</a>中@了你', @ in a share
-    'note_doingcomment_at' => '在<a href="\\1" target="_blank">一条回复</a>中@了你',
+    'wall_pm_subject' => 'Hello, I have a message for you',
+    'wall_pm_message' => 'I leave a message for you，click here to view [url=\\1][/url]', 
+    'note_showcredit' => 'sent credits(\\1) for you in order to raise your ranking',
+ 
+    'feed_showcredit' => '{actor} sent credits({credit}) to your friends {fusername}，in order to raise her ranking',
+    'feed_showcredit_self' => '{actor} add credits({credit}) and raise your ranking',
+    'note_doing_reply' => '<a href="\\1" target="_blank">reply</a> you', 
+    'note_doing_at' => '@ you <a href="\\1" target="_blank">here</a>', 
+    'note_share_at' => 'at you in a <a href="\\1" target="_blank">share</a>',
+    'note_doingcomment_at' => '@ you in a <a href="\\1" target="_blank">reply</a>',
     
-    'note_complain_user_success' => '【温馨提示】您的<a href="\\1" target="_blank">诉求</a>发起成功!',Reminder, your complain is sucessful
-    'note_complain_user_failed' => '【温馨提示】您的诉求发起失败,已转成普通<a href="\\1" target="_blank">记录</a>!', Reminder, fail to complain, and it has been trans into message
-    'note_complain_credit_failed' => '【温馨提示】您的积分不够,诉求发起失败,已转成普通<a href="\\1" target="_blank">记录</a>!',Reminder, your credit is not enough to set a complain. 
+    'note_complain_user_success' => 'Reminder: your <a href="\\1" target="_blank">complain</a> is successfully!',
+    'note_complain_user_failed' => 'Reminder: you fail to complain, and it has been trans into <a href="\\1" target="_blank">message</a>!',
+    'note_complain_credit_failed' => 'Reminder: your credit is not enough to set a complain, and it has been trans into <a href="\\1" target="_blank">message</a>!',
     
-    'note_complain_buchu' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,如不及时处理,此诉求将于\\2上报给负责人处', One complain is received, if there is no reply, it will be sent to the leader.
-    'note_complain_buchu1' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理,已上报给处长，如不及时处理,此诉求将于\\2上报给主管副校长',One complain is received, if there is no reply, it will be sent to the vise headmaster
+    'note_complain_buchu' => 'Reminder: One <a href="\\1" target="_blank">complain</a> is received. If there is no reply, it will be sent to the leader at \\2',
+    'note_complain_buchu1' => 'Reminder One <a href="\\1" target="_blank">complain</a> is received. If there is no reply, it will be sent to the vise headmaster at \\2',
 
-    'note_complain_buchu2' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长',One complain is received, if there is no reply, it will be sent to the headmaster
-    'note_complain_buchu3' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处', One no reply complain has been sent to the headmaster
-    'note_complain_chuzhang' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>待处理，如不及时处理，此诉求将于\\2上报给主管副校长处',One complain is received, if there is no reply, it will be sent to the vise headmaster
-    'note_complain_chuzhang1' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给主管副校长处,如不及时处理,此诉求将于\\2上报给校长处',One complain is received, if there is no reply, it will be sent to the headmaster
-    'note_complain_chuzhang2' => '【温馨提示】您单位有<a href="\\1" target="_blank">一条诉求</a>在规定时间内未处理,已上报给校长处',One no reply complain has been sent to the headmaster
-    'note_complain_fuxiaozhang' => '【温馨提示】\\3有<a href="\\1" target="_blank">一条诉求</a>未处理,如不及时处理,此诉求将于\\2上报给校长处', One complain need to be reply, otherwise it will be sent to the headmaster.
-    'note_complain_fuxiaozhang1' => '【温馨提示】\\3有<a href="\\1" target="_blank">一条诉求</a>未处理,已上报给校长处',,One no reply complain has been sent to the headmaster
-    'note_complain_xiaozhang' => '【温馨提示】\\2有<a href="\\1" target="_blank">一条诉求</a>未处理', One complain need to reply
+    'note_complain_buchu2' => 'Reminder: One <a href="\\1" target="_blank">complain</a> is received. If there is no reply, it will be sent to the headmaster at \\2',
+    'note_complain_buchu3' => 'Reminder: One no reply <a href="\\1" target="_blank">complain</a> has been sent to the headmaster',
+    'note_complain_chuzhang' => 'Reminder: One <a href="\\1" target="_blank">complain</a> is received. If there is no reply, it will be sent to the vise headmaster at \\2',
+    'note_complain_chuzhang1' => 'Reminder: One <a href="\\1" target="_blank">complain</a> is received. If there is no reply, it will be sent to the headmaster at \\2',
+    'note_complain_chuzhang2' => 'Reminder: One no reply <a href="\\1" target="_blank">complain</a> has been sent to the headmaster',
+    'note_complain_fuxiaozhang' => 'Reminder: One <a href="\\1" target="_blank">complain</a> for\\3 need to be reply, otherwise it will be sent to the headmaster at \\2.',
+    'note_complain_fuxiaozhang1' => 'Reminder: One no reply <a href="\\1" target="_blank">complain</a> for\\3 has been sent to the headmaster',
+    'note_complain_xiaozhang' => 'Reminder: One <a href="\\1" target="_blank">complain</a> for \\2 need to reply',
     
     
-    'note_complain_user' => '【温馨提示】您发布的<a href="\\1" target="_blank">一条诉求</a>由于\\2未及时回复.已上报给\\3处', One no reply complain has been sent to
+    'note_complain_user' => 'Reminder: One no reply <a href="\\1" target="_blank">complain</a> has been sent to \\3 because \\2',
     
     
-    'note_doingcomplain_at' => '【温馨提示】您有<a href="\\1" target="_blank">一条诉求</a>待处理，此诉求将于\\2上报给负责人处',One complain need to reply, otherwise it will be sent to the leader.
+    'note_doingcomplain_at' => 'Reminder: One <a href="\\1" target="_blank">complain</a> need to reply, otherwise it will be sent to the leader at \\2',
 
-    'note_doingcomplain_upto' => '【温馨提示】\\1有<a href="\\2" target="_blank">一条诉求</a>未处理,已转至您处',One no reply complain has been sent to you.
+    'note_doingcomplain_upto' => 'Reminder: One <a href="\\2" target="_blank">complain</a> for \\1 has been sent to you.',
 
-    'note_doingcomplain_uptousers' => '【温馨提示】<a href="\\1" target="_blank">\\2</a>未在相应的时间内处理您的<a href="\\3" target="_blank">诉求信息</a>,该诉求已转至<a href="\\4" target="_blank">\\5</a>处', 
-    'note_doingcomplain_up' => '【温馨提示】在<a href="\\1" target="_blank">一条诉求</a>中提到了你,由于你没有及时处理,已上报到<a href="\\2" target="_blank">\\3</a>',
-    'note_doingcomplain_reply' => '回复了你的<a href="\\1" target="_blank">诉求</a>', Reply to your complain
-    'note_comment_at' => '在<a href="\\1" target="_blank">一条评论</a>中@了你',@ in comment
-    'feed_friend_title' => '{actor} 和 {touser} 成为了好友',  be friend with
-    'note_friend_add' => '和你成为了好友', is your friend now
-    'note_poll_invite' => '邀请你一起参与 <a href="\\1" target="_blank">《\\2》</a>的\\3投票', invite you to join in the poll
-    'reward' => '悬赏', reward
-    'reward_info' => '参与投票可获得  \\1 积分', You can get one credit from the poll
+    'note_doingcomplain_reply' => 'Reply to your <a href="\\1" target="_blank">complain</a>',
+    'note_comment_at' => '@ you in a <a href="\\1" target="_blank">comment</a>',
+    'feed_friend_title' => '{actor} become a friend with {touser}',
+    'note_friend_add' => 'is your friend now', 
+    'note_poll_invite' => 'invite you to join in the poll: <a href="\\1" target="_blank">《\\2》</a>(\\3)',
+    'reward' => 'reward',
+    'reward_info' => 'You can get one credit from the poll \\1', 
     'poll_separator' => '"、"',
-    'feed_upload_pic' => '{actor} 上传了新图片',upload new photo
-    'feed_click_blog' => '{actor} 送了一个“{click}”给 {touser} 的日志 {subject}', sent a {click} to your blog
-    'feed_click_thread' => '{actor} 送了一个“{click}”给 {touser} 的话题 {subject}', sent a {click} to your subject
-    'feed_click_pic' => '{actor} 送了一个“{click}”给 {touser} 的图片',sent a {click} to your photo
-    'friend_subject' => '<a href="\\2" target="_blank">\\1 请求加你为好友</a>', ask to be your friend
-    'comment_friend' =>'<a href="\\2" target="_blank">\\1 给你留言了</a>', leave your a message
-    'photo_comment' => '<a href="\\2" target="_blank">\\1 评论了你的照片</a>', comment on your photo
-    'video_comment' => '<a href="\\2" target="_blank">\\1 评论了你的视频</a>', comment on your video
-    'blog_comment' => '<a href="\\2" target="_blank">\\1 评论了你的日志</a>',comment on your blog 
-    'poll_comment' => '<a href="\\2" target="_blank">\\1 评论了你的投票</a>', comment on your poll
-    'share_comment' => '<a href="\\2" target="_blank">\\1 评论了你的分享</a>', comment on your share
-    'friend_pm' => '<a href="\\2" target="_blank">\\1 给你发私信了</a>', send you a message
-    'poke_subject' => '<a href="\\2" target="_blank">\\1 向你打招呼</a>', say hi to you 
-    'mtag_reply' => '<a href="\\2" target="_blank">\\1 回复了你的话题</a>', reply to your topic
-    'event_comment' => '<a href="\\2" target="_blank">\\1 评论了你的活动</a>', comment on your event 
-    'friend_pm_reply' => '\\1 回复了你的私信', reply to your message
-    'comment_friend_reply' => '\\1 回复了你的留言', reply to your comment
-    'blog_comment_reply' => '\\1 回复了你的日志评论', reply to your comment on blog
-    'photo_comment_reply' => '\\1 回复了你的照片评论', reply to your comment on photo 
-    'video_comment_reply' => '\\1 回复了你的视频评论', reply to your comment on video 
-    'poll_comment_reply' => '\\1 回复了你的投票评论', reply to your comment on poll
-    'share_comment_reply' => '\\1 回复了你的分享评论', reply to your comment on share
-    'event_comment_reply' => '\\1 回复了你的活动评论', reply to your comment on event
+    'feed_upload_pic' => '{actor} upload new photo',
+    'feed_click_blog' => '{actor} sent a “{click}” to {touser} blog {subject}',
+    'feed_click_thread' => '{actor} sent “{click}” to {touser} {subject}',
+    'feed_click_pic' => '{actor} sent a “{click}” to {touser} photo',
+    'friend_subject' => '<a href="\\2" target="_blank">\\1 ask to be your friend</a>', 
+    'comment_friend' =>'<a href="\\2" target="_blank">\\1 leave your a message</a>',
+    'photo_comment' => '<a href="\\2" target="_blank">\\1 comment on your photo</a>',
+    'video_comment' => '<a href="\\2" target="_blank">\\1 comment on your video</a>',
+    'blog_comment' => '<a href="\\2" target="_blank">\\1 comment on your blog</a>',
+    'poll_comment' => '<a href="\\2" target="_blank">\\1 comment on your poll</a>',
+    'share_comment' => '<a href="\\2" target="_blank">\\1 comment on your share</a>', 
+    'friend_pm' => '<a href="\\2" target="_blank">\\1 send you a message</a>',
+    'poke_subject' => '<a href="\\2" target="_blank">\\1 say hi to you </a>',
+    'mtag_reply' => '<a href="\\2" target="_blank">\\1 reply to your topic</a>',
+    'event_comment' => '<a href="\\2" target="_blank">\\1 comment on your event </a>',
+    'friend_pm_reply' => '\\1 reply to your message',
+    'comment_friend_reply' => '\\1 reply to your comment',
+    'blog_comment_reply' => '\\1 reply to your comment on blog',
+    'photo_comment_reply' => '\\1 reply to your comment on photo',
+    'video_comment_reply' => '\\1 reply to your comment on video',
+    'poll_comment_reply' => '\\1 reply to your comment on poll',
+    'share_comment_reply' => '\\1 reply to your comment on share', 
+    'event_comment_reply' => '\\1 reply to your comment on event', 
     //公共主页 public site
-    'note_public_apply' => '有新的公共主页申请，<a href="\\1" target="_blank">请点击处理</a>', new application on public site, click here to reply
-    'note_no_mtag' => '有新的校友等待激活认证，<a href="\\1" target="_blank">请你点击以下链接，接受校友认证</a>', new schoolmate need to pass,click here to reply
-    'invite_subject' => '\\1邀请您加入\\2，并成为TA的好友', invite you to join in, and be her friend
+    'note_public_apply' => 'New application on public site，<a href="\\1" target="_blank">click here to reply</a>',
+    'note_no_mtag' => 'New schoolmate need to pass. <a href="\\1" target="_blank">click here to reply</a>',
+    'invite_subject' => '\\1 invite you to join in \\2，and be her friend', 
     'invite_massage' => '<table border="0"> 
         <tr>
         <td valign="top">\\1</td>
         <td valign="top">
-        <h3>Hi，我是\\2，在\\3上建立了公共主页，邀请您也加入并成为我的好友</h3><br> Hi, I am XX, invite you to be my friend
-        您可以通过我的公共主页了解到最新的信息，分享我的照片，<br> You can know my latest message on my public site 
-        随时和我保持联系<br> Please keep contact with me
+        <h3>Hi，I am \\2，in \\3 create a public site invite you to be my friend</h3><br>
+        You can know my latest message on my public site <br> 
+        Please keep contact with me <br> 
         <br><br>
-        <strong>请你点击以下链接，接受好友邀请：</strong><br> Click here to accept the invitation
+        <strong>Click here to accept the invitation</strong><br>
         <a href="\\5">\\5</a><br>
         <br>
-        <strong>如果你拥有\\3上面的账号，请点击以下链接查看我的个人主页：</strong><br> If you have owned my account, please click here to check my own site
+        <strong>If you have owned the account at \\3，please click here to check my own site</strong><br>,
         <a href="\\6">\\6</a><br>
         </td></tr></table>',
-    'app_invite_subject' => '\\1邀请您加入\\2，一起来玩\\3', Invite you to join in, 
+    'app_invite_subject' => '\\1 invite you to join in \\2，play together at \\3', 
     'app_invite_massage' => '<table border="0">
         <tr>
         <td valign="top">\\1</td>
         <td valign="top">
-        <h3>Hi，我是\\2，在\\3上玩 \\7，邀请您也加入一起玩</h3><br>  Hi, Here is XX playing XX and invite you to play with me.
+        <h3>Hi，I am \\2，playing \\7 at \\3，and invite you to play with me.</h3><br>
         <br>
-        邀请附言：<br> Message
+        message：<br>
         \\4
         <br><br>
-        <strong>请你点击以下链接，接受好友邀请一起玩\\7：</strong><br> Click here to invite your friend
+        <strong>Click here to invite your friend \\7：</strong><br>
         <a href="\\5">\\5</a><br>
         <br>
-        <strong>如果你拥有\\3上面的账号，请点击以下链接查看我的个人主页：</strong><br> If you have owned my account, please click here to check my own site
+        <strong>If you have owned account at \\3，please click here to check my own site</strong><br>
         <a href="\\6">\\6</a><br>
         </td></tr></table>',
-    'feed_mtag_add' => '{actor} 创建了新小组 {mtags}', Found a new group
-    'note_members_grade_-9' => '将你从小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 请出', Remove you from the group
-    'note_members_grade_-2' => '将你在小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的成员身份修改为 待审核', Your membership need to pass
-    'note_members_grade_-1' => '将你在小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 中禁言', You have been blocked in the group
-    'note_members_grade_0' => '将你在小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的成员身份修改为 普通成员', Your membership in Group has been changed into Normal Member
-    'note_members_grade_1' => '将你设为了小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的明星成员', Your membership in Group has been changed into Star Member
-    'note_members_grade_8' => '将你设为了小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的副群主', You have became vise leader of the group
-    'note_members_grade_9' => '将你设为了小组 <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> 的群主', You have became leader of the group
-    'feed_mtag_join' => '{actor} 加入了小组 {mtag} ({field})', Join in the group
-    'mtag_joinperm_2' => '需邀请才可加入', Need invitation
+    'feed_mtag_add' => '{actor} found a new group: {mtags}',
+    'note_members_grade_-9' => 'remove you from the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>', 
+    'note_members_grade_-2' => 'make your membership of the group <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a> being passed',
+    'note_members_grade_-1' => 'make you blocked in the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>',
+    'note_members_grade_0' => 'make you normal member of the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>',
+    'note_members_grade_1' => 'make you start member of the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>',
+    'note_members_grade_8' => 'make you the vise leader of the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>',
+    'note_members_grade_9' => 'make you the leader of the group: <a href="space.php?do=mtag&tagid=\\1" target="_blank">\\2</a>',
+    'feed_mtag_join' => '{actor} join in the group {mtag} ({field})',
+    'mtag_joinperm_2' => 'Need invitation', 
 
-    // 安康
     'feed_mtag_join_invite' => '{actor} accept {fromusername} invitation and join in group {mtag} ({field})',
     'person' => 'Person', 
     'delete' => 'Delate', 
@@ -254,7 +248,6 @@ Add credits and raise your ranking
     'event_set_unrecommend' => 'administrators cancel recommend your organization\'s activities <a href="\\1" target="_blank">\\2</a>',
     'event_set_open' => 'administrator opened up your organization\'s activities  <a href="\\1" target="_blank">\\2</a>',
     'event_set_close' => 'administrator shut down your organization\'s activities <a href="\\1" target="_blank">\\2</a>',
-	// 小伍
     'event_add' => '{actor} launched a new acticity',
     'event_feed_info' => '<strong>{title}</strong><br/>position：{province} {city} {location} <br/>period：{starttime} - {endtime}',
     'event_join' => '{actor} join in a  activity <a href="space.php?uid={uid}" target="_blank">{username}</a> organize  <a href="space.php?do=event&id={eventid}" target="_blank">{title}</a>',
