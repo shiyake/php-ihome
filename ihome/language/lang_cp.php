@@ -337,7 +337,7 @@ $cplang_english = array(
     'common_friends' => '\\1 and totally have\\2 friends',
     'common_class' => 'all of you are in the\\1 class', 
     'common_hometown' => 'all of you are from\\1',
-'mtag_add_thread' => 'launch anew topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
+'mtag_add_thread' => 'launch a new topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
     'mtag_invite_note' => 'invite you the join in the <a href="space.php?do=mtag&tagid=\\1">\\2 group</a>',
     'event_invite_note' => 'invite you to join in the <a href="space.php?do=event&id=\\1">event</a>', 
     'complain_relay' => '\\1 send a <a href="\\2">complain</a>to you ,please deal with it',
