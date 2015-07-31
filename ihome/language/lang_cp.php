@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-cplang_english = array(
+$cplang_english = array(
     'by' => 'pass', 
     'tab_space' => ' ',
     'feed_comment_space' => '{actor} leave a message for {touser}',
@@ -262,7 +262,7 @@ cplang_english = array(
     'event_feed_share_pic_title'=>'{actor} shared new photos to albun', 
     'event_feed_share_pic_info'=>'<b><a href="space.php?do=event&id={eventid}&view=pic" target="_blank">{title}</a></b><br/> {picnum} photos in total', 
     'event_accept_invite' => 'accept your invitation to join in the <a href="\\1" target="_blank">\\2</a> event',
-    'event_accept_success' => 'join in <a href="\\1" target="_blank"> event successfully and you can visit it right now立即访问该活动</a>'
+    'event_accept_success' => 'join in <a href="\\1" target="_blank"> event successfully and you can visit it right now立即访问该活动</a>',
     //道具：source/magic/*
     'magicunit' => '个',
     'magic_note_wall' => 'leave you <a href="\\1" target="_blank">a message</a>',
@@ -274,7 +274,7 @@ cplang_english = array(
     'upgrade_magic_award' => 'Congratulations for your level up to \\1，and  sent you the following properties\\2',
     //管理员向用户赠送道具administrator give props to the user
     'present_user_magics' => 'You have receive the props presented by administrator\\1', 
-    'has_not_more_doodle' => '' No more doodle,
+    'has_not_more_doodle' => 'No more doodle',
     'do_stat_login' => 'visited users', 
 
     'do_stat_register' => 'new registered users',
@@ -309,7 +309,7 @@ cplang_english = array(
     'reportee_message' => 'accept the report \\3 to you，and delete it<br/><br/>deleted one \\3 is:\\4<br/>reported reason：\\5',
     'report_type_ad' => 'unreal advertising',
 'report_type_sex' => 'obscene',
-    'report_type_fake_reward' => 'fake reward'
+    'report_type_fake_reward' => 'fake reward',
     'report_type_sensitive' => 'sensitive information',
     'report_type_fake_info' => 'fake information',
     'report_type_private' => 'leakage of the privacy of others',
@@ -317,7 +317,7 @@ cplang_english = array(
     'report_type_copy' => 'content copy',
     'report_type_fake_people' => 'personation',
     'report_type_bother' => 'Harassment',
-    'report_type_' => 'blank unfilled'
+    'report_type_' => 'blank unfilled',
     'report_blogid' => 'blog',
     'report_picid' => 'photo', 
 'report_albumid' => 'album',
@@ -338,12 +338,12 @@ cplang_english = array(
     'common_class' => 'all of you are in the\\1 class', 
     'common_hometown' => 'all of you are from\\1',
 'mtag_add_thread' => 'launch anew topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
-    'mtag_invite_note'  'invite you the join in the <a href="space.php?do=mtag&tagid=\\1">\\2 group</a>',
+    'mtag_invite_note' => 'invite you the join in the <a href="space.php?do=mtag&tagid=\\1">\\2 group</a>',
     'event_invite_note' => 'invite you to join in the <a href="space.php?do=event&id=\\1">event</a>', 
     'complain_relay' => '\\1 send a <a href="\\2">complain</a>to you ,please deal with it',
     'complain_down' => 'someone disagree the complain you reply,please check the<a href="\\1">complain</a>', 
     'complain_continue' => 'the people you reply about complain send a message,please check the<a href="\\1">complain</a>',
-    'complain_reply' => 'some department replyed for your complain,please check the<a href="\\1">complain</a>', .
+    'complain_reply' => 'some department replyed for your complain,please check the<a href="\\1">complain</a>',
 );
 
 $_SGLOBAL['cplang'] = array(
@@ -721,7 +721,7 @@ $_SGLOBAL['cplang'] = array(
     'complain_down' => '您回复过的诉求被诉求人踩了，请您再看一下这个<a href="\\1">诉求</a>',
     'complain_continue' => '您回复的诉求，诉求人又继续诉求了新的信息，请您看一下这个的<a href="\\1">诉求</a>',
     'complain_reply' => '有部门回复了你的诉求，你可以看一下这个<a href="\\1">诉求</a>',
-    'english': cplang_english
+    'english' => $cplang_english
 );
 
 ?>

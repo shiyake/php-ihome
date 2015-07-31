@@ -363,8 +363,12 @@ if(submitcheck('threadsubmit')) {
 	);
 	$pid = inserttable('post', $setarr, 1);
 
+    echo "p1<br>";
 	//邮件通知
-	smail($thread['uid'], '', cplang('mtag_reply',array($_SN[$space['uid']], shtmlspecialchars(getsiteurl()."space.php?uid=$thread[uid]&do=thread&id=$thread[tid]"))), '', 'mtag_reply');
+    $text = cplang('mtag_reply',array($_SN[$space['uid']], shtmlspecialchars(getsiteurl()."space.php?uid=$thread[uid]&do=thread&id=$thread[tid]")));
+    echo $text;
+	smail($thread['uid'], '', $text, '', 'mtag_reply');
+    echo "p2<br>";
 
 	//更新统计数据
     $last_author_name = $anonymous ? 'null' : $_SGLOBAL[supe_username];
@@ -376,7 +380,9 @@ if(submitcheck('threadsubmit')) {
 	$_SGLOBAL['db']->query("UPDATE ".tname("mtag")." SET postnum=postnum+1 WHERE tagid='$thread[tagid]'");
 
 	//普通回复
+    echo "reply";
 	if(empty($post) && $thread['uid'] != $_SGLOBAL['supe_uid']) {
+        echo "normal";
 		
 		//积分
 		getreward('replythread', 1, 0, $thread['tid']);
@@ -407,6 +413,7 @@ if(submitcheck('threadsubmit')) {
 		notification_add($thread['uid'], 'post', $note, 0, $anonymous);
 
 	} elseif ($post) {
+        echo "post";
 		$note = $anonymous ? '匿名用户 ' : '';
 		$note .= cplang('note_post_reply', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject'], "space.php?uid=$thread[uid]&do=thread&id=$thread[tid]&pid=$pid"));
 		notification_add($post['uid'], 'post', $note, 0, $anonymous);

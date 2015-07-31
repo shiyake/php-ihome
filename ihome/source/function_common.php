@@ -1793,26 +1793,29 @@ function notifyUserLocked($username) {
 
     function getUserLang($uid) {
         // 默认是中文
-        return NULL;
+        // TODO 测试英文
+        return 'english';
     }
 
 	//获得后台语言
-    function cplang($key, $vars=array(), $lang=NULL) {
+    function cplang($key, $vars=array(), $lang=null) {
 		global $_SGLOBAL;
+        echo "call cplang";
 
 		include_once(S_ROOT.'./language/lang_cp.php');
-        $result = NULL; 
-        if ($lang != NULL && isset($_SGLOBAL['cplang']['english'][$key])) {
+        $result = null; 
+        if ($lang != null && isset($_SGLOBAL['cplang']['english'][$key])) {
             $result = lang_replace($_SGLOBAL['cplang']['english'][$key], $vars);
         }
 
-        if ($result == NULL) {
+        if ($result == null) {
             if (isset($_SGLOBAL['cplang'][$key])) {
                 $result = lang_replace($_SGLOBAL['cplang'][$key], $vars);
             } else {
                 $result = $key;
             }
         }
+        echo "return cplang";
 		return $result;
 	}
 
