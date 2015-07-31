@@ -65,15 +65,17 @@
 
                     var type = jQuery(this).val();
                     var msg = trim(jQuery('#complain_op_msg').val());
+                    var exclude_relay = (msg.match(/^\s*回复@.*?\(\d+\)/) || "").length;
                     jQuery('#complain_op_form button').addClass('disabled').attr('disabled','disabled');
                     if (!msg || !trim(msg.replace(/@.*?\(\d+\)/g,''))) {
                         show('say_something');
-                    } else if (type && (msg.match(/@.*?\(\d+\)/g)||"").length > 1) {
+                    } else if (!exclude_relay && type && (msg.match(/@.*?\(\d+\)/g)||"").length > 1) {
                         show('relay_too_much');
-                    } else if (type && parseInt('$complain[relay_times]')>=3 &&  (msg.match(/@.*?\(\d+\)/g)||"").length) {
+                    } else if (!exclude_relay && type && parseInt('$complain[relay_times]')>=3 &&  (msg.match(/@.*?\(\d+\)/g)||"").length) {
                         show('relay_not_allowed');
                     } else {
                         jQuery.post('cp.php?ac=complain&op=add&doid=$doid', {
+                            "exclude_relay": exclude_relay,
                             "type": type,
                             "message": msg,
                             "addsubmit": "true",
