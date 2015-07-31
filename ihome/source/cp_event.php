@@ -240,7 +240,7 @@ if($op == 'invite') {
 			$arr['tousername'] = getstr($_POST['names'][$i], 15, 1, 1);
 			$inserts[] = "(".simplode($arr).")";
             $touids[] = $arr['touid'];
-            $note=cplang('event_invite_note',array($arr[eventid],$event[title]));
+            $note=cplang('event_invite_note',array($arr[eventid],$event[title]),getUserLang($arr['touid']));
             notification_add($arr['touid'],'post',$note);
 		}
 		if($inserts) {

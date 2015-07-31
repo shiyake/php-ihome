@@ -89,7 +89,7 @@ if($_GET['op'] == 'manage') {
 				while ($value = $_SGLOBAL['db']->fetch_array($query)) {
 					$touids[] = $value['fuid'];
                     $inserts[] = "('$value[fuid]', '$mtag[tagid]', '$_SGLOBAL[supe_uid]', '$_SGLOBAL[supe_username]', '$_SGLOBAL[timestamp]')";
-                    $note = cplang('mtag_invite_note',array($mtag[tagid],$mtag[tagname]));
+                    $note = cplang('mtag_invite_note',array($mtag[tagid],$mtag[tagname]),getUserLang($value['fuid']));
                     notification_add($value['fuid'], 'post', $note);
 				}
 			}

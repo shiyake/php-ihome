@@ -253,7 +253,7 @@ if(submitcheck('threadsubmit')) {
         $arr[] = $tagid;
         $arr[] = $mtag['tagname'];
         $content = $anonymous ? '匿名用户 ' : '';
-        $content .= cplang('mtag_add_thread', $arr);
+        $content .= cplang('mtag_add_thread', $arr,getUserLang($value['uid']));
         $query = $_SGLOBAL['db']->query("select * from ".tname('tagspace')." where tagid='$tagid'");
         while ($value = $_SGLOBAL['db']->fetch_array($query)) {
             notification_add($value['uid'], 'mtag_add_thread', $content, 0, $anonymous);
@@ -415,7 +415,7 @@ if(submitcheck('threadsubmit')) {
 	} elseif ($post) {
         echo "post";
 		$note = $anonymous ? '匿名用户 ' : '';
-		$note .= cplang('note_post_reply', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject'], "space.php?uid=$thread[uid]&do=thread&id=$thread[tid]&pid=$pid"));
+		$note .= cplang('note_post_reply', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject'], "space.php?uid=$thread[uid]&do=thread&id=$thread[tid]&pid=$pid"),getUserLang($post['uid']));
 		notification_add($post['uid'], 'post', $note, 0, $anonymous);
 	}
 	
