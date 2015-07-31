@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit"> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="i北航">
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<link rel="shortcut icon" href="image/logo_title.png" />
+<title>分享到ihome-i北航 Beta</title>
+<link href="plugin/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+<link href="template/default/login.css" rel="stylesheet" type="text/css" />
+<link href="template/default/share.css" rel="stylesheet" type="text/css" />
+<link href="plugin/at/jquery.at.css" rel="stylesheet" type="text/css" />
+<script src="plugin/bootstrap/jquery-ui-bootstrap/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="plugin/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="plugin/flip/jquery.quickflip.min.js" type="text/javascript"></script>
+<script src="plugin/bootstrap/css3-mediaqueries.js"></script>
+<script src="plugin/at/jquery.caret.js" type="text/javascript"></script>
+<script src="plugin/at/jquery.at.js" type="text/javascript"></script>
+<script src="plugin/at/at.js" type="text/javascript"></script>
+<script src="template/default/share.js" type="text/javascript"></script>
+</head>
+<body>
+    <!--{if !empty($loginbg)}-->
+    <style>
+        .bg {
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size:cover;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src="{$loginbg['bg_pic']}",
+            sizingMethod='scale');
+            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src="{$loginbg['bg_pic']}",
+            sizingMethod='scale')";
+        }
+        .contain-box{
+            background-color: #{$loginbg['box_bg_col']};
+            background-color: rgba($col1,$col2,$col3,0.4);
+            border: 1px solid #{$loginbg['box_border_col']};
+        }
+        .contain-box .form .submit-control #loginsubmit{
+            background-color:#{$loginbg['btn_bg_col']};
+            border: 1px solid #{$loginbg['btn_border_col']};
+            color: #{$loginbg['btn_font_col']};
+        }
+        .contain-box .form .submit-control .text {
+            color: #{$loginbg['active_font_col']};
+        }
+        .info-back {
+            color:#{$loginbg['back_font_col']};
+        }
+        .footer-back #footer1 a{
+            color:#{$loginbg['back_link_col']};
+        }
+        .footer-back {
+            color:#{$loginbg['back_link_col']};
+        }
+        .footer-back #footer2 a{
+            color:#{$loginbg['back_link_col']};
+        }
+    </style>
+    <!--{/if}-->
+	<!--<div class='bg'></div>-->
+<div class="share-box">
+    <div class="login-box">
+        <img class="logo" src="http://i.buaa.edu.cn/ihome/data/avatar/000/00/06/65_avatar_big.jpg"/>
+        <div class="login" >登录到i北航&nbsp;&nbsp;
+        <!--{if $shareLogin}-->
+        <a id="loginname" href="space.php">$username_share&nbsp;</a>|
+        <a id="logout">&nbsp;退出登录</a>
+        <!--{else}-->
+        <a class="not_login">登录</a>
+        <!--{/if}-->
+        </div>
+        <input type="hidden" name="hash" value="$_SGLOBAL[uhash]"/>
+    </div>
+    <form id="shareform" method="post" name="shareform" action="cp.php?ac=share&type=outernews&inspace=1">
+        <div class="formtitle">分享到i北航</div>
+        <div class="wordTip">还能输入<span></span>个字</div>
+        <textarea id="message" name="general" class="sharenotice" placeholder="说点什么吧，你还可以@好友哦～" oninput="textCounter(this, '.wordTip span', 140)" onpropertychange="textCounter(this, '.wordTip span', 140)"></textarea>
+        <textarea class="sharetitle" name="sharetitle">$shareTitle</textarea>
+        <img class="shareimg" src="$shareImage"/>
+        <input type="hidden" name="sharelink" value="$shareUrl"/>
+        <input type="hidden" name="shareimageurl" value="$shareImage"/>
+        <input type="hidden" name="sharesubmit" value="true" />
+        <input type="hidden" name="refer" value="$shareUrl">
+        <input type="hidden" name="formhash" value="<?php echo formhash(); ?>" />
+        <div class="line"></div>
+        <input id="sharebutton" type="button" name="sharebutton" value="分享" class="btn btn-primary"/>
+    </form>
+</div>
+<div class="contain-box quickflip-wrapper">
+<div>
+    <img class="share_login_close" src="template/default/image/share_login_close.png"/>
+    <div class="logo-head">
+        <p>登录 i北航</p>
+    </div>
+    <form class="form" name="loginform" id="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post">
+        <input type="hidden" name="login_action" value="$_SCONFIG[login_action]"/>
+        <input type="hidden" name="url_plus" value="$url_plus"/>
+        <div class="form-group" id="username-wrap">
+            <input value="{$membername}" type="text" class="form-control" id="username" name="username" placeholder="邮箱/登录名">
+	    <div id="img_bg"><img src="image/login_user.png" id='login_user'/></div>
+        </div>
+	<div class="form-group" id="username-wrap">
+	    <input type="password" value="$password" class="form-control" id="password" name="password" placeholder="密码">
+	    <div id="img_bg"><img src="image/login_password.png" id='login_password'/></div>
+	</div>
+    <!--{if !empty($login_fail_times) && $login_fail_times >= 3}-->
+    <div class="form-group">
+        <input style="float:left; width: 30%;padding: 5px;" class="narrow text input" name="captcha" type="text" placeholder="输入验证码"/>
+        <div id="captcha-wrap" style="float:left; width:40%; line-height: 40px;">
+            <img src="/newCaptcha.php" id="captcha"/>
+            <a href="#" id="refresh-captcha">换一个</a>
+        </div>
+    </div>
+    <!--{/if}-->
+	<div class="submit-control">
+	    <!--<input type="checkbox" id="cookietime" value="315360000" $cookiecheck name="cookietime" />-->
+	    <!--<label for="cookietime"><span class='text'>下次自动登录</span></label>-->
+	    <input type="hidden" name="refer" value="space.php?do=home" />
+	    <!--<a id="forget_pwd" href="do.php?ac=lostpasswd" for="forget_password"><span class='text'>忘记密码</span></a>-->
+	    <input id='loginsubmit' name="loginsubmit" type="submit" class="btn" data-loading-text="登录..." value="登录"></input>
+	    <!--<a id="cas" href="do_cas_login.php"><span class='text'>使用校园统一认证平台登录</span></a>-->
+	    <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	    <!--<a id="activate" href="do.php?ac=$_SCONFIG[activate_action]" for="remember_me"><span class='text'>激活账户</span><span class="glyphicon glyphicon-chevron-right text"></span></a>-->
+	    </div>
+    </form>
+    <input type="hidden" class="json_friend" id="json_friend" value="$_SGLOBAL[supe_uid]">
+    <input type="hidden" class="friendurl_r" id="friendurl_r" value="$friendurl_r" />
+    <script type="text/javascript">
+    (function($) {
+        $(function() {
+            $("#refresh-captcha").click(function() {
+                $("#captcha").attr("src", "/newCaptcha.php?_=" + new Date().getTime());
+            });
+        });
+    })(jQuery);
+    </script>
+</div>
+</div>
+</body>
+</html>

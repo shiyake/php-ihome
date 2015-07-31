@@ -206,6 +206,22 @@ if($_GET['op'] == 'delete') {
 			$note_message = cplang('note_share_arrangement', array("space.php?uid=$arrangement[uid]&do=arrangement&id=$arrangement[arrangementid]", $arrangement['subject']));
 			
 			break;
+        case 'outernews':
+            $outer_title = empty($_POST['sharetitle'])?'': $_POST['sharetitle'];
+            $outer_sharenotice = empty($_POST['general'])?'': $_POST['general'];
+            $outer_sharelink = empty($_POST['sharelink'])?'': $_POST['sharelink'];
+            $outer_shareimageurl = empty($_POST['shareimageurl'])?'': $_POST['shareimageurl'];
+
+            $arr['title_template'] = cplang('share_news');
+            $arr['body_template'] = '<b>{subject}</b>';
+            $arr['body_data'] = array(
+                'subject' => "<a href=".$outer_sharelink.">".$outer_title."</a>"
+            );
+            if($outer_shareimageurl) {
+				$arr['image'] = pic_cover_get($outer_shareimageurl);
+                $arr['image_link'] = $outer_shareimageurl;
+            }
+            break;
 		case 'blog':
 			$query = $_SGLOBAL['db']->query("SELECT b.*,bf.message,bf.hotuser FROM ".tname('blog')." b
 				LEFT JOIN ".tname('blogfield')." bf ON bf.blogid=b.blogid
@@ -706,7 +722,10 @@ if($_GET['op'] == 'delete') {
 			$_SGLOBAL['inajax'] = 0;
 		}
 		
-		
+	    if($_GET['type'] == 'outernews'){
+            showmessage('do_success');
+            exit();
+        }
 		showmessage('do_success', $url, 0);
 		//print_r($_POST);exit;
 	}
