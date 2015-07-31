@@ -15,7 +15,7 @@ $_SGLOBAL['usergroup']=Array
 		'allowcomment' => 1,
 		'searchinterval' => '0',
 		'searchignore' => 1,
-		'postinterval' => 5,
+		'postinterval' => '0',
 		'spamignore' => 1,
 		'videophotoignore' => 1,
 		'allowblog' => 1,
@@ -97,8 +97,7 @@ $_SGLOBAL['usergroup']=Array
 
 			),
 		'sendsms' => 1,
-		'maxsmsnum' => '0',
-		'managecomplain' => 1
+		'maxsmsnum' => '0'
 		)
 	)
 ?>

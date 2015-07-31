@@ -116,7 +116,7 @@ if ($_GET['view'] == 'rank') {
     if ($_GET['view'] == 'all') {
         $starttime = ($starttime = strtotime($_POST['starttime']))? $starttime: mktime(0,0,0,date("m"),1,date("Y"));
         $endtime = ($endtime = strtotime($_POST['endtime']))? $endtime: mktime(0,0,0);
-        $atuid = isset($_POST['atuid'])?$_POST['atuid']:0;
+        $atuid = isset($_POST['atuid'])?$_POST['atuid']:(isset($_GET['atuid'])?$_GET['atuid']:0);
         $atuid = intval($atuid);
 
         $startDay = date('Ymd', $starttime);
@@ -181,6 +181,13 @@ if ($_GET['view'] == 'rank') {
             $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status in (0,1))";
         }
         $submenus['closed']=' class = "active"';
+    } elseif ($_GET['type'] == 'replay') {
+        if ($_GET['view'] == 'atme') {
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where atuid='$_SGLOBAL[supe_uid]' and status in (0,2)) and doid in (select doid from ihome_complain t where (t.doid, t.from) in (select doid, uid from ihome_docomment a where dateline = (select max(dateline) from ihome_docomment where doid = a.doid) order by a.dateline desc))";
+        } else {
+            $wheresql .= " and doid not in (select distinct doid from ".tname('complain')." where status=0 union select distinct doid from ".tname('complain')." where doid not in (select distinct doid from ".tname('complain')." where status in (0,1))) and doid in (select doid from ihome_complain t where (t.doid, t.from) in (select doid, uid from ihome_docomment a where dateline = (select max(dateline) from ihome_docomment where doid = a.doid) order by a.dateline desc))";
+        }
+        $submenus['replay']=' class = "active"';
     } else {
         $submenus['all']=' class = "active"';
     }

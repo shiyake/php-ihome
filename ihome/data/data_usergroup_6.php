@@ -9,12 +9,12 @@ $_SGLOBAL['usergroup']=Array
 		'system' => '0',
 		'banvisit' => '0',
 		'explower' => 100,
-		'maxfriendnum' => 200,
-		'maxattachsize' => 52428800,
+		'maxfriendnum' => 500,
+		'maxattachsize' => 1048576000,
 		'allowhtml' => '0',
 		'allowcomment' => 1,
 		'searchinterval' => 30,
-		'searchignore' => '0',
+		'searchignore' => 1,
 		'postinterval' => 30,
 		'spamignore' => '0',
 		'videophotoignore' => '0',
@@ -97,8 +97,7 @@ $_SGLOBAL['usergroup']=Array
 
 			),
 		'sendsms' => 1,
-		'maxsmsnum' => 10,
-		'managecomplain' => '0',
+		'maxsmsnum' => '0',
 		'exphigher' => 999
 		)
 	)

@@ -390,7 +390,7 @@ jq(function(){
                 <a href="space.php?do=notice">{$_SGLOBAL[member][allnotenum]}个提醒</a></li><!--{/if}-->
                 <!--{/if}-->-->
             </ul>
-            <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;"> 
+            <ul class="nav navbar-nav hidden-xs info pull-right" style="width:325px;" > 
                 <!--{if $_SGLOBAL[supe_uid]}-->
                 <li class="hidden-xs hidden-sm" style="padding:13px;padding-left:0;padding-right:0;width:140px">
                 <form method="get" id="head_search" action="space.php" >
@@ -416,6 +416,8 @@ jq(function(){
                     <!--{/if}-->
                 </form>
                 </li>
+		<!--{eval $member = $_SGLOBAL['member'];}-->              
+
                 <!--{eval $member = $_SGLOBAL['member'];}-->
                 <li class="dropdown pull-right">
                 <a class="dropdown-toggle hidden-xs hidden-sm" style="padding: 9px 5px 10px;" data-toggle="dropdown" href="#">
@@ -432,13 +434,14 @@ jq(function(){
 
                     <!--{/if}-->
                 </div>
-                </a>
+                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="cp.php"><i class="icon-cog" style="margin-right:11px"></i>设置</a></li>
                     <li class="divider" id="for-public"></li>
                     <li><a href="cp.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]"><i class="icon-signout" style="margin-right:10px"></i>退出</a></li>
                 </ul>
                 </li>
+
                 <li class="pull-right li_notice">
                 <a href="cp.php?ac=friend&op=request"><img src="image/icons/icon-addfriend.png"></img></a>
                 <!--{if $member[addfriendnum]}-->
@@ -446,15 +449,15 @@ jq(function(){
                 <!--{/if}--> 
                 </li>
                 <li class="pull-right li_notice">
-                <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
-                <span class="news_badge" id="notebadge" style="display:none;"></span>
+                    <a href="space.php?do=notice"><img src="image/icons/icon-soundnotice.png"></a>
+                    <span class="news_badge" id="notebadge" style="display:none;"></span>
                 </li>
                 <li class="pull-right li_notice" style="padding-left:0">
-                <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
-                <span class="news_badge" id="pmbadge" style="display:none;"></span>
+                    <a href="space.php?do=pm"><img src="image/icons/icon-message.png"></img></a>
+                    <span class="news_badge" id="pmbadge" style="display:none;"></span>
                 </li>
                 <!--{/if}-->
-            </ul>
+    	</ul>
         </div>
     </div>
     <script>

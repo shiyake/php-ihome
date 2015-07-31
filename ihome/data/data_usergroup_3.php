@@ -9,15 +9,15 @@ $_SGLOBAL['usergroup']=Array
 		'system' => 1,
 		'banvisit' => '0',
 		'explower' => '0',
-		'maxfriendnum' => '0',
-		'maxattachsize' => '0',
+		'maxfriendnum' => 10000,
+		'maxattachsize' => 5242880000,
 		'allowhtml' => 1,
 		'allowcomment' => 1,
 		'searchinterval' => '0',
 		'searchignore' => 1,
-		'postinterval' => '0',
+		'postinterval' => 5,
 		'spamignore' => 1,
-		'videophotoignore' => 1,
+		'videophotoignore' => '0',
 		'allowblog' => 1,
 		'allowdoing' => 1,
 		'allowupload' => 1,
@@ -37,13 +37,13 @@ $_SGLOBAL['usergroup']=Array
 		'allowmyop' => 1,
 		'allowtopic' => '0',
 		'allowstat' => '0',
-		'magicdiscount' => -1,
+		'magicdiscount' => '0',
 		'verifyevent' => '0',
 		'edittrail' => '0',
 		'domainlength' => 3,
 		'closeignore' => '0',
 		'seccode' => '0',
-		'color' => '#0F0F8F',
+		'color' => '',
 		'icon' => 'image/group/public.gif',
 		'manageconfig' => '0',
 		'managenetwork' => '0',
@@ -97,8 +97,7 @@ $_SGLOBAL['usergroup']=Array
 
 			),
 		'sendsms' => 1,
-		'maxsmsnum' => '0',
-		'managecomplain' => '0'
+		'maxsmsnum' => '0'
 		)
 	)
 ?>

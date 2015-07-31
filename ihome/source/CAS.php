@@ -63,7 +63,7 @@ if (!defined('E_USER_DEPRECATED')) {
 /**
  * phpCAS version. accessible for the user by phpCAS::getVersion().
  */
-define('PHPCAS_VERSION', '1.3.0');
+define('PHPCAS_VERSION', '1.3.0RC1+');
 
 /**
  * @addtogroup public
@@ -303,8 +303,8 @@ class phpCAS
      * @param string $server_hostname the hostname of the CAS server
      * @param string $server_port     the port the CAS server is running on
      * @param string $server_uri      the URI the CAS server is responding on
-     * @param bool   $changeSessionID Allow phpCAS to change the session_id (Single
-     * Sign Out/handleLogoutRequests is based on that change)
+     * @param bool   $start_session   have phpCAS start PHP sessions (default
+     * true)
      *
      * @return a newly created CAS_Client object
      * @note Only one of the phpCAS::client() and phpCAS::proxy functions should be
@@ -312,7 +312,7 @@ class phpCAS
      * and phpCAS::setDebug()).
      */
     public static function client($server_version, $server_hostname,
-        $server_port, $server_uri, $changeSessionID = true
+        $server_port, $server_uri, $start_session = true
     ) {
         phpCAS :: traceBegin();
         if (is_object(self::$_PHPCAS_CLIENT)) {
@@ -343,7 +343,7 @@ class phpCAS
         // initialize the object $_PHPCAS_CLIENT
         self::$_PHPCAS_CLIENT = new CAS_Client(
             $server_version, false, $server_hostname, $server_port, $server_uri,
-            $changeSessionID
+            @$start_session
         );
         phpCAS :: traceEnd();
     }
@@ -355,8 +355,8 @@ class phpCAS
      * @param string $server_hostname the hostname of the CAS server
      * @param string $server_port     the port the CAS server is running on
      * @param string $server_uri      the URI the CAS server is responding on
-     * @param bool   $changeSessionID Allow phpCAS to change the session_id (Single
-     * Sign Out/handleLogoutRequests is based on that change)
+     * @param string $start_session   have phpCAS start PHP sessions (default
+     * true)
      *
      * @return a newly created CAS_Client object
      * @note Only one of the phpCAS::client() and phpCAS::proxy functions should be
@@ -364,7 +364,7 @@ class phpCAS
      * and phpCAS::setDebug()).
      */
     public static function proxy($server_version, $server_hostname,
-        $server_port, $server_uri, $changeSessionID = true
+        $server_port, $server_uri, $start_session = true
     ) {
         phpCAS :: traceBegin();
         if (is_object(self::$_PHPCAS_CLIENT)) {
@@ -395,7 +395,7 @@ class phpCAS
         // initialize the object $_PHPCAS_CLIENT
         self::$_PHPCAS_CLIENT = new CAS_Client(
             $server_version, true, $server_hostname, $server_port, $server_uri,
-            $changeSessionID
+            $start_session
         );
         phpCAS :: traceEnd();
     }
