@@ -85,8 +85,8 @@ $groupid = $_SGLOBAL['db']->fetch_array($querygroupid);
     $shareLogin = false;
 }
 
-$shareUrl = empty($_GET['href']) ? '' : $_GET['href'];
-$shareTitle = empty($_GET['title']) ? '' : $_GET['title'];
-$shareImage = empty($_GET['image']) ? '' : $_GET['image'];
+$shareUrl = empty($_GET['href']) ? '' : rawurldecode($_GET['href']);
+$shareTitle = empty($_GET['title']) ? '' : rawurldecode($_GET['title']);
+$shareImage = empty($_GET['image']) ? '' : rawurldecode($_GET['image']);
 
 include_once template("share");
