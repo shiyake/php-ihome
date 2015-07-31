@@ -1801,11 +1801,18 @@ function notifyUserLocked($username) {
 		global $_SGLOBAL;
 
 		include_once(S_ROOT.'./language/lang_cp.php');
-		if(isset($_SGLOBAL['cplang'][$key])) {
-			$result = lang_replace($_SGLOBAL['cplang'][$key], $vars);
-		} else {
-			$result = $key;
-		}
+        $result = NULL; 
+        if ($lang != NULL && isset($_SGLOBAL['cplang']['english'][$key])) {
+            $result = lang_replace($_SGLOBAL['cplang']['english'][$key], $vars);
+        }
+
+        if ($result == NULL) {
+            if (isset($_SGLOBAL['cplang'][$key])) {
+                $result = lang_replace($_SGLOBAL['cplang'][$key], $vars);
+            } else {
+                $result = $key;
+            }
+        }
 		return $result;
 	}
 
