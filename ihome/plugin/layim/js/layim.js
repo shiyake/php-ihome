@@ -9,6 +9,181 @@
  
 ;!function(win, undefined){
 
+var debug = function(msg) {
+    console.debug(msg);
+};
+
+var webim = {
+    conn: null,
+    apiURL: null,
+    user: null,
+    nickname: null,
+    appkey: (function() {
+        if (location.host == 'i.buaa.edu.cn') {
+            return 'ihome#ihome';
+        }
+        return 'ihome#ihomeTest';
+    })(),
+    failed: false,
+    hooked: false,
+    hasFocus: false,
+    ensureOnline: function() {
+        if (!this.hasFocus)
+            return;
+        this.login();
+    },
+    hook: function() {
+        if (this.hooked)
+            return;
+        jQuery(window).on('focus', function() {
+            this.hasFocus = true;
+            this.login();
+        }.bind(this));
+        jQuery(window).on('blur', function() {
+            this.hasFocus = false;
+        }.bind(this));
+        setInterval(function() {
+            this.ensureOnline();
+        }.bind(this), 5000);
+        this.hooked = true;
+    },
+    init: function() {
+        this.initConnection();
+        this.login();
+    },
+    handleOpen: function() {
+        this.user = config.user.id;
+        this.nickname = config.user.name;
+        xxim.view();
+        this.hook();
+        debug('login successfully');
+    },
+    handleClosed: function() {
+        this.user = null;
+        this.nickname = null;
+        debug('closed');
+        // TO FREEZE THE PANEL
+    },
+    handleTextMessage: function(message) {
+        xxim.update(message);
+    },
+    handleError: function(e) {
+        if (this.user == null) {
+            !this.failed && this.register();
+            this.failed = true;
+        } else {
+            var msg = e.msg;
+            if (e.type == EASEMOB_IM_CONNCTION_SERVER_CLOSE_ERROR) {
+                if (msg == "" || msg == 'unknown') {
+                    debug("服务器器断开连接,可能是因为在别处登录");
+                } else {
+                    debug("服务器器断开连接");
+                }
+            } else {
+                debug(msg);
+            }
+        }
+    },
+    initConnection: function() {
+        var _this = this;
+        this.conn = new Easemob.im.Connection();
+        this.conn.init({
+            https: false,
+            onOpened : function() {
+                _this.conn.setPresence();
+                _this.handleOpen();
+            },
+            onClosed : function() {
+                _this.conn.clear();
+                _this.handleClosed();
+            },
+            onTextMessage : function(message) {
+                _this.handleTextMessage(message);
+            },
+            //收到表情消息时的回调方法
+            onEmotionMessage : function(message) {
+                handleEmotion(message);
+            },
+            //收到图片消息时的回调方法
+            onPictureMessage : function(message) {
+                handlePictureMessage(message);
+            },
+            //收到音频消息的回调方法
+            onAudioMessage : function(message) {
+                handleAudioMessage(message);
+            },
+            //收到位置消息的回调方法
+            onLocationMessage : function(message) {
+                handleLocationMessage(message);
+            },
+            //收到文件消息的回调方法
+            onFileMessage : function(message) {
+                handleFileMessage(message);
+            },
+            //收到视频消息的回调方法
+            onVideoMessage : function(message) {
+                handleVideoMessage(message);
+            },
+            //收到联系人订阅请求的回调方法
+            onPresence : function(message) {
+                handlePresence(message);
+            },
+            //收到联系人信息的回调方法
+            onRoster : function(message) {
+                handleRoster(message);
+            },
+            //收到群组邀请时的回调方法
+            onInviteMessage : function(message) {
+                handleInviteMessage(message);
+            },
+            onError : function(message) {
+                _this.handleError(message);
+            }
+        });
+    },
+    login: function() {
+        if (this.conn.context.userId) {
+            return;
+        }
+        var options = {
+            apiUrl : this.apiURL,
+            user : config.user.id.toString(),
+            pwd : '123456',
+            appKey : this.appkey
+        };
+        this.conn.open(options);
+    },
+    register: function() {
+        if (this.user || !config.user.id) {
+            this.handleError();
+            return;
+        }
+        var _this = this;
+        var options = {
+            username : config.user.id.toString(),
+            password : '123456',
+            nickname : config.user.name,
+            appKey : this.appkey,
+            success : function(result) {
+                _this.login();
+                debug("注册成功!");
+            },
+            error : function(e) {
+                debug(e.error);
+            }
+        };
+        Easemob.im.Helper.registerUser(options);
+    },
+    sendText: function(to, msg, type) {
+        var options = {
+            to : to,
+            msg : msg,
+            type : type
+        };
+        this.conn.sendTextMessage(options);
+    }
+};
+
 var config = {
     msgurl: 'space.php?do=pm',
     chatlogurl: 'space.php?do=pm&subop=view&touid=',
@@ -19,7 +194,6 @@ var config = {
         group: 'plugin/layim/group.json', //群组列表接口 
         chatlog: 'api/im/chatlog.php', //聊天记录接口
         groups: 'plugin/layim/groups.json', //群组成员接口
-        sendurl: 'api/im/send.php', //发送消息接口
         update: 'api/im/update.php',
         leave: 'api/im/leave.php',
         history: 'api/im/history.php'
@@ -35,7 +209,7 @@ var config = {
                     _this.id = data.id;
                     _this.name=data.name;
                     _this.face=data.face;
-                    xxim.view();
+                    webim.init();
                 }
             }, 'json');
             return _this;
@@ -541,17 +715,17 @@ xxim.transmit = function(){
             }, 'me'));
             node.imwrite.val('').focus();
             log.imarea.scrollTop(log.imarea[0].scrollHeight);
-                       
             
-            config.json(config.api.sendurl, data, function(datas){
-                if (!datas['status']) {
-                    log.imarea.append('<li><div class="layim_chatsay layim_chattip">'+datas['msg']+'</div></li>');
-                    log.imarea.scrollTop(log.imarea[0].scrollHeight);
-                }
-            }, function(e) {
-                log.imarea.append('<li><div class="layim_chatsay layim_chattip">这条可怜的消息在名为人生的旅途中迷失了方向~</div></li>');
-                log.imarea.scrollTop(log.imarea[0].scrollHeight);
-            });
+            webim.sendText(data.id, data.content, data.type == 'one' ? 'chat' : 'groupchat');
+            // config.json(config.api.sendurl, data, function(datas){
+            //     if (!datas['status']) {
+            //         log.imarea.append('<li><div class="layim_chatsay layim_chattip">'+datas['msg']+'</div></li>');
+            //         log.imarea.scrollTop(log.imarea[0].scrollHeight);
+            //     }
+            // }, function(e) {
+            //     log.imarea.append('<li><div class="layim_chatsay layim_chattip">这条可怜的消息在名为人生的旅途中迷失了方向~</div></li>');
+            //     log.imarea.scrollTop(log.imarea[0].scrollHeight);
+            // });
             
         }
        
@@ -567,83 +741,68 @@ xxim.transmit = function(){
     });
 };
 
-xxim.update = function(version){
-    var data = {}, log = {};
-    if (typeof version !== "undefined") {
-        data['version'] = version;
+xxim.update = function(message){
+    var log = {};
+    if (message.from == 'admin')
+        return;
+    var datum = {
+        id: message.from,
+        message: message.data,
     };
-
-    config.json(config.api.update, data, function(ret){
-        var param;
-        if (ret && ret.status==1) {
-            for (var i = 0; i < ret.data.length; i++) {
-                var datum = ret.data[i];
-                var key = 'one' + datum.id;
-                if(!config.chating[key]){
-                    if (!datum.name && config.friendInfo[datum.id]) {
-                        datum.name = config.friendInfo[datum.id].name;
-                    }
-                    if (!datum.face && config.friendInfo[datum.id]) {
-                        datum.face = config.friendInfo[datum.id].face;
-                    }
-                    var temp = {
-                        id: datum.id, //用户ID
-                        type: 'one',
-                        name: datum.name,  //用户名
-                        face: datum.face,  //用户头像
-                        href: config.hosts + 'space.php?uid=' + datum.id //用户主页
-                    };
-                    xxim.popchat(temp,'hide');
-                    config.chating[key] = temp;
-                    config.chatings++;
-                }
-            }
-            if (xxim.chatbox) {
-                for (var i = 0; i < ret.data.length; i++) {
-                    var datum = ret.data[i];
-                    log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
-                    if (log.imarea) {
-                        log.imarea.append(xxim.html({
-                        time: xxim.fancyDate(datum.time),
-                        name: datum.name || config.friendInfo[datum.id].name,
-                        face: datum.face || config.friendInfo[datum.id].face,
-                        content: datum.message
-                        }, ''));
-                        if (log.imarea.is(':visible')) {
-                            log.imarea.scrollTop(log.imarea[0].scrollHeight);
-                        } else {
-                            xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
-                        }
-                    } else {
-
-                    }
-                }
-                if (!xxim.chatbox.is(':visible')) {
-                    config.updates += ret.data.length;
-                }
-            }
-
-            if (config.updates) {
-                xxim.node.layimMin.addClass('layim_blink');
-                xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');
-                xxim.node.layimMin.show();
-            }
-
-            if (config.audio.length) {
-                // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
-                var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
-                var audio = new Audio(config.audio[track]);
-                audio.play();
-            }
+    var key = 'one' + datum.id;
+    if(!config.chating[key]){
+        if (!datum.name && config.friendInfo[datum.id]) {
+            datum.name = config.friendInfo[datum.id].name;
         }
-        if (ret && (typeof ret.version !== "undefined")) {
-            param = ret.version;
+        if (!datum.face && config.friendInfo[datum.id]) {
+            datum.face = config.friendInfo[datum.id].face;
         }
-        xxim.update(param);
-    }, function(e){
-        xxim.update();
-        // setTimeout(xxim.update, 5000);
-    });
+        var temp = {
+            id: datum.id, //用户ID
+            type: 'one',
+            name: datum.name,  //用户名
+            face: datum.face,  //用户头像
+            href: config.hosts + 'space.php?uid=' + datum.id //用户主页
+        };
+        xxim.popchat(temp,'hide');
+        config.chating[key] = temp;
+        config.chatings++;
+    }
+    if (xxim.chatbox) {
+        log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
+        if (log.imarea) {
+            var friend = config.friendInfo[datum.id];
+            log.imarea.append(xxim.html({
+            time: xxim.fancyDate(datum.time),
+            name: datum.name || (friend && friend.name),
+            face: datum.face || (friend && friend.face),
+            content: datum.message
+            }, ''));
+            if (log.imarea.is(':visible')) {
+                log.imarea.scrollTop(log.imarea[0].scrollHeight);
+            } else {
+                xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
+            }
+        } else {
+
+        }
+        if (!xxim.chatbox.is(':visible')) {
+            config.updates++;
+        }
+    }
+
+    if (config.updates) {
+        xxim.node.layimMin.addClass('layim_blink');
+        xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');
+        xxim.node.layimMin.show();
+    }
+
+    if (config.audio.length) {
+        // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
+        var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
+        var audio = new Audio(config.audio[track]);
+        audio.play();
+    }
 };
 
 //事件
@@ -829,6 +988,8 @@ xxim.getData = function(index){
 
 //渲染骨架
 xxim.view = function(){
+    if (xxim.initialized)
+        return;
     window.onbeforeunload = function(){
         config.json(config.api.leave);
     };
@@ -853,7 +1014,6 @@ xxim.view = function(){
     xxim.getData(0);
     xxim.event();
     xxim.layinit();
-    xxim.update();
     jQuery.get('source/face.js', {}, function(data){
         eval(data);
     });
@@ -861,6 +1021,7 @@ xxim.view = function(){
     jQuery('.xxim_bottom').click(function(){
         jQuery('.xxim_bottom .tooltip').hide();
     });
+    xxim.initialized = true;
 };
 
 }(window);
