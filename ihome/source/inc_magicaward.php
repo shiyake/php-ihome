@@ -29,7 +29,7 @@ if(!$value) {
 	$supe_uid = $_SGLOBAL['supe_uid'];
 	$_SGLOBAL['supe_uid'] = 0;
 	include_once(S_ROOT.'./source/function_cp.php');
-	notification_add($supe_uid, '', cplang('upgrade_magic_award', array($_SGLOBAL['usergroup'][$gid]['grouptitle'], $note_award)));
+	notification_add($supe_uid, '', cplang('upgrade_magic_award', array($_SGLOBAL['usergroup'][$gid]['grouptitle'], $note_award), getUserLang($supe_uid)));
 	$_SGLOBAL['supe_uid'] = $supe_uid;
 }
 					

@@ -87,15 +87,15 @@ function addUserManually($username, $password, $email = 'default@ihome.com'){
 		@friend_update($uidA, $usernameA, $uidB, $usernameB, 'add', 4);
 		@friend_update($uidB, $usernameB, $uidA, $usernameA, 'add', 4);
 		//$_SGLOBAL['db']->query("update ".tname("spacefield")." set friend='$uidA' where uid='$uidB'");
-		@notification_add($uidA, 'friend', cplang('note_friend_add'));
-		@notification_add($uidB, 'friend', cplang('note_friend_add'));
+		@notification_add($uidA, 'friend', cplang('note_friend_add', array(), getUserLang($uidA)));
+		@notification_add($uidB, 'friend', cplang('note_friend_add', array(), getUserLang($uidB)));
 		return 1;
 	}
 	//Follow Someone
 	function followManually($uidA, $uidB){
 		//A follow B
 		friend_update($uidA, $usernameA, $uidB, $usernameB,'add',3);
-		notification_add($uidA, "friend", cplang('note_friend_add'));
+		notification_add($uidA, "friend", cplang('note_friend_add', array(), getUserLang($uidA)));
 		return 1;
 	}
 	

@@ -40,7 +40,7 @@ if($pid) {
 		$expiration = true;
 		if(empty($poll['summary']) && !$poll['notify']) {
 			@include_once(S_ROOT.'./source/function_cp.php');
-			$note = cplang('note_poll_finish', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']));
+			$note = cplang('note_poll_finish', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']), getUserLang($poll['uid']));
 			$supe_uid = $_SGLOBAL['supe_uid'];
 			$supe_username = $_SGLOBAL['supe_username'];
 			$_SGLOBAL['supe_uid'] = 0;

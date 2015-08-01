@@ -456,7 +456,7 @@ function show_credit() {
 	if($showcredit>0) {
 		if($showcredit == 1) {
 			//ￏￂﾰ￱ￍﾨￖﾪ
-			notification_add($space['uid'], 'show', cplang('note_show_out'));
+			notification_add($space['uid'], 'show', cplang('note_show_out', array(), getUserLang($space['uid'])));
 		}
 		$_SGLOBAL['db']->query("UPDATE ".tname('show')." SET credit=credit-1 WHERE uid='$space[uid]' AND credit>0");
 	}

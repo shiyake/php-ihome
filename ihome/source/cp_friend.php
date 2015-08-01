@@ -202,7 +202,7 @@ if($op == 'add') {
 					if($_SGLOBAL['member']['groupid'] == 3 && in_array($uid, explode(',',$_SGLOBAL['member']['aud']))) {
 						//showmessage($space['uid'].'---'.$space['username'].'----'.$tospace['uid'].'---'.$tospace['username']);
 						friend_update($tospace['uid'], $tospace['username'], $space['uid'], $space['username'], 'add', 0);
-						notification_add($tospace['uid'], 'friend', cplang('note_friend_add'));
+						notification_add($tospace['uid'], 'friend', cplang('note_friend_add', array(), getUserLang($tospace['uid'])));
 						showmessage('friends_add', $_POST['refer'], 1, array($_SN[$tospace['uid']]));
 						exit();
 					}
@@ -267,7 +267,7 @@ if($op == 'add') {
 				//end by xuxing 2012-10-20
 				
 				//通知
-				notification_add($uid, 'friend', cplang('note_friend_add'));
+				notification_add($uid, 'friend', cplang('note_friend_add', array(), getUserLang($uid)));
 
 				showmessage('friends_add', $_POST['refer'], 1, array($_SN[$tospace['uid']]));
 			} else {

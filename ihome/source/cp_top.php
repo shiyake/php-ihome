@@ -30,7 +30,7 @@ if(submitcheck('friendsubmit')) {
 	$_SGLOBAL['db']->query("UPDATE ".tname('space')." SET credit=credit-$showcredit WHERE uid='$space[uid]'");
 	
 	//给好友通知
-	notification_add($fuid, 'credit', cplang('note_showcredit', array($showcredit)));
+	notification_add($fuid, 'credit', cplang('note_showcredit', array($showcredit), getUserLang($fuid)));
 	
 	//实名
 	realname_set($fuid, $_POST['fusername']);

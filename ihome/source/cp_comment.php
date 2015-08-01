@@ -462,8 +462,8 @@ if(submitcheck('commentsubmit')) {
 		case 'uid':
 			$n_url = "space.php?uid=$tospace[uid]&do=wall&cid=$cid";
 			$note_type = 'wall';
-			$note = cplang('note_wall', array($n_url));
-			$q_note = cplang('note_wall_reply', array($n_url));
+			$note = cplang('note_wall', array($n_url), getUserLang($tospace['uid']));
+			$q_note = cplang('note_wall_reply', array($n_url), getUserLang($comment['authorid']));
 			if($comment) {
 				$msg = 'note_wall_reply_success';
 				$magvalues = array($_SN[$tospace['uid']]);
@@ -480,8 +480,8 @@ if(submitcheck('commentsubmit')) {
 		case 'picid':
 			$n_url = "space.php?uid=$tospace[uid]&do=album&picid=$id&cid=$cid";
 			$note_type = 'piccomment';
-			$note = cplang('note_pic_comment', array($n_url));
-			$q_note = cplang('note_pic_comment_reply', array($n_url));
+			$note = cplang('note_pic_comment', array($n_url), getUserLang($tospace['uid']));
+			$q_note = cplang('note_pic_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'photo_comment';
@@ -490,8 +490,8 @@ if(submitcheck('commentsubmit')) {
 		case 'videoid':
 			$n_url = "plugin.php?pluginid=video&ac=view&op=commment&vid=$id&cid=$cid";
 			$note_type = 'videocomment';
-			$note = cplang('note_video_comment', array($n_url));
-			$q_note = cplang('note_video_comment_reply', array($n_url));
+			$note = cplang('note_video_comment', array($n_url), getUserLang($tospace['uid']));
+			$q_note = cplang('note_video_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'video_comment';
@@ -501,8 +501,8 @@ if(submitcheck('commentsubmit')) {
 			//通知
 			$n_url = "space.php?uid=$tospace[uid]&do=blog&id=$id&cid=$cid";
 			$note_type = 'blogcomment';
-			$note = cplang('note_blog_comment', array($n_url, $blog['subject']));
-			$q_note = cplang('note_blog_comment_reply', array($n_url));
+			$note = cplang('note_blog_comment', array($n_url, $blog['subject']), getUserLang($tospace['uid']));
+			$q_note = cplang('note_blog_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'blog_comment';
@@ -512,8 +512,8 @@ if(submitcheck('commentsubmit')) {
 			//通知
 			$n_url = "space.php?uid=$tospace[uid]&do=arrangement&id=$id&cid=$cid";
 			$note_type = 'arrangementcomment';
-			$note = cplang('note_arrangement_comment', array($n_url, $arrangement['subject']));
-			$q_note = cplang('note_arrangement_comment_reply', array($n_url));
+			$note = cplang('note_arrangement_comment', array($n_url, $arrangement['subject']), getUserLang($tospace['uid']));
+			$q_note = cplang('note_arrangement_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'arrangement_comment';
@@ -523,8 +523,8 @@ if(submitcheck('commentsubmit')) {
 			//分享
 			$n_url = "space.php?uid=$tospace[uid]&do=share&id=$id&cid=$cid";
 			$note_type = 'sharecomment';
-			$note = cplang('note_share_comment', array($n_url));
-			$q_note = cplang('note_share_comment_reply', array($n_url));
+			$note = cplang('note_share_comment', array($n_url), getUserLang($tospace['uid']));
+			$q_note = cplang('note_share_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'share_comment';
@@ -533,8 +533,8 @@ if(submitcheck('commentsubmit')) {
 		case 'pid':
 			$n_url = "space.php?uid=$tospace[uid]&do=poll&pid=$id&cid=$cid";
 			$note_type = 'pollcomment';
-			$note = cplang('note_poll_comment', array($n_url, $poll['subject']));
-			$q_note = cplang('note_poll_comment_reply', array($n_url));
+			$note = cplang('note_poll_comment', array($n_url, $poll['subject']), getUserLang($tospace['uid']));
+			$q_note = cplang('note_poll_comment_reply', array($n_url), getUserLang($comment['authorid']));
 			$msg = 'do_success';
 			$magvalues = array();
 			$msgtype = 'poll_comment';
@@ -544,8 +544,8 @@ if(submitcheck('commentsubmit')) {
 		    // 活动
 		    $n_url = "space.php?do=event&id=$id&view=comment&cid=$cid";
 		    $note_type = 'eventcomment';
-		    $note = cplang('note_event_comment', array($n_url));
-		    $q_note = cplang('note_event_comment_reply', array($n_url));
+		    $note = cplang('note_event_comment', array($n_url), getUserLang($tospace['uid']), getUserLang($tospace['uid']));
+		    $q_note = cplang('note_event_comment_reply', array($n_url), getUserLang($comment['authorid']));
 		    $msg = 'do_success';
 		    $magvalues = array();
 		    $msgtype = 'event_comment';
@@ -555,8 +555,8 @@ if(submitcheck('commentsubmit')) {
 		    // job
 		    $n_url = "job.php?do=nei&m=view&id=$id";
 		    $note_type = 'jobcomment';
-		    $note = cplang('note_job_comment', array($n_url));
-		    $q_note = cplang('note_job_comment_reply', array($n_url));
+		    $note = cplang('note_job_comment', array($n_url), getUserLang($tospace['uid']));
+		    $q_note = cplang('note_job_comment_reply', array($n_url), getUserLang($comment['authorid']));
 		    $msg = 'do_success';
 		    $magvalues = array();
 		    $msgtype = 'job_comment';
@@ -600,9 +600,8 @@ if(submitcheck('commentsubmit')) {
 	}
 	
 	//通知被@的用户
-	$note = cplang('note_comment_at', array($n_url));
 	foreach($UserIds as $UserId){
-		notification_add($UserId, 'atyou', $note);
+		notification_add($UserId, 'atyou', cplang('note_comment_at', array($n_url), getUserLang($UserId)));
 	}
 
 	//统计

@@ -66,7 +66,7 @@ if ($_GET['op'] == 'delete') {
             $q = $_SGLOBAL['db']->query("select * from ".tname('complain')." where uid=$_SGLOBAL[supe_uid] and doid=$doid and lastopid=$opid and status=1");
             if ($r = $_SGLOBAL['db']->fetch_array($q)) {
                 updatetable('complain', array('status' => 0, 'lastopid'=>0, 'dateline'=>$_SGLOBAL['timestamp'], 'times'=>1, 'issendmsg'=>0), array('id'=>$r['id']));
-                $note = cplang("complain_down", array("space.php?do=complain_item&doid=$complain[doid]"));
+                $note = cplang("complain_down", array("space.php?do=complain_item&doid=$complain[doid]"), getUserLang($complain['atuid']));
                 notification_complain_add($complain["atuid"], "complain", $note);
                 $oparr = array();
                 $oparr['doid'] = $doid;
@@ -299,17 +299,16 @@ if ($_GET['op'] == 'delete') {
             $newid = inserttable('docomment', $setarr, 1);
             $_SGLOBAL['db']->query("UPDATE ".tname('doing')." SET replynum=replynum+1 WHERE doid='$updo[doid]'");
            
-            $note = cplang('note_complain_reply', array("space.php?do=complain_item&doid=$setarr[doid]"));
             foreach($UserIds as $userId)
-                notification_add($userId, 'complain', $note);
+                notification_add($userId, 'complain', cplang('note_complain_reply', array("space.php?do=complain_item&doid=$setarr[doid]"), getUserLang($userId)));
 
             if(empty($UserIds)){ // not @
                 $query = $_SGLOBAL['db']->query("SELECT * FROM ihome_complain where doid=".$updo[doid]);
                 $value = $_SGLOBAL['db']->fetch_array($query);
                 if($value['from'] == $_SGLOBAL['supe_uid']){ //发起方
-                    notification_add($value['atuid'], 'complain', $note);
+                    notification_add($value['atuid'], 'complain', cplang('note_complain_reply', array("space.php?do=complain_item&doid=$setarr[doid]"), getUserLang($value['atuid'])));
                 } else{
-                    notification_add($value['from'], 'complain', $note);
+                    notification_add($value['from'], 'complain', cplang('note_complain_reply', array("space.php?do=complain_item&doid=$setarr[doid]"), getUserLang($value['from'])));
                 }
             }
 
@@ -448,7 +447,7 @@ if ($_GET['op'] == 'delete') {
                 //end
 
 
-                $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"));
+                $note = cplang('complain_relay', array($complain['atuname'], "space.php?do=complain_item&doid=$complain[doid]"), getUserLang($relay_depid));
                 notification_complain_add($relay_depid, 'complain', $note);
            //     notification_add($relay_depid, 'complain', $note);
        //         echo "complain_add";
@@ -482,7 +481,7 @@ if ($_GET['op'] == 'delete') {
             }
             inserttable('complain_resp',array('uid'=>$legalEntity,'doid'=>$doid,'opid'=>$opid,'replysecs'=>$_SGLOBAL['timestamp'] - $complain['dateline'], 'dateline'=>$_SGLOBAL['timestamp']));
 
-            $note = cplang('note_doingcomplain_reply', array("space.php?do=complain_item&doid=$complain[doid]"));
+            $note = cplang('note_doingcomplain_reply', array("space.php?do=complain_item&doid=$complain[doid]"), getUserLang($complain['uid']));
             notification_complain_add($complain['uid'], 'complain', $note, $legalEntity, $legalEntityName);
          //   notification_add($complain['uid'], 'system', $note);
            // echo "complain_add2";

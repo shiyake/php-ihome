@@ -132,7 +132,7 @@ if($_GET['op'] == 'delete') {
 			
 			//通知
 			$note_uid = $id;
-			$note_message = cplang('note_share_space');
+			$note_message = cplang('note_share_space', array(), getUserLang($note_uid));
 
 			break;
 
@@ -169,8 +169,7 @@ if($_GET['op'] == 'delete') {
             
             }
             $note_uid = $do['uid'];
-			
-			$note_message = cplang('note_share_doing', array("space.php?uid=$do[uid]&do=doing&doid=$do[doid]", $do['message']));
+			$note_message = cplang('note_share_doing', array("space.php?uid=$do[uid]&do=doing&doid=$do[doid]", $do['message']), getUserLang($note_uid));
 			break;
 
 		case 'arrangement':
@@ -203,7 +202,7 @@ if($_GET['op'] == 'delete') {
 			}
 			//通知
 			$note_uid = $arrangement['uid'];
-			$note_message = cplang('note_share_arrangement', array("space.php?uid=$arrangement[uid]&do=arrangement&id=$arrangement[arrangementid]", $arrangement['subject']));
+			$note_message = cplang('note_share_arrangement', array("space.php?uid=$arrangement[uid]&do=arrangement&id=$arrangement[arrangementid]", $arrangement['subject']), getUserLang($note_uid));
 			
 			break;
 		case 'blog':
@@ -244,7 +243,7 @@ if($_GET['op'] == 'delete') {
 			}
 			//通知
 			$note_uid = $blog['uid'];
-			$note_message = cplang('note_share_blog', array("space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]", $blog['subject']));
+			$note_message = cplang('note_share_blog', array("space.php?uid=$blog[uid]&do=blog&id=$blog[blogid]", $blog['subject']), getUserLang($note_uid));
 			
 			$hotarr = array('blogid', $blog['blogid'], $blog['hotuser']);
 			
@@ -281,7 +280,7 @@ if($_GET['op'] == 'delete') {
 			$arr['image_link'] = "space.php?uid=$album[uid]&do=album&id=$album[albumid]";
 			//通知
 			$note_uid = $album['uid'];
-			$note_message = cplang('note_share_album', array("space.php?uid=$album[uid]&do=album&id=$album[albumid]", $album['albumname']));
+			$note_message = cplang('note_share_album', array("space.php?uid=$album[uid]&do=album&id=$album[albumid]", $album['albumname']), getUserLang($note_uid));
 			
 			break;
 		case 'pic':
@@ -323,7 +322,7 @@ if($_GET['op'] == 'delete') {
 			$arr['image_link'] = "space.php?uid=$pic[uid]&do=album&picid=$pic[picid]";
 			//通知
 			$note_uid = $pic['uid'];
-			$note_message = cplang('note_share_pic', array("space.php?uid=$pic[uid]&do=album&picid=$pic[picid]", $pic['albumname']));
+			$note_message = cplang('note_share_pic', array("space.php?uid=$pic[uid]&do=album&picid=$pic[picid]", $pic['albumname']), getUserLang($note_uid));
 			
 			$hotarr = array('picid', $pic['picid'], $pic['hotuser']);
 			
@@ -356,7 +355,7 @@ if($_GET['op'] == 'delete') {
 			);
 			//通知
 			$note_uid = $video['uid'];
-			$note_message = cplang('note_share_video', array("plugin.php?pluginid=video&ac=view&op=share&vid=$id"));
+			$note_message = cplang('note_share_video', array("plugin.php?pluginid=video&ac=view&op=share&vid=$id"), getUserLang($note_uid));
 			break;
 		case 'thread':
 			$query = $_SGLOBAL['db']->query("SELECT t.*, p.message, p.hotuser FROM ".tname('thread')." t
@@ -397,7 +396,7 @@ if($_GET['op'] == 'delete') {
 			$arr['image_link'] = '';
 			//通知
 			$note_uid = $thread['uid'];
-			$note_message = cplang('note_share_thread', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject']));
+			$note_message = cplang('note_share_thread', array("space.php?uid=$thread[uid]&do=thread&id=$thread[tid]", $thread['subject']), getUserLang($note_uid));
 			
 			$hotarr = array('tid', $thread['tid'], $thread['hotuser']);
 			
@@ -508,7 +507,7 @@ if($_GET['op'] == 'delete') {
 			);
 			//通知
 			$note_uid = $poll['uid'];
-			$note_message = cplang('note_share_poll', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']));
+			$note_message = cplang('note_share_poll', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject']), getUserLang($note_uid));
 			
 			$hotarr = array('pid', $poll['pid'], $poll['hotuser']);
 			break;
@@ -541,7 +540,7 @@ if($_GET['op'] == 'delete') {
 			);
 			//通知
 			$note_uid = $job['uid'];
-			$note_message = cplang('note_share_blog', array("job.php?do=nei&m=view&id={$job['id']}", $job['title']));
+			$note_message = cplang('note_share_blog', array("job.php?do=nei&m=view&id={$job['id']}", $job['title']), getUserLang($note_uid));
 			break;
 		default:
 			//获得feed
@@ -672,7 +671,7 @@ if($_GET['op'] == 'delete') {
 		}
 		
 		foreach($UserIds as $UserId){
-			$note = cplang('note_share_at', array("space.php?uid=".$_SGLOBAL['supe_uid']."&do=share&id=".$sid));
+			$note = cplang('note_share_at', array("space.php?uid=".$_SGLOBAL['supe_uid']."&do=share&id=".$sid), getUserLang($UserId));
 			notification_add($UserId, 'atyou', $note);
 		}
 	
