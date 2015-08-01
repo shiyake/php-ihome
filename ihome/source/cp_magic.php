@@ -98,7 +98,7 @@ if (submitcheck("buysubmit")) {//购买
 			'dateline'=>$_SGLOBAL['timestamp']));
 
 	//通知被赠送者
-	notification_add($fuid, 'magic', cplang('magic_present_note', array($magic['name'], "cp.php?ac=magic&view=me&mid=$mid")));
+	notification_add($fuid, 'magic', cplang('magic_present_note', array($magic['name'], "cp.php?ac=magic&view=me&mid=$mid"),getUserlang($fuid)));
 	showmessage("magicpresent_success", $_POST['refer'], '', array($fusername));
 }
 

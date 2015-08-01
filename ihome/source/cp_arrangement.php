@@ -4,7 +4,7 @@ if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
 
-//¼ì²éĞÅÏ¢
+//??????Ï¢
 $arrangementid = empty($_GET['arrangementid'])?0:intval($_GET['arrangementid']);
 $op = empty($_GET['op'])?'':$_GET['op'];
 //
@@ -28,7 +28,7 @@ if($op == 'allow'){
     if($newarrangementid = inserttable('arrangement',$value,1)){
         include_once(S_ROOT.'./source/function_feed.php');
         feed_publish($newarrangementid, 'arrangementid', 1);
-        $note=cplang('note_allow_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&id='.$newarrangementid, $value['subject']));
+        $note=cplang('note_allow_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&id='.$newarrangementid, $value['subject']),getUserLang($value['uid']));
         notification_add($value['uid'], 'systemnote', $note);
         header("newid:".$arrangementid);
         exit;
@@ -46,30 +46,30 @@ if($op == 'deny'){
     $_SGLOBAL['db']->query("DELETE FROM ihome_feed where id='$arrangementid' and idtype='arrangementid'");
     include_once(S_ROOT.'./source/function_blog.php');
     if($newarrangementid = inserttable('unCheckArrangement',$value,1)){
-        $note=cplang('note_deny_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&state=deny&id='.$newarrangementid, $value['subject']));
+        $note=cplang('note_deny_arrangement', array('space.php?uid='.$value['uid'].'&do=arrangement&state=deny&id='.$newarrangementid, $value['subject']),getUserLang($value['uid']));
         notification_add($value['uid'], 'systemnote', $note);
         header("newid:".$arrangementid);
         exit;
     }
 }
 //print_r($arrangement);exit();
-//È¨ÏŞ¼ì²é
+//È¨?Ş¼???
 if(empty($arrangement)) {
 	if(!checkperm('allowblog')) {
 		ckspacelog();
 		showmessage('no_authority_to_add_arrangement');
 	}
 	
-	//ÊµÃûÈÏÖ¤
+	//Êµ????Ö¤
 	ckrealname('blog');
 	
-	//ÊÓÆµÈÏÖ¤
+	//??Æµ??Ö¤
 	ckvideophoto('blog');
 	
-	//ĞÂÓÃ»§¼ûÏ°
+	//???Ã»???Ï°
 	cknewuser();
 	
-	//½ÓÊÕÍâ²¿±êÌâ
+	//?????â²¿????
 	$arrangement['subject'] = empty($_GET['subject'])?'':getstr($_GET['subject'], 80, 1, 0);
 	$arrangement['message'] = empty($_GET['message'])?'':getstr($_GET['message'], 5000, 1, 0);
 	
@@ -80,9 +80,9 @@ if(empty($arrangement)) {
 	}
 }
 
-//Ìí¼Ó±à¼­²Ù×÷
+//???Ó±à¼­????
 if(submitcheck('arrangementsubmit')) {
-    //ÅĞ¶ÏÊÇ·ñ·¢²¼Ì«¿ì
+    //?Ğ¶??Ç·ñ·¢²?Ì«??
     $from = $_POST['from'] || null;
 	$waittime = interval_check('post');
 	if($waittime > 0) {
@@ -97,7 +97,7 @@ if(submitcheck('arrangementsubmit')) {
 		}
 	}
 //showmessage(strtotime($_POST['starttime']));
-	//ÑéÖ¤Âë
+	//??Ö¤??
 	if(checkperm('seccode') && !ckseccode($_POST['seccode'])) {
 		showmessage('incorrect_code');
 	}
@@ -109,19 +109,21 @@ if(submitcheck('arrangementsubmit')) {
     if($newarrangement = arrangement_post($_POST, $arrangement, 0)) {
         $url = 'space.php?uid='.$newarrangement['uid'].'&do=arrangement&id=';
         $from = empty($_POST['from'])?'':$_POST['from'];
-        // ¿¿¿¿¿
+        // ?????
         if(empty($_GET['arrangementid'])){
             $note = cplang('note_new_arrangement', array("admincp.php?ac=calenderCheck", $newarrangement['subject']));
             $query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." where groupid=1");
             while ($value = $_SGLOBAL['db']->fetch_array($query)){
+                
+                $note = cplang('note_new_arrangement', array("admincp.php?ac=calenderCheck", $newarrangement['subject']),getUserLang($value['uid']));
                 notification_add($value['uid'], 'systemnote', $note);
             }
         }
-        //¿¿¿¿edited
+        //????edited
         $query = $_SGLOBAL['db']->query("SELECT subject, uid FROM ".tname('arrangement')." where arrangementid = ".$newarrangement['arrangementid']." UNION "."SELECT subject, uid FROM ".tname('unCheckArrangement')." where arrangementid =".$newarrangement['arrangementid']);
         $value = $_SGLOBAL['db']->fetch_array($query);
         if($from == "admin" and $_SGLOBAL['supe_uid'] != $value['uid']) {
-            $note = cplang("note_edit_arrangement", array("space.php?uid=".$value['uid']."&do=arrangement&id=".$newarrangement['arrangementid'], $newarrangement['subject']));
+            $note = cplang("note_edit_arrangement", array("space.php?uid=".$value['uid']."&do=arrangement&id=".$newarrangement['arrangementid'], $newarrangement['subject']),getUserLang($value['uid']));
             notification_add($value['uid'], 'systemnote', $note);
         }
         if($from == "admin")
@@ -134,7 +136,7 @@ if(submitcheck('arrangementsubmit')) {
 }
 
 if($op == 'delete') {
-	//É¾³ı
+	//É¾??
     $from = empty($_GET['from'])?'':$_GET['from'];
 	if(submitcheck('deletesubmit')) {
         include_once(S_ROOT.'./source/function_delete.php');
@@ -152,9 +154,9 @@ if($op == 'delete') {
             $value[$key] = $_SGLOBAL['db']->fetch_array($query);
         } 
         if(deletearrangements($arrangementids)) { 
-            //¿¿¿¿¿¿¿¿i
+            //????????i
             foreach($arrangementids as $key) {
-                $note = cplang('note_delete_arrangement', array($value[$key]['subject']));
+                $note = cplang('note_delete_arrangement', array($value[$key]['subject']),getUserLang($value[$key]['uid']));
                 notification_add($value[$key]['uid'], 'systemnote', $note);
             }
             header("state: success");
@@ -171,7 +173,7 @@ if($op == 'delete') {
 
 	showmessage('do_success', "space.php?uid=$uid&do=arrangement&id=$id", 0);
 
-} elseif($op == 'calendar') {//Ğ£Àú°²ÅÅÁĞ±íÈÕÀú
+} elseif($op == 'calendar') {//Ğ£???????Ğ±?????
 	$match = array();
 	if(!$_GET['month'] && preg_match("/^(\d{4}-\d{1,2})/", $_GET['date'], $match)) {
 		$_GET['month'] = $match[1];
@@ -195,8 +197,8 @@ if($op == 'delete') {
 	}
 	
 	$daystart = mktime(0,0,0,$month,1,$year);	
-	$week = sgmdate("w",$daystart);//±¾ÔÂµÚÒ»ÌìÊÇÖÜ¼¸: 0-6	
-	$dayscount = sgmdate("t",$daystart);//±¾ÔÂÌìÊı
+	$week = sgmdate("w",$daystart);//???Âµ?Ò»?????Ü¼?: 0-6	
+	$dayscount = sgmdate("t",$daystart);//????????
 	$dayend = mktime(0,0,0,$month,$dayscount,$year) + 86400;
 	$days = array();
 	for($i=1; $i<=$dayscount; $i++) {
@@ -211,30 +213,30 @@ if($op == 'delete') {
 	}
 
 	if($view == 'schoolcalendar') {
-		//Ğ£ÀúĞÅÏ¢
+		//Ğ£????Ï¢
 		$wheresql = " and classid=1";
 	}elseif($view == 'lecture') {
-		//½²×ùĞÅÏ¢
+		//??????Ï¢
 		$wheresql = " and classid=2";
 	}elseif($view == 'meeting') {
-		//»áÒéĞÅÏ¢
+		//??????Ï¢
 		$wheresql = " and classid=3";
 	}elseif($view == 'activity') {
-		//ÎÄÌå»î¶¯ĞÅÏ¢
+		//?????î¶¯??Ï¢
 		$wheresql = " and classid=4";
 	}elseif($view == 'all'){
-		//ËùÓĞĞÅÏ¢
+		//??????Ï¢
 		$wheresql = '';
 	}
 
-	//±¾ÔÂ»î¶¯
+	//???Â»î¶¯
 	$arrangements = array();
 	$query = $_SGLOBAL['db']->query("SELECT * FROM ".tname("arrangement")." WHERE 1 $wheresql and starttime < $dayend AND starttime >= $daystart ORDER BY starttime asc");
 	while($value=$_SGLOBAL['db']->fetch_array($query)) {
 		$start = $value['starttime'] < $daystart ? 1 : intval(date("j", $value['starttime']));
 		//$end = $value['starttime'] > $dayend ? $dayscount : intval(date("j", $value['starttime']));
 		//for($i=$start; $i<=$dayend; $i++) {
-			//if($days[$start]['count'] < 10) {//×î¶àÖ»ÏÔÊ¾10¸ö°²ÅÅ/Ã¿Ìì
+			//if($days[$start]['count'] < 10) {//????Ö»??Ê¾10??????/Ã¿??
 				$days[$start]['arrangement'][] = $value;
 				$days[$start]['count'] += 1;
 				$days[$start]['class'] = " on_link";
@@ -256,14 +258,14 @@ if($op == 'delete') {
 		}
 	}
 
-	//Á´½Ó
+	//Á´??
 	$url = $_GET['url'] ? preg_replace("/date=[\d\-]+/", '', $_GET['url']) : "space.php?do=arrangement";
 	
 }else {
-	//Ìí¼Ó±à¼­
-	//»ñÈ¡¸öÈË·ÖÀà
+	//???Ó±à¼­
+	//??È¡???Ë·???
 	$classid = empty($arrangement['classid']) ? 0:$arrangement['classid'];
-	//»ñÈ¡Ïà²á
+	//??È¡????
 	$albums = getalbums($_SGLOBAL['supe_uid']);
 	
 	/*$tags = empty($arrangement['tag'])?array():unserialize($arrangement['tag']);
@@ -278,7 +280,7 @@ if($op == 'delete') {
 	
 	
 	
-	//²Ëµ¥¼¤»î
+	//?Ëµ?????
 	$menuactives = array('space'=>' class="active"');
 }
 
