@@ -75,6 +75,8 @@ $cplang_english = array(
     'note_doingcomplain_upto' => 'Reminder: One <a href="\\2" target="_blank">complain</a> for \\1 has been sent to you.',
 
     'note_doingcomplain_reply' => 'Reply to your <a href="\\1" target="_blank">complain</a>',
+    'note_complain_reply' => 'Reply to your <a href="\\1" target="_blank">complain</a>',
+
     'note_comment_at' => '@ you in a <a href="\\1" target="_blank">comment</a>',
     'feed_friend_title' => '{actor} become a friend with {touser}',
     'note_friend_add' => 'is your friend now', 
@@ -530,6 +532,7 @@ $_SGLOBAL['cplang'] = array(
 	'share_doing' => '分享了一条记录',
 	'note_share_doing' => '分享了你的<a href="\\1" target="_blank">一条记录</a>',
 	'share_blog' => '分享了一篇日志',
+	'share_news' => '分享了一篇外部日志',
 	'note_share_blog' => '分享了你的日志 <a href="\\1" target="_blank">\\2</a>',
 	'share_job' => '分享了一篇招聘信息',
 	'note_share_job' => '分享了你的招聘信息 <a href="\\1" target="_blank">\\2</a>',

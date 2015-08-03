@@ -37,6 +37,9 @@ if ($_GET['op'] == 'del')	{
 		else if(!strcmp($idtype,"tid"))	{
 			$_SGLOBAL['db'] -> query("UPDATE ".tname("thread")." SET click_$clickid = click_$clickid - 1 WHERE tid=$id ");	
 		}
+		else if(!strcmp($idtype,"arrangementid")){
+			$_SGLOBAL['db'] -> query("UPDATE ".tname("arrangement")." SET click_$clickid = click_$clickid - 1 WHERE arrangementid=$id ");	
+		}
 	}
 	return ;
 }
@@ -62,7 +65,11 @@ switch ($idtype) {
 			LEFT JOIN ".tname('post')." p ON p.tid='$id' AND p.isthread='1'
 			WHERE t.tid='$id'";
 		$tablename = tname('thread');
-		break;
+        break;
+    case 'arrangementid':
+        $sql = "SELECT * from ".tname('arrangement')." where arrangementid='$id'";
+        $tablename = tname('arrangement');
+        break;
 	default:
 		$idtype = 'blogid';
 		$sql = "SELECT b.*, bf.hotuser FROM ".tname('blog')." b
