@@ -9,8 +9,19 @@ include_once(S_ROOT.'./source/function_cp.php');
 
 //showmessage(S_ROOT);
 
+$redirecturl = empty($_GET['redirecturl'])?'':rawurldecode($_GET['redirecturl']);
+function shareRedirect($redirecturl){
+    $redirecturlnew = "Location:" . $redirecturl;
+    header($redirecturlnew);
+    exit();
+}
+
 if($_SGLOBAL['supe_uid']) {
-	showmessage('do_success', 'space.php', 0);
+    if($redirecturl){
+        shareRedirect($redirecturl);
+    }else{
+	    showmessage('do_success', 'space.php', 0);
+    }
 }
 
 $refer = empty($_GET['refer'])?rawurldecode($_SCOOKIE['_refer']):$_GET['refer'];
@@ -49,7 +60,11 @@ $_SGLOBAL['nologinform'] = 1;
 
 if (submitcheck('loginsubmit')) {
     if (!empty($_COOKIE['user_locked'])) {
-		showmessage('login_failure_user_locked', '/');
+        if($redirecturl){
+            shareRedirect($redirecturl);
+        }else {
+		    showmessage('login_failure_user_locked', '/');
+        }
     }
 
     $login_fail_times = $_COOKIE['login_fail_times'];
@@ -73,17 +88,29 @@ if (submitcheck('loginsubmit')) {
             setcookie('user_locked', 'locked', time() + 1800);
             notifyUserLocked($username);
         }
-		showmessage('login_failure_captcha_invalid', '/');
+        if($redirecturl){
+            shareRedirect($redirecturl);
+        }else{
+		    showmessage('login_failure_captcha_invalid', '/');
+        }
     }
 	
 	if(empty($_POST['username'])) {
-		showmessage('users_were_not_empty_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
+        if($redirecturl){
+            shareRedirect($redirecturl);
+        }else {
+		    showmessage('users_were_not_empty_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
+        }
 	}else{
 		if(isemail($_POST['username'])){
 			$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('spacefield')." WHERE email='$_POST[username]'");
 			$value = $_SGLOBAL['db']->fetch_array($query);
 			if(empty($value)){
-				showmessage('login_failure_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
+                if($redirecturl){
+                    shareRedirect($redirecturl);
+                }else {
+				    showmessage('login_failure_please_re_login', 'do.php?ac='.$_SCONFIG['login_action']);
+                }
 			}
 			$query = $_SGLOBAL['db']->query("SELECT username FROM ".tname('member')." WHERE uid='$value[uid]'");
 			$value = $_SGLOBAL['db']->fetch_array($query);
@@ -113,7 +140,11 @@ if (submitcheck('loginsubmit')) {
             setcookie('user_locked', 'locked', time() + 1800);
         }
         setcookie('login_fail_times', $login_fail_times + 1, time() + 600);
-		showmessage('login_failure_please_re_login', '/');
+        if($redirecturl){
+            shareRedirect($redirecturl);
+        }else {
+		    showmessage('login_failure_please_re_login', '/');
+        }
 	}
     setcookie('login_fail_times', 0, time() + 600);
     $password1 = md5($password);
@@ -227,7 +258,12 @@ if (submitcheck('loginsubmit')) {
         }
     } else {
         inserttable('actionlog', array('uid'=>"$space[uid]", 'dateline'=>"$_SGLOBAL[timestamp]", 'action'=>'login'));
-	    showmessage('login_success', $app?"userapp.php?id=$app":$_POST['refer'], 0, array($ucsynlogin));
+
+        if($redirecturl){
+            shareRedirect($redirecturl);
+        }else{
+	        showmessage('login_success', $app?"userapp.php?id=$app":$_POST['refer'], 0, array($ucsynlogin));
+        }
     }
 }
 

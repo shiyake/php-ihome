@@ -1,0 +1,95 @@
+.share-box {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    width: 500px;
+    margin-left: -250px;
+}
+
+.login-box {
+    width: 100%;
+    height: 80px;
+}
+
+.login-box .logo {
+    width: 100px;
+    height: 70px;
+}
+
+.login-box .login {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}
+
+form#shareform {
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(198,198,198,1);
+    text-align: right;
+}
+
+textarea.sharenotice {
+    width: 100%;
+    height: 90px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+textarea.sharetitle {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f2f2f2;
+}
+
+.formtitle {
+    text-align: left;
+    font-size: 15px;
+}
+
+.wordTip {
+    margin-top: -20px;
+    text-align: right;
+    color: #9e9aa0;
+}
+
+.wordTip > span {
+    font-size: 20px;
+}
+
+.shareimg {
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+#sharebutton {
+    margin-top: 20px;
+}
+
+.line {
+    width: 100%;
+    margin-top: 10px;
+    border: 1px dotted #CECECE;
+    border-radius: 10px;
+}
+
+.contain-box.quickflip-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 310px;
+    margin-top: -155px;
+    margin-left: -175px;
+    background-color: #fff;
+}
+.share_login_close {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+}
