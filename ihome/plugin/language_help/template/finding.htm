@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="language-compare pull-left clearfix">
-				<!--{if $res}-->
+				<!--{if $fuid}-->
 				<div class="success-part">
 					<div class="success-logo">
 						<p>完成</p>	
@@ -61,16 +61,16 @@
 		</div>
 		<div class="language-card pull-right clearfix">
 			<div class="avatar-card">
-				<!--{if !empty($res)}-->
-				<!--{avatar($res['fuid'],'middle')}-->
+				<!--{if $fuid}-->
+				<!--{avatar($fuid,'middle')}-->
 				<!--{else}-->
 				<img src="http://placehold.it/120x120&text=!"/>
 				<!--{/if}-->
 
 			</div>
 			<div class="language-username"> 
-				<!--{if !empty($res)}-->
-				<!--{eval echo getUsername($res[fuid],$_SGLOBAL['db'])}-->
+				<!--{if $fuid}-->
+				<!--{eval echo getUsername($fuid,$_SGLOBAL['db'])}-->
 				<!--{else}-->
 				---	
 
@@ -78,16 +78,16 @@
 			</div>
 			<div class="want-to-know">
 				想学的语言：
-				<!--{if !empty($res)}-->
-				$res[knows]
+				<!--{if $fuid}-->
+                {$f_want_to_know}
 				<!--{else}-->
 				---
 				<!--{/if}-->
 			</div>
 			<div class="known">
 				&nbsp;&nbsp;&nbsp;&nbsp;会的语言：
-				<!--{if !empty($res)}-->
-				$res['want_to_know']
+				<!--{if $fuid}-->
+                {$f_know}
 				<!--{else}-->
 				---
 				<!--{/if}-->
