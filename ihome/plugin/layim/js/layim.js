@@ -186,17 +186,14 @@ var webim = {
 
 var config = {
     msgurl: 'space.php?do=pm',
-    chatlogurl: 'space.php?do=pm&subop=view&touid=',
     aniTime: 200,
     height: 535,
     api: {
         friend: 'api/im/friend.php', //好友列表接口
-        group: 'plugin/layim/group.json', //群组列表接口 
-        chatlog: 'api/im/chatlog.php', //聊天记录接口
+        group: 'plugin/layim/group.json', //群组列表接口
         groups: 'plugin/layim/groups.json', //群组成员接口
         update: 'api/im/update.php',
-        leave: 'api/im/leave.php',
-        history: 'api/im/history.php'
+        leave: 'api/im/leave.php'
     },
     user: ({ //当前用户信息
         id: 0,
@@ -272,7 +269,6 @@ xxim.renode = function(){
         xximon: jQuery('#xxim_on'),
         layimTop: jQuery('#xxim_top'),
         layimFooter: jQuery('#xxim_bottom'),
-        xximMymsg: jQuery('#xxim_mymsg'),
         xximHide: jQuery('#xxim_hide'),
         xximSearch: jQuery('#xxim_searchkey'),
         searchMian: jQuery('#xxim_searchmain'),
@@ -294,8 +290,6 @@ xxim.expend = function(){
             node.layimFooter.addClass('xxim_expend');
             node.xximHide.addClass('xxim_show');
         });
-        node.xximMymsg.stop().animate({width: '1%'}, config.aniTime/2);
-        node.xximHide.stop().animate({width: '99%'}, config.aniTime/2);
     } else {
         node.layimTop.show().stop().animate({height: config.height}, config.aniTime, function(){
             node.xximon.removeClass('xxim_off');
@@ -306,8 +300,6 @@ xxim.expend = function(){
             node.layimFooter.removeClass('xxim_expend');
             node.xximHide.removeClass('xxim_show');
         });
-        node.xximMymsg.stop().animate({width: '50%'}, config.aniTime/2);
-        node.xximHide.stop().animate({width: '50%'}, config.aniTime/2);
     }
 };
 
@@ -443,7 +435,6 @@ xxim.popchat = function(param, status){
             +'        <div class="drop_face_menu" data-target="layim_write" style="margin-top:-245px;"></div>'
             +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
             +'        <a href="javascript:;"><i class="layim_addfile" title="上传附件"></i></a>'
-            +'        <a href="" target="_blank" class="layim_seechatlog"><i></i>聊天记录</a>'
             +'    </div>'
             +'    <textarea class="layim_write" id="layim_write"></textarea>'
             +'    <div class="layim_send">'
@@ -497,36 +488,36 @@ xxim.popchat = function(param, status){
         }
     }
     
-    config.json(config.api.history, {id: param.id}, function(ret){
-        if (ret && ret.status == 1) {
-            log.imarea = xxim.chatbox.find('#layim_area'+ param.type + param.id);
-            var oldMessage = ret.data.length;
-            var newMessage = log.imarea.children().size();
-            if (oldMessage > newMessage) {
-                log.imarea.prepend('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
-            }
-            for (var i = newMessage; i < ret.data.length; i++) {
-                var datum = ret.data[i];
-                if (datum.id == param.id) {
-                    log.imarea.prepend(xxim.html({
-                        time: xxim.fancyDate(datum.time, 'long'),
-                        name: param.name,
-                        face: param.face,
-                        content: datum.message
-                    }, ''));
-                } else {
-                    log.imarea.prepend(xxim.html({
-                        time: xxim.fancyDate(datum.time, 'long'),
-                        name: config.user.name,
-                        face: config.user.face,
-                        content: datum.message
-                    }, 'me'));
-                }
+    // config.json(config.api.history, {id: param.id}, function(ret){
+    //     if (ret && ret.status == 1) {
+    //         log.imarea = xxim.chatbox.find('#layim_area'+ param.type + param.id);
+    //         var oldMessage = ret.data.length;
+    //         var newMessage = log.imarea.children().size();
+    //         if (oldMessage > newMessage) {
+    //             log.imarea.prepend('<li><div class="layim_chatsay layim_chattip">以上是历史消息</div></li>');
+    //         }
+    //         for (var i = newMessage; i < ret.data.length; i++) {
+    //             var datum = ret.data[i];
+    //             if (datum.id == param.id) {
+    //                 log.imarea.prepend(xxim.html({
+    //                     time: xxim.fancyDate(datum.time, 'long'),
+    //                     name: param.name,
+    //                     face: param.face,
+    //                     content: datum.message
+    //                 }, ''));
+    //             } else {
+    //                 log.imarea.prepend(xxim.html({
+    //                     time: xxim.fancyDate(datum.time, 'long'),
+    //                     name: config.user.name,
+    //                     face: config.user.face,
+    //                     content: datum.message
+    //                 }, 'me'));
+    //             }
                 
-            }
-            log.imarea.scrollTop(log.imarea[0].scrollHeight);
-        }
-    });
+    //         }
+    //         log.imarea.scrollTop(log.imarea[0].scrollHeight);
+    //     }
+    // });
 
     //群组
     log.chatgroup = xxim.chatbox.find('#layim_groups');
@@ -553,8 +544,6 @@ xxim.tabchat = function(param){
     xxim.chatbox.find('.layim_face>img').attr('src', param.face);
     xxim.chatbox.find('.layim_face, .layim_names').attr('href', param.href);
     xxim.chatbox.find('.layim_names').text(param.name);
-    
-    xxim.chatbox.find('.layim_seechatlog').attr('href', config.chatlogurl + param.id);
 
     var chatthis = xxim.chatbox.find('.layim_chatthis');
     chatthis.scrollTop(chatthis[0].scrollHeight);
@@ -913,13 +902,13 @@ xxim.event = function(){
 
 //请求列表数据
 xxim.getData = function(index){
-    var api = [config.api.friend, config.api.chatlog],
+    var api = [config.api.friend],
         node = xxim.node, myf = node.list.eq(index);
     myf.addClass('loading');
 
     var func = config.json;
     if (index == 0) {
-        var delta = 6*60*60*1000;
+        var delta = 60*60*1000;
         var now = new Date().getTime();
         var cached = parseInt(localStorage.getItem('friends_cache_'+config.user.id)) || 0;
         
@@ -935,6 +924,9 @@ xxim.getData = function(index){
                 })
             };
         }
+    } else {
+        myf.removeClass('loading');
+        return;
     }
 
     func(api[index], {}, function(datas){
@@ -1003,7 +995,6 @@ xxim.view = function(){
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
             +'</div>'
             +'<ul class="xxim_bottom" id="xxim_bottom">'
-            +'<li class="xxim_mymsg" id="xxim_mymsg" data-toggle="tooltip" data-placement="top" title="我的私信"><i></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
             +'<li class="xxim_hide" id="xxim_hide" data-toggle="tooltip" data-placement="top" title="折叠切换"><i></i></li>'
             +'<div class="layim_min" id="layim_min"></div>'
         +'</ul>'
