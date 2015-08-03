@@ -3523,7 +3523,7 @@ function getntags($uid, $dotype, $doid = 0){
         $delico = '';
         $flag = 0;
 		while ($value = $_SGLOBAL['db']->fetch_array($query)) {
-            if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')){ 
+            if (in_array(strval($_SGLOBAL['supe_uid']), $uids) || checkperm('admin')){ 
                 $delico = '<a href="javascript:;" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
             }
 			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
