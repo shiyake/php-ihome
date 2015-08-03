@@ -145,11 +145,13 @@ var webim = {
         if (this.conn.context.userId) {
             return;
         }
+        var resource = Math.random();
         var options = {
             apiUrl : this.apiURL,
             user : config.user.id.toString(),
-            pwd : '123456',
-            appKey : this.appkey
+            appKey : this.appkey,
+            accessToken : config.user.token,
+            resource: resource,
         };
         this.conn.open(options);
     },
@@ -199,6 +201,7 @@ var config = {
         id: 0,
         name: '僕',
         face: 'http://ajaxload.info/cache/FF/FF/FF/00/00/00/5-0.gif',
+        token: null,
         init: function(){
             var _this = this;
             jQuery.get('api/im/aloha.php', function(data){
@@ -206,6 +209,7 @@ var config = {
                     _this.id = data.id;
                     _this.name=data.name;
                     _this.face=data.face;
+                    _this.token=data.token;
                     webim.init();
                 }
             }, 'json');
@@ -317,8 +321,7 @@ xxim.layinit = function(){
             node.layimTop.css({height: 0}).hide();
             node.xximon.addClass('xxim_off');
             node.layimFooter.addClass('xxim_expend');
-            node.xximHide.css('width','99%').addClass('xxim_show');
-            node.xximMymsg.css({'width':'1%', 'overflow':'hidden'});
+            node.xximHide.addClass('xxim_show');
         }
     }catch(e){
         //layer.msg(e.message, 5, -1);
