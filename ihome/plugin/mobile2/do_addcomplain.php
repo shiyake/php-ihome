@@ -4,6 +4,7 @@
      Add by am@ihome.2013-07-09  14:34
 
 */
+
 	//include_once('../../common.php');
 	include_once(S_ROOT.'./uc_client/client.php');
 	@include_once(S_ROOT.'./data/data_profield.php');
@@ -15,6 +16,8 @@
 	$FromDevice = 'mobile';
 	$Message = '   @诉求1(200) 什么情况啊    ';
 	*/
+
+
 	$Message = $_POST['message'];
 	$FromDevice = trim($_POST['fromdevice']);
 	

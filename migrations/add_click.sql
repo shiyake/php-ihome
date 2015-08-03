@@ -1,0 +1,10 @@
+ALTER TABLE ihome_arrangement add click_1 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_arrangement add click_2 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_arrangement add click_3 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_arrangement add click_4 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_arrangement add click_5 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_unCheckArrangement add click_1 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_unCheckArrangement add click_2 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_unCheckArrangement add click_3 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_unCheckArrangement add click_4 smallint(6) NOT NULL default 0;
+ALTER TABLE ihome_unCheckArrangement add click_5 smallint(6) NOT NULL default 0;

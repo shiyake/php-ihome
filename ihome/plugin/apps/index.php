@@ -1,9 +1,7 @@
 <?php
-
 if(!defined('iBUAA')) {
 	exit('Access Denied');
 }
-
 if($_SGLOBAL['member']['groupid'] != 3){
 	$userTypes = array();
 	$uid = $_SGLOBAL['supe_uid'];

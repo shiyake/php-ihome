@@ -336,13 +336,15 @@ if($_GET['op'] == 'base') {
         $_GET['namechange'] = 1;    
         $adminhtml = '';
 
-        $query = $_SGLOBAL['db']->query("SELECT s.appuid FROM ".tname('publicapply')." s WHERE uid='$space[uid]'");
+        $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('publicapply')." WHERE uid='$space[uid]'");
         $value=$_SGLOBAL['db']->fetch_array($query);
-        if ($value['appuid']){
+        if ($value['uid']){
             $query = $_SGLOBAL['db']->query("SELECT * FROM ".tname('space')." WHERE uid='$value[appuid]'");
             $value=$_SGLOBAL['db']->fetch_array($query);
             if ($value['uid']) {
                 $adminhtml .= "<option value=$value[uid] selected>$value[name]</option>";
+            } else {
+                $adminhtml .= "<option value='0'>&nbsp</option>";
             }
         } else {
             $adminhtml .= "<option value='0'>&nbsp</option>";

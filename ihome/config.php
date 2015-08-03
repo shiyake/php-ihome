@@ -5,9 +5,9 @@ function __env($key, $default="") {
     return (empty($value)) ? $default : $value;
 }
 
-$DEFAULT_HOST = "localhost";
-$DEFAULT_USER = "root";
-$DEFAULT_PWD = "nameLR9969";
+$DEFAULT_HOST = "dbmaster1";
+$DEFAULT_USER = "ancon";
+$DEFAULT_PWD = "BUAAnic@ihome2012";
 
 $host = __env("IHOME_DBHOST", $DEFAULT_HOST);
 $user = __env("IHOME_DBUSER", $DEFAULT_USER);
@@ -44,9 +44,9 @@ $_SC['attachurl']		= 'attachment/';
 $_SC['siteurl']			= '';
 $_SC['tplrefresh']		= 1;
 
-$_SC['founder'] 		= '3'; 
+$_SC['founder'] 		= '1,3,144'; 
 $_SC['allowedittpl']	= 0;
-$_SC['search_host'] = 'http://solr.limijiaoyin.com';
+$_SC['search_host'] = 'http://search:8080';
 define('UC_CONNECT', 'mysql'); 
 define('UC_DBHOST', $host);
 define('UC_DBUSER', $user); 
@@ -56,7 +56,8 @@ define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', '`ihome`.ihomeuser_');
 define('UC_DBCONNECT', '0');
 define('UC_KEY', '95Y7z9K754j2ned29ca0B9Bdj5D2V2Q2Ld2ar033fdZbD7nfBdJ1Mfj1UeybW4W7');
-define('UC_API', 'http://icenter.limijiaoyin.com');
+//define('UC_API', 'http://i.buaa.edu.cn');
+define('UC_API', 'http://i.buaa.edu.cn/ihome');
 define('UC_CHARSET', 'utf-8');
 define('UC_IP', 'localhost');
 define('UC_APPID', '1');

@@ -25,8 +25,15 @@ if($op == 'logout') {
 		clearcookie();
 		ssetcookie('_refer', '');
 	}
-	
-	showmessage('security_exit', 'index.php', 1, array($ucsynlogout));
+    
+    $redirecturl = empty($_GET['redirecturl'])?'':$_GET['redirecturl'];
+    if($redirecturl){
+        $redirecturl = "Location:" . rawurldecode($redirecturl);
+        header($redirecturl);
+        exit();
+    }else{
+	    showmessage('security_exit', 'index.php', 1, array($ucsynlogout));
+    }
 
 } elseif($op == 'seccode') {
 

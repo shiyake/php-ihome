@@ -3525,7 +3525,7 @@ function getntags($uid, $dotype, $doid = 0){
 			if (in_array($_SGLOBAL['supe_uid'], $uids) || checkperm('admin')) $delico = '<a href="javascript:;" onClick="deltag(\''.$value['tuid'].'\')"><img src="image/tagdel.png" /></a>';
 			$output .= '<li><span>'.$value['tagname'].$delico.'</span></li>';
 		}
-		if (in_array($_SGLOBAL['supe_uid'], $uids) ) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
+		if (in_array(strval($_SGLOBAL['supe_uid']), $uids) ) $output .= '<li><span><a onclick="ajaxmenu(event, this.id)" id="add_tag" href="cp.php?ac=addtag&op=menu&dt='.$dotype.'&did='.$doid.'&uid='.$uid.'">+添加新标签</a></span></li>';	
 		$output .= '</ul>'; 
 		return $output;
 }
