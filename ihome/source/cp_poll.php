@@ -475,6 +475,7 @@ if($op == 'addopt') {
 			$note = cplang('note_poll_invite', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject'], $poll['percredit']?cplang('reward'):''));
 			foreach($ids as $key => $uid) {
 				if($uid && $uid != $_SGLOBAL['supe_uid']) {
+		 	        $note = cplang('note_poll_invite', array("space.php?uid=$poll[uid]&do=poll&pid=$poll[pid]", $poll['subject'], $poll['percredit']?cplang('reward'):''),getUserLang($uid));  //add by wumengqiang
 					notification_add($uid, 'pollinvite', $note);
 				}
 			}

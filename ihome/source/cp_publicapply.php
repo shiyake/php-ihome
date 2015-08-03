@@ -114,6 +114,7 @@ if(submitcheck("applysubmit")){
 		//向管理员发送消息
 		$query = $_SGLOBAL['db']->query("SELECT uid FROM ".tname('space')." where groupid=1");
 		while ($value = $_SGLOBAL['db']->fetch_array($query)){	
+		    $note = cplang('note_public_apply', array("admincp.php?ac=publicapply"),getUserLang($value['uid']));  //add by wumengqiang
 			notification_add($value['uid'], 'systemnote', $note);
 		}
 		showmessage('do_success','space.php?do=public', 2);

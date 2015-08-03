@@ -151,7 +151,7 @@ if($_GET['op'] == 'add') {
 				'click' => $click['name']
 			);
 			$note_type = 'clickblog';
-			$q_note = cplang('note_click_blog', array("space.php?uid=$item[uid]&do=blog&id=$item[blogid]", $item['subject']));
+			$q_note = cplang('note_click_blog', array("space.php?uid=$item[uid]&do=blog&id=$item[blogid]", $item['subject']),getUserLang($item['uid']));
 			break;
 		case 'tid':
 			$fs['title_template'] = cplang('feed_click_thread');
@@ -161,7 +161,7 @@ if($_GET['op'] == 'add') {
 				'click' => $click['name']
 			);
 			$note_type = 'clickthread';
-			$q_note = cplang('note_click_thread', array("space.php?uid=$item[uid]&do=thread&id=$item[tid]", $item['subject']));
+			$q_note = cplang('note_click_thread', array("space.php?uid=$item[uid]&do=thread&id=$item[tid]", $item['subject']),getUserLang($item['uid']));
 			break;
 		case 'picid':
 
@@ -174,7 +174,7 @@ if($_GET['op'] == 'add') {
 			$fs['image_links'] = array("space.php?uid=$item[uid]&do=album&picid=$item[picid]");
 			$fs['body_general'] = $item['title'];
 			$note_type = 'clickpic';
-			$q_note = cplang('note_click_pic', array("space.php?uid=$item[uid]&do=album&picid=$item[picid]"));
+			$q_note = cplang('note_click_pic', array("space.php?uid=$item[uid]&do=album&picid=$item[picid]"),getUserLang($item['uid']));
 			break;
 	}
 	

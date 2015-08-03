@@ -139,7 +139,7 @@ if(empty($op)) {
 			);
 			inserttable('friend', $setarrfri);
 			friend_update($space['uid'], $space['username'], $newuid, $username, 'add', 0);
-			notification_add($newuid, 'friend', cplang('note_friend_add'));
+			notification_add($newuid, 'friend', cplang('note_friend_add',array(),getUserLang($newuid)));
 			$profile_uid=$_POST['profile_uid'];	
 			$_SGLOBAL['db']->query("UPDATE ".tname('baseprofile')." SET isactive=1,uid={$newuid} WHERE userid=".$profile_uid);
 			$query=$_SGLOBAL['db']->query("SELECT * FROM ".tname('baseprofile')." WHERE userid=".$profile_uid);
@@ -160,7 +160,7 @@ if(empty($op)) {
 					);
 					inserttable('friend', $setarrfri);
 					friend_update($row1['uid'], $row1['username'], $newuid, $username, 'add', 0);
-					notification_add($row1['uid'], 'friend', cplang('note_friend_add'));
+					notification_add($row1['uid'], 'friend', cplang('note_friend_add',array(),getUserLang($row1['uid'])));
 				}
 			}
 			

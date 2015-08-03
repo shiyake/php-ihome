@@ -209,9 +209,9 @@ if(submitcheck('addsubmit')) {
                     $complainOK = TRUE;
                 }else{
                     //Í¨Öª±»@µÄÓÃ»§
-                    $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid")); notification_add($UserId, 'atyou', $note); } }else{
+                    $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"),getUserLang($UserId)); notification_add($UserId, 'atyou', $note); } }else{
                 //Í¨Öª±»@µÄÓÃ»§
-                $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"));
+                $note = cplang('note_doing_at', array("space.php?do=doing&doid=$newdoid"),getUserLang($UserId));
                 notification_add($UserId, 'atyou', $note);
             }
         }
@@ -502,14 +502,14 @@ if(submitcheck('addsubmit')) {
         //     $note = cplang('note_doingcomplain_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
         //     notification_complain_add($updo['uid'], 'complain', $note, $_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
         // }else{
-            $note = cplang('note_doing_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
+            $note = cplang('note_doing_reply', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"),getUserLang($updo['uid']));
             notification_add($updo['uid'], 'doing', $note);
         // }
         //½±Àø»ý·Ö
         getreward('comment',1, 0, 'doing'.$updo['doid']);
     }
     foreach($UserIds as $UserId){       
-        $note = cplang('note_doingcomment_at', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"));
+        $note = cplang('note_doingcomment_at', array("space.php?do=doing&doid=$updo[doid]&highlight=$newid"),getUserLang($UserId));
         notification_add($UserId, 'atyou', $note);
     }
     //Í³¼Æ

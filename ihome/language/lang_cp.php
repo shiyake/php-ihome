@@ -39,6 +39,12 @@ $cplang_english = array(
     'note_click_blog' => 'favour on your blog: <a href="\\1" target="_blank">\\2</a>',
     'note_click_thread' => 'favour on your topic: <a href="\\1" target="_blank">\\2</a>',
     'note_click_pic' => 'favour on your <a href="\\1" target="_blank">photo</a>',
+    'note_allow_arrangement' => 'your arrangement <a href="\\1" target="_blank">\\2</a> is approved',
+    'note_deny_arrangement' => 'your arrangement <a href="\\1" target="_blank">\\2</a> is not approved',
+    'note_new_arrangement' => 'there is a new arrangement <a href="\\1" target="_blank">\\2</a> unchecked',
+    'note_delete_arrangement' => 'your arrangement  \\1 is deleted by administrator',
+    'note_edit_arrangement' => 'your arrangement <a href="\\1" target="_blank">\\2</a> is edited by administrator',
+
     'wall_pm_subject' => 'Hello, I have a message for you',
     'wall_pm_message' => 'I leave a message for you，click here to view [url=\\1][/url]', 
     'note_showcredit' => 'sent credits(\\1) for you in order to raise your ranking',
@@ -204,7 +210,7 @@ $cplang_english = array(
     'feed_eventthread' => '{actor} launched a new activity subject',  
     'feed_thread_reply' => '{actor} reply ro {touser}\'s topic {thread}',
     'note_thread_reply' => 'reply to your topic', 
-    'note_post_reply' => ' reply to your <a href=\\"\\3\\" target="_blank"comment</a> in the topic <a href=\\"\\1\\" target="_blank">\\2</a>',
+    'note_post_reply' => ' reply to you <a href=\\"\\3\\" target="_blank"comment</a> in the topic <a href=\\"\\1\\" target="_blank">\\2</a>',
     'thread_edit_trail' => '<ins class="modify">[the topic \\1 was edited at \\2]</ins>',
     'create_a_new_album' => 'create a new album', 
     'not_allow_upload' => 'No permission to upload pictures',  
@@ -214,6 +220,7 @@ $cplang_english = array(
     'feed_blog_password' => '{actor} launch new password blog {subject}', 
     'feed_blog' => '{actor} launch new blog', 
     'feed_arrangement' => '{actor} launch new arrangement ', 
+	'calendar_send_msg' => 'calendar <a href="\\1" target="_blank">\\2</a> event will start in \\3 minitus',
     'feed_poll' => '{actor} launch a new poll', 
     'note_poll_finish' => 'The poll <a href="\\1" target="_blank">《\\2》</a> has been completed,<a href="\\1" target="_blank">please write the summary</a>',
     'take_part_in_the_voting' => '{actor} joined in {touser}\'s poll {reward} <a href="{url}" target="_blank">{subject}</a>',
@@ -271,7 +278,7 @@ $cplang_english = array(
     'magic_call' => 'call you in \\1，<a href="\\2" target="_blank">go to check it</a>',
     'magicuse_thunder_announce_title' => '<strong>{username} made a "thunder"</strong>',
     'magicuse_thunder_announce_body' => 'Hello everyone,i am back<br><a href="space.php?uid={uid}" target="_blank">welcom to my site</a>',
-    'magic_present_note' => 'send you a present\\1, <a href="\\2">go to check it</a>', 
+    'magic_present_note' => 'send you a present \\1, <a href="\\2">go to check it</a>', 
     //用户组升级获赠道具 got props for group update 
     'upgrade_magic_award' => 'Congratulations for your level up to \\1，and  sent you the following properties\\2',
     //管理员向用户赠送道具administrator give props to the user
@@ -339,7 +346,7 @@ $cplang_english = array(
     'common_friends' => '\\1 and totally have\\2 friends',
     'common_class' => 'all of you are in the\\1 class', 
     'common_hometown' => 'all of you are from\\1',
-'mtag_add_thread' => 'launch anew topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
+'mtag_add_thread' => 'launch a new topic<br/><a href="space.php?do=thread&id=\\1">\\2</a><br/>group:<a href="space.php?do=mtag&tagid=\\3">\\4</a>', 
     'mtag_invite_note' => 'invite you the join in the <a href="space.php?do=mtag&tagid=\\1">\\2 group</a>',
     'event_invite_note' => 'invite you to join in the <a href="space.php?do=event&id=\\1">event</a>', 
     'complain_relay' => '\\1 send a <a href="\\2">complain</a>to you ,please deal with it',
@@ -728,3 +735,4 @@ $_SGLOBAL['cplang'] = array(
 );
 
 ?>
+
