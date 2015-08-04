@@ -83,6 +83,12 @@ var webim = {
                 debug(msg);
             }
         }
+        return false;
+    },
+    update: function(message) {
+        try {
+            xxim.update(message);
+        } catch (e) {}
     },
     initConnection: function() {
         var _this = this;
@@ -98,44 +104,44 @@ var webim = {
                 _this.handleClosed();
             },
             onTextMessage : function(message) {
-                _this.handleTextMessage(message);
+                _this.update(message);
             },
             //收到表情消息时的回调方法
             onEmotionMessage : function(message) {
-                handleEmotion(message);
+                _this.update(message);
             },
             //收到图片消息时的回调方法
             onPictureMessage : function(message) {
-                handlePictureMessage(message);
+                _this.update(message);
             },
             //收到音频消息的回调方法
             onAudioMessage : function(message) {
-                handleAudioMessage(message);
+                _this.update(message);
             },
             //收到位置消息的回调方法
             onLocationMessage : function(message) {
-                handleLocationMessage(message);
+                _this.update(message);
             },
             //收到文件消息的回调方法
             onFileMessage : function(message) {
-                handleFileMessage(message);
+                _this.update(message);
             },
             //收到视频消息的回调方法
             onVideoMessage : function(message) {
-                handleVideoMessage(message);
+                _this.update(message);
             },
             //收到联系人订阅请求的回调方法
-            onPresence : function(message) {
-                handlePresence(message);
-            },
+            // onPresence : function(message) {
+            //     handlePresence(message);
+            // },
             //收到联系人信息的回调方法
-            onRoster : function(message) {
-                handleRoster(message);
-            },
+            // onRoster : function(message) {
+            //     handleRoster(message);
+            // },
             //收到群组邀请时的回调方法
-            onInviteMessage : function(message) {
-                handleInviteMessage(message);
-            },
+            // onInviteMessage : function(message) {
+            //     handleInviteMessage(message);
+            // },
             onError : function(message) {
                 _this.handleError(message);
             }
@@ -435,7 +441,7 @@ xxim.popchat = function(param, status){
             +'    </div>'
             +'    <div class="layim_tool">'
             +'        <i class="layim_addface" title="发送表情"></i>'
-            +'        <div class="drop_face_menu" data-target="layim_write" style="margin-top:-245px;"></div>'
+            +'        <ul id="emotionUL" data-target="layim_write" data-loaded="0"></ul>'
             +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
             +'        <a href="javascript:;"><i class="layim_addfile" title="上传附件"></i></a>'
             +'    </div>'
@@ -642,11 +648,7 @@ xxim.fancyDate = function(time, type) {
 };
 
 xxim.html = function(param, type){
-    var content = param.content;
-    content = content.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/\[([ab])m:(\d+):\]/g, function(match,p1,p2){
-        p1 = p1.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
-        return '<img src="image/face_new/face_'+p1+'/'+p2+'.gif">';
-    });
+    var content = xxim.transform(param.content, type == 'me');
     return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
         +'<div class="layim_chatuser">'
             + function(){
@@ -663,6 +665,56 @@ xxim.html = function(param, type){
         +'</div>'
         +'<div class="layim_chatsay">'+ content +'<em class="layim_zero"></em></div>'
     +'</li>';
+};
+
+xxim.transform = function(message, local){
+    // if (local) {
+    //     var faces = Easemob.im.Helper.EmotionPicData;
+    //     return message.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/(\[.+?\])/g, function(match,p1){
+    //         if (p1 in faces)
+    //             return '<img src="' + faces[p1] + '" class="face">';
+    //         return p1;
+    //     });
+    // } else {
+        var localMsg = null;
+        if (typeof message == 'string') {
+            localMsg = Easemob.im.Helper.parseTextMessage(message);
+            localMsg = localMsg.body;
+        } else if (typeof message.data == 'string') {
+            localMsg = Easemob.im.Helper.parseTextMessage(message.data);
+            localMsg = localMsg.body;
+        } else {
+            localMsg = message.data;
+        }
+        var messageContent = localMsg;
+        var lineDiv = document.createElement("div");
+        for (var i = 0; i < messageContent.length; i++) {
+            var msg = messageContent[i];
+            var type = msg.type;
+            var data = msg.data;
+            if (type == "emotion") {
+                var eletext = "<p3><img src='" + data + "' class='face'/></p3>";
+                var ele = jQuery(eletext);
+                for (var j = 0; j < ele.length; j++) {
+                    lineDiv.appendChild(ele[j]);
+                }
+            } else if (type == "pic" || type == 'audio' || type == 'video') {
+                var filename = msg.filename;
+                var fileele = jQuery("<p3>" + filename + "</p3><br>");
+                for (var j = 0; j < fileele.length; j++) {
+                    lineDiv.appendChild(fileele[j]);
+                }
+                lineDiv.appendChild(data);
+            } else {
+                var eletext = "<p3>" + data.replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</p3>";
+                var ele = jQuery(eletext);
+                for (var j = 0; j < ele.length; j++) {
+                    lineDiv.appendChild(ele[j]);
+                }
+            }
+        }
+        return lineDiv.innerHTML;
+    // }
 };
 
 //消息传输
@@ -739,7 +791,7 @@ xxim.update = function(message){
         return;
     var datum = {
         id: message.from,
-        message: message.data,
+        message: message,
     };
     var key = 'one' + datum.id;
     if(!config.chating[key]){
@@ -981,6 +1033,40 @@ xxim.getData = function(index){
     });
 };
 
+xxim.initEmotions = function() {
+    var sjson = Easemob.im.Helper.EmotionPicData;
+    var emotions = [];
+    for (var key in sjson) {
+        var emotion = jQuery('<img>').attr({
+            "id" : key,
+            "class": "face",
+            "src" : sjson[key],
+            "style" : "cursor:pointer;"
+        }).click(function() {
+            var node = xxim.node;
+            var origin = node.imwrite.val();
+            node.imwrite.val(origin + this.id).focus();
+        });
+        emotions.push(jQuery('<li class="face">').append(emotion));
+    }
+    jQuery(document).on('click', '.layim_addface', function(e) {
+        var $emotionUL = jQuery('#emotionUL');
+        var loaded = parseInt($emotionUL.data('loaded'));
+        if (!loaded) {
+            $emotionUL.append(emotions);
+        }
+        $emotionUL.show();
+        config.stopMP(e);
+    });
+    jQuery(document).on('click', function(e) {
+        var $emotionUL = jQuery('#emotionUL');
+        var $target = jQuery(e.target);
+        if ($emotionUL && !$target.hasClass('layim_addface') && !$target.hasClass('face')) {
+            $emotionUL.hide();
+        }
+    });
+};
+
 //渲染骨架
 xxim.view = function(){
     if (xxim.initialized)
@@ -1007,10 +1093,9 @@ xxim.view = function(){
     xxim.renode();
     xxim.getData(0);
     xxim.event();
+    xxim.initEmotions();
     xxim.layinit();
-    jQuery.get('source/face.js', {}, function(data){
-        eval(data);
-    });
+
     jQuery('[data-toggle="tooltip"]').tooltip();
     jQuery('.xxim_bottom').click(function(){
         jQuery('.xxim_bottom .tooltip').hide();

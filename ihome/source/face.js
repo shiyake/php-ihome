@@ -143,10 +143,6 @@
         e.preventDefault();
         popover_menu(jq(this), 208, 393, pop_info(14,57,1));
     });
-    jq(document).on("click", ".layim_addface", function(e) {
-        e.preventDefault();
-        popover_menu(jq(this), 208, 393, pop_info(14,57,1), 'im');
-    });
 
 	jq(document).on("click",".face_header_a",function(e){
 		e.preventDefault();
