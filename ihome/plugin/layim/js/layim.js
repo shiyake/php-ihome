@@ -166,6 +166,7 @@ var webim = {
 
 var config = {
     msgurl: 'space.php?do=pm',
+    face: 'http://i.buaa.edu.cn/ihome/images/avatar/m_big_1.png',
     aniTime: 200,
     height: 535,
     api: {
@@ -178,7 +179,7 @@ var config = {
     user: ({ //当前用户信息
         id: 0,
         name: '僕',
-        face: 'http://ajaxload.info/cache/FF/FF/FF/00/00/00/5-0.gif',
+        face: 'http://i.buaa.edu.cn/ihome/images/avatar/m_big_1.png',
         token: null,
         init: function(){
             var _this = this;
@@ -316,7 +317,7 @@ xxim.popchat = function(param, status){
         xxim.chatbox = layero.find('#layim_chatbox');
         log.chatlist = xxim.chatbox.find('.layim_chatmore>ul');
         
-        log.chatlist.html('<li data-id="'+ param.id +'" type="'+ param.type +'"  id="layim_user'+ param.type + param.id +'"><span>'+ param.name +'</span><em>×</em></li>')
+        log.chatlist.html('<li data-id="'+ param.id +'" type="'+ param.type +'"  id="layim_user'+ param.type + param.id +'"><span>'+ param.name +'</span><em>×</em></li>');
         xxim.tabchat(param, xxim.chatbox);
         
         //最小化聊天窗
@@ -620,7 +621,7 @@ xxim.fancyDate = function(time, type) {
 };
 
 xxim.html = function(param, type){
-    var content = xxim.transform(param.content, type == 'me');
+    var content = xxim.transform(param.content);
     return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
         +'<div class="layim_chatuser">'
             + function(){
@@ -639,54 +640,45 @@ xxim.html = function(param, type){
     +'</li>';
 };
 
-xxim.transform = function(message, local){
-    // if (local) {
-    //     var faces = Easemob.im.Helper.EmotionPicData;
-    //     return message.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/(\[.+?\])/g, function(match,p1){
-    //         if (p1 in faces)
-    //             return '<img src="' + faces[p1] + '" class="face">';
-    //         return p1;
-    //     });
-    // } else {
-        var localMsg = null;
-        if (typeof message == 'string') {
-            localMsg = Easemob.im.Helper.parseTextMessage(message);
-            localMsg = localMsg.body;
-        } else if (typeof message.data == 'string') {
-            localMsg = Easemob.im.Helper.parseTextMessage(message.data);
-            localMsg = localMsg.body;
+xxim.transform = function(message){
+    var localMsg = null;
+    if (typeof message == 'string') {
+        localMsg = Easemob.im.Helper.parseTextMessage(message);
+        localMsg = localMsg.body;
+    } else if (typeof message.data == 'string') {
+        localMsg = Easemob.im.Helper.parseTextMessage(message.data);
+        localMsg = localMsg.body;
+    } else {
+        localMsg = message.data;
+    }
+    var messageContent = localMsg;
+    var lineDiv = document.createElement("div");
+    for (var i = 0; i < messageContent.length; i++) {
+        var msg = messageContent[i];
+        var type = msg.type;
+        var data = msg.data;
+        if (type == "emotion") {
+            var eletext = "<p3><img src='" + data + "' class='face'/></p3>";
+            var ele = jQuery(eletext);
+            for (var j = 0; j < ele.length; j++) {
+                lineDiv.appendChild(ele[j]);
+            }
+        } else if (type == "pic" || type == 'audio' || type == 'video') {
+            var filename = msg.filename;
+            var fileele = jQuery("<p3>" + filename + "</p3><br>");
+            for (var j = 0; j < fileele.length; j++) {
+                lineDiv.appendChild(fileele[j]);
+            }
+            lineDiv.appendChild(data);
         } else {
-            localMsg = message.data;
-        }
-        var messageContent = localMsg;
-        var lineDiv = document.createElement("div");
-        for (var i = 0; i < messageContent.length; i++) {
-            var msg = messageContent[i];
-            var type = msg.type;
-            var data = msg.data;
-            if (type == "emotion") {
-                var eletext = "<p3><img src='" + data + "' class='face'/></p3>";
-                var ele = jQuery(eletext);
-                for (var j = 0; j < ele.length; j++) {
-                    lineDiv.appendChild(ele[j]);
-                }
-            } else if (type == "pic" || type == 'audio' || type == 'video') {
-                var filename = msg.filename;
-                var fileele = jQuery("<p3>" + filename + "</p3><br>");
-                for (var j = 0; j < fileele.length; j++) {
-                    lineDiv.appendChild(fileele[j]);
-                }
-                lineDiv.appendChild(data);
-            } else {
-                var eletext = "<p3>" + data.replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</p3>";
-                var ele = jQuery(eletext);
-                for (var j = 0; j < ele.length; j++) {
-                    lineDiv.appendChild(ele[j]);
-                }
+            var eletext = "<p3>" + data.replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</p3>";
+            var ele = jQuery(eletext);
+            for (var j = 0; j < ele.length; j++) {
+                lineDiv.appendChild(ele[j]);
             }
         }
-        return lineDiv.innerHTML;
-    // }
+    }
+    return lineDiv.innerHTML;
 };
 
 //消息传输
@@ -748,14 +740,28 @@ xxim.transmit = function(){
     };
     node.sendbtn.on('click', log.send);
     
-    node.imwrite.keyup(function(e){
+    node.imwrite.keydown(function(e){
         if(e.keyCode === 13){
             if ((e.ctrlKey && config.sendType=='ctrlEnter') || (!e.ctrlKey && config.sendType=='enter')) {
+                e.preventDefault();
                 log.send();
             }
         }
     });
 };
+
+xxim.getInfo = function(datum) {
+    var friend = config.friendInfo[datum.id];
+    if (!datum.name && friend) {
+        datum.name = friend.name;
+    }
+    if (!datum.face && friend) {
+        datum.face = friend.face;
+    }
+    datum.name = datum.name || datum.id;
+    datum.face = datum.face || config.face;
+    return datum;
+}
 
 xxim.update = function(message){
     var log = {};
@@ -765,19 +771,14 @@ xxim.update = function(message){
         id: message.from,
         message: message,
     };
+    datum = xxim.getInfo(datum);
     var key = 'one' + datum.id;
     if(!config.chating[key]){
-        if (!datum.name && config.friendInfo[datum.id]) {
-            datum.name = config.friendInfo[datum.id].name;
-        }
-        if (!datum.face && config.friendInfo[datum.id]) {
-            datum.face = config.friendInfo[datum.id].face;
-        }
         var temp = {
             id: datum.id, //用户ID
             type: 'one',
-            name: datum.name,  //用户名
-            face: datum.face,  //用户头像
+            name: datum.name || datum.id,  //用户名
+            face: datum.face || config.face,  //用户头像
             href: config.hosts + 'space.php?uid=' + datum.id //用户主页
         };
         xxim.popchat(temp,'hide');
@@ -787,11 +788,10 @@ xxim.update = function(message){
     if (xxim.chatbox) {
         log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
         if (log.imarea) {
-            var friend = config.friendInfo[datum.id];
             log.imarea.append(xxim.html({
             time: xxim.fancyDate(datum.time),
-            name: datum.name || (friend && friend.name),
-            face: datum.face || (friend && friend.face),
+            name: datum.name || datum.id,
+            face: datum.face || config.face,
             content: datum.message
             }, ''));
             if (log.imarea.is(':visible')) {
