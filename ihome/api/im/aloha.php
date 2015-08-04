@@ -6,15 +6,15 @@
  	$uid = $_SGLOBAL['supe_uid'];
 
  	$result = array();
- 	function get_token($uid) {
-		$servername = $_SERVER['SERVER_NAME'];
-		$url = 'https://a1.easemob.com/ihome/ihomeTest/token';
+ 	function query($api, $data) {
+ 		$servername = $_SERVER['SERVER_NAME'];
+		$base = 'https://a1.easemob.com/ihome/ihomeTest/';
 		if ($servername == 'i.buaa.edu.cn') {
-			$url = 'https://a1.easemob.com/ihome/ihome/token';
+			$base = 'https://a1.easemob.com/ihome/ihome/';
 		}
-		$data = array('grant_type' => 'password', 'username' => "$uid", 'password' => '123456');
 		$content = json_encode($data);
 
+		$url = $base.$api;
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -26,10 +26,36 @@
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 		$response = json_decode($json_response, true);
+
+		// var_dump($url);
+		// echo '<br>';
+		// var_dump($content);
+		// echo '<br>';
+		// var_dump($response);
+		return $response;
+ 	}
+ 	function get_token($uid) {
+		$data = array('grant_type' => 'password', 'username' => "$uid", 'password' => '123456');
+		$response = query('token', $data);
 		if ($response['access_token']) {
 			return $response;
 		}
 		return 0;
+	}
+	function register($uid, $name) {
+		$data = array('username' => "$uid", 'password' => '123456', 'nickname' => $name);
+		$response = query('users', $data);
+		if (!$response['error']) {
+			return $response;
+		}
+		return 0;
+	}
+	function get_token_wrapper($uid, $name) {
+		$token = get_token($uid);
+		if (!$token && register($uid, $name)) {
+			$token = get_token($uid);
+		}
+		return $token;
 	}
 
  	$query = $_SGLOBAL['db']->query("select avatar,name,username from ".tname('space')." where uid='$uid' LIMIT 1");
@@ -38,17 +64,17 @@
 		Predis\Autoloader::register();
 		$client = new Predis\Client();
 
+		if(empty($rs['name'])) $rs['name'] = $rs['username'];
+		$name = $rs['name'];
+
 		$key = 'ihome_token_'.$uid;
 		$token = $client->get($key);
-		if (!$token && ($ret = get_token($uid))) {
+		if (!$token && ($ret = get_token_wrapper($uid, $name))) {
 			$token = $ret['access_token'];
 			$expire = $ret['expires_in'];
 			$client->set($key, $token);
 			$client->expire($key, $expire);
 		}
-
-		if(empty($rs['name'])) $rs['name'] = $rs['username'];
-		$name = $rs['name'];
 
 		if ($rs['avatar']) {
 			$face = avatar($uid,'big',TRUE);

@@ -24,7 +24,6 @@ var webim = {
         }
         return 'ihome#ihomeTest';
     })(),
-    failed: false,
     hooked: false,
     hasFocus: false,
     ensureOnline: function() {
@@ -68,22 +67,16 @@ var webim = {
         xxim.update(message);
     },
     handleError: function(e) {
-        if (this.user == null) {
-            !this.failed && this.register();
-            this.failed = true;
-        } else {
-            var msg = e.msg;
-            if (e.type == EASEMOB_IM_CONNCTION_SERVER_CLOSE_ERROR) {
-                if (msg == "" || msg == 'unknown') {
-                    debug("服务器器断开连接,可能是因为在别处登录");
-                } else {
-                    debug("服务器器断开连接");
-                }
+        var msg = e.msg;
+        if (e.type == EASEMOB_IM_CONNCTION_SERVER_CLOSE_ERROR) {
+            if (msg == "" || msg == 'unknown') {
+                debug("服务器器断开连接,可能是因为在别处登录");
             } else {
-                debug(msg);
+                debug("服务器器断开连接");
             }
+        } else {
+            debug(msg);
         }
-        return false;
     },
     update: function(message) {
         try {
@@ -160,27 +153,6 @@ var webim = {
             resource: resource,
         };
         this.conn.open(options);
-    },
-    register: function() {
-        if (this.user || !config.user.id) {
-            this.handleError();
-            return;
-        }
-        var _this = this;
-        var options = {
-            username : config.user.id.toString(),
-            password : '123456',
-            nickname : config.user.name,
-            appKey : this.appkey,
-            success : function(result) {
-                _this.login();
-                debug("注册成功!");
-            },
-            error : function(e) {
-                debug(e.error);
-            }
-        };
-        Easemob.im.Helper.registerUser(options);
     },
     sendText: function(to, msg, type) {
         var options = {
