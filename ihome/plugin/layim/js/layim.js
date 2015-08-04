@@ -171,6 +171,7 @@ var config = {
     height: 535,
     api: {
         friend: 'api/im/friend.php', //好友列表接口
+        info: 'api/im/info.php',
         group: 'plugin/layim/group.json', //群组列表接口
         groups: 'plugin/layim/groups.json', //群组成员接口
         update: 'api/im/update.php',
@@ -197,6 +198,8 @@ var config = {
     }).init(),
     friends: [],
     friendInfo: {},
+    onenight: [],
+    onenightInfo: {},
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
         'aloha'
@@ -750,17 +753,34 @@ xxim.transmit = function(){
     });
 };
 
-xxim.getInfo = function(datum) {
-    var friend = config.friendInfo[datum.id];
-    if (!datum.name && friend) {
-        datum.name = friend.name;
+xxim.getInfo = function(datum, callback) {
+    var info = config.friendInfo[datum.id] || config.onenightInfo[datum.id];
+    if (!datum.name && info) {
+        datum.name = info.name;
     }
-    if (!datum.face && friend) {
-        datum.face = friend.face;
+    if (!datum.face && info) {
+        datum.face = info.face;
+    }
+    if (!datum.name || !datum.face) {
+        config.json(config.api.info, {uid: datum.id}, function(data) {
+            if (data.status) {
+                datum.name = data.name;
+                datum.face = data.face;
+                config.onenightInfo[datum.id] = {
+                    name: data.name,
+                    face: data.face,
+                };
+            } else {
+                datum.name = datum.name || datum.id;
+                datum.face = datum.face || config.face;
+            }
+            callback(datum);
+        });
+        return;
     }
     datum.name = datum.name || datum.id;
     datum.face = datum.face || config.face;
-    return datum;
+    callback(datum);
 }
 
 xxim.update = function(message){
@@ -771,54 +791,55 @@ xxim.update = function(message){
         id: message.from,
         message: message,
     };
-    datum = xxim.getInfo(datum);
-    var key = 'one' + datum.id;
-    if(!config.chating[key]){
-        var temp = {
-            id: datum.id, //用户ID
-            type: 'one',
-            name: datum.name || datum.id,  //用户名
-            face: datum.face || config.face,  //用户头像
-            href: config.hosts + 'space.php?uid=' + datum.id //用户主页
-        };
-        xxim.popchat(temp,'hide');
-        config.chating[key] = temp;
-        config.chatings++;
-    }
-    if (xxim.chatbox) {
-        log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
-        if (log.imarea) {
-            log.imarea.append(xxim.html({
-            time: xxim.fancyDate(datum.time),
-            name: datum.name || datum.id,
-            face: datum.face || config.face,
-            content: datum.message
-            }, ''));
-            if (log.imarea.is(':visible')) {
-                log.imarea.scrollTop(log.imarea[0].scrollHeight);
+    datum = xxim.getInfo(datum, function(datum) {
+        var key = 'one' + datum.id;
+        if(!config.chating[key]){
+            var temp = {
+                id: datum.id, //用户ID
+                type: 'one',
+                name: datum.name || datum.id,  //用户名
+                face: datum.face || config.face,  //用户头像
+                href: config.hosts + 'space.php?uid=' + datum.id //用户主页
+            };
+            xxim.popchat(temp,'hide');
+            config.chating[key] = temp;
+            config.chatings++;
+        }
+        if (xxim.chatbox) {
+            log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
+            if (log.imarea) {
+                log.imarea.append(xxim.html({
+                time: xxim.fancyDate(datum.time),
+                name: datum.name || datum.id,
+                face: datum.face || config.face,
+                content: datum.message
+                }, ''));
+                if (log.imarea.is(':visible')) {
+                    log.imarea.scrollTop(log.imarea[0].scrollHeight);
+                } else {
+                    xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
+                }
             } else {
-                xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
+
             }
-        } else {
-
+            if (!xxim.chatbox.is(':visible')) {
+                config.updates++;
+            }
         }
-        if (!xxim.chatbox.is(':visible')) {
-            config.updates++;
+
+        if (config.updates) {
+            xxim.node.layimMin.addClass('layim_blink');
+            xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');
+            xxim.node.layimMin.show();
         }
-    }
 
-    if (config.updates) {
-        xxim.node.layimMin.addClass('layim_blink');
-        xxim.node.layimMin.html(config.updates+'&nbsp;条未读消息哦~');
-        xxim.node.layimMin.show();
-    }
-
-    if (config.audio.length) {
-        // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
-        var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
-        var audio = new Audio(config.audio[track]);
-        audio.play();
-    }
+        if (config.audio.length) {
+            // var audio = new Audio(config.audio[Math.floor(Math.random()*config.audio.length)]);
+            var track = (parseInt(localStorage.iTrack)||0)%config.audio.length;
+            var audio = new Audio(config.audio[track]);
+            audio.play();
+        }
+    });
 };
 
 //事件
