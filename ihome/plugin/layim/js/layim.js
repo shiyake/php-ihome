@@ -22,7 +22,7 @@ var webim = {
         if (location.host == 'i.buaa.edu.cn') {
             return 'ihome#ihome';
         }
-        return 'ihome#ihomeTest';
+        return 'ihome#ihometest';
     })(),
     hooked: false,
     hasFocus: false,
@@ -61,7 +61,9 @@ var webim = {
         this.user = null;
         this.nickname = null;
         debug('closed');
-        // TO FREEZE THE PANEL
+
+        jQuery('#xximmm').hide();
+        jQuery('.xubox_layer').hide();
     },
     handleTextMessage: function(message) {
         xxim.update(message);
@@ -972,6 +974,23 @@ xxim.getData = function(index){
                 })
             };
         }
+    } else if (index == 1) {
+        webim.conn.listRooms({
+            success: function(rooms) {
+                debugger;
+                if (rooms && rooms.length > 0) {
+                    
+                } else {
+                    // myf.html('<li class="xxim_errormsg">没有任何数据</li>');
+                }
+                myf.removeClass('loading');
+            },
+            error: function(e) {
+                myf.html('<li class="xxim_errormsg">请求失败</li>');
+                myf.removeClass('loading');
+            }
+        });
+        return;
     } else {
         myf.removeClass('loading');
         return;
@@ -1062,8 +1081,10 @@ xxim.initEmotions = function() {
 
 //渲染骨架
 xxim.view = function(){
-    if (xxim.initialized)
+    if (xxim.initialized) {
+        xxim.layimNode.show();
         return;
+    }
     window.onbeforeunload = function(){
         config.json(config.api.leave);
     };
@@ -1071,7 +1092,7 @@ xxim.view = function(){
     var xximNode = xxim.layimNode = jQuery('<div id="xximmm" class="xxim_main">'
             +'<div class="xxim_top" id="xxim_top">'
             +'  <div class="xxim_search"><i></i><input id="xxim_searchkey" /><span id="xxim_closesearch">×</span></div>'
-            +'  <div class="xxim_tabs" id="xxim_tabs"><span class="xxim_tabfriend" title="好友"><i></i></span><span class="xxim_latechat"  title="最近聊天"><i></i></span></div>'
+            +'  <div class="xxim_tabs" id="xxim_tabs"><span class="xxim_tabfriend" title="好友"><i></i></span><span class="xxim_tabgroup"  title="群组"><i></i></span></div>'
             +'  <ul class="xxim_list" style="display:block"></ul>'
             +'  <ul class="xxim_list"></ul>'
             +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'

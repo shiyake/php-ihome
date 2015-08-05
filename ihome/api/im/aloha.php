@@ -8,7 +8,7 @@
  	$result = array();
  	function query($api, $data) {
  		$servername = $_SERVER['SERVER_NAME'];
-		$base = 'https://a1.easemob.com/ihome/ihomeTest/';
+		$base = 'https://a1.easemob.com/ihome/ihometest/';
 		if ($servername == 'i.buaa.edu.cn') {
 			$base = 'https://a1.easemob.com/ihome/ihome/';
 		}
