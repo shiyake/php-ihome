@@ -169,6 +169,7 @@ var webim = {
 var config = {
     msgurl: 'space.php?do=pm',
     face: 'http://i.buaa.edu.cn/ihome/images/avatar/m_big_1.png',
+    groupface: '/plugin/layim/img/group.png',
     aniTime: 200,
     height: 535,
     api: {
@@ -587,25 +588,33 @@ xxim.getGroups = function(param){
     var keys = param.type + param.id, str = '',
     groupss = xxim.chatbox.find('#layim_group'+ keys);
     groupss.addClass('loading');
-    config.json(config.api.groups, {}, function(datas){
-        if(datas.status === 1){
-            var ii = 0, lens = datas.data.length;
-            if(lens > 0){
-                for(; ii < lens; ii++){
-                    str += '<li data-id="'+ datas.data[ii].id +'" type="one"><img src="'+ datas.data[ii].face +'" class="xxim_oneface"><span class="xxim_onename">'+ datas.data[ii].name +'</span></li>';
+    webim.conn.queryRoomMember({
+        roomId : param.id,
+        success : function(members) {
+            if (members) {
+                var lens = members.length;
+                for (var i = 0; i < lens; i++) {
+                    var id = new RegExp(webim.appkey + '_(\\d+)@.*').exec(members[i].jid || '');
+                    id = id && id[1];
+                    if (id) {
+                        var datum = xxim.getInfo({
+                            name: id
+                        }, function(datum) {
+                            
+                        });
+                        str += '<li data-id="'+ id +'" type="one"><img src="'+ config.face +'" class="xxim_oneface"><span class="xxim_onename">'+ id +'</span></li>';
+                    }
                 }
             } else {
                 str = '<li class="layim_errors">没有群员</li>';
             }
-            
-        } else {
-            str = '<li class="layim_errors">'+ datas.msg +'</li>';
+            groupss.removeClass('loading');
+            groupss.html(str);
+        },
+        error : function() {
+            groupss.removeClass('loading');
+            groupss.html('<li class="layim_errors">请求异常</li>');
         }
-        groupss.removeClass('loading');
-        groupss.html(str);
-    }, function(){
-        groupss.removeClass('loading');
-        groupss.html('<li class="layim_errors">请求异常</li>');
     });
 };
 
@@ -756,6 +765,7 @@ xxim.transmit = function(){
 };
 
 xxim.getInfo = function(datum, callback) {
+    callback = callback || function() {};
     var info = config.friendInfo[datum.id] || config.onenightInfo[datum.id];
     if (!datum.name && info) {
         datum.name = info.name;
@@ -977,12 +987,18 @@ xxim.getData = function(index){
     } else if (index == 1) {
         webim.conn.listRooms({
             success: function(rooms) {
-                debugger;
+                var str = '';
                 if (rooms && rooms.length > 0) {
-                    
+                    str += '<li class="xxim_liston">'
+                        +'<ul class="xxim_chatlist">';
+                    for(var j = 0; j < rooms.length; j++){
+                        str += '<li data-id="'+ rooms[j].roomId +'" class="xxim_childnode" type="group"><img src="'+ config.groupface +'" class="xxim_oneface"><span class="xxim_onename">'+ rooms[j].name +'</span></li>';
+                    }
+                    str += '</ul></li>';
                 } else {
-                    // myf.html('<li class="xxim_errormsg">没有任何数据</li>');
+                    str = '<li class="xxim_errormsg">没有任何数据</li>';
                 }
+                myf.html(str);
                 myf.removeClass('loading');
             },
             error: function(e) {
