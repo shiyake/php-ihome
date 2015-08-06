@@ -53,9 +53,27 @@ var webim = {
     handleOpen: function() {
         this.user = config.user.id;
         this.nickname = config.user.name;
-        xxim.view();
-        this.hook();
         debug('login successfully');
+        this.hook();
+        if (!config.groups.length) {
+            this.conn.listRooms({
+                success: function(rooms) {
+                    if (rooms && rooms.length > 0) {
+                        for (var i = rooms.length - 1, room = null; i >= 0; i--) {
+                            room = rooms[i];
+                            config.groups.push(room.roomId);
+                            config.groupInfo[room.roomId] = room.name;
+                        };
+                    }
+                    xxim.view();
+                },
+                error: function(e) {
+                    xxim.view();
+                }
+            });
+        } else {
+            xxim.view();
+        }
     },
     handleClosed: function() {
         this.user = null;
@@ -64,9 +82,6 @@ var webim = {
 
         jQuery('#xximmm').hide();
         jQuery('.xubox_layer').hide();
-    },
-    handleTextMessage: function(message) {
-        xxim.update(message);
     },
     handleError: function(e) {
         var msg = e.msg;
@@ -203,6 +218,8 @@ var config = {
     friendInfo: {},
     onenight: [],
     onenightInfo: {},
+    groups: [],
+    groupInfo: {},
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
         'aloha'
@@ -834,7 +851,7 @@ xxim.update = function(message){
     };
     datum = xxim.getInfo(datum, function(data) {
         datum = data[0];
-        var key = 'one' + datum.id;
+        var key = message.type == 'chat' ? 'one' + message.from : 'group' + message.to;
         if(!config.chating[key]){
             var temp = {
                 id: datum.id, //用户ID
@@ -843,12 +860,19 @@ xxim.update = function(message){
                 face: datum.face || config.face,  //用户头像
                 href: config.hosts + 'space.php?uid=' + datum.id //用户主页
             };
+            if (message.type != 'chat') {
+                temp.type = 'group';
+                temp.id = message.to;
+                temp.name = temp.id in config.groupInfo ? config.groupInfo[temp.id] : temp.id;
+                temp.face = config.groupface;
+                temp.href = 'javascript:void(0)';
+            }
             xxim.popchat(temp,'hide');
             config.chating[key] = temp;
             config.chatings++;
         }
         if (xxim.chatbox) {
-            log.imarea = xxim.chatbox.find('#layim_areaone'+ datum.id);
+            log.imarea = xxim.chatbox.find('#layim_area' + key);
             if (log.imarea) {
                 log.imarea.append(xxim.html({
                 time: xxim.fancyDate(datum.time),
@@ -1015,27 +1039,22 @@ xxim.getData = function(index){
             };
         }
     } else if (index == 1) {
-        webim.conn.listRooms({
-            success: function(rooms) {
-                var str = '';
-                if (rooms && rooms.length > 0) {
-                    str += '<li class="xxim_liston">'
-                        +'<ul class="xxim_chatlist">';
-                    for(var j = 0; j < rooms.length; j++){
-                        str += '<li data-id="'+ rooms[j].roomId +'" class="xxim_childnode" type="group"><img src="'+ config.groupface +'" class="xxim_oneface"><span class="xxim_onename">'+ rooms[j].name +'</span></li>';
-                    }
-                    str += '</ul></li>';
-                } else {
-                    str = '<li class="xxim_errormsg">没有任何数据</li>';
-                }
-                myf.html(str);
-                myf.removeClass('loading');
-            },
-            error: function(e) {
-                myf.html('<li class="xxim_errormsg">请求失败</li>');
-                myf.removeClass('loading');
-            }
-        });
+        var group = null;
+        var str = '';
+        if (config.groups.length) {
+            str += '<li class="xxim_liston">'
+                +'<ul class="xxim_chatlist">';
+            for (var i = config.groups.length - 1, roomId=null, name=null; i >= 0; i--) {
+                roomId = config.groups[i];
+                name = config.groupInfo[roomId];
+                str += '<li data-id="'+ roomId +'" class="xxim_childnode" type="group"><img src="'+ config.groupface +'" class="xxim_oneface"><span class="xxim_onename">'+ name +'</span></li>';
+            };
+            str += '</ul></li>';
+        } else {
+            str = '<li class="xxim_errormsg">没有任何数据</li>';
+        }
+        myf.html(str);
+        myf.removeClass('loading');
         return;
     } else {
         myf.removeClass('loading');
