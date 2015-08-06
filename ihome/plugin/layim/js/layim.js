@@ -573,6 +573,8 @@ xxim.popchatbox = function(othis){
         face: othis.find('.xxim_oneface').attr('src'),  //用户头像
         href: config.hosts + 'space.php?uid=' + dataId //用户主页
     }, key = param.type + dataId;
+    if (param.type == 'group')
+        param.href = 'javascript:void(0)';
     if(!config.chating[key]){
         xxim.popchat(param);
         config.chatings++;
@@ -606,38 +608,67 @@ xxim.getGroups = function(param){
     groups = xxim.chatbox.find('#layim_groups'),
     groupss = xxim.chatbox.find('#layim_group'+ keys);
     groups.addClass('loading');
-    webim.conn.queryRoomMember({
-        roomId : param.id,
-        success : function(members) {
-            if (members) {
-                var lens = members.length;
-                var ids = [];
-                for (var i = 0; i < lens; i++) {
-                    var id = new RegExp(webim.appkey + '_(\\d+)@.*').exec(members[i].jid || '');
-                    id = id && id[1];
-                    if (id) {
-                        ids.push({id: id});
-                    }
+    var callback = function(members) {
+        if (members) {
+            var lens = members.length;
+            var ids = [];
+            for (var i = 0; i < lens; i++) {
+                var id = new RegExp(webim.appkey + '_(\\d+)@.*').exec(members[i].jid || '');
+                id = id && id[1];
+                if (id) {
+                    ids.push({id: id});
                 }
-                var datum = xxim.getInfo(ids, function(data) {
-                    var datum = null;
-                    for (var i = data.length - 1; i >= 0; i--) {
-                        datum = data[i];
-                        str += '<li data-id="'+ datum.id +'" type="one"><img src="'+ datum.face +'" class="xxim_oneface"><span class="xxim_onename">'+ datum.name +'</span></li>';
-                    };
-                    groups.removeClass('loading');
-                    groupss.html(str);
-                });
-            } else {
-                str = '<li class="layim_errors">没有群员</li>';
+            }
+            var datum = xxim.getInfo(ids, function(data) {
+                var datum = null;
+                for (var i = data.length - 1; i >= 0; i--) {
+                    datum = data[i];
+                    str += '<li data-id="'+ datum.id +'" type="one"><img src="'+ datum.face +'" class="xxim_oneface"><span class="xxim_onename">'+ datum.name +'</span></li>';
+                };
                 groups.removeClass('loading');
                 groupss.html(str);
-            }
-        },
-        error : function() {
-            groupss.removeClass('loading');
-            groupss.html('<li class="layim_errors">请求异常</li>');
+            });
+        } else {
+            str = '<li class="layim_errors">请求异常</li>';
+            groups.removeClass('loading');
+            groupss.html(str);
         }
+    }
+
+    var parallel = function(callback) {
+        var limit = arguments.length - 1, ceil=limit;
+        var counter = 0;
+        var result = [];
+        var _callback = function(res) {
+            result = result.concat(res || []);
+            if (++counter == ceil)
+                callback(result);
+        };
+        while (limit != 0) {
+            arguments[limit--](_callback);
+        }
+    }
+
+    parallel(callback, function(callback) {
+        webim.conn.queryRoomMember({
+            roomId : param.id,
+            success: function(occs) {
+                callback(occs);
+            },
+            error: function(e) {
+                callback([]);
+            }
+        });
+    }, function(callback) {
+        webim.conn.queryRoomInfo({
+            roomId : param.id,
+            success : function(occs) {
+                callback(occs);
+            },
+            error: function(e) {
+                callback([]);
+            }
+        });
     });
 };
 
