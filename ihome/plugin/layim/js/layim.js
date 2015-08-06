@@ -586,30 +586,36 @@ xxim.popchatbox = function(othis){
 //请求群员
 xxim.getGroups = function(param){
     var keys = param.type + param.id, str = '',
+    groups = xxim.chatbox.find('#layim_groups'),
     groupss = xxim.chatbox.find('#layim_group'+ keys);
-    groupss.addClass('loading');
+    groups.addClass('loading');
     webim.conn.queryRoomMember({
         roomId : param.id,
         success : function(members) {
             if (members) {
                 var lens = members.length;
+                var ids = [];
                 for (var i = 0; i < lens; i++) {
                     var id = new RegExp(webim.appkey + '_(\\d+)@.*').exec(members[i].jid || '');
                     id = id && id[1];
                     if (id) {
-                        var datum = xxim.getInfo({
-                            name: id
-                        }, function(datum) {
-                            
-                        });
-                        str += '<li data-id="'+ id +'" type="one"><img src="'+ config.face +'" class="xxim_oneface"><span class="xxim_onename">'+ id +'</span></li>';
+                        ids.push({id: id});
                     }
                 }
+                var datum = xxim.getInfo(ids, function(data) {
+                    var datum = null;
+                    for (var i = data.length - 1; i >= 0; i--) {
+                        datum = data[i];
+                        str += '<li data-id="'+ datum.id +'" type="one"><img src="'+ datum.face +'" class="xxim_oneface"><span class="xxim_onename">'+ datum.name +'</span></li>';
+                    };
+                    groups.removeClass('loading');
+                    groupss.html(str);
+                });
             } else {
                 str = '<li class="layim_errors">没有群员</li>';
+                groups.removeClass('loading');
+                groupss.html(str);
             }
-            groupss.removeClass('loading');
-            groupss.html(str);
         },
         error : function() {
             groupss.removeClass('loading');
@@ -764,35 +770,58 @@ xxim.transmit = function(){
     });
 };
 
-xxim.getInfo = function(datum, callback) {
+xxim.getInfo = function(data, callback) {
+    if (!Array.isArray(data)) {
+        data = [data];
+    }
     callback = callback || function() {};
-    var info = config.friendInfo[datum.id] || config.onenightInfo[datum.id];
-    if (!datum.name && info) {
-        datum.name = info.name;
-    }
-    if (!datum.face && info) {
-        datum.face = info.face;
-    }
-    if (!datum.name || !datum.face) {
-        config.json(config.api.info, {uid: datum.id}, function(data) {
+
+    var datum = null;
+    var info = null;
+    var result = [];
+    var rawMap = {};
+    var raw = [];
+    for (var i = data.length - 1; i >= 0; i--) {
+        datum = data[i];
+        info = config.friendInfo[datum.id] || config.onenightInfo[datum.id];
+        if (!datum.name && info)
+            datum.name = info.name;
+        if (!datum.face && info)
+            datum.face = info.face;
+        if (datum.name && datum.face) {   
+            result.push(datum);
+        } else {
+            raw.push(datum.id);
+            rawMap[datum.id] = datum;
+        }
+    };
+    if (raw.length) {
+        config.json(config.api.info, {uids: raw.toString()}, function(data) {
+            var datum = null;
             if (data.status) {
-                datum.name = data.name;
-                datum.face = data.face;
-                config.onenightInfo[datum.id] = {
-                    name: data.name,
-                    face: data.face,
-                };
+                data = data.content;
+                for (var i = data.length - 1; i >= 0; i--) {
+                    datum = data[i];
+                    config.onenightInfo[datum.id] = {
+                        name: datum.name,
+                        face: datum.face,
+                    };
+                };                
             } else {
-                datum.name = datum.name || datum.id;
-                datum.face = datum.face || config.face;
+                data = [];
+                for (var i = raw.length - 1; i >= 0; i--) {
+                    datum = rawMap[raw[i]];
+                    datum.name = datum.name || datum.id;
+                    datum.face = datum.face || config.face;
+                    data.push(datum);
+                };
             }
-            callback(datum);
+            result = result.concat(data);
+            callback(result);
         });
         return;
     }
-    datum.name = datum.name || datum.id;
-    datum.face = datum.face || config.face;
-    callback(datum);
+    callback(result);
 }
 
 xxim.update = function(message){
@@ -803,7 +832,8 @@ xxim.update = function(message){
         id: message.from,
         message: message,
     };
-    datum = xxim.getInfo(datum, function(datum) {
+    datum = xxim.getInfo(datum, function(data) {
+        datum = data[0];
         var key = 'one' + datum.id;
         if(!config.chating[key]){
             var temp = {
