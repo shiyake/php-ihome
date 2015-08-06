@@ -154,10 +154,10 @@ li{list-style:none;}
     display: none;
     background-color: white;
     overflow: hidden;
-    width: 360px;
+    width: 300px;
     border-radius: 3px;
     border: 5px solid rgba(0,0,0,0.2);
-    margin-top: -135px;
+    margin-top: -165px;
     box-sizing: content-box;
 }
 #emotionUL li {

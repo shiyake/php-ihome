@@ -220,6 +220,7 @@ var config = {
     onenightInfo: {},
     groups: [],
     groupInfo: {},
+    groupMembers: {},
     //自动回复内置文案，也可动态读取数据库配置
     autoReplay: [
         'aloha'
@@ -610,6 +611,7 @@ xxim.getGroups = function(param){
     groups.addClass('loading');
     var callback = function(members) {
         if (members) {
+            config.groupMembers[param.id] = members;
             var lens = members.length;
             var ids = [];
             for (var i = 0; i < lens; i++) {
@@ -633,6 +635,11 @@ xxim.getGroups = function(param){
             groups.removeClass('loading');
             groupss.html(str);
         }
+    }
+
+    if (param.id in config.groupMembers) {
+        callback(config.groupMembers[param.id]);
+        return;
     }
 
     var parallel = function(callback) {
@@ -914,7 +921,7 @@ xxim.update = function(message){
                 if (log.imarea.is(':visible')) {
                     log.imarea.scrollTop(log.imarea[0].scrollHeight);
                 } else {
-                    xxim.chatbox.find('#layim_userone' + datum.id + ':not(.layim_chatnow)').addClass('layim_blink');
+                    xxim.chatbox.find('#layim_user' + key + ':not(.layim_chatnow)').addClass('layim_blink');
                 }
             } else {
 
