@@ -233,6 +233,11 @@ var config = {
     ],
     updates: 0,
     sendType: 'enter',
+    getEmotion: function(symbol) {
+        var emotionBase = '/plugin/layim/img/faces/';
+        return emotionBase + this.emotions[symbol] + '.png';
+    },
+    emotions: {"[呲牙]":"f_static_000","[调皮]":"f_static_001","[流汗]":"f_static_002","[偷笑]":"f_static","[再见]":"f_static_004","[敲打]":"f_static_005","[擦汗]":"f_static_006","[猪头]":"f_static_007","[玫瑰]":"f_static_008","[流泪]":"f_static_009","[大哭]":"f_static_010","[嘘]":"f_static_011","[酷]":"f_static_012","[抓狂]":"f_static_013","[委屈]":"f_static_014","[便便]":"f_static_015","[炸弹]":"f_static_016","[菜刀]":"f_static_017","[可爱]":"f_static_018","[色]":"f_static_019","[害羞]":"f_static_020","[得意]":"f_static_021","[吐]":"f_static_022","[微笑]":"f_static_023","[发怒]":"f_static_024","[尴尬]":"f_static_025","[惊恐]":"f_static_026","[冷汗]":"f_static_027","[爱心]":"f_static_028","[示爱]":"f_static_029","[白眼]":"f_static_030","[傲慢]":"f_static_031","[难过]":"f_static_032","[惊讶]":"f_static_033","[疑问]":"f_static_034","[睡]":"f_static_035","[亲亲]":"f_static_036","[憨笑]":"f_static_037","[爱情]":"f_static_038","[衰]":"f_static_039","[撇嘴]":"f_static_040","[阴险]":"f_static_041","[奋斗]":"f_static_042","[发呆]":"f_static_043","[右哼哼]":"f_static_044","[拥抱]":"f_static_045","[坏笑]":"f_static_046","[飞吻]":"f_static_047","[鄙视]":"f_static_048","[晕]":"f_static_049","[大兵]":"f_static_050","[可怜]":"f_static_051","[强]":"f_static_052","[弱]":"f_static_053","[握手]":"f_static_054","[胜利]":"f_static_055","[抱拳]":"f_static_056","[凋谢]":"f_static_057","[饭]":"f_static_058","[蛋糕]":"f_static_059","[西瓜]":"f_static_060","[啤酒]":"f_static_061","[飘虫]":"f_static_062","[勾引]":"f_static_063","[OK]":"f_static_064","[爱你]":"f_static_065","[咖啡]":"f_static_066","[钱]":"f_static_067","[月亮]":"f_static_068","[美女]":"f_static_069","[刀]":"f_static_070","[发抖]":"f_static_071","[差劲]":"f_static_072","[拳头]":"f_static_073","[心碎]":"f_static_074","[太阳]":"f_static_075","[礼物]":"f_static_076","[足球]":"f_static_077","[骷髅]":"f_static_078","[挥手]":"f_static_079","[闪电]":"f_static_080","[饥饿]":"f_static_081","[困]":"f_static_082","[咒骂]":"f_static_083","[折磨]":"f_static_084","[抠鼻]":"f_static_085","[鼓掌]":"f_static_086","[糗大了]":"f_static_087","[左哼哼]":"f_static_088","[哈欠]":"f_static_089","[快哭了]":"f_static_090","[吓]":"f_static_091","[篮球]":"f_static_092","[乒乓球]":"f_static_093","[NO]":"f_static_094","[跳跳]":"f_static_095","[怄火]":"f_static_096","[转圈]":"f_static_097","[磕头]":"f_static_098","[回头]":"f_static_099","[跳绳]":"f_static_100","[激动]":"f_static_101","[街舞]":"f_static_102","[献吻]":"f_static_103","[左太极]":"f_static_104","[右太极]":"f_static_105","[闭嘴]":"f_static_106"},
     
     chating: {},
     hosts: (function(){
@@ -746,7 +751,13 @@ xxim.transform = function(message){
             }
             lineDiv.appendChild(data);
         } else {
-            var eletext = "<p3>" + data.replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</p3>";
+            if (!i)
+                data = xxim.unpacker(data);
+            var eletext = "<p3>" + data.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/(\[.*?\])/g, function(match) {
+                if (match in config.emotions)
+                    return "<img src='" + config.getEmotion(match) + "' class='face'/>";
+                return match;
+            }) + "</p3>";
             var ele = jQuery(eletext);
             for (var j = 0; j < ele.length; j++) {
                 lineDiv.appendChild(ele[j]);
@@ -755,6 +766,20 @@ xxim.transform = function(message){
     }
     return lineDiv.innerHTML;
 };
+
+xxim.packer = function(message) {
+    var content = [
+        config.user.name,
+        config.user.face,
+        message
+    ];
+    return content.join('#nt#');
+};
+
+xxim.unpacker = function(message) {
+    var content = message.split('#nt#')[2];
+    return content === undefined ? message : content;
+}
 
 //消息传输
 xxim.transmit = function(){
@@ -799,7 +824,8 @@ xxim.transmit = function(){
             node.imwrite.val('').focus();
             log.imarea.scrollTop(log.imarea[0].scrollHeight);
             
-            webim.sendText(data.id, data.content, data.type == 'one' ? 'chat' : 'groupchat');
+            var message = xxim.packer(data.content);
+            webim.sendText(data.id, message, data.type == 'one' ? 'chat' : 'groupchat');
             // config.json(config.api.sendurl, data, function(datas){
             //     if (!datas['status']) {
             //         log.imarea.append('<li><div class="layim_chatsay layim_chattip">'+datas['msg']+'</div></li>');
@@ -1149,14 +1175,15 @@ xxim.getData = function(index){
 };
 
 xxim.initEmotions = function() {
-    var sjson = Easemob.im.Helper.EmotionPicData;
+    var sjson = config.emotions;
     var emotions = [];
     for (var key in sjson) {
         var emotion = jQuery('<img>').attr({
-            "id" : key,
+            "id": key,
             "class": "face",
-            "src" : sjson[key],
-            "style" : "cursor:pointer;"
+            "src": config.getEmotion(key),
+            "style": "cursor:pointer;",
+            "title": key.replace(/\[|\]/g, ''),
         }).click(function() {
             var node = xxim.node;
             var origin = node.imwrite.val();
