@@ -1792,9 +1792,20 @@ function notifyUserLocked($username) {
 	}
 
     function getUserLang($uid) {
-        // 默认是中文
-        // TODO 测试英文
-        return 'english';
+	    global $_SGLOBAL;
+        $sql = "SELECT * FROM ".tname('baseprofile')." WHERE uid='$uid'";
+        $query = $_SGLOBAL['db']->query($sql);
+        $data = $_SGLOBAL['db']->fetch_array($query);
+        if (empty($data)) {
+            $result = NULL;
+        } else {
+            $result = $data['language'];
+        }
+        return $result;
+    }
+
+    function setUserLang($uid) {
+        return;
     }
 
 	//获得后台语言

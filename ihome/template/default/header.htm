@@ -320,6 +320,37 @@ jq(function(){
             });
     });
 </script>-->
+<style>
+#language-switcher {
+    cursor: pointer;
+    position: fixed;
+    top: 30%;
+    left: 0px;
+    width: 60px;
+    padding: 5px;
+    height: 160px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #09f;
+    color: #fff;
+    font-family: monospace;
+}
+
+#language-switcher .lang {
+    width: 100%;
+    height: 100%;
+}
+
+#language-switcher .lang > div {
+    text-align: center;
+    float: left;
+    font-size: 14px;
+    padding: 6px;
+    width: 50%;
+    height: 100%;
+    word-break: break-all;
+}
+</style>
 </head>
 <body style="padding-top:55px;">
     <!--{if $_SGLOBAL[supe_uid]}-->
@@ -333,6 +364,34 @@ jq(function(){
     <!--{/if}-->
     <!--{/if}-->
     <!--{/if}-->
+    <div id="language-switcher">
+        <!--{if getUserLang($_SGLOBAL[supe_uid])}-->
+        <div class="lang english">
+            <div class="origin">English</div>
+            <div class="translate">英文版</div>
+        </div>
+        <!--{else}-->
+        <div class="lang chinese">
+            <div class="origin">中文版</div>
+            <div class="translate">Chinese</div>
+        </div>
+        <!--{/if}-->
+    </div>
+    <script>
+    (function($) {
+        $(function() {
+            $("#language-switcher").click(function() {
+                var _lang = $(this).find('.lang');
+                var language = _lang.hasClass('english') ? null : 'english';
+                $.post('/changeLang.php', {
+                    lang: language
+                }).done(function() {
+                    window.location.reload();
+                });
+            });
+        });
+    })(jQuery);
+    </script>
     <div id="append_parent"></div>
     <div id="ajaxwaitid"></div>
     <!--<!--{if $_SGLOBAL['ad']['header']}--><div id="ad_header"><!--{ad/header}--></div><!--{/if}-->-->
