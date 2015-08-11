@@ -107,7 +107,7 @@ if(submitcheck('arrangementsubmit')) {
 	
 	include_once(S_ROOT.'./source/function_blog.php');
     if($newarrangement = arrangement_post($_POST, $arrangement, 0)) {
-        $url = 'space.php?uid='.$newarrangement['uid'].'&do=arrangement&id=';
+        $url = 'space.php?uid='.$newarrangement['uid'].'&do=calendar&id=';
         $from = empty($_POST['from'])?'':$_POST['from'];
         // ¿¿¿¿¿
         if(empty($_GET['arrangementid'])){
