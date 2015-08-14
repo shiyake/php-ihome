@@ -1,12 +1,12 @@
 <?php
 
 # iauth 封装
-include_once('./plugin/iauthClient/iauth_verify_forward.php');
+include_once('../iauth_verify_forward.php');
 $userid = intval(iauth_verify());
 
-include_once('./common.php');
-include_once('./source/function_cp.php');
-include_once('./config.php');
+include_once('../../../common.php');
+include_once('../../../source/function_cp.php');
+include_once('../../../config.php');
 header("content-type:application/json; charset=UTF-8");
 if(!empty($_GET['ac'])){
    $ac = $_GET['ac'];
